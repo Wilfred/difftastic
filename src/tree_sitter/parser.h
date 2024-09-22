@@ -47,6 +47,7 @@ struct TSLexer {
   uint32_t (*get_column)(TSLexer *);
   bool (*is_at_included_range_start)(const TSLexer *);
   bool (*eof)(const TSLexer *);
+  void (*log)(const TSLexer *, const char *, ...);
 };
 
 typedef enum {
@@ -85,6 +86,11 @@ typedef union {
     bool reusable;
   } entry;
 } TSParseActionEntry;
+
+typedef struct {
+  int32_t start;
+  int32_t end;
+} TSCharacterRange;
 
 struct TSLanguage {
   uint32_t version;
@@ -125,6 +131,24 @@ struct TSLanguage {
   const TSStateId *primary_state_ids;
 };
 
+static inline bool set_contains(TSCharacterRange *ranges, uint32_t len, int32_t lookahead) {
+  uint32_t index = 0;
+  uint32_t size = len - index;
+  while (size > 1) {
+    uint32_t half_size = size / 2;
+    uint32_t mid_index = index + half_size;
+    TSCharacterRange *range = &ranges[mid_index];
+    if (lookahead >= range->start && lookahead <= range->end) {
+      return true;
+    } else if (lookahead > range->end) {
+      index = mid_index;
+    }
+    size -= half_size;
+  }
+  TSCharacterRange *range = &ranges[index];
+  return (lookahead >= range->start && lookahead <= range->end);
+}
+
 /*
  *  Lexer Macros
  */
@@ -152,6 +176,17 @@ struct TSLanguage {
   {                          \
     state = state_value;     \
     goto next_state;         \
+  }
+
+#define ADVANCE_MAP(...)                                              \
+  {                                                                   \
+    static const uint16_t map[] = { __VA_ARGS__ };                    \
+    for (uint32_t i = 0; i < sizeof(map) / sizeof(map[0]); i += 2) {  \
+      if (map[i] == lookahead) {                                      \
+        state = map[i + 1];                                           \
+        goto next_state;                                              \
+      }                                                               \
+    }                                                                 \
   }
 
 #define SKIP(state_value) \
@@ -203,14 +238,15 @@ struct TSLanguage {
     }                                 \
   }}
 
-#define REDUCE(symbol_val, child_count_val, ...) \
-  {{                                             \
-    .reduce = {                                  \
-      .type = TSParseActionTypeReduce,           \
-      .symbol = symbol_val,                      \
-      .child_count = child_count_val,            \
-      __VA_ARGS__                                \
-    },                                           \
+#define REDUCE(symbol_name, children, precedence, prod_id) \
+  {{                                                       \
+    .reduce = {                                            \
+      .type = TSParseActionTypeReduce,                     \
+      .symbol = symbol_name,                               \
+      .child_count = children,                             \
+      .dynamic_precedence = precedence,                    \
+      .production_id = prod_id                             \
+    },                                                     \
   }}
 
 #define RECOVER()                    \

@@ -34,11 +34,10 @@
     "prebuildify": "^6.0.0"
   },
   "scripts": {
-    "test": "tree-sitter test",
-    "format": "prettier --trailing-comma es5 --write grammar.js",
-    "format-check": "prettier --trailing-comma es5 --check grammar.js",
     "install": "node-gyp-build",
-    "prebuildify": "prebuildify --napi --strip"
+    "prestart": "tree-sitter build --wasm",
+    "start": "tree-sitter playground",
+    "test": "node --test bindings/node/*_test.js"
   },
   "tree-sitter": [
     {
