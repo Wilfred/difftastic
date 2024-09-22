@@ -8,11 +8,11 @@ description = "D grammar for tree-sitter"
 version = "0.8.0"
 keywords = ["incremental", "parsing", "tree-sitter", "d"]
 classifiers = [
-  "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
-  "Topic :: Software Development :: Compilers",
-  "Topic :: Text Processing :: Linguistic",
-  "Typing :: Typed"
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Software Development :: Compilers",
+    "Topic :: Text Processing :: Linguistic",
+    "Typing :: Typed",
 ]
 requires-python = ">=3.8"
 license.text = "MIT"
@@ -22,7 +22,7 @@ readme = "README.md"
 Homepage = "https://github.com/tree-sitter/tree-sitter-d"
 
 [project.optional-dependencies]
-core = ["tree-sitter~=0.22.2"]
+core = ["tree-sitter~=0.23.0"]
 
 [tool.cibuildwheel]
 build = "cp38-*"
