@@ -1,5 +1,9 @@
 ## 0.61 (unreleased)
 
+**Recommended git configuration has changed! Please update your
+`~/.gitconfig` to match the manual, regardless of your difftastic
+version.**
+
 ## 0.60 (released 1st August 2024)
 
 ### Diffing
