@@ -270,7 +270,6 @@ match_number(TSLexer *lexer, const bool *valid)
 	// and we have not elected to be bug-for-bug compatible.
 	int  c = lexer->lookahead;
 	int  next;
-	int  prev;
 	bool is_hex    = false;
 	bool is_bin    = false;
 	bool has_digit = false;
@@ -320,7 +319,6 @@ match_number(TSLexer *lexer, const bool *valid)
 
 	bool done = false;
 	while (((next = lexer->lookahead) != 0) && (!done)) {
-		prev = c;
 		c    = next;
 		if ((c > 0x7f) || iswspace(c) || (c == ';')) {
 			// optimization: not a valid number, that ends the
