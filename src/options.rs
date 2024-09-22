@@ -778,10 +778,11 @@ pub(crate) fn parse_args() -> Mode {
                 None,
             )
         }
-        [old_name, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode, new_name, _similarity] =>
+        [old_name, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode, new_name, _metainfo] =>
         {
             // Rename file.
             // TODO: where does git document these 9 arguments?
+            // (See run_external_diff() in diff.c in git source code.)
 
             let old_name = old_name.to_string_lossy().to_string();
             let new_name = new_name.to_string_lossy().to_string();
