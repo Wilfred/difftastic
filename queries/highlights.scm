@@ -94,15 +94,30 @@
 
 ; Calls
 
-; * function call
+; * local function call
 (call
-  target: [
-    ; local
-    (identifier) @function
-    ; remote
-    (dot
-      right: (identifier) @function)
-  ])
+  target: (identifier) @function)
+
+; * remote function call
+(call
+  target: (dot
+    right: (identifier) @function))
+
+; * field without parentheses or block
+(call
+  target: (dot
+    right: (identifier) @property)
+  .)
+
+; * remote call without parentheses or block (overrides above)
+(call
+  target: (dot
+    left: [
+      (alias)
+      (atom)
+    ]
+    right: (identifier) @function)
+  .)
 
 ; * definition keyword
 (call
@@ -139,6 +154,13 @@
       operator: "|>"
       right: (identifier) @variable))
   (#match? @keyword "^(def|defdelegate|defguard|defguardp|defmacro|defmacrop|defn|defnp|defp)$"))
+
+; * pipe into field without parentheses (function call)
+(binary_operator
+  operator: "|>"
+  right: (call
+    target: (dot
+      right: (identifier) @function)))
 
 ; Operators
 
