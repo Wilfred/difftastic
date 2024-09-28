@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-elixir",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Elixir grammar for the tree-sitter parsing library",
   "main": "bindings/node",
   "types": "bindings/node",
