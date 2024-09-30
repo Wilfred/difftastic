@@ -1,10 +1,8 @@
 //! A fallback "parser" for plain text.
 
-use lazy_static::lazy_static;
 use line_numbers::{LinePositions, SingleLineSpan};
-use regex::Regex;
-use std::hash::Hash;
 
+use crate::lines::split_on_newlines;
 use crate::words::split_words;
 use crate::{
     diff::myers_diff,
@@ -12,25 +10,6 @@ use crate::{
 };
 
 const MAX_WORDS_IN_LINE: usize = 1000;
-
-fn split_lines_keep_newline(s: &str) -> Vec<&str> {
-    lazy_static! {
-        static ref NEWLINE_RE: Regex = Regex::new("\n").unwrap();
-    }
-
-    let mut offset = 0;
-    let mut lines = vec![];
-    for newline_match in NEWLINE_RE.find_iter(s) {
-        lines.push(s[offset..newline_match.end()].into());
-        offset = newline_match.end();
-    }
-
-    if offset < s.len() {
-        lines.push(s[offset..].into());
-    }
-
-    lines
-}
 
 #[derive(Debug)]
 enum TextChangeKind {
@@ -74,66 +53,24 @@ fn merge_novel<'a>(
     res
 }
 
-#[derive(Debug, Clone)]
-struct StringIgnoringNewline<'a>(&'a str);
-
-impl PartialEq for StringIgnoringNewline<'_> {
-    fn eq(&self, other: &Self) -> bool {
-        let mut s = self.0;
-        if s.ends_with('\n') {
-            s = &s[..s.len() - 1];
-        }
-
-        let mut other_s = other.0;
-        if other_s.ends_with('\n') {
-            other_s = &other_s[..other_s.len() - 1];
-        }
-
-        s == other_s
-    }
-}
-
-impl Eq for StringIgnoringNewline<'_> {}
-
-impl Hash for StringIgnoringNewline<'_> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        let mut s = self.0;
-        if s.ends_with('\n') {
-            s = &s[..s.len() - 1];
-        }
-
-        s.hash(state);
-    }
-}
-
 fn changed_parts<'a>(
     src: &'a str,
     opposite_src: &'a str,
 ) -> Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> {
-    let src_lines = split_lines_keep_newline(src)
-        .into_iter()
-        .map(StringIgnoringNewline)
-        .collect::<Vec<_>>();
-    let opposite_src_lines = split_lines_keep_newline(opposite_src)
-        .into_iter()
-        .map(StringIgnoringNewline)
-        .collect::<Vec<_>>();
+    let src_lines = split_on_newlines(src).collect::<Vec<_>>();
+    let opposite_src_lines = split_on_newlines(opposite_src).collect::<Vec<_>>();
 
     let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
     for diff_res in myers_diff::slice_unique_by_hash(&src_lines, &opposite_src_lines) {
         match diff_res {
             myers_diff::DiffResult::Left(line) => {
-                res.push((TextChangeKind::Novel, vec![line.0], vec![]));
+                res.push((TextChangeKind::Novel, vec![line], vec![]));
             }
             myers_diff::DiffResult::Both(line, opposite_line) => {
-                res.push((
-                    TextChangeKind::Unchanged,
-                    vec![line.0],
-                    vec![opposite_line.0],
-                ));
+                res.push((TextChangeKind::Unchanged, vec![line], vec![opposite_line]));
             }
             myers_diff::DiffResult::Right(opposite_line) => {
-                res.push((TextChangeKind::Novel, vec![], vec![opposite_line.0]));
+                res.push((TextChangeKind::Novel, vec![], vec![opposite_line]));
             }
         }
     }
@@ -168,6 +105,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
             TextChangeKind::Unchanged => {
                 seen_unchanged = true;
                 for (lhs_line, rhs_line) in lhs_lines.iter().zip(rhs_lines) {
+                    // offset crashing from from_region here
                     let lhs_pos =
                         lhs_lp.from_region(lhs_offset, lhs_offset + line_len_in_bytes(lhs_line));
                     let rhs_pos =
@@ -182,13 +120,13 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                         pos: lhs_pos[0],
                     });
 
-                    lhs_offset += lhs_line.len();
-                    rhs_offset += rhs_line.len();
+                    lhs_offset += lhs_line.len() + "\n".len();
+                    rhs_offset += rhs_line.len() + "\n".len();
                 }
             }
             TextChangeKind::Novel => {
-                let lhs_part = lhs_lines.join("");
-                let rhs_part = rhs_lines.join("");
+                let lhs_part = lhs_lines.join("\n");
+                let rhs_part = rhs_lines.join("\n");
 
                 let lhs_words = split_words(&lhs_part);
                 let rhs_words = split_words(&rhs_part);
@@ -209,8 +147,12 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                         }
                     }
 
-                    lhs_offset += lhs_part.len();
-                    rhs_offset += rhs_part.len();
+                    // if !lhs_lines.is_empty() {
+                    //     lhs_offset += "\n".len();
+                    // }
+                    // if !rhs_lines.is_empty() {
+                    //     rhs_offset += "\n".len();
+                    // }
                     continue;
                 }
 
@@ -254,6 +196,13 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                         }
                     }
                 }
+
+                if !lhs_lines.is_empty() {
+                    lhs_offset += "\n".len();
+                }
+                if !rhs_lines.is_empty() {
+                    rhs_offset += "\n".len();
+                }
             }
         }
     }
@@ -294,13 +243,6 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
-
-    #[test]
-    fn test_split_newlines() {
-        let s = "foo\nbar\nbaz";
-        let res = split_lines_keep_newline(s);
-        assert_eq!(res, vec!["foo\n", "bar\n", "baz"])
-    }
 
     #[test]
     fn test_positions_no_changes() {
