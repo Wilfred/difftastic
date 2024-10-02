@@ -1,0 +1,422 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/atty-0.2.14/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../atty/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../atty/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../atty/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+</pre><pre class="rust"><code><span class="doccomment">//! atty is a simple utility that answers one question
+//! &gt; is this a tty?
+//!
+//! usage is just as simple
+//!
+//! ```
+//! if atty::is(atty::Stream::Stdout) {
+//!   println!(&quot;i&#39;m a tty&quot;)
+//! }
+//! ```
+//!
+//! ```
+//! if atty::isnt(atty::Stream::Stdout) {
+//!   println!(&quot;i&#39;m not a tty&quot;)
+//! }
+//! ```
+
+</span><span class="attribute">#![cfg_attr(unix, no_std)]
+
+#[cfg(unix)]
+</span><span class="kw">extern crate </span>libc;
+<span class="attribute">#[cfg(windows)]
+</span><span class="kw">extern crate </span>winapi;
+
+<span class="attribute">#[cfg(windows)]
+</span><span class="kw">use </span>winapi::shared::minwindef::DWORD;
+<span class="attribute">#[cfg(windows)]
+</span><span class="kw">use </span>winapi::shared::ntdef::WCHAR;
+
+<span class="doccomment">/// possible stream sources
+</span><span class="attribute">#[derive(Clone, Copy, Debug)]
+</span><span class="kw">pub enum </span>Stream {
+    Stdout,
+    Stderr,
+    Stdin,
+}
+
+<span class="doccomment">/// returns true if this is a tty
+</span><span class="attribute">#[cfg(all(unix, not(target_arch = <span class="string">&quot;wasm32&quot;</span>)))]
+</span><span class="kw">pub fn </span>is(stream: Stream) -&gt; bool {
+    <span class="kw">extern crate </span>libc;
+
+    <span class="kw">let </span>fd = <span class="kw">match </span>stream {
+        Stream::Stdout =&gt; libc::STDOUT_FILENO,
+        Stream::Stderr =&gt; libc::STDERR_FILENO,
+        Stream::Stdin =&gt; libc::STDIN_FILENO,
+    };
+    <span class="kw">unsafe </span>{ libc::isatty(fd) != <span class="number">0 </span>}
+}
+
+<span class="doccomment">/// returns true if this is a tty
+</span><span class="attribute">#[cfg(target_os = <span class="string">&quot;hermit&quot;</span>)]
+</span><span class="kw">pub fn </span>is(stream: Stream) -&gt; bool {
+    <span class="kw">extern crate </span>hermit_abi;
+
+    <span class="kw">let </span>fd = <span class="kw">match </span>stream {
+        Stream::Stdout =&gt; hermit_abi::STDOUT_FILENO,
+        Stream::Stderr =&gt; hermit_abi::STDERR_FILENO,
+        Stream::Stdin =&gt; hermit_abi::STDIN_FILENO,
+    };
+    hermit_abi::isatty(fd)
+}
+
+<span class="doccomment">/// returns true if this is a tty
+</span><span class="attribute">#[cfg(windows)]
+</span><span class="kw">pub fn </span>is(stream: Stream) -&gt; bool {
+    <span class="kw">use </span>winapi::um::winbase::{
+        STD_ERROR_HANDLE <span class="kw">as </span>STD_ERROR, STD_INPUT_HANDLE <span class="kw">as </span>STD_INPUT,
+        STD_OUTPUT_HANDLE <span class="kw">as </span>STD_OUTPUT,
+    };
+
+    <span class="kw">let </span>(fd, others) = <span class="kw">match </span>stream {
+        Stream::Stdin =&gt; (STD_INPUT, [STD_ERROR, STD_OUTPUT]),
+        Stream::Stderr =&gt; (STD_ERROR, [STD_INPUT, STD_OUTPUT]),
+        Stream::Stdout =&gt; (STD_OUTPUT, [STD_INPUT, STD_ERROR]),
+    };
+    <span class="kw">if unsafe </span>{ console_on_any(<span class="kw-2">&amp;</span>[fd]) } {
+        <span class="comment">// False positives aren&#39;t possible. If we got a console then
+        // we definitely have a tty on stdin.
+        </span><span class="kw">return </span><span class="bool-val">true</span>;
+    }
+
+    <span class="comment">// At this point, we *could* have a false negative. We can determine that
+    // this is true negative if we can detect the presence of a console on
+    // any of the other streams. If another stream has a console, then we know
+    // we&#39;re in a Windows console and can therefore trust the negative.
+    </span><span class="kw">if unsafe </span>{ console_on_any(<span class="kw-2">&amp;</span>others) } {
+        <span class="kw">return </span><span class="bool-val">false</span>;
+    }
+
+    <span class="comment">// Otherwise, we fall back to a very strange msys hack to see if we can
+    // sneakily detect the presence of a tty.
+    </span><span class="kw">unsafe </span>{ msys_tty_on(fd) }
+}
+
+<span class="doccomment">/// returns true if this is _not_ a tty
+</span><span class="kw">pub fn </span>isnt(stream: Stream) -&gt; bool {
+    !is(stream)
+}
+
+<span class="doccomment">/// Returns true if any of the given fds are on a console.
+</span><span class="attribute">#[cfg(windows)]
+</span><span class="kw">unsafe fn </span>console_on_any(fds: <span class="kw-2">&amp;</span>[DWORD]) -&gt; bool {
+    <span class="kw">use </span>winapi::um::{consoleapi::GetConsoleMode, processenv::GetStdHandle};
+
+    <span class="kw">for </span><span class="kw-2">&amp;</span>fd <span class="kw">in </span>fds {
+        <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="number">0</span>;
+        <span class="kw">let </span>handle = GetStdHandle(fd);
+        <span class="kw">if </span>GetConsoleMode(handle, <span class="kw-2">&amp;mut </span>out) != <span class="number">0 </span>{
+            <span class="kw">return </span><span class="bool-val">true</span>;
+        }
+    }
+    <span class="bool-val">false
+</span>}
+
+<span class="doccomment">/// Returns true if there is an MSYS tty on the given handle.
+</span><span class="attribute">#[cfg(windows)]
+</span><span class="kw">unsafe fn </span>msys_tty_on(fd: DWORD) -&gt; bool {
+    <span class="kw">use </span>std::{mem, slice};
+
+    <span class="kw">use </span>winapi::{
+        ctypes::c_void,
+        shared::minwindef::MAX_PATH,
+        um::{
+            fileapi::FILE_NAME_INFO, minwinbase::FileNameInfo, processenv::GetStdHandle,
+            winbase::GetFileInformationByHandleEx,
+        },
+    };
+
+    <span class="kw">let </span>size = mem::size_of::&lt;FILE_NAME_INFO&gt;();
+    <span class="kw">let </span><span class="kw-2">mut </span>name_info_bytes = <span class="macro">vec!</span>[<span class="number">0u8</span>; size + MAX_PATH * mem::size_of::&lt;WCHAR&gt;()];
+    <span class="kw">let </span>res = GetFileInformationByHandleEx(
+        GetStdHandle(fd),
+        FileNameInfo,
+        <span class="kw-2">&amp;mut *</span>name_info_bytes <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_ as </span><span class="kw-2">*mut </span>c_void,
+        name_info_bytes.len() <span class="kw">as </span>u32,
+    );
+    <span class="kw">if </span>res == <span class="number">0 </span>{
+        <span class="kw">return </span><span class="bool-val">false</span>;
+    }
+    <span class="kw">let </span>name_info: <span class="kw-2">&amp;</span>FILE_NAME_INFO = <span class="kw-2">&amp;*</span>(name_info_bytes.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>FILE_NAME_INFO);
+    <span class="kw">let </span>s = slice::from_raw_parts(
+        name_info.FileName.as_ptr(),
+        name_info.FileNameLength <span class="kw">as </span>usize / <span class="number">2</span>,
+    );
+    <span class="kw">let </span>name = String::from_utf16_lossy(s);
+    <span class="comment">// This checks whether &#39;pty&#39; exists in the file name, which indicates that
+    // a pseudo-terminal is attached. To mitigate against false positives
+    // (e.g., an actual file name that contains &#39;pty&#39;), we also require that
+    // either the strings &#39;msys-&#39; or &#39;cygwin-&#39; are in the file name as well.)
+    </span><span class="kw">let </span>is_msys = name.contains(<span class="string">&quot;msys-&quot;</span>) || name.contains(<span class="string">&quot;cygwin-&quot;</span>);
+    <span class="kw">let </span>is_pty = name.contains(<span class="string">&quot;-pty&quot;</span>);
+    is_msys &amp;&amp; is_pty
+}
+
+<span class="doccomment">/// returns true if this is a tty
+</span><span class="attribute">#[cfg(target_arch = <span class="string">&quot;wasm32&quot;</span>)]
+</span><span class="kw">pub fn </span>is(_stream: Stream) -&gt; bool {
+    <span class="bool-val">false
+</span>}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::{is, Stream};
+
+    <span class="attribute">#[test]
+    #[cfg(windows)]
+    </span><span class="kw">fn </span>is_err() {
+        <span class="comment">// appveyor pipes its output
+        </span><span class="macro">assert!</span>(!is(Stream::Stderr))
+    }
+
+    <span class="attribute">#[test]
+    #[cfg(windows)]
+    </span><span class="kw">fn </span>is_out() {
+        <span class="comment">// appveyor pipes its output
+        </span><span class="macro">assert!</span>(!is(Stream::Stdout))
+    }
+
+    <span class="attribute">#[test]
+    #[cfg(windows)]
+    </span><span class="kw">fn </span>is_in() {
+        <span class="macro">assert!</span>(is(Stream::Stdin))
+    }
+
+    <span class="attribute">#[test]
+    #[cfg(unix)]
+    </span><span class="kw">fn </span>is_err() {
+        <span class="macro">assert!</span>(is(Stream::Stderr))
+    }
+
+    <span class="attribute">#[test]
+    #[cfg(unix)]
+    </span><span class="kw">fn </span>is_out() {
+        <span class="macro">assert!</span>(is(Stream::Stdout))
+    }
+
+    <span class="attribute">#[test]
+    #[cfg(target_os = <span class="string">&quot;macos&quot;</span>)]
+    </span><span class="kw">fn </span>is_in() {
+        <span class="comment">// macos on travis seems to pipe its input
+        </span><span class="macro">assert!</span>(is(Stream::Stdin))
+    }
+
+    <span class="attribute">#[test]
+    #[cfg(all(not(target_os = <span class="string">&quot;macos&quot;</span>), unix))]
+    </span><span class="kw">fn </span>is_in() {
+        <span class="macro">assert!</span>(is(Stream::Stdin))
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="atty" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

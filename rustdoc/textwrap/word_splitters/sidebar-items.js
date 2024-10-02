@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":[["WordSplitter","The `WordSplitter` enum describes where words can be split."]],"fn":[["split_words","Split words into smaller words according to the split points given by `word_splitter`."]]};

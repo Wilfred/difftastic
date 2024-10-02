@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["ByteLines","An iterator over lines from an instance of `std::io::BufRead`."],["ByteRecords","An iterator over records from an instance of `std::io::BufRead`."]],"trait":[["BufReadExt","An extension trait for `std::io::BufRead` which provides convenience APIs for dealing with byte strings."]]};

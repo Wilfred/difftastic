@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["dag_to_toposorted_adjacency_list","Creates a representation of the same graph respecting topological order for use in `tred::dag_transitive_reduction_closure`."],["dag_transitive_reduction_closure","Computes the transitive reduction and closure of a DAG."]]};

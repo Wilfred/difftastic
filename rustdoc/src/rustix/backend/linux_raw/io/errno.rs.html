@@ -1,0 +1,1050 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rustix-0.37.27/src/backend/linux_raw/io/errno.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>errno.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../../normalize.css"><link rel="stylesheet" href="../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../../dark.css" disabled><link rel="stylesheet" href="../../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../../storage.js"></script><script defer src="../../../../../source-script.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../../rustix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../../rustix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../../rustix/index.html"><img class="rust-logo" src="../../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+</pre><pre class="rust"><code><span class="doccomment">//! The `rustix` `Errno` type.
+//!
+//! This type holds an OS error code, which conceptually corresponds to an
+//! `errno` value.
+//!
+//! # Safety
+//!
+//! Linux uses error codes in `-4095..0`; we use rustc attributes to describe
+//! this restricted range of values.
+</span><span class="attribute">#![allow(unsafe_code)]
+#![cfg_attr(not(rustc_attrs), allow(unused_unsafe))]
+
+</span><span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::c;
+<span class="kw">use </span><span class="kw">crate</span>::backend::fd::RawFd;
+<span class="kw">use </span><span class="kw">crate</span>::backend::reg::{RetNumber, RetReg};
+<span class="kw">use </span><span class="kw">crate</span>::io;
+<span class="kw">use </span>linux_raw_sys::errno;
+
+<span class="doccomment">/// The error type for `rustix` APIs.
+///
+/// This is similar to `std::io::Error`, but only holds an OS error code,
+/// and no extra error value.
+</span><span class="attribute">#[repr(transparent)]
+#[doc(alias = <span class="string">&quot;errno&quot;</span>)]
+#[derive(Eq, PartialEq, Hash, Copy, Clone)]
+</span><span class="comment">// Linux returns negated error codes, and we leave them in negated form, so
+// error codes are in `-4095..0`.
+</span><span class="attribute">#[cfg_attr(rustc_attrs, rustc_layout_scalar_valid_range_start(<span class="number">0xf001</span>))]
+#[cfg_attr(rustc_attrs, rustc_layout_scalar_valid_range_end(<span class="number">0xffff</span>))]
+</span><span class="kw">pub struct </span>Errno(u16);
+
+<span class="kw">impl </span>Errno {
+    <span class="doccomment">/// Extract an `Errno` value from a `std::io::Error`.
+    ///
+    /// This isn&#39;t a `From` conversion because it&#39;s expected to be relatively
+    /// uncommon.
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+    #[inline]
+    </span><span class="kw">pub fn </span>from_io_error(io_err: <span class="kw-2">&amp;</span>std::io::Error) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+        io_err.raw_os_error().and_then(|raw| {
+            <span class="comment">// `std::io::Error` could theoretically have arbitrary &quot;OS error&quot;
+            // values, so check that they&#39;re in Linux&#39;s range.
+            </span><span class="kw">if </span>(<span class="number">1</span>..<span class="number">4096</span>).contains(<span class="kw-2">&amp;</span>raw) {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::from_errno(raw <span class="kw">as </span>u32))
+            } <span class="kw">else </span>{
+                <span class="prelude-val">None
+            </span>}
+        })
+    }
+
+    <span class="doccomment">/// Extract the raw OS error number from this error.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub const fn </span>raw_os_error(<span class="self">self</span>) -&gt; i32 {
+        (<span class="self">self</span>.<span class="number">0 </span><span class="kw">as </span>i16 <span class="kw">as </span>i32).wrapping_neg()
+    }
+
+    <span class="doccomment">/// Construct an `Errno` from a raw OS error number.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub const fn </span>from_raw_os_error(raw: i32) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::from_errno(raw <span class="kw">as </span>u32)
+    }
+
+    <span class="doccomment">/// Convert from a C `errno` value (which is positive) to an `Errno`.
+    </span><span class="kw">const fn </span>from_errno(raw: u32) -&gt; <span class="self">Self </span>{
+        <span class="comment">// We store error values in negated form, so that we don&#39;t have to
+        // negate them after every syscall.
+        </span><span class="kw">let </span>encoded = raw.wrapping_neg() <span class="kw">as </span>u16;
+
+        <span class="comment">// TODO: Use Range::contains, once that&#39;s `const`.
+        </span><span class="macro">const_assert!</span>(encoded &gt;= <span class="number">0xf001</span>);
+
+        <span class="comment">// SAFETY: Linux syscalls return negated error values in the range
+        // `-4095..0`, which we just asserted.
+        </span><span class="kw">unsafe </span>{ <span class="self">Self</span>(encoded) }
+    }
+}
+
+<span class="doccomment">/// Check for an error from the result of a syscall which encodes a
+/// `c::c_int` on success.
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">in </span><span class="kw">crate</span>::backend) <span class="kw">fn </span>try_decode_c_int&lt;Num: RetNumber&gt;(
+    raw: RetReg&lt;Num&gt;,
+) -&gt; io::Result&lt;c::c_int&gt; {
+    <span class="kw">if </span>raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>) {
+        <span class="comment">// SAFETY: `raw` must be in `-4095..0`, and we just checked that raw is
+        // in that range.
+        </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">unsafe </span>{ Errno(raw.decode_error_code()) });
+    }
+
+    <span class="prelude-val">Ok</span>(raw.decode_c_int())
+}
+
+<span class="doccomment">/// Check for an error from the result of a syscall which encodes a
+/// `c::c_uint` on success.
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">in </span><span class="kw">crate</span>::backend) <span class="kw">fn </span>try_decode_c_uint&lt;Num: RetNumber&gt;(
+    raw: RetReg&lt;Num&gt;,
+) -&gt; io::Result&lt;c::c_uint&gt; {
+    <span class="kw">if </span>raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>) {
+        <span class="comment">// SAFETY: `raw` must be in `-4095..0`, and we just checked that raw is
+        // in that range.
+        </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">unsafe </span>{ Errno(raw.decode_error_code()) });
+    }
+
+    <span class="prelude-val">Ok</span>(raw.decode_c_uint())
+}
+
+<span class="doccomment">/// Check for an error from the result of a syscall which encodes a `usize` on
+/// success.
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">in </span><span class="kw">crate</span>::backend) <span class="kw">fn </span>try_decode_usize&lt;Num: RetNumber&gt;(raw: RetReg&lt;Num&gt;) -&gt; io::Result&lt;usize&gt; {
+    <span class="kw">if </span>raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>) {
+        <span class="comment">// SAFETY: `raw` must be in `-4095..0`, and we just checked that raw is
+        // in that range.
+        </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">unsafe </span>{ Errno(raw.decode_error_code()) });
+    }
+
+    <span class="prelude-val">Ok</span>(raw.decode_usize())
+}
+
+<span class="doccomment">/// Check for an error from the result of a syscall which encodes a
+/// `*mut c_void` on success.
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">in </span><span class="kw">crate</span>::backend) <span class="kw">fn </span>try_decode_void_star&lt;Num: RetNumber&gt;(
+    raw: RetReg&lt;Num&gt;,
+) -&gt; io::Result&lt;<span class="kw-2">*mut </span>c::c_void&gt; {
+    <span class="kw">if </span>raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>) {
+        <span class="comment">// SAFETY: `raw` must be in `-4095..0`, and we just checked that raw is
+        // in that range.
+        </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">unsafe </span>{ Errno(raw.decode_error_code()) });
+    }
+
+    <span class="prelude-val">Ok</span>(raw.decode_void_star())
+}
+
+<span class="doccomment">/// Check for an error from the result of a syscall which encodes a
+/// `u64` on success.
+</span><span class="attribute">#[cfg(target_pointer_width = <span class="string">&quot;64&quot;</span>)]
+#[inline]
+</span><span class="kw">pub</span>(<span class="kw">in </span><span class="kw">crate</span>::backend) <span class="kw">fn </span>try_decode_u64&lt;Num: RetNumber&gt;(raw: RetReg&lt;Num&gt;) -&gt; io::Result&lt;u64&gt; {
+    <span class="kw">if </span>raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>) {
+        <span class="comment">// SAFETY: `raw` must be in `-4095..0`, and we just checked that raw is
+        // in that range.
+        </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">unsafe </span>{ Errno(raw.decode_error_code()) });
+    }
+
+    <span class="prelude-val">Ok</span>(raw.decode_u64())
+}
+
+<span class="doccomment">/// Check for an error from the result of a syscall which encodes a file
+/// descriptor on success.
+///
+/// # Safety
+///
+/// This must only be used with syscalls which return file descriptors on
+/// success.
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">in </span><span class="kw">crate</span>::backend) <span class="kw">unsafe fn </span>try_decode_raw_fd&lt;Num: RetNumber&gt;(
+    raw: RetReg&lt;Num&gt;,
+) -&gt; io::Result&lt;RawFd&gt; {
+    <span class="comment">// Instead of using `check_result` here, we just check for negative, since
+    // this function is only used for system calls which return file
+    // descriptors, and this produces smaller code.
+    </span><span class="kw">if </span>raw.is_negative() {
+        <span class="macro">debug_assert!</span>(raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>));
+
+        <span class="comment">// Tell the optimizer that we know the value is in the error range.
+        // This helps it avoid unnecessary integer conversions.
+        </span><span class="attribute">#[cfg(core_intrinsics)]
+        </span>{
+            core::intrinsics::assume(raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>));
+        }
+
+        <span class="kw">return </span><span class="prelude-val">Err</span>(Errno(raw.decode_error_code()));
+    }
+
+    <span class="prelude-val">Ok</span>(raw.decode_raw_fd())
+}
+
+<span class="doccomment">/// Check for an error from the result of a syscall which encodes no value on
+/// success. On success, return the unconsumed `raw` value.
+///
+/// # Safety
+///
+/// This must only be used with syscalls which return no value on success.
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">in </span><span class="kw">crate</span>::backend) <span class="kw">unsafe fn </span>try_decode_void&lt;Num: RetNumber&gt;(
+    raw: RetReg&lt;Num&gt;,
+) -&gt; io::Result&lt;()&gt; {
+    <span class="comment">// Instead of using `check_result` here, we just check for zero, since this
+    // function is only used for system calls which have no other return value,
+    // and this produces smaller code.
+    </span><span class="kw">if </span>raw.is_nonzero() {
+        <span class="macro">debug_assert!</span>(raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>));
+
+        <span class="comment">// Tell the optimizer that we know the value is in the error range.
+        // This helps it avoid unnecessary integer conversions.
+        </span><span class="attribute">#[cfg(core_intrinsics)]
+        </span>{
+            core::intrinsics::assume(raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>));
+        }
+
+        <span class="kw">return </span><span class="prelude-val">Err</span>(Errno(raw.decode_error_code()));
+    }
+
+    raw.decode_void();
+
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="doccomment">/// Check for an error from the result of a syscall which does not return on
+/// success. On success, return the unconsumed `raw` value.
+///
+/// # Safety
+///
+/// This must only be used with syscalls which do not return on success.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;runtime&quot;</span>)]
+#[inline]
+</span><span class="kw">pub</span>(<span class="kw">in </span><span class="kw">crate</span>::backend) <span class="kw">unsafe fn </span>try_decode_error&lt;Num: RetNumber&gt;(raw: RetReg&lt;Num&gt;) -&gt; io::Errno {
+    <span class="macro">debug_assert!</span>(raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>));
+
+    <span class="comment">// Tell the optimizer that we know the value is in the error range.
+    // This helps it avoid unnecessary integer conversions.
+    </span><span class="attribute">#[cfg(core_intrinsics)]
+    </span>{
+        core::intrinsics::assume(raw.is_in_range(-<span class="number">4095</span>..<span class="number">0</span>));
+    }
+
+    Errno(raw.decode_error_code())
+}
+
+<span class="doccomment">/// Return the contained `usize` value.
+</span><span class="attribute">#[cfg(not(debug_assertions))]
+#[inline]
+</span><span class="kw">pub</span>(<span class="kw">in </span><span class="kw">crate</span>::backend) <span class="kw">fn </span>decode_usize_infallible&lt;Num: RetNumber&gt;(raw: RetReg&lt;Num&gt;) -&gt; usize {
+    raw.decode_usize()
+}
+
+<span class="doccomment">/// Return the contained `c_int` value.
+</span><span class="attribute">#[cfg(not(debug_assertions))]
+#[inline]
+</span><span class="kw">pub</span>(<span class="kw">in </span><span class="kw">crate</span>::backend) <span class="kw">fn </span>decode_c_uint_infallible&lt;Num: RetNumber&gt;(raw: RetReg&lt;Num&gt;) -&gt; c::c_uint {
+    raw.decode_c_uint()
+}
+
+<span class="kw">impl </span>Errno {
+    <span class="doccomment">/// `EACCES`
+    </span><span class="attribute">#[doc(alias = <span class="string">&quot;ACCES&quot;</span>)]
+    </span><span class="kw">pub const </span>ACCESS: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EACCES);
+    <span class="doccomment">/// `EADDRINUSE`
+    </span><span class="kw">pub const </span>ADDRINUSE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EADDRINUSE);
+    <span class="doccomment">/// `EADDRNOTAVAIL`
+    </span><span class="kw">pub const </span>ADDRNOTAVAIL: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EADDRNOTAVAIL);
+    <span class="doccomment">/// `EADV`
+    </span><span class="kw">pub const </span>ADV: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EADV);
+    <span class="doccomment">/// `EAFNOSUPPORT`
+    </span><span class="kw">pub const </span>AFNOSUPPORT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EAFNOSUPPORT);
+    <span class="doccomment">/// `EAGAIN`
+    </span><span class="kw">pub const </span>AGAIN: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EAGAIN);
+    <span class="doccomment">/// `EALREADY`
+    </span><span class="kw">pub const </span>ALREADY: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EALREADY);
+    <span class="doccomment">/// `EBADE`
+    </span><span class="kw">pub const </span>BADE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EBADE);
+    <span class="doccomment">/// `EBADF`
+    </span><span class="kw">pub const </span>BADF: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EBADF);
+    <span class="doccomment">/// `EBADFD`
+    </span><span class="kw">pub const </span>BADFD: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EBADFD);
+    <span class="doccomment">/// `EBADMSG`
+    </span><span class="kw">pub const </span>BADMSG: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EBADMSG);
+    <span class="doccomment">/// `EBADR`
+    </span><span class="kw">pub const </span>BADR: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EBADR);
+    <span class="doccomment">/// `EBADRQC`
+    </span><span class="kw">pub const </span>BADRQC: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EBADRQC);
+    <span class="doccomment">/// `EBADSLT`
+    </span><span class="kw">pub const </span>BADSLT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EBADSLT);
+    <span class="doccomment">/// `EBFONT`
+    </span><span class="kw">pub const </span>BFONT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EBFONT);
+    <span class="doccomment">/// `EBUSY`
+    </span><span class="kw">pub const </span>BUSY: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EBUSY);
+    <span class="doccomment">/// `ECANCELED`
+    </span><span class="kw">pub const </span>CANCELED: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ECANCELED);
+    <span class="doccomment">/// `ECHILD`
+    </span><span class="kw">pub const </span>CHILD: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ECHILD);
+    <span class="doccomment">/// `ECHRNG`
+    </span><span class="kw">pub const </span>CHRNG: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ECHRNG);
+    <span class="doccomment">/// `ECOMM`
+    </span><span class="kw">pub const </span>COMM: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ECOMM);
+    <span class="doccomment">/// `ECONNABORTED`
+    </span><span class="kw">pub const </span>CONNABORTED: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ECONNABORTED);
+    <span class="doccomment">/// `ECONNREFUSED`
+    </span><span class="kw">pub const </span>CONNREFUSED: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ECONNREFUSED);
+    <span class="doccomment">/// `ECONNRESET`
+    </span><span class="kw">pub const </span>CONNRESET: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ECONNRESET);
+    <span class="doccomment">/// `EDEADLK`
+    </span><span class="kw">pub const </span>DEADLK: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EDEADLK);
+    <span class="doccomment">/// `EDEADLOCK`
+    </span><span class="kw">pub const </span>DEADLOCK: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EDEADLOCK);
+    <span class="doccomment">/// `EDESTADDRREQ`
+    </span><span class="kw">pub const </span>DESTADDRREQ: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EDESTADDRREQ);
+    <span class="doccomment">/// `EDOM`
+    </span><span class="kw">pub const </span>DOM: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EDOM);
+    <span class="doccomment">/// `EDOTDOT`
+    </span><span class="kw">pub const </span>DOTDOT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EDOTDOT);
+    <span class="doccomment">/// `EDQUOT`
+    </span><span class="kw">pub const </span>DQUOT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EDQUOT);
+    <span class="doccomment">/// `EEXIST`
+    </span><span class="kw">pub const </span>EXIST: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EEXIST);
+    <span class="doccomment">/// `EFAULT`
+    </span><span class="kw">pub const </span>FAULT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EFAULT);
+    <span class="doccomment">/// `EFBIG`
+    </span><span class="kw">pub const </span>FBIG: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EFBIG);
+    <span class="doccomment">/// `EHOSTDOWN`
+    </span><span class="kw">pub const </span>HOSTDOWN: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EHOSTDOWN);
+    <span class="doccomment">/// `EHOSTUNREACH`
+    </span><span class="kw">pub const </span>HOSTUNREACH: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EHOSTUNREACH);
+    <span class="doccomment">/// `EHWPOISON`
+    </span><span class="kw">pub const </span>HWPOISON: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EHWPOISON);
+    <span class="doccomment">/// `EIDRM`
+    </span><span class="kw">pub const </span>IDRM: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EIDRM);
+    <span class="doccomment">/// `EILSEQ`
+    </span><span class="kw">pub const </span>ILSEQ: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EILSEQ);
+    <span class="doccomment">/// `EINPROGRESS`
+    </span><span class="kw">pub const </span>INPROGRESS: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EINPROGRESS);
+    <span class="doccomment">/// `EINTR`.
+    ///
+    /// For a convenient way to retry system calls that exit with `INTR`, use
+    /// [`retry_on_intr`].
+    ///
+    /// [`retry_on_intr`]: io::retry_on_intr
+    </span><span class="kw">pub const </span>INTR: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EINTR);
+    <span class="doccomment">/// `EINVAL`
+    </span><span class="kw">pub const </span>INVAL: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EINVAL);
+    <span class="doccomment">/// `EIO`
+    </span><span class="kw">pub const </span>IO: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EIO);
+    <span class="doccomment">/// `EISCONN`
+    </span><span class="kw">pub const </span>ISCONN: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EISCONN);
+    <span class="doccomment">/// `EISDIR`
+    </span><span class="kw">pub const </span>ISDIR: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EISDIR);
+    <span class="doccomment">/// `EISNAM`
+    </span><span class="kw">pub const </span>ISNAM: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EISNAM);
+    <span class="doccomment">/// `EKEYEXPIRED`
+    </span><span class="kw">pub const </span>KEYEXPIRED: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EKEYEXPIRED);
+    <span class="doccomment">/// `EKEYREJECTED`
+    </span><span class="kw">pub const </span>KEYREJECTED: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EKEYREJECTED);
+    <span class="doccomment">/// `EKEYREVOKED`
+    </span><span class="kw">pub const </span>KEYREVOKED: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EKEYREVOKED);
+    <span class="doccomment">/// `EL2HLT`
+    </span><span class="kw">pub const </span>L2HLT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EL2HLT);
+    <span class="doccomment">/// `EL2NSYNC`
+    </span><span class="kw">pub const </span>L2NSYNC: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EL2NSYNC);
+    <span class="doccomment">/// `EL3HLT`
+    </span><span class="kw">pub const </span>L3HLT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EL3HLT);
+    <span class="doccomment">/// `EL3RST`
+    </span><span class="kw">pub const </span>L3RST: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EL3RST);
+    <span class="doccomment">/// `ELIBACC`
+    </span><span class="kw">pub const </span>LIBACC: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ELIBACC);
+    <span class="doccomment">/// `ELIBBAD`
+    </span><span class="kw">pub const </span>LIBBAD: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ELIBBAD);
+    <span class="doccomment">/// `ELIBEXEC`
+    </span><span class="kw">pub const </span>LIBEXEC: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ELIBEXEC);
+    <span class="doccomment">/// `ELIBMAX`
+    </span><span class="kw">pub const </span>LIBMAX: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ELIBMAX);
+    <span class="doccomment">/// `ELIBSCN`
+    </span><span class="kw">pub const </span>LIBSCN: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ELIBSCN);
+    <span class="doccomment">/// `ELNRNG`
+    </span><span class="kw">pub const </span>LNRNG: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ELNRNG);
+    <span class="doccomment">/// `ELOOP`
+    </span><span class="kw">pub const </span>LOOP: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ELOOP);
+    <span class="doccomment">/// `EMEDIUMTYPE`
+    </span><span class="kw">pub const </span>MEDIUMTYPE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EMEDIUMTYPE);
+    <span class="doccomment">/// `EMFILE`
+    </span><span class="kw">pub const </span>MFILE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EMFILE);
+    <span class="doccomment">/// `EMLINK`
+    </span><span class="kw">pub const </span>MLINK: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EMLINK);
+    <span class="doccomment">/// `EMSGSIZE`
+    </span><span class="kw">pub const </span>MSGSIZE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EMSGSIZE);
+    <span class="doccomment">/// `EMULTIHOP`
+    </span><span class="kw">pub const </span>MULTIHOP: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EMULTIHOP);
+    <span class="doccomment">/// `ENAMETOOLONG`
+    </span><span class="kw">pub const </span>NAMETOOLONG: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENAMETOOLONG);
+    <span class="doccomment">/// `ENAVAIL`
+    </span><span class="kw">pub const </span>NAVAIL: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENAVAIL);
+    <span class="doccomment">/// `ENETDOWN`
+    </span><span class="kw">pub const </span>NETDOWN: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENETDOWN);
+    <span class="doccomment">/// `ENETRESET`
+    </span><span class="kw">pub const </span>NETRESET: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENETRESET);
+    <span class="doccomment">/// `ENETUNREACH`
+    </span><span class="kw">pub const </span>NETUNREACH: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENETUNREACH);
+    <span class="doccomment">/// `ENFILE`
+    </span><span class="kw">pub const </span>NFILE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENFILE);
+    <span class="doccomment">/// `ENOANO`
+    </span><span class="kw">pub const </span>NOANO: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOANO);
+    <span class="doccomment">/// `ENOBUFS`
+    </span><span class="kw">pub const </span>NOBUFS: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOBUFS);
+    <span class="doccomment">/// `ENOCSI`
+    </span><span class="kw">pub const </span>NOCSI: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOCSI);
+    <span class="doccomment">/// `ENODATA`
+    </span><span class="attribute">#[doc(alias = <span class="string">&quot;NOATTR&quot;</span>)]
+    </span><span class="kw">pub const </span>NODATA: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENODATA);
+    <span class="doccomment">/// `ENODEV`
+    </span><span class="kw">pub const </span>NODEV: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENODEV);
+    <span class="doccomment">/// `ENOENT`
+    </span><span class="kw">pub const </span>NOENT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOENT);
+    <span class="doccomment">/// `ENOEXEC`
+    </span><span class="kw">pub const </span>NOEXEC: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOEXEC);
+    <span class="doccomment">/// `ENOKEY`
+    </span><span class="kw">pub const </span>NOKEY: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOKEY);
+    <span class="doccomment">/// `ENOLCK`
+    </span><span class="kw">pub const </span>NOLCK: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOLCK);
+    <span class="doccomment">/// `ENOLINK`
+    </span><span class="kw">pub const </span>NOLINK: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOLINK);
+    <span class="doccomment">/// `ENOMEDIUM`
+    </span><span class="kw">pub const </span>NOMEDIUM: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOMEDIUM);
+    <span class="doccomment">/// `ENOMEM`
+    </span><span class="kw">pub const </span>NOMEM: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOMEM);
+    <span class="doccomment">/// `ENOMSG`
+    </span><span class="kw">pub const </span>NOMSG: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOMSG);
+    <span class="doccomment">/// `ENONET`
+    </span><span class="kw">pub const </span>NONET: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENONET);
+    <span class="doccomment">/// `ENOPKG`
+    </span><span class="kw">pub const </span>NOPKG: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOPKG);
+    <span class="doccomment">/// `ENOPROTOOPT`
+    </span><span class="kw">pub const </span>NOPROTOOPT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOPROTOOPT);
+    <span class="doccomment">/// `ENOSPC`
+    </span><span class="kw">pub const </span>NOSPC: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOSPC);
+    <span class="doccomment">/// `ENOSR`
+    </span><span class="kw">pub const </span>NOSR: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOSR);
+    <span class="doccomment">/// `ENOSTR`
+    </span><span class="kw">pub const </span>NOSTR: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOSTR);
+    <span class="doccomment">/// `ENOSYS`
+    </span><span class="kw">pub const </span>NOSYS: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOSYS);
+    <span class="doccomment">/// `ENOTBLK`
+    </span><span class="kw">pub const </span>NOTBLK: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOTBLK);
+    <span class="doccomment">/// `ENOTCONN`
+    </span><span class="kw">pub const </span>NOTCONN: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOTCONN);
+    <span class="doccomment">/// `ENOTDIR`
+    </span><span class="kw">pub const </span>NOTDIR: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOTDIR);
+    <span class="doccomment">/// `ENOTEMPTY`
+    </span><span class="kw">pub const </span>NOTEMPTY: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOTEMPTY);
+    <span class="doccomment">/// `ENOTNAM`
+    </span><span class="kw">pub const </span>NOTNAM: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOTNAM);
+    <span class="doccomment">/// `ENOTRECOVERABLE`
+    </span><span class="kw">pub const </span>NOTRECOVERABLE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOTRECOVERABLE);
+    <span class="doccomment">/// `ENOTSOCK`
+    </span><span class="kw">pub const </span>NOTSOCK: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOTSOCK);
+    <span class="doccomment">/// `ENOTSUP`
+    </span><span class="comment">// On Linux, `ENOTSUP` has the same value as `EOPNOTSUPP`.
+    </span><span class="kw">pub const </span>NOTSUP: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EOPNOTSUPP);
+    <span class="doccomment">/// `ENOTTY`
+    </span><span class="kw">pub const </span>NOTTY: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOTTY);
+    <span class="doccomment">/// `ENOTUNIQ`
+    </span><span class="kw">pub const </span>NOTUNIQ: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENOTUNIQ);
+    <span class="doccomment">/// `ENXIO`
+    </span><span class="kw">pub const </span>NXIO: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ENXIO);
+    <span class="doccomment">/// `EOPNOTSUPP`
+    </span><span class="kw">pub const </span>OPNOTSUPP: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EOPNOTSUPP);
+    <span class="doccomment">/// `EOVERFLOW`
+    </span><span class="kw">pub const </span>OVERFLOW: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EOVERFLOW);
+    <span class="doccomment">/// `EOWNERDEAD`
+    </span><span class="kw">pub const </span>OWNERDEAD: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EOWNERDEAD);
+    <span class="doccomment">/// `EPERM`
+    </span><span class="kw">pub const </span>PERM: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EPERM);
+    <span class="doccomment">/// `EPFNOSUPPORT`
+    </span><span class="kw">pub const </span>PFNOSUPPORT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EPFNOSUPPORT);
+    <span class="doccomment">/// `EPIPE`
+    </span><span class="kw">pub const </span>PIPE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EPIPE);
+    <span class="doccomment">/// `EPROTO`
+    </span><span class="kw">pub const </span>PROTO: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EPROTO);
+    <span class="doccomment">/// `EPROTONOSUPPORT`
+    </span><span class="kw">pub const </span>PROTONOSUPPORT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EPROTONOSUPPORT);
+    <span class="doccomment">/// `EPROTOTYPE`
+    </span><span class="kw">pub const </span>PROTOTYPE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EPROTOTYPE);
+    <span class="doccomment">/// `ERANGE`
+    </span><span class="kw">pub const </span>RANGE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ERANGE);
+    <span class="doccomment">/// `EREMCHG`
+    </span><span class="kw">pub const </span>REMCHG: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EREMCHG);
+    <span class="doccomment">/// `EREMOTE`
+    </span><span class="kw">pub const </span>REMOTE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EREMOTE);
+    <span class="doccomment">/// `EREMOTEIO`
+    </span><span class="kw">pub const </span>REMOTEIO: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EREMOTEIO);
+    <span class="doccomment">/// `ERESTART`
+    </span><span class="kw">pub const </span>RESTART: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ERESTART);
+    <span class="doccomment">/// `ERFKILL`
+    </span><span class="kw">pub const </span>RFKILL: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ERFKILL);
+    <span class="doccomment">/// `EROFS`
+    </span><span class="kw">pub const </span>ROFS: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EROFS);
+    <span class="doccomment">/// `ESHUTDOWN`
+    </span><span class="kw">pub const </span>SHUTDOWN: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ESHUTDOWN);
+    <span class="doccomment">/// `ESOCKTNOSUPPORT`
+    </span><span class="kw">pub const </span>SOCKTNOSUPPORT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ESOCKTNOSUPPORT);
+    <span class="doccomment">/// `ESPIPE`
+    </span><span class="kw">pub const </span>SPIPE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ESPIPE);
+    <span class="doccomment">/// `ESRCH`
+    </span><span class="kw">pub const </span>SRCH: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ESRCH);
+    <span class="doccomment">/// `ESRMNT`
+    </span><span class="kw">pub const </span>SRMNT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ESRMNT);
+    <span class="doccomment">/// `ESTALE`
+    </span><span class="kw">pub const </span>STALE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ESTALE);
+    <span class="doccomment">/// `ESTRPIPE`
+    </span><span class="kw">pub const </span>STRPIPE: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ESTRPIPE);
+    <span class="doccomment">/// `ETIME`
+    </span><span class="kw">pub const </span>TIME: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ETIME);
+    <span class="doccomment">/// `ETIMEDOUT`
+    </span><span class="kw">pub const </span>TIMEDOUT: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ETIMEDOUT);
+    <span class="doccomment">/// `E2BIG`
+    </span><span class="attribute">#[doc(alias = <span class="string">&quot;2BIG&quot;</span>)]
+    </span><span class="kw">pub const </span>TOOBIG: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::E2BIG);
+    <span class="doccomment">/// `ETOOMANYREFS`
+    </span><span class="kw">pub const </span>TOOMANYREFS: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ETOOMANYREFS);
+    <span class="doccomment">/// `ETXTBSY`
+    </span><span class="kw">pub const </span>TXTBSY: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::ETXTBSY);
+    <span class="doccomment">/// `EUCLEAN`
+    </span><span class="kw">pub const </span>UCLEAN: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EUCLEAN);
+    <span class="doccomment">/// `EUNATCH`
+    </span><span class="kw">pub const </span>UNATCH: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EUNATCH);
+    <span class="doccomment">/// `EUSERS`
+    </span><span class="kw">pub const </span>USERS: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EUSERS);
+    <span class="doccomment">/// `EWOULDBLOCK`
+    </span><span class="kw">pub const </span>WOULDBLOCK: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EWOULDBLOCK);
+    <span class="doccomment">/// `EXDEV`
+    </span><span class="kw">pub const </span>XDEV: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EXDEV);
+    <span class="doccomment">/// `EXFULL`
+    </span><span class="kw">pub const </span>XFULL: <span class="self">Self </span>= <span class="self">Self</span>::from_errno(errno::EXFULL);
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="rustix" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

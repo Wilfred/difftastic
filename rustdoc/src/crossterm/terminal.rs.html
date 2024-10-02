@@ -1,0 +1,1138 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/crossterm-0.27.0/src/terminal.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>terminal.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../crossterm/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../crossterm/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../crossterm/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+</pre><pre class="rust"><code><span class="doccomment">//! # Terminal
+//!
+//! The `terminal` module provides functionality to work with the terminal.
+//!
+//! This documentation does not contain a lot of examples. The reason is that it&#39;s fairly
+//! obvious how to use this crate. Although, we do provide
+//! [examples](https://github.com/crossterm-rs/crossterm/tree/master/examples) repository
+//! to demonstrate the capabilities.
+//!
+//! Most terminal actions can be performed with commands.
+//! Please have a look at [command documentation](../index.html#command-api) for a more detailed documentation.
+//!
+//! ## Screen Buffer
+//!
+//! A screen buffer is a two-dimensional array of character
+//! and color data which is displayed in a terminal screen.
+//!
+//! The terminal has several of those buffers and is able to switch between them.
+//! The default screen in which you work is called the &#39;main screen&#39;.
+//! The other screens are called the &#39;alternative screen&#39;.
+//!
+//! It is important to understand that crossterm does not yet support creating screens,
+//! or switch between more than two buffers, and only offers the ability to change
+//! between the &#39;alternate&#39; and &#39;main screen&#39;.
+//!
+//! ### Alternate Screen
+//!
+//! By default, you will be working on the main screen.
+//! There is also another screen called the &#39;alternative&#39; screen.
+//! This screen is slightly different from the main screen.
+//! For example, it has the exact dimensions of the terminal window,
+//! without any scroll-back area.
+//!
+//! Crossterm offers the possibility to switch to the &#39;alternative&#39; screen,
+//! make some modifications, and move back to the &#39;main&#39; screen again.
+//! The main screen will stay intact and will have the original data as we performed all
+//! operations on the alternative screen.
+//!
+//! An good example of this is Vim.
+//! When it is launched from bash, a whole new buffer is used to modify a file.
+//! Then, when the modification is finished, it closes again and continues on the main screen.
+//!
+//! ### Raw Mode
+//!
+//! By default, the terminal functions in a certain way.
+//! For example, it will move the cursor to the beginning of the next line when the input hits the end of a line.
+//! Or that the backspace is interpreted for character removal.
+//!
+//! Sometimes these default modes are irrelevant,
+//! and in this case, we can turn them off.
+//! This is what happens when you enable raw modes.
+//!
+//! Those modes will be set when enabling raw modes:
+//!
+//! - Input will not be forwarded to screen
+//! - Input will not be processed on enter press
+//! - Input will not be line buffered (input sent byte-by-byte to input buffer)
+//! - Special keys like backspace and CTRL+C will not be processed by terminal driver
+//! - New line character will not be processed therefore `println!` can&#39;t be used, use `write!` instead
+//!
+//! Raw mode can be enabled/disabled with the [enable_raw_mode](terminal::enable_raw_mode) and [disable_raw_mode](terminal::disable_raw_mode) functions.
+//!
+//! ## Examples
+//!
+//! ```no_run
+//! use std::io::{self, Write};
+//! use crossterm::{execute, terminal::{ScrollUp, SetSize, size}};
+//!
+//! fn main() -&gt; io::Result&lt;()&gt; {
+//!     let (cols, rows) = size()?;
+//!     // Resize terminal and scroll up.
+//!     execute!(
+//!         io::stdout(),
+//!         SetSize(10, 10),
+//!         ScrollUp(5)
+//!     )?;
+//!
+//!     // Be a good citizen, cleanup
+//!     execute!(io::stdout(), SetSize(cols, rows))?;
+//!     Ok(())
+//! }
+//! ```
+//!
+//! For manual execution control check out [crossterm::queue](../macro.queue.html).
+
+</span><span class="kw">use </span>std::{fmt, io};
+
+<span class="attribute">#[cfg(windows)]
+</span><span class="kw">use </span>crossterm_winapi::{ConsoleMode, Handle, ScreenBuffer};
+<span class="attribute">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
+</span><span class="kw">use </span>serde::{Deserialize, Serialize};
+<span class="attribute">#[cfg(windows)]
+</span><span class="kw">use </span>winapi::um::wincon::ENABLE_WRAP_AT_EOL_OUTPUT;
+
+<span class="attribute">#[doc(no_inline)]
+</span><span class="kw">use </span><span class="kw">crate</span>::Command;
+<span class="kw">use crate</span>::{csi, impl_display};
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>sys;
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;events&quot;</span>)]
+</span><span class="kw">pub use </span>sys::supports_keyboard_enhancement;
+
+<span class="doccomment">/// Tells whether the raw mode is enabled.
+///
+/// Please have a look at the [raw mode](./index.html#raw-mode) section.
+</span><span class="kw">pub fn </span>is_raw_mode_enabled() -&gt; io::Result&lt;bool&gt; {
+    <span class="attribute">#[cfg(unix)]
+    </span>{
+        <span class="prelude-val">Ok</span>(sys::is_raw_mode_enabled())
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span>{
+        sys::is_raw_mode_enabled()
+    }
+}
+
+<span class="doccomment">/// Enables raw mode.
+///
+/// Please have a look at the [raw mode](./index.html#raw-mode) section.
+</span><span class="kw">pub fn </span>enable_raw_mode() -&gt; io::Result&lt;()&gt; {
+    sys::enable_raw_mode()
+}
+
+<span class="doccomment">/// Disables raw mode.
+///
+/// Please have a look at the [raw mode](./index.html#raw-mode) section.
+</span><span class="kw">pub fn </span>disable_raw_mode() -&gt; io::Result&lt;()&gt; {
+    sys::disable_raw_mode()
+}
+
+<span class="doccomment">/// Returns the terminal size `(columns, rows)`.
+///
+/// The top left cell is represented `(1, 1)`.
+</span><span class="kw">pub fn </span>size() -&gt; io::Result&lt;(u16, u16)&gt; {
+    sys::size()
+}
+
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>WindowSize {
+    <span class="kw">pub </span>rows: u16,
+    <span class="kw">pub </span>columns: u16,
+    <span class="kw">pub </span>width: u16,
+    <span class="kw">pub </span>height: u16,
+}
+
+<span class="doccomment">/// Returns the terminal size `[WindowSize]`.
+///
+/// The width and height in pixels may not be reliably implemented or default to 0.
+/// For unix, https://man7.org/linux/man-pages/man4/tty_ioctl.4.html documents them as &quot;unused&quot;.
+/// For windows it is not implemented.
+</span><span class="kw">pub fn </span>window_size() -&gt; io::Result&lt;WindowSize&gt; {
+    sys::window_size()
+}
+
+<span class="doccomment">/// Disables line wrapping.
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>DisableLineWrap;
+
+<span class="kw">impl </span>Command <span class="kw">for </span>DisableLineWrap {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        f.write_str(<span class="macro">csi!</span>(<span class="string">&quot;?7l&quot;</span>))
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        <span class="kw">let </span>screen_buffer = ScreenBuffer::current()<span class="question-mark">?</span>;
+        <span class="kw">let </span>console_mode = ConsoleMode::from(screen_buffer.handle().clone());
+        <span class="kw">let </span>new_mode = console_mode.mode()<span class="question-mark">? </span>&amp; !ENABLE_WRAP_AT_EOL_OUTPUT;
+        console_mode.set_mode(new_mode)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="doccomment">/// Enable line wrapping.
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>EnableLineWrap;
+
+<span class="kw">impl </span>Command <span class="kw">for </span>EnableLineWrap {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        f.write_str(<span class="macro">csi!</span>(<span class="string">&quot;?7h&quot;</span>))
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        <span class="kw">let </span>screen_buffer = ScreenBuffer::current()<span class="question-mark">?</span>;
+        <span class="kw">let </span>console_mode = ConsoleMode::from(screen_buffer.handle().clone());
+        <span class="kw">let </span>new_mode = console_mode.mode()<span class="question-mark">? </span>| ENABLE_WRAP_AT_EOL_OUTPUT;
+        console_mode.set_mode(new_mode)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="doccomment">/// A command that switches to alternate screen.
+///
+/// # Notes
+///
+/// * Commands must be executed/queued for execution otherwise they do nothing.
+/// * Use [LeaveAlternateScreen](./struct.LeaveAlternateScreen.html) command to leave the entered alternate screen.
+///
+/// # Examples
+///
+/// ```no_run
+/// use std::io::{self, Write};
+/// use crossterm::{execute, terminal::{EnterAlternateScreen, LeaveAlternateScreen}};
+///
+/// fn main() -&gt; io::Result&lt;()&gt; {
+///     execute!(io::stdout(), EnterAlternateScreen)?;
+///
+///     // Do anything on the alternate screen
+///
+///     execute!(io::stdout(), LeaveAlternateScreen)
+/// }
+/// ```
+///
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>EnterAlternateScreen;
+
+<span class="kw">impl </span>Command <span class="kw">for </span>EnterAlternateScreen {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        f.write_str(<span class="macro">csi!</span>(<span class="string">&quot;?1049h&quot;</span>))
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        <span class="kw">let </span>alternate_screen = ScreenBuffer::create()<span class="question-mark">?</span>;
+        alternate_screen.show()<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="doccomment">/// A command that switches back to the main screen.
+///
+/// # Notes
+///
+/// * Commands must be executed/queued for execution otherwise they do nothing.
+/// * Use [EnterAlternateScreen](./struct.EnterAlternateScreen.html) to enter the alternate screen.
+///
+/// # Examples
+///
+/// ```no_run
+/// use std::io::{self, Write};
+/// use crossterm::{execute, terminal::{EnterAlternateScreen, LeaveAlternateScreen}};
+///
+/// fn main() -&gt; io::Result&lt;()&gt; {
+///     execute!(io::stdout(), EnterAlternateScreen)?;
+///
+///     // Do anything on the alternate screen
+///
+///     execute!(io::stdout(), LeaveAlternateScreen)
+/// }
+/// ```
+///
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>LeaveAlternateScreen;
+
+<span class="kw">impl </span>Command <span class="kw">for </span>LeaveAlternateScreen {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        f.write_str(<span class="macro">csi!</span>(<span class="string">&quot;?1049l&quot;</span>))
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        <span class="kw">let </span>screen_buffer = ScreenBuffer::from(Handle::current_out_handle()<span class="question-mark">?</span>);
+        screen_buffer.show()<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="doccomment">/// Different ways to clear the terminal buffer.
+</span><span class="attribute">#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Ord, PartialOrd, Hash)]
+</span><span class="kw">pub enum </span>ClearType {
+    <span class="doccomment">/// All cells.
+    </span>All,
+    <span class="doccomment">/// All plus history
+    </span>Purge,
+    <span class="doccomment">/// All cells from the cursor position downwards.
+    </span>FromCursorDown,
+    <span class="doccomment">/// All cells from the cursor position upwards.
+    </span>FromCursorUp,
+    <span class="doccomment">/// All cells at the cursor row.
+    </span>CurrentLine,
+    <span class="doccomment">/// All cells from the cursor position until the new line.
+    </span>UntilNewLine,
+}
+
+<span class="doccomment">/// A command that scrolls the terminal screen a given number of rows up.
+///
+/// # Notes
+///
+/// Commands must be executed/queued for execution otherwise they do nothing.
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>ScrollUp(<span class="kw">pub </span>u16);
+
+<span class="kw">impl </span>Command <span class="kw">for </span>ScrollUp {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        <span class="kw">if </span><span class="self">self</span>.<span class="number">0 </span>!= <span class="number">0 </span>{
+            <span class="macro">write!</span>(f, <span class="macro">csi!</span>(<span class="string">&quot;{}S&quot;</span>), <span class="self">self</span>.<span class="number">0</span>)<span class="question-mark">?</span>;
+        }
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        sys::scroll_up(<span class="self">self</span>.<span class="number">0</span>)
+    }
+}
+
+<span class="doccomment">/// A command that scrolls the terminal screen a given number of rows down.
+///
+/// # Notes
+///
+/// Commands must be executed/queued for execution otherwise they do nothing.
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>ScrollDown(<span class="kw">pub </span>u16);
+
+<span class="kw">impl </span>Command <span class="kw">for </span>ScrollDown {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        <span class="kw">if </span><span class="self">self</span>.<span class="number">0 </span>!= <span class="number">0 </span>{
+            <span class="macro">write!</span>(f, <span class="macro">csi!</span>(<span class="string">&quot;{}T&quot;</span>), <span class="self">self</span>.<span class="number">0</span>)<span class="question-mark">?</span>;
+        }
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        sys::scroll_down(<span class="self">self</span>.<span class="number">0</span>)
+    }
+}
+
+<span class="doccomment">/// A command that clears the terminal screen buffer.
+///
+/// See the [`ClearType`](enum.ClearType.html) enum.
+///
+/// # Notes
+///
+/// Commands must be executed/queued for execution otherwise they do nothing.
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>Clear(<span class="kw">pub </span>ClearType);
+
+<span class="kw">impl </span>Command <span class="kw">for </span>Clear {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        f.write_str(<span class="kw">match </span><span class="self">self</span>.<span class="number">0 </span>{
+            ClearType::All =&gt; <span class="macro">csi!</span>(<span class="string">&quot;2J&quot;</span>),
+            ClearType::Purge =&gt; <span class="macro">csi!</span>(<span class="string">&quot;3J&quot;</span>),
+            ClearType::FromCursorDown =&gt; <span class="macro">csi!</span>(<span class="string">&quot;J&quot;</span>),
+            ClearType::FromCursorUp =&gt; <span class="macro">csi!</span>(<span class="string">&quot;1J&quot;</span>),
+            ClearType::CurrentLine =&gt; <span class="macro">csi!</span>(<span class="string">&quot;2K&quot;</span>),
+            ClearType::UntilNewLine =&gt; <span class="macro">csi!</span>(<span class="string">&quot;K&quot;</span>),
+        })
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        sys::clear(<span class="self">self</span>.<span class="number">0</span>)
+    }
+}
+
+<span class="doccomment">/// A command that sets the terminal buffer size `(columns, rows)`.
+///
+/// # Notes
+///
+/// Commands must be executed/queued for execution otherwise they do nothing.
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>SetSize(<span class="kw">pub </span>u16, <span class="kw">pub </span>u16);
+
+<span class="kw">impl </span>Command <span class="kw">for </span>SetSize {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="macro">csi!</span>(<span class="string">&quot;8;{};{}t&quot;</span>), <span class="self">self</span>.<span class="number">1</span>, <span class="self">self</span>.<span class="number">0</span>)
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        sys::set_size(<span class="self">self</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="number">1</span>)
+    }
+}
+
+<span class="doccomment">/// A command that sets the terminal title
+///
+/// # Notes
+///
+/// Commands must be executed/queued for execution otherwise they do nothing.
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>SetTitle&lt;T&gt;(<span class="kw">pub </span>T);
+
+<span class="kw">impl</span>&lt;T: fmt::Display&gt; Command <span class="kw">for </span>SetTitle&lt;T&gt; {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">&quot;\x1B]0;{}\x07&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        sys::set_window_title(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
+    }
+}
+
+<span class="doccomment">/// A command that instructs the terminal emulator to begin a synchronized frame.
+///
+/// # Notes
+///
+/// * Commands must be executed/queued for execution otherwise they do nothing.
+/// * Use [EndSynchronizedUpdate](./struct.EndSynchronizedUpdate.html) command to leave the entered alternate screen.
+///
+/// When rendering the screen of the terminal, the Emulator usually iterates through each visible grid cell and
+/// renders its current state. With applications updating the screen a at higher frequency this can cause tearing.
+///
+/// This mode attempts to mitigate that.
+///
+/// When the synchronization mode is enabled following render calls will keep rendering the last rendered state.
+/// The terminal Emulator keeps processing incoming text and sequences. When the synchronized update mode is disabled
+/// again the renderer may fetch the latest screen buffer state again, effectively avoiding the tearing effect
+/// by unintentionally rendering in the middle a of an application screen update.
+///
+/// # Examples
+///
+/// ```no_run
+/// use std::io::{self, Write};
+/// use crossterm::{execute, terminal::{BeginSynchronizedUpdate, EndSynchronizedUpdate}};
+///
+/// fn main() -&gt; io::Result&lt;()&gt; {
+///     execute!(io::stdout(), BeginSynchronizedUpdate)?;
+///
+///     // Anything performed here will not be rendered until EndSynchronizedUpdate is called.
+///
+///     execute!(io::stdout(), EndSynchronizedUpdate)?;
+///     Ok(())
+/// }
+/// ```
+///
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>BeginSynchronizedUpdate;
+
+<span class="kw">impl </span>Command <span class="kw">for </span>BeginSynchronizedUpdate {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        f.write_str(<span class="macro">csi!</span>(<span class="string">&quot;?2026h&quot;</span>))
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    #[inline]
+    </span><span class="kw">fn </span>is_ansi_code_supported(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="bool-val">true
+    </span>}
+}
+
+<span class="doccomment">/// A command that instructs the terminal to end a synchronized frame.
+///
+/// # Notes
+///
+/// * Commands must be executed/queued for execution otherwise they do nothing.
+/// * Use [BeginSynchronizedUpdate](./struct.BeginSynchronizedUpdate.html) to enter the alternate screen.
+///
+/// When rendering the screen of the terminal, the Emulator usually iterates through each visible grid cell and
+/// renders its current state. With applications updating the screen a at higher frequency this can cause tearing.
+///
+/// This mode attempts to mitigate that.
+///
+/// When the synchronization mode is enabled following render calls will keep rendering the last rendered state.
+/// The terminal Emulator keeps processing incoming text and sequences. When the synchronized update mode is disabled
+/// again the renderer may fetch the latest screen buffer state again, effectively avoiding the tearing effect
+/// by unintentionally rendering in the middle a of an application screen update.
+///
+/// # Examples
+///
+/// ```no_run
+/// use std::io::{self, Write};
+/// use crossterm::{execute, terminal::{BeginSynchronizedUpdate, EndSynchronizedUpdate}};
+///
+/// fn main() -&gt; io::Result&lt;()&gt; {
+///     execute!(io::stdout(), BeginSynchronizedUpdate)?;
+///
+///     // Anything performed here will not be rendered until EndSynchronizedUpdate is called.
+///
+///     execute!(io::stdout(), EndSynchronizedUpdate)?;
+///     Ok(())
+/// }
+/// ```
+///
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>EndSynchronizedUpdate;
+
+<span class="kw">impl </span>Command <span class="kw">for </span>EndSynchronizedUpdate {
+    <span class="kw">fn </span>write_ansi(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>fmt::Write) -&gt; fmt::Result {
+        f.write_str(<span class="macro">csi!</span>(<span class="string">&quot;?2026l&quot;</span>))
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">fn </span>execute_winapi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attribute">#[cfg(windows)]
+    #[inline]
+    </span><span class="kw">fn </span>is_ansi_code_supported(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="bool-val">true
+    </span>}
+}
+
+<span class="macro">impl_display!</span>(<span class="kw">for </span>ScrollUp);
+<span class="macro">impl_display!</span>(<span class="kw">for </span>ScrollDown);
+<span class="macro">impl_display!</span>(<span class="kw">for </span>SetSize);
+<span class="macro">impl_display!</span>(<span class="kw">for </span>Clear);
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>std::{io::stdout, thread, time};
+
+    <span class="kw">use </span><span class="kw">crate</span>::execute;
+
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="comment">// Test is disabled, because it&#39;s failing on Travis CI
+    </span><span class="attribute">#[test]
+    #[ignore]
+    </span><span class="kw">fn </span>test_resize_ansi() {
+        <span class="kw">let </span>(width, height) = size().unwrap();
+
+        <span class="macro">execute!</span>(stdout(), SetSize(<span class="number">35</span>, <span class="number">35</span>)).unwrap();
+
+        <span class="comment">// see issue: https://github.com/eminence/terminal-size/issues/11
+        </span>thread::sleep(time::Duration::from_millis(<span class="number">30</span>));
+
+        <span class="macro">assert_eq!</span>((<span class="number">35</span>, <span class="number">35</span>), size().unwrap());
+
+        <span class="comment">// reset to previous size
+        </span><span class="macro">execute!</span>(stdout(), SetSize(width, height)).unwrap();
+
+        <span class="comment">// see issue: https://github.com/eminence/terminal-size/issues/11
+        </span>thread::sleep(time::Duration::from_millis(<span class="number">30</span>));
+
+        <span class="macro">assert_eq!</span>((width, height), size().unwrap());
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_raw_mode() {
+        <span class="comment">// check we start from normal mode (may fail on some test harnesses)
+        </span><span class="macro">assert!</span>(!is_raw_mode_enabled().unwrap());
+
+        <span class="comment">// enable the raw mode
+        </span><span class="kw">if </span>enable_raw_mode().is_err() {
+            <span class="comment">// Enabling raw mode doesn&#39;t work on the ci
+            // So we just ignore it
+            </span><span class="kw">return</span>;
+        }
+
+        <span class="comment">// check it worked (on unix it doesn&#39;t really check the underlying
+        // tty but rather check that the code is consistent)
+        </span><span class="macro">assert!</span>(is_raw_mode_enabled().unwrap());
+
+        <span class="comment">// enable it again, this should not change anything
+        </span>enable_raw_mode().unwrap();
+
+        <span class="comment">// check we&#39;re still in raw mode
+        </span><span class="macro">assert!</span>(is_raw_mode_enabled().unwrap());
+
+        <span class="comment">// now let&#39;s disable it
+        </span>disable_raw_mode().unwrap();
+
+        <span class="comment">// check we&#39;re back to normal mode
+        </span><span class="macro">assert!</span>(!is_raw_mode_enabled().unwrap());
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="crossterm" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

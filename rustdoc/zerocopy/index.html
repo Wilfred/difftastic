@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Want to help improve zerocopy? Fill out our user survey!"><meta name="keywords" content="rust, rustlang, rust-lang, zerocopy"><title>zerocopy - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../zerocopy/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../zerocopy/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate zerocopy</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.7.32</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../zerocopy/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">zerocopy</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/zerocopy/lib.rs.html#15-8256">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p><em><span style="font-size: 100%; color:grey;">Want to help improve zerocopy?
+Fill out our <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzBNTN9tzwsmtyZxRFNL02K36IWCdHWW2ZBckyQS2xiO3i8Q/viewform?usp=published_options">user survey</a>!</span></em></p>
+<p><em><strong><span style="font-size: 140%">Fast, safe, <span
+style="color:red;">compile error</span>. Pick two.</span></strong></em></p>
+<p>Zerocopy makes zero-cost memory manipulation effortless. We write <code>unsafe</code>
+so you don’t have to.</p>
+<h2 id="overview"><a href="#overview">Overview</a></h2>
+<p>Zerocopy provides four core marker traits, each of which can be derived
+(e.g., <code>#[derive(FromZeroes)]</code>):</p>
+<ul>
+<li><a href="trait.FromZeroes.html" title="FromZeroes"><code>FromZeroes</code></a> indicates that a sequence of zero bytes represents a valid
+instance of a type</li>
+<li><a href="trait.FromBytes.html" title="FromBytes"><code>FromBytes</code></a> indicates that a type may safely be converted from an
+arbitrary byte sequence</li>
+<li><a href="trait.AsBytes.html" title="AsBytes"><code>AsBytes</code></a> indicates that a type may safely be converted <em>to</em> a byte
+sequence</li>
+<li><a href="trait.Unaligned.html" title="Unaligned"><code>Unaligned</code></a> indicates that a type’s alignment requirement is 1</li>
+</ul>
+<p>Types which implement a subset of these traits can then be converted to/from
+byte sequences with little to no runtime overhead.</p>
+<p>Zerocopy also provides byte-order aware integer types that support these
+conversions; see the [<code>byteorder</code>] module. These types are especially useful
+for network parsing.</p>
+<h2 id="cargo-features"><a href="#cargo-features">Cargo Features</a></h2>
+<ul>
+<li>
+<p><strong><code>alloc</code></strong><br />
+By default, <code>zerocopy</code> is <code>no_std</code>. When the <code>alloc</code> feature is enabled,
+the <code>alloc</code> crate is added as a dependency, and some allocation-related
+functionality is added.</p>
+</li>
+<li>
+<p><strong><code>byteorder</code></strong> (enabled by default)<br />
+Adds the [<code>byteorder</code>] module and a dependency on the <code>byteorder</code> crate.
+The <code>byteorder</code> module provides byte order-aware equivalents of the
+multi-byte primitive numerical types. Unlike their primitive equivalents,
+the types in this module have no alignment requirement and support byte
+order conversions. This can be useful in handling file formats, network
+packet layouts, etc which don’t provide alignment guarantees and which may
+use a byte order different from that of the execution platform.</p>
+</li>
+<li>
+<p><strong><code>derive</code></strong><br />
+Provides derives for the core marker traits via the <code>zerocopy-derive</code>
+crate. These derives are re-exported from <code>zerocopy</code>, so it is not
+necessary to depend on <code>zerocopy-derive</code> directly.</p>
+<p>However, you may experience better compile times if you instead directly
+depend on both <code>zerocopy</code> and <code>zerocopy-derive</code> in your <code>Cargo.toml</code>,
+since doing so will allow Rust to compile these crates in parallel. To do
+so, do <em>not</em> enable the <code>derive</code> feature, and list both dependencies in
+your <code>Cargo.toml</code> with the same leading non-zero version number; e.g:</p>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+zerocopy = &quot;0.X&quot;
+zerocopy-derive = &quot;0.X&quot;</code></pre></div></li>
+<li>
+<p><strong><code>simd</code></strong><br />
+When the <code>simd</code> feature is enabled, <code>FromZeroes</code>, <code>FromBytes</code>, and
+<code>AsBytes</code> impls are emitted for all stable SIMD types which exist on the
+target platform. Note that the layout of SIMD types is not yet stabilized,
+so these impls may be removed in the future if layout changes make them
+invalid. For more information, see the Unsafe Code Guidelines Reference
+page on the <a href="https://rust-lang.github.io/unsafe-code-guidelines/layout/packed-simd-vectors.html">layout of packed SIMD vectors</a>.</p>
+</li>
+<li>
+<p><strong><code>simd-nightly</code></strong><br />
+Enables the <code>simd</code> feature and adds support for SIMD types which are only
+available on nightly. Since these types are unstable, support for any type
+may be removed at any point in the future.</p>
+</li>
+</ul>
+<h2 id="security-ethos"><a href="#security-ethos">Security Ethos</a></h2>
+<p>Zerocopy is expressly designed for use in security-critical contexts. We
+strive to ensure that that zerocopy code is sound under Rust’s current
+memory model, and <em>any future memory model</em>. We ensure this by:</p>
+<ul>
+<li><strong>…not ‘guessing’ about Rust’s semantics.</strong><br />
+We annotate <code>unsafe</code> code with a precise rationale for its soundness that
+cites a relevant section of Rust’s official documentation. When Rust’s
+documented semantics are unclear, we work with the Rust Operational
+Semantics Team to clarify Rust’s documentation.</li>
+<li><strong>…rigorously testing our implementation.</strong><br />
+We run tests using <a href="https://github.com/rust-lang/miri">Miri</a>, ensuring that zerocopy is sound across a wide
+array of supported target platforms of varying endianness and pointer
+width, and across both current and experimental memory models of Rust.</li>
+<li><strong>…formally proving the correctness of our implementation.</strong><br />
+We apply formal verification tools like <a href="https://github.com/model-checking/kani">Kani</a> to prove zerocopy’s
+correctness.</li>
+</ul>
+<p>For more information, see our full <a href="https://github.com/google/zerocopy/blob/main/POLICIES.md#soundness">soundness policy</a>.</p>
+<h2 id="relationship-to-project-safe-transmute"><a href="#relationship-to-project-safe-transmute">Relationship to Project Safe Transmute</a></h2>
+<p><a href="https://rust-lang.github.io/rfcs/2835-project-safe-transmute.html">Project Safe Transmute</a> is an official initiative of the Rust Project to
+develop language-level support for safer transmutation. The Project consults
+with crates like zerocopy to identify aspects of safer transmutation that
+would benefit from compiler support, and has developed an <a href="https://github.com/rust-lang/compiler-team/issues/411">experimental,
+compiler-supported analysis</a> which determines whether,
+for a given type, any value of that type may be soundly transmuted into
+another type. Once this functionality is sufficiently mature, zerocopy
+intends to replace its internal transmutability analysis (implemented by our
+custom derives) with the compiler-supported one. This change will likely be
+an implementation detail that is invisible to zerocopy’s users.</p>
+<p>Project Safe Transmute will not replace the need for most of zerocopy’s
+higher-level abstractions. The experimental compiler analysis is a tool for
+checking the soundness of <code>unsafe</code> code, not a tool to avoid writing
+<code>unsafe</code> code altogether. For the foreseeable future, crates like zerocopy
+will still be required in order to provide higher-level abstractions on top
+of the building block provided by Project Safe Transmute.</p>
+<h2 id="msrv"><a href="#msrv">MSRV</a></h2>
+<p>See our <a href="https://github.com/google/zerocopy/blob/main/POLICIES.md#msrv">MSRV policy</a>.</p>
+<h2 id="changelog"><a href="#changelog">Changelog</a></h2>
+<p>Zerocopy uses <a href="https://github.com/google/zerocopy/releases">GitHub Releases</a>.</p>
+</div></details><h2 id="macros" class="small-section-header"><a href="#macros">Macros</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.include_value.html" title="zerocopy::include_value macro">include_value</a></div><div class="item-right docblock-short">Includes a file and safely transmutes it to a value of an arbitrary type.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.transmute.html" title="zerocopy::transmute macro">transmute</a></div><div class="item-right docblock-short">Safely transmutes a value of one type to a value of another type of the same
+size.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.transmute_mut.html" title="zerocopy::transmute_mut macro">transmute_mut</a></div><div class="item-right docblock-short">Safely transmutes a mutable reference of one type to an mutable reference of
+another type of the same size.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.transmute_ref.html" title="zerocopy::transmute_ref macro">transmute_ref</a></div><div class="item-right docblock-short">Safely transmutes a mutable or immutable reference of one type to an
+immutable reference of another type of the same size.</div></div></div><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Ref.html" title="zerocopy::Ref struct">Ref</a></div><div class="item-right docblock-short">A typed reference derived from a byte slice.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Unalign.html" title="zerocopy::Unalign struct">Unalign</a></div><div class="item-right docblock-short">A type with no alignment requirement.</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.AsBytes.html" title="zerocopy::AsBytes trait">AsBytes</a></div><div class="item-right docblock-short">Types that can be viewed as an immutable slice of initialized bytes.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.ByteSlice.html" title="zerocopy::ByteSlice trait">ByteSlice</a></div><div class="item-right docblock-short">A mutable or immutable reference to a byte slice.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.ByteSliceMut.html" title="zerocopy::ByteSliceMut trait">ByteSliceMut</a></div><div class="item-right docblock-short">A mutable reference to a byte slice.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.FromBytes.html" title="zerocopy::FromBytes trait">FromBytes</a></div><div class="item-right docblock-short">Types for which any bit pattern is valid.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.FromZeroes.html" title="zerocopy::FromZeroes trait">FromZeroes</a></div><div class="item-right docblock-short">Types for which a sequence of bytes all set to zero represents a valid
+instance of the type.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Unaligned.html" title="zerocopy::Unaligned trait">Unaligned</a></div><div class="item-right docblock-short">Types with no alignment requirement.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="zerocopy" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

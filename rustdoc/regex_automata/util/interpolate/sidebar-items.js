@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["bytes","Accepts a replacement byte string and interpolates capture references with their corresponding values."],["string","Accepts a replacement string and interpolates capture references with their corresponding values."]]};

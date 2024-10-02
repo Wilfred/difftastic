@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":[["Highlight",""],["Status",""]],"fn":[["add_changes_to_side",""],["matches_for_line",""],["print",""],["print_directory",""]],"struct":[["Change",""],["File",""],["Line",""],["Side",""]]};

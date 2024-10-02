@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Prefilter","A prefilter for accelerating regex searches."]]};

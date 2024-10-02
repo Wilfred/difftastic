@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["contiguous","Provides a contiguous NFA implementation of Aho-Corasick."],["noncontiguous","Provides a noncontiguous NFA implementation of Aho-Corasick."]]};

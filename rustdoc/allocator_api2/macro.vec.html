@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Creates a `Vec` containing the arguments."><meta name="keywords" content="rust, rustlang, rust-lang, vec"><title>vec in allocator_api2 - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../allocator_api2/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../allocator_api2/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In allocator_api2</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../allocator_api2/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Macro <a href="index.html">allocator_api2</a>::<wbr><a class="macro" href="#">vec</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/allocator_api2/stable/macros.rs.html#56-83">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><div class="example-wrap"><pre class="rust macro"><code><span class="macro">macro_rules! </span>vec {
+    (<span class="kw">in </span><span class="macro-nonterminal">$alloc</span>:expr $(;)<span class="question-mark">?</span>) =&gt; { ... };
+    (<span class="kw">in </span><span class="macro-nonterminal">$alloc</span>:expr; <span class="macro-nonterminal">$elem</span>:expr; <span class="macro-nonterminal">$n</span>:expr) =&gt; { ... };
+    (<span class="kw">in </span><span class="macro-nonterminal">$alloc</span>:expr; $(<span class="macro-nonterminal">$x</span>:expr),+ $(,)<span class="question-mark">?</span>) =&gt; { ... };
+    () =&gt; { ... };
+    (<span class="macro-nonterminal">$elem</span>:expr; <span class="macro-nonterminal">$n</span>:expr) =&gt; { ... };
+    ($(<span class="macro-nonterminal">$x</span>:expr),+ $(,)<span class="question-mark">?</span>) =&gt; { ... };
+}</code></pre></div>
+</div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Creates a <a href="vec/struct.Vec.html"><code>Vec</code></a> containing the arguments.</p>
+<p><code>vec!</code> allows <code>Vec</code>s to be defined with the same syntax as array expressions.
+There are two forms of this macro:</p>
+<ul>
+<li>Create a <a href="vec/struct.Vec.html"><code>Vec</code></a> containing a given list of elements:</li>
+</ul>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>allocator_api2::vec;
+<span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+<span class="macro">assert_eq!</span>(v[<span class="number">0</span>], <span class="number">1</span>);
+<span class="macro">assert_eq!</span>(v[<span class="number">1</span>], <span class="number">2</span>);
+<span class="macro">assert_eq!</span>(v[<span class="number">2</span>], <span class="number">3</span>);</code></pre></div>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>allocator_api2::{vec, alloc::Global};
+<span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="kw">in </span>Global; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+<span class="macro">assert_eq!</span>(v[<span class="number">0</span>], <span class="number">1</span>);
+<span class="macro">assert_eq!</span>(v[<span class="number">1</span>], <span class="number">2</span>);
+<span class="macro">assert_eq!</span>(v[<span class="number">2</span>], <span class="number">3</span>);</code></pre></div>
+<ul>
+<li>Create a <a href="vec/struct.Vec.html"><code>Vec</code></a> from a given element and size:</li>
+</ul>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>allocator_api2::vec;
+<span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="number">1</span>; <span class="number">3</span>];
+<span class="macro">assert_eq!</span>(v, [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]);</code></pre></div>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>allocator_api2::{vec, alloc::Global};
+<span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="kw">in </span>Global; <span class="number">1</span>; <span class="number">3</span>];
+<span class="macro">assert_eq!</span>(v, [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]);</code></pre></div>
+<p>Note that unlike array expressions this syntax supports all elements
+which implement <a href="https://doc.rust-lang.org/1.65.0/core/clone/trait.Clone.html" title="Clone"><code>Clone</code></a> and the number of elements doesn’t have to be
+a constant.</p>
+<p>This will use <code>clone</code> to duplicate an expression, so one should be careful
+using this with types having a nonstandard <code>Clone</code> implementation. For
+example, <code>vec![Rc::new(1); 5]</code> will create a vector of five references
+to the same boxed integer value, not five references pointing to independently
+boxed integers.</p>
+<p>Also, note that <code>vec![expr; 0]</code> is allowed, and produces an empty vector.
+This will still evaluate <code>expr</code>, however, and immediately drop the resulting value, so
+be mindful of side effects.</p>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="allocator_api2" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>
