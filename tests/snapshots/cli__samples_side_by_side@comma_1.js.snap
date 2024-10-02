@@ -1,0 +1,20 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/comma_1.js
+---
+[1m[93msample_files/comma_2.js[39m[0m[2m --- JavaScript[0m
+[2m10 [0m[94;3m * @param {Function} comparator The comparator invoked per element.[0m          [2m10 [0m[94;3m * @param {Function} comparator The comparator invoked per element.[0m
+[2m11 [0m[94;3m * @returns {boolean} Returns `true` if `target` is found, else `false`.[0m     [2m11 [0m[94;3m * @returns {boolean} Returns `true` if `target` is found, else `false`.[0m
+[2m12 [0m[94;3m */[0m                                                                          [2m12 [0m[94;3m */[0m
+[91;1m13 [0m[1mfunction[0m arrayIncludesWith(array, [91mvalue[0m, comparator) {                       [92;1m13 [0m[1mfunction[0m arrayIncludesWith(array, [92mtarget[0m, comparator) {
+[91;1m14 [0m  [91;1mlet[0m [91mindex[0m [91;1m=[0m [91;1m-[0m[91m1[0m                                                             [2m.. [0m
+[91;1m15 [0m  [91;1mconst[0m [91mlength[0m [91;1m=[0m array [1m==[0m [1mnull[0m [91m?[0m [91m0[0m [91m:[0m [91marray[0m[91m.[0m[91mlength[0m                            [92;1m14 [0m  [92;1mif[0m [92;1m([0marray [1m==[0m [1mnull[0m[92;1m)[0m [92;1m{[0m
+[2m.. [0m                                                                             [92;1m15 [0m    [92;1mreturn[0m [92;1mfalse[0m
+[2m.. [0m                                                                             [92;1m16 [0m  [92;1m}[0m
+[2m16 [0m                                                                             [2m17 [0m
+[91;1m17 [0m  [91;1mwhile[0m ([91;1m++[0m[91mindex[0m [91;1m<[0m [91mlength[0m) {                                                 [92;1m18 [0m  [92;1mfor[0m ([92;1mconst[0m [92mvalue[0m [92;1mof[0m [92marray[0m) {
+[91;1m18 [0m    [1mif[0m (comparator(value[91m,[0m [91marray[0m[91;1m[[0m[91mindex[0m[91;1m][0m)) {                                   [92;1m19 [0m    [1mif[0m (comparator([92mtarget[0m[92m,[0m value)) {
+[2m19 [0m      [1mreturn[0m [1mtrue[0m                                                            [2m20 [0m      [1mreturn[0m [1mtrue[0m
+[2m20 [0m    }                                                                        [2m21 [0m    }
+[2m21 [0m  }                                                                          [2m22 [0m  }

@@ -1,0 +1,33 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/simple_1.scss
+---
+[1m[93msample_files/simple_2.scss[39m[0m[2m --- 1/2 --- SCSS[0m
+[91;1m 1 [0m@mixin buttons($basicBorder:1px, $gradient1:[91m#fff[0m, $gradient2:[95m#d8dee7[0m){       [92;1m 1 [0m@mixin buttons($basicBorder:1px, $gradient1:[92m#333[0m, $gradient2:[95m#d8dee7[0m){
+[2m 2 [0m  [1mbutton[0m{                                                                    [2m 2 [0m  [1mbutton[0m{
+[91;1m 3 [0m    border:$basicBorder [91msolid[0m [95m#acbed3[0m;                                       [92;1m 3 [0m    border:$basicBorder [92mdotted[0m [95m#acbed3[0m;
+[2m 4 [0m    [94;3m//brings in Compass' background-image mixin:  http://compass-style.org/r[0m [2m 4 [0m    [94;3m//brings in Compass' background-image mixin:  http://compass-style.org/r[0m
+[2m[2m . [0m[0m[94;3meference/compass/css3/images/[0m                                                [2m[2m . [0m[0m[94;3meference/compass/css3/images/[0m
+[2m 5 [0m    @include background-image(linear-gradient($gradient1, $gradient2));      [2m 5 [0m    @include background-image(linear-gradient($gradient1, $gradient2));
+[2m 6 [0m    padding:3px 14px;                                                        [2m 6 [0m    padding:3px 14px;
+[91;1m 7 [0m    font-size:[91m12px[0m;                                                          [92;1m 7 [0m    font-size:[92m1rem[0m;
+[2m 8 [0m    color:[95m#3b557d[0m;                                                           [2m 8 [0m    color:[95m#3b557d[0m;
+[2m 9 [0m    [94;3m//brings in Compass' border-radius mixin: http://compass-style.org/refer[0m [2m 9 [0m    [94;3m//brings in Compass' border-radius mixin: http://compass-style.org/refer[0m
+[2m[2m . [0m[0m[94;3mence/compass/css3/border_radius/[0m                                             [2m[2m . [0m[0m[94;3mence/compass/css3/border_radius/[0m
+[2m10 [0m    @include border-radius($border-radius, $border-radius);                  [2m10 [0m    @include border-radius($border-radius, $border-radius);
+
+[1msample_files/simple_2.scss[0m[2m --- 2/2 --- SCSS[0m
+[2m13 [0m    [94;3m//& attribute adds [0m                                                      [2m13 [0m    [94;3m//& attribute adds [0m
+[2m14 [0m                                                                             [2m14 [0m    
+[2m15 [0m    [1m&[0m.primary {                                                              [2m15 [0m    [1m&[0m.primary {
+[91;1m16 [0m      border:2px [91msolid[0m [95m#3b557d[0m;                                              [92;1m16 [0m      border:2px [92mdotted[0m [95m#3b557d[0m; 
+[2m17 [0m      padding:5px 15px;                                                      [2m17 [0m      padding:5px 15px; 
+[2m18 [0m      [94;3m//requires a $border-radius variable[0m                                   [2m18 [0m      [94;3m//requires a $border-radius variable[0m
+[2m19 [0m      @include border-radius($border-radius [1m+[0m 2, $border-radius [1m+[0m 2);        [2m19 [0m      @include border-radius($border-radius [1m+[0m 2, $border-radius [1m+[0m 2); 
+[2m20 [0m    }                                                                        [2m20 [0m    }
+[2m21 [0m    [1m&[0m.disabled {                                                             [2m21 [0m    [1m&[0m.disabled {
+[91;1m22 [0m      opacity: [91m.8[0m;                                                           [92;1m22 [0m      opacity: [92m.6[0m;
+[2m23 [0m    }                                                                        [2m23 [0m    }
+[2m24 [0m    [1m&[0m:hover {                                                                [2m24 [0m    [1m&[0m:hover {
+[2m25 [0m      @include background-image(linear-gradient($gradient2, $gradient1));    [2m25 [0m      @include background-image(linear-gradient($gradient2, $gradient1));

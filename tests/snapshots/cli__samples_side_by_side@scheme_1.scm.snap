@@ -1,0 +1,10 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/scheme_1.scm
+---
+[1m[93msample_files/scheme_2.scm[39m[0m[2m --- Scheme[0m
+[91;1m1 [0m[91m|# A block comment before a very simple function. #|[0m                          [92;1m1 [0m[92m|# A block comment before a simple function, but changed. #|[0m
+[91;1m2 [0m([1mdefine[0m ([91madd[0m x y)                       [91;3m;[0m[91;3m [0m[91;3mThis[0m[91;3m [0m[91;3mfunction[0m[91;3m [0m[91;3mreturns[0m[91;3m [0m[91;3mthe[0m[91;3m [0m[91;1;3;4msum[0m[91;3m [0m[91;3mof[0m[91;3m [0m[91;3mit[0m [92;1m2 [0m([1mdefine[0m ([92msub[0m x y)                       [92;3m;[0m[92;3m [0m[92;3mThis[0m[92;3m [0m[92;3mfunction[0m[92;3m [0m[92;3mreturns[0m[92;3m [0m[92;3mthe[0m[92;3m [0m[92;1;3;4mdifferenc[0m
+[91;1m[2m. [0m[0m[91;3ms[0m[91;3m [0m[91;3marguments[0m                                                                   [92;1m[2m. [0m[0m[92;1;3;4me[0m[92;3m [0m[92;3mof[0m[92;3m [0m[92;3mits[0m[92;3m [0m[92;3marguments[0m
+[91;1m3 [0m  ([91;1m+[0m x y))                                                                    [92;1m3 [0m  ([92;1m-[0m x y))
