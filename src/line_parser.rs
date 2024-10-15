@@ -150,7 +150,12 @@ fn line_len_in_bytes(line: &str) -> usize {
     }
 }
 
-// TODO: Prefer src/opposite_src nomenclature as this function is called from both sides.
+/// Build a vec of MatchedPos, performing a textual diff. Match up
+/// unchanged lines, and match up unchanged words within novel lines.
+///
+/// The resulting vec only has novel items from the LHS. Callers
+/// should do `change_positions(rhs_src, lhs_src)` to obtain
+/// novel MatchedPos values for the RHS.
 pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
     // TODO: If either side is "", don't split each line by words
     // pointlessly. This is common for file additions/removals.
