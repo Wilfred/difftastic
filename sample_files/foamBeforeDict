@@ -1,0 +1,16 @@
+// OpenFOAM comment
+
+SampleDictName {
+    key 5;
+    internalField uniform (0 0 1.2);
+}
+
+runTimeVal #calc "3*$SampleDictName.key";
+
+phases ( oil air );
+
+code
+#{
+    // C++ comment
+    const auto a = doSomething();
+#};
