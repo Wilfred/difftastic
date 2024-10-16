@@ -72,7 +72,7 @@ tree_magic_mini = "3.1.5"
 # home (used by tree_magic_mini) 0.5.9 has an MSRV of 1.70.
 home = ">= 0.5, < 0.5.9"
 
-# bumpalo 3.15 requires rust 1.65
+# bumpalo 3.15.x requires rust 1.73.
 bumpalo = ">= 3.11, < 3.15"
 unicode-width = "0.1.9"
 crossterm = { version = "0.27.0", features = ["windows"] }
