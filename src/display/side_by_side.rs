@@ -168,7 +168,11 @@ struct SourceDimensions {
 }
 
 impl SourceDimensions {
-    fn new(terminal_width: usize, line_nums: &[(Option<LineNumber>, Option<LineNumber>)]) -> Self {
+    fn new(
+        terminal_width: usize,
+        line_nums: &[(Option<LineNumber>, Option<LineNumber>)],
+        content_max_width: usize,
+    ) -> Self {
         let mut lhs_max_line: LineNumber = 1.into();
         let mut rhs_max_line: LineNumber = 1.into();
 
@@ -184,11 +188,27 @@ impl SourceDimensions {
         let lhs_line_nums_width = format_line_num(lhs_max_line).len();
         let rhs_line_nums_width = format_line_num(rhs_max_line).len();
 
+        // If the file lines are extremely short, treat them as if
+        // they have a line of 25 characters.
+        let content_max_width = min(content_max_width, 25);
+
+        // If the terminal is very wide, we don't want to use the full
+        // 50% for the LHS column, we end up with too much space
+        // between LHS and RHS.
+        //
+        // Instead, cap the display width based on the maximum length
+        // of lines within the file.
+        //
+        // This is a crude heuristic because it ignores which lines of
+        // the file actually get displayed, so we can still end up
+        // with some superfluous space
+        let display_width = min(terminal_width, (content_max_width + 4) * 2 + SPACER.len());
+
         assert!(
-            terminal_width > SPACER.len(),
+            display_width > SPACER.len(),
             "Terminal total width should not overflow"
         );
-        let lhs_total_width = (terminal_width - SPACER.len()) / 2;
+        let lhs_total_width = (display_width - SPACER.len()) / 2;
 
         let lhs_content_width = if lhs_line_nums_width < lhs_total_width {
             lhs_total_width - lhs_line_nums_width
@@ -201,7 +221,7 @@ impl SourceDimensions {
 
         let rhs_content_width = max(
             1,
-            terminal_width as isize
+            display_width as isize
                 - lhs_total_width as isize
                 - SPACER.len() as isize
                 - rhs_line_nums_width as isize,
@@ -319,6 +339,14 @@ pub(crate) fn print(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) {
+    let mut content_max_width: usize = 0;
+    for line in lhs_src.lines() {
+        content_max_width = max(content_max_width, line.len());
+    }
+    for line in rhs_src.lines() {
+        content_max_width = max(content_max_width, line.len());
+    }
+
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
             apply_colors(
@@ -450,7 +478,11 @@ pub(crate) fn print(
         let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let source_dims = SourceDimensions::new(display_options.terminal_width, aligned_lines);
+        let source_dims = SourceDimensions::new(
+            display_options.terminal_width,
+            aligned_lines,
+            content_max_width,
+        );
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
                 *lhs_line_num,
@@ -616,7 +648,7 @@ mod tests {
     #[test]
     fn test_width_calculations() {
         let line_nums = [(Some(1.into()), Some(10.into()))];
-        let source_dims = SourceDimensions::new(DEFAULT_TERMINAL_WIDTH, &line_nums);
+        let source_dims = SourceDimensions::new(DEFAULT_TERMINAL_WIDTH, &line_nums, 9999);
 
         assert_eq!(source_dims.lhs_line_nums_width, 2);
         assert_eq!(source_dims.rhs_line_nums_width, 3);
@@ -630,6 +662,7 @@ mod tests {
                 (Some(0.into()), Some(0.into())),
                 (Some(1.into()), Some(1.into())),
             ],
+            9999,
         );
 
         assert_eq!(
@@ -650,6 +683,7 @@ mod tests {
                 (Some(0.into()), Some(0.into())),
                 (Some(1.into()), Some(1.into())),
             ],
+            9999,
         );
 
         assert_eq!(
