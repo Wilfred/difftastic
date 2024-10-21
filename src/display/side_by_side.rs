@@ -154,7 +154,7 @@ fn display_line_nums(
 struct SourceDimensions {
     /// The number of characters used to display source lines. Any
     /// line that exceeds this length will be wrapped.
-    content_width: usize,
+    content_display_width: usize,
     /// The number of characters required to display line numbers on
     /// the LHS.
     lhs_line_nums_width: usize,
@@ -213,7 +213,7 @@ impl SourceDimensions {
         let content_width = min(lhs_content_width, rhs_content_width);
 
         Self {
-            content_width,
+            content_display_width: content_width,
             lhs_line_nums_width,
             rhs_line_nums_width,
             lhs_max_line,
@@ -521,17 +521,17 @@ pub(crate) fn print(
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
                         lhs_lines[lhs_line_num.as_usize()],
-                        source_dims.content_width,
+                        source_dims.content_display_width,
                         display_options.tab_width,
                         lhs_highlights.get(lhs_line_num).unwrap_or(&vec![]),
                         Side::Left,
                     ),
-                    None => vec![" ".repeat(source_dims.content_width)],
+                    None => vec![" ".repeat(source_dims.content_display_width)],
                 };
                 let rhs_line = match rhs_line_num {
                     Some(rhs_line_num) => split_and_apply(
                         rhs_lines[rhs_line_num.as_usize()],
-                        source_dims.content_width,
+                        source_dims.content_display_width,
                         display_options.tab_width,
                         rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
                         Side::Right,
@@ -544,7 +544,7 @@ pub(crate) fn print(
                     .enumerate()
                 {
                     let lhs_line =
-                        lhs_line.unwrap_or_else(|| " ".repeat(source_dims.content_width));
+                        lhs_line.unwrap_or_else(|| " ".repeat(source_dims.content_display_width));
                     let rhs_line = rhs_line.unwrap_or_else(|| "".into());
                     let lhs_num: String = if i == 0 {
                         display_lhs_line_num.clone()
