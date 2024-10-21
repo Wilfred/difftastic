@@ -373,16 +373,21 @@ fn diff_file(
         rhs_src.retain(|c| c != '\r');
     }
 
-    // If "foo" is one line, is "foo\n" two lines? Generally we want
-    // to care about newlines when deciding whether content differs.
+    // Ensure that lhs_src and rhs_src both have trailing
+    // newlines.
     //
-    // Ending a file with a trailing newline is extremely common
-    // though. If both files have a trailing newline, consider "foo\n"
-    // to be "foo" so we don't end up displaying a blank line on both
-    // sides.
-    if lhs_src.ends_with('\n') && rhs_src.ends_with('\n') {
-        lhs_src.pop();
-        rhs_src.pop();
+    // This is important when textually diffing files that don't have
+    // a trailing newline, e.g. "foo\n\bar\n" versus "foo". We want to
+    // consider `foo` to be unchanged in this case.
+    //
+    // Theoretically a tree-sitter parser coud change its AST due to
+    // the additional trailing newline, but it seems vanishingly
+    // unlikely.
+    if !lhs_src.is_empty() && !lhs_src.ends_with('\n') {
+        lhs_src.push('\n');
+    }
+    if !rhs_src.is_empty() && !rhs_src.ends_with('\n') {
+        rhs_src.push('\n');
     }
 
     let mut extra_info = renamed;

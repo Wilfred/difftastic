@@ -5,7 +5,7 @@ sample_files/ada_1.adb sample_files/ada_2.adb
 eb3b0e12e239ae33789136380e81406b  -
 
 sample_files/added_line_1.txt sample_files/added_line_2.txt
-f935214c79833318d39364145d36d8e2  -
+8a1587e6b5fc53f2ec2ac665a5d00372  -
 
 sample_files/align_footer_1.txt sample_files/align_footer_2.txt
 d640bd2de31e56a39f0efb92aff0f379  -
@@ -23,7 +23,7 @@ sample_files/bad_combine_1.rs sample_files/bad_combine_2.rs
 f5051bf7d2b8afa3a677388cbd458891  -
 
 sample_files/big_text_hunk_1.txt sample_files/big_text_hunk_2.txt
-dcc22684c2a200afdd583d621b47dfa3  -
+fc26d41a5ff771670e04033b177973d2  -
 
 sample_files/change_outer_1.el sample_files/change_outer_2.el
 2b9334a4cc72da63bba28eff958f0038  -
@@ -74,7 +74,7 @@ sample_files/erlang_1.erl sample_files/erlang_2.erl
 dccdb8f65d2f099ab1a8cb66011376a2  -
 
 sample_files/f_sharp_1.fs sample_files/f_sharp_2.fs
-1a9173c15a42c1ebb9522109df172faf  -
+0a6651925acadf366f213d15968ae353  -
 
 sample_files/hack_1.php sample_files/hack_2.php
 c2bb0aa7d7b07d6ced79f6a5363e878b  -
@@ -215,7 +215,7 @@ sample_files/racket_1.rkt sample_files/racket_2.rkt
 605aec93fa7b89d08e5d8ed56ad3c1be  -
 
 sample_files/repeated_line_no_eol_1.txt sample_files/repeated_line_no_eol_2.txt
-ac714893a2d28dc0204855d308972ccd  -
+3786f55d2c9b1897e866b4602e50408d  -
 
 sample_files/ruby_1.rb sample_files/ruby_2.rb
 d4d591902030355656f5c18c78f965a6  -
@@ -302,5 +302,5 @@ sample_files/yaml_1.yaml sample_files/yaml_2.yaml
 f068239fc7bade0e6de96d81136c1ac5  -
 
 sample_files/zig_1.zig sample_files/zig_2.zig
-e36d1ea126b8b68e3344434bb63f205e  -
+4516796003b81f35bfa57d84bb7c0cbe  -
 

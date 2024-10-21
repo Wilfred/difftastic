@@ -407,8 +407,15 @@ pub(crate) fn print(
     let mut prev_lhs_line_num = None;
     let mut prev_rhs_line_num = None;
 
-    let lhs_lines = split_on_newlines(lhs_src).collect::<Vec<_>>();
-    let rhs_lines = split_on_newlines(rhs_src).collect::<Vec<_>>();
+    let mut lhs_lines = split_on_newlines(lhs_src).collect::<Vec<_>>();
+    let mut rhs_lines = split_on_newlines(rhs_src).collect::<Vec<_>>();
+
+    if lhs_lines.last() == Some(&"") && lhs_lines.len() > 1 {
+        lhs_lines.pop();
+    }
+    if rhs_lines.last() == Some(&"") && rhs_lines.len() > 1 {
+        rhs_lines.pop();
+    }
 
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
     let mut matched_lines_to_print = &matched_lines[..];
