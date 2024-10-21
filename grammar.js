@@ -21,6 +21,8 @@ module.exports = grammar({
     [$.source_file],
     [$._constant_value, $._case_clause_guard_unit],
     [$.integer],
+    [$.pipeline_echo, $.echo],
+    [$.echo],
   ],
   rules: {
     /* General rules */
@@ -298,7 +300,13 @@ module.exports = grammar({
         binaryExpr(prec.left, 4, ">=", $._expression),
         binaryExpr(prec.left, 4, ">.", $._expression),
         binaryExpr(prec.left, 4, ">=.", $._expression),
-        binaryExpr(prec.left, 5, "|>", $._expression),
+        binaryExpr(
+          prec.left,
+          5,
+          "|>",
+          $._expression,
+          choice($.pipeline_echo, $._expression)
+        ),
         binaryExpr(prec.left, 6, "+", $._expression),
         binaryExpr(prec.left, 6, "+.", $._expression),
         binaryExpr(prec.left, 6, "-", $._expression),
@@ -330,6 +338,7 @@ module.exports = grammar({
         $.todo,
         $.panic,
         $.tuple,
+        $.echo,
         $.list,
         alias($._expression_bit_string, $.bit_string),
         $.anonymous_function,
@@ -369,6 +378,8 @@ module.exports = grammar({
           )
         )
       ),
+    pipeline_echo: (_$) => " echo",
+    echo: ($) => seq("echo", $._expression),
     tuple: ($) => seq("#", "(", optional(series_of($._expression, ",")), ")"),
     list: ($) =>
       seq(

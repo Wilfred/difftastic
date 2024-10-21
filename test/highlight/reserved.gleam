@@ -12,5 +12,3 @@ macro
 // <- error
 test
 // <- error
-echo
-// <- error

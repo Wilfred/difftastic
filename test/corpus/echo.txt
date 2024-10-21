@@ -1,0 +1,66 @@
+================================================================================
+Echo with expression
+================================================================================
+
+pub fn main() {
+  echo 1
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (function_body
+      (echo
+        (integer)))))
+
+================================================================================
+Echo in pipeline
+================================================================================
+
+pub fn main() {
+  []
+  |> echo
+  |> panic
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (function_body
+      (binary_expression
+        (binary_expression
+          (list)
+          (pipeline_echo))
+        (panic)))))
+
+================================================================================
+Echo last in pipeline
+================================================================================
+
+pub fn main() {
+  []
+  |> echo
+
+  1
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (function_body
+      (binary_expression
+        (list)
+        (pipeline_echo))
+      (integer))))

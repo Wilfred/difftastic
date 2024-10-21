@@ -73,7 +73,7 @@
 ; TODO: when tree-sitter supports `#any-of?` in the Rust bindings,
 ; refactor this to use `#any-of?` rather than `#match?`
 ((identifier) @error
- (#match? @error "^(auto|delegate|derive|else|implement|macro|test|echo)$"))
+ (#match? @error "^(auto|delegate|derive|else|implement|macro|test)$"))
 
 ; Variables
 (identifier) @variable
@@ -87,6 +87,7 @@
   "assert"
   "case"
   "const"
+  "echo"
   ; DEPRECATED: 'external' was removed in v0.30.
   "external"
   "fn"
