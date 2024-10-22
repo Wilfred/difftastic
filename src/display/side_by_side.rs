@@ -190,7 +190,7 @@ impl SourceDimensions {
 
         // If the file lines are extremely short, treat them as if
         // they have a line of 25 characters.
-        let content_max_width = min(content_max_width, 25);
+        let content_max_width = max(content_max_width, 25);
 
         // If the terminal is very wide, we don't want to use the full
         // 50% for the LHS column, we end up with too much space
