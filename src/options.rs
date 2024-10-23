@@ -94,7 +94,8 @@ impl Default for DiffOptions {
 fn app() -> clap::Command<'static> {
     Command::new("Difftastic")
         .override_usage(USAGE)
-        .version(VERSION.as_str())
+        .version(env!("CARGO_PKG_VERSION"))
+        .long_version(VERSION.as_str())
         .about(crate_description!())
         .author(crate_authors!())
         .after_long_help(concat!(
