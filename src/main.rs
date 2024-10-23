@@ -19,6 +19,9 @@
 // implementation does not consider the mutable fields, so it is still
 // correct.
 #![allow(clippy::mutable_key_type)]
+// It's sometimes more readable to explicitly create a vec than to use
+// the Default trait.
+#![allow(clippy::manual_unwrap_or_default)]
 // .to_owned() is more explicit on string references.
 #![warn(clippy::str_to_string)]
 // .to_string() on a String is clearer as .clone().
