@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [Unreleased](https://github.com/elixir-lang/tree-sitter-elixir/tree/main)
+
+### Added
+
+* Support for ~LVN sigils (LiveView Native templates) in the built-in injections ([#75](https://github.com/elixir-lang/tree-sitter-elixir/pull/75))
+
 ## [v0.3.1](https://github.com/elixir-lang/tree-sitter-elixir/tree/v0.3.1) (2024-09-28)
 
 ### Changed
