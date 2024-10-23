@@ -4,6 +4,11 @@
 `~/.gitconfig` to match the manual, regardless of your difftastic
 version.**
 
+### Display
+
+Side-by-side display is now smarter on very wide terminals when the
+content is narrow.
+
 ### Diffing
 
 Fixed a crash (introduced in 0.60) when the final line in a file does
