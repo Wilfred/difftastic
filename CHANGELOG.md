@@ -1,4 +1,6 @@
-## 0.61 (unreleased)
+## 0.62 (unreleased)
+
+## 0.61 (released 24th October 2024)
 
 **Recommended git configuration has changed! Please update your
 `~/.gitconfig` to [match the git
