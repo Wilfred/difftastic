@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["context","Calculate which nearby lines should also be displayed."],["hunks","Calculating which modified lines should be displayed together."],["inline","Inline, or “unified” diff display."],["json",""],["side_by_side","Side-by-side (two column) display of diffs."],["style","Apply colours and styling to strings."]]};

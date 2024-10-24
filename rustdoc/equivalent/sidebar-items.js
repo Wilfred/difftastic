@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"trait":[["Comparable","Key ordering trait."],["Equivalent","Key equivalence trait."]]};
