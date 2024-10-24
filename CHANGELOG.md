@@ -1,8 +1,9 @@
 ## 0.61 (unreleased)
 
 **Recommended git configuration has changed! Please update your
-`~/.gitconfig` to match the manual, regardless of your difftastic
-version.**
+`~/.gitconfig` to [match the git
+instructions](https://difftastic.wilfred.me.uk/git.html), regardless
+of your difftastic version.**
 
 ### Display
 
