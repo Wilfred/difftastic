@@ -52,6 +52,12 @@ $ sudo pkg install difftastic
 
 ### Windows
 
+If you're a Windows user using **Windows Package Manager** (*WinGet*), you can install difftastic with `winget`.
+
+```
+$ winget install difftastic
+```
+
 If you're a Windows user using **Scoop**, you can install
 [difftastic](https://scoop.sh/#/apps?q=difftastic)
 with `scoop`.
