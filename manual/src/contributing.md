@@ -30,6 +30,8 @@ This website is generated with
 [mdbook](https://github.com/rust-lang/mdBook/). mdbook can be
 installed with Cargo.
 
+*Note: difftastic uses an older Rust toolchain version. You have to run `cargo install mdbook` outside of the repository directory. Otherwise, installation fails.*
+
 ```
 $ cargo install mdbook
 ```
