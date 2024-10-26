@@ -5,7 +5,7 @@ Diffstatic can be installed as pre-built binaries or using various package manag
 ## Pre-Built Binaries
 
 Diffstatic releases are published as [GitHub releases](https://github.com/Wilfred/difftastic/releases) with pre-built binaries for Windows, macOS and Linux.
-The [latest release page](https://github.com/Wilfred/difftastic/releases/latest) should have what you are looking for.
+Open the [latest release page](https://github.com/Wilfred/difftastic/releases/latest), download the file matching your OS and CPU architecture, and extract the `difft` executable application file.
 
 ## Package Manager
 
