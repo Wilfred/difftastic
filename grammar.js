@@ -21,7 +21,6 @@ module.exports = grammar({
     [$.source_file],
     [$._constant_value, $._case_clause_guard_unit],
     [$.integer],
-    [$.pipeline_echo, $.echo],
     [$.echo],
   ],
   rules: {
@@ -378,7 +377,7 @@ module.exports = grammar({
           )
         )
       ),
-    pipeline_echo: (_$) => " echo",
+    pipeline_echo: (_$) => prec.left("echo"),
     echo: ($) => seq("echo", $._expression),
     tuple: ($) => seq("#", "(", optional(series_of($._expression, ",")), ")"),
     list: ($) =>
