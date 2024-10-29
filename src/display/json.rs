@@ -150,7 +150,12 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                         }
                     }
 
-                    chunks.push(lines.into_values().collect());
+                    chunks.push(
+                        aligned_lines
+                            .iter()
+                            .filter_map(|(l, r)| lines.remove(&(l.map(|l| l.0), r.map(|r| r.0))))
+                            .collect(),
+                    );
                 }
 
                 File::with_sections(&summary.file_format, &summary.display_path, chunks)
