@@ -64,3 +64,49 @@ pub fn main() {
         (list)
         (pipeline_echo))
       (integer))))
+
+================================================================================
+Echo precedence with pipes
+================================================================================
+
+pub fn main() {
+  echo 1 |> 2
+  3
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (function_body
+      (echo
+        (binary_expression
+          (integer)
+          (integer)))
+      (integer))))
+
+================================================================================
+Echo precedence with binop
+================================================================================
+
+pub fn main() {
+  echo 1 + 2
+  3
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (function_body
+      (echo
+        (binary_expression
+          (integer)
+          (integer)))
+      (integer))))
