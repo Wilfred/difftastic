@@ -33,7 +33,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up tree-sitter
-        uses: tree-sitter/setup-action/cli@v1
+        uses: tree-sitter/setup-action/cli@v2
       - name: Run parser and binding tests
         uses: tree-sitter/parser-test-action@v2
         with:
@@ -66,7 +66,7 @@ jobs:
             printf 'changed=true\n' >> "$GITHUB_OUTPUT"
           fi
       - name: Set up tree-sitter
-        uses: tree-sitter/setup-action/cli@v1
+        uses: tree-sitter/setup-action/cli@v2
         if: steps.scanner-check.outputs.changed == 'true'
       - name: Run parser and binding tests
         uses: tree-sitter/parser-test-action@v2
@@ -91,7 +91,7 @@ jobs:
         with:
           path: new
       - name: Set up tree-sitter
-        uses: tree-sitter/setup-action/cli@v1
+        uses: tree-sitter/setup-action/cli@v2
       - name: Generate parser.c for old version
         run: tree-sitter generate --no-bindings
         working-directory: old
