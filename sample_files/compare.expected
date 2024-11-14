@@ -1,5 +1,5 @@
 sample_files/Session_1.kt sample_files/Session_2.kt
-7f12794f0cd13609984eca50002cc38c  -
+a5899a29b0ebb0800923ac368b95fa1e  -
 
 sample_files/ada_1.adb sample_files/ada_2.adb
 eb3b0e12e239ae33789136380e81406b  -
@@ -41,7 +41,7 @@ sample_files/comma_and_comment_1.js sample_files/comma_and_comment_2.js
 0a5ccbcd368607e62eaff0c4ae25049f  -
 
 sample_files/comments_1.rs sample_files/comments_2.rs
-4e1515be02b2e14bcd7bcaca3520a542  -
+a75827163654d6aed8f837bb586e733c  -
 
 sample_files/context_1.rs sample_files/context_2.rs
 e59180fa7029db7939222cb61c95c97c  -
@@ -65,7 +65,7 @@ sample_files/elisp_contiguous_1.el sample_files/elisp_contiguous_2.el
 4a5a33873a4f84ee055d95e1448fba35  -
 
 sample_files/elm_1.elm sample_files/elm_2.elm
-f16895057138c5e720e656e9c3d9c52b  -
+ccc1f4bb568cd72781dbcd623b612c43  -
 
 sample_files/elvish_1.elv sample_files/elvish_2.elv
 b1ad27b8907793632e235878f154b1af  -
@@ -74,7 +74,7 @@ sample_files/erlang_1.erl sample_files/erlang_2.erl
 dccdb8f65d2f099ab1a8cb66011376a2  -
 
 sample_files/f_sharp_1.fs sample_files/f_sharp_2.fs
-ff1cccc272e2b4eb160fae1f809cbc0d  -
+a9251656c7808ec0e3411fbbd189f5aa  -
 
 sample_files/hack_1.php sample_files/hack_2.php
 c2bb0aa7d7b07d6ced79f6a5363e878b  -
@@ -89,7 +89,7 @@ sample_files/hcl_1.hcl sample_files/hcl_2.hcl
 f3961a9d1e6eb972ca2b8ed3683b4685  -
 
 sample_files/hello_world_1.smali sample_files/hello_world_2.smali
-296286b067e86cccfad1fa9a0440993b  -
+fb8be66657ea8773c9eeec231ba5340b  -
 
 sample_files/helpful_1.el sample_files/helpful_2.el
 056471124ae2e582942e214ce9222477  -
@@ -170,7 +170,7 @@ sample_files/nested_slider_1.el sample_files/nested_slider_2.el
 f68f8b8c09afb86965d5e54519f2d881  -
 
 sample_files/nested_slider_1.rs sample_files/nested_slider_2.rs
-e9045007a25352eb81655458aebb452c  -
+342df46db959e8c90925ff4400c0fa63  -
 
 sample_files/nesting_1.el sample_files/nesting_2.el
 cf32f6b798a080a2bf14a430337ac4a6  -
@@ -245,7 +245,7 @@ sample_files/slider_at_end_1.json sample_files/slider_at_end_2.json
 cb370f1c0ccc5e155743330629f899f0  -
 
 sample_files/slow_1.rs sample_files/slow_2.rs
-2e76c128e008d5d255fdd29562208abc  -
+7a74881e854d68763769991c6445698a  -
 
 sample_files/small_1.js sample_files/small_2.js
 42506285003bb4eacdb2f8d3bd1b07bb  -
@@ -257,7 +257,7 @@ sample_files/strings_1.el sample_files/strings_2.el
 7e136d188ce03cc8fba2b1530a502ffc  -
 
 sample_files/swift_1.swift sample_files/swift_2.swift
-d31e3d17538b5508d10bd9aa8f7f4159  -
+73830b14bd8aacac8d4590a3bed61c40  -
 
 sample_files/syntax_error_1.js sample_files/syntax_error_2.js
 5bbd81f688bdcfbdbdf69d870f0c1357  -
@@ -287,7 +287,7 @@ sample_files/typescript_1.ts sample_files/typescript_2.ts
 fee7ee33d2037ad1941ba6bb5532a1db  -
 
 sample_files/typing_1.ml sample_files/typing_2.ml
-36161bd77a8c86643bc90656ec41c92c  -
+28bf693af81e1c45ff9ee47ac29895ef  -
 
 sample_files/utf16_1.py sample_files/utf16_2.py
 3bcee785d4cebc38a42eafe49a198b52  -

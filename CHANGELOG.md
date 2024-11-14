@@ -6,6 +6,10 @@ Improved handling of multiline strings, which could cause a crash if
 they occurred at the end of the file. This was particularly noticeable
 with YAML.
 
+### Syntax Highlighting
+
+Improved syntax highlighting, particularly for keywords.
+
 ## 0.61 (released 24th October 2024)
 
 **Recommended git configuration has changed! Please update your
