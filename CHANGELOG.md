@@ -1,5 +1,11 @@
 ## 0.62 (unreleased)
 
+### Diffing
+
+Improved handling of multiline strings, which could cause a crash if
+they occurred at the end of the file. This was particularly noticeable
+with YAML.
+
 ## 0.61 (released 24th October 2024)
 
 **Recommended git configuration has changed! Please update your

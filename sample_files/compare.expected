@@ -160,6 +160,9 @@ f761255d521267ace4f4887a21664a12  -
 sample_files/multiline_string_1.ml sample_files/multiline_string_2.ml
 ed80815053ba156505d156277d0f4195  -
 
+sample_files/multiline_string_eof_1.yml sample_files/multiline_string_eof_2.yml
+ba8a8e7ed2f4b519feaa391fd05c95fe  -
+
 sample_files/nest_1.rs sample_files/nest_2.rs
 d3a799fe2cd9d81aa251c96af5cd9711  -
 

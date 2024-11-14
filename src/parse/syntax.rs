@@ -258,7 +258,11 @@ impl<'a> Syntax<'a> {
             content = &content[..content.len() - 1];
         }
 
-        if kind == AtomKind::Comment && content.ends_with('\n') {
+        // If a parser adds a trailing newline to the atom, discard
+        // it. It produces worse diffs: we'd rather align on real
+        // content, and complicates handling of trailing newlines at
+        // the end of the file.
+        if content.ends_with('\n') {
             position.pop();
             content = &content[..content.len() - 1];
         }
