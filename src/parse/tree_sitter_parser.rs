@@ -1563,6 +1563,7 @@ fn find_delim_positions(
     None
 }
 
+#[derive(Debug)]
 pub(crate) struct HighlightedNodeIds {
     keyword_ids: HashSet<usize>,
     comment_ids: HashSet<usize>,
