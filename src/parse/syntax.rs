@@ -139,7 +139,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 ..
             } => {
                 let mut ds = f.debug_struct(&format!(
-                    "List id:{} content:{}",
+                    "List id:{} content_id:{}",
                     self.id(),
                     self.content_id()
                 ));
@@ -169,7 +169,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 ..
             } => {
                 let mut ds = f.debug_struct(&format!(
-                    "Atom id:{} content:{}",
+                    "Atom id:{} content_id:{}",
                     self.id(),
                     self.content_id()
                 ));
