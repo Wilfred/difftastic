@@ -406,7 +406,7 @@ fn diff_file(
     // a trailing newline, e.g. "foo\n\bar\n" versus "foo". We want to
     // consider `foo` to be unchanged in this case.
     //
-    // Theoretically a tree-sitter parser coud change its AST due to
+    // Theoretically a tree-sitter parser could change its AST due to
     // the additional trailing newline, but it seems vanishingly
     // unlikely.
     if !lhs_src.is_empty() && !lhs_src.ends_with('\n') {
