@@ -161,6 +161,29 @@ fn main() {
                 }
             }
         }
+        Mode::DumpSyntaxDotty {
+            path,
+            ignore_comments,
+            language_overrides,
+        } => {
+            let path = Path::new(&path);
+            let bytes = read_or_die(path);
+            let src = String::from_utf8_lossy(&bytes).to_string();
+
+            let language = guess(path, &src, &language_overrides);
+            match language {
+                Some(lang) => {
+                    let ts_lang = tsp::from_language(lang);
+                    let arena = Arena::new();
+                    let ast = tsp::parse(&arena, &src, &ts_lang, ignore_comments);
+                    init_all_info(&ast, &[]);
+                    syntax::print_as_dot(&ast);
+                }
+                None => {
+                    eprintln!("No tree-sitter parser for file: {:?}", path);
+                }
+            }
+        }
         Mode::ListLanguages {
             use_color,
             language_overrides,

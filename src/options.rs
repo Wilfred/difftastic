@@ -124,6 +124,15 @@ fn app() -> clap::Command<'static> {
                 ).help_heading("DEBUG OPTIONS"),
         )
         .arg(
+            Arg::new("dump-syntax-dotty")
+                .long("dump-syntax-dotty")
+                .takes_value(true)
+                .value_name("PATH")
+                .long_help(
+                    "Parse a single file with tree-sitter and display the difftastic syntax tree, as a dotty graph.",
+                ).help_heading("DEBUG OPTIONS"),
+        )
+        .arg(
             Arg::new("dump-ts")
                 .long("dump-ts")
                 .takes_value(true)
@@ -485,6 +494,11 @@ pub(crate) enum Mode {
         ignore_comments: bool,
         language_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)>,
     },
+    DumpSyntaxDotty {
+        path: String,
+        ignore_comments: bool,
+        language_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)>,
+    },
 }
 
 fn common_path_suffix(lhs_path: &Path, rhs_path: &Path) -> Option<String> {
@@ -638,6 +652,14 @@ pub(crate) fn parse_args() -> Mode {
 
     if let Some(path) = matches.value_of("dump-syntax") {
         return Mode::DumpSyntax {
+            path: path.to_owned(),
+            ignore_comments,
+            language_overrides,
+        };
+    }
+
+    if let Some(path) = matches.value_of("dump-syntax-dotty") {
+        return Mode::DumpSyntaxDotty {
             path: path.to_owned(),
             ignore_comments,
             language_overrides,

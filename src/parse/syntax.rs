@@ -369,6 +369,43 @@ pub(crate) fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a S
     init_next_prev(rhs_roots);
 }
 
+pub(crate) fn print_as_dot<'a>(roots: &[&'a Syntax<'a>]) {
+    println!("digraph {{");
+    print_as_dot_(roots);
+    println!("}}");
+}
+
+fn print_as_dot_<'a>(nodes: &[&'a Syntax<'a>]) {
+    for node in nodes {
+        let label = match node {
+            List {
+                open_content,
+                close_content,
+                ..
+            } => {
+                if open_content != "" {
+                    &format!("[label=\"{open_content}{close_content}\"]")
+                } else {
+                    &"[style=dotted]".to_owned()
+                }
+            }
+            Atom { content, .. } => {
+                let content = content.replace("\"", "\\\"");
+                &format!("[label=\"{content}\"]")
+            }
+        };
+
+        println!("  id{} {};", node.id().get(), label);
+
+        if let List { children, .. } = node {
+            for child in children {
+                println!("  id{} -> id{};", node.id().get(), child.id().get());
+            }
+            print_as_dot_(children);
+        }
+    }
+}
+
 fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     let mut id = NonZeroU32::new(1).unwrap();
     init_info_on_side(lhs_roots, &mut id);
