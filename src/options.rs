@@ -124,12 +124,12 @@ fn app() -> clap::Command<'static> {
                 ).help_heading("DEBUG OPTIONS"),
         )
         .arg(
-            Arg::new("dump-syntax-dotty")
-                .long("dump-syntax-dotty")
+            Arg::new("dump-syntax-dot")
+                .long("dump-syntax-dot")
                 .takes_value(true)
                 .value_name("PATH")
                 .long_help(
-                    "Parse a single file with tree-sitter and display the difftastic syntax tree, as a dotty graph.",
+                    "Parse a single file with tree-sitter and display the difftastic syntax tree, as a DOT graph.",
                 ).help_heading("DEBUG OPTIONS"),
         )
         .arg(
