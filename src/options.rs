@@ -494,7 +494,7 @@ pub(crate) enum Mode {
         ignore_comments: bool,
         language_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)>,
     },
-    DumpSyntaxDotty {
+    DumpSyntaxDot {
         path: String,
         ignore_comments: bool,
         language_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)>,
@@ -659,7 +659,7 @@ pub(crate) fn parse_args() -> Mode {
     }
 
     if let Some(path) = matches.value_of("dump-syntax-dot") {
-        return Mode::DumpSyntaxDotty {
+        return Mode::DumpSyntaxDot {
             path: path.to_owned(),
             ignore_comments,
             language_overrides,

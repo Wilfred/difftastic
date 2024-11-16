@@ -161,7 +161,7 @@ fn main() {
                 }
             }
         }
-        Mode::DumpSyntaxDotty {
+        Mode::DumpSyntaxDot {
             path,
             ignore_comments,
             language_overrides,
