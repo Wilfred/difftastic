@@ -556,7 +556,13 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
 
             match common_path_suffix(lhs, rhs) {
                 Some(common_suffix) => common_suffix,
-                None => rhs.display().to_string(),
+                None => {
+                    if rhs.extension().is_some() {
+                        rhs.display().to_string()
+                    } else {
+                        lhs.display().to_string()
+                    }
+                }
             }
         }
         (FileArgument::NamedPath(p), _) | (_, FileArgument::NamedPath(p)) => {

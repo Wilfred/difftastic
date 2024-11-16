@@ -6,6 +6,10 @@ Improved handling of multiline strings, which could cause a crash if
 they occurred at the end of the file. This was particularly noticeable
 with YAML.
 
+### Parsing
+
+Improved language detection when one argument is a named pipe.
+
 ### Syntax Highlighting
 
 Improved syntax highlighting, particularly for keywords.

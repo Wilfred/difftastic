@@ -546,13 +546,12 @@ fn diff_file_content(
     diff_options: &DiffOptions,
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> DiffResult {
-    let (guess_src, guess_path) = match rhs_path {
-        FileArgument::NamedPath(path) => (&rhs_src, Path::new(path)),
-        FileArgument::Stdin => (&rhs_src, Path::new(&display_path)),
-        FileArgument::DevNull => (&lhs_src, Path::new(&display_path)),
+    let guess_src = match rhs_path {
+        FileArgument::DevNull => &lhs_src,
+        _ => &rhs_src,
     };
 
-    let language = guess(guess_path, guess_src, overrides);
+    let language = guess(Path::new(display_path), guess_src, overrides);
     let lang_config = language.map(|lang| (lang, tsp::from_language(lang)));
 
     if lhs_src == rhs_src {
