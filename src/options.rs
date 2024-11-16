@@ -658,7 +658,7 @@ pub(crate) fn parse_args() -> Mode {
         };
     }
 
-    if let Some(path) = matches.value_of("dump-syntax-dotty") {
+    if let Some(path) = matches.value_of("dump-syntax-dot") {
         return Mode::DumpSyntaxDotty {
             path: path.to_owned(),
             ignore_comments,
