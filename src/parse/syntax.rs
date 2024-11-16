@@ -384,14 +384,14 @@ fn print_as_dot_<'a>(nodes: &[&'a Syntax<'a>]) {
                 ..
             } => {
                 if open_content != "" {
-                    &format!("[label=\"{open_content}{close_content}\"]")
+                    format!("[label=\"{open_content}{close_content}\"]")
                 } else {
-                    &"[style=dotted]".to_owned()
+                    "[style=dotted]".to_owned()
                 }
             }
             Atom { content, .. } => {
                 let content = content.replace("\"", "\\\"");
-                &format!("[label=\"{content}\"]")
+                format!("[label=\"{content}\"]")
             }
         };
 
