@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 use line_numbers::LineNumber;
 use serde::{ser::SerializeStruct, Serialize, Serializer};
@@ -112,7 +112,7 @@ impl<'f> From<&'f DiffResult> for File<'f> {
 
                 let mut chunks = Vec::with_capacity(hunks.len());
                 for hunk in &hunks {
-                    let mut lines = HashMap::with_capacity(hunk.lines.len());
+                    let mut lines = BTreeMap::new();
 
                     let (start_i, end_i) = matched_lines_indexes_for_hunk(matched_lines, hunk, 0);
                     let aligned_lines = &matched_lines[start_i..end_i];
