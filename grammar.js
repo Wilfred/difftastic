@@ -606,7 +606,7 @@ module.exports = grammar({
             $._primary_expression
           )
         ),
-        prec.left(PREC.as, seq($._primary_expression, "as", $.identifier))
+        prec.left(PREC.as, seq($._primary_expression, "as", $._primary_expression))
       ),
 
     unary_operator: ($) =>
