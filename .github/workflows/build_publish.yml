@@ -48,7 +48,7 @@ jobs:
           npm --version
           npm ci
       - run: npm test
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
       - run: |
           mv artifact prebuilds
           ls prebuilds
