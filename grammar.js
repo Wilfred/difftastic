@@ -3,22 +3,24 @@ const PREC = {
   conditional: -1,
 
   parenthesized_expression: 1,
-  compare: 2,
   or: 3,
   and: 4,
-  bitwise_or: 5,
-  bitwise_and: 6,
-  xor: 7,
-  shift: 8,
-  plus: 9,
-  times: 10,
-  power: 11,
-  unary: 12,
-  is: 13,
-  as: 14,
-  call: 15,
-  attribute: 16,
-  attribute_expression: 17,
+  in: 5,
+  compare: 6,
+  bitwise_or: 7,
+  bitwise_and: 8,
+  xor: 9,
+  shift: 10,
+  plus: 11,
+  times: 12,
+  power: 13,
+  unary: 14,
+  is: 15,
+  as: 16,
+  call: 17,
+  attribute: 18,
+  attribute_expression: 19,
+  type: 20,
 };
 
 module.exports = grammar({
@@ -160,7 +162,10 @@ module.exports = grammar({
     // -                                     Type                                  -
     // -----------------------------------------------------------------------------
 
-    type: ($) => choice($.attribute, $.identifier, $.subscript),
+    // Higher precedence is required to avoid conflicts with the "in" keyword in
+    // $.for_statement.
+    type: ($) =>
+      prec(PREC.type, choice($.attribute, $.identifier, $.subscript)),
 
     // -----------------------------------------------------------------------------
     // -                                  Statements                               -
@@ -489,7 +494,6 @@ module.exports = grammar({
     _expression: ($) =>
       choice(
         $._primary_expression,
-        $.comparison_operator,
         $.conditional_expression,
         $.await_expression
       ),
@@ -547,67 +551,47 @@ module.exports = grammar({
 
     // -- Operators
 
-    binary_operator: ($) =>
-      choice(
-        prec.left(
-          PREC.and,
-          seq($._primary_expression, choice("and", "&&"), $._primary_expression)
-        ),
-        prec.left(
-          PREC.or,
-          seq($._primary_expression, choice("or", "||"), $._primary_expression)
-        ),
-        prec.left(
-          PREC.plus,
-          seq($._primary_expression, "+", $._primary_expression)
-        ),
-        prec.left(
-          PREC.plus,
-          seq($._primary_expression, "-", $._primary_expression)
-        ),
-        prec.left(
-          PREC.times,
-          seq($._primary_expression, "*", $._primary_expression)
-        ),
-        prec.left(
-          PREC.times,
-          seq($._primary_expression, "/", $._primary_expression)
-        ),
-        prec.left(
-          PREC.times,
-          seq($._primary_expression, "%", $._primary_expression)
-        ),
-        prec.left(
-          PREC.bitwise_or,
-          seq($._primary_expression, "|", $._primary_expression)
-        ),
-        prec.left(
-          PREC.bitwise_and,
-          seq($._primary_expression, "&", $._primary_expression)
-        ),
-        prec.left(
-          PREC.xor,
-          seq($._primary_expression, "^", $._primary_expression)
-        ),
-        prec.left(
-          PREC.shift,
-          seq($._primary_expression, "<<", $._primary_expression)
-        ),
-        prec.left(
-          PREC.shift,
-          seq($._primary_expression, ">>", $._primary_expression)
-        ),
-        prec.left(
-          PREC.is,
+    binary_operator: ($) => {
+      // Inspired by tree-sitter-c
+      const operators = [
+        ["in", PREC.in],
+        ["and", PREC.and],
+        ["&&", PREC.and],
+        ["or", PREC.or],
+        ["||", PREC.or],
+        ["+", PREC.plus],
+        ["-", PREC.plus],
+        ["*", PREC.times],
+        ["/", PREC.times],
+        ["%", PREC.times],
+        ["|", PREC.bitwise_or],
+        ["&", PREC.bitwise_and],
+        ["^", PREC.xor],
+        ["<<", PREC.shift],
+        [">>", PREC.shift],
+        ["<", PREC.compare],
+        ["<=", PREC.compare],
+        ["==", PREC.compare],
+        ["!=", PREC.compare],
+        [">=", PREC.compare],
+        [">", PREC.compare],
+        ["as", PREC.as],
+        [seq("is", optional("not")), PREC.is],
+      ];
+
+      const choices = operators.map(([operator, precedence]) => {
+        return prec.left(
+          precedence,
           seq(
-            $._primary_expression,
-            "is",
-            optional("not"),
-            $._primary_expression
+            field("left", $._primary_expression),
+            field("op", operator),
+            field("right", $._primary_expression)
           )
-        ),
-        prec.left(PREC.as, seq($._primary_expression, "as", $._primary_expression))
-      ),
+        );
+      });
+
+      return choice(...choices);
+    },
 
     unary_operator: ($) =>
       choice(
@@ -615,20 +599,6 @@ module.exports = grammar({
         prec(PREC.unary, seq("-", $._primary_expression)),
         prec(PREC.unary, seq("+", $._primary_expression)),
         prec(PREC.unary, seq("~", $._primary_expression))
-      ),
-
-    comparison_operator: ($) =>
-      prec.left(
-        PREC.compare,
-        seq(
-          $._primary_expression,
-          repeat1(
-            seq(
-              choice("<", "<=", "==", "!=", ">=", ">", "in", "is"),
-              $._primary_expression
-            )
-          )
-        )
       ),
 
     // -- Accessors

@@ -80,6 +80,29 @@ x() as Y
   (expression_statement (binary_operator (call (identifier) (arguments)) (identifier))))
 
 =====================================
+Mixed Operators
+=====================================
+
+# Should parse as:
+# ((1 - 2) != (-1 << 2)) or "hello"
+1 - 2 != -1 << 2 or "hello"
+
+---
+
+(source (comment) (comment)
+  (expression_statement
+    (binary_operator
+      (binary_operator
+        (binary_operator
+          (integer)
+          (integer))
+        (binary_operator
+          (unary_operator
+            (integer))
+          (integer)))
+      (string))))
+
+=====================================
 Array
 =====================================
 

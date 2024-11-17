@@ -25,6 +25,7 @@
     "test": "tree-sitter --version && tree-sitter test",
     "generate": "tree-sitter --version && tree-sitter generate",
     "genTest": "tree-sitter --version && tree-sitter generate && tree-sitter test",
+    "parse": "tree-sitter --version && tree-sitter parse",
     "format": "prettier -w grammar.js package.json && prettier -w --parser json binding.gyp"
   },
   "repository": "https://github.com/PrestonKnopp/tree-sitter-gdscript"

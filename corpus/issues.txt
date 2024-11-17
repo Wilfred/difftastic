@@ -1,4 +1,22 @@
 ============================================
+#21 Parse condition with comparison_operator and binary_operator wrong
+============================================
+
+1 == 2 or 3 == 4
+
+---
+
+(source
+  (expression_statement
+    (binary_operator
+      (binary_operator
+        (integer)
+        (integer))
+      (binary_operator
+        (integer)
+        (integer)))))
+
+============================================
 Variable right after lambda
 ============================================
 
@@ -191,7 +209,7 @@ func _ready():
               (arguments
                 (identifier))))))
       (while_statement
-        (comparison_operator
+        (binary_operator
           (identifier)
           (integer))
         (body
@@ -201,7 +219,7 @@ func _ready():
               (arguments
                 (identifier))))))
       (if_statement
-        (comparison_operator
+        (binary_operator
           (identifier)
           (integer))
         (body
@@ -211,7 +229,7 @@ func _ready():
               (arguments
                 (string)))))
         (elif_clause
-          (comparison_operator
+          (binary_operator
             (identifier)
             (integer))
           (body

@@ -326,7 +326,7 @@ func x(p: int = 1) -> int:
     (type (identifier))
     (body
       (if_statement
-        (comparison_operator
+        (binary_operator
           (identifier)
           (integer))
         (body
