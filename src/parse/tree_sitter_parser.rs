@@ -358,7 +358,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_elixir() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["string", "heredoc"].into_iter().collect(),
+                atom_nodes: vec!["string", "sigil", "heredoc"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("do", "end")]
                     .into_iter()
                     .collect(),
