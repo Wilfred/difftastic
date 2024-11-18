@@ -64,6 +64,9 @@ sample_files/elisp_1.el sample_files/elisp_2.el
 sample_files/elisp_contiguous_1.el sample_files/elisp_contiguous_2.el
 4a5a33873a4f84ee055d95e1448fba35  -
 
+sample_files/elixir_1.ex sample_files/elixir_2.ex
+85494310196ac5065b3b4ce1d4b350fd  -
+
 sample_files/elm_1.elm sample_files/elm_2.elm
 ccc1f4bb568cd72781dbcd623b612c43  -
 
