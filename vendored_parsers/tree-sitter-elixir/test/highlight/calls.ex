@@ -88,3 +88,37 @@ end)
 #           ^ operator
 #            ^ number
 #             ^ punctuation.bracket
+
+map.key1
+# ^ variable
+#    ^ property
+
+map.key1.key2
+# ^ variable
+#    ^ property
+#         ^ property
+
+DateTime.utc_now.day
+# ^ module
+#         ^ function
+#                 ^ property
+
+arg |> mod.func
+# ^ variable
+#   ^ operator
+#       ^ variable
+#           ^ function
+
+Mod.fun do
+# ^ module
+#   ^ function
+#       ^ keyword
+end
+# ^ keyword
+
+mod.fun do
+# ^ variable
+#   ^ function
+#       ^ keyword
+end
+# ^ keyword

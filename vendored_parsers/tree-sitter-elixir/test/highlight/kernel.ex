@@ -92,7 +92,7 @@ case __ENV__.line do
 # ^ keyword
 #    ^ constant.builtin
 #           ^ operator
-#            ^ function
+#            ^ property
 #                 ^ keyword
   x when is_integer(x) -> x
   # <- variable

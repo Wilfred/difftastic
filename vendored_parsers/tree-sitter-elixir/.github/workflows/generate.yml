@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      # Workaround for https://github.com/nodejs/node-gyp/issues/2219#issuecomment-1359162118
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
       - name: Install Node
         uses: actions/setup-node@v2
         with:
@@ -24,7 +28,7 @@ jobs:
       - name: Generate parser
         run: |
           npx tree-sitter generate
-          npx tree-sitter build-wasm
+          npx tree-sitter build --wasm -o tree-sitter-elixir.wasm
       - name: Update parser files
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
