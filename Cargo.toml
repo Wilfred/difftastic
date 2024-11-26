@@ -46,7 +46,7 @@ lazy_static = "1.4.0"
 #
 # tree-sitter 0.22.0 has some API changes which we need to update
 # difftastic for.
-tree-sitter = "0.20.10"
+tree-sitter = "0.21.0"
 libc = "0.2.108"
 log = "0.4.14"
 pretty_env_logger = "0.5.0"
