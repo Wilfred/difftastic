@@ -117,6 +117,9 @@ AST diffing is a lossy process from the perspective of a text
 diff. Difftastic will ignore whitespace that isn't syntactically
 significant, but merging requires tracking whitespace.
 
+The [mergiraf](https://mergiraf.org/) tool does offer merges based on
+a tree-sitter AST however.
+
 ### Can difftastic ignore reordering?
 
 No. Difftastic always considers order to be important, so diffing
