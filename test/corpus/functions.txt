@@ -277,6 +277,8 @@ fn assert_assignment() {
   }
   let assert y = x
   let assert #(x, _) = #(1, 2)
+  let assert Ok(_) = Ok(10) as "This never fails"
+  let assert 10 = 11 as { "message1" <> "message2" }
 }
 fn assignment() {
   let x = {
@@ -504,7 +506,29 @@ fn field_access(x) {
           (discard))
         value: (tuple
           (integer)
-          (integer)))))
+              (integer)))
+          (let_assert
+            pattern: (record_pattern
+              name: (constructor_name)
+              arguments: (record_pattern_arguments
+                (record_pattern_argument
+                  pattern: (discard))))
+            value: (record
+              name: (constructor_name)
+              arguments: (arguments
+                (argument
+                  value: (integer))))
+            message: (string
+              (quoted_content)))
+          (let_assert
+            pattern: (integer)
+            value: (integer)
+            message: (block
+              (binary_expression
+                left: (string
+                  (quoted_content))
+                right: (string
+                  (quoted_content)))))))
   (function
     name: (identifier)
     parameters: (function_parameters)

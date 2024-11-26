@@ -357,23 +357,27 @@ module.exports = grammar({
         optional(field("arguments", $.arguments))
       ),
     todo: ($) =>
-      seq(
-        "todo",
-        optional(
-          choice(
-            // DEPRECATED: The 'as' syntax was introduced in v0.30.
-            seq("(", field("message", $.string), ")"),
-            seq("as", field("message", $._expression))
+      prec.left(
+        seq(
+          "todo",
+          optional(
+            choice(
+              // DEPRECATED: The 'as' syntax was introduced in v0.30.
+              seq("(", field("message", $.string), ")"),
+              seq("as", field("message", $._expression))
+            )
           )
         )
       ),
     panic: ($) =>
-      seq(
-        "panic",
-        optional(
-          choice(
-            seq("(", field("message", $.string), ")"),
-            seq("as", field("message", $._expression))
+      prec.left(
+        seq(
+          "panic",
+          optional(
+            choice(
+              seq("(", field("message", $.string), ")"),
+              seq("as", field("message", $._expression))
+            )
           )
         )
       ),
@@ -488,7 +492,13 @@ module.exports = grammar({
       ),
     _case_clause_tuple_access: ($) =>
       seq(field("tuple", $.identifier), ".", field("index", $.integer)),
-    let_assert: ($) => seq("let", "assert", $._assignment),
+    let_assert: ($) =>
+      seq(
+        "let",
+        "assert",
+        $._assignment,
+        optional(seq("as", field("message", $._expression)))
+      ),
     let: ($) => seq("let", $._assignment),
     use: ($) =>
       seq(
