@@ -1372,7 +1372,6 @@ pub(crate) fn print_tree(src: &str, tree: &tree_sitter::Tree) {
 fn print_cursor(src: &str, cursor: &mut ts::TreeCursor, depth: usize) {
     loop {
         let node = cursor.node();
-        node.end_position();
 
         let formatted_node = format!(
             "{} {} - {}",
