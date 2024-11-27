@@ -1,0 +1,8 @@
+log.html
+node_modules
+package-lock.json
+target
+# src/grammar.json
+# src/node-types.json
+# src/tree_sitter/parser.h
+# src/parser.c
