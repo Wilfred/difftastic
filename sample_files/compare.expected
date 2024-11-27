@@ -68,7 +68,7 @@ sample_files/elm_1.elm sample_files/elm_2.elm
 ccc1f4bb568cd72781dbcd623b612c43  -
 
 sample_files/elvish_1.elv sample_files/elvish_2.elv
-b1ad27b8907793632e235878f154b1af  -
+93af1d46752d57db84011ca7482ae842  -
 
 sample_files/erlang_1.erl sample_files/erlang_2.erl
 dccdb8f65d2f099ab1a8cb66011376a2  -
@@ -86,10 +86,10 @@ sample_files/haskell_1.hs sample_files/haskell_2.hs
 c30ce9ca8a248c1b677670e44aa3bb91  -
 
 sample_files/hcl_1.hcl sample_files/hcl_2.hcl
-f3961a9d1e6eb972ca2b8ed3683b4685  -
+7c2aaa3a8b401bc007817f5dd608946d  -
 
 sample_files/hello_world_1.smali sample_files/hello_world_2.smali
-fb8be66657ea8773c9eeec231ba5340b  -
+c9acab2700d02e2898431523e2a581b9  -
 
 sample_files/helpful_1.el sample_files/helpful_2.el
 056471124ae2e582942e214ce9222477  -
