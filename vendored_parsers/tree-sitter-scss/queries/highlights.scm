@@ -36,10 +36,11 @@
 
 (function_name) @function
 
-((property_name) @variable
- (match? @variable "^--"))
-((plain_value) @variable
- (match? @variable "^--"))
+;; Disabled for tree-sitter 0.21, which seems to error on these.
+;; ((property_name) @variable
+;;  (match? @variable "^--"))
+;; ((plain_value) @variable
+;;  (match? @variable "^--"))
 
 "@media" @keyword
 "@import" @keyword
