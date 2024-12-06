@@ -436,6 +436,23 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_value"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_value"
+        }
+      ]
+    },
+    "objPair": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "string"
         },
         {
@@ -562,7 +579,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "pair"
+                      "name": "objPair"
                     }
                   ]
                 },
@@ -584,7 +601,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "pair"
+                            "name": "objPair"
                           }
                         ]
                       }
