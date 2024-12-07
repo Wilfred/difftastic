@@ -448,23 +448,6 @@
         }
       ]
     },
-    "objPair": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "string"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_value"
-        }
-      ]
-    },
     "dictionary": {
       "type": "SEQ",
       "members": [
@@ -579,7 +562,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "objPair"
+                      "name": "pair"
                     }
                   ]
                 },
@@ -601,7 +584,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "objPair"
+                            "name": "pair"
                           }
                         ]
                       }
