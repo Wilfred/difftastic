@@ -189,42 +189,42 @@ testObject = Object(InputEventKey,"resource_local_to_scene":false,"resource_name
         (identifier)
         (arguments
           (identifier)
-          (objPair
+          (pair
             (string)
             (false))
-          (objPair
+          (pair
             (string)
             (string))
-          (objPair
+          (pair
             (string)
             (integer))
-          (objPair
+          (pair
             (string)
             (false))
-          (objPair
+          (pair
             (string)
             (false))
-          (objPair
+          (pair
             (string)
             (false))
-          (objPair
+          (pair
             (string)
             (false))
-          (objPair
+          (pair
             (string)
             (false))
-          (objPair
+          (pair
             (string)
             (false))
-          (objPair
+          (pair
             (string)
             (integer))
-          (objPair
+          (pair
             (string)
             (integer))
-          (objPair
+          (pair
             (string)
             (false))
-          (objPair
+          (pair
             (string)
             (null)))))))

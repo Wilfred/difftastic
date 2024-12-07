@@ -95,7 +95,6 @@ module.exports = grammar({
     // -----------------------------------------------------------------------------
 
     pair: ($) => seq($._value, ":", $._value),
-    objPair: ($) => seq($.string, ":", $._value),
 
     dictionary: ($) => seq("{", optional(commaSep1($.pair)), "}"),
 
@@ -106,7 +105,7 @@ module.exports = grammar({
     // -----------------------------------------------------------------------------
 
     arguments: ($) =>
-      seq("(", optional(commaSep1(choice($._value, $.objPair))), ")"),
+      seq("(", optional(commaSep1(choice($._value, $.pair))), ")"),
 
     // Generic type arguments are parsed as additional identifiers in the
     // constructor node.
