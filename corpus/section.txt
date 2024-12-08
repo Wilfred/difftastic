@@ -169,3 +169,62 @@ __dict__ = {
     (property (path)
       (dictionary
         (pair (string) (true))))))
+
+
+=====================================
+Object Constructor Property
+=====================================
+
+[id]
+testObject = Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":79,"unicode":0,"echo":false,"script":null)
+
+---
+
+(resource
+  (section
+    (identifier)
+    (property
+      (path)
+      (constructor
+        (identifier)
+        (arguments
+          (identifier)
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (string))
+          (pair
+            (string)
+            (integer))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (integer))
+          (pair
+            (string)
+            (integer))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (null)))))))

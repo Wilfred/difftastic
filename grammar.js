@@ -94,7 +94,7 @@ module.exports = grammar({
     // -                                 Data Structs                              -
     // -----------------------------------------------------------------------------
 
-    pair: ($) => seq($.string, ":", $._value),
+    pair: ($) => seq($._value, ":", $._value),
 
     dictionary: ($) => seq("{", optional(commaSep1($.pair)), "}"),
 
