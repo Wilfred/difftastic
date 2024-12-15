@@ -2,12 +2,12 @@
 
 use std::{
     env,
-    ffi::OsStr,
+    ffi::{OsStr, OsString},
     fmt::Display,
     path::{Path, PathBuf},
 };
 
-use clap::{crate_authors, crate_description, Arg, ArgAction, Command};
+use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
 use const_format::formatcp;
 use crossterm::tty::IsTty;
 use itertools::Itertools;
@@ -181,7 +181,7 @@ fn app() -> clap::Command<'static> {
         )
         .arg(
             Arg::new("display").long("display")
-                .possible_values(["side-by-side", "side-by-side-show-both", "inline", "json"])
+                .value_parser(["side-by-side", "side-by-side-show-both", "inline", "json"])
                 .default_value("side-by-side")
                 .value_name("MODE")
                 .action(ArgAction::StoreValue)
@@ -198,7 +198,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
         )
         .arg(
             Arg::new("color").long("color")
-                .possible_values(["always", "auto", "never"])
+                .value_parser(["always", "auto", "never"])
                 .default_value("auto")
                 .env("DFT_COLOR")
                 .value_name("WHEN")
@@ -209,7 +209,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
             Arg::new("background").long("background")
                 .value_name("BACKGROUND")
                 .env("DFT_BACKGROUND")
-                .possible_values(["dark", "light"])
+                .value_parser(["dark", "light"])
                 .default_value("dark")
                 .action(ArgAction::StoreValue)
                 .help("Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.")
@@ -218,13 +218,14 @@ json: Output the results as a machine-readable JSON array with an element per fi
             Arg::new("syntax-highlight").long("syntax-highlight")
                 .value_name("on/off")
                 .env("DFT_SYNTAX_HIGHLIGHT")
-                .possible_values(["on", "off"])
+                .value_parser(["on", "off"])
                 .default_value("on")
                 .action(ArgAction::StoreValue)
                 .help("Enable or disable syntax highlighting.")
         )
         .arg(
             Arg::new("exit-code").long("exit-code")
+                .action(ArgAction::SetTrue)
                 .env("DFT_EXIT_CODE")
                 .help("Set the exit code to 1 if there are syntactic changes in any files. For files where there is no detected language (e.g. unsupported language or binary files), sets the exit code if there are any byte changes.")
         )
@@ -232,26 +233,26 @@ json: Output the results as a machine-readable JSON array with an element per fi
             Arg::new("strip-cr").long("strip-cr")
                 .value_name("on/off")
                 .env("DFT_STRIP_CR")
-                .possible_values(["on", "off"])
+                .value_parser(["on", "off"])
                 .default_value("on")
                 .action(ArgAction::StoreValue)
                 .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or mutiline text (e.g. in HTML) to differ if the two input files have different line endings.")
         )
         .arg(
             Arg::new("check-only").long("check-only")
-                .action(ArgAction::IncOccurrence)
+                .action(ArgAction::SetTrue)
                 .env("DFT_CHECK_ONLY")
                 .help("Report whether there are any changes, but don't calculate them. Much faster.")
         )
         .arg(
             Arg::new("ignore-comments").long("ignore-comments")
-                .action(ArgAction::IncOccurrence)
+                .action(ArgAction::SetTrue)
                 .env("DFT_IGNORE_COMMENTS")
                 .help("Don't consider comments when diffing.")
         )
         .arg(
             Arg::new("skip-unchanged").long("skip-unchanged")
-                .action(ArgAction::IncOccurrence)
+                .action(ArgAction::SetTrue)
                 .env("DFT_SKIP_UNCHANGED")
                 .help("Don't display anything if a file is unchanged.")
         )
@@ -285,7 +286,7 @@ When multiple overrides are specified, the first matching override wins."))
         )
         .arg(
             Arg::new("list-languages").long("list-languages")
-                .action(ArgAction::IncOccurrence)
+                .action(ArgAction::SetTrue)
                 .help("Print all the languages supported by difftastic, along with their extensions.")
         )
         .arg(
@@ -327,11 +328,11 @@ When multiple overrides are specified, the first matching override wins."))
                 .action(ArgAction::StoreValue)
                 .multiple_values(true)
                 .hide(true)
-                .allow_invalid_utf8(true),
+                .value_parser(value_parser!(OsString)),
         )
         .arg(
             Arg::new("sort-paths").long("sort-paths")
-                .action(ArgAction::IncOccurrence)
+                .action(ArgAction::SetTrue)
                 .env("DFT_SORT_PATHS")
                 .help("When diffing a directory, output the results sorted by path. This is slower.")
         )
@@ -656,7 +657,7 @@ pub(crate) fn parse_args() -> Mode {
     };
     let use_color = should_use_color(color_output);
 
-    let ignore_comments = matches.is_present("ignore-comments");
+    let ignore_comments = matches.get_flag("ignore-comments");
 
     let mut raw_overrides: Vec<String> = vec![];
     if let Some(overrides) = matches.values_of("override") {
@@ -670,7 +671,7 @@ pub(crate) fn parse_args() -> Mode {
 
     let language_overrides = parse_overrides_or_die(&raw_overrides);
 
-    if matches.is_present("list-languages") {
+    if matches.get_flag("list-languages") {
         return Mode::ListLanguages {
             use_color,
             language_overrides,
@@ -736,7 +737,7 @@ pub(crate) fn parse_args() -> Mode {
 
     let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
 
-    let sort_paths = matches.is_present("sort-paths");
+    let sort_paths = matches.get_flag("sort-paths");
 
     let graph_limit = matches
         .value_of("graph-limit")
@@ -768,13 +769,13 @@ pub(crate) fn parse_args() -> Mode {
         .parse::<u32>()
         .expect("Value already validated by clap");
 
-    let print_unchanged = !matches.is_present("skip-unchanged");
+    let print_unchanged = !matches.get_flag("skip-unchanged");
 
-    let set_exit_code = matches.is_present("exit-code");
+    let set_exit_code = matches.get_flag("exit-code");
 
     let strip_cr = matches.value_of("strip-cr") == Some("on");
 
-    let check_only = matches.is_present("check-only");
+    let check_only = matches.get_flag("check-only");
 
     let diff_options = DiffOptions {
         graph_limit,
