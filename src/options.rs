@@ -7,7 +7,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use clap::{crate_authors, crate_description, Arg, Command};
+use clap::{crate_authors, crate_description, Arg, ArgAction, Command};
 use const_format::formatcp;
 use crossterm::tty::IsTty;
 use itertools::Itertools;
@@ -119,6 +119,7 @@ fn app() -> clap::Command<'static> {
                 .long("dump-syntax")
                 .takes_value(true)
                 .value_name("PATH")
+                .action(ArgAction::StoreValue)
                 .long_help(
                     "Parse a single file with tree-sitter and display the difftastic syntax tree.",
                 ).help_heading("DEBUG OPTIONS"),
@@ -128,6 +129,7 @@ fn app() -> clap::Command<'static> {
                 .long("dump-syntax-dot")
                 .takes_value(true)
                 .value_name("PATH")
+                .action(ArgAction::StoreValue)
                 .long_help(
                     "Parse a single file with tree-sitter and display the difftastic syntax tree, as a DOT graph.",
                 ).help_heading("DEBUG OPTIONS"),
@@ -137,6 +139,7 @@ fn app() -> clap::Command<'static> {
                 .long("dump-ts")
                 .takes_value(true)
                 .value_name("PATH")
+                .action(ArgAction::StoreValue)
                 .long_help(
                     "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
                 ).help_heading("DEBUG OPTIONS"),
@@ -146,6 +149,7 @@ fn app() -> clap::Command<'static> {
                 .long("context")
                 .takes_value(true)
                 .value_name("LINES")
+                .action(ArgAction::StoreValue)
                 .long_help("The number of contextual lines to show around changed lines.")
                 .default_value("3")
                 .env("DFT_CONTEXT")
@@ -157,6 +161,7 @@ fn app() -> clap::Command<'static> {
                 .long("width")
                 .takes_value(true)
                 .value_name("COLUMNS")
+                .action(ArgAction::StoreValue)
                 .long_help("Use this many columns when calculating line wrapping. If not specified, difftastic will detect the terminal width.")
                 .env("DFT_WIDTH")
                 .validator(|s| s.parse::<usize>())
@@ -167,6 +172,7 @@ fn app() -> clap::Command<'static> {
                 .long("tab-width")
                 .takes_value(true)
                 .value_name("NUM_SPACES")
+                .action(ArgAction::StoreValue)
                 .long_help("Treat a tab as this many spaces.")
                 .env("DFT_TAB_WIDTH")
                 .default_value(formatcp!("{}", DEFAULT_TAB_WIDTH))
@@ -178,6 +184,7 @@ fn app() -> clap::Command<'static> {
                 .possible_values(["side-by-side", "side-by-side-show-both", "inline", "json"])
                 .default_value("side-by-side")
                 .value_name("MODE")
+                .action(ArgAction::StoreValue)
                 .env("DFT_DISPLAY")
                 .help("Display mode for showing results.
 
@@ -195,6 +202,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
                 .default_value("auto")
                 .env("DFT_COLOR")
                 .value_name("WHEN")
+                .action(ArgAction::StoreValue)
                 .help("When to use color output.")
         )
         .arg(
@@ -203,6 +211,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
                 .env("DFT_BACKGROUND")
                 .possible_values(["dark", "light"])
                 .default_value("dark")
+                .action(ArgAction::StoreValue)
                 .help("Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.")
         )
         .arg(
@@ -211,6 +220,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
                 .env("DFT_SYNTAX_HIGHLIGHT")
                 .possible_values(["on", "off"])
                 .default_value("on")
+                .action(ArgAction::StoreValue)
                 .help("Enable or disable syntax highlighting.")
         )
         .arg(
@@ -224,20 +234,24 @@ json: Output the results as a machine-readable JSON array with an element per fi
                 .env("DFT_STRIP_CR")
                 .possible_values(["on", "off"])
                 .default_value("on")
+                .action(ArgAction::StoreValue)
                 .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or mutiline text (e.g. in HTML) to differ if the two input files have different line endings.")
         )
         .arg(
             Arg::new("check-only").long("check-only")
+                .action(ArgAction::IncOccurrence)
                 .env("DFT_CHECK_ONLY")
                 .help("Report whether there are any changes, but don't calculate them. Much faster.")
         )
         .arg(
             Arg::new("ignore-comments").long("ignore-comments")
+                .action(ArgAction::IncOccurrence)
                 .env("DFT_IGNORE_COMMENTS")
                 .help("Don't consider comments when diffing.")
         )
         .arg(
             Arg::new("skip-unchanged").long("skip-unchanged")
+                .action(ArgAction::IncOccurrence)
                 .env("DFT_SKIP_UNCHANGED")
                 .help("Don't display anything if a file is unchanged.")
         )
@@ -248,6 +262,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
         .arg(
             Arg::new("override").long("override")
                 .value_name("GLOB:NAME")
+                .action(ArgAction::StoreValue)
                 .help(concat!("Associate this glob pattern with this language, overriding normal language detection. For example:
 
 $ ", env!("CARGO_BIN_NAME"), " --override='*.c:C++' old.c new.c
@@ -270,12 +285,14 @@ When multiple overrides are specified, the first matching override wins."))
         )
         .arg(
             Arg::new("list-languages").long("list-languages")
+                .action(ArgAction::IncOccurrence)
                 .help("Print all the languages supported by difftastic, along with their extensions.")
         )
         .arg(
             Arg::new("byte-limit").long("byte-limit")
                 .takes_value(true)
                 .value_name("LIMIT")
+                .action(ArgAction::StoreValue)
                 .help("Use a text diff if either input file exceeds this size.")
                 .default_value(formatcp!("{}", DEFAULT_BYTE_LIMIT))
                 .env("DFT_BYTE_LIMIT")
@@ -288,6 +305,7 @@ When multiple overrides are specified, the first matching override wins."))
                 .value_name("LIMIT")
                 .help("Use a text diff if the structural graph exceed this number of nodes in memory.")
                 .default_value(formatcp!("{}", DEFAULT_GRAPH_LIMIT))
+                .action(ArgAction::StoreValue)
                 .env("DFT_GRAPH_LIMIT")
                 .validator(|s| s.parse::<usize>())
                 .required(false),
@@ -296,6 +314,7 @@ When multiple overrides are specified, the first matching override wins."))
             Arg::new("parse-error-limit").long("parse-error-limit")
                 .takes_value(true)
                 .value_name("LIMIT")
+                .action(ArgAction::StoreValue)
                 .help("Use a text diff if the number of parse errors exceeds this value.")
                 .default_value(formatcp!("{}", DEFAULT_PARSE_ERROR_LIMIT))
                 .env("DFT_PARSE_ERROR_LIMIT")
@@ -305,12 +324,14 @@ When multiple overrides are specified, the first matching override wins."))
         .arg(
             Arg::new("paths")
                 .value_name("PATHS")
+                .action(ArgAction::StoreValue)
                 .multiple_values(true)
                 .hide(true)
                 .allow_invalid_utf8(true),
         )
         .arg(
             Arg::new("sort-paths").long("sort-paths")
+                .action(ArgAction::IncOccurrence)
                 .env("DFT_SORT_PATHS")
                 .help("When diffing a directory, output the results sorted by path. This is slower.")
         )
