@@ -1,0 +1,118 @@
+=====================
+Type declaration
+=====================
+
+type UUID String @go.type("uuid.UUID")
+
+---
+
+(program
+  (type_declaration
+    (identifier)
+    (type_declaration_type)
+    (attribute
+      (call_expression
+        (member_expression
+          (identifier)
+          (property_identifier)
+        )
+        (arguments
+          (string)
+        )
+      )
+    )
+  )
+)
+
+=================================
+Type declaration with assignment
+=================================
+
+type Numeric = Float @pg.numeric(precision: 5, scale: 2)
+                     @pg.numeric(precision: 5, scale: 2)
+
+---
+
+(program
+  (type_declaration
+    (assignment_expression
+      (variable)
+      (identifier)
+    )
+    (attribute
+      (call_expression
+        (member_expression
+          (identifier)
+          (property_identifier)
+        )
+        (arguments
+          (type_expression
+            (identifier)
+            (number)
+          )
+          (type_expression
+            (identifier)
+            (number)
+          )
+        )
+      )
+    )
+    (attribute
+      (call_expression
+        (member_expression
+          (identifier)
+          (property_identifier)
+        )
+        (arguments
+          (type_expression
+            (identifier)
+            (number)
+          )
+          (type_expression
+            (identifier)
+            (number)
+          )
+        )
+      )
+    )
+  )
+)
+
+============================
+Composite Types Declaration
+============================
+
+type Photo {
+  height Int    @default(200)
+  url    String
+}
+
+---
+
+(program
+  (type_declaration
+    (identifier)
+    (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (attribute
+          (call_expression
+            (identifier)
+            (arguments
+              (number)
+            )
+          )
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+      )
+    )
+  )
+)
