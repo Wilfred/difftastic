@@ -70,6 +70,6 @@ with `difft --list-languages`.
 | Newick   | [delehef/tree-sitter-newick](https://github.com/delehef/tree-sitter-newick)                       |
 | SCSS     | [serenadeai/tree-sitter-scss](https://github.com/serenadeai/tree-sitter-scss)                     |
 | TOML     | [tree-sitter-grammars/tree-sitter-toml](https://github.com/tree-sitter-grammars/tree-sitter-toml) |
-| XML      | [ObserverOfTime/tree-sitter-xml](https://github.com/ObserverOfTime/tree-sitter-xml)               |
+| XML      | [tree-sitter-grammars/tree-sitter-xml](https://github.com/tree-sitter-grammars/tree-sitter-xml)   |
 | YAML     | [ikatyang/tree-sitter-yaml](https://github.com/ikatyang/tree-sitter-yaml)                         |
 

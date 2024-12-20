@@ -97,7 +97,6 @@ extern "C" {
     fn tree_sitter_sql() -> ts::Language;
     fn tree_sitter_swift() -> ts::Language;
     fn tree_sitter_vhdl() -> ts::Language;
-    fn tree_sitter_xml() -> ts::Language;
     fn tree_sitter_yaml() -> ts::Language;
     fn tree_sitter_zig() -> ts::Language;
 }
@@ -1080,7 +1079,9 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Xml => {
-            let language = unsafe { tree_sitter_xml() };
+            let language_fn = tree_sitter_xml::LANGUAGE_XML;
+            let language = tree_sitter::Language::new(language_fn);
+
             TreeSitterConfig {
                 language: language.clone(),
                 // XMLDecl is the <?xml ...?> header, but the parser
@@ -1088,11 +1089,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 // e.g. string subexpressions, so flatten.
                 atom_nodes: vec!["AttValue", "XMLDecl"].into_iter().collect(),
                 delimiter_tokens: (vec![("<", ">")]),
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/xml.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_xml::XML_HIGHLIGHT_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
