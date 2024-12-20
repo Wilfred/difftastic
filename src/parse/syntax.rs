@@ -390,7 +390,7 @@ fn print_as_dot_<'a>(nodes: &[&'a Syntax<'a>]) {
                 }
             }
             Atom { content, .. } => {
-                let content = content.replace("\"", "\\\"");
+                let content = content.replace('\"', "\\\"");
                 format!("[label=\"{content}\"]")
             }
         };
