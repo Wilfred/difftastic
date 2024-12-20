@@ -106,8 +106,6 @@ extern "C" {
     fn tree_sitter_sql() -> ts::Language;
     fn tree_sitter_swift() -> ts::Language;
     fn tree_sitter_toml() -> ts::Language;
-    fn tree_sitter_tsx() -> ts::Language;
-    fn tree_sitter_typescript() -> ts::Language;
     fn tree_sitter_vhdl() -> ts::Language;
     fn tree_sitter_xml() -> ts::Language;
     fn tree_sitter_yaml() -> ts::Language;
@@ -874,9 +872,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_qmljs() };
 
             let mut highlight_query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();
-            highlight_query.push_str(include_str!(
-                "../../vendored_parsers/highlights/typescript.scm"
-            ));
+            highlight_query.push_str(tree_sitter_typescript::HIGHLIGHTS_QUERY);
             highlight_query.push_str(include_str!("../../vendored_parsers/highlights/qmljs.scm"));
 
             TreeSitterConfig {
@@ -1070,12 +1066,11 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         TypeScriptTsx => {
-            let language = unsafe { tree_sitter_tsx() };
+            let language_fn = tree_sitter_typescript::LANGUAGE_TSX;
+            let language = tree_sitter::Language::new(language_fn);
 
             let mut highlight_query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();
-            highlight_query.push_str(include_str!(
-                "../../vendored_parsers/highlights/typescript.scm"
-            ));
+            highlight_query.push_str(tree_sitter_typescript::HIGHLIGHTS_QUERY);
 
             TreeSitterConfig {
                 language: language.clone(),
@@ -1086,12 +1081,11 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         TypeScript => {
-            let language = unsafe { tree_sitter_typescript() };
+            let language_fn = tree_sitter_typescript::LANGUAGE_TYPESCRIPT;
+            let language = tree_sitter::Language::new(language_fn);
 
             let mut highlight_query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();
-            highlight_query.push_str(include_str!(
-                "../../vendored_parsers/highlights/typescript.scm"
-            ));
+            highlight_query.push_str(tree_sitter_typescript::HIGHLIGHTS_QUERY);
 
             TreeSitterConfig {
                 language: language.clone(),
