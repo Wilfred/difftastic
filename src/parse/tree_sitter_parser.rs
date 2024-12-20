@@ -3,6 +3,7 @@
 use std::collections::HashSet;
 
 use line_numbers::LinePositions;
+use streaming_iterator::StreamingIterator as _;
 use tree_sitter as ts;
 use typed_arena::Arena;
 
@@ -1247,7 +1248,10 @@ pub(crate) fn parse_subtrees(
 
     for language in &config.sub_languages {
         let mut query_cursor = tree_sitter::QueryCursor::new();
-        for m in query_cursor.matches(&language.query, tree.root_node(), src.as_bytes()) {
+        let mut query_matches =
+            query_cursor.matches(&language.query, tree.root_node(), src.as_bytes());
+
+        while let Some(m) = query_matches.next() {
             let node = m.nodes_for_capture_index(0).next().unwrap();
             if node.byte_range().is_empty() {
                 continue;
@@ -1337,13 +1341,14 @@ fn tree_highlights(
     }
 
     let mut qc = ts::QueryCursor::new();
-    let q_matches = qc.matches(&config.highlight_query, tree.root_node(), src.as_bytes());
+    let mut q_matches = qc.matches(&config.highlight_query, tree.root_node(), src.as_bytes());
 
     let mut comment_ids = HashSet::new();
     let mut keyword_ids = HashSet::new();
     let mut string_ids = HashSet::new();
     let mut type_ids = HashSet::new();
-    for m in q_matches {
+
+    while let Some(m) = q_matches.next() {
         for c in m.captures {
             if comment_capture_ids.contains(&c.index) {
                 comment_ids.insert(c.node.id());
