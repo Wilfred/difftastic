@@ -106,7 +106,6 @@ extern "C" {
     fn tree_sitter_qmljs() -> ts::Language;
     fn tree_sitter_r() -> ts::Language;
     fn tree_sitter_racket() -> ts::Language;
-    fn tree_sitter_ruby() -> ts::Language;
     fn tree_sitter_rust() -> ts::Language;
     fn tree_sitter_scala() -> ts::Language;
     fn tree_sitter_scheme() -> ts::Language;
@@ -944,7 +943,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Ruby => {
-            let language = unsafe { tree_sitter_ruby() };
+            let language_fn = tree_sitter_ruby::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec!["string", "heredoc_body", "regex"]
@@ -959,11 +959,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ("begin", "end"),
                     ("class", "end"),
                 ],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/ruby.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_ruby::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
