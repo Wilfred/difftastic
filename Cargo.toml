@@ -82,6 +82,7 @@ tree-sitter-haskell = "0.23.1"
 tree-sitter-ruby = "0.23.1"
 tree-sitter-scala = "0.23.3"
 tree-sitter-objc = "3.0.2"
+tree-sitter-ocaml = "0.23.2"
 
 [dev-dependencies]
 # assert_cmd 2.0.10 requires predicates 3.

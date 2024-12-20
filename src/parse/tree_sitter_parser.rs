@@ -96,8 +96,6 @@ extern "C" {
     fn tree_sitter_make() -> ts::Language;
     fn tree_sitter_newick() -> ts::Language;
     fn tree_sitter_nix() -> ts::Language;
-    fn tree_sitter_ocaml() -> ts::Language;
-    fn tree_sitter_ocaml_interface() -> ts::Language;
     fn tree_sitter_pascal() -> ts::Language;
     fn tree_sitter_php() -> ts::Language;
     fn tree_sitter_perl() -> ts::Language;
@@ -794,30 +792,26 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         OCaml => {
-            let language = unsafe { tree_sitter_ocaml() };
+            let language_fn = tree_sitter_ocaml::LANGUAGE_OCAML;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: OCAML_ATOM_NODES.iter().copied().collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/ocaml.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_ocaml::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
         OCamlInterface => {
-            let language = unsafe { tree_sitter_ocaml_interface() };
+            let language_fn = tree_sitter_ocaml::LANGUAGE_OCAML_INTERFACE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: OCAML_ATOM_NODES.iter().copied().collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/ocaml.scm"),
-                )
-                .unwrap(),
+                // TODO: why doesn't tree_sitter_ocaml::HIGHLIGHTS_QUERY work here?
+                highlight_query: ts::Query::new(&language, "").unwrap(),
                 sub_languages: vec![],
             }
         }

@@ -244,16 +244,6 @@ fn main() {
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
-            name: "tree-sitter-ocaml",
-            src_dir: "vendored_parsers/tree-sitter-ocaml-src/ocaml/src",
-            extra_files: vec!["scanner.cc"],
-        },
-        TreeSitterParser {
-            name: "tree-sitter-ocaml-interface",
-            src_dir: "vendored_parsers/tree-sitter-ocaml-src/interface/src",
-            extra_files: vec!["scanner.cc"],
-        },
-        TreeSitterParser {
             name: "tree-sitter-pascal",
             src_dir: "vendored_parsers/tree-sitter-pascal-src",
             extra_files: vec![],

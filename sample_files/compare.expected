@@ -152,7 +152,7 @@ sample_files/metadata_1.clj sample_files/metadata_2.clj
 4b58ce366467c8cca46db53508e81323  -
 
 sample_files/modules_1.ml sample_files/modules_2.ml
-05438d347d9e2ee90376b193098fc1fc  -
+b29a0d9427b7f5a9450163a9f1ba7f49  -
 
 sample_files/multibyte_1.py sample_files/multibyte_2.py
 f761255d521267ace4f4887a21664a12  -
@@ -191,7 +191,7 @@ sample_files/objc_module_1.m sample_files/objc_module_2.m
 f4a376b78a73c190dc91b39d739490a5  -
 
 sample_files/ocaml_1.ml sample_files/ocaml_2.ml
-36e6ea64ce5cfbbf5178b56f2469478b  -
+20586eb6dedffb55c7a9e264ed3739c9  -
 
 sample_files/outer_delimiter_1.el sample_files/outer_delimiter_2.el
 a7e206f6391237be0ce8ed244ec3dd62  -
@@ -287,7 +287,7 @@ sample_files/typescript_1.ts sample_files/typescript_2.ts
 fee7ee33d2037ad1941ba6bb5532a1db  -
 
 sample_files/typing_1.ml sample_files/typing_2.ml
-28bf693af81e1c45ff9ee47ac29895ef  -
+975a97f2a6798abd1e4c0ce219e183fd  -
 
 sample_files/utf16_1.py sample_files/utf16_2.py
 3bcee785d4cebc38a42eafe49a198b52  -
