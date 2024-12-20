@@ -63,7 +63,6 @@ pub(crate) struct TreeSitterConfig {
 extern "C" {
     fn tree_sitter_ada() -> ts::Language;
     fn tree_sitter_apex() -> ts::Language;
-    fn tree_sitter_bash() -> ts::Language;
     fn tree_sitter_clojure() -> ts::Language;
     fn tree_sitter_cmake() -> ts::Language;
     fn tree_sitter_commonlisp() -> ts::Language;
@@ -163,18 +162,17 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Bash => {
-            let language = unsafe { tree_sitter_bash() };
+            let language_fn = tree_sitter_bash::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec!["string", "raw_string", "heredoc_body"]
                     .into_iter()
                     .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/bash.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_bash::HIGHLIGHT_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
