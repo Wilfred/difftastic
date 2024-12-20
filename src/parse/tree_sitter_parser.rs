@@ -84,7 +84,6 @@ extern "C" {
     fn tree_sitter_html() -> ts::Language;
     fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_java() -> ts::Language;
-    fn tree_sitter_javascript() -> ts::Language;
     fn tree_sitter_json() -> ts::Language;
     fn tree_sitter_julia() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
@@ -606,7 +605,9 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         JavaScript | JavascriptJsx => {
-            let language = unsafe { tree_sitter_javascript() };
+            let language_fn = tree_sitter_javascript::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec!["string", "template_string", "regex"]
@@ -621,11 +622,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                     // > at the same level in JSX.
                     ("<", ">"),
                 ],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/javascript.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_javascript::HIGHLIGHT_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
@@ -874,21 +872,20 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
         }
         Qml => {
             let language = unsafe { tree_sitter_qmljs() };
+
+            let mut highlight_query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();
+            highlight_query.push_str(include_str!(
+                "../../vendored_parsers/highlights/typescript.scm"
+            ));
+            highlight_query.push_str(include_str!("../../vendored_parsers/highlights/qmljs.scm"));
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec!["string", "template_string", "regex"]
                     .into_iter()
                     .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    concat!(
-                        include_str!("../../vendored_parsers/highlights/javascript.scm"),
-                        include_str!("../../vendored_parsers/highlights/typescript.scm"),
-                        include_str!("../../vendored_parsers/highlights/qmljs.scm"),
-                    ),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
             }
         }
@@ -1074,37 +1071,35 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
         }
         TypeScriptTsx => {
             let language = unsafe { tree_sitter_tsx() };
+
+            let mut highlight_query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();
+            highlight_query.push_str(include_str!(
+                "../../vendored_parsers/highlights/typescript.scm"
+            ));
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec!["string", "template_string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    concat!(
-                        include_str!("../../vendored_parsers/highlights/javascript.scm"),
-                        include_str!("../../vendored_parsers/highlights/typescript.scm"),
-                    ),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
             }
         }
         TypeScript => {
             let language = unsafe { tree_sitter_typescript() };
+
+            let mut highlight_query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();
+            highlight_query.push_str(include_str!(
+                "../../vendored_parsers/highlights/typescript.scm"
+            ));
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec!["string", "template_string", "regex", "predefined_type"]
                     .into_iter()
                     .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    concat!(
-                        include_str!("../../vendored_parsers/highlights/javascript.scm"),
-                        include_str!("../../vendored_parsers/highlights/typescript.scm"),
-                    ),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
             }
         }
