@@ -43,10 +43,6 @@ impl TreeSitterParser {
                 .flag_if_supported("-Wno-ignored-qualifiers")
                 // Ignore warning from tree-sitter-html.
                 .flag_if_supported("-Wno-sign-compare")
-                // Ignore warning from tree-sitter-ruby.
-                .flag_if_supported("-Wno-parentheses")
-                // Ignore warning from tree-sitter-ruby.
-                .flag_if_supported("-Wno-unused-but-set-variable")
                 .link_lib_modifier("+whole-archive");
 
             for file in cpp_files {
