@@ -1,199 +1,330 @@
-;; Based on the nvim-treesitter highlighting, which is under the  Apache license.
-;; See https://github.com/nvim-treesitter/nvim-treesitter/blob/cf6d84b5611a3e132d1de5ae1ec2365838143180/queries/julia/highlights.scm
+; https://github.com/tree-sitter/tree-sitter-julia/blob/e01c928d11375513138a175a68485c4d53e55ea9/queries/highlights.scm
+; MIT license
 
+; Identifiers
 (identifier) @variable
 
-(operator) @operator
-(range_expression ":" @operator)
-(pair_expression "=>" @operator)
-
-;; In case you want type highlighting based on Julia naming conventions (this might collide with mathematical notation)
-;((identifier) @type ; exception: mark `A_foo` sort of identifiers as variables
-  ;(match? @type "^[A-Z][^_]"))
-
-;; Disabled for difftastic: predicates are currently ignored.
-;; ((identifier) @constant
-;;   (#match? @constant "^[A-Z][A-Z_]{2}[A-Z_]*$"))
-
-(macro_identifier) @function.macro
-(macro_identifier (identifier) @function.macro) ; for any one using the variable highlight
-(macro_definition
-  name: (identifier) @function.macro
-  ["macro" "end" @keyword])
-
 (field_expression
-  (identifier)
-  (identifier) @field .)
+  (identifier) @variable.member .)
 
-(function_definition
-  name: (identifier) @function)
-(call_expression
-  (identifier) @function)
-(call_expression
-  (field_expression (identifier) @method .))
-(broadcast_call_expression
-  (identifier) @function)
-(broadcast_call_expression
-  (field_expression (identifier) @method .))
-(parameter_list
-  (identifier) @parameter)
-(parameter_list
-  (optional_parameter .
-    (identifier) @parameter))
-(typed_parameter
-  (identifier) @parameter
-  (identifier) @type)
-(type_parameter_list
-  (identifier) @type)
-(typed_parameter
-  (identifier) @parameter
-  (parameterized_identifier) @type)
-(function_expression
-  . (identifier) @parameter)
-(spread_parameter) @parameter
-(spread_parameter
-  (identifier) @parameter)
-(named_argument
-    . (identifier) @parameter)
-(argument_list
-  (typed_expression
-    (identifier) @parameter
-    (identifier) @type))
-(argument_list
-  (typed_expression
-    (identifier) @parameter
-    (parameterized_identifier) @type))
-
-;; Symbol expressions (:my-wanna-be-lisp-keyword)
+; Symbols
 (quote_expression
- (identifier)) @symbol
+  ":" @string.special.symbol
+  [
+    (identifier)
+    (operator)
+  ] @string.special.symbol)
 
-;; Parsing error! foo (::Type) gets parsed as two quote expressions
-(argument_list
-  (quote_expression
-    (quote_expression
-      (identifier) @type)))
+; Function calls
+(call_expression
+  (identifier) @function.call)
 
-(type_argument_list
-  (identifier) @type)
-(parameterized_identifier (_)) @type
-(argument_list
-  (typed_expression . (identifier) @parameter))
+(call_expression
+  (field_expression
+    (identifier) @function.call .))
+
+(broadcast_call_expression
+  (identifier) @function.call)
+
+(broadcast_call_expression
+  (field_expression
+    (identifier) @function.call .))
+
+; Macros
+(macro_identifier
+  "@" @function.macro
+  (_) @function.macro)
+
+(macro_definition
+  (signature
+    (call_expression
+      .
+      (identifier) @function.macro)))
+
+; Built-in functions
+; filter(name -> Base.eval(Core, name) isa Core.Builtin, names(Core))
+((identifier) @function.builtin
+  (#any-of? @function.builtin
+    "applicable" "fieldtype" "getfield" "getglobal" "invoke" "isa" "isdefined" "modifyfield!"
+    "modifyglobal!" "nfields" "replacefield!" "replaceglobal!" "setfield!" "setfieldonce!"
+    "setglobal!" "setglobalonce!" "swapfield!" "swapglobal!" "throw" "tuple" "typeassert" "typeof"))
+
+; Type definitions
+(type_head (_) @type.definition)
+
+; Type annotations
+(parametrized_type_expression
+  [
+   (identifier) @type
+   (field_expression
+     (identifier) @type .)
+  ]
+  (curly_expression
+    (_) @type))
 
 (typed_expression
   (identifier) @type .)
-(typed_expression
-  (parameterized_identifier) @type .)
 
-(abstract_definition
-  name: (identifier) @type)
-(struct_definition
-  name: (identifier) @type)
+(unary_typed_expression
+  (identifier) @type .)
 
-(subscript_expression
-  (_)
-  (range_expression
-    (identifier) @constant.builtin .)
-  (#eq? @constant.builtin "end"))
+(where_expression
+  (_) @type .)
 
-"end" @keyword
+(binary_expression
+  (_) @type
+  (operator) @operator
+  (_) @type
+  (#any-of? @operator "<:" ">:"))
 
-(if_statement
-  ["if" "end"] @conditional)
-(elseif_clause
-  ["elseif"] @conditional)
-(else_clause
-  ["else"] @conditional)
-(ternary_expression
-  ["?" ":"] @conditional)
+; Built-in types
+; filter(name -> typeof(Base.eval(Core, name)) in [DataType, UnionAll], names(Core))
+((identifier) @type.builtin
+  (#any-of? @type.builtin
+    "AbstractArray" "AbstractChar" "AbstractFloat" "AbstractString" "Any" "ArgumentError" "Array"
+    "AssertionError" "Bool" "BoundsError" "Char" "ConcurrencyViolationError" "Cvoid" "DataType"
+    "DenseArray" "DivideError" "DomainError" "ErrorException" "Exception" "Expr" "Float16" "Float32"
+    "Float64" "Function" "GlobalRef" "IO" "InexactError" "InitError" "Int" "Int128" "Int16" "Int32"
+    "Int64" "Int8" "Integer" "InterruptException" "LineNumberNode" "LoadError" "Method"
+    "MethodError" "Module" "NTuple" "NamedTuple" "Nothing" "Number" "OutOfMemoryError"
+    "OverflowError" "Pair" "Ptr" "QuoteNode" "ReadOnlyMemoryError" "Real" "Ref" "SegmentationFault"
+    "Signed" "StackOverflowError" "String" "Symbol" "Task" "Tuple" "Type" "TypeError" "TypeVar"
+    "UInt" "UInt128" "UInt16" "UInt32" "UInt64" "UInt8" "UndefInitializer" "UndefKeywordError"
+    "UndefRefError" "UndefVarError" "Union" "UnionAll" "Unsigned" "VecElement" "WeakRef"))
 
-(function_definition ["function" "end"] @keyword.function)
-
+; Keywords
 [
-  "abstract"
   "const"
-  "macro"
-  "primitive"
-  "struct"
-  "type"
+  "global"
+  "local"
 ] @keyword
 
-"return" @keyword.return
+(compound_statement
+  [
+    "begin"
+    "end"
+  ] @keyword)
 
-;; Disabled for difftastic: predicates are currently ignored.
-;; ((identifier) @keyword (#any-of? @keyword "global" "local"))
-
-(compound_expression
- ["begin" "end"] @keyword)
-(try_statement
-  ["try" "end" ] @exception)
-(finally_clause
-  "finally" @exception)
-(catch_clause
-  "catch" @exception)
 (quote_statement
-  ["quote" "end"] @keyword)
+  [
+    "quote"
+    "end"
+  ] @keyword)
+
 (let_statement
-  ["let" "end"] @keyword)
+  [
+    "let"
+    "end"
+  ] @keyword)
+
+(if_statement
+  [
+    "if"
+    "end"
+  ] @keyword.conditional)
+
+(elseif_clause
+  "elseif" @keyword.conditional)
+
+(else_clause
+  "else" @keyword.conditional)
+
+(ternary_expression
+  [
+    "?"
+    ":"
+  ] @keyword.conditional.ternary)
+
+(try_statement
+  [
+    "try"
+    "end"
+  ] @keyword.exception)
+
+(catch_clause
+  "catch" @keyword.exception)
+
+(finally_clause
+  "finally" @keyword.exception)
+
 (for_statement
-  ["for" "end"] @repeat)
-(while_statement
-  ["while" "end"] @repeat)
-(break_statement) @repeat
-(continue_statement) @repeat
+  [
+    "for"
+    "end"
+  ] @keyword.repeat)
+
+(for_binding
+  "outer" @keyword.repeat)
+
+; comprehensions
 (for_clause
-  "for" @repeat)
+  "for" @keyword.repeat)
+
+(if_clause
+  "if" @keyword.conditional)
+
+(while_statement
+  [
+    "while"
+    "end"
+  ] @keyword.repeat)
+
+[
+  (break_statement)
+  (continue_statement)
+] @keyword.repeat
+
+(function_definition
+  [
+    "function"
+    "end"
+  ] @keyword.function)
+
 (do_clause
-  ["do" "end"] @keyword)
+  [
+    "do"
+    "end"
+  ] @keyword.function)
 
-"in" @keyword.operator
+(macro_definition
+  [
+    "macro"
+    "end"
+  ] @keyword)
 
-(export_statement
-  ["export"] @include)
-
-(import_statement
-  ["import" "using"] @include)
+(return_statement
+  "return" @keyword.return)
 
 (module_definition
-  ["module" "end"] @include)
+  [
+    "module"
+    "baremodule"
+    "end"
+  ] @keyword.import)
 
-((identifier) @include (#eq? @include "baremodule"))
+(export_statement
+  "export" @keyword.import)
 
+(public_statement
+  "public" @keyword.import)
 
-;;; Literals
+(import_statement
+  "import" @keyword.import)
+
+(using_statement
+  "using" @keyword.import)
+
+(import_alias
+  "as" @keyword.import)
+
+(selected_import
+  ":" @punctuation.delimiter)
+
+(struct_definition
+  [
+    "mutable"
+    "struct"
+    "end"
+  ] @keyword.type)
+
+(abstract_definition
+  [
+    "abstract"
+    "type"
+    "end"
+  ] @keyword.type)
+
+(primitive_definition
+  [
+    "primitive"
+    "type"
+    "end"
+  ] @keyword.type)
+
+; Operators & Punctuation
+(operator) @operator
+
+(adjoint_expression
+  "'" @operator)
+
+(range_expression
+  ":" @operator)
+
+(arrow_function_expression
+  "->" @operator)
+
+[
+  "."
+  "..."
+  "::"
+] @punctuation
+
+[
+  ","
+  ";"
+] @punctuation.delimiter
+
+[
+  "("
+  ")"
+  "["
+  "]"
+  "{"
+  "}"
+] @punctuation.bracket
+
+; Keyword operators
+((operator) @keyword.operator
+  (#any-of? @keyword.operator "in" "isa"))
+
+(where_expression
+  "where" @keyword.operator)
+
+; Built-in constants
+((identifier) @constant.builtin
+  (#any-of? @constant.builtin "nothing" "missing"))
+
+((identifier) @variable.builtin
+  (#any-of? @variable.builtin "begin" "end")
+  (#has-ancestor? @variable.builtin index_expression))
+
+; Literals
+(boolean_literal) @boolean
 
 (integer_literal) @number
-(float_literal) @float
 
-;; Disabled for difftastic: predicates are currently ignored.
-;; ((identifier) @float
-;;   (#any-of? @float "NaN" "NaN16" "NaN32"
-;;                    "Inf" "Inf16" "Inf32"))
+(float_literal) @number.float
 
-;; ((identifier) @boolean
-;;   (#any-of? @boolean "true" "false"))
-
-;; ((identifier) @constant.builtin
-;;   (#any-of? @constant.builtin "nothing" "missing"))
+((identifier) @number.float
+  (#any-of? @number.float "NaN" "NaN16" "NaN32" "Inf" "Inf16" "Inf32"))
 
 (character_literal) @character
+
 (escape_sequence) @string.escape
 
 (string_literal) @string
+
 (prefixed_string_literal
   prefix: (identifier) @function.macro) @string
 
 (command_literal) @string.special
+
 (prefixed_command_literal
   prefix: (identifier) @function.macro) @string.special
+
+((string_literal) @string.documentation
+  .
+  [
+    (abstract_definition)
+    (assignment)
+    (const_statement)
+    (function_definition)
+    (macro_definition)
+    (module_definition)
+    (struct_definition)
+  ])
 
 [
   (line_comment)
   (block_comment)
 ] @comment
-
-;;; Punctuation
-
-(quote_expression ":" @symbol)
-["::" "." "," "..."] @punctuation.delimiter
-["[" "]" "(" ")" "{" "}"] @punctuation.bracket

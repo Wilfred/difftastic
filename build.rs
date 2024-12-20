@@ -180,11 +180,6 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
-            name: "tree-sitter-julia",
-            src_dir: "vendored_parsers/tree-sitter-julia-src",
-            extra_files: vec!["scanner.c"],
-        },
-        TreeSitterParser {
             name: "tree-sitter-kotlin",
             src_dir: "vendored_parsers/tree-sitter-kotlin-src",
             extra_files: vec!["scanner.c"],
