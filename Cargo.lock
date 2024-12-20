@@ -252,6 +252,7 @@ dependencies = [
  "tree-sitter-haskell",
  "tree-sitter-language",
  "tree-sitter-ruby",
+ "tree-sitter-scala",
  "tree_magic_mini",
  "typed-arena",
  "unicode-width",
@@ -1024,6 +1025,16 @@ name = "tree-sitter-ruby"
 version = "0.23.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "be0484ea4ef6bb9c575b4fdabde7e31340a8d2dbc7d52b321ac83da703249f95"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-scala"
+version = "0.23.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab837c0df7ffb6c315fd1cd792164375b3ec0c282ea35f639231f138044f8d0c"
 dependencies = [
  "cc",
  "tree-sitter-language",

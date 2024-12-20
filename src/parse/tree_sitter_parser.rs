@@ -107,7 +107,6 @@ extern "C" {
     fn tree_sitter_r() -> ts::Language;
     fn tree_sitter_racket() -> ts::Language;
     fn tree_sitter_rust() -> ts::Language;
-    fn tree_sitter_scala() -> ts::Language;
     fn tree_sitter_scheme() -> ts::Language;
     fn tree_sitter_smali() -> ts::Language;
     fn tree_sitter_scss() -> ts::Language;
@@ -979,16 +978,14 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Scala => {
-            let language = unsafe { tree_sitter_scala() };
+            let language_fn = tree_sitter_scala::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec!["string", "template_string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/scala.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_scala::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
