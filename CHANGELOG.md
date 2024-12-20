@@ -14,6 +14,10 @@ Improved language detection when one argument is a named pipe.
 
 Improved syntax highlighting, particularly for keywords.
 
+### Build
+
+difftastic now requires Rust 1.74.1 to build.
+
 ## 0.61 (released 24th October 2024)
 
 **Recommended git configuration has changed! Please update your

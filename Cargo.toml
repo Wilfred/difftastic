@@ -15,7 +15,7 @@ edition = "2021"
 # For reference, Debian stable is on 1.63 (see
 # https://tracker.debian.org/pkg/rustc) but Debian doesn't currently
 # package difftastic. Other distros are somewhat newer.
-rust-version = "1.66.0"
+rust-version = "1.74.1"
 include = [
         "/build.rs",
         "/src/",
