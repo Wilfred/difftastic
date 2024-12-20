@@ -89,6 +89,7 @@ tree-sitter-cpp = "0.23.4"
 tree-sitter-c = "0.23.4"
 tree-sitter-javascript = "0.23.1"
 tree-sitter-typescript = "0.23.2"
+tree-sitter-java = "0.23.4"
 
 [dev-dependencies]
 # assert_cmd 2.0.10 requires predicates 3.

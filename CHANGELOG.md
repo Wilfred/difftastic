@@ -11,7 +11,8 @@ with YAML.
 Improved language detection when one argument is a named pipe.
 
 Updated to the latest tree-sitter parser for C, C++, C#, Haskell,
-JavaScript, Objective-C, OCaml, Python, Ruby, Scala and TypeScript.
+Java, JavaScript, Objective-C, OCaml, Python, Ruby, Scala and
+TypeScript.
 
 ### Syntax Highlighting
 

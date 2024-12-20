@@ -83,7 +83,6 @@ extern "C" {
     fn tree_sitter_hcl() -> ts::Language;
     fn tree_sitter_html() -> ts::Language;
     fn tree_sitter_janet_simple() -> ts::Language;
-    fn tree_sitter_java() -> ts::Language;
     fn tree_sitter_json() -> ts::Language;
     fn tree_sitter_julia() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
@@ -573,7 +572,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Java => {
-            let language = unsafe { tree_sitter_java() };
+            let language_fn = tree_sitter_java::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec![
@@ -594,11 +594,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 .into_iter()
                 .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/java.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_java::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
