@@ -21,6 +21,8 @@ Improved syntax highlighting, particularly for keywords.
 
 difftastic now requires Rust 1.74.1 to build.
 
+Prebuilt packages for macOS on x86-64 are now built on macOS 13.
+
 ## 0.61 (released 24th October 2024)
 
 **Recommended git configuration has changed! Please update your
