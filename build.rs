@@ -41,8 +41,6 @@ impl TreeSitterParser {
                 .flag_if_supported("-Wno-implicit-fallthrough")
                 .flag_if_supported("-Wno-unused-parameter")
                 .flag_if_supported("-Wno-ignored-qualifiers")
-                // Ignore warning from tree-sitter-html.
-                .flag_if_supported("-Wno-sign-compare")
                 .link_lib_modifier("+whole-archive");
 
             for file in cpp_files {
@@ -152,11 +150,6 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-hcl",
             src_dir: "vendored_parsers/tree-sitter-hcl-src",
-            extra_files: vec!["scanner.cc"],
-        },
-        TreeSitterParser {
-            name: "tree-sitter-html",
-            src_dir: "vendored_parsers/tree-sitter-html-src",
             extra_files: vec!["scanner.cc"],
         },
         TreeSitterParser {

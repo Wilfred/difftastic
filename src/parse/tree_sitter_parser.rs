@@ -79,7 +79,6 @@ extern "C" {
     fn tree_sitter_hare() -> ts::Language;
     fn tree_sitter_hack() -> ts::Language;
     fn tree_sitter_hcl() -> ts::Language;
-    fn tree_sitter_html() -> ts::Language;
     fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
@@ -507,7 +506,9 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Html => {
-            let language = unsafe { tree_sitter_html() };
+            let language_fn = tree_sitter_html::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec![
@@ -522,11 +523,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("<", ">"), ("<!", ">"), ("<!--", "-->")]
                     .into_iter()
                     .collect(),
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/html.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_html::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![
                     TreeSitterSubLanguage {
                         query: ts::Query::new(&language, "(style_element (raw_text) @contents)")
