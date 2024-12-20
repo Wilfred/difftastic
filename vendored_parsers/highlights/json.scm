@@ -1,1 +1,0 @@
-../tree-sitter-json/queries/highlights.scm

@@ -94,6 +94,7 @@ tree-sitter-julia = "0.23.1"
 tree-sitter-go = "0.23.4"
 tree-sitter-bash = "0.23.3"
 tree-sitter-php = "0.23.11"
+tree-sitter-json = "0.24.8"
 
 [dev-dependencies]
 # assert_cmd 2.0.10 requires predicates 3.
