@@ -65,7 +65,6 @@ extern "C" {
     fn tree_sitter_apex() -> ts::Language;
     fn tree_sitter_bash() -> ts::Language;
     fn tree_sitter_c() -> ts::Language;
-    fn tree_sitter_c_sharp() -> ts::Language;
     fn tree_sitter_clojure() -> ts::Language;
     fn tree_sitter_cmake() -> ts::Language;
     fn tree_sitter_cpp() -> ts::Language;
@@ -262,7 +261,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         CSharp => {
-            let language = unsafe { tree_sitter_c_sharp() };
+            let language_fn = tree_sitter_c_sharp::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec![
