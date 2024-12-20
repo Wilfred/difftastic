@@ -1,4 +1,0 @@
-[submodule "tree-sitter"]
-	path = tree-sitter
-	url = https://github.com/ikatyang/tree-sitter
-	branch = v0.19.3-custom

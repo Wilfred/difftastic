@@ -12,7 +12,7 @@ Improved language detection when one argument is a named pipe.
 
 Updated to the latest tree-sitter parser for Bash, C, C++, C#, CSS,
 Go, Haskell, HTML, Java, JavaScript, JSON, Julia, Objective-C, OCaml,
-PHP, Python, Ruby, Scala and TypeScript.
+PHP, Python, Ruby, Scala, TOML and TypeScript.
 
 ### Syntax Highlighting
 
