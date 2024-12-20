@@ -10,7 +10,8 @@ with YAML.
 
 Improved language detection when one argument is a named pipe.
 
-Updated to the latest tree-sitter parser for Haskell, Ruby and Scala.
+Updated to the latest tree-sitter parser for Haskell, Objective-C,
+Ruby and Scala.
 
 ### Syntax Highlighting
 

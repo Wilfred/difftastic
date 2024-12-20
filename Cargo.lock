@@ -91,9 +91,9 @@ checksum = "7f30e7476521f6f8af1a1c4c0b8cc94f0bee37d91763d0ca2665f299b6cd8aec"
 
 [[package]]
 name = "cc"
-version = "1.1.30"
+version = "1.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b16803a61b81d9eabb7eae2588776c4c1e584b738ede45fdbb4c972cec1e9945"
+checksum = "c31a0499c1dc64f458ad13872de75c0eb7e3fdb0e67964610c914b034fc5956e"
 dependencies = [
  "shlex",
 ]
@@ -251,6 +251,7 @@ dependencies = [
  "tree-sitter",
  "tree-sitter-haskell",
  "tree-sitter-language",
+ "tree-sitter-objc",
  "tree-sitter-ruby",
  "tree-sitter-scala",
  "tree_magic_mini",
@@ -1019,6 +1020,16 @@ name = "tree-sitter-language"
 version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c199356c799a8945965bb5f2c55b2ad9d9aa7c4b4f6e587fe9dea0bc715e5f9c"
+
+[[package]]
+name = "tree-sitter-objc"
+version = "3.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9ca8bb556423fc176f0535e79d525f783a6684d3c9da81bf9d905303c129e1d2"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
+]
 
 [[package]]
 name = "tree-sitter-ruby"
