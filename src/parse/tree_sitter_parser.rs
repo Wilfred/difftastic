@@ -64,10 +64,8 @@ extern "C" {
     fn tree_sitter_ada() -> ts::Language;
     fn tree_sitter_apex() -> ts::Language;
     fn tree_sitter_bash() -> ts::Language;
-    fn tree_sitter_c() -> ts::Language;
     fn tree_sitter_clojure() -> ts::Language;
     fn tree_sitter_cmake() -> ts::Language;
-    fn tree_sitter_cpp() -> ts::Language;
     fn tree_sitter_commonlisp() -> ts::Language;
     fn tree_sitter_css() -> ts::Language;
     fn tree_sitter_dart() -> ts::Language;
@@ -187,35 +185,30 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         C => {
-            let language = unsafe { tree_sitter_c() };
+            let language_fn = tree_sitter_c::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec!["string_literal", "char_literal"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/c.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_c::HIGHLIGHT_QUERY).unwrap(),
                 sub_languages: vec![],
             }
         }
         CPlusPlus => {
-            let language = unsafe { tree_sitter_cpp() };
+            let language_fn = tree_sitter_cpp::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
+            let mut highlight_query = tree_sitter_c::HIGHLIGHT_QUERY.to_owned();
+            highlight_query.push_str(tree_sitter_cpp::HIGHLIGHT_QUERY);
+
             TreeSitterConfig {
                 language: language.clone(),
                 // The C++ grammar extends the C grammar, so the node
                 // names are generally the same.
                 atom_nodes: vec!["string_literal", "char_literal"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    concat!(
-                        include_str!("../../vendored_parsers/highlights/c.scm"),
-                        include_str!("../../vendored_parsers/highlights/cpp.scm")
-                    ),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
             }
         }
