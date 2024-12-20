@@ -83,7 +83,6 @@ extern "C" {
     fn tree_sitter_go() -> ts::Language;
     fn tree_sitter_hare() -> ts::Language;
     fn tree_sitter_hack() -> ts::Language;
-    fn tree_sitter_haskell() -> ts::Language;
     fn tree_sitter_hcl() -> ts::Language;
     fn tree_sitter_html() -> ts::Language;
     fn tree_sitter_janet_simple() -> ts::Language;
@@ -490,7 +489,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Haskell => {
-            let language = unsafe { tree_sitter_haskell() };
+            let language_fn = tree_sitter_haskell::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec![
