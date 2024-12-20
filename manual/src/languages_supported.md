@@ -43,7 +43,7 @@ with `difft --list-languages`.
 | Perl            | [ganezdragon/tree-sitter-perl](https://github.com/ganezdragon/tree-sitter-perl)                 |
 | PHP             | [tree-sitter/tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php)                   |
 | Python          | [tree-sitter/tree-sitter-python](https://github.com/tree-sitter/tree-sitter-python)             |
-| QML             | [tree-sitter/tree-sitter-qmljs](https://github.com/yuja/tree-sitter-qmljs)                      |
+| QML             | [yuja/tree-sitter-qmljs](https://github.com/yuja/tree-sitter-qmljs)                      |
 | R               | [r-lib/tree-sitter-r](https://github.com/r-lib/tree-sitter-r)                                   |
 | Racket          | [6cdh/tree-sitter-racket](https://github.com/6cdh/tree-sitter-racket)                           |
 | Ruby            | [tree-sitter/tree-sitter-ruby](https://github.com/tree-sitter/tree-sitter-ruby)                 |
