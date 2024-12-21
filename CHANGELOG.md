@@ -1,5 +1,9 @@
 ## 0.63 (unreleased)
 
+### Parsing
+
+Updated to the latest tree-sitter parser for Make.
+
 ## 0.62 (released 20th December 2024)
 
 ### Diffing
