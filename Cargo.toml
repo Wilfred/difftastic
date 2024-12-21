@@ -59,10 +59,7 @@ const_format = "0.2.22"
 owo-colors = "3.5.0"
 wu-diff = "0.1.2"
 rayon = "1.7.0"
-
 tree_magic_mini = "3.1.5"
-# home (used by tree_magic_mini) 0.5.9 has an MSRV of 1.70.
-home = ">= 0.5, < 0.5.9"
 
 # bumpalo 3.15.x requires rust 1.73.
 bumpalo = ">= 3.11, < 3.15"

@@ -224,7 +224,6 @@ dependencies = [
  "crossterm",
  "glob",
  "hashbrown 0.14.3",
- "home",
  "humansize",
  "ignore",
  "itertools 0.11.0",
