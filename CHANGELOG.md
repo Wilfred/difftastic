@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Updated to the latest tree-sitter parser for Make.
+Updated to the latest tree-sitter parser for Make and YAML.
 
 ## 0.62 (released 20th December 2024)
 

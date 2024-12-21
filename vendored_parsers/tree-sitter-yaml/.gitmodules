@@ -1,8 +1,0 @@
-[submodule "tree-sitter"]
-	path = tree-sitter
-	url = https://github.com/ikatyang/tree-sitter
-	branch = v0.19.3-custom
-[submodule "yaml-test-suite"]
-	path = yaml-test-suite
-	url = https://github.com/yaml/yaml-test-suite
-	branch = data

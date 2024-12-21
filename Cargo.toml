@@ -97,6 +97,7 @@ tree-sitter-toml-ng = "0.7.0"
 tree-sitter-lua = "0.2.0"
 tree-sitter-xml = "0.7.0"
 tree-sitter-make = "1.1.1"
+tree-sitter-yaml = "0.7.0"
 
 [dev-dependencies]
 # assert_cmd 2.0.10 requires predicates 3.

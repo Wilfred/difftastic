@@ -71,5 +71,5 @@ with `difft --list-languages`.
 | SCSS     | [serenadeai/tree-sitter-scss](https://github.com/serenadeai/tree-sitter-scss)                     |
 | TOML     | [tree-sitter-grammars/tree-sitter-toml](https://github.com/tree-sitter-grammars/tree-sitter-toml) |
 | XML      | [tree-sitter-grammars/tree-sitter-xml](https://github.com/tree-sitter-grammars/tree-sitter-xml)   |
-| YAML     | [ikatyang/tree-sitter-yaml](https://github.com/ikatyang/tree-sitter-yaml)                         |
+| YAML     | [tree-sitter-grammars/tree-sitter-yaml](https://github.com/tree-sitter-grammars/tree-sitter-yaml) |
 

@@ -243,11 +243,6 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
-            name: "tree-sitter-yaml",
-            src_dir: "vendored_parsers/tree-sitter-yaml-src",
-            extra_files: vec!["scanner.cc"],
-        },
-        TreeSitterParser {
             name: "tree-sitter-zig",
             src_dir: "vendored_parsers/tree-sitter-zig-src",
             extra_files: vec![],
