@@ -4,7 +4,7 @@ endif
 
 LANGUAGE_NAME := tree-sitter-gdscript
 HOMEPAGE_URL := https://github.com/prestonknopp/tree-sitter-gdscript
-VERSION := 4.0.1
+VERSION := 4.0.2
 
 # repository
 SRC_DIR := src
