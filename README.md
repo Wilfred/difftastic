@@ -40,6 +40,8 @@ git log --oneline --no-merges modules/gdscript
      - With commit message: "tree-sitter generate"
   1. Push
 - Release
+  1. Manually edit version in package files: CMakeLists.txt, Cargo.toml,
+     Makefile, pyproject.toml, tree-sitter.json
   1. `npm version <major, minor, patch> -m "<> version bump"`
   1. `git push --follow-tags`
 
