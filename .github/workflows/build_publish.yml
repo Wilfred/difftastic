@@ -18,7 +18,10 @@ jobs:
         # Use macos-14 for arm, however the artifact upload name conflicts with
         # macos-latest. There's probably a way to crossbuild for arm with
         # prebuildify.
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        #
+        # Disable windows for now.
+        #os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
