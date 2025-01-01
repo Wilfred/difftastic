@@ -31,8 +31,10 @@ jobs:
           npm ci
       - run: npm test
       - run: npm run prebuild
+      # upload-artifact@v4 requires each artifact name to be unique.
       - uses: actions/upload-artifact@v4
         with:
+          name: prebuilds-${{ matrix.os }}
           path: prebuilds
           retention-days: 1
 
@@ -50,10 +52,13 @@ jobs:
           npm --version
           npm ci
       - run: npm test
+      # Download all artifacts and merge into prebuilds dir.
       - uses: actions/download-artifact@v4
-      - run: |
-          mv artifact prebuilds
-          ls prebuilds
+        with:
+          path: prebuilds
+          pattern: prebuilds-*
+          merge-multiple: true
+      - run: ls -R prebuilds
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
