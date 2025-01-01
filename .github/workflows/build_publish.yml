@@ -15,8 +15,10 @@ jobs:
   build_native_binaries:
     strategy:
       matrix:
-        # Use macos-14 for arm.
-        os: [macos-latest, macos-14, ubuntu-latest, windows-latest]
+        # Use macos-14 for arm, however the artifact upload name conflicts with
+        # macos-latest. There's probably a way to crossbuild for arm with
+        # prebuildify.
+        os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
