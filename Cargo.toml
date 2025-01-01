@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-gdscript"
 description = "Grammar for Godot's built-in scripting language."
-version = "4.0.0"
+version = "4.0.1"
 authors = ["Preston Knopp <prestonknopp@gmail.com>"]
 license = "MIT"
 readme = "README.md"
