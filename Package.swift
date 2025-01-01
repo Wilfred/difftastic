@@ -1,28 +1,37 @@
-// swift-tools-version: 5.6
+// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
     name: "TreeSitterGDScript",
-    platforms: [
-        .macOS(.v10_13),
-        .iOS(.v11)
+    products: [
+        .library(name: "TreeSitterGDScript", targets: ["TreeSitterGDScript"]),
     ],
-    products: [.library(name: "TreeSitterGDScript", targets: ["TreeSitterGDScript"])],
+    dependencies: [
+        .package(url: "https://github.com/ChimeHQ/SwiftTreeSitter", from: "0.8.0"),
+    ],
     targets: [
         .target(
             name: "TreeSitterGDScript",
+            dependencies: [],
             path: ".",
-            exclude: [
-            ],
             sources: [
                 "src/parser.c",
                 "src/scanner.c",
             ],
             resources: [
-                .copy("queries"),
+                .copy("queries")
             ],
             publicHeadersPath: "bindings/swift",
             cSettings: [.headerSearchPath("src")]
         ),
-    ]
+        .testTarget(
+            name: "TreeSitterGDScriptTests",
+            dependencies: [
+                "SwiftTreeSitter",
+                "TreeSitterGDScript",
+            ],
+            path: "bindings/swift/TreeSitterGDScriptTests"
+        )
+    ],
+    cLanguageStandard: .c11
 )

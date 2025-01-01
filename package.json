@@ -1,32 +1,54 @@
 {
   "name": "tree-sitter-gdscript",
   "version": "3.0.0",
-  "description": "GDScript grammar for tree-sitter",
+  "description": "Grammar for Godot's built-in scripting language.",
+  "repository": "https://github.com/prestonknopp/tree-sitter-gdscript",
+  "license": "MIT",
+  "author": "Preston Knopp",
   "main": "bindings/node",
   "keywords": [
-    "parser",
-    "lexer",
-    "gdscript"
+    "incremental",
+    "parsing",
+    "tree-sitter",
+    "gdscript",
+    "godot"
   ],
-  "author": "Preston Knopp",
-  "license": "MIT",
+  "files": [
+    "grammar.js",
+    "tree-sitter.json",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**",
+    "*.wasm"
+  ],
   "dependencies": {
-    "nan": "^2.14.2",
-    "node-gyp-build": "^4.6.0"
+    "node-addon-api": "^8.2.1",
+    "node-gyp-build": "^4.8.2"
   },
   "devDependencies": {
-    "prebuildify": "^5.0.1",
+    "prebuildify": "^6.0.1",
     "prettier": "^2.8.1",
-    "tree-sitter-cli": "^0.20.7"
+    "tree-sitter-cli": "^0.24.6"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.1"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
+    }
   },
   "scripts": {
     "install": "node-gyp-build",
-    "prebuild": "prebuildify --strip -t electron@12.2.3 -t 18.13.0 -t 19.5.0",
-    "test": "tree-sitter --version && tree-sitter test",
+    "prebuild": "prebuildify --strip -t electron@32.2.6 -t v20.18.1",
+    "prestart": "tree-sitter build --wasm",
+    "start": "tree-sitter playground",
+    "test": "tree-sitter --version && tree-sitter test && node --test bindings/node/*_test.js",
     "generate": "tree-sitter --version && tree-sitter generate",
-    "genTest": "tree-sitter --version && tree-sitter generate && tree-sitter test",
+    "genTest": "tree-sitter --version && tree-sitter generate && tree-sitter test && node --test bindings/node/*_test.js",
     "parse": "tree-sitter --version && tree-sitter parse",
     "format": "prettier -w grammar.js package.json && prettier -w --parser json binding.gyp"
-  },
-  "repository": "https://github.com/PrestonKnopp/tree-sitter-gdscript"
+  }
 }

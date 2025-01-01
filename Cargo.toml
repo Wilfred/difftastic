@@ -1,21 +1,27 @@
 [package]
 name = "tree-sitter-gdscript"
-description = "gdscript grammar for the tree-sitter parsing library"
-version = "0.0.1"
-keywords = ["incremental", "parsing", "gdscript"]
-categories = ["parsing", "text-editors"]
-repository = "https://github.com/PrestonKnopp/tree-sitter-gdscript"
-edition = "2018"
+description = "Grammar for Godot's built-in scripting language."
+version = "3.0.0"
+authors = ["Preston Knopp <prestonknopp@gmail.com>"]
 license = "MIT"
+readme = "README.md"
+keywords = ["incremental", "parsing", "tree-sitter", "gdscript"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/prestonknopp/tree-sitter-gdscript"
+edition = "2021"
+autoexamples = false
 
 build = "bindings/rust/build.rs"
-include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
+include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*", "tree-sitter.json"]
 
 [lib]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "~0.20.10"
+tree-sitter-language = "0.1"
 
 [build-dependencies]
-cc = "1.0"
+cc = "1.1.22"
+
+[dev-dependencies]
+tree-sitter = "0.24.6"
