@@ -4,7 +4,7 @@ endif
 
 LANGUAGE_NAME := tree-sitter-godot-resource
 HOMEPAGE_URL := https://github.com/prestonknopp/tree-sitter-godot-resource
-VERSION := 0.5.0
+VERSION := 0.6.0
 
 # repository
 SRC_DIR := src

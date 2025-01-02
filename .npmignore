@@ -2,4 +2,7 @@ corpus
 examples
 build
 script
-prebuilds
+parser.exp
+parser.lib
+parser.obj
+scanner.obj

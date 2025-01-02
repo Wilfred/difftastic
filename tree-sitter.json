@@ -13,7 +13,7 @@
     }
   ],
   "metadata": {
-    "version": "0.5.0",
+    "version": "0.6.0",
     "license": "MIT",
     "description": "Grammar for the Godot game engine's resource format.",
     "authors": [
