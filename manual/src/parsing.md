@@ -82,7 +82,7 @@ program (0, 0) - (1, 0)
 
 `tree_sitter_parser.rs` uses `open_delimiter_tokens` to ensure that
 `[` and `]` are used as delimiter content in the enclosing list,
-rather than converitng them to atoms.
+rather than converting them to atoms.
 
 Difftastic can match up atoms that occur in different parts of the
 simplified syntax tree. If e.g. a `[` is treated as an atom,
