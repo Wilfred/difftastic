@@ -304,6 +304,7 @@
   {
     "type": "resource",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,

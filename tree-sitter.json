@@ -1,0 +1,36 @@
+{
+  "grammars": [
+    {
+      "name": "godot_resource",
+      "camelcase": "GodotResource",
+      "scope": "source.godot_resource",
+      "file-types": [
+        ".tscn",
+        ".tres",
+        ".godot"
+      ],
+      "injection-regex": "^godot_resource$"
+    }
+  ],
+  "metadata": {
+    "version": "0.5.0",
+    "license": "MIT",
+    "description": "Grammar for the Godot game engine's resource format.",
+    "authors": [
+      {
+        "name": "Preston Knopp"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/PrestonKnopp/tree-sitter-godot-resource"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}
