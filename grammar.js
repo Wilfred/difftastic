@@ -88,7 +88,7 @@ module.exports = grammar({
     // 0/texture = ExtResource( 2 )
     _properties: ($) => repeat1($.property),
     property: ($) => seq($.path, "=", $._value),
-    path: ($) => /[a-zA-Z_0-9][a-zA-Z_/0-9]*/,
+    path: ($) => /[a-zA-Z_0-9][a-zA-Z_:/0-9]*/,
 
     // -----------------------------------------------------------------------------
     // -                                 Data Structs                              -

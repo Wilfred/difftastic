@@ -430,7 +430,7 @@
     },
     "path": {
       "type": "PATTERN",
-      "value": "[a-zA-Z_0-9][a-zA-Z_/0-9]*"
+      "value": "[a-zA-Z_0-9][a-zA-Z_:/0-9]*"
     },
     "pair": {
       "type": "SEQ",
