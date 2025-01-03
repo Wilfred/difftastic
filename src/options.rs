@@ -785,7 +785,10 @@ pub(crate) fn parse_args() -> Mode {
         strip_cr,
     };
 
-    let args: Vec<_> = matches.values_of_os("paths").unwrap_or_default().collect();
+    let args = matches
+        .get_raw("paths")
+        .unwrap_or_default()
+        .collect::<Vec<_>>();
     info!("CLI arguments: {:?}", args);
 
     // Print git environment variables so we can see the additional
