@@ -734,7 +734,10 @@ pub(crate) fn parse_args() -> Mode {
         _ => unreachable!("clap has already validated the values"),
     };
 
-    let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
+    let syntax_highlight = matches
+        .get_one::<String>("syntax-highlight")
+        .map(|s| s.as_str())
+        == Some("on");
 
     let sort_paths = matches.get_flag("sort-paths");
 
@@ -772,7 +775,7 @@ pub(crate) fn parse_args() -> Mode {
 
     let set_exit_code = matches.get_flag("exit-code");
 
-    let strip_cr = matches.value_of("strip-cr") == Some("on");
+    let strip_cr = matches.get_one::<String>("strip-cr").map(|s| s.as_str()) == Some("on");
 
     let check_only = matches.get_flag("check-only");
 
