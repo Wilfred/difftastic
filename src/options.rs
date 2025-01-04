@@ -646,7 +646,11 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
 pub(crate) fn parse_args() -> Mode {
     let matches = app().get_matches();
 
-    let color_output = match matches.value_of("color").expect("color has a default") {
+    let color_output = match matches
+        .get_one::<String>("color")
+        .map(|s| s.as_str())
+        .expect("color has a default")
+    {
         "always" => ColorOutput::Always,
         "never" => ColorOutput::Never,
         "auto" => ColorOutput::Auto,
@@ -659,8 +663,8 @@ pub(crate) fn parse_args() -> Mode {
     let ignore_comments = matches.get_flag("ignore-comments");
 
     let mut raw_overrides: Vec<String> = vec![];
-    if let Some(overrides) = matches.values_of("override") {
-        raw_overrides = overrides.map(|s| s.into()).collect();
+    if let Some(overrides) = matches.get_many("override") {
+        raw_overrides = overrides.cloned().collect();
     }
     for i in 1..=9 {
         if let Ok(value) = env::var(format!("DFT_OVERRIDE_{}", i)) {
@@ -677,7 +681,7 @@ pub(crate) fn parse_args() -> Mode {
         };
     }
 
-    if let Some(path) = matches.value_of("dump-syntax") {
+    if let Some(path) = matches.get_one::<String>("dump-syntax") {
         return Mode::DumpSyntax {
             path: path.to_owned(),
             ignore_comments,
@@ -685,7 +689,7 @@ pub(crate) fn parse_args() -> Mode {
         };
     }
 
-    if let Some(path) = matches.value_of("dump-syntax-dot") {
+    if let Some(path) = matches.get_one::<String>("dump-syntax-dot") {
         return Mode::DumpSyntaxDot {
             path: path.to_owned(),
             ignore_comments,
@@ -693,14 +697,14 @@ pub(crate) fn parse_args() -> Mode {
         };
     }
 
-    if let Some(path) = matches.value_of("dump-ts") {
+    if let Some(path) = matches.get_one::<String>("dump-ts") {
         return Mode::DumpTreeSitter {
             path: path.to_owned(),
             language_overrides,
         };
     }
 
-    let terminal_width = if let Some(arg_width) = matches.value_of("width") {
+    let terminal_width = if let Some(arg_width) = matches.get_one::<String>("width") {
         arg_width
             .parse::<usize>()
             .expect("Already validated by clap")
@@ -708,7 +712,11 @@ pub(crate) fn parse_args() -> Mode {
         detect_terminal_width()
     };
 
-    let display_mode = match matches.value_of("display").expect("display has a default") {
+    let display_mode = match matches
+        .get_one::<String>("display")
+        .map(|s| s.as_str())
+        .expect("display has a default")
+    {
         "side-by-side" => DisplayMode::SideBySide,
         "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
         "inline" => DisplayMode::Inline,
@@ -726,7 +734,8 @@ pub(crate) fn parse_args() -> Mode {
     };
 
     let background_color = match matches
-        .value_of("background")
+        .get_one::<String>("background")
+        .map(|s| s.as_str())
         .expect("Always present as we've given clap a default")
     {
         "dark" => BackgroundColor::Dark,
@@ -742,31 +751,31 @@ pub(crate) fn parse_args() -> Mode {
     let sort_paths = matches.get_flag("sort-paths");
 
     let graph_limit = matches
-        .value_of("graph-limit")
+        .get_one::<String>("graph-limit")
         .expect("Always present as we've given clap a default")
         .parse::<usize>()
         .expect("Value already validated by clap");
 
     let byte_limit = matches
-        .value_of("byte-limit")
+        .get_one::<String>("byte-limit")
         .expect("Always present as we've given clap a default")
         .parse::<usize>()
         .expect("Value already validated by clap");
 
     let parse_error_limit = matches
-        .value_of("parse-error-limit")
+        .get_one::<String>("parse-error-limit")
         .expect("Always present as we've given clap a default")
         .parse::<usize>()
         .expect("Value already validated by clap");
 
     let tab_width = matches
-        .value_of("tab-width")
+        .get_one::<String>("tab-width")
         .expect("Always present as we've given clap a default")
         .parse::<usize>()
         .expect("Value already validated by clap");
 
     let num_context_lines = matches
-        .value_of("context")
+        .get_one::<String>("context")
         .expect("Always present as we've given clap a default")
         .parse::<u32>()
         .expect("Value already validated by clap");
