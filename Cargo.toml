@@ -54,7 +54,7 @@ radix-heap = "0.4.2"
 # ignore does not declare a MSRV, but it's part of ripgrep, which has
 # a slightly more aggressive MSRV than difftastic. Constrain ignore to
 # a known-good max version.
-ignore = ">= 0.4, < 0.4.22"
+ignore = ">= 0.4, < 0.4.24"
 const_format = "0.2.22"
 owo-colors = "3.5.0"
 wu-diff = "0.1.2"
