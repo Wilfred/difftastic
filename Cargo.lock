@@ -430,15 +430,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d231dfb89cfffdbc30e7fc41579ed6066ad03abda9e567ccafae602b97ec5024"
 
 [[package]]
-name = "home"
-version = "0.5.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5444c27eef6923071f7ebcc33e3444508466a76f7a2b93da00ed6e19f30c1ddb"
-dependencies = [
- "windows-sys 0.48.0",
-]
-
-[[package]]
 name = "humansize"
 version = "2.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1266,12 +1257,11 @@ dependencies = [
 
 [[package]]
 name = "tree_magic_mini"
-version = "3.1.5"
+version = "3.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "469a727cac55b41448315cc10427c069c618ac59bb6a4480283fcd811749bdc2"
+checksum = "aac5e8971f245c3389a5a76e648bfc80803ae066a1243a75db0064d7c1129d63"
 dependencies = [
  "fnv",
- "home",
  "memchr",
  "nom",
  "once_cell",
