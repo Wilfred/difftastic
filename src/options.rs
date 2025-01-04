@@ -153,7 +153,7 @@ fn app() -> clap::Command<'static> {
                 .long_help("The number of contextual lines to show around changed lines.")
                 .default_value("3")
                 .env("DFT_CONTEXT")
-                .validator(|s| s.parse::<u32>())
+                .value_parser(clap::value_parser!(u32))
                 .required(false),
         )
         .arg(
@@ -164,7 +164,7 @@ fn app() -> clap::Command<'static> {
                 .action(ArgAction::Set)
                 .long_help("Use this many columns when calculating line wrapping. If not specified, difftastic will detect the terminal width.")
                 .env("DFT_WIDTH")
-                .validator(|s| s.parse::<usize>())
+                .value_parser(clap::value_parser!(usize))
                 .required(false),
         )
         .arg(
@@ -176,7 +176,7 @@ fn app() -> clap::Command<'static> {
                 .long_help("Treat a tab as this many spaces.")
                 .env("DFT_TAB_WIDTH")
                 .default_value(formatcp!("{}", DEFAULT_TAB_WIDTH))
-                .validator(|s| s.parse::<usize>())
+                .value_parser(clap::value_parser!(usize))
                 .required(false),
         )
         .arg(
@@ -296,7 +296,7 @@ When multiple overrides are specified, the first matching override wins."))
                 .help("Use a text diff if either input file exceeds this size.")
                 .default_value(formatcp!("{}", DEFAULT_BYTE_LIMIT))
                 .env("DFT_BYTE_LIMIT")
-                .validator(|s| s.parse::<usize>())
+                .value_parser(clap::value_parser!(usize))
                 .required(false),
         )
         .arg(
@@ -307,7 +307,7 @@ When multiple overrides are specified, the first matching override wins."))
                 .default_value(formatcp!("{}", DEFAULT_GRAPH_LIMIT))
                 .action(ArgAction::Set)
                 .env("DFT_GRAPH_LIMIT")
-                .validator(|s| s.parse::<usize>())
+                .value_parser(clap::value_parser!(usize))
                 .required(false),
         )
         .arg(
@@ -318,7 +318,7 @@ When multiple overrides are specified, the first matching override wins."))
                 .help("Use a text diff if the number of parse errors exceeds this value.")
                 .default_value(formatcp!("{}", DEFAULT_PARSE_ERROR_LIMIT))
                 .env("DFT_PARSE_ERROR_LIMIT")
-                .validator(|s| s.parse::<usize>())
+                .value_parser(clap::value_parser!(usize))
                 .required(false),
         )
         .arg(
@@ -704,10 +704,8 @@ pub(crate) fn parse_args() -> Mode {
         };
     }
 
-    let terminal_width = if let Some(arg_width) = matches.get_one::<String>("width") {
-        arg_width
-            .parse::<usize>()
-            .expect("Already validated by clap")
+    let terminal_width = if let Some(arg_width) = matches.get_one::<usize>("width") {
+        *arg_width
     } else {
         detect_terminal_width()
     };
@@ -750,35 +748,25 @@ pub(crate) fn parse_args() -> Mode {
 
     let sort_paths = matches.get_flag("sort-paths");
 
-    let graph_limit = matches
-        .get_one::<String>("graph-limit")
-        .expect("Always present as we've given clap a default")
-        .parse::<usize>()
-        .expect("Value already validated by clap");
+    let graph_limit = *matches
+        .get_one("graph-limit")
+        .expect("Always present as we've given clap a default");
 
-    let byte_limit = matches
-        .get_one::<String>("byte-limit")
-        .expect("Always present as we've given clap a default")
-        .parse::<usize>()
-        .expect("Value already validated by clap");
+    let byte_limit = *matches
+        .get_one("byte-limit")
+        .expect("Always present as we've given clap a default");
 
-    let parse_error_limit = matches
-        .get_one::<String>("parse-error-limit")
-        .expect("Always present as we've given clap a default")
-        .parse::<usize>()
-        .expect("Value already validated by clap");
+    let parse_error_limit = *matches
+        .get_one("parse-error-limit")
+        .expect("Always present as we've given clap a default");
 
-    let tab_width = matches
-        .get_one::<String>("tab-width")
-        .expect("Always present as we've given clap a default")
-        .parse::<usize>()
-        .expect("Value already validated by clap");
+    let tab_width = *matches
+        .get_one("tab-width")
+        .expect("Always present as we've given clap a default");
 
-    let num_context_lines = matches
-        .get_one::<String>("context")
-        .expect("Always present as we've given clap a default")
-        .parse::<u32>()
-        .expect("Value already validated by clap");
+    let num_context_lines = *matches
+        .get_one("context")
+        .expect("Always present as we've given clap a default");
 
     let print_unchanged = !matches.get_flag("skip-unchanged");
 
