@@ -215,12 +215,19 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         .take(5000)
         .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
         .count();
-    if num_utf16_invalid <= 5 {
+    if num_utf16_invalid <= 1 {
         info!(
             "Input file is mostly valid UTF-16 (invalid characters: {})",
             num_utf16_invalid
         );
         return ProbableFileKind::Text(utf16_string);
+    }
+
+    // If the input bytes are valid Windows-1252 (an extension of
+    // ISO-8859-1 aka Latin 1), treat them as such.
+    let (latin1_str, _encoding, saw_malformed) = encoding_rs::WINDOWS_1252.decode(bytes);
+    if !saw_malformed {
+        return ProbableFileKind::Text(latin1_str.to_string());
     }
 
     ProbableFileKind::Binary
