@@ -8,7 +8,6 @@ use std::{
 };
 
 use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
-use const_format::formatcp;
 use crossterm::tty::IsTty;
 use itertools::Itertools;
 
@@ -169,7 +168,7 @@ fn app() -> clap::Command {
                 .action(ArgAction::Set)
                 .long_help("Treat a tab as this many spaces.")
                 .env("DFT_TAB_WIDTH")
-                .default_value(formatcp!("{}", DEFAULT_TAB_WIDTH))
+                .default_value(format!("{}", DEFAULT_TAB_WIDTH))
                 .value_parser(clap::value_parser!(usize))
                 .required(false),
         )
@@ -287,7 +286,7 @@ When multiple overrides are specified, the first matching override wins."))
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
                 .help("Use a text diff if either input file exceeds this size.")
-                .default_value(formatcp!("{}", DEFAULT_BYTE_LIMIT))
+                .default_value(format!("{}", DEFAULT_BYTE_LIMIT))
                 .env("DFT_BYTE_LIMIT")
                 .value_parser(clap::value_parser!(usize))
                 .required(false),
@@ -296,7 +295,7 @@ When multiple overrides are specified, the first matching override wins."))
             Arg::new("graph-limit").long("graph-limit")
                 .value_name("LIMIT")
                 .help("Use a text diff if the structural graph exceed this number of nodes in memory.")
-                .default_value(formatcp!("{}", DEFAULT_GRAPH_LIMIT))
+                .default_value(format!("{}", DEFAULT_GRAPH_LIMIT))
                 .action(ArgAction::Set)
                 .env("DFT_GRAPH_LIMIT")
                 .value_parser(clap::value_parser!(usize))
@@ -307,7 +306,7 @@ When multiple overrides are specified, the first matching override wins."))
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
                 .help("Use a text diff if the number of parse errors exceeds this value.")
-                .default_value(formatcp!("{}", DEFAULT_PARSE_ERROR_LIMIT))
+                .default_value(format!("{}", DEFAULT_PARSE_ERROR_LIMIT))
                 .env("DFT_PARSE_ERROR_LIMIT")
                 .value_parser(clap::value_parser!(usize))
                 .required(false),
