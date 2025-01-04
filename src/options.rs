@@ -91,7 +91,7 @@ impl Default for DiffOptions {
     }
 }
 
-fn app() -> clap::Command<'static> {
+fn app() -> clap::Command {
     Command::new("Difftastic")
         .override_usage(USAGE)
         .version(env!("CARGO_PKG_VERSION"))
@@ -117,7 +117,6 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("dump-syntax")
                 .long("dump-syntax")
-                .takes_value(true)
                 .value_name("PATH")
                 .action(ArgAction::Set)
                 .long_help(
@@ -127,7 +126,6 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("dump-syntax-dot")
                 .long("dump-syntax-dot")
-                .takes_value(true)
                 .value_name("PATH")
                 .action(ArgAction::Set)
                 .long_help(
@@ -137,8 +135,7 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("dump-ts")
                 .long("dump-ts")
-                .takes_value(true)
-                .value_name("PATH")
+                                .value_name("PATH")
                 .action(ArgAction::Set)
                 .long_help(
                     "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
@@ -147,8 +144,7 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("context")
                 .long("context")
-                .takes_value(true)
-                .value_name("LINES")
+                                .value_name("LINES")
                 .action(ArgAction::Set)
                 .long_help("The number of contextual lines to show around changed lines.")
                 .default_value("3")
@@ -159,7 +155,6 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("width")
                 .long("width")
-                .takes_value(true)
                 .value_name("COLUMNS")
                 .action(ArgAction::Set)
                 .long_help("Use this many columns when calculating line wrapping. If not specified, difftastic will detect the terminal width.")
@@ -170,7 +165,6 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("tab-width")
                 .long("tab-width")
-                .takes_value(true)
                 .value_name("NUM_SPACES")
                 .action(ArgAction::Set)
                 .long_help("Treat a tab as this many spaces.")
@@ -290,7 +284,6 @@ When multiple overrides are specified, the first matching override wins."))
         )
         .arg(
             Arg::new("byte-limit").long("byte-limit")
-                .takes_value(true)
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
                 .help("Use a text diff if either input file exceeds this size.")
@@ -301,7 +294,6 @@ When multiple overrides are specified, the first matching override wins."))
         )
         .arg(
             Arg::new("graph-limit").long("graph-limit")
-                .takes_value(true)
                 .value_name("LIMIT")
                 .help("Use a text diff if the structural graph exceed this number of nodes in memory.")
                 .default_value(formatcp!("{}", DEFAULT_GRAPH_LIMIT))
@@ -312,7 +304,6 @@ When multiple overrides are specified, the first matching override wins."))
         )
         .arg(
             Arg::new("parse-error-limit").long("parse-error-limit")
-                .takes_value(true)
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
                 .help("Use a text diff if the number of parse errors exceeds this value.")
@@ -325,7 +316,6 @@ When multiple overrides are specified, the first matching override wins."))
             Arg::new("paths")
                 .value_name("PATHS")
                 .action(ArgAction::Append)
-                .multiple_values(true)
                 .hide(true)
                 .value_parser(value_parser!(OsString)),
         )
