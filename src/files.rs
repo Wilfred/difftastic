@@ -227,7 +227,14 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     // ISO-8859-1 aka Latin 1), treat them as such.
     let (latin1_str, _encoding, saw_malformed) = encoding_rs::WINDOWS_1252.decode(bytes);
     if !saw_malformed {
-        return ProbableFileKind::Text(latin1_str.to_string());
+        let num_null = utf16_string
+            .chars()
+            .take(5000)
+            .filter(|c| *c == '\0')
+            .count();
+        if num_null <= 1 {
+            return ProbableFileKind::Text(latin1_str.to_string());
+        }
     }
 
     ProbableFileKind::Binary
