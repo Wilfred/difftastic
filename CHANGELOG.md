@@ -1,5 +1,10 @@
 ## 0.63 (unreleased)
 
+### Command Line Interface
+
+Difftastic no longer accepts the `--missing-as-empty`. This has had no
+effect since 0.46.
+
 ### Parsing
 
 File detection now supports Windows-1252 encoded test (an extension of

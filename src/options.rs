@@ -250,10 +250,6 @@ json: Output the results as a machine-readable JSON array with an element per fi
                 .help("Don't display anything if a file is unchanged.")
         )
         .arg(
-            Arg::new("missing-as-empty").long("missing-as-empty")
-                .help("Treat paths that don't exist as equivalent to an empty file. Only applies when diffing files, not directories.")
-        )
-        .arg(
             Arg::new("override").long("override")
                 .value_name("GLOB:NAME")
                 .action(ArgAction::Append)

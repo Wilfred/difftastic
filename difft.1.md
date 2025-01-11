@@ -85,11 +85,6 @@ OPTIONS
 
 : Print the all the languages supported by difftastic, along with their extensions.
 
-**\-\-missing-as-empty**
-
-: Treat paths that don't exist as equivalent to an empty file. Only applies when diffing
-  files, not directories.
-
 **\-\-override** _GLOB:NAME_
 
 : Associate this glob pattern with this language, overriding normal language detection.
