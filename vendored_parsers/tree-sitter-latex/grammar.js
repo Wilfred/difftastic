@@ -15,20 +15,20 @@ const specialEnvironment = ({ rule, name, content, options }) => {
       seq(
         field('begin', alias($[beginRule], $.begin)),
         content($),
-        field('end', alias($[endRule], $.end))
+        field('end', alias($[endRule], $.end)),
       ),
 
     [beginRule]: $ =>
       seq(
         field('command', '\\begin'),
         field('name', alias($[groupRule], $.curly_group_text)),
-        options ? options($) : seq()
+        options ? options($) : seq(),
       ),
 
     [endRule]: $ =>
       seq(
         field('command', '\\end'),
-        field('name', alias($[groupRule], $.curly_group_text))
+        field('name', alias($[groupRule], $.curly_group_text)),
       ),
 
     [groupRule]: $ => seq('{', field('text', alias($[nameRule], $.text)), '}'),
@@ -46,7 +46,13 @@ module.exports = grammar({
     $._trivia_raw_env_verbatim,
     $._trivia_raw_env_listing,
     $._trivia_raw_env_minted,
+    $._trivia_raw_env_asy,
+    $._trivia_raw_env_asydef,
     $._trivia_raw_env_pycode,
+    $._trivia_raw_env_luacode,
+    $._trivia_raw_env_luacode_star,
+    $._trivia_raw_env_sagesilent,
+    $._trivia_raw_env_sageblock,
   ],
   word: $ => $.command_name,
   rules: {
@@ -62,12 +68,12 @@ module.exports = grammar({
       seq(
         field('begin', '\\iffalse'),
         field('comment', optional(alias($._trivia_raw_fi, $.comment))),
-        field('end', optional('\\fi'))
+        field('end', optional('\\fi')),
       ),
 
     //--- Content
 
-    _root_content: $ => choice($._section, $._flat_content),
+    _root_content: $ => choice($._section, $._paragraph, $._flat_content),
 
     _flat_content: $ => prec.right(choice($._text_with_env_content, '[', ']')),
 
@@ -79,10 +85,15 @@ module.exports = grammar({
         $.verbatim_environment,
         $.listing_environment,
         $.minted_environment,
+        $.asy_environment,
+        $.asydef_environment,
         $.pycode_environment,
+        $.luacode_environment,
+        $.sagesilent_environment,
+        $.sageblock_environment,
         $.generic_environment,
         $.math_environment,
-        $._text_content
+        $._text_content,
       ),
 
     _text_content: $ =>
@@ -93,13 +104,10 @@ module.exports = grammar({
           $.block_comment,
           $._command,
           $.text,
-          $.displayed_equation,
-          $.inline_formula,
-          $.math_delimiter,
-          $.text_mode,
+          $._math_content,
           '(',
-          ')'
-        )
+          ')',
+        ),
       ),
 
     //--- Sections
@@ -112,10 +120,16 @@ module.exports = grammar({
           repeat1($.section),
           repeat1($.subsection),
           repeat1($.subsubsection),
+        ),
+      ),
+
+    _paragraph: $ =>
+      prec.right(
+        choice(
           repeat1($.paragraph),
           repeat1($.subparagraph),
-          repeat1($.enum_item)
-        )
+          repeat1($.enum_item),
+        ),
       ),
 
     _section_part: $ =>
@@ -126,10 +140,10 @@ module.exports = grammar({
         seq(
           field(
             'command',
-            choice('\\part', '\\part*', '\\addpart', '\\addpart*')
+            choice('\\part', '\\part*', '\\addpart', '\\addpart*'),
           ),
-          optional($._section_part)
-        )
+          optional($._section_part),
+        ),
       ),
 
     part: $ =>
@@ -138,6 +152,7 @@ module.exports = grammar({
         seq(
           $._part_declaration,
           repeat($._flat_content),
+          optional(prec.right(-1, $._paragraph)),
           optional(
             prec.right(
               choice(
@@ -145,13 +160,10 @@ module.exports = grammar({
                 repeat1($.section),
                 repeat1($.subsection),
                 repeat1($.subsubsection),
-                repeat1($.paragraph),
-                repeat1($.subparagraph),
-                repeat1($.enum_item)
-              )
-            )
-          )
-        )
+              ),
+            ),
+          ),
+        ),
       ),
 
     _chapter_declaration: $ =>
@@ -159,10 +171,10 @@ module.exports = grammar({
         seq(
           field(
             'command',
-            choice('\\chapter', '\\chapter*', '\\addchap', '\\addchap*')
+            choice('\\chapter', '\\chapter*', '\\addchap', '\\addchap*'),
           ),
-          optional($._section_part)
-        )
+          optional($._section_part),
+        ),
       ),
 
     chapter: $ =>
@@ -171,19 +183,17 @@ module.exports = grammar({
         seq(
           $._chapter_declaration,
           repeat($._flat_content),
+          optional(prec.right(-1, $._paragraph)),
           optional(
             prec.right(
               choice(
                 repeat1($.section),
                 repeat1($.subsection),
                 repeat1($.subsubsection),
-                repeat1($.paragraph),
-                repeat1($.subparagraph),
-                repeat1($.enum_item)
-              )
-            )
-          )
-        )
+              ),
+            ),
+          ),
+        ),
       ),
 
     _section_declaration: $ =>
@@ -191,10 +201,10 @@ module.exports = grammar({
         seq(
           field(
             'command',
-            choice('\\section', '\\section*', '\\addsec', '\\addsec*')
+            choice('\\section', '\\section*', '\\addsec', '\\addsec*'),
           ),
-          optional($._section_part)
-        )
+          optional($._section_part),
+        ),
       ),
 
     section: $ =>
@@ -203,26 +213,19 @@ module.exports = grammar({
         seq(
           $._section_declaration,
           repeat($._flat_content),
+          optional(prec.right(-1, $._paragraph)),
           optional(
-            prec.right(
-              choice(
-                repeat1($.subsection),
-                repeat1($.subsubsection),
-                repeat1($.paragraph),
-                repeat1($.subparagraph),
-                repeat1($.enum_item)
-              )
-            )
-          )
-        )
+            prec.right(choice(repeat1($.subsection), repeat1($.subsubsection))),
+          ),
+        ),
       ),
 
     _subsection_declaration: $ =>
       prec.right(
         seq(
           field('command', choice('\\subsection', '\\subsection*')),
-          optional($._section_part)
-        )
+          optional($._section_part),
+        ),
       ),
 
     subsection: $ =>
@@ -231,25 +234,17 @@ module.exports = grammar({
         seq(
           $._subsection_declaration,
           repeat($._flat_content),
-          optional(
-            prec.right(
-              choice(
-                repeat1($.subsubsection),
-                repeat1($.paragraph),
-                repeat1($.subparagraph),
-                repeat1($.enum_item)
-              )
-            )
-          )
-        )
+          optional(prec.right(-1, $._paragraph)),
+          optional(prec.right(repeat1($.subsubsection))),
+        ),
       ),
 
     _subsubsection_declaration: $ =>
       prec.right(
         seq(
           field('command', choice('\\subsubsection', '\\subsubsection*')),
-          optional($._section_part)
-        )
+          optional($._section_part),
+        ),
       ),
 
     subsubsection: $ =>
@@ -258,24 +253,16 @@ module.exports = grammar({
         seq(
           $._subsubsection_declaration,
           repeat($._flat_content),
-          optional(
-            prec.right(
-              choice(
-                repeat1($.paragraph),
-                repeat1($.subparagraph),
-                repeat1($.enum_item)
-              )
-            )
-          )
-        )
+          optional(prec.right(-1, $._paragraph)),
+        ),
       ),
 
     _paragraph_declaration: $ =>
       prec.right(
         seq(
           field('command', choice('\\paragraph', '\\paragraph*')),
-          optional($._section_part)
-        )
+          optional($._section_part),
+        ),
       ),
 
     paragraph: $ =>
@@ -285,17 +272,17 @@ module.exports = grammar({
           $._paragraph_declaration,
           repeat($._flat_content),
           optional(
-            prec.right(choice(repeat1($.subparagraph), repeat1($.enum_item)))
-          )
-        )
+            prec.right(choice(repeat1($.subparagraph), repeat1($.enum_item))),
+          ),
+        ),
       ),
 
     _subparagraph_declaration: $ =>
       prec.right(
         seq(
           field('command', choice('\\subparagraph', '\\subparagraph*')),
-          optional($._section_part)
-        )
+          optional($._section_part),
+        ),
       ),
 
     subparagraph: $ =>
@@ -304,16 +291,16 @@ module.exports = grammar({
         seq(
           $._subparagraph_declaration,
           repeat($._flat_content),
-          optional(prec.right(choice(repeat1($.enum_item))))
-        )
+          optional(prec.right(choice(repeat1($.enum_item)))),
+        ),
       ),
 
     _enum_itemdeclaration: $ =>
       prec.right(
         seq(
           field('command', choice('\\item', '\\item*')),
-          field('label', optional($.brack_group_text))
-        )
+          field('label', optional($.brack_group_text)),
+        ),
       ),
 
     enum_item: $ =>
@@ -322,8 +309,7 @@ module.exports = grammar({
         seq(
           $._enum_itemdeclaration,
           repeat($._flat_content),
-          optional(prec.right(choice()))
-        )
+        ),
       ),
 
     //--- Group
@@ -332,6 +318,9 @@ module.exports = grammar({
 
     curly_group_text: $ => seq('{', field('text', $.text), '}'),
 
+    curly_group_spec: $ =>
+      seq('{', repeat(choice($._text_content, '=')), '}'),
+
     curly_group_text_list: $ =>
       seq('{', sepBy(field('text', $.text), ','), '}'),
 
@@ -339,6 +328,8 @@ module.exports = grammar({
 
     curly_group_path_list: $ =>
       seq('{', sepBy(field('path', $.path), ','), '}'),
+
+    curly_group_uri: $ => seq('{', field('uri', $.uri), '}'),
 
     curly_group_command_name: $ =>
       seq('{', field('command', $.command_name), '}'),
@@ -357,9 +348,9 @@ module.exports = grammar({
         '{',
         sepBy(
           alias(repeat1($._text_content), $.author),
-          alias('\\and', $.command_name)
+          alias('\\and', $.command_name),
         ),
-        '}'
+        '}',
       ),
 
     brack_group: $ =>
@@ -383,20 +374,25 @@ module.exports = grammar({
               $.operator,
               $.word,
               $.placeholder,
+              $.delimiter,
               $.block_comment,
               $._command,
               $.superscript,
-              $.subscript
-            )
-          )
-        )
+              $.subscript,
+            ),
+          ),
+        ),
       ),
 
-    word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#_\^\-\+\/\*]+/,
+    word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#&_\^\-\+\/\*]+/,
 
-    placeholder: $ => /#\d/,
+    placeholder: $ => /#+\d/,
+
+    delimiter: $ => /&/,
 
     path: $ => /[^\*\"\[\]:;,\|\{\}<>]+/,
+
+    uri: $ => /[^\[\]\{\}]+/,
 
     argc: $ => /\d/,
 
@@ -405,21 +401,23 @@ module.exports = grammar({
     _glob_pattern_fragment: $ =>
       choice(
         seq('{', repeat($._glob_pattern_fragment), '}'),
-        /[^\"\[\]:;\|\{\}<>]+/
+        /[^\"\[\]:;\|\{\}<>]+/,
       ),
 
     operator: $ => choice('+', '-', '*', '/', '<', '>', '!', '|', ':', "'"),
 
+    letter: $ => /[^\\%\{\}\$\#_\^]/,
+
     subscript: $ =>
       seq(
         '_',
-        field('subscript', choice($.curly_group, $.word, $.generic_command))
+        field('subscript', choice($.curly_group, $.letter, $.command_name)),
       ),
 
     superscript: $ =>
       seq(
         '^',
-        field('superscript', choice($.curly_group, $.word, $.generic_command))
+        field('superscript', choice($.curly_group, $.letter, $.command_name)),
       ),
 
     //--- Key / Value
@@ -431,14 +429,48 @@ module.exports = grammar({
 
     //--- Math
 
+    _math_content: $ =>
+      choice(
+        $.displayed_equation,
+        $.inline_formula,
+        $.math_delimiter,
+        $.text_mode,
+      ),
+
     displayed_equation: $ =>
       prec.left(
-        seq(choice('$$', '\\['), repeat($._root_content), choice('$$', '\\]'))
+        seq(choice('$$', '\\['), repeat($._root_content), choice('$$', '\\]')),
       ),
 
     inline_formula: $ =>
       prec.left(
-        seq(choice('$', '\\('), repeat($._root_content), choice('$', '\\)'))
+        seq(choice('$', '\\('), repeat($._root_content), choice('$', '\\)')),
+      ),
+
+    _math_delimiter_part: $ =>
+      choice($.word, $.command_name, '[', ']', '(', ')', '|'),
+
+    math_delimiter: $ =>
+      prec.left(
+        seq(
+          field(
+            'left_command',
+            choice('\\left', '\\bigl', '\\Bigl', '\\biggl', '\\Biggl'),
+          ),
+          field('left_delimiter', $._math_delimiter_part),
+          repeat($._root_content),
+          field(
+            'right_command',
+            choice('\\right', '\\bigr', '\\Bigr', '\\biggr', '\\Biggr'),
+          ),
+          field('right_delimiter', $._math_delimiter_part),
+        ),
+      ),
+
+    text_mode: $ =>
+      seq(
+        field('command', choice('\\text', '\\intertext', '\\shortintertext')),
+        field('content', $.curly_group),
       ),
 
     //--- Environments
@@ -448,20 +480,20 @@ module.exports = grammar({
         seq(
           field('command', '\\begin'),
           field('name', $.curly_group_text),
-          field('options', optional($.brack_group))
-        )
+          field('options', optional($.brack_group)),
+        ),
       ),
 
     end: $ =>
       prec.right(
-        seq(field('command', '\\end'), field('name', $.curly_group_text))
+        seq(field('command', '\\end'), field('name', $.curly_group_text)),
       ),
 
     generic_environment: $ =>
       seq(
         field('begin', $.begin),
         repeat($._root_content),
-        field('end', $.end)
+        field('end', $.end),
       ),
 
     //--- Trivia environments
@@ -498,8 +530,23 @@ module.exports = grammar({
       options: $ =>
         seq(
           field('options', optional($.brack_group_key_value)),
-          field('language', $.curly_group_text)
+          field('language', $.curly_group_text),
         ),
+    }),
+
+    ...specialEnvironment({
+      rule: 'asy_environment',
+      name: 'asy',
+      content: $ => field('code', alias($._trivia_raw_env_asy, $.source_code)),
+      options: undefined,
+    }),
+
+    ...specialEnvironment({
+      rule: 'asydef_environment',
+      name: 'asydef',
+      content: $ =>
+        field('code', alias($._trivia_raw_env_asydef, $.source_code)),
+      options: undefined,
     }),
 
     ...specialEnvironment({
@@ -510,9 +557,45 @@ module.exports = grammar({
       options: undefined,
     }),
 
+    luacode_environment: $ =>
+      choice($._luacode_environment, $._luacode_environment_star),
+
+    ...specialEnvironment({
+      rule: '_luacode_environment',
+      name: 'luacode',
+      content: $ =>
+        field('code', alias($._trivia_raw_env_luacode, $.source_code)),
+      options: undefined,
+    }),
+
+    ...specialEnvironment({
+      rule: '_luacode_environment_star',
+      name: 'luacode*',
+      content: $ =>
+        field('code', alias($._trivia_raw_env_luacode_star, $.source_code)),
+      options: undefined,
+    }),
+
+    ...specialEnvironment({
+      rule: 'sagesilent_environment',
+      name: 'sagesilent',
+      content: $ =>
+        field('code', alias($._trivia_raw_env_sagesilent, $.source_code)),
+      options: undefined,
+    }),
+
+    ...specialEnvironment({
+      rule: 'sageblock_environment',
+      name: 'sageblock',
+      content: $ =>
+        field('code', alias($._trivia_raw_env_sageblock, $.source_code)),
+      options: undefined,
+    }),
+
     ...specialEnvironment({
       rule: 'math_environment',
       name: choice(
+        'math',
         'displaymath',
         'displaymath*',
         'equation',
@@ -523,16 +606,22 @@ module.exports = grammar({
         'eqnarray*',
         'align',
         'align*',
+        'aligned',
+        'aligned*',
         'array',
         'array*',
         'split',
         'split*',
         'alignat',
         'alignat*',
+        'alignedat',
+        'alignedat*',
         'gather',
         'gather*',
+        'gathered',
+        'gathered*',
         'flalign',
-        'flalign*'
+        'flalign*',
       ),
       content: $ => repeat($._flat_content),
       options: undefined,
@@ -548,6 +637,7 @@ module.exports = grammar({
         $.class_include,
         $.latex_include,
         $.biblatex_include,
+        $.bibstyle_include,
         $.bibtex_include,
         $.graphics_include,
         $.svg_include,
@@ -574,15 +664,16 @@ module.exports = grammar({
         $.color_set_definition,
         $.color_reference,
         $.tikz_library_import,
-        $.generic_command
+        $.hyperlink,
+        $.generic_command,
       ),
 
     generic_command: $ =>
       prec.right(
         seq(
           field('command', $.command_name),
-          repeat(field('arg', $.curly_group))
-        )
+          repeat(field('arg', $.curly_group)),
+        ),
       ),
 
     command_name: $ => /\\([^\r\n]|[@a-zA-Z]+\*?)?/,
@@ -591,76 +682,83 @@ module.exports = grammar({
       seq(
         field('command', '\\title'),
         field('options', optional($.brack_group)),
-        field('text', $.curly_group)
+        field('text', $.curly_group),
       ),
 
     author_declaration: $ =>
       seq(
         field('command', '\\author'),
-        field('authors', $.curly_group_author_list)
+        field('options', optional($.brack_group)),
+        field('authors', $.curly_group_author_list),
       ),
 
     package_include: $ =>
       seq(
         field('command', choice('\\usepackage', '\\RequirePackage')),
         field('options', optional($.brack_group_key_value)),
-        field('paths', $.curly_group_path_list)
+        field('paths', $.curly_group_path_list),
       ),
 
     class_include: $ =>
       seq(
         field('command', '\\documentclass'),
         field('options', optional($.brack_group_key_value)),
-        field('path', $.curly_group_path)
+        field('path', $.curly_group_path),
       ),
 
     latex_include: $ =>
       seq(
         field(
           'command',
-          choice('\\include', '\\subfileinclude', '\\input', '\\subfile')
+          choice('\\include', '\\subfileinclude', '\\input', '\\subfile'),
         ),
-        field('path', $.curly_group_path)
+        field('path', $.curly_group_path),
       ),
 
     biblatex_include: $ =>
       seq(
         '\\addbibresource',
         field('options', optional($.brack_group_key_value)),
-        field('glob', $.curly_group_glob_pattern)
+        field('glob', $.curly_group_glob_pattern),
+      ),
+
+    bibstyle_include: $ =>
+      seq(
+        field('command', '\\bibliographystyle'),
+        field('path', $.curly_group_path),
       ),
 
     bibtex_include: $ =>
       seq(
         field('command', '\\bibliography'),
-        field('path', $.curly_group_path)
+        field('paths', $.curly_group_path_list),
       ),
 
     graphics_include: $ =>
       seq(
         field('command', '\\includegraphics'),
         field('options', optional($.brack_group_key_value)),
-        field('path', $.curly_group_path)
+        field('path', $.curly_group_path),
       ),
 
     svg_include: $ =>
       seq(
         field('command', '\\includesvg'),
         field('options', optional($.brack_group_key_value)),
-        field('path', $.curly_group_path)
+        field('path', $.curly_group_path),
       ),
 
     inkscape_include: $ =>
       seq(
         field('command', '\\includeinkscape'),
         field('options', optional($.brack_group_key_value)),
-        field('path', $.curly_group_path)
+        field('path', $.curly_group_path),
       ),
 
     verbatim_include: $ =>
       seq(
         field('command', choice('\\verbatiminput', '\\VerbatimInput')),
-        field('path', $.curly_group_path)
+        field('path', $.curly_group_path),
       ),
 
     import_include: $ =>
@@ -673,18 +771,18 @@ module.exports = grammar({
             '\\inputfrom',
             '\\subimportfrom',
             '\\includefrom',
-            '\\subincludefrom'
-          )
+            '\\subincludefrom',
+          ),
         ),
         field('directory', $.curly_group_path),
-        field('file', $.curly_group_path)
+        field('file', $.curly_group_path),
       ),
 
     caption: $ =>
       seq(
         field('command', '\\caption'),
         field('short', optional($.brack_group)),
-        field('long', $.curly_group)
+        field('long', $.curly_group),
       ),
 
     citation: $ =>
@@ -700,6 +798,10 @@ module.exports = grammar({
             '\\citep',
             '\\citet*',
             '\\citep*',
+            '\\citeA',
+            '\\citeR',
+            '\\citeS',
+            '\\citeyearR',
             '\\citeauthor',
             '\\citeauthor*',
             '\\Citeauthor',
@@ -747,16 +849,16 @@ module.exports = grammar({
             '\\Notecite',
             '\\pnotecite',
             '\\Pnotecite',
-            '\\fnotecite'
-          )
+            '\\fnotecite',
+          ),
         ),
         optional(
           seq(
             field('prenote', $.brack_group),
-            field('postnote', optional($.brack_group))
-          )
+            field('postnote', optional($.brack_group)),
+          ),
         ),
-        field('keys', $.curly_group_text_list)
+        field('keys', $.curly_group_text_list),
       ),
 
     label_definition: $ =>
@@ -772,11 +874,17 @@ module.exports = grammar({
             '\\vref',
             '\\Vref',
             '\\autoref',
+            '\\autoref*',
             '\\pageref',
+            '\\pageref*',
+            '\\autopageref',
+            '\\autopageref*',
             '\\cref',
-            '\\Cref',
             '\\cref*',
+            '\\Cref',
             '\\Cref*',
+            '\\cpageref',
+            '\\Cpageref',
             '\\namecref',
             '\\nameCref',
             '\\lcnamecref',
@@ -784,30 +892,42 @@ module.exports = grammar({
             '\\nameCrefs',
             '\\lcnamecrefs',
             '\\labelcref',
-            '\\labelcpageref'
-          )
+            '\\labelcref*',
+            '\\labelcpageref',
+            '\\labelcpageref*',
+          ),
         ),
-        field('names', $.curly_group_text_list)
+        field('names', $.curly_group_text_list),
       ),
 
     label_reference_range: $ =>
       seq(
         field(
           'command',
-          choice('\\crefrange', '\\crefrange*', '\\Crefrange', '\\Crefrange*')
+          choice(
+            '\\crefrange',
+            '\\crefrange*',
+            '\\Crefrange',
+            '\\Crefrange*',
+            '\\cpagerefrange',
+            '\\Cpagerefrange',
+          ),
         ),
         field('from', $.curly_group_text),
-        field('to', $.curly_group_text)
+        field('to', $.curly_group_text),
       ),
 
     label_number: $ =>
       seq(
         field('command', '\\newlabel'),
         field('name', $.curly_group_text),
-        field('number', $.curly_group)
+        field('number', $.curly_group),
       ),
 
     new_command_definition: $ =>
+      choice($._new_command_definition, $._newer_command_definition, $._new_command_copy),
+
+    _new_command_definition: $ =>
       seq(
         field(
           'command',
@@ -816,10 +936,29 @@ module.exports = grammar({
             '\\newcommand*',
             '\\renewcommand',
             '\\renewcommand*',
+            '\\providecommand',
+            '\\providecommand*',
             '\\DeclareRobustCommand',
             '\\DeclareRobustCommand*',
             '\\DeclareMathOperator',
             '\\DeclareMathOperator*',
+          ),
+        ),
+        field('declaration', choice($.curly_group_command_name, $.command_name)),
+        optional(
+          seq(
+            field('argc', $.brack_group_argc),
+            field('default', optional($.brack_group)),
+          ),
+        ),
+        field('implementation', $.curly_group),
+      ),
+
+    _newer_command_definition: $ =>
+      seq(
+        field(
+          'command',
+          choice(
             '\\NewDocumentCommand',
             '\\RenewDocumentCommand',
             '\\ProvideDocumentCommand',
@@ -827,68 +966,40 @@ module.exports = grammar({
             '\\NewExpandableDocumentCommand',
             '\\RenewExpandableDocumentCommand',
             '\\ProvideExpandableDocumentCommand',
-            '\\DeclareExpandableDocumentCommand'
-          )
+            '\\DeclareExpandableDocumentCommand',
+          ),
         ),
-        field('declaration', $.curly_group_command_name),
-        optional(
-          seq(
-            field('argc', $.brack_group_argc),
-            field('default', optional($.brack_group))
-          )
+        field('declaration', choice($.curly_group_command_name, $.command_name)),
+        field('spec', $.curly_group_spec),
+        field('implementation', $.curly_group),
+      ),
+
+    _new_command_copy: $ =>
+      seq(
+        field(
+          'command',
+          choice(
+            '\\NewCommandCopy',
+            '\\RenewCommandCopy',
+            '\\DeclareCommandCopy',
+          ),
         ),
-        field('implementation', $.curly_group)
+        field('declaration', choice($.curly_group_command_name, $.command_name)),
+        field('implementation', $.curly_group_command_name),
       ),
 
     old_command_definition: $ =>
-      seq(field('command', '\\def'), field('declaration', $.command_name)),
+      seq(
+        field('command', choice('\\def', '\\gdef', '\\edef', '\\xdef')),
+        field('declaration', $.command_name)
+      ),
 
     let_command_definition: $ =>
       seq(
-        field('command', '\\let'),
+        field('command', choice('\\let', '\\glet')),
         field('declaration', $.command_name),
         optional('='),
-        field('implementation', $.command_name)
-      ),
-
-    _math_delimiter_part: $ =>
-      choice($.word, $.command_name, '[', ']', '(', ')', '|'),
-
-    math_delimiter: $ =>
-      prec.left(
-        seq(
-          field(
-            'left_command',
-            choice(
-              '\\left',
-              '\\big',
-              '\\Big',
-              '\\bigg',
-              '\\Bigg',
-              '\\bigl',
-              '\\Bigl',
-              '\\biggl',
-              '\\Biggl'
-            )
-          ),
-          field('left_delimiter', $._math_delimiter_part),
-          repeat($._root_content),
-          field(
-            'right_command',
-            choice(
-              '\\right',
-              '\\big',
-              '\\Big',
-              '\\bigg',
-              '\\Bigg',
-              '\\bigr',
-              '\\Bigr',
-              '\\biggr',
-              '\\Biggr'
-            )
-          ),
-          field('right_delimiter', $._math_delimiter_part)
-        )
+        field('implementation', $.command_name),
       ),
 
     paired_delimiter_definition: $ =>
@@ -896,40 +1007,70 @@ module.exports = grammar({
         seq(
           field(
             'command',
-            choice('\\DeclarePairedDelimiter', '\\DeclarePairedDelimiterX')
+            choice('\\DeclarePairedDelimiter', '\\DeclarePairedDelimiterX'),
           ),
           field('declaration', $.curly_group_command_name),
           field('argc', optional($.brack_group_argc)),
           field('left', choice($.curly_group_impl, $.command_name)),
           field('right', choice($.curly_group_impl, $.command_name)),
-          field('body', optional($.curly_group))
-        )
+          field('body', optional($.curly_group)),
+        ),
       ),
 
     environment_definition: $ =>
+      choice($._environment_definition, $._newer_environment_definition, $._new_environment_copy),
+
+    _environment_definition: $ =>
       seq(
         field(
           'command',
           choice(
             '\\newenvironment',
             '\\renewenvironment',
-            '\\NewDocumentEnvironment',
-            '\\RenewDocumentEnvironment',
-            '\\ProvideDocumentEnvironment',
-            '\\DeclareDocumentEnvironment'
-          )
+          ),
         ),
         field('name', $.curly_group_text),
         field('argc', optional($.brack_group_argc)),
         field('begin', $.curly_group_impl),
-        field('end', $.curly_group_impl)
+        field('end', $.curly_group_impl),
+      ),
+
+    _newer_environment_definition: $ =>
+      seq(
+        field(
+          'command',
+          choice(
+            '\\NewDocumentEnvironment',
+            '\\RenewDocumentEnvironment',
+            '\\ProvideDocumentEnvironment',
+            '\\DeclareDocumentEnvironment',
+          ),
+        ),
+        field('name', $.curly_group_text),
+        field('spec', $.curly_group_spec),
+        field('begin', $.curly_group_impl),
+        field('end', $.curly_group_impl),
+      ),
+
+    _new_environment_copy: $ =>
+      seq(
+        field(
+          'command',
+          choice(
+            '\\NewEnvironmentCopy',
+            '\\RenewEnvironmentCopy',
+            '\\DeclareEnvironmentCopy',
+          ),
+        ),
+        field('name', $.curly_group_text),
+        field('name', $.curly_group_text),
       ),
 
     glossary_entry_definition: $ =>
       seq(
         field('command', '\\newglossaryentry'),
         field('name', $.curly_group_text),
-        field('options', $.curly_group_key_value)
+        field('options', $.curly_group_key_value),
       ),
 
     glossary_entry_reference: $ =>
@@ -982,11 +1123,11 @@ module.exports = grammar({
             '\\GLSuserv',
             '\\glsuservi',
             '\\Glsuservi',
-            '\\GLSuservi'
-          )
+            '\\GLSuservi',
+          ),
         ),
         field('options', optional($.brack_group_key_value)),
-        field('name', $.curly_group_text)
+        field('name', $.curly_group_text),
       ),
 
     acronym_definition: $ =>
@@ -995,7 +1136,7 @@ module.exports = grammar({
         field('options', optional($.brack_group_key_value)),
         field('name', $.curly_group_text),
         field('short', $.curly_group),
-        field('long', $.curly_group)
+        field('long', $.curly_group),
       ),
 
     acronym_reference: $ =>
@@ -1045,11 +1186,11 @@ module.exports = grammar({
             '\\glsentryshortpl',
             '\\Glsentryshortpl',
             '\\glsentryfullpl',
-            '\\Glsentryfullpl'
-          )
+            '\\Glsentryfullpl',
+          ),
         ),
         field('options', optional($.brack_group_key_value)),
-        field('name', $.curly_group_text)
+        field('name', $.curly_group_text),
       ),
 
     theorem_definition: $ =>
@@ -1061,24 +1202,24 @@ module.exports = grammar({
               '\\newtheorem',
               '\\newtheorem*',
               '\\declaretheorem',
-              '\\declaretheorem*'
-            )
+              '\\declaretheorem*',
+            ),
           ),
           optional(field('options', $.brack_group_key_value)),
-          field('name', $.curly_group_text),
+          field('name', $.curly_group_text_list),
           optional(
             choice(
               seq(
                 field('title', $.curly_group),
-                field('counter', optional($.brack_group_text))
+                field('counter', optional($.brack_group_text)),
               ),
               seq(
                 field('counter', $.brack_group_text),
-                field('title', $.curly_group)
-              )
-            )
-          )
-        )
+                field('title', $.curly_group),
+              ),
+            ),
+          ),
+        ),
       ),
 
     color_definition: $ =>
@@ -1087,7 +1228,7 @@ module.exports = grammar({
         optional($.brack_group_text),
         field('name', $.curly_group_text),
         field('model', $.curly_group_text),
-        field('spec', $.curly_group)
+        field('spec', $.curly_group),
       ),
 
     color_set_definition: $ =>
@@ -1097,28 +1238,40 @@ module.exports = grammar({
         field('model', $.curly_group_text_list),
         field('head', $.curly_group),
         field('tail', $.curly_group),
-        field('spec', $.curly_group)
+        field('spec', $.curly_group),
       ),
 
     color_reference: $ =>
-      seq(
-        field(
-          'command',
-          choice('\\color', '\\colorbox', '\\textcolor', '\\pagecolor')
+      prec.right(
+        seq(
+          field(
+            'command',
+            choice('\\color', '\\pagecolor', '\\textcolor', '\\mathcolor', '\\colorbox'),
+          ),
+          choice(
+            field('name', $.curly_group_text),
+            seq(
+              field('model', $.brack_group_text),
+              field('spec', $.curly_group),
+            ),
+          ),
+          optional(field('text', $.curly_group)),
         ),
-        field('name', $.curly_group_text)
       ),
 
     tikz_library_import: $ =>
       seq(
         field('command', choice('\\usepgflibrary', '\\usetikzlibrary')),
-        field('paths', $.curly_group_path_list)
+        field('paths', $.curly_group_path_list),
       ),
 
-    text_mode: $ =>
-      seq(
-        field('command', choice('\\text', '\\intertext', 'shortintertext')),
-        field('content', $.curly_group)
+    hyperlink: $ =>
+      prec.right(
+        seq(
+          field('command', choice('\\url', '\\href')),
+          field('uri', $.curly_group_uri),
+          field('label', optional($.curly_group)),
+        ),
       ),
   },
 });

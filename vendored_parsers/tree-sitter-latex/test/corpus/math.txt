@@ -220,6 +220,6 @@ Foo_{bar}^2
     (subscript
       (curly_group
         (text
-        (word))))
+          (word))))
     (superscript
-      (word))))
+      (letter))))

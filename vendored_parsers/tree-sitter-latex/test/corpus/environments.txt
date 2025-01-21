@@ -237,6 +237,72 @@ Pycode environment
           (word))))))
 
 ================================================================================
+Luacode* environment
+================================================================================
+
+\begin{luacode*}
+  Hello World
+\end{luacode*}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (luacode_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (source_code)
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+Sagesilent environment
+================================================================================
+
+\begin{sagesilent}
+  print()
+\end{sagesilent}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (sagesilent_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (source_code)
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+Sageblock environment
+================================================================================
+
+\begin{sageblock}
+  print()
+\end{sageblock}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (sageblock_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (source_code)
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
 Math environment
 ================================================================================
 

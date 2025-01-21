@@ -9,6 +9,14 @@ Originally, this grammar is based off the parser of the [`texlab`](https://githu
 
 This repository does not provide the accompanying highlighting definitions, instead they live in the [`nvim-treesitter`](https://github.com/nvim-treesitter/nvim-treesitter/tree/master/queries/latex) repository.
 
+To generate the parser, run
+
+```
+npx tree-sitter generate
+```
+
+after checking out the repository.
+
 ## Limitations
 
 As widely known, parsing LaTeX is Turing complete so there is no way to handle every construct in a `tree-sitter` grammar. Instead, the grammar relies on a best effort approach while focusing on the LaTeX specific constructs like environments or sections instead of dealing with TeX internals like catcode.

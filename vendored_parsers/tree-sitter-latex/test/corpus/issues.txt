@@ -318,7 +318,7 @@ tree-sitter-latex (Issue #24)
 
 (source_file
   (theorem_definition
-    (curly_group_text
+    (curly_group_text_list
       (text
         (word)))
     (curly_group
@@ -477,15 +477,15 @@ Let
           (word))))
     (text
       (word)
-      (word))
+      (delimiter))
     (text
       (word)
       (superscript
-        (word))
+        (letter))
       (operator)
       (word)
       (superscript
-        (word)))
+        (letter)))
     (text_mode
       (curly_group
         (text
@@ -493,15 +493,16 @@ Let
           (word))))
     (text
       (word)
-      (word))
+      (delimiter))
     (text
       (word)
       (superscript
-        (word))
+        (letter))
       (operator)
       (word)
       (superscript
-        (word)))
+        (letter))
+      (word))
     (end
       (curly_group_text
         (text
@@ -726,14 +727,13 @@ tree-sitter-latex (Issue #55) | minted with options
           (word))))))
 
 ================================================================================
-tree-sitter-latex (Issue #58) | math delimiters
+tree-sitter-latex (Issues #58 and #84) | math delimiters
 ================================================================================
 
-\big( 2 + 2 \big)
 \bigl( 2 + 2 \bigr)
 \left( 2 + 2 \right)
-\big\langle 2 + 2 \big\rangle
 \bigl| v \bigr|
+r \big|_0^a
 
 --------------------------------------------------------------------------------
 
@@ -750,16 +750,28 @@ tree-sitter-latex (Issue #58) | math delimiters
       (word)))
   (math_delimiter
     (text
-      (word)
-      (operator)
       (word)))
-  (math_delimiter
-    (command_name)
-    (text
-      (word)
-      (operator)
-      (word))
-    (command_name))
-  (math_delimiter
-    (text
-      (word))))
+  (text
+    (word)
+    (generic_command
+      (command_name))
+    (operator)
+    (subscript
+      (letter))
+    (superscript
+      (letter))))
+
+================================================================================
+tree-sitter-latex (Issue #107) | subscript
+================================================================================
+
+10^10
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word)
+    (superscript
+      (letter))
+    (word)))

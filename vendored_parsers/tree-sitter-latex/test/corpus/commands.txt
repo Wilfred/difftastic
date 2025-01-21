@@ -135,6 +135,111 @@ Command definition with default arg
         (placeholder)))))
 
 ================================================================================
+Command definition without curly braces
+================================================================================
+
+\newcommand\foo[1]{#1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (command_name)
+    (brack_group_argc
+      (argc))
+    (curly_group
+      (text
+        (placeholder)))))
+
+================================================================================
+Command definition (xparse)
+================================================================================
+
+\NewDocumentCommand{\foo}{m}{#1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_spec
+      (text
+        (word)))
+    (curly_group
+      (text
+        (placeholder)))))
+
+================================================================================
+Command definition with optional argument (xparse)
+================================================================================
+
+\NewDocumentCommand{\foo}{o{default} m}{#1 #2}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_spec
+      (text
+        (word))
+      (curly_group
+        (text
+          (word)))
+      (text
+        (word)))
+    (curly_group
+      (text
+        (placeholder)
+        (placeholder)))))
+
+================================================================================
+Nested command definition with arguments
+================================================================================
+\NewDocumentCommand{\foo}{m}{
+    \DeclareDocumentCommand{\bar}{m}{#1, ##1}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_spec
+      (text
+        (word)))
+    (curly_group
+      (new_command_definition
+        (curly_group_command_name
+          (command_name))
+        (curly_group_spec
+          (text
+            (word)))
+        (curly_group
+          (text
+            (placeholder))
+          (text
+            (placeholder)))))))
+
+================================================================================
+Command copy (of command defined in grammar which requires a following node)
+================================================================================
+
+\NewCommandCopy{\foo}{\ref}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_command_name
+      (command_name))))
+
+================================================================================
 Author command
 ================================================================================
 
@@ -154,3 +259,67 @@ Author command
         (text
           (word)
           (word))))))
+
+================================================================================
+Text commands
+================================================================================
+
+\intertext{John Doe } \text{Foo Bar}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text_mode
+    (curly_group
+      (text
+        (word)
+        (word))))
+  (text_mode
+    (curly_group
+      (text
+        (word)
+        (word)))))
+
+================================================================================
+Hyperlinks
+================================================================================
+
+\url{https://github.com/latex-lsp/tree-sitter-latex}
+
+\href{https://github.com/latex-lsp/tree-sitter-latex}{tree-sitter-latex}
+
+\href{https://github.com/latex-lsp/tree-sitter-latex/issues?q=hyperlink}
+                                                          {search ``hyperlink''}
+
+\href{file:///path/to/file_containing spaces, and also commas}{file URI}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (hyperlink
+    (curly_group_uri
+      (uri)))
+  (hyperlink
+    (curly_group_uri
+      (uri))
+    (curly_group
+      (text
+        (word)
+        (operator)
+        (word)
+        (operator)
+        (word))))
+  (hyperlink
+    (curly_group_uri
+      (uri))
+    (curly_group
+      (text
+        (word)
+        (word))))
+  (hyperlink
+    (curly_group_uri
+      (uri))
+    (curly_group
+      (text
+        (word)
+        (word)))))

@@ -1,55 +1,114 @@
 name: CI
+
 on:
   push:
     branches: [master]
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - binding.gyp
   pull_request:
-env:
-  CARGO_INCREMENTAL: 0
-  CI: 1
-  RUST_BACKTRACE: short
-  RUSTFLAGS: '-D warnings'
-  RUSTUP_MAX_RETRIES: 10
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - binding.gyp
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
 jobs:
-  binding_node:
-    name: Node
-    runs-on: ${{ matrix.os }}
+  test:
+    name: Test parser
+    runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-14]
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+      - name: Run parser and binding tests
+        uses: tree-sitter/parser-test-action@v2
         with:
-          node-version: '18'
-          cache: 'npm'
-      - run: npm install
-      - run: npm test
-  binding_rust:
-    name: Rust
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+          generate: true
+      - name: Parse sample files
+        uses: tree-sitter/parse-action@v4
+        id: parse-files
+        with:
+          files: examples/**
+      - name: Upload failures artifact
+        uses: actions/upload-artifact@v4
+        if: "!cancelled() && steps.parse-files.outcome == 'failure'"
+        with:
+          name: failures-${{runner.os}}
+          path: ${{steps.parse-files.outputs.failures}}
+  fuzz:
+    name: Fuzz scanner
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Cache Dependencies
-        uses: Swatinem/rust-cache@v2
-      - name: Compile
-        run: cargo test --no-run
-      - name: Test
-        run: cargo test -- --nocapture --quiet
-  binding_c:
-    name: C
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Check for scanner changes
+        id: scanner-check
+        run: |-
+          if git diff --quiet HEAD^ -- src/scanner.c; then
+            printf 'changed=false\n' >> "$GITHUB_OUTPUT"
+          else
+            printf 'changed=true\n' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Set up tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+        if: steps.scanner-check.outputs.changed == 'true'
+      - name: Run parser and binding tests
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          generate: true
+        if: steps.scanner-check.outputs.changed == 'true'
+      - name: Run the fuzzer
+        uses: tree-sitter/fuzz-action@v4
+        if: steps.scanner-check.outputs.changed == 'true'
+  size:
+    name: Check grammar size
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v3
-      - run: make
-      - run: sudo make install
+      - name: Checkout old version
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          path: old
+      - name: Checkout new version
+        uses: actions/checkout@v4
+        with:
+          path: new
+      - name: Set up tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+      - name: Generate parser.c for old version
+        run: tree-sitter generate --no-bindings
+        working-directory: old
+      - name: Generate parser.c for new version
+        run: tree-sitter generate --no-bindings
+        working-directory: new
+      - name: Check LARGE_STATE_COUNT
+        run: |
+          old_size=$(cat old/src/parser.c | grep '#define LARGE_STATE_COUNT' | sed 's/#define LARGE_STATE_COUNT //g')
+          new_size=$(cat new/src/parser.c | grep '#define LARGE_STATE_COUNT' | sed 's/#define LARGE_STATE_COUNT //g')
+
+          echo "Checking LARGE_STATE_COUNT"
+          echo "Old: $old_size"
+          echo "New: $new_size"
+          max_size=$(echo "$old_size" "1.2" | awk '{print $1 * $2}' | cut -d "." -f 1)
+
+          if (( $new_size > $max_size )); then
+              echo "LARGE_STATE_COUNT increased by more than 20%"
+              exit 1
+          fi

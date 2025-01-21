@@ -9,9 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add support for hyperlinks: `\url`, `\href` ([#130](https://github.com/latex-lsp/tree-sitter-latex/issues/130))
+
+### Fixed
+
+- Add missing citation commands: `\citeA`, `\citeR`, `\citeS`, `\citeyearR` ([#94](https://github.com/latex-lsp/tree-sitter-latex/issues/94))
+- Let `\declaretheorem` accept multiple environment names ([texlab/#1075](https://github.com/latex-lsp/texlab/issues/1075))
+- Fix parsing wrong superscripts like `10^10` ([#107](https://github.com/latex-lsp/tree-sitter-latex/issues/107))
+
+## [0.4.0] - 2024-04-01
+
+### Added
+
 - Add support for definition commands found in `xparse` package ([#82](https://github.com/latex-lsp/tree-sitter-latex/issues/82))
 - Add rules for parsing subscript and superscript expressions ([#63](https://github.com/latex-lsp/tree-sitter-latex/pull/63))
 - Add Swift package description ([#76](https://github.com/latex-lsp/tree-sitter-latex/pull/76))
+- Add Go package description
+
+### Changed
+
+- _BREAKING_: Don't check parser.c into git repository anymore
 
 ### Fixed
 

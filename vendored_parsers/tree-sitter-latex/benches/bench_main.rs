@@ -4,7 +4,7 @@ static CODE: &str = include_str!(r#"../examples/texlab.tex"#);
 
 fn criterion_benchmark(c: &mut Criterion) {
     let mut parser = tree_sitter::Parser::new();
-    parser.set_language(tree_sitter_latex::language()).unwrap();
+    parser.set_language(&tree_sitter_latex::language()).unwrap();
 
     c.bench_function("Full", |b| {
         b.iter_with_large_drop(|| parser.parse(black_box(CODE), None).unwrap());

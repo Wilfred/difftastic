@@ -260,6 +260,78 @@
     }
   },
   {
+    "type": "asy_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "asydef_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "author",
     "named": true,
     "fields": {},
@@ -281,6 +353,10 @@
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -341,6 +417,10 @@
         },
         {
           "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
           "named": true
         },
         {
@@ -453,6 +533,16 @@
             "named": false
           }
         ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -533,6 +623,32 @@
     }
   },
   {
+    "type": "bibstyle_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\bibliographystyle",
+            "named": false
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "bibtex_include",
     "named": true,
     "fields": {
@@ -546,12 +662,12 @@
           }
         ]
       },
-      "path": {
+      "paths": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "curly_group_path",
+            "type": "curly_group_path_list",
             "named": true
           }
         ]
@@ -611,11 +727,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -691,6 +819,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -731,6 +863,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -760,6 +896,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -941,11 +1085,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -1021,6 +1177,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -1061,6 +1221,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -1094,6 +1258,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -1236,6 +1408,18 @@
             "named": false
           },
           {
+            "type": "\\citeA",
+            "named": false
+          },
+          {
+            "type": "\\citeR",
+            "named": false
+          },
+          {
+            "type": "\\citeS",
+            "named": false
+          },
+          {
             "type": "\\citealp",
             "named": false
           },
@@ -1297,6 +1481,10 @@
           },
           {
             "type": "\\citeyear*",
+            "named": false
+          },
+          {
+            "type": "\\citeyearR",
             "named": false
           },
           {
@@ -1522,6 +1710,10 @@
             "named": false
           },
           {
+            "type": "\\mathcolor",
+            "named": false
+          },
+          {
             "type": "\\pagecolor",
             "named": false
           },
@@ -1531,12 +1723,42 @@
           }
         ]
       },
+      "model": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_text",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
             "named": true
           }
         ]
@@ -1662,11 +1884,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -1746,6 +1980,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -1786,6 +2024,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -1823,6 +2065,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -1952,6 +2202,10 @@
           "named": true
         },
         {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
           "type": "bibtex_include",
           "named": true
         },
@@ -2009,6 +2263,10 @@
         },
         {
           "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
           "named": true
         },
         {
@@ -2147,6 +2405,185 @@
     }
   },
   {
+    "type": "curly_group_spec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "curly_group_text",
     "named": true,
     "fields": {
@@ -2179,6 +2616,22 @@
     }
   },
   {
+    "type": "curly_group_uri",
+    "named": true,
+    "fields": {
+      "uri": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "uri",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "displayed_equation",
     "named": true,
     "fields": {},
@@ -2195,11 +2648,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -2279,6 +2744,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -2319,6 +2788,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -2356,6 +2829,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -2477,11 +2958,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -2553,6 +3046,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -2593,6 +3090,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -2622,6 +3123,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -2675,7 +3184,7 @@
       },
       "begin": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "curly_group_impl",
@@ -2692,7 +3201,15 @@
             "named": false
           },
           {
+            "type": "\\DeclareEnvironmentCopy",
+            "named": false
+          },
+          {
             "type": "\\NewDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\NewEnvironmentCopy",
             "named": false
           },
           {
@@ -2701,6 +3218,10 @@
           },
           {
             "type": "\\RenewDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\RenewEnvironmentCopy",
             "named": false
           },
           {
@@ -2715,7 +3236,7 @@
       },
       "end": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "curly_group_impl",
@@ -2724,11 +3245,21 @@
         ]
       },
       "name": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
             "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_spec",
             "named": true
           }
         ]
@@ -2799,11 +3330,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -2883,6 +3426,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -2923,6 +3470,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -2960,6 +3511,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -3307,6 +3866,46 @@
     }
   },
   {
+    "type": "hyperlink",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\href",
+            "named": false
+          },
+          {
+            "type": "\\url",
+            "named": false
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "uri": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_uri",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "import_include",
     "named": true,
     "fields": {
@@ -3415,11 +4014,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -3499,6 +4110,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -3539,6 +4154,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -3576,6 +4195,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -3726,6 +4353,10 @@
         "required": true,
         "types": [
           {
+            "type": "\\Cpageref",
+            "named": false
+          },
+          {
             "type": "\\Cref",
             "named": false
           },
@@ -3738,7 +4369,23 @@
             "named": false
           },
           {
+            "type": "\\autopageref",
+            "named": false
+          },
+          {
+            "type": "\\autopageref*",
+            "named": false
+          },
+          {
             "type": "\\autoref",
+            "named": false
+          },
+          {
+            "type": "\\autoref*",
+            "named": false
+          },
+          {
+            "type": "\\cpageref",
             "named": false
           },
           {
@@ -3758,7 +4405,15 @@
             "named": false
           },
           {
+            "type": "\\labelcpageref*",
+            "named": false
+          },
+          {
             "type": "\\labelcref",
+            "named": false
+          },
+          {
+            "type": "\\labelcref*",
             "named": false
           },
           {
@@ -3787,6 +4442,10 @@
           },
           {
             "type": "\\pageref",
+            "named": false
+          },
+          {
+            "type": "\\pageref*",
             "named": false
           },
           {
@@ -3820,11 +4479,19 @@
         "required": true,
         "types": [
           {
+            "type": "\\Cpagerefrange",
+            "named": false
+          },
+          {
             "type": "\\Crefrange",
             "named": false
           },
           {
             "type": "\\Crefrange*",
+            "named": false
+          },
+          {
+            "type": "\\cpagerefrange",
             "named": false
           },
           {
@@ -3906,6 +4573,10 @@
         "required": true,
         "types": [
           {
+            "type": "\\glet",
+            "named": false
+          },
+          {
             "type": "\\let",
             "named": false
           }
@@ -3970,6 +4641,42 @@
     }
   },
   {
+    "type": "luacode_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "math_delimiter",
     "named": true,
     "fields": {
@@ -3978,27 +4685,11 @@
         "required": true,
         "types": [
           {
-            "type": "\\Big",
-            "named": false
-          },
-          {
-            "type": "\\Bigg",
-            "named": false
-          },
-          {
             "type": "\\Biggl",
             "named": false
           },
           {
             "type": "\\Bigl",
-            "named": false
-          },
-          {
-            "type": "\\big",
-            "named": false
-          },
-          {
-            "type": "\\bigg",
             "named": false
           },
           {
@@ -4054,27 +4745,11 @@
         "required": true,
         "types": [
           {
-            "type": "\\Big",
-            "named": false
-          },
-          {
-            "type": "\\Bigg",
-            "named": false
-          },
-          {
             "type": "\\Biggr",
             "named": false
           },
           {
             "type": "\\Bigr",
-            "named": false
-          },
-          {
-            "type": "\\big",
-            "named": false
-          },
-          {
-            "type": "\\bigg",
             "named": false
           },
           {
@@ -4139,11 +4814,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -4223,6 +4910,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -4263,6 +4954,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -4300,6 +4995,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -4391,11 +5094,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -4467,6 +5182,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -4507,6 +5226,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -4536,6 +5259,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -4628,6 +5359,10 @@
         "required": true,
         "types": [
           {
+            "type": "\\DeclareCommandCopy",
+            "named": false
+          },
+          {
             "type": "\\DeclareDocumentCommand",
             "named": false
           },
@@ -4652,6 +5387,10 @@
             "named": false
           },
           {
+            "type": "\\NewCommandCopy",
+            "named": false
+          },
+          {
             "type": "\\NewDocumentCommand",
             "named": false
           },
@@ -4665,6 +5404,10 @@
           },
           {
             "type": "\\ProvideExpandableDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\RenewCommandCopy",
             "named": false
           },
           {
@@ -4684,6 +5427,14 @@
             "named": false
           },
           {
+            "type": "\\providecommand",
+            "named": false
+          },
+          {
+            "type": "\\providecommand*",
+            "named": false
+          },
+          {
             "type": "\\renewcommand",
             "named": false
           },
@@ -4697,6 +5448,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "command_name",
+            "named": true
+          },
           {
             "type": "curly_group_command_name",
             "named": true
@@ -4720,6 +5475,20 @@
           {
             "type": "curly_group",
             "named": true
+          },
+          {
+            "type": "curly_group_command_name",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_spec",
+            "named": true
           }
         ]
       }
@@ -4735,6 +5504,18 @@
         "types": [
           {
             "type": "\\def",
+            "named": false
+          },
+          {
+            "type": "\\edef",
+            "named": false
+          },
+          {
+            "type": "\\gdef",
+            "named": false
+          },
+          {
+            "type": "\\xdef",
             "named": false
           }
         ]
@@ -4926,11 +5707,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -5006,6 +5799,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -5046,6 +5843,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -5075,6 +5876,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -5176,11 +5985,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -5260,6 +6081,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -5300,6 +6125,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -5333,6 +6162,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -5388,6 +6225,78 @@
   },
   {
     "type": "pycode_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "sageblock_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "sagesilent_environment",
     "named": true,
     "fields": {
       "begin": {
@@ -5482,11 +6391,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -5562,6 +6483,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -5602,6 +6527,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -5635,6 +6564,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -5701,11 +6638,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -5785,6 +6734,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -5825,6 +6778,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -5862,6 +6819,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -5967,11 +6932,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -6047,6 +7024,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -6087,6 +7068,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -6116,6 +7101,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -6162,15 +7155,15 @@
         "required": true,
         "types": [
           {
+            "type": "command_name",
+            "named": true
+          },
+          {
             "type": "curly_group",
             "named": true
           },
           {
-            "type": "generic_command",
-            "named": true
-          },
-          {
-            "type": "word",
+            "type": "letter",
             "named": true
           }
         ]
@@ -6229,11 +7222,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -6309,6 +7314,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -6349,6 +7358,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -6382,6 +7395,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -6479,11 +7500,23 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
         {
           "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
           "named": true
         },
         {
@@ -6559,6 +7592,10 @@
           "named": true
         },
         {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
           "type": "import_include",
           "named": true
         },
@@ -6599,6 +7636,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -6632,6 +7673,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -6682,15 +7731,15 @@
         "required": true,
         "types": [
           {
+            "type": "command_name",
+            "named": true
+          },
+          {
             "type": "curly_group",
             "named": true
           },
           {
-            "type": "generic_command",
-            "named": true
-          },
-          {
-            "type": "word",
+            "type": "letter",
             "named": true
           }
         ]
@@ -6758,6 +7807,10 @@
             "named": true
           },
           {
+            "type": "bibstyle_include",
+            "named": true
+          },
+          {
             "type": "bibtex_include",
             "named": true
           },
@@ -6790,6 +7843,10 @@
             "named": true
           },
           {
+            "type": "delimiter",
+            "named": true
+          },
+          {
             "type": "environment_definition",
             "named": true
           },
@@ -6807,6 +7864,10 @@
           },
           {
             "type": "graphics_include",
+            "named": true
+          },
+          {
+            "type": "hyperlink",
             "named": true
           },
           {
@@ -6914,11 +7975,11 @@
             "named": false
           },
           {
-            "type": "\\text",
+            "type": "\\shortintertext",
             "named": false
           },
           {
-            "type": "shortintertext",
+            "type": "\\text",
             "named": false
           }
         ]
@@ -6976,7 +8037,7 @@
         "required": true,
         "types": [
           {
-            "type": "curly_group_text",
+            "type": "curly_group_text_list",
             "named": true
           }
         ]
@@ -7094,6 +8155,10 @@
           "named": true
         },
         {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
           "type": "bibtex_include",
           "named": true
         },
@@ -7155,6 +8220,10 @@
         },
         {
           "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
           "named": true
         },
         {
@@ -7471,14 +8540,6 @@
     "named": false
   },
   {
-    "type": "\\Big",
-    "named": false
-  },
-  {
-    "type": "\\Bigg",
-    "named": false
-  },
-  {
     "type": "\\Biggl",
     "named": false
   },
@@ -7507,6 +8568,14 @@
     "named": false
   },
   {
+    "type": "\\Cpageref",
+    "named": false
+  },
+  {
+    "type": "\\Cpagerefrange",
+    "named": false
+  },
+  {
     "type": "\\Cref",
     "named": false
   },
@@ -7523,11 +8592,19 @@
     "named": false
   },
   {
+    "type": "\\DeclareCommandCopy",
+    "named": false
+  },
+  {
     "type": "\\DeclareDocumentCommand",
     "named": false
   },
   {
     "type": "\\DeclareDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\DeclareEnvironmentCopy",
     "named": false
   },
   {
@@ -7695,11 +8772,19 @@
     "named": false
   },
   {
+    "type": "\\NewCommandCopy",
+    "named": false
+  },
+  {
     "type": "\\NewDocumentCommand",
     "named": false
   },
   {
     "type": "\\NewDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\NewEnvironmentCopy",
     "named": false
   },
   {
@@ -7735,11 +8820,19 @@
     "named": false
   },
   {
+    "type": "\\RenewCommandCopy",
+    "named": false
+  },
+  {
     "type": "\\RenewDocumentCommand",
     "named": false
   },
   {
     "type": "\\RenewDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\RenewEnvironmentCopy",
     "named": false
   },
   {
@@ -7883,7 +8976,19 @@
     "named": false
   },
   {
+    "type": "\\autopageref",
+    "named": false
+  },
+  {
+    "type": "\\autopageref*",
+    "named": false
+  },
+  {
     "type": "\\autoref",
+    "named": false
+  },
+  {
+    "type": "\\autoref*",
     "named": false
   },
   {
@@ -7899,11 +9004,7 @@
     "named": false
   },
   {
-    "type": "\\big",
-    "named": false
-  },
-  {
-    "type": "\\bigg",
+    "type": "\\bibliographystyle",
     "named": false
   },
   {
@@ -7940,6 +9041,18 @@
   },
   {
     "type": "\\cite*",
+    "named": false
+  },
+  {
+    "type": "\\citeA",
+    "named": false
+  },
+  {
+    "type": "\\citeR",
+    "named": false
+  },
+  {
+    "type": "\\citeS",
     "named": false
   },
   {
@@ -8007,6 +9120,10 @@
     "named": false
   },
   {
+    "type": "\\citeyearR",
+    "named": false
+  },
+  {
     "type": "\\citeyearpar",
     "named": false
   },
@@ -8016,6 +9133,14 @@
   },
   {
     "type": "\\colorbox",
+    "named": false
+  },
+  {
+    "type": "\\cpageref",
+    "named": false
+  },
+  {
+    "type": "\\cpagerefrange",
     "named": false
   },
   {
@@ -8059,6 +9184,10 @@
     "named": false
   },
   {
+    "type": "\\edef",
+    "named": false
+  },
+  {
     "type": "\\end",
     "named": false
   },
@@ -8096,6 +9225,14 @@
   },
   {
     "type": "\\fvolcite",
+    "named": false
+  },
+  {
+    "type": "\\gdef",
+    "named": false
+  },
+  {
+    "type": "\\glet",
     "named": false
   },
   {
@@ -8187,6 +9324,10 @@
     "named": false
   },
   {
+    "type": "\\href",
+    "named": false
+  },
+  {
     "type": "\\iffalse",
     "named": false
   },
@@ -8243,7 +9384,15 @@
     "named": false
   },
   {
+    "type": "\\labelcpageref*",
+    "named": false
+  },
+  {
     "type": "\\labelcref",
+    "named": false
+  },
+  {
+    "type": "\\labelcref*",
     "named": false
   },
   {
@@ -8260,6 +9409,10 @@
   },
   {
     "type": "\\let",
+    "named": false
+  },
+  {
+    "type": "\\mathcolor",
     "named": false
   },
   {
@@ -8327,6 +9480,10 @@
     "named": false
   },
   {
+    "type": "\\pageref*",
+    "named": false
+  },
+  {
     "type": "\\paragraph",
     "named": false
   },
@@ -8352,6 +9509,14 @@
   },
   {
     "type": "\\pnotecite",
+    "named": false
+  },
+  {
+    "type": "\\providecommand",
+    "named": false
+  },
+  {
+    "type": "\\providecommand*",
     "named": false
   },
   {
@@ -8384,6 +9549,10 @@
   },
   {
     "type": "\\section*",
+    "named": false
+  },
+  {
+    "type": "\\shortintertext",
     "named": false
   },
   {
@@ -8463,6 +9632,10 @@
     "named": false
   },
   {
+    "type": "\\url",
+    "named": false
+  },
+  {
     "type": "\\usepackage",
     "named": false
   },
@@ -8484,6 +9657,10 @@
   },
   {
     "type": "\\vref",
+    "named": false
+  },
+  {
+    "type": "\\xdef",
     "named": false
   },
   {
@@ -8511,6 +9688,14 @@
     "named": true
   },
   {
+    "type": "delimiter",
+    "named": true
+  },
+  {
+    "type": "letter",
+    "named": true
+  },
+  {
     "type": "line_comment",
     "named": true
   },
@@ -8523,11 +9708,11 @@
     "named": true
   },
   {
-    "type": "shortintertext",
-    "named": false
+    "type": "source_code",
+    "named": true
   },
   {
-    "type": "source_code",
+    "type": "uri",
     "named": true
   },
   {
