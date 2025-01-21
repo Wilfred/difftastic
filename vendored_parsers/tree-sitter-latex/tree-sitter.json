@@ -1,0 +1,38 @@
+{
+  "grammars": [
+    {
+      "name": "@pfoerster/latex",
+      "camelcase": "PfoersterLatex",
+      "scope": "source.tex",
+      "path": ".",
+      "file-types": [
+        "tex",
+        "sty",
+        "cls",
+        "aux"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "0.4.0",
+    "license": "MIT",
+    "description": "LaTeX grammar for the tree-sitter parsing library",
+    "authors": [
+      {
+        "name": "Patrick Förster",
+        "email": "patrick.foerster@outlook.de"
+      }
+    ],
+    "links": {
+      "repository": "git+https://github.com/latex-lsp/tree-sitter-latex.git"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}
