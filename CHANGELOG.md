@@ -10,7 +10,7 @@ effect since 0.46.
 File detection now supports Windows-1252 encoded test (an extension of
 ISO-8859-1), and is stricter about UTF-16 detection.
 
-Updated to the latest tree-sitter parser for Make and YAML.
+Updated to the latest tree-sitter parser for LaTeX, Make and YAML.
 
 ## 0.62 (released 20th December 2024)
 
