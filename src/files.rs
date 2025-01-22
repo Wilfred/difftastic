@@ -242,9 +242,17 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
 
 /// All the files in `dir`, including subdirectories.
 fn relative_file_paths_in_dir(dir: &Path) -> Vec<PathBuf> {
-    WalkBuilder::new(dir)
+    // Walk all the files in `dir`, excluding those mentioned in .git.
+    let walker = WalkBuilder::new(dir)
+        // Include files whose name starts with a dot.
         .hidden(false)
-        .build()
+        // Exclude the .git directory.
+        .filter_entry(|e| {
+            !(e.file_type().map(|ft| ft.is_dir()).unwrap_or(false) && e.file_name() == ".git")
+        })
+        .build();
+
+    walker
         .filter_map(Result::ok)
         .map(|entry| Path::new(entry.path()).to_owned())
         .filter(|path| !path.is_dir())
