@@ -168,4 +168,4 @@ See GitHub issues at <https://github.com/Wilfred/difftastic/issues>.
 AUTHOR
 ======
 
-Wilfred Hughes <me@wilfred.me.uk>
+Wilfred Hughes me@wilfred.me.uk
