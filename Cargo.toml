@@ -98,6 +98,7 @@ tree-sitter-xml = "0.7.0"
 tree-sitter-make = "1.1.1"
 tree-sitter-yaml = "0.7.0"
 encoding_rs = "0.8.35"
+tree-sitter-rust = "0.23.2"
 
 [dev-dependencies]
 # assert_cmd 2.0.10 requires predicates 3.
