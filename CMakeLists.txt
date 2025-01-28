@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 project(tree-sitter-godot-resource
-        VERSION "0.6.0"
+        VERSION "0.6.1"
         DESCRIPTION "Grammar for the Godot game engine's resource format."
         HOMEPAGE_URL "https://github.com/prestonknopp/tree-sitter-godot-resource"
         LANGUAGES C)
