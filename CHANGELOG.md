@@ -17,6 +17,10 @@ ISO-8859-1), and is stricter about UTF-16 detection.
 Updated to the latest tree-sitter parser for LaTeX, Make, Rust and
 YAML.
 
+### Build
+
+Releases now include prebuilt musl binaries.
+
 ## 0.62 (released 20th December 2024)
 
 ### Diffing
