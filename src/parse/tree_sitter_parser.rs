@@ -1,7 +1,5 @@
 //! Load and configure parsers written with tree-sitter.
 
-use std::collections::HashSet;
-
 use line_numbers::LinePositions;
 use streaming_iterator::StreamingIterator as _;
 use tree_sitter as ts;
@@ -9,7 +7,7 @@ use typed_arena::Arena;
 
 use super::syntax::MatchedPos;
 use super::syntax::{self, StringKind};
-use crate::hash::DftHashMap;
+use crate::hash::{DftHashMap, DftHashSet};
 use crate::options::DiffOptions;
 use crate::parse::guess_language as guess;
 use crate::parse::syntax::{AtomKind, Syntax};
@@ -45,7 +43,7 @@ pub(crate) struct TreeSitterConfig {
     /// all the children in the source. This is known limitation of
     /// tree-sitter, and occurs more often for complex string syntax.
     /// <https://github.com/tree-sitter/tree-sitter/issues/1156>
-    atom_nodes: HashSet<&'static str>,
+    atom_nodes: DftHashSet<&'static str>,
 
     /// We want to consider delimiter tokens as part of lists, not
     /// standalone atoms. Tree-sitter includes delimiter tokens, so
@@ -356,7 +354,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_elvish() };
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: [].into(),
+                atom_nodes: [].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|")],
                 highlight_query: ts::Query::new(
                     &language,
@@ -370,7 +368,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_erlang() };
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: [].into(),
+                atom_nodes: [].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     &language,
@@ -384,7 +382,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_fsharp() };
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "triple_quoted_string"].into(),
+                atom_nodes: ["string", "triple_quoted_string"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     &language,
@@ -398,7 +396,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_gleam() };
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string"].into(),
+                atom_nodes: ["string"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     &language,
@@ -974,7 +972,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_smali() };
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: HashSet::from(["string"]),
+                atom_nodes: vec!["string"].into_iter().collect(),
                 delimiter_tokens: Vec::new(),
                 highlight_query: ts::Query::new(
                     &language,
@@ -1018,7 +1016,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_swift() };
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["line_string_literal"].into(),
+                atom_nodes: ["line_string_literal"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(
                     &language,
@@ -1278,10 +1276,10 @@ fn tree_highlights(
     let mut qc = ts::QueryCursor::new();
     let mut q_matches = qc.matches(&config.highlight_query, tree.root_node(), src.as_bytes());
 
-    let mut comment_ids = HashSet::new();
-    let mut keyword_ids = HashSet::new();
-    let mut string_ids = HashSet::new();
-    let mut type_ids = HashSet::new();
+    let mut comment_ids = DftHashSet::default();
+    let mut keyword_ids = DftHashSet::default();
+    let mut string_ids = DftHashSet::default();
+    let mut type_ids = DftHashSet::default();
 
     while let Some(m) = q_matches.next() {
         for c in m.captures {
@@ -1505,10 +1503,10 @@ fn find_delim_positions(
 
 #[derive(Debug)]
 pub(crate) struct HighlightedNodeIds {
-    keyword_ids: HashSet<usize>,
-    comment_ids: HashSet<usize>,
-    string_ids: HashSet<usize>,
-    type_ids: HashSet<usize>,
+    keyword_ids: DftHashSet<usize>,
+    comment_ids: DftHashSet<usize>,
+    string_ids: DftHashSet<usize>,
+    type_ids: DftHashSet<usize>,
 }
 
 /// Convert all the tree-sitter nodes at this level to difftastic

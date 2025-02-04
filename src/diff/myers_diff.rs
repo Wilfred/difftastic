@@ -2,9 +2,7 @@
 
 use std::hash::Hash;
 
-use rustc_hash::FxHashSet;
-
-use crate::hash::DftHashMap;
+use crate::hash::{DftHashMap, DftHashSet};
 
 #[derive(Debug, PartialEq)]
 pub(crate) enum DiffResult<T> {
@@ -105,11 +103,11 @@ pub(crate) fn slice_unique_by_hash<'a, T: Eq + Clone + Hash>(
     lhs: &'a [T],
     rhs: &'a [T],
 ) -> Vec<DiffResult<&'a T>> {
-    let mut lhs_set = FxHashSet::default();
+    let mut lhs_set = DftHashSet::default();
     for item in lhs {
         lhs_set.insert(item);
     }
-    let mut rhs_set = FxHashSet::default();
+    let mut rhs_set = DftHashSet::default();
     for item in rhs {
         rhs_set.insert(item);
     }

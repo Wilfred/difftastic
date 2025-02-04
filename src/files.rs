@@ -8,9 +8,9 @@ use std::{
 };
 
 use ignore::WalkBuilder;
-use rustc_hash::FxHashSet;
 
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
+use crate::hash::DftHashSet;
 use crate::options::FileArgument;
 
 pub(crate) fn read_file_or_die(path: &FileArgument) -> Vec<u8> {
@@ -268,7 +268,7 @@ pub(crate) fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<Pa
     let lhs_paths = relative_file_paths_in_dir(lhs_dir);
     let rhs_paths = relative_file_paths_in_dir(rhs_dir);
 
-    let mut seen = FxHashSet::default();
+    let mut seen = DftHashSet::default();
     let mut paths: Vec<PathBuf> = vec![];
 
     let mut i = 0;

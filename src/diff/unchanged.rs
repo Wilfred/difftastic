@@ -1,11 +1,11 @@
 //! Find nodes that are obviously unchanged, so we can run the main
 //! diff on smaller inputs.
 
-use std::collections::HashSet;
 use std::hash::Hash;
 
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::diff::myers_diff;
+use crate::hash::DftHashSet;
 use crate::parse::syntax::Syntax;
 
 const TINY_TREE_THRESHOLD: u32 = 10;
@@ -123,7 +123,7 @@ fn split_unchanged_singleton_list<'a>(
     res
 }
 
-fn find_unique_content_ids(node: &Syntax, unique_ids: &mut HashSet<u32>) {
+fn find_unique_content_ids(node: &Syntax, unique_ids: &mut DftHashSet<u32>) {
     if node.content_is_unique() {
         unique_ids.insert(node.content_id());
     }
@@ -134,13 +134,13 @@ fn find_unique_content_ids(node: &Syntax, unique_ids: &mut HashSet<u32>) {
     }
 }
 
-fn find_all_unique_content_ids(node: &Syntax) -> HashSet<u32> {
-    let mut unique_ids = HashSet::new();
+fn find_all_unique_content_ids(node: &Syntax) -> DftHashSet<u32> {
+    let mut unique_ids = DftHashSet::default();
     find_unique_content_ids(node, &mut unique_ids);
     unique_ids
 }
 
-fn count_unique_subtrees(node: &Syntax, opposite_unique_ids: &HashSet<u32>) -> usize {
+fn count_unique_subtrees(node: &Syntax, opposite_unique_ids: &DftHashSet<u32>) -> usize {
     if node.content_is_unique() && opposite_unique_ids.contains(&node.content_id()) {
         // Ignore children as soon as find a unique node, to avoid
         // overcounting.

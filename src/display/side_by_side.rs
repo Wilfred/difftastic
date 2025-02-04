@@ -1,9 +1,6 @@
 //! Side-by-side (two column) display of diffs.
 
-use std::{
-    cmp::{max, min},
-    collections::HashSet,
-};
+use std::cmp::{max, min};
 
 use line_numbers::LineNumber;
 use line_numbers::SingleLineSpan;
@@ -19,7 +16,7 @@ use crate::{
             replace_tabs, split_and_apply, BackgroundColor,
         },
     },
-    hash::DftHashMap,
+    hash::{DftHashMap, DftHashSet},
     lines::{format_line_num, split_on_newlines},
     options::{DisplayMode, DisplayOptions},
     parse::syntax::{zip_pad_shorter, MatchedPos},
@@ -248,13 +245,13 @@ impl SourceDimensions {
 pub(crate) fn lines_with_novel(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
-) -> (HashSet<LineNumber>, HashSet<LineNumber>) {
-    let lhs_lines_with_novel: HashSet<LineNumber> = lhs_mps
+) -> (DftHashSet<LineNumber>, DftHashSet<LineNumber>) {
+    let lhs_lines_with_novel: DftHashSet<LineNumber> = lhs_mps
         .iter()
         .filter(|mp| mp.kind.is_novel())
         .map(|mp| mp.pos.line)
         .collect();
-    let rhs_lines_with_novel: HashSet<LineNumber> = rhs_mps
+    let rhs_lines_with_novel: DftHashSet<LineNumber> = rhs_mps
         .iter()
         .filter(|mp| mp.kind.is_novel())
         .map(|mp| mp.pos.line)
@@ -311,7 +308,7 @@ fn highlight_as_novel(
     line_num: Option<LineNumber>,
     lines: &[&str],
     opposite_line_num: Option<LineNumber>,
-    lines_with_novel: &HashSet<LineNumber>,
+    lines_with_novel: &DftHashSet<LineNumber>,
 ) -> bool {
     if let Some(line_num) = line_num {
         // If this line contains any novel tokens, highlight it.
@@ -745,9 +742,9 @@ mod tests {
             },
         }];
 
-        let mut novel_lhs = HashSet::new();
+        let mut novel_lhs = DftHashSet::default();
         novel_lhs.insert(0.into());
-        let mut novel_rhs = HashSet::new();
+        let mut novel_rhs = DftHashSet::default();
         novel_rhs.insert(0.into());
 
         let hunks = [Hunk {
