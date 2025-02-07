@@ -1,0 +1,18 @@
+SampleDictName {
+    key 8;
+    internalField uniform (0 5.1 0);
+}
+
+runTimeVal #calc "1/4*$SampleDictName.key";
+
+phases
+(
+    oil // Describe why oil is here
+    air
+);
+
+code
+#{
+    // C++ comment modified
+    const auto a = doNothing();
+#};

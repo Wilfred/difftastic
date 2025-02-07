@@ -1,0 +1,87 @@
+================================================================================
+Uniform lists
+================================================================================
+
+list 5{0};
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (list
+      (number_literal)
+      (number_literal))))
+
+================================================================================
+Non-uniform lists
+================================================================================
+
+list List<label> 3 (1.0 word phi(U));
+list 2 (item word);
+l (5 item word);
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (identifier)
+    (number_literal)
+    (list
+      (number_literal)
+      (identifier)
+      (identifier)))
+  (key_value
+    (identifier)
+    (number_literal)
+    (list
+      (identifier)
+      (identifier)))
+  (key_value
+    (identifier)
+    (list
+      (number_literal)
+      (identifier)
+      (identifier))))
+
+================================================================================
+Empty Free lists with comments
+================================================================================
+
+list (
+    // entry 1
+);
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (list
+      (comment))))
+
+================================================================================
+Free lists with comments (for eMesh files)
+================================================================================
+
+(
+    11 // entry 1
+    (
+        4
+        5    // Some comment
+        6
+    ) // position 2 
+)
+
+--------------------------------------------------------------------------------
+
+(foam
+  (number_literal)
+  (comment)
+  (list
+    (number_literal)
+    (number_literal)
+    (comment)
+    (number_literal))
+  (comment))
