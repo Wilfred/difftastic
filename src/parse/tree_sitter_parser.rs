@@ -304,22 +304,6 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
-        EmacsLisp => {
-            let language = unsafe { tree_sitter_elisp() };
-            TreeSitterConfig {
-                language: language.clone(),
-                atom_nodes: [].into_iter().collect(),
-                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")]
-                    .into_iter()
-                    .collect(),
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/elisp.scm"),
-                )
-                .unwrap(),
-                sub_languages: vec![],
-            }
-        }
         Elixir => {
             let language = unsafe { tree_sitter_elixir() };
             TreeSitterConfig {
@@ -359,6 +343,22 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     &language,
                     include_str!("../../vendored_parsers/highlights/elvish.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        EmacsLisp => {
+            let language = unsafe { tree_sitter_elisp() };
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: [].into_iter().collect(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")]
+                    .into_iter()
+                    .collect(),
+                highlight_query: ts::Query::new(
+                    &language,
+                    include_str!("../../vendored_parsers/highlights/elisp.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
