@@ -388,7 +388,12 @@ pub(crate) fn print(
         .map(|l| replace_tabs(l, display_options.tab_width))
         .collect();
 
-    if lhs_src.is_empty() {
+    if lhs_src.is_empty()
+        && !matches!(
+            display_options.display_mode,
+            DisplayMode::SideBySideShowBoth
+        )
+    {
         for line in display_single_column(
             display_path,
             old_path,
@@ -402,7 +407,12 @@ pub(crate) fn print(
         println!();
         return;
     }
-    if rhs_src.is_empty() {
+    if rhs_src.is_empty()
+        && !matches!(
+            display_options.display_mode,
+            DisplayMode::SideBySideShowBoth
+        )
+    {
         for line in display_single_column(
             display_path,
             old_path,

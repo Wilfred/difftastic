@@ -4,6 +4,11 @@
 
 When diffing directories, difftastic now ignores the `.git` directory.
 
+### Display
+
+Fixed an issue where `--display=side-by-side-show-both` would not use
+a two-column display when one file was empty.
+
 ### Command Line Interface
 
 Difftastic no longer accepts the `--missing-as-empty`. This has had no
