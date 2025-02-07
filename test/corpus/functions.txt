@@ -35,7 +35,7 @@ fn replace(
           name: (type_identifier))))
     return_type: (type
       name: (type_identifier))
-    body: (function_body
+    body: (block
       (binary_expression
         left: (identifier)
         right: (identifier))))
@@ -52,7 +52,7 @@ fn replace(
         name: (identifier)
         type: (type_var)))
     return_type: (type_var)
-    body: (function_body
+    body: (block
       (function_call
         function: (identifier)
         arguments: (arguments
@@ -67,7 +67,7 @@ fn replace(
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (identifier)))
   (function
     name: (identifier)
@@ -87,7 +87,7 @@ fn replace(
         name: (identifier)
         type: (type
           name: (type_identifier))))
-    body: (function_body
+    body: (block
       (function_call
         function: (field_access
           record: (identifier)
@@ -141,7 +141,7 @@ pub fn replace(
           name: (type_identifier))))
     return_type: (type
       name: (type_identifier))
-    body: (function_body
+    body: (block
       (binary_expression
         left: (identifier)
         right: (identifier))))
@@ -159,7 +159,7 @@ pub fn replace(
         name: (identifier)
         type: (type_var)))
     return_type: (type_var)
-    body: (function_body
+    body: (block
       (function_call
         function: (identifier)
         arguments: (arguments
@@ -175,7 +175,7 @@ pub fn replace(
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (identifier)))
   (function
     (visibility_modifier)
@@ -196,7 +196,7 @@ pub fn replace(
         name: (identifier)
         type: (type
           name: (type_identifier))))
-    body: (function_body
+    body: (block
       (function_call
         function: (field_access
           record: (identifier)
@@ -313,27 +313,28 @@ fn field_access(x) {
 (source_file
   (function
     name: (identifier)
-    parameters: (function_parameters))
+    parameters: (function_parameters)
+    body: (block))
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (string
         (quoted_content))))
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (integer)))
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (float)))
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (record
         name: (constructor_name)
         arguments: (arguments
@@ -344,7 +345,7 @@ fn field_access(x) {
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (record
         name: (remote_constructor_name
           module: (identifier)
@@ -359,26 +360,26 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (identifier)))
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (function_call
         function: (identifier)
         arguments: (arguments))))
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (todo
         message: (string
           (quoted_content)))))
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (panic)
       (panic
         message: (string
@@ -388,7 +389,7 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (tuple
         (identifier)
         (integer))))
@@ -397,7 +398,7 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (list
         (integer)
         (integer)
@@ -405,7 +406,7 @@ fn field_access(x) {
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (bit_string
         (bit_string_segment
           value: (integer)
@@ -424,21 +425,21 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (anonymous_function
         parameters: (function_parameters
           (function_parameter
             name: (identifier)
             type: (type
               name: (type_identifier))))
-        body: (function_body
+        body: (block
           (binary_expression
             left: (identifier)
             right: (identifier))))))
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (block
         (binary_expression
           left: (integer)
@@ -452,7 +453,7 @@ fn field_access(x) {
         name: (identifier))
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (case
         subjects: (case_subjects
           (identifier)
@@ -477,7 +478,7 @@ fn field_access(x) {
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (let_assert
         pattern: (record_pattern
           name: (constructor_name)
@@ -532,7 +533,7 @@ fn field_access(x) {
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (let
         pattern: (identifier)
         value: (block
@@ -554,7 +555,7 @@ fn field_access(x) {
   (function
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (assert
         pattern: (record_pattern
           name: (constructor_name)
@@ -589,7 +590,7 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (record_update
         constructor: (constructor_name)
         spread: (identifier)
@@ -623,7 +624,7 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (tuple_access
         tuple: (identifier)
         index: (integer))))
@@ -632,7 +633,7 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (field_access
         record: (identifier)
         field: (label)))))
@@ -676,7 +677,7 @@ fn trial(x, y, z) {
         name: (identifier))
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (case
         subjects: (case_subjects
           (identifier))
@@ -812,7 +813,7 @@ let fun_ref = float.to_string
       parameters: (function_parameters
         (function_parameter
           name: (identifier)))
-      body: (function_body
+      body: (block
         (identifier))))
   (let
     pattern: (identifier)
@@ -838,7 +839,7 @@ fn complicated(x, y) {
         name: (identifier))
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (binary_expression
         left: (binary_expression
           left: (binary_expression
@@ -882,7 +883,7 @@ fn complex_data_fun(x, y) {
         name: (identifier))
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (field_access
         record: (tuple_access
           tuple: (field_access
@@ -950,7 +951,7 @@ fn weird(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (function_call
         function: (identifier)
         arguments: (arguments
@@ -963,7 +964,7 @@ fn weird(x) {
           parameters: (function_parameters
             (function_parameter
               name: (identifier)))
-          body: (function_body
+          body: (block
             (binary_expression
               left: (identifier)
               right: (integer))))
@@ -978,7 +979,7 @@ fn weird(x) {
               parameters: (function_parameters
                 (function_parameter
                   name: (identifier)))
-              body: (function_body
+              body: (block
                 (binary_expression
                   left: (identifier)
                   right: (integer))))))
@@ -998,7 +999,7 @@ fn weird(x) {
                 parameters: (function_parameters
                   (function_parameter
                     name: (identifier)))
-                body: (function_body
+                body: (block
                   (binary_expression
                     left: (identifier)
                     right: (integer)))))))
@@ -1034,7 +1035,7 @@ fn ignores(foo, _bar) {
         name: (identifier))
       (function_parameter
         name: (discard)))
-    body: (function_body
+    body: (block
       (let
         pattern: (discard)
         value: (integer))
@@ -1065,7 +1066,7 @@ fn lists(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    body: (function_body
+    body: (block
       (list)
       (list
         (integer))

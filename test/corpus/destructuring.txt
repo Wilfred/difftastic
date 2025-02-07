@@ -16,7 +16,7 @@ pub fn main() {
     (visibility_modifier)
     (identifier)
     (function_parameters)
-    (function_body
+    (block
       (case
         (case_subjects
           (identifier))
@@ -64,7 +64,7 @@ pub fn main() {
     (visibility_modifier)
     (identifier)
     (function_parameters)
-    (function_body
+    (block
       (let
         (record_pattern
           (constructor_name)

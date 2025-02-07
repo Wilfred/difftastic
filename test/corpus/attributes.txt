@@ -17,7 +17,7 @@ pub fn main() { todo }
     (visibility_modifier)
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (todo))))
 
 ================================================================================
@@ -44,7 +44,7 @@ pub fn wibble() { todo }
     (visibility_modifier)
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (todo))))
 
 ================================================================================
@@ -63,5 +63,5 @@ pub fn wibble() { todo }
     (visibility_modifier)
     name: (identifier)
     parameters: (function_parameters)
-    body: (function_body
+    body: (block
       (todo))))

@@ -68,7 +68,7 @@ pub fn listed(names: List(String), person: Person) -> String {
           (type_identifier))))
     (type
       (type_identifier))
-    (function_body
+    (block
       (case
         (case_subjects
           (identifier))
