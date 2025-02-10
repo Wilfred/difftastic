@@ -67,7 +67,6 @@ extern "C" {
     fn tree_sitter_dart() -> ts::Language;
     fn tree_sitter_devicetree() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
-    fn tree_sitter_elixir() -> ts::Language;
     fn tree_sitter_elm() -> ts::Language;
     fn tree_sitter_elvish() -> ts::Language;
     fn tree_sitter_erlang() -> ts::Language;
@@ -305,18 +304,17 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Elixir => {
-            let language = unsafe { tree_sitter_elixir() };
+            let language_fn = tree_sitter_elixir::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["string", "heredoc"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("do", "end")]
                     .into_iter()
                     .collect(),
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/elixir.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_elixir::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }

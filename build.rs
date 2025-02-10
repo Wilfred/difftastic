@@ -103,11 +103,6 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
-            name: "tree-sitter-elixir",
-            src_dir: "vendored_parsers/tree-sitter-elixir-src",
-            extra_files: vec!["scanner.c"],
-        },
-        TreeSitterParser {
             name: "tree-sitter-elm",
             src_dir: "vendored_parsers/tree-sitter-elm-src",
             extra_files: vec!["scanner.c"],
