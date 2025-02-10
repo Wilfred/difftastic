@@ -16,7 +16,7 @@ effect since 0.46.
 
 ### Parsing
 
-File detection now supports Windows-1252 encoded test (an extension of
+File detection now supports Windows-1252 encoded text (an extension of
 ISO-8859-1), and is stricter about UTF-16 detection.
 
 Updated to the latest tree-sitter parser for LaTeX, Make, Rust and
