@@ -249,7 +249,7 @@ fn main() {
         println!("cargo:rerun-if-changed={}", parser.src_dir);
     }
 
-    parsers.par_iter().for_each(|p| p.build());
+    parsers.iter().for_each(|p| p.build());
     commit_info();
 
     if let Some((version, _, _)) = rustc::triple() {
