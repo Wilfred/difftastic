@@ -19,8 +19,8 @@ effect since 0.46.
 File detection now supports Windows-1252 encoded text (an extension of
 ISO-8859-1), and is stricter about UTF-16 detection.
 
-Updated to the latest tree-sitter parser for Elixir, LaTeX, Make, Rust
-and YAML.
+Updated to the latest tree-sitter parser for Elixir, LaTeX, Make, Nix,
+Rust and YAML.
 
 ### Build
 
