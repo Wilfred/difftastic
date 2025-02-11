@@ -7,6 +7,7 @@
   - [Git](./git.md)
   - [Mercurial](./mercurial.md)
   - [Fossil](./fossil.md)
+  - [Jujutsu](./jj.md)
 - [Languages Supported](./languages_supported.md)
   - [Language Detection](./language_detection.md)
 - [Internals: Parsing](./parsing.md)
