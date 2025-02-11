@@ -11,8 +11,8 @@ a two-column display when one file was empty.
 
 ### Command Line Interface
 
-Difftastic no longer accepts the `--missing-as-empty`. This has had no
-effect since 0.46.
+Difftastic no longer accepts the `--missing-as-empty` argument. This
+argument has had no effect since 0.46.
 
 ### Parsing
 
