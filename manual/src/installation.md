@@ -74,6 +74,14 @@ with `choco`.
 $ choco install difftastic
 ```
 
+### Rust & Cargo
+
+If you want to install it directly with `cargo`, you can install [difftastic](https://crates.io/crates/difftastic) with it.
+
+```
+$ cargo install difftastic
+```
+
 ## Full Package Listing
 
 This table lists all the platforms that have packaged difftastic.
