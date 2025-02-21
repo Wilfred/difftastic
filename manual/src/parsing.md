@@ -94,4 +94,4 @@ close delimiters.
 
 The simplified syntax tree only stores node content and node
 position. It does not store whitespace between nodes, and position is
-largely ignored during diffing.
+ignored during diffing.
