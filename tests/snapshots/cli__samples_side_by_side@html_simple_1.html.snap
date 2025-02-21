@@ -1,0 +1,15 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/html_simple_1.html
+---
+[1m[93msample_files/html_simple_2.html[39m[0m[2m --- HTML[0m
+[2m1 [0m<[1mhtml[0m>                                       [2m1 [0m<[1mhtml[0m>
+[2m2 [0m<[1mhead[0m>                                       [2m2 [0m<[1mhead[0m>
+[91;1m3 [0m  <[1mtitle[0m>[91mHi![0m</[1mtitle[0m>                         [92;1m3 [0m  <[1mtitle[0m>[92mHi[0m</[1mtitle[0m>
+[2m4 [0m</[1mhead[0m>                                      [2m4 [0m</[1mhead[0m>
+[91;1m5 [0m<[1mbody[0m class=[91m"foo"[0m>                           [92;1m5 [0m<[1mbody[0m class=[92m"bar"[0m>
+[91;1m6 [0m  <[1mh1[0m>[91mFoo[0m</[1mh1[0m>                               [92;1m6 [0m  <[1mh1[0m [92mid[0m[92m=[0m[92m"title"[0m>[92mBar[0m</[1mh1[0m>
+[91;1m7 [0m  <[1mp[0m>[91mStory about foo.[0m</[1mp[0m>                    [92;1m7 [0m  <[1mp[0m>[92mStory about[0m [92;1m<[0m[92;1mstrong[0m[92;1m>[0m[92mbar[0m[92m</[0m[92;1mstrong[0m[92m>[0m[92m.[0m</[1mp[0m>
+[2m8 [0m</[1mbody[0m>                                      [2m8 [0m</[1mbody[0m>
+[2m9 [0m</[1mhtml[0m>                                      [2m9 [0m</[1mhtml[0m>

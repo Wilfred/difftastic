@@ -1,0 +1,20 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/lua_1.lua
+---
+[1m[93msample_files/lua_2.lua[39m[0m[2m --- Lua[0m
+[2m 1 [0m[1mfunction[0m test()                                       [92;1m 1 [0m[1mfunction[0m test([92mname[0m)
+[2m 2 [0m  print([95m"testing"[0m)                                    [92;1m 2 [0m  print([95m"testing"[0m[92;1m..[0m[92mname[0m)
+[2m 3 [0m  [1mreturn[0m 10                                           [2m 3 [0m  [1mreturn[0m 10
+[2m 4 [0m[1mend[0m                                                   [2m 4 [0m[1mend[0m
+[2m 5 [0m                                                      [2m 5 [0m
+[2m 6 [0m[1mif[0m test() [1m==[0m 20 [1mthen[0m                                  [92;1m 6 [0m[1mif[0m test([92m"myname"[0m) [1m==[0m 20 [1mthen[0m
+[91;1m 7 [0m  print([91m"30"[0m)                                         [92;1m 7 [0m  print([92m"20"[0m)
+[2m 8 [0m[1mend[0m                                                   [2m 8 [0m[1mend[0m
+[2m 9 [0m                                                      [2m 9 [0m
+[2m10 [0m[1mlocal[0m list [1m=[0m { [95m"A"[0m, [95m"B"[0m, [95m"D"[0m }                        [92;1m10 [0m[1mlocal[0m list [1m=[0m { [95m"A"[0m, [95m"B"[0m, [92m"C"[0m[92m,[0m [95m"D"[0m }
+[2m11 [0m[1mlocal[0m table [1m=[0m { a [1m=[0m [95m"A"[0m, b [1m=[0m [95m"B"[0m, d [1m=[0m [95m"D"[0m }           [92;1m11 [0m[1mlocal[0m table [1m=[0m { a [1m=[0m [95m"A"[0m, b [1m=[0m [95m"B"[0m, [92mc[0m [92;1m=[0m [92m"C"[0m[92m,[0m d [1m=[0m [95m"D"[0m }
+[2m12 [0m                                                      [2m12 [0m
+[2m13 [0m[1mfor[0m k, v [1min[0m pairs(table) [1mdo[0m                           [2m13 [0m[1mfor[0m k, v [1min[0m pairs(table) [1mdo[0m
+[2m14 [0m  print([95m"k: "[0m[1m..[0mk[1m..[0m[95m" v: "[0m[1m..[0mv)                          [2m14 [0m  print([95m"k: "[0m[1m..[0mk[1m..[0m[95m" v: "[0m[1m..[0mv)

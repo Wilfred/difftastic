@@ -1,0 +1,40 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/vhdl_1.vhd
+---
+[1m[93msample_files/vhdl_2.vhd[39m[0m[2m --- VHDL[0m
+[2m 5 [0mentity blinky is                                             [2m 5 [0mentity blinky is
+[2m 6 [0m    port (                                                   [2m 6 [0m    port (
+[2m 7 [0m        clk: in std_logic;                                   [2m 7 [0m        clk: in std_logic;
+[91;1m 8 [0m        led: out [91mstd_logic[0m                                   [92;1m 8 [0m        led: out [92mstd_logic_vector[0m[92;1m([0m[92m3[0m [92mdownto[0m [92m0[0m[92;1m)[0m
+[2m 9 [0m    );                                                       [2m 9 [0m    );
+[2m10 [0mend entity;                                                  [2m10 [0mend entity;
+[2m11 [0m                                                             [2m11 [0m
+[2m12 [0marchitecture a of blinky is                                  [2m12 [0marchitecture a of blinky is
+[91;1m13 [0m    constant CLK_FREQ: positive := [91m12_000_000[0m;               [92;1m13 [0m    constant CLK_FREQ: positive := [92m48_000_000[0m;
+[91;1m14 [0m    signal [91mcounter[0m: unsigned([91m23[0m downto 0) := (others => '0') [92;1m14 [0m    signal [92mcounter1[0m: unsigned([92m25[0m downto 0) := (others => '0'
+[91;1m[2m.. [0m[0m;                                                            [92;1m[2m.. [0m[0m);
+[2m.. [0m                                                             [92;1m15 [0m    [92msignal[0m [92mcounter2[0m[92m:[0m [92munsigned[0m[92;1m([0m[92m1[0m [92mdownto[0m [92m0[0m[92;1m)[0m [92m:=[0m [92;1m([0m[92mothers[0m [92m=>[0m [92m'0'[0m[92;1m)[0m
+[2m.. [0m                                                             [92;1m[2m.. [0m[0m[92m;[0m
+[2m15 [0mbegin                                                        [2m16 [0mbegin
+[2m16 [0m    process(clk)                                             [2m17 [0m    process(clk)
+[2m17 [0m    begin                                                    [2m18 [0m    begin
+[2m18 [0m        if rising_edge(clk) then                             [2m19 [0m        if rising_edge(clk) then
+[91;1m19 [0m            if to_integer([91mcounter[0m) = CLK_FREQ / 2 then       [92;1m20 [0m            if to_integer([92mcounter1[0m) = CLK_FREQ / 2 then
+[91;1m20 [0m                [91mled[0m <= [91mnot[0m [91mled[0m;                              [92;1m21 [0m                [92mcounter2[0m <= [92mcounter2[0m [92m+[0m [92m1[0m;
+[91;1m21 [0m                [91mcounter[0m <= (others => '0');                  [92;1m22 [0m                [92mcounter1[0m <= (others => '0');
+[2m22 [0m            else                                             [2m23 [0m            else
+[91;1m23 [0m                [91mcounter[0m <= [91mcounter[0m + 1;                      [92;1m24 [0m                [92mcounter1[0m <= [92mcounter1[0m + 1;
+[2m24 [0m            end if;                                          [2m25 [0m            end if;
+[2m25 [0m        end if;                                              [2m26 [0m        end if;
+[2m26 [0m    end process;                                             [2m27 [0m    end process;
+[2m.. [0m                                                             [92;1m28 [0m
+[2m.. [0m                                                             [92;1m29 [0m    [92mprocess[0m[92;1m([0m[92mcounter2[0m[92;1m)[0m
+[2m.. [0m                                                             [92;1m30 [0m    [92mbegin[0m
+[2m.. [0m                                                             [92;1m31 [0m        [92mfor[0m [92mn[0m [92min[0m [92m0[0m [92mto[0m [92m3[0m [92mloop[0m
+[2m.. [0m                                                             [92;1m32 [0m            [92mled[0m[92;1m([0m[92mn[0m[92;1m)[0m [92m<=[0m [92m'1'[0m [92mwhen[0m [92mto_integer[0m[92;1m([0m[92mcounter2[0m[92;1m)[0m [92m=[0m [92mn[0m [92melse[0m
+[2m.. [0m                                                             [92;1m[2m.. [0m[0m [92m'0'[0m[92m;[0m
+[2m.. [0m                                                             [92;1m33 [0m        [92mend[0m [92mloop[0m[92m;[0m
+[2m.. [0m                                                             [92;1m34 [0m    [92mend[0m [92mprocess[0m[92m;[0m
+[2m27 [0mend architecture;                                            [2m35 [0mend architecture;

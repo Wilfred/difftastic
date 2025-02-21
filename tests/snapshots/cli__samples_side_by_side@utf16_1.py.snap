@@ -1,0 +1,11 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/utf16_1.py
+---
+[1m[93msample_files/utf16_2.py[39m[0m[2m --- Python[0m
+[2m1 [0m﻿[94;3m# coding=utf_16[0m                                                      [2m1 [0m﻿[94;3m# coding=utf_16[0m
+[2m2 [0m[94;3m# This file contains a Byte Order Mark denoting little-endianness.[0m   [2m2 [0m[94;3m# This file contains a Byte Order Mark denoting little-endianness.[0m
+[2m3 [0m                                                                     [2m3 [0m
+[91;1m4 [0mprint([91m"[0m[91;1;4mhello[0m [91;1;4m☃[0m[91m [0m[91msnowman[0m[91m"[0m)                                             [92;1m4 [0mprint([92m"[0m[92;1;4mno[0m[92m [0m[92msnowman[0m[92m"[0m)
+[2m  [0m                                                                     [92;1m5 [0m[92mprint[0m[92;1m([0m[92m"こんにちは世界"[0m[92;1m)[0m

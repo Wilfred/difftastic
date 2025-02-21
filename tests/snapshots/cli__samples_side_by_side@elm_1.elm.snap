@@ -1,0 +1,65 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/elm_1.elm
+---
+[1m[93msample_files/elm_2.elm[39m[0m[2m --- Elm[0m
+[91;1m 1 [0m[1mmodule[0m Main [1mexposing[0m (blue, [91mgreen[0m[91m,[0m list, x, y[91m,[0m [91mz[0m)  [2m 1 [0m[1mmodule[0m Main [1mexposing[0m
+[2m . [0m                                                   [2m 2 [0m    ( blue
+[2m . [0m                                                   [2m 3 [0m    , list
+[2m . [0m                                                   [2m 4 [0m    , x
+[2m . [0m                                                   [2m 5 [0m    , y
+[2m . [0m                                                   [2m 6 [0m    )
+[2m 2 [0m                                                   [2m 7 [0m
+[2m 3 [0m                                                   [2m 8 [0m
+[91;1m 4 [0m[91;3m{[0m[91;3m-[0m[91;3m [0m[91;1;3;4mbar[0m                                             [92;1m 9 [0m[92;3m{[0m[92;3m-[0m[92;3m [0m[92;1;3;4mfoo[0m
+[91;1m 5 [0m[91;3m [0m[91;3m-[0m[91;3m}[0m                                                [92;1m10 [0m[92;3m [0m[92;3m-[0m[92;3m}[0m
+[2m 6 [0mlist [1m:[0m List Int                                    [2m11 [0mlist [1m:[0m List Int
+[2m 7 [0mlist [1m=[0m                                             [2m12 [0mlist [1m=[0m
+[2m 8 [0m    [ [1m1[0m, [1m2[0m, [1m3[0m ]                                    [2m13 [0m    [ [1m1[0m
+[2m . [0m                                                   [2m14 [0m    , [1m2[0m
+[2m . [0m                                                   [2m15 [0m    , [1m3[0m
+[2m . [0m                                                   [92;1m16 [0m    [92m,[0m [92;1m4[0m
+[2m . [0m                                                   [2m17 [0m    ]
+[2m 9 [0m                                                   [2m18 [0m
+[2m10 [0m                                                   [2m19 [0m
+[2m11 [0mblue [1m:[0m a [1m->[0m String                                 [2m20 [0mblue [1m:[0m a [1m->[0m String
+[2m12 [0mblue [1m=[0m                                             [2m21 [0mblue [1m=[0m
+[91;1m13 [0m    [91malways[0m "blue"                                  [92;1m22 [0m    [92;1m\[0m[92m_[0m [92;1m->[0m "blue"
+[2m14 [0m                                                   [2m23 [0m
+[2m15 [0m                                                   [2m24 [0m
+[91;1m16 [0mgreen [1m:[0m [91ma[0m [91;1m->[0m String                                [2m25 [0mgreen [1m:[0m String
+[2m17 [0mgreen [1m=[0m                                            [2m26 [0mgreen [1m=[0m
+[91;1m18 [0m    [91malways[0m "blue"                                  [92;1m27 [0m    [92m"yellow"[0m [92;1m++[0m "blue"
+[2m19 [0m                                                   [2m28 [0m
+[2m20 [0m                                                   [2m29 [0m
+[91;1m21 [0m[91my[0m [1m:[0m Int                                            [92;1m30 [0m[92mx[0m [1m:[0m Int
+[91;1m22 [0m                                                   [2m.. [0m
+[91;1m23 [0m                                                   [2m.. [0m
+[2m24 [0mx [1m=[0m                                                [2m31 [0mx [1m=[0m
+[2m25 [0m    ([1m*[0m) [1m2[0m [1m4[0m                                        [92;1m32 [0m    ([1m*[0m) [1m2[0m [92;1m<|[0m [1m4[0m
+[2m26 [0m                                                   [2m33 [0m
+[2m27 [0m                                                   [2m34 [0m
+[2m28 [0my [1m:[0m Int                                            [2m35 [0my [1m:[0m Int
+[2m29 [0my [1m=[0m                                                [2m36 [0my [1m=[0m
+[91;1m30 [0m    ([1m*[0m) [1m2[0m [91;1m4[0m                                        [92;1m37 [0m    [92;1m4[0m [92;1m|>[0m ([1m*[0m) [1m2[0m
+[91;1m31 [0m                                                   [2m.. [0m
+[91;1m32 [0m                                                   [2m.. [0m
+[91;1m33 [0m[91mz[0m [91;1m:[0m [91mString[0m                                         [2m.. [0m
+[91;1m34 [0m[91mz[0m [91;1m=[0m                                                [2m.. [0m
+[91;1m35 [0m    [91m"abc"[0m                                          [2m.. [0m
+[2m36 [0m                                                   [2m38 [0m
+[2m37 [0m                                                   [2m39 [0m
+[2m38 [0mfn [1m:[0m () [1m->[0m Int [1m->[0m List String [1m->[0m String            [2m40 [0mfn [1m:[0m
+[2m.. [0m                                                   [2m41 [0m    ()
+[2m.. [0m                                                   [2m42 [0m    [1m->[0m Int
+[2m.. [0m                                                   [2m43 [0m    [1m->[0m List String
+[2m.. [0m                                                   [92;1m44 [0m    [92;1m->[0m [92;1m([0m[92;1m)[0m
+[2m.. [0m                                                   [2m45 [0m    [1m->[0m String
+[91;1m39 [0mfn [91m_[0m n strings [1m=[0m                                   [92;1m46 [0mfn [92;1m([0m[92;1m)[0m n strings [92;1m([0m[92;1m)[0m [1m=[0m
+[91;1m40 [0m    [91;1mlet[0m                                            [2m.. [0m
+[91;1m41 [0m        [91mfoo[0m [91;1m:[0m [91mList[0m [91mString[0m [91;1m->[0m [91mString[0m                [2m.. [0m
+[91;1m42 [0m        [91mfoo[0m [91;1m=[0m                                      [2m.. [0m
+[2m43 [0m            String.join (String.fromInt n)         [2m47 [0m    String.join (String.fromInt n) strings
+[91;1m44 [0m    [91;1min[0m                                             [2m   [0m
+[91;1m45 [0m    [91mfoo[0m strings                                    [2m   [0m

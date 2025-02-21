@@ -1,0 +1,18 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/elvish_1.elv
+---
+[1m[93msample_files/elvish_2.elv[39m[0m[2m --- Elvish[0m
+[2m 3 [0mcurl https://api.github.com/repos/elves/elvish/issues |  [2m 3 [0mcurl https://api.github.com/repos/elves/elvish/issues |
+[2m 4 [0m  from-json | all (one) [1m|[0m                                [2m 4 [0m  from-json | all (one) [1m|[0m
+[2m 5 [0m  each {|x| echo (exact-num $x[number]): $x[title] } [1m|[0m   [2m 5 [0m  each {|x| echo (exact-num $x[number]): $x[title] } [1m|[0m
+[91;1m 6 [0m  head -n [91m7[0m                                              [92;1m 6 [0m  head -n [92m5[0m
+[2m 7 [0m                                                         [2m 7 [0m
+[91;1m 8 [0m[1mif[0m $[91;1mtrue[0m { echo good } [1melse[0m { echo bad }                 [92;1m 8 [0m[1mif[0m $[92;1mfalse[0m { echo good } [1melse[0m { echo bad }
+[2m 9 [0m                                                         [2m 9 [0m
+[2m10 [0m[1mfor[0m x [lorem ipsum] {                                    [2m10 [0m[1mfor[0m x [lorem ipsum] {
+[91;1m11 [0m  echo $x[91m.pdf[0m                                            [92;1m11 [0m  echo $x[92m.rs[0m
+[2m12 [0m}                                                        [2m12 [0m}
+[2m13 [0m                                                         [2m13 [0m
+[2m14 [0m [1mtry[0m {                                                   [2m14 [0m [1mtry[0m {

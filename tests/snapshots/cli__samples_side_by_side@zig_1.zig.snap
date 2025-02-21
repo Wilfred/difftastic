@@ -1,0 +1,12 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/zig_1.zig
+---
+[1m[93msample_files/zig_2.zig[39m[0m[2m --- Zig[0m
+[2m. [0m                                                  [92;1m1 [0m[92;1mconst[0m [92mstd[0m [92m=[0m [92;1m@import[0m[92;1m([0m[92m"std"[0m[92;1m)[0m[92m;[0m
+[2m. [0m                                                  [92;1m2 [0m
+[2m1 [0m[1mpub[0m [1mfn[0m main() [1mvoid[0m {                              [2m3 [0m[1mpub[0m [1mfn[0m main() [1mvoid[0m {
+[91;1m2 [0m    std.debug.print([95m"Hello, {s}!"[0m, .{[91m"world"[0m});   [92;1m4 [0m    std.debug.print([95m"Hello, {s}!"[0m, .{[92m"user"[0m});
+[2m. [0m                                                  [92;1m5 [0m    [92mstd[0m[92m.[0m[92mdebug[0m[92m.[0m[92mprint[0m[92;1m([0m[92m"Hello, again!"[0m[92m,[0m [92m.[0m[92;1m{[0m[92;1m}[0m[92;1m)[0m[92m;[0m
+[2m3 [0m}                                                 [2m6 [0m}

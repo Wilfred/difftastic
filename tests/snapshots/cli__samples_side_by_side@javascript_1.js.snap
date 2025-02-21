@@ -1,0 +1,82 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/javascript_1.js
+---
+[1m[93msample_files/javascript_2.js[39m[0m[2m --- 1/5 --- JavaScript[0m
+[2m 7 [0m});                                                                 [2m 7 [0m});
+[2m 8 [0m                                                                    [2m 8 [0m
+[2m 9 [0mdescribe([95m"Authentication"[0m, () [1m=>[0m {                                  [2m 9 [0mdescribe([95m"Authentication"[0m, () [1m=>[0m {
+[91;1m10 [0m  test([91m"Editing pages"[0m, done [1m=>[0m {                                   [92;1m10 [0m  test([92m"/edit GET"[0m, done [1m=>[0m {
+[2m11 [0m    request(app)                                                    [2m11 [0m    request(app)
+[2m12 [0m      .get([95m"/edit/Foo"[0m)                                             [2m12 [0m      .get([95m"/edit/Foo"[0m)
+[2m13 [0m      .then(res [1m=>[0m {                                                [2m13 [0m      .then(res [1m=>[0m {
+
+[1msample_files/javascript_2.js[0m[2m --- 2/5 --- JavaScript[0m
+[2m16 [0m        done();                                                     [2m16 [0m        done();
+[2m17 [0m      });                                                           [2m17 [0m      });
+[2m18 [0m  });                                                               [2m18 [0m  });
+[2m.. [0m                                                                    [92;1m19 [0m  [92mtest[0m[92;1m([0m[92m"/edit POST"[0m[92m,[0m [92mdone[0m [92;1m=>[0m [92;1m{[0m
+[2m.. [0m                                                                    [92;1m20 [0m    [92mdb[0m[92m.[0m[92mcreatePage[0m[92;1m([0m[92m"EditAuthExample"[0m[92m,[0m [92m"foo bar"[0m[92m,[0m [92;1m([0m[92merr[0m[92m,[0m [92mpage[0m[92;1m)[0m [92;1m=>[0m [92;1m{[0m
+[2m.. [0m                                                                    [92;1m21 [0m      [92mexpect[0m[92;1m([0m[92merr[0m[92;1m)[0m[92m.[0m[92mtoBeNull[0m[92;1m([0m[92;1m)[0m[92m;[0m
+[2m.. [0m                                                                    [92;1m22 [0m
+[2m.. [0m                                                                    [92;1m23 [0m      [92mrequest[0m[92;1m([0m[92mapp[0m[92;1m)[0m
+[2m.. [0m                                                                    [92;1m24 [0m        [92m.[0m[92mpost[0m[92;1m([0m[92m"/edit/"[0m [92;1m+[0m [92mpage[0m[92m.[0m[92mrowid[0m[92;1m)[0m
+[2m.. [0m                                                                    [92;1m25 [0m        [92m.[0m[92mtype[0m[92;1m([0m[92m"form"[0m[92;1m)[0m
+[2m.. [0m                                                                    [92;1m26 [0m        [92m.[0m[92msend[0m[92;1m([0m[92;1m{[0m [92mname[0m[92m:[0m [92m"EditPostExample"[0m[92m,[0m [92mcontent[0m[92m:[0m [92m"hello world"[0m [92;1m}[0m[92;1m)[0m
+[2m.. [0m                                                                    [92;1m27 [0m        [92m.[0m[92mthen[0m[92;1m([0m[92mres[0m [92;1m=>[0m [92;1m{[0m
+[2m.. [0m                                                                    [92;1m28 [0m          [92mexpect[0m[92;1m([0m[92mres[0m[92m.[0m[92mstatusCode[0m[92;1m)[0m[92m.[0m[92mtoBe[0m[92;1m([0m[92m401[0m[92;1m)[0m[92m;[0m
+[2m.. [0m                                                                    [92;1m29 [0m          [92mexpect[0m[92;1m([0m[92mres[0m[92m.[0m[92mheaders[0m[92;1m[[0m[92m"www-authenticate"[0m[92;1m][0m[92;1m)[0m[92m.[0m[92mtoBe[0m[92;1m([0m[92m"Basic"[0m[92;1m)[0m[92m;[0m
+[2m.. [0m                                                                    [92;1m30 [0m          [92mdone[0m[92;1m([0m[92;1m)[0m[92m;[0m
+[2m.. [0m                                                                    [92;1m31 [0m        [92;1m}[0m[92;1m)[0m[92m;[0m
+[2m.. [0m                                                                    [92;1m32 [0m    [92;1m}[0m[92;1m)[0m[92m;[0m
+[2m.. [0m                                                                    [92;1m33 [0m  [92;1m}[0m[92;1m)[0m[92m;[0m
+[2m19 [0m                                                                    [2m34 [0m
+[91;1m20 [0m  test([91m"Creating pages"[0m, done [1m=>[0m {                                  [92;1m35 [0m  test([92m"/new GET"[0m, done [1m=>[0m {
+[2m21 [0m    request(app)                                                    [2m36 [0m    request(app)
+[2m22 [0m      .get([95m"/new"[0m)                                                  [2m37 [0m      .get([95m"/new"[0m)
+[2m23 [0m      .then(res [1m=>[0m {                                                [2m38 [0m      .then(res [1m=>[0m {
+
+[1msample_files/javascript_2.js[0m[2m --- 3/5 --- JavaScript[0m
+[2m26 [0m[2m41 [0m        done();
+[2m27 [0m[2m42 [0m      });
+[2m28 [0m[2m43 [0m  });
+[2m.. [0m[92;1m44 [0m  [92mtest[0m[92;1m([0m[92m"/new POST"[0m[92m,[0m [92mdone[0m [92;1m=>[0m [92;1m{[0m
+[2m.. [0m[92;1m45 [0m    [92mrequest[0m[92;1m([0m[92mapp[0m[92;1m)[0m
+[2m.. [0m[92;1m46 [0m      [92m.[0m[92mpost[0m[92;1m([0m[92m"/new"[0m[92;1m)[0m
+[2m.. [0m[92;1m47 [0m      [92m.[0m[92mtype[0m[92;1m([0m[92m"form"[0m[92;1m)[0m
+[2m.. [0m[92;1m48 [0m      [92m.[0m[92msend[0m[92;1m([0m[92;1m{[0m [92mname[0m[92m:[0m [92m"FooBarBaz"[0m[92m,[0m [92mcontent[0m[92m:[0m [92m"hello world"[0m [92;1m}[0m[92;1m)[0m
+[2m.. [0m[92;1m49 [0m      [92m.[0m[92mexpect[0m[92;1m([0m[92m401[0m[92m,[0m [92mdone[0m[92;1m)[0m[92m;[0m
+[2m.. [0m[92;1m50 [0m  [92;1m}[0m[92;1m)[0m[92m;[0m
+[2m29 [0m[2m51 [0m});
+[2m30 [0m[2m52 [0m
+[2m31 [0m[2m53 [0m[1mconst[0m [1mADMIN_PASSWORD[0m [1m=[0m process.env.ADMIN_PASSWORD [1m||[0m [95m"admin"[0m;
+
+[1msample_files/javascript_2.js[0m[2m --- 4/5 --- JavaScript[0m
+[2m56 [0m        .expect(200, done);                                         [2m78 [0m        .expect(200, done);
+[2m57 [0m    });                                                             [2m79 [0m    });
+[2m58 [0m  });                                                               [2m80 [0m  });
+[91;1m59 [0m  test([91m"[0m[91m/[0m[91medit[0m[91m [0m[91;1;4mGET[0m[91m"[0m, done [1m=>[0m {                                       [92;1m81 [0m  test([92m"[0m[92m/[0m[92medit[0m[92m [0m[92;1;4mPOST[0m[92m"[0m, done [1m=>[0m {
+[2m60 [0m    db.createPage([95m"EditPostExample"[0m, [95m"foo bar"[0m, (err, page) [1m=>[0m {    [2m82 [0m    db.createPage([95m"EditPostExample"[0m, [95m"foo bar"[0m, (err, page) [1m=>[0m {
+[2m61 [0m      expect(err).toBeNull();                                       [2m83 [0m      expect(err).toBeNull();
+[2m62 [0m                                                                    [2m84 [0m
+
+[1msample_files/javascript_2.js[0m[2m --- 5/5 --- JavaScript[0m
+[2m70 [0m[2m 92 [0m  });
+[2m71 [0m[2m 93 [0m});
+[2m72 [0m[2m 94 [0m
+[2m.. [0m[92;1m 95 [0m[92mdescribe[0m[92;1m([0m[92m"Viewing"[0m[92m,[0m [92;1m([0m[92;1m)[0m [92;1m=>[0m [92;1m{[0m
+[2m73 [0m[2m 96 [0m  test([95m"/all"[0m, done [1m=>[0m {
+[2m74 [0m[2m 97 [0m    request(app)
+[2m75 [0m[2m 98 [0m      .get([95m"/all"[0m)
+[2m76 [0m[2m 99 [0m      .expect(200, done);
+[2m77 [0m[2m100 [0m  });
+[2m   [0m[92;1m101 [0m
+[2m   [0m[92;1m102 [0m  [92mtest[0m[92;1m([0m[92m"/AnExamplePage"[0m[92m,[0m [92mdone[0m [92;1m=>[0m [92;1m{[0m
+[2m   [0m[92;1m103 [0m    [92mdb[0m[92m.[0m[92mcreatePage[0m[92;1m([0m[92m"AnExamplePage"[0m[92m,[0m [92m"foo bar"[0m[92m,[0m [92;1m([0m[92;1m)[0m [92;1m=>[0m [92;1m{[0m
+[2m   [0m[92;1m104 [0m      [92mrequest[0m[92;1m([0m[92mapp[0m[92;1m)[0m
+[2m   [0m[92;1m105 [0m        [92m.[0m[92mget[0m[92;1m([0m[92m"/AnExamplePage"[0m[92;1m)[0m
+[2m   [0m[92;1m106 [0m        [92m.[0m[92mexpect[0m[92;1m([0m[92m200[0m[92m,[0m [92mdone[0m[92;1m)[0m[92m;[0m
+[2m   [0m[92;1m107 [0m    [92;1m}[0m[92;1m)[0m[92m;[0m
+[2m   [0m[92;1m108 [0m  [92;1m}[0m[92;1m)[0m[92m;[0m
+[2m   [0m[92;1m109 [0m[92;1m}[0m[92;1m)[0m[92m;[0m

@@ -1,0 +1,16 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/yaml_1.yaml
+---
+[1m[93msample_files/yaml_2.yaml[39m[0m[2m --- YAML[0m
+[2m1 [0m---                         [2m1 [0m---
+[2m2 [0m[95mfoo[0m: [[95mfoobar[0m]               [92;1m2 [0m[95mfoo[0m: [[92mbar[0m[92m,[0m [95mfoobar[0m]
+[2m3 [0m[95mhello[0m:                      [2m3 [0m[95mhello[0m:
+[2m4 [0m  - [95m"world"[0m                 [2m4 [0m  - [95m"world"[0m
+[2m. [0m                            [92;1m5 [0m  [92m-[0m [92m'item'[0m
+[2m5 [0m  - [95mother[0m                   [2m6 [0m  - [95mother[0m
+[91;1m6 [0m                            [2m  [0m
+[91;1m7 [0m[91mstuff[0m[91m:[0m [91m|[0m                    [2m  [0m
+[91;1m8 [0m[91m  a[0m                         [2m  [0m
+[91;1m9 [0m[91m  b[0m                         [2m  [0m

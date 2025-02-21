@@ -1,0 +1,11 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/json_1.json
+---
+[1m[93msample_files/json_2.json[39m[0m[2m --- JSON[0m
+[2m1 [0m{                           [2m1 [0m{
+[91;1m2 [0m  [95m"foo"[0m: [[91m1[0m[91m,[0m 2, 3, 4],      [92;1m2 [0m  [95m"foo"[0m: [2, 3, 4[92m,[0m [92m5[0m],
+[91;1m3 [0m  [91m"bar"[0m: [95m"testing"[0m          [92;1m3 [0m  [92m"zab"[0m: [95m"testing"[0m[92m,[0m
+[2m. [0m                            [92;1m4 [0m  [92m"woo"[0m[92m:[0m [92;1m[[0m[92m"foobar"[0m[92;1m][0m
+[2m4 [0m}                           [2m5 [0m}

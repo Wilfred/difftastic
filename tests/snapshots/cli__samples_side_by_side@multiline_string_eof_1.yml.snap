@@ -1,0 +1,9 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/multiline_string_eof_1.yml
+---
+[1m[93msample_files/multiline_string_eof_2.yml[39m[0m[2m --- YAML[0m
+[91;1m1 [0m[95mrun[0m: [91m|[0m                                                   [92;1m1 [0m[95mrun[0m: [92m|[0m
+[91;1m2 [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m [0m[91;1;4mset[0m [91;1;4m-x[0m                                         [92;1m2 [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m [0m[92mgit[0m[92m [0m[92mclone[0m[92m [0m[92m [0m[92mhttps[0m[92m:[0m[92m/[0m[92m/[0m[92mgithub[0m[92m.[0m[92mcom[0m[92m/[0m[92mtorvalds[0m[92m/[0m[92mlinux[0m
+[91;1m3 [0m          [91mgit[0m[91m [0m[91mclone[0m[91m [0m[91m [0m[91mhttps[0m[91m:[0m[91m/[0m[91m/[0m[91mgithub[0m[91m.[0m[91mcom[0m[91m/[0m[91mtorvalds[0m[91m/[0m[91mlinux[0m   [2m  [0m

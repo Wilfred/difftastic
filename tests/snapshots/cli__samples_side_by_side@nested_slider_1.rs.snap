@@ -1,0 +1,17 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/nested_slider_1.rs
+---
+[1m[93msample_files/nested_slider_2.rs[39m[0m[2m --- Rust[0m
+[2m1 [0m[2m 1 [0m[1mfn[0m split_string_by_codepoint_brace() {
+[2m2 [0m[2m 2 [0m    [1mif[0m [1mtrue[0m {
+[2m. [0m[92;1m 3 [0m        [92;1mif[0m [92mpad_last[0m [92;1m{[0m
+[2m3 [0m[2m 4 [0m            x;
+[2m4 [0m[92;1m 5 [0m        [92;1m}[0m
+[2m. [0m[2m 6 [0m    }
+[2m5 [0m[2m 7 [0m}
+[2m6 [0m[2m 8 [0m
+[2m7 [0m[2m 9 [0m[1mfn[0m split_string_by_codepoint_paren() {
+[2m8 [0m[92;1m10 [0m    foo([92mbar[0m[92;1m([0mx[92;1m)[0m)
+[2m9 [0m[2m11 [0m}

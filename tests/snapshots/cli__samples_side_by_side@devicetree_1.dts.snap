@@ -1,0 +1,65 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/devicetree_1.dts
+---
+[1m[93msample_files/devicetree_2.dts[39m[0m[2m --- 1/2 --- Device Tree[0m
+[2m 5 [0m[1m/memreserve/[0m 0x0000000000000000 0x0000000000000014;                   [2m 5 [0m[1m/memreserve/[0m 0x0000000000000000 0x0000000000000014;
+[2m 6 [0m                                                                      [2m 6 [0m
+[2m 7 [0m/ {                                                                   [2m 7 [0m/ {
+[91;1m 8 [0m    model = [91m"MyBoardName"[0m;                                            [92;1m 8 [0m    model = [92m"MyBoardNamev2"[0m;
+[2m 9 [0m    compatible = "MyBoardName", "MyBoardFamilyName";                  [92;1m 9 [0m    compatible = "MyBoardName", "MyBoardFamilyName"[92m,[0m [92m"MyBoardRevision[0m
+[2m[2m . [0m[0m                                                                      [92;1m[2m . [0m[0m[92m"[0m;
+[2m10 [0m    #address-cells = <2>;                                             [2m10 [0m    #address-cells = <2>;
+[2m11 [0m    #size-cells = <2>;                                                [2m11 [0m    #size-cells = <2>;
+[2m12 [0m                                                                      [2m12 [0m
+
+[1msample_files/devicetree_2.dts[0m[2m --- 2/2 --- Device Tree[0m
+[2m25 [0m            d-cache-size = <32768>;                                   [2m25 [0m            d-cache-size = <32768>;
+[2m26 [0m        };                                                            [2m26 [0m        };
+[91;1m27 [0m                                                                      [2m.. [0m
+[91;1m28 [0m        [91mPowerPC,970[0m[91m@[0m[91;1m1[0m [91;1m{[0m                                               [2m.. [0m
+[91;1m29 [0m            [91mname[0m [91m=[0m [91m"PowerPC,970"[0m[91m;[0m                                     [2m.. [0m
+[91;1m30 [0m            [91mdevice_type[0m [91m=[0m [91m"cpu"[0m[91m;[0m                                      [2m.. [0m
+[91;1m31 [0m            [91mreg[0m [91m=[0m [91;1m<[0m[91m0x00000001[0m[91;1m>[0m[91m;[0m                                       [2m.. [0m
+[91;1m32 [0m            [91mclock-frequency[0m [91m=[0m [91;1m<[0m[91m1600000000[0m[91;1m>[0m[91m;[0m                           [2m.. [0m
+[91;1m33 [0m            [91mtimebase-frequency[0m [91m=[0m [91;1m<[0m[91m33333333[0m[91;1m>[0m[91m;[0m                          [2m.. [0m
+[91;1m34 [0m            [91mi-cache-size[0m [91m=[0m [91;1m<[0m[91m65536[0m[91;1m>[0m[91m;[0m                                   [2m.. [0m
+[91;1m35 [0m            [91md-cache-size[0m [91m=[0m [91;1m<[0m[91m32768[0m[91;1m>[0m[91m;[0m                                   [2m.. [0m
+[91;1m36 [0m        [91;1m}[0m[91m;[0m                                                            [2m.. [0m
+[91;1m37 [0m                                                                      [2m.. [0m
+[2m38 [0m    };                                                                [2m27 [0m    };
+[2m39 [0m                                                                      [2m28 [0m
+[2m.. [0m                                                                      [92;1m29 [0m    [92mrandomparentnode[0m [92;1m{[0m
+[2m40 [0m    randomnode {                                                      [2m30 [0m        randomnode {
+[2m41 [0m        string = "\xff\0stuffstuff\t\t\t\n\n\n";                      [2m31 [0m            string = "\xff\0stuffstuff\t\t\t\n\n\n";
+[2m42 [0m        blob = [0a 0b 0c 0d de ea ad be ef];                          [2m32 [0m            blob = [0a 0b 0c 0d de ea ad be ef];
+[2m43 [0m        ref = < &{/memory@[1m0[0m} >;                                       [2m33 [0m            ref = < &{/memory@[1m0[0m} >;
+[2m44 [0m        mixed = "abc", [1234], <0xa 0xb 0xc>;                         [2m34 [0m            mixed = "abc",
+[2m.. [0m                                                                      [2m35 [0m                [1234],
+[2m.. [0m                                                                      [2m36 [0m                <0xa 0xb 0xc>;
+[91;1m45 [0m        [91mold[0m = <12345>;                                                [92;1m37 [0m            [92mnew[0m = <12345>;
+[2m46 [0m    };                                                                [92;1m38 [0m        }[92m;[0m
+[2m.. [0m                                                                      [92;1m39 [0m    [92;1m}[0m;
+[2m47 [0m                                                                      [2m40 [0m
+[2m48 [0m    memory@[1m0[0m {                                                        [2m41 [0m    memory@[1m0[0m {
+[2m49 [0m        device_type = "memory";                                       [2m42 [0m        device_type = "memory";
+[2m50 [0m        [1mmemreg[0m: reg = <0x00000000 0x00000000 0x00000000 0x20000000>;  [2m43 [0m        [1mmemreg[0m: reg = <
+[2m.. [0m                                                                      [2m44 [0m            0x00000000 0x00000000
+[2m.. [0m                                                                      [2m45 [0m            0x00000000 0x20000000>;
+[2m51 [0m    };                                                                [2m46 [0m    };
+[2m.. [0m                                                                      [92;1m47 [0m
+[2m.. [0m                                                                      [92;1m48 [0m    [92mmemory[0m[92m@[0m[92;1m100000[0m [92;1m{[0m
+[2m.. [0m                                                                      [92;1m49 [0m        [92mdevice_type[0m [92m=[0m [92m"memory"[0m[92m;[0m
+[2m.. [0m                                                                      [92;1m50 [0m        [92;1mmemreg[0m[92m:[0m [92mreg[0m [92m=[0m [92;1m<[0m
+[2m.. [0m                                                                      [92;1m51 [0m            [92m0x00100000[0m [92m0x00000000[0m
+[2m.. [0m                                                                      [92;1m52 [0m            [92m0x00100000[0m [92m0x20000000[0m[92;1m>[0m[92m;[0m
+[2m.. [0m                                                                      [92;1m53 [0m    [92;1m}[0m[92m;[0m
+[2m52 [0m                                                                      [2m54 [0m
+[2m53 [0m    chosen {                                                          [2m55 [0m    chosen {
+[91;1m54 [0m        [91mbootargs[0m [91m=[0m [91m"root=/dev/sda2"[0m[91m;[0m                                  [2m.. [0m
+[2m55 [0m        linux,platform = <0x600>;                                     [2m56 [0m        linux,platform = <0x600>;
+[2m.. [0m                                                                      [92;1m57 [0m        [92mbootargs[0m [92m=[0m [92m"root=/dev/sda2"[0m[92m;[0m
+[2m56 [0m    };                                                                [2m58 [0m    };
+[2m57 [0m                                                                      [2m59 [0m
+[2m58 [0m};                                                                    [2m60 [0m};

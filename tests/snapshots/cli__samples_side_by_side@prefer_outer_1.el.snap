@@ -1,0 +1,13 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/prefer_outer_1.el
+---
+[1m[93msample_files/prefer_outer_2.el[39m[0m[2m --- Emacs Lisp[0m
+[2m1 [0m[2m1 [0m([1mdefun[0m deadgrep--find-file (path)
+[91;1m2 [0m[2m. [0m  [91;1m([0m[91msave-match-data[0m
+[2m3 [0m[2m2 [0m    ([1mlet*[0m ((initial-buffers (buffer-list))
+[91;1m4 [0m[2m3 [0m           (buf [91;1m([0m[91msave-match-data[0m (find-file-noselect path)[91;1m)[0m))
+[2m5 [0m[2m4 [0m      (unless (-contains-p initial-buffers buf)
+[2m6 [0m[2m5 [0m        ([1msetq[0m opened [1mt[0m))
+[91;1m7 [0m[2m6 [0m      (cons buf opened))[91;1m)[0m)

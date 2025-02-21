@@ -1,0 +1,8 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/repeated_line_no_eol_1.txt
+---
+[1m[93msample_files/repeated_line_no_eol_2.txt[39m[0m[2m --- Text[0m
+[2m1 [0m[2m1 [0mabc
+[2m. [0m[92;1m2 [0m[92;1mabc[0m

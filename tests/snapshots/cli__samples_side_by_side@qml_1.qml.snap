@@ -1,0 +1,34 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/qml_1.qml
+---
+[1m[93msample_files/qml_2.qml[39m[0m[2m --- 1/2 --- QML[0m
+[2m1 [0m[94;3m// Taken from https://doc.qt.io/qt-6/qmlapplications.html[0m
+[92;1m2 [0m[1mimport[0m [1mQtQuick[0m [92m2[0m[92m.[0m[92m15[0m
+[92;1m3 [0m[1mimport[0m [1mQtQuick[0m.[1mControls[0m [92m2[0m[92m.[0m[92m15[0m
+[2m4 [0m
+[2m5 [0m[1mApplicationWindow[0m {
+[2m6 [0m    width: 400
+
+[1msample_files/qml_2.qml[0m[2m --- 2/2 --- QML[0m
+[2m 9 [0m                                                           [2m 9 [0m
+[2m10 [0m    [1mButton[0m {                                               [2m10 [0m    [1mButton[0m {
+[2m11 [0m        id: button                                         [2m11 [0m        id: button
+[2m.. [0m                                                           [92;1m12 [0m        [92mhoverEnabled[0m[92m:[0m [92;1mtrue[0m
+[2m12 [0m        text: [95m"A Special Button"[0m                           [2m13 [0m        text: [95m"A Special Button"[0m
+[2m13 [0m        background: [1mRectangle[0m {                            [2m14 [0m        background: [1mRectangle[0m {
+[2m14 [0m            implicitWidth: 100                             [2m15 [0m            implicitWidth: 100
+[2m15 [0m            implicitHeight: 40                             [2m16 [0m            implicitHeight: 40
+[91;1m16 [0m            color: button.down [91m?[0m [95m"#d6d6d6"[0m [91m:[0m [95m"#f6f6f6"[0m     [92;1m17 [0m            color: [92;1m{[0m
+[2m.. [0m                                                           [92;1m18 [0m                [92;1mif[0m [92;1m([0mbutton.down [92;1m||[0m [92mbutton[0m[92m.[0m[92mhovered[0m[92;1m)[0m [92;1m{[0m
+[2m.. [0m                                                           [2m19 [0m                    [95m"#d6d6d6"[0m
+[2m.. [0m                                                           [92;1m20 [0m                [92;1m}[0m [92;1melse[0m [92;1m{[0m
+[2m.. [0m                                                           [2m21 [0m                    [95m"#f6f6f6"[0m
+[2m.. [0m                                                           [92;1m22 [0m                [92;1m}[0m
+[2m.. [0m                                                           [92;1m23 [0m            [92;1m}[0m
+[2m17 [0m            border.color: [95m"#26282a"[0m                        [2m24 [0m            border.color: [95m"#26282a"[0m
+[2m18 [0m            border.width: 1                                [92;1m25 [0m            border.width: [92mbutton[0m[92m.[0m[92mdown[0m [92m?[0m [92m2[0m [92m:[0m 1
+[2m19 [0m            radius: 4                                      [2m26 [0m            radius: 4
+[2m20 [0m        }                                                  [2m27 [0m        }
+[2m21 [0m    }                                                      [2m28 [0m    }

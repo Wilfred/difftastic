@@ -1,0 +1,26 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/ocaml_1.ml
+---
+[1m[93msample_files/ocaml_2.ml[39m[0m[2m --- OCaml[0m
+[2m 3 [0m                                  [2m 3 [0m
+[2m 4 [0m[1mtype[0m [1mfoo[0m =                        [2m 4 [0m[1mtype[0m [1mfoo[0m =
+[2m 5 [0m  | [1mBar[0m                           [2m 5 [0m  | [1mBar[0m
+[91;1m 6 [0m  [91m|[0m [91;1mBaz[0m [91;1mof[0m [91;1mint[0m [91;1m*[0m [91;1m([0m[91m'ex[0m[91m,[0m [91m'en[0m[91;1m)[0m [91;1mlist[0m  [2m . [0m
+[2m 7 [0m  | [1mBiz[0m [1mof[0m ('ex, 'en) [1mlist[0m        [2m 6 [0m  | [1mBiz[0m [1mof[0m ('ex, 'en) [1mlist[0m
+[2m 8 [0m                                  [2m 7 [0m
+[2m 9 [0m[1mlet[0m do_stuff x =                  [2m 8 [0m[1mlet[0m do_stuff x =
+[2m10 [0m  [1mmatch[0m x [1mwith[0m                    [2m 9 [0m  [1mmatch[0m x [1mwith[0m
+[2m11 [0m  | [1m`Foo[0m -> 1                     [2m10 [0m  | [1m`Foo[0m -> 1
+[91;1m12 [0m  [91m|[0m [91;1m`Bar[0m [91m->[0m [91m2[0m                     [2m.. [0m
+[2m13 [0m  | _ -> 3                        [2m11 [0m  | _ -> 3
+[2m14 [0m                                  [2m12 [0m
+[2m15 [0m[1mlet[0m stuffs y =                    [2m13 [0m[1mlet[0m stuffs y =
+[2m16 [0m  y [1m+[0m 1                           [2m14 [0m  y [1m+[0m 1
+[2m17 [0m                                  [2m15 [0m
+[2m18 [0m[1mtype[0m [1mthing[0m =                      [2m16 [0m[1mtype[0m [1mthing[0m =
+[2m19 [0m  | [1mX[0m                             [92;1m17 [0m  | [1mX[0m [92m[@[0m[92;1mvisitor.opaque[0m[92m][0m
+[2m20 [0m  | [1mY[0m                             [2m18 [0m  | [1mY[0m
+[2m   [0m                                  [92;1m19 [0m[92m[@@[0m[92;1mvisitor.opaque[0m[92m][0m
+[2m   [0m                                  [92;1m20 [0m

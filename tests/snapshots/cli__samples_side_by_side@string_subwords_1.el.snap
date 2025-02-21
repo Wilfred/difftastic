@@ -1,0 +1,20 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/string_subwords_1.el
+---
+[1m[93msample_files/string_subwords_2.el[39m[0m[2m --- Emacs Lisp[0m
+[91;1m 1 [0m(format [91m"[0m[91;1;4mSoloWiki[0m [91;1;4mViewing[0m[91m:[0m[91m [0m[91m%[0m[91ms[0m[91m"[0m name)                            [92;1m 1 [0m(format [92m"[0m[92;1;4m%[0m[92;1;4ms[0m[92m:[0m[92m [0m[92m%[0m[92ms[0m[92m"[0m [92;1m([0m[92msite-name[0m[92;1m)[0m name)
+[2m 2 [0m                                                                [2m 2 [0m
+[2m 3 [0m(defcustom deadgrep-max-buffers                                 [2m 3 [0m(defcustom deadgrep-max-buffers
+[2m 4 [0m  4                                                             [2m 4 [0m  4
+[91;1m 5 [0m  [91m"Deadgrep will kill the least recently used results buffer[0m    [92;1m 5 [0m  [92m"The maximum number of deadgrep results buffers.[0m
+[91;1m 6 [0m[91mif there are more than this many.[0m                               [92;1m 6 [0m
+[91;1m 7 [0m                                                                [92;1m 7 [0m[92mIf the number of results buffers exceeds this value, deadgrep[0m
+[91;1m 8 [0m[91mTo disable cleanup entirely, set this variable to nil."[0m         [92;1m 8 [0m[92mwill kill results buffers. The least recently used buffers are[0m
+[2m . [0m                                                                [92;1m 9 [0m[92mkilled first.[0m
+[2m . [0m                                                                [92;1m10 [0m
+[2m . [0m                                                                [92;1m11 [0m[92mTo disable cleanup entirely, set this variable to nil."[0m
+[2m 9 [0m  :type [1m'[0m(choice                                                [2m12 [0m  :type [1m'[0m(choice
+[2m10 [0m          (number :tag [95m"Maximum of buffers allowed"[0m)            [2m13 [0m          (number :tag [95m"Maximum of buffers allowed"[0m)
+[2m11 [0m          (const :tag [95m"Disable cleanup"[0m [1mnil[0m))                   [2m14 [0m          (const :tag [95m"Disable cleanup"[0m [1mnil[0m))

@@ -1,0 +1,38 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/perl_1.pl
+---
+[1m[93msample_files/perl_2.pl[39m[0m[2m --- Perl[0m
+[2m 9 [0mprint [95m"Pi equals "[0m, PI, [95m"...\n"[0m;                                  [2m 9 [0mprint [95m"Pi equals "[0m, PI, [95m"...\n"[0m;
+[2m10 [0m                                                                  [2m10 [0m
+[2m11 [0m[1muse[0m constant {                                                    [2m11 [0m[1muse[0m constant {
+[91;1m12 [0m  [95mSEC[0m   [1m=>[0m 0, [91;3m# foo bar[0m                                           [92;1m12 [0m  [95mSEC[0m   [1m=>[0m 0, [92;3m# foo[0m
+[2m13 [0m  [95mMIN[0m   [1m=>[0m 1,                                                     [2m13 [0m  [95mMIN[0m   [1m=>[0m 1,
+[2m14 [0m  [95mHOUR[0m  [1m=>[0m 2,                                                     [2m14 [0m  [95mHOUR[0m  [1m=>[0m 2,
+[2m15 [0m  [95mMDAY[0m  [1m=>[0m 3,                                                     [2m15 [0m  [95mMDAY[0m  [1m=>[0m 3,
+[2m16 [0m  [95mMON[0m   [1m=>[0m 4,                                                     [2m16 [0m  [95mMON[0m   [1m=>[0m 4,
+[2m17 [0m  [95mYEAR[0m  [1m=>[0m 5,                                                     [2m17 [0m  [95mYEAR[0m  [1m=>[0m 5,
+[2m18 [0m  [95mWDAY[0m  [1m=>[0m 6,                                                     [2m18 [0m  [95mWDAY[0m  [1m=>[0m 6,
+[2m19 [0m  [95mYDAY[0m  [1m=>[0m 7,                                                     [2m19 [0m  [95mYDAY[0m  [1m=>[0m 7,
+[91;1m20 [0m  [95mISDST[0m [1m=>[0m [91m8[0m,                                                     [92;1m20 [0m  [95mISDST[0m [1m=>[0m [92m10[0m,
+[2m21 [0m};                                                                [2m21 [0m};
+[2m.. [0m                                                                  [92;1m22 [0m
+[2m.. [0m                                                                  [92;1m23 [0m[92;1mmy[0m [92m$setting[0m [92;1m=[0m [92;1m{[0m
+[2m.. [0m                                                                  [92;1m24 [0m  [92mopen[0m [92;1m=>[0m [92m1[0m[92m,[0m
+[2m.. [0m                                                                  [92;1m25 [0m  [92mclose[0m [92;1m=>[0m [92m2[0m[92m,[0m
+[2m.. [0m                                                                  [92;1m26 [0m  [92mrun[0m [92;1m=>[0m [92m3[0m[92m,[0m
+[2m.. [0m                                                                  [92;1m27 [0m  [92mawesome[0m [92;1m=>[0m [92m'yes'[0m[92m,[0m
+[2m.. [0m                                                                  [92;1m28 [0m[92;1m}[0m[92m;[0m
+[2m.. [0m                                                                  [92;1m29 [0m[92;1mmy[0m [92m%final[0m[92m;[0m
+[2m.. [0m                                                                  [92;1m30 [0m[92;1mforeach[0m [92;1mmy[0m [92m$key[0m [92;1m([0m[92mwoof[0m[92;1m([0m[92;1m)[0m[92;1m)[0m [92;1m{[0m
+[2m.. [0m                                                                  [92;1m31 [0m  [92m$final[0m[92;1m{[0m[92mIRONMAN[0m[92;1m}[0m[92;1m{[0m[92m$key[0m[92;1m}[0m [92;1m=[0m [92m$setting[0m[92m->{[0m[92m$key[0m[92m}[0m[92m;[0m
+[2m.. [0m                                                                  [92;1m32 [0m
+[2m.. [0m                                                                  [92;1m33 [0m  [92mprint[0m [92mDumper[0m [92m\[0m[92m%final[0m[92m;[0m
+[2m.. [0m                                                                  [92;1m34 [0m[92;1m}[0m
+[2m22 [0m                                                                  [2m35 [0m
+[2m23 [0m[1muse[0m constant [1mWEEKDAYS[0m => qw(                                      [2m36 [0m[1muse[0m constant [1mWEEKDAYS[0m => qw(
+[2m24 [0m  Sunday Monday Tuesday Wednesday Thursday Friday Saturday        [2m37 [0m  Sunday Monday Tuesday Wednesday Thursday Friday Saturday
+[2m25 [0m);                                                                [2m38 [0m);
+[2m26 [0m                                                                  [2m39 [0m
+[91;1m27 [0m$f [1m=~[0m [91ms[0m[91m/[0m[91mfoo[0m[91m/[0m[91;1;4mbar[0m[91m/[0m[91mg[0m;                                                [92;1m40 [0m$f [1m=~[0m [92ms[0m[92m/[0m[92mfoo[0m[92m/[0m[92;1;4mabc[0m[92m/[0m[92mg[0m;

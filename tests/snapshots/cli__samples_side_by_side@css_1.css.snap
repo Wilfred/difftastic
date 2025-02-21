@@ -1,0 +1,29 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/css_1.css
+---
+[1m[93msample_files/css_2.css[39m[0m[2m --- CSS[0m
+[2m 1 [0m[94;3m/* hello[0m                   [2m 1 [0m[94;3m/* hello[0m
+[2m 2 [0m[94;3mworld */[0m                   [2m 2 [0m[94;3mworld */[0m
+[91;1m 3 [0m.[91mfoo1[0m {                    [92;1m 3 [0m.[92mbar[0m {
+[91;1m 4 [0m  margin: [91m0[0m [91m0[0m [91m20px[0m 0;      [2m 4 [0m  margin: 0;
+[2m 5 [0m}                          [2m 5 [0m}
+[2m 6 [0m                           [2m 6 [0m
+[91;1m 7 [0m.[91mbar[0m {                     [92;1m 7 [0m.[92mfoo1[0m {
+[2m 8 [0m  margin: 0;               [92;1m 8 [0m  margin: [92m0[0m [92m0[0m [92m20px[0m 0;
+[2m . [0m                           [92;1m 9 [0m  [92mcolor[0m[92m:[0m [92mgreen[0m[92m;[0m
+[2m 9 [0m}                          [2m10 [0m}
+[2m10 [0m                           [2m11 [0m
+[2m11 [0m.baz {                     [2m12 [0m.baz {
+[91;1m12 [0m  color: [91myellow[0m;           [92;1m13 [0m  color: [92mblue[0m;
+[91;1m13 [0m  font-family: [91m"Before"[0m;   [92;1m14 [0m  font-family: [92m"After"[0m;
+[2m14 [0m}                          [2m15 [0m}
+[2m15 [0m                           [2m16 [0m
+[2m16 [0m.another {                 [2m17 [0m.another {
+[91;1m17 [0m  margin-left: [91m0.5em[0m;      [92;1m18 [0m  margin-left: [92m1em[0m;
+[2m18 [0m}                          [2m19 [0m}
+[2m   [0m                           [92;1m20 [0m
+[2m   [0m                           [92;1m21 [0m[92;1mp[0m [92;1m{[0m
+[2m   [0m                           [92;1m22 [0m  [92mcolor[0m[92m:[0m [92m#000[0m[92m;[0m
+[2m   [0m                           [92;1m23 [0m[92;1m}[0m

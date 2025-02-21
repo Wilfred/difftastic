@@ -1,0 +1,9 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/nullable_1.kt
+---
+[1m[93msample_files/nullable_2.kt[39m[0m[2m --- Kotlin[0m
+[2m1 [0m[1mclass[0m [1mFoo[0m {                 [2m1 [0m[1mclass[0m [1mFoo[0m {
+[91;1m2 [0m    [1mval[0m str: [91mString?[0m        [92;1m2 [0m    [1mval[0m str: [92;1mString[0m
+[2m3 [0m}                           [2m3 [0m}

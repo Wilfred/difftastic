@@ -1,0 +1,28 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/scala_1.scala
+---
+[1m[93msample_files/scala_2.scala[39m[0m[2m --- Scala[0m
+[2m 1 [0m[1mpackage[0m foo                                           [2m 1 [0m[1mpackage[0m foo
+[2m 2 [0m                                                      [2m 2 [0m
+[2m 3 [0m[94;3m// A Scala program.[0m                                   [2m 3 [0m[94;3m// A Scala program.[0m
+[91;1m 4 [0m[1mimport[0m foo.[91;1mBar[0m                                        [92;1m 4 [0m[1mimport[0m foo.[92;1mBaz[0m
+[2m 5 [0m                                                      [2m 5 [0m
+[2m 6 [0m[1mclass[0m [1mFoo[0m {                                           [2m 6 [0m[1mclass[0m [1mFoo[0m {
+[2m 7 [0m                                                      [2m 7 [0m
+[91;1m 8 [0m  [1mdef[0m blah(): [91;1mInt[0m {                                   [92;1m 8 [0m  [92;1mprivate[0m [1mdef[0m blah(): [92;1mOther[0m {
+[2m 9 [0m    [94;3m/* foo */[0m                                         [2m 9 [0m    [94;3m/* foo */[0m
+[91;1m10 [0m    [1mthrow[0m [1mnew[0m [1mException[0m([91m"before"[0m);                    [92;1m10 [0m    [1mthrow[0m [1mnew[0m [1mException[0m([92m"after"[0m);
+[2m11 [0m  }                                                   [2m11 [0m  }
+[2m12 [0m                                                      [2m12 [0m
+[2m13 [0m  [1mvar[0m result = [1mOption[0m.empty[[1mT[0m]                        [2m13 [0m  [1mvar[0m result = [1mOption[0m.empty[[1mT[0m]
+[2m.. [0m                                                      [92;1m14 [0m  [92;1mval[0m [92mfn[0m [92m=[0m [92mpf[0m[92m.[0m[92mlift[0m
+[2m14 [0m  [1mobject[0m [1mtraverser[0m [1mextends[0m [1mSimpleTraverser[0m {          [2m15 [0m  [1mobject[0m [1mtraverser[0m [1mextends[0m [1mSimpleTraverser[0m {
+[2m15 [0m    [1moverride[0m [1mdef[0m apply(t: [1mTree[0m): [1mUnit[0m = {             [2m16 [0m    [1moverride[0m [1mdef[0m apply(t: [1mTree[0m): [1mUnit[0m = {
+[91;1m16 [0m      [91;1mif[0m [91;1m([0m[91mresult[0m[91m.[0m[91misEmpty[0m [91;1m&&[0m [91mpf[0m[91m.[0m[91misDefinedAt[0m[91;1m([0m[91mt[0m[91;1m)[0m[91;1m)[0m [91;1m{[0m      [2m.. [0m
+[91;1m17 [0m        result = [91;1mSome[0m[91;1m([0m[91mpf[0m(t)[91;1m)[0m                          [92;1m17 [0m      result = [92mfn[0m(t)[92m.[0m[92morElse[0m[92;1m([0m[92mresult[0m[92;1m)[0m
+[91;1m18 [0m      [91;1m}[0m [91;1melse[0m [1mif[0m (result.[91misEmpty[0m) {                    [92;1m18 [0m      [1mif[0m (result.[92mnonEmpty[0m) {
+[2m19 [0m        super.apply(t)                                [2m19 [0m        super.apply(t)
+[2m20 [0m      }                                               [2m20 [0m      }
+[2m21 [0m    }                                                 [2m21 [0m    }

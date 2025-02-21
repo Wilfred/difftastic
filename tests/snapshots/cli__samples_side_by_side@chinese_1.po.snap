@@ -1,0 +1,34 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/chinese_1.po
+---
+[1m[93msample_files/chinese_2.po[39m[0m[2m --- 1/3 --- Text[0m
+[2m1 [0m#: ../errors.h:589                                                          [2m1 [0m#: ../errors.h:589
+[2m2 [0m# reorder if possible                                                       [2m2 [0m# reorder if possible
+[2m3 [0m#, fuzzy, c-format                                                          [2m3 [0m#, fuzzy, c-format
+[91;1m4 [0m[91mmsgid[0m[91m [0m[91m"[0m[91mE244[0m[91m:[0m[91m [0m[91mIllegal[0m[91m [0m[91m%[0m[91ms[0m[91m [0m[91mname[0m[91m [0m[91m\[0m[91m"[0m[91m%[0m[91ms[0m[91m\[0m[91m"[0m[91m [0m[91min[0m[91m [0m[91mfont[0m[91m [0m[91mname[0m[91m [0m[91m\[0m[91m"[0m[91m%[0m[91ms[0m[91m\[0m[91m"[0m[91m"[0m                    [92;1m4 [0m[92;1m#[0m[92;1m [0m[92mmsgid[0m[92m [0m[92m"[0m[92mE244[0m[92m:[0m[92m [0m[92mIllegal[0m[92m [0m[92m%[0m[92ms[0m[92m [0m[92mname[0m[92m [0m[92m\[0m[92m"[0m[92m%[0m[92ms[0m[92m\[0m[92m"[0m[92m [0m[92min[0m[92m [0m[92mfont[0m[92m [0m[92mname[0m[92m [0m[92m\[0m[92m"[0m[92m%[0m[92ms[0m[92m\[0m[92m"[0m[92m"[0m
+[91;1m5 [0m[91mmsgstr[0m[91m [0m[91m"[0m[91mE244[0m[91m:[0m[91m [0m[91m字体名[0m[91m [0m[91m\[0m[91m"[0m[91m%[0m[91m3[0m[91m$[0m[91ms[0m[91m\[0m[91m"[0m[91m [0m[91m中有非法[0m[91m [0m[91m%[0m[91m1[0m[91m$[0m[91ms[0m[91m [0m[91m名称[0m[91m [0m[91m\[0m[91m"[0m[91m%[0m[91m2[0m[91m$[0m[91ms[0m[91m\[0m[91m"[0m[91m"[0m                  [92;1m5 [0m[92;1m#[0m[92;1m [0m[92mmsgstr[0m[92m [0m[92m"[0m[92mE244[0m[92m:[0m[92m [0m[92m字体名[0m[92m [0m[92m\[0m[92m"[0m[92m%[0m[92m3[0m[92m$[0m[92ms[0m[92m\[0m[92m"[0m[92m [0m[92m中有非法[0m[92m [0m[92m%[0m[92m1[0m[92m$[0m[92ms[0m[92m [0m[92m名称[0m[92m [0m[92m\[0m[92m"[0m[92m%[0m[92m2[0m[92m$[0m[92ms[0m[92m\[0m[92m"[0m[92m"[0m
+[2m6 [0m                                                                            [2m6 [0m
+[2m7 [0m#: ../errors.h:591                                                          [2m7 [0m#: ../errors.h:591
+[2m8 [0m#, c-format                                                                 [2m8 [0m#, c-format
+
+[1msample_files/chinese_2.po[0m[2m --- 2/3 --- Text[0m
+[2m21 [0m#: ../errors.h:788                                                         [2m21 [0m#: ../errors.h:788
+[2m22 [0m# reorder if possible                                                      [2m22 [0m# reorder if possible
+[2m23 [0m#, fuzzy, c-format                                                         [2m23 [0m#, fuzzy, c-format
+[91;1m24 [0m[91mmsgid[0m[91m [0m[91m"[0m[91mE316[0m[91m:[0m[91m [0m[91mml_get[0m[91m:[0m[91m [0m[91mCannot[0m[91m [0m[91mfind[0m[91m [0m[91mline[0m[91m [0m[91m%[0m[91mld[0m[91m [0m[91min[0m[91m [0m[91mbuffer[0m[91m [0m[91m%[0m[91md[0m[91m [0m[91m%[0m[91ms[0m[91m"[0m                 [92;1m24 [0m[92;1m#[0m[92;1m [0m[92mmsgid[0m[92m [0m[92m"[0m[92mE316[0m[92m:[0m[92m [0m[92mml_get[0m[92m:[0m[92m [0m[92mCannot[0m[92m [0m[92mfind[0m[92m [0m[92mline[0m[92m [0m[92m%[0m[92mld[0m[92m [0m[92min[0m[92m [0m[92mbuffer[0m[92m [0m[92m%[0m[92md[0m[92m [0m[92m%[0m[92ms[0m[92m"[0m
+[91;1m25 [0m[91mmsgstr[0m[91m [0m[91m"[0m[91mE316[0m[91m:[0m[91m [0m[91mml_get[0m[91m:[0m[91m [0m[91m在缓冲区[0m[91m [0m[91m%[0m[91m2[0m[91m$[0m[91md[0m[91m [0m[91m%[0m[91m3[0m[91m$[0m[91ms[0m[91m [0m[91m中找不到第[0m[91m [0m[91m%[0m[91m1[0m[91m$[0m[91mld[0m[91m [0m[91m行[0m[91m"[0m              [92;1m25 [0m[92;1m#[0m[92;1m [0m[92mmsgstr[0m[92m [0m[92m"[0m[92mE316[0m[92m:[0m[92m [0m[92mml_get[0m[92m:[0m[92m [0m[92m在缓冲区[0m[92m [0m[92m%[0m[92m2[0m[92m$[0m[92md[0m[92m [0m[92m%[0m[92m3[0m[92m$[0m[92ms[0m[92m [0m[92m中找不到第[0m[92m [0m[92m%[0m[92m1[0m[92m$[0m[92mld[0m[92m [0m[92m行[0m[92m"[0m
+[2m26 [0m                                                                           [2m26 [0m
+[2m27 [0m#: ../errors.h:790                                                         [2m27 [0m#: ../errors.h:790
+[2m28 [0mmsgid "E317: Pointer block id wrong"                                       [2m28 [0mmsgid "E317: Pointer block id wrong"
+
+[1msample_files/chinese_2.po[0m[2m --- 3/3 --- Text[0m
+[2m43 [0m#: ../errors.h:2705                                                        [2m43 [0m#: ../errors.h:2705
+[2m44 [0m# reorder if possible                                                      [2m44 [0m# reorder if possible
+[2m45 [0m#, fuzzy, c-format                                                         [2m45 [0m#, fuzzy, c-format
+[91;1m46 [0m[91mmsgid[0m[91m [0m[91m"[0m[91mE1037[0m[91m:[0m[91m [0m[91mCannot[0m[91m [0m[91muse[0m[91m [0m[91m\[0m[91m"[0m[91m%[0m[91ms[0m[91m\[0m[91m"[0m[91m [0m[91mwith[0m[91m [0m[91m%[0m[91ms[0m[91m"[0m                                   [92;1m46 [0m[92;1m#[0m[92;1m [0m[92mmsgid[0m[92m [0m[92m"[0m[92mE1037[0m[92m:[0m[92m [0m[92mCannot[0m[92m [0m[92muse[0m[92m [0m[92m\[0m[92m"[0m[92m%[0m[92ms[0m[92m\[0m[92m"[0m[92m [0m[92mwith[0m[92m [0m[92m%[0m[92ms[0m[92m"[0m
+[91;1m47 [0m[91mmsgstr[0m[91m [0m[91m"[0m[91mE1037[0m[91m:[0m[91m [0m[91m不能对[0m[91m [0m[91m%[0m[91m2[0m[91m$[0m[91ms[0m[91m [0m[91m使用[0m[91m [0m[91m\[0m[91m"[0m[91m%[0m[91m1[0m[91m$[0m[91ms[0m[91m\[0m[91m"[0m[91m"[0m                                  [92;1m47 [0m[92;1m#[0m[92;1m [0m[92mmsgstr[0m[92m [0m[92m"[0m[92mE1037[0m[92m:[0m[92m [0m[92m不能对[0m[92m [0m[92m%[0m[92m2[0m[92m$[0m[92ms[0m[92m [0m[92m使用[0m[92m [0m[92m\[0m[92m"[0m[92m%[0m[92m1[0m[92m$[0m[92ms[0m[92m\[0m[92m"[0m[92m"[0m
+[2m48 [0m                                                                           [2m48 [0m
+[2m49 [0m#: ../errors.h:2707                                                        [2m49 [0m#: ../errors.h:2707
+[2m50 [0mmsgid "E1038: \"vim9script\" can only be used in a script"                 [2m50 [0mmsgid "E1038: \"vim9script\" can only be used in a script"

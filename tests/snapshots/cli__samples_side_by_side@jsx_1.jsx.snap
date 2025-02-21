@@ -1,0 +1,19 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/jsx_1.jsx
+---
+[1m[93msample_files/jsx_2.jsx[39m[0m[2m --- JavaScript JSX[0m
+[2m 1 [0m[1mReactDOM[0m.render(                     [2m 1 [0m[1mReactDOM[0m.render(
+[91;1m 2 [0m  <h1>[91mHello, world![0m</h1[1m>[0m,            [92;1m 2 [0m  <h1 [92mclassName[0m[92;1m=[0m[92m"title"[0m>
+[2m . [0m                                     [92;1m 3 [0m      [92;1m<[0m[92mspan[0m[92;1m>[0m[92mHello[0m[92m</[0m[92mspan[0m[92;1m>[0m[92m, world![0m
+[2m . [0m                                     [92;1m 4 [0m[92m  [0m</h1[1m>[0m,
+[2m 3 [0m  document.getElementById([95m"root"[0m));  [2m 5 [0m  document.getElementById([95m"root"[0m)
+[2m . [0m                                     [2m 6 [0m);
+[2m 4 [0m                                     [2m 7 [0m
+[2m 5 [0m[1mvar[0m x [1m=[0m (                            [2m 8 [0m[1mvar[0m x [1m=[0m (
+[91;1m 6 [0m  [91;1m<[0m[91mdiv[0m[91;1m>[0m                              [2m . [0m
+[2m 7 [0m      <p>                            [2m 9 [0m  <p>
+[2m 8 [0m          foo                        [2m10 [0m      foo
+[2m 9 [0m      </p[1m>[0m                           [2m11 [0m  </p[1m>[0m);
+[91;1m10 [0m  [91m</[0m[91mdiv[0m[91;1m>[0m);                           [2m   [0m

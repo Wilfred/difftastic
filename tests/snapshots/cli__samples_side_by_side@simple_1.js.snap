@@ -1,0 +1,8 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/simple_1.js
+---
+[1m[93msample_files/simple_2.js[39m[0m[2m --- JavaScript[0m
+[91;1m1 [0m[91;1mconst[0m [1mReact[0m [91;1m=[0m [91mrequire[0m[91;1m([0m[95m'react'[0m[91;1m)[0m;          [92;1m1 [0m[92;1mimport[0m [1mReact[0m[92m,[0m [92;1m{[0m[92museState[0m[92;1m}[0m [92;1mfrom[0m [95m'react'[0m;
+[2m2 [0mconsole.log([95m'hello world'[0m);              [2m2 [0mconsole.log([95m'hello world'[0m);

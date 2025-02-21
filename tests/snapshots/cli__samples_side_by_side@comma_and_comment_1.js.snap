@@ -1,0 +1,7 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/comma_and_comment_1.js
+---
+[1m[93msample_files/comma_and_comment_2.js[39m[0m[2m --- JavaScript[0m
+[91;1m1 [0mfunName(1 [94;3m/* foo */[0m [91m,[0m [91;3m/* bar */[0m)              [92;1m1 [0mfunName(1 [92;3m/* kinda like bar */[0m [92m,[0m [94;3m/* foo */[0m)

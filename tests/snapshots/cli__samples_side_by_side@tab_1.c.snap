@@ -1,0 +1,13 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/tab_1.c
+---
+[1m[93msample_files/tab_2.c[39m[0m[2m --- C[0m
+[2m1 [0m[1m#include[0m [95m<stdio.h>[0m          [2m1 [0m[1m#include[0m [95m<stdio.h>[0m
+[2m2 [0m                            [2m2 [0m
+[2m3 [0m[1mint[0m main() {                [2m3 [0m[1mint[0m main() {
+[91;1m4 [0m    printf([91m"[0m[91;1;4mHello[0m[91m [0m[91mWorld[0m[91m"[0m);  [92;1m4 [0m    printf([92m"[0m[92;1;4mGoodbye[0m[92m [0m[92mWorld[0m[92m"[0m)
+[91;1m[2m. [0m[0m                            [92;1m[2m. [0m[0m;
+[2m5 [0m    [1mreturn[0m 0;               [2m5 [0m    [1mreturn[0m 0;
+[2m6 [0m}                           [2m6 [0m}
