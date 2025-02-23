@@ -102,6 +102,7 @@ tree-sitter-rust = "0.23.2"
 tree-sitter-elixir = "0.3.4"
 tree-sitter-nix = "0.0.2"
 tree-sitter-pascal = "0.10.0"
+tree-sitter-swift = "0.7.0"
 
 [dev-dependencies]
 # assert_cmd 2.0.10 requires predicates 3.

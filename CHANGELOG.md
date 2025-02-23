@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Updated to the latest tree-sitter parser for Pascal.
+Updated to the latest tree-sitter parser for Pascal and Swift.
 
 ## 0.63 (released 11th February 2025)
 
