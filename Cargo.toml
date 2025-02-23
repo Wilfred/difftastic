@@ -104,6 +104,7 @@ tree-sitter-nix = "0.0.2"
 tree-sitter-pascal = "0.10.0"
 tree-sitter-swift = "0.7.0"
 tree-sitter-fsharp = "0.1.0"
+tree-sitter-erlang = "0.12.0"
 
 [dev-dependencies]
 # assert_cmd 2.0.10 requires predicates 3.
