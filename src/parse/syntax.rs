@@ -249,13 +249,13 @@ impl<'a> Syntax<'a> {
     pub(crate) fn new_atom(
         arena: &'a Arena<Syntax<'a>>,
         mut position: Vec<SingleLineSpan>,
-        mut content: &str,
+        mut content: String,
         kind: AtomKind,
     ) -> &'a Syntax<'a> {
         // If a parser hasn't cleaned up \r on CRLF files with
         // comments, discard it.
         if content.ends_with('\r') {
-            content = &content[..content.len() - 1];
+            content.pop();
         }
 
         // If a parser adds a trailing newline to the atom, discard
@@ -264,13 +264,13 @@ impl<'a> Syntax<'a> {
         // the end of the file.
         if content.ends_with('\n') {
             position.pop();
-            content = &content[..content.len() - 1];
+            content.pop();
         }
 
         arena.alloc(Atom {
             info: SyntaxInfo::default(),
             position,
-            content: content.into(),
+            content,
             kind,
         })
     }
@@ -1084,8 +1084,8 @@ mod tests {
 
         let arena = Arena::new();
 
-        let comment = Syntax::new_atom(&arena, pos.clone(), "foo", AtomKind::Comment);
-        let atom = Syntax::new_atom(&arena, pos, "foo", AtomKind::Normal);
+        let comment = Syntax::new_atom(&arena, pos.clone(), "foo".to_owned(), AtomKind::Comment);
+        let atom = Syntax::new_atom(&arena, pos, "foo".to_owned(), AtomKind::Normal);
         init_all_info(&[comment], &[atom]);
 
         assert_ne!(comment, atom);
@@ -1097,7 +1097,7 @@ mod tests {
         let position = vec![];
         let content = "foo\r";
 
-        let atom = Syntax::new_atom(&arena, position, content, AtomKind::Comment);
+        let atom = Syntax::new_atom(&arena, position, content.to_owned(), AtomKind::Comment);
 
         match atom {
             List { .. } => unreachable!(),
@@ -1124,7 +1124,7 @@ mod tests {
         ];
         let content = ";; hello\n";
 
-        let atom = Syntax::new_atom(&arena, position, content, AtomKind::Comment);
+        let atom = Syntax::new_atom(&arena, position, content.to_owned(), AtomKind::Comment);
 
         match atom {
             List { .. } => unreachable!(),
@@ -1157,8 +1157,8 @@ mod tests {
 
         let arena = Arena::new();
 
-        let type_atom = Syntax::new_atom(&arena, pos.clone(), "foo", AtomKind::Type);
-        let atom = Syntax::new_atom(&arena, pos, "foo", AtomKind::Normal);
+        let type_atom = Syntax::new_atom(&arena, pos.clone(), "foo".to_owned(), AtomKind::Type);
+        let atom = Syntax::new_atom(&arena, pos, "foo".to_owned(), AtomKind::Normal);
         init_all_info(&[type_atom], &[atom]);
 
         assert_eq!(type_atom, atom);
@@ -1173,7 +1173,7 @@ mod tests {
         }];
 
         let arena = Arena::new();
-        let atom = Syntax::new_atom(&arena, pos, "foo", AtomKind::Normal);
+        let atom = Syntax::new_atom(&arena, pos, "foo".to_owned(), AtomKind::Normal);
 
         let trivial_list = Syntax::new_list(&arena, "", vec![], vec![atom], "", vec![]);
 
@@ -1189,7 +1189,7 @@ mod tests {
         }];
 
         let arena = Arena::new();
-        let atom = Syntax::new_atom(&arena, pos, "", AtomKind::Normal);
+        let atom = Syntax::new_atom(&arena, pos, "".to_owned(), AtomKind::Normal);
 
         let trivial_list = Syntax::new_list(&arena, "(", vec![], vec![atom], ")", vec![]);
 
@@ -1211,8 +1211,8 @@ mod tests {
 
         let arena = Arena::new();
 
-        let x = Syntax::new_atom(&arena, pos.clone(), "foo\nbar", AtomKind::Comment);
-        let y = Syntax::new_atom(&arena, pos, "foo\n    bar", AtomKind::Comment);
+        let x = Syntax::new_atom(&arena, pos.clone(), "foo\nbar".to_owned(), AtomKind::Comment);
+        let y = Syntax::new_atom(&arena, pos, "foo\n    bar".to_owned(), AtomKind::Comment);
         init_all_info(&[x], &[y]);
 
         assert_eq!(x, y);

@@ -704,9 +704,9 @@ mod tests {
         }];
 
         let lhs = [
-            Syntax::new_atom(&arena, line1a, "a", AtomKind::Comment),
-            Syntax::new_atom(&arena, line1b, "b", AtomKind::Comment),
-            Syntax::new_atom(&arena, line2, "a", AtomKind::Comment),
+            Syntax::new_atom(&arena, line1a, "a".to_owned(), AtomKind::Comment),
+            Syntax::new_atom(&arena, line1b, "b".to_owned(), AtomKind::Comment),
+            Syntax::new_atom(&arena, line2, "a".to_owned(), AtomKind::Comment),
         ];
 
         let pos = vec![SingleLineSpan {
@@ -714,7 +714,7 @@ mod tests {
             start_col: 1,
             end_col: 2,
         }];
-        let rhs = [Syntax::new_atom(&arena, pos, "a", AtomKind::Comment)];
+        let rhs = [Syntax::new_atom(&arena, pos, "a".to_owned(), AtomKind::Comment)];
 
         init_all_info(&lhs, &rhs);
 
@@ -753,9 +753,9 @@ mod tests {
         }];
 
         let lhs = [
-            Syntax::new_atom(&arena, line1, "a", AtomKind::Comment),
-            Syntax::new_atom(&arena, line2a, "b", AtomKind::Comment),
-            Syntax::new_atom(&arena, line2b, "a", AtomKind::Comment),
+            Syntax::new_atom(&arena, line1, "a".to_owned(), AtomKind::Comment),
+            Syntax::new_atom(&arena, line2a, "b".to_owned(), AtomKind::Comment),
+            Syntax::new_atom(&arena, line2b, "a".to_owned(), AtomKind::Comment),
         ];
 
         let pos = vec![SingleLineSpan {
@@ -763,7 +763,7 @@ mod tests {
             start_col: 1,
             end_col: 2,
         }];
-        let rhs = [Syntax::new_atom(&arena, pos, "a", AtomKind::Comment)];
+        let rhs = [Syntax::new_atom(&arena, pos, "a".to_owned(), AtomKind::Comment)];
 
         init_all_info(&lhs, &rhs);
 

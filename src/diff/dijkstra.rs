@@ -273,9 +273,9 @@ mod tests {
     fn identical_atoms() {
         let arena = Arena::new();
 
-        let lhs = Syntax::new_atom(&arena, pos_helper(0), "foo", AtomKind::Normal);
+        let lhs = Syntax::new_atom(&arena, pos_helper(0), "foo".to_owned(), AtomKind::Normal);
         // Same content as LHS.
-        let rhs = Syntax::new_atom(&arena, pos_helper(0), "foo", AtomKind::Normal);
+        let rhs = Syntax::new_atom(&arena, pos_helper(0), "foo".to_owned(), AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
         let start = Vertex::new(Some(lhs), Some(rhs));
@@ -303,7 +303,7 @@ mod tests {
             vec![Syntax::new_atom(
                 &arena,
                 pos_helper(1),
-                "foo",
+                "foo".to_owned(),
                 AtomKind::Normal,
             )],
             "]",
@@ -354,8 +354,8 @@ mod tests {
             "[",
             pos_helper(0),
             vec![
-                Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal),
-                Syntax::new_atom(&arena, pos_helper(2), "foo", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(1), "foo".to_owned(), AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(2), "foo".to_owned(), AtomKind::Normal),
             ],
             "]",
             pos_helper(3),
@@ -389,7 +389,7 @@ mod tests {
             pos_helper(0),
             vec![
                 Syntax::new_list(&arena, "(", pos_helper(1), vec![], ")", pos_helper(2)),
-                Syntax::new_atom(&arena, pos_helper(3), "foo", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(3), "foo".to_owned(), AtomKind::Normal),
             ],
             "]",
             pos_helper(4),
@@ -401,7 +401,7 @@ mod tests {
             pos_helper(0),
             vec![
                 Syntax::new_list(&arena, "(", pos_helper(1), vec![], ")", pos_helper(2)),
-                Syntax::new_atom(&arena, pos_helper(3), "foo", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(3), "foo".to_owned(), AtomKind::Normal),
             ],
             "}",
             pos_helper(4),
@@ -437,14 +437,14 @@ mod tests {
         let lhs = vec![Syntax::new_atom(
             &arena,
             pos_helper(1),
-            "the quick brown fox",
+            "the quick brown fox".to_owned(),
             AtomKind::Comment,
         )];
 
         let rhs = vec![Syntax::new_atom(
             &arena,
             pos_helper(1),
-            "the quick brown cat",
+            "the quick brown cat".to_owned(),
             AtomKind::Comment,
         )];
         init_all_info(&lhs, &rhs);
@@ -469,14 +469,14 @@ mod tests {
         let lhs = vec![Syntax::new_atom(
             &arena,
             pos_helper(1),
-            "the quick brown fox",
+            "the quick brown fox".to_owned(),
             AtomKind::Comment,
         )];
 
         let rhs = vec![Syntax::new_atom(
             &arena,
             pos_helper(1),
-            "foo bar",
+            "foo bar".to_owned(),
             AtomKind::Comment,
         )];
         init_all_info(&lhs, &rhs);
@@ -502,13 +502,13 @@ mod tests {
             Syntax::new_atom(
                 &arena,
                 pos_helper(1),
-                "the quick brown fox",
+                "the quick brown fox".to_owned(),
                 AtomKind::Comment,
             ),
             Syntax::new_atom(
                 &arena,
                 pos_helper(2),
-                "the quick brown thing",
+                "the quick brown thing".to_owned(),
                 AtomKind::Comment,
             ),
         ];
@@ -516,7 +516,7 @@ mod tests {
         let rhs = vec![Syntax::new_atom(
             &arena,
             pos_helper(1),
-            "the quick brown fox.",
+            "the quick brown fox.".to_owned(),
             AtomKind::Comment,
         )];
         init_all_info(&lhs, &rhs);
@@ -540,8 +540,8 @@ mod tests {
     #[test]
     fn mark_syntax_equal_atoms() {
         let arena = Arena::new();
-        let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
-        let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
+        let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo".to_owned(), AtomKind::Normal);
+        let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo".to_owned(), AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
         let mut change_map = ChangeMap::default();
@@ -554,8 +554,8 @@ mod tests {
     #[test]
     fn mark_syntax_different_atoms() {
         let arena = Arena::new();
-        let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
-        let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
+        let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo".to_owned(), AtomKind::Normal);
+        let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar".to_owned(), AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
         let mut change_map = ChangeMap::default();

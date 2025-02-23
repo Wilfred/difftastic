@@ -1796,7 +1796,7 @@ fn atom_from_cursor<'a>(
         AtomKind::Normal
     };
 
-    Some(Syntax::new_atom(arena, position, content, highlight))
+    Some(Syntax::new_atom(arena, position, content.to_owned(), highlight))
 }
 
 #[cfg(test)]
