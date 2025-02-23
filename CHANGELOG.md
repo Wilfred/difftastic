@@ -1,5 +1,9 @@
 ## 0.64 (unreleased)
 
+### Parsing
+
+Updated to the latest tree-sitter parser for Pascal.
+
 ## 0.63 (released 11th February 2025)
 
 ### Diffing

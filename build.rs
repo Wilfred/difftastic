@@ -163,11 +163,6 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
-            name: "tree-sitter-pascal",
-            src_dir: "vendored_parsers/tree-sitter-pascal-src",
-            extra_files: vec![],
-        },
-        TreeSitterParser {
             name: "tree-sitter-perl",
             src_dir: "vendored_parsers/tree-sitter-perl-src",
             extra_files: vec!["scanner.c"],

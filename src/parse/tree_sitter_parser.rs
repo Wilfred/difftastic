@@ -79,7 +79,6 @@ extern "C" {
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
     fn tree_sitter_newick() -> ts::Language;
-    fn tree_sitter_pascal() -> ts::Language;
     fn tree_sitter_perl() -> ts::Language;
     fn tree_sitter_qmljs() -> ts::Language;
     fn tree_sitter_r() -> ts::Language;
@@ -773,7 +772,9 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Pascal => {
-            let language = unsafe { tree_sitter_pascal() };
+            let language_fn = tree_sitter_pascal::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: [].into_iter().collect(),
