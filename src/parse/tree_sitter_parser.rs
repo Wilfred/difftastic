@@ -70,7 +70,6 @@ extern "C" {
     fn tree_sitter_elm() -> ts::Language;
     fn tree_sitter_elvish() -> ts::Language;
     fn tree_sitter_erlang() -> ts::Language;
-    fn tree_sitter_fsharp() -> ts::Language;
     fn tree_sitter_gleam() -> ts::Language;
     fn tree_sitter_hare() -> ts::Language;
     fn tree_sitter_hack() -> ts::Language;
@@ -374,16 +373,16 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         FSharp => {
-            let language = unsafe { tree_sitter_fsharp() };
+            let language_fn = tree_sitter_fsharp::LANGUAGE_FSHARP;
+            let language = tree_sitter::Language::new(language_fn);
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["string", "triple_quoted_string"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/f-sharp.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_fsharp::HIGHLIGHTS_QUERY)
+                    .unwrap(),
+
                 sub_languages: vec![],
             }
         }
