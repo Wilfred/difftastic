@@ -1,0 +1,66 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/html_1.html
+---
+[1m[93msample_files/html_2.html[39m[0m[2m --- 1/2 --- HTML[0m
+[91;1m 1 [0m[91;1m<!doctype html>[0m                                                              [92;1m 1 [0m[92;1m<!DOCTYPE html>[0m
+[2m 2 [0m<[1mhtml[0m>                                                                       [2m 2 [0m<[1mhtml[0m>
+[2m 3 [0m<[1mhead[0m>                                                                       [2m 3 [0m  <[1mhead[0m>
+[2m 4 [0m    <[1mtitle[0m>Example Domain</[1mtitle[0m>                                            [2m 4 [0m    <[1mtitle[0m>Example Domain</[1mtitle[0m>
+[2m 5 [0m                                                                             [2m 5 [0m
+[91;1m 6 [0m    [91;3m<[0m[91;3m![0m[91;3m-[0m[91;3m-[0m[91;3m [0m[91;3mdemo[0m[91;3m [0m[91;3mfor[0m[91;3m [0m[91;1;3;4mtree[0m[91;1;3;4m-[0m[91;1;3;4msitter[0m[91;3m [0m[91;3m-[0m[91;3m-[0m[91;3m>[0m                                            [92;1m 6 [0m    [92;3m<[0m[92;3m![0m[92;3m-[0m[92;3m-[0m[92;3m [0m[92;3mdemo[0m[92;3m [0m[92;3mfor[0m[92;3m [0m[92;1;3;4mdifftastic[0m[92;3m [0m[92;3m-[0m[92;3m-[0m[92;3m>[0m
+[2m 7 [0m                                                                             [2m 7 [0m
+[2m 8 [0m    <[1mmeta[0m charset="utf-8" />                                                 [2m 8 [0m    <[1mmeta[0m charset="utf-8" />
+[2m 9 [0m    <[1mmeta[0m http-equiv="Content-type" content="text/html; charset=utf-8" />    [2m 9 [0m    <[1mmeta[0m http-equiv="Content-type" content="text/html; charset=utf-8" />
+[2m10 [0m    <[1mmeta[0m name="viewport" content="width=device-width, initial-scale=1" />   [2m10 [0m    <[1mmeta[0m name="viewport" content="width=device-width, initial-scale=1" />
+[2m.. [0m                                                                             [92;1m11 [0m    [92;1m<[0m[92;1mstyle[0m [92mtype[0m[92m=[0m[92m"text/css"[0m[92;1m>[0m
+[2m.. [0m                                                                             [92;1m12 [0m      [92;1mp[0m [92;1m{[0m
+[2m.. [0m                                                                             [92;1m13 [0m        [92mcolor[0m[92m:[0m [92m#000[0m[92m;[0m
+[2m.. [0m                                                                             [92;1m14 [0m      [92;1m}[0m
+[2m.. [0m                                                                             [92;1m15 [0m    [92m</[0m[92;1mstyle[0m[92m>[0m
+[2m11 [0m    <[1mstyle[0m type="text/css">                                                  [2m16 [0m    <[1mstyle[0m type="text/css">
+[2m12 [0m    [1mbody[0m {                                                                   [2m17 [0m      [1mbody[0m {
+[91;1m13 [0m        background-color: [91m#f0f0f2[0m;                                           [92;1m18 [0m        background-color: [92m#fdfdff[0m;
+[91;1m14 [0m        margin: [91m0[0m;                                                           [92;1m19 [0m        margin: [92m10[0m;
+[91;1m15 [0m        padding: [91m0[0m;                                                          [92;1m20 [0m        padding: [92m10[0m;
+[91;1m16 [0m        font-family: [91m-apple-system[0m[91m,[0m [91msystem-ui[0m[91m,[0m [91mBlinkMacSystemFont[0m[91m,[0m [91m"Segoe UI[0m [2m21 [0m        font-family: Helvetica, Arial, sans-serif;
+[91;1m[2m.. [0m[0m[91m"[0m[91m,[0m [91m"Open Sans"[0m[91m,[0m [91m"Helvetica Neue"[0m[91m,[0m Helvetica, Arial, sans-serif;              [2m[2m.. [0m[0m
+[91;1m17 [0m                                                                             [2m.. [0m
+[2m18 [0m    }                                                                        [2m22 [0m      }
+[91;1m19 [0m    [91;1mdiv[0m {                                                                    [92;1m23 [0m      [92m#[0m[92mmain[0m {
+[2m20 [0m        width: 600px;                                                        [2m24 [0m        width: 600px;
+[2m21 [0m        margin: 5em auto;                                                    [2m25 [0m        margin: 5em auto;
+[2m22 [0m        padding: 2em;                                                        [2m26 [0m        padding: 2em;
+[91;1m23 [0m        background-color: [91m#fdfdff[0m;                                           [92;1m27 [0m        background-color: [92m#f0f0f2[0m;
+[2m24 [0m        border-radius: 0.5em;                                                [2m28 [0m        border-radius: 0.5em;
+[2m25 [0m        box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);                        [2m29 [0m        box-shadow: 2px 3px 7px 2px rgba(0, 0, 0, 0.02);
+[2m26 [0m    }                                                                        [2m30 [0m      }
+
+[1msample_files/html_2.html[0m[2m --- 2/2 --- HTML[0m
+[2m38 [0m</[1mhead[0m>                                                                      [2m43 [0m  </[1mhead[0m>
+[2m39 [0m                                                                             [2m44 [0m
+[2m40 [0m<[1mbody[0m>                                                                       [2m45 [0m  <[1mbody[0m>
+[2m41 [0m<[1mdiv[0m>                                                                        [92;1m46 [0m    <[1mdiv[0m [92mid[0m[92m=[0m[92m"main"[0m>
+[2m42 [0m    <[1mh1[0m>Example Domain</[1mh1[0m>                                                  [2m47 [0m      <[1mh1[0m>Example Domain</[1mh1[0m>
+[91;1m43 [0m    <[1mp[0m>[91mThis[0m[91m [0m[91mdomain[0m[91m [0m[91mis[0m[91m [0m[91mfor[0m[91m [0m[91muse[0m[91m [0m[91min[0m[91m [0m[91millustrative[0m[91m [0m[91mexamples[0m[91m [0m[91min[0m[91m [0m[91mdocuments[0m[91m.[0m[91m [0m[91mYou[0m[91m [0m[91mmay[0m [2m48 [0m      <[1mp[0m>
+[91;1m[2m.. [0m[0m[91m [0m[91;1;4muse[0m[91m [0m[91;1;4mthis[0m                                                                    [2m[2m.. [0m[0m
+[2m.. [0m                                                                             [92;1m49 [0m        [92mThis[0m[92m [0m[92mdomain[0m[92m [0m[92mis[0m[92m [0m[92mfor[0m[92m [0m[92muse[0m[92m [0m[92min[0m[92m [0m[92millustrative[0m[92m [0m[92mexamples[0m[92m [0m[92min[0m[92m [0m[92mdocuments[0m[92m.[0m[92m [0m[92mYou[0m[92m [0m[92mma[0m
+[2m.. [0m                                                                             [92;1m[2m.. [0m[0m[92my[0m
+[91;1m44 [0m[91m [0m[91m [0m[91m [0m[91m [0m[91mdomain[0m[91m [0m[91min[0m[91m [0m[91mliterature[0m[91m [0m[91mwithout[0m[91m [0m[91mprior[0m[91m [0m[91mcoordination[0m[91m [0m[91mor[0m[91m [0m[91masking[0m[91m [0m[91mfor[0m[91m [0m[91mpermission[0m [92;1m50 [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m [0m  [92;1;4muse[0m [92;1;4mthis[0m [92mdomain[0m[92m [0m[92min[0m[92m [0m[92mliterature[0m[92m [0m[92mwithout[0m[92m [0m[92mprior[0m[92m [0m[92mcoordination[0m[92m [0m[92mor[0m[92m [0m[92masking[0m[92m [0m[92mf[0m
+[91;1m[2m.. [0m[0m[91m.[0m</[1mp[0m>                                                                        [92;1m[2m.. [0m[0m[92mor[0m
+[2m.. [0m                                                                             [92;1m51 [0m       [92m [0m[92mpermission[0m[92m.[0m
+[2m.. [0m                                                                             [2m52 [0m      </[1mp[0m>
+[91;1m45 [0m    <[1mp[0m><[1ma[0m href=[91m"https://www.iana.org/domains/example"[0m>More information...</[1ma[0m [2m53 [0m      <[1mp[0m>
+[91;1m[2m.. [0m[0m></[1mp[0m>                                                                        [2m[2m.. [0m[0m
+[2m.. [0m                                                                             [92;1m54 [0m        <[1ma[0m href=[92m"https://www.iana.org/domains/example?utm_src=example-dot-or[0m
+[2m.. [0m                                                                             [92;1m[2m.. [0m[0m[92mg"[0m
+[2m.. [0m                                                                             [2m55 [0m          >More information...</[1ma[0m
+[2m.. [0m                                                                             [2m56 [0m        >
+[2m.. [0m                                                                             [2m57 [0m      </[1mp[0m>
+[2m46 [0m</[1mdiv[0m>                                                                       [2m58 [0m    </[1mdiv[0m>
+[91;1m47 [0m<[1mscript[0m>alert([91m'welcome!'[0m);</[1mscript[0m>                                          [2m59 [0m    <[1mscript[0m>
+[2m.. [0m                                                                             [92;1m60 [0m      alert([92m"goodbye!"[0m);
+[2m.. [0m                                                                             [2m61 [0m    </[1mscript[0m>
+[2m48 [0m</[1mbody[0m>                                                                      [2m62 [0m  </[1mbody[0m>
+[2m49 [0m</[1mhtml[0m>                                                                      [2m63 [0m</[1mhtml[0m>

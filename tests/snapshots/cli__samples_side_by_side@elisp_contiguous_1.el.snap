@@ -1,0 +1,15 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/elisp_contiguous_1.el
+---
+[1m[93msample_files/elisp_contiguous_2.el[39m[0m[2m --- Emacs Lisp[0m
+[2m1 [0mA B                         [2m1 [0mA B
+[2m. [0m                            [92;1m2 [0m[92mA[0m [92mB[0m
+[2m2 [0mC D                         [2m3 [0mC D
+[2m3 [0m                            [2m4 [0m
+[2m4 [0mX Y                         [2m5 [0mX Y
+[91;1m5 [0m[91mX[0m [91mNovel[0m                     [2m. [0m
+[2m6 [0mX Z                         [2m6 [0mX Z
+[2m7 [0m                            [2m7 [0m
+[2m8 [0mEnd                         [2m8 [0mEnd

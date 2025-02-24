@@ -1,0 +1,32 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/Session_1.kt
+---
+[1m[93msample_files/Session_2.kt[39m[0m[2m --- 1/2 --- Kotlin[0m
+[2m 96 [0m    [94;3m/**[0m                                                                     [2m 96 [0m    [94;3m/**[0m
+[2m 97 [0m[94;3m     * The session's photo URL.[0m                                             [2m 97 [0m[94;3m     * The session's photo URL.[0m
+[2m 98 [0m[94;3m     */[0m                                                                     [2m 98 [0m[94;3m     */[0m
+[91;1m 99 [0m    [1mval[0m photoUrl: [91mString?[0m,                                                  [92;1m 99 [0m    [1mval[0m photoUrl: [92;1mString[0m,
+[2m100 [0m                                                                            [2m100 [0m
+[2m101 [0m    [94;3m/**[0m                                                                     [2m101 [0m    [94;3m/**[0m
+[2m102 [0m[94;3m     * IDs of the sessions related to this session.[0m                         [2m102 [0m[94;3m     * IDs of the sessions related to this session.[0m
+
+[1msample_files/Session_2.kt[0m[2m --- 2/2 --- Kotlin[0m
+[2m114 [0m        return startTime [1m<=[0m now [1m&&[0m endTime [1m>=[0m now                           [2m114 [0m        return startTime [1m<=[0m now [1m&&[0m endTime [1m>=[0m now
+[2m115 [0m    }                                                                       [2m115 [0m    }
+[2m... [0m                                                                            [92;1m116 [0m
+[2m... [0m                                                                            [92;1m117 [0m    [92;1mval[0m [92mhasPhoto[0m [92;1minline[0m [92mget[0m[92;1m([0m[92;1m)[0m [92;1m=[0m [92mphotoUrl[0m[92m.[0m[92misNotEmpty[0m[92;1m([0m[92;1m)[0m
+[2m116 [0m                                                                            [2m118 [0m
+[2m117 [0m    [94;3m/**[0m                                                                     [2m119 [0m    [94;3m/**[0m
+[2m118 [0m[94;3m     * Returns whether the session has a video or not. A session could be l[0m [2m120 [0m[94;3m     * Returns whether the session has a video or not. A session could be l[0m
+[2m[2m... [0m[0m[94;3mive streaming or have a[0m                                                     [2m[2m... [0m[0m[94;3mive streaming or have a[0m
+[2m119 [0m[94;3m     * recorded session. Both live stream and recorded videos are stored in[0m [2m121 [0m[94;3m     * recorded session. Both live stream and recorded videos are stored in[0m
+[2m[2m... [0m[0m[94;3m [Session.youTubeUrl].[0m                                                      [2m[2m... [0m[0m[94;3m [Session.youTubeUrl].[0m
+[2m120 [0m[94;3m     */[0m                                                                     [2m122 [0m[94;3m     */[0m
+[91;1m121 [0m    [91;1mfun[0m hasVideo() [1m=[0m youTubeUrl.isNotEmpty()                                [92;1m123 [0m    [92;1mval[0m hasVideo [92;1minline[0m [92mget[0m() [1m=[0m youTubeUrl.isNotEmpty()
+[2m... [0m                                                                            [92;1m124 [0m
+[2m... [0m                                                                            [92;1m125 [0m    [92;1mval[0m [92mhasPhotoOrVideo[0m [92;1minline[0m [92mget[0m[92;1m([0m[92;1m)[0m [92;1m=[0m [92mhasPhoto[0m [92;1m||[0m [92mhasVideo[0m
+[2m122 [0m                                                                            [2m126 [0m
+[2m123 [0m    [94;3m/**[0m                                                                     [2m127 [0m    [94;3m/**[0m
+[2m124 [0m[94;3m     * The year the session was held.[0m                                       [2m128 [0m[94;3m     * The year the session was held.[0m

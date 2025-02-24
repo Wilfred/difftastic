@@ -1,0 +1,9 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/insert_blank_1.txt
+---
+[1m[93msample_files/insert_blank_2.txt[39m[0m[2m --- Text[0m
+[2m1 [0m[2m1 [0mfoo
+[91;1m2 [0m[2m. [0m
+[2m3 [0m[2m2 [0mbar

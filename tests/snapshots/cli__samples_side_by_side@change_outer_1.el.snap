@@ -1,0 +1,7 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/change_outer_1.el
+---
+[1m[93msample_files/change_outer_2.el[39m[0m[2m --- Emacs Lisp[0m
+[91;1m1 [0m[91;1m([0mlhs comma rhs[91;1m)[0m             [92;1m1 [0m[92;1m[[0m[92;1m([0mlhs[92;1m)[0m comma rhs[92;1m][0m

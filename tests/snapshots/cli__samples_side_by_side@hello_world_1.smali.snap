@@ -1,0 +1,28 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/hello_world_1.smali
+---
+[1m[93msample_files/hello_world_2.smali[39m[0m[2m --- 1/2 --- Smali[0m
+[91;1m1 [0m[1m.class[0m public [95mL[0m[91;1mHelloWorld[0m;                                                    [92;1m1 [0m[1m.class[0m public [95mL[0m[92;1mHelloPerson[0m;
+[2m2 [0m                                                                              [2m2 [0m
+[2m3 [0m[94;3m#Ye olde hello world application[0m                                              [2m3 [0m[94;3m#Ye olde hello world application[0m
+[2m4 [0m[94;3m#To assemble and run this on a phone or emulator:[0m                             [2m4 [0m[94;3m#To assemble and run this on a phone or emulator:[0m
+
+[1msample_files/hello_world_2.smali[0m[2m --- 2/2 --- Smali[0m
+[2m15 [0m[1m.super[0m [95mL[0m[1mjava[0m/[1mlang[0m/[1mObject[0m;                                                    [2m15 [0m[1m.super[0m [95mL[0m[1mjava[0m/[1mlang[0m/[1mObject[0m;
+[2m16 [0m                                                                             [2m16 [0m
+[2m17 [0m[1m.method[0m public static main([[95mL[0m[1mjava[0m/[1mlang[0m/[1mString[0m;)[1mV[0m                             [2m17 [0m[1m.method[0m public static main([[95mL[0m[1mjava[0m/[1mlang[0m/[1mString[0m;)[1mV[0m
+[91;1m18 [0m    [1m.registers[0m [91m2[0m                                                             [92;1m18 [0m    [1m.registers[0m [92m3[0m
+[2m19 [0m                                                                             [2m19 [0m    
+[2m20 [0m    [1msget-object[0m v0, [95mL[0m[1mjava[0m/[1mlang[0m/[1mSystem[0m;->[1mout[0m:[95mL[0m[1mjava[0m/[1mio[0m/[1mPrintStream[0m;            [2m20 [0m    [1msget-object[0m v0, [95mL[0m[1mjava[0m/[1mlang[0m/[1mSystem[0m;->[1mout[0m:[95mL[0m[1mjava[0m/[1mio[0m/[1mPrintStream[0m;
+[2m21 [0m                                                                             [2m21 [0m    
+[91;1m22 [0m    [1mconst-string[0m    v1, [91m"[0m[91mHello[0m[91m [0m[91;1;4mWorld[0m[91m![0m[91m"[0m                                       [92;1m22 [0m    [1mconst-string[0m    v1, [92m"[0m[92mHello[0m[92m [0m[92;1;4m%[0m[92;1;4ms[0m[92m![0m[92m"[0m
+[2m23 [0m                                                                             [2m23 [0m    
+[2m.. [0m                                                                             [92;1m24 [0m    [92;1mconst-string[0m    [92mv2[0m[92m,[0m [92m"Evan"[0m
+[2m.. [0m                                                                             [92;1m25 [0m    
+[91;1m24 [0m    [1minvoke-virtual[0m {v0, v1}, [95mL[0m[1mjava[0m/[1mio[0m/[1mPrintStream[0m;->[91mprintln[0m([95mL[0m[1mjava[0m/[1mlang[0m/[1mStrin[0m [92;1m26 [0m    [1minvoke-virtual[0m {v0, v1[92m,[0m [92mv2[0m}, [95mL[0m[1mjava[0m/[1mio[0m/[1mPrintStream[0m;->[92mprintf[0m([95mL[0m[1mjava[0m/[1mlang[0m/[1mSt[0m
+[91;1m[2m.. [0m[0m[1mg[0m;)[1mV[0m                                                                         [92;1m[2m.. [0m[0m[1mring[0m;[92mL[0m[92;1mjava[0m[92m/[0m[92;1mlang[0m[92m/[0m[92;1mString[0m[92m;[0m)[1mV[0m
+[2m25 [0m                                                                             [2m27 [0m    
+[2m26 [0m    [1mreturn-void[0m                                                              [2m28 [0m    [1mreturn-void[0m
+[2m27 [0m[1m.end method[0m                                                                  [2m29 [0m[1m.end method[0m

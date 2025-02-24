@@ -1,0 +1,22 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/context_1.rs
+---
+[1m[93msample_files/context_2.rs[39m[0m[2m --- 1/2 --- Rust[0m
+[2m1 [0m[1mfn[0m print_diff_result() {                                                      [2m1 [0m[1mfn[0m print_diff_result() {
+[91;1m2 [0m    [91;1mif[0m [91msummary[0m [91;1m{[0m                                                              [92;1m2 [0m    [92;1mmatch[0m [92;1m([0m[92;1m)[0m [92;1m{[0m
+[91;1m3 [0m        [91;1mif[0m [91mprint_unchanged[0m [91;1m{[0m                                                  [92;1m3 [0m        [92mx[0m [92m=>[0m [92;1m{[0m
+[91;1m4 [0m        [91;1m}[0m                                                                     [2m. [0m
+[91;1m5 [0m    [91;1m}[0m                                                                         [2m. [0m
+[91;1m6 [0m                                                                              [2m. [0m
+[2m7 [0m    [1mlet[0m opposite_to_lhs = opposite_positions([1m&[0msummary.lhs_positions);         [2m4 [0m            [1mlet[0m opposite_to_lhs = opposite_positions([1m&[0msummary.lhs_positions);
+[2m8 [0m                                                                              [2m5 [0m
+
+[1msample_files/context_2.rs[0m[2m --- 2/2 --- Rust[0m
+[2m12 [0m[2m 9 [0m            );
+[2m13 [0m[2m10 [0m
+[2m14 [0m[2m11 [0m            [1mlet[0m lang_name;
+[2m.. [0m[92;1m12 [0m        [92;1m}[0m
+[2m.. [0m[92;1m13 [0m    [92;1m}[0m
+[2m15 [0m[2m14 [0m}

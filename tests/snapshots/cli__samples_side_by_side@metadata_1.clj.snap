@@ -1,0 +1,35 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/metadata_1.clj
+---
+[1m[93msample_files/metadata_2.clj[39m[0m[2m --- 1/3 --- Clojure[0m
+[2m2 [0m[2m2 [0m  [95m"Utilities for formatting binary data (byte arrays) or binary deltas."[0m
+[2m3 [0m[2m3 [0m  ([1m:require[0m [io.aviso.ansi [1m:as[0m ansi]
+[2m4 [0m[2m4 [0m            [io.aviso.columns [1m:as[0m c])
+[2m. [0m[92;1m5 [0m  [92;1m([0m[92;1m:import[0m [92;1m([0m[92mjava.nio[0m [92mByteBuffer[0m[92;1m)[0m[92;1m)[0m)
+[2m5 [0m[2m6 [0m
+[2m6 [0m[2m7 [0m(defprotocol BinaryData
+[2m7 [0m[2m8 [0m  [95m"Allows various data sources to be treated as a byte-array data type that[0m
+
+[1msample_files/metadata_2.clj[0m[2m --- 2/3 --- Clojure[0m
+[2m17 [0m[2m18 [0m  (data-length [ary] (alength (bytes ary)))
+[2m18 [0m[2m19 [0m  (byte-at [ary index] (aget (bytes ary) index)))
+[2m.. [0m[92;1m20 [0m
+[2m.. [0m[92;1m21 [0m[92;1m([0m[92mextend-type[0m [92mByteBuffer[0m
+[2m.. [0m[92;1m22 [0m  [92mBinaryData[0m
+[2m.. [0m[92;1m23 [0m  [92;1m([0m[92mdata-length[0m [92;1m[[0m[92mb[0m[92;1m][0m [92;1m([0m[92m.remaining[0m [92mb[0m[92;1m)[0m[92;1m)[0m
+[2m.. [0m[92;1m24 [0m  [92;1m([0m[92mbyte-at[0m [92;1m[[0m[92mb[0m [92mindex[0m[92;1m][0m [92;1m([0m[92m.get[0m [92m^[0m[92mByteBuffer[0m [92mb[0m [92;1m([0m[92mint[0m [92mindex[0m[92;1m)[0m[92;1m)[0m[92;1m)[0m[92;1m)[0m
+[2m19 [0m[2m25 [0m
+[2m20 [0m[2m26 [0m[94;3m;;; Extends String as a convenience; assumes that the[0m
+[2m21 [0m[2m27 [0m[94;3m;;; String is in utf-8.[0m
+
+[1msample_files/metadata_2.clj[0m[2m --- 3/3 --- Clojure[0m
+[2m34 [0m(extend-type [1mnil[0m                                                             [2m40 [0m(extend-type [1mnil[0m
+[2m35 [0m  BinaryData                                                                 [2m41 [0m  BinaryData
+[2m36 [0m  (data-length [_] 0)                                                        [2m42 [0m  (data-length [_] 0)
+[91;1m37 [0m  (byte-at [_ [91mindex[0m] (throw (IndexOutOfBoundsException. [95m"Can't use byte-at w[0m [92;1m43 [0m  (byte-at [_ [92m_index[0m] (throw (IndexOutOfBoundsException. [95m"Can't use byte-at [0m
+[91;1m[2m.. [0m[0m[95mith nil."[0m))))                                                                [92;1m[2m.. [0m[0m[95mwith nil."[0m))))
+[2m38 [0m                                                                             [2m44 [0m
+[2m39 [0m(def ^[1m:private[0m ^[1m:const[0m bytes-per-diff-line 16)                               [2m45 [0m(def ^[1m:private[0m ^[1m:const[0m bytes-per-diff-line 16)
+[2m40 [0m(def ^[1m:private[0m ^[1m:const[0m bytes-per-ascii-line 16)                              [2m46 [0m(def ^[1m:private[0m ^[1m:const[0m bytes-per-ascii-line 16)

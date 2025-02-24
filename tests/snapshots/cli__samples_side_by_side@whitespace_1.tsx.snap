@@ -1,0 +1,13 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/whitespace_1.tsx
+---
+[1m[93msample_files/whitespace_2.tsx[39m[0m[2m --- TypeScript TSX[0m
+[2m20 [0m[2m20 [0m          [1m<[0m[1mFontAwesomeIcon[0m
+[2m   [0m[2m21 [0m            icon[1m=[0m{faPlus}
+[2m   [0m[2m22 [0m          />
+[2m   [0m[92;1m23 [0m          [92;1m{[0m[92m" "[0m[92;1m}[0m
+[2m   [0m[2m24 [0m          Adicionar arquivos
+[2m   [0m[2m25 [0m          {[95m" "[0m}
+[2m   [0m[92;1m26 [0m

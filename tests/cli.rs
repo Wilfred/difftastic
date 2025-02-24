@@ -1,4 +1,5 @@
 use std::process::Command;
+use std::str;
 
 use assert_cmd::prelude::*;
 use predicates::prelude::*;
@@ -268,4 +269,46 @@ fn walk_hidden_items() {
             .and(predicate::str::contains("before"))
             .and(predicate::str::contains("after"));
     cmd.assert().stdout(predicate_fn);
+}
+
+const MAX_SAMPLE_FILE_SIZE: u64 = 10_000;
+
+#[test]
+fn samples_side_by_side() {
+    insta::glob!("../sample_files", "*_1.*", |left_file| {
+        let base_dir = left_file.parent().unwrap().parent().unwrap();
+        let file_name = left_file.file_name().unwrap().to_str().unwrap();
+        let right_file = left_file.with_file_name(file_name.replace("_1.", "_2."));
+        // Large sample files are excluded because it's slow to diff with debug
+        // binary, and the snapshot results wouldn't help review changes.
+        if left_file.metadata().unwrap().len() > MAX_SAMPLE_FILE_SIZE
+            || right_file.metadata().unwrap().len() > MAX_SAMPLE_FILE_SIZE
+        {
+            eprintln!("Skipping large sample: {file_name}");
+            return;
+        }
+        // TODO: Fix CI instability on the following architectures:
+        // x86_64-apple-darwin, x86_64-pc-windows-msvc, aarch64-apple-darwin
+        if file_name == "f_sharp_1.fs" {
+            eprintln!("Skipping unstable sample: {file_name}");
+            return;
+        }
+
+        let to_path_arg = |path: &Path| {
+            let short_path = path.strip_prefix(base_dir).unwrap();
+            let short_str = short_path.to_str().unwrap();
+            short_str.replace(std::path::MAIN_SEPARATOR, "/")
+        };
+        let mut cmd = get_base_command();
+        let assert = cmd
+            .arg("--color=always")
+            .arg("--display=side-by-side")
+            .arg("--width=160")
+            .arg(to_path_arg(left_file))
+            .arg(to_path_arg(&right_file))
+            .assert()
+            .success();
+        let stdout = str::from_utf8(&assert.get_output().stdout).unwrap();
+        insta::assert_snapshot!(stdout);
+    });
 }

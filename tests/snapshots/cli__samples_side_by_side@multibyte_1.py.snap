@@ -1,0 +1,7 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/multibyte_1.py
+---
+[1m[93msample_files/multibyte_2.py[39m[0m[2m --- Python[0m
+[91;1m1 [0m[91m"[0m[91;1;4mfoo[0m[91m€[0m[91m"[0m.format()             [92;1m1 [0m[92m"[0m[92;1;4mbar[0m[92m€[0m[92m"[0m.format()
