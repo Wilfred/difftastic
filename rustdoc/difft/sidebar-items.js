@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["check_only_text","diff_conflicts_file","diff_directories","diff_file","diff_file_content","main","print_diff_result","reset_sigpipe"],"mod":["conflicts","constants","diff","display","exit_codes","files","hash","line_parser","lines","options","parse","summary","version","words"],"static":["GLOBAL"]};
