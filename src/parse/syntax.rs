@@ -1211,7 +1211,12 @@ mod tests {
 
         let arena = Arena::new();
 
-        let x = Syntax::new_atom(&arena, pos.clone(), "foo\nbar".to_owned(), AtomKind::Comment);
+        let x = Syntax::new_atom(
+            &arena,
+            pos.clone(),
+            "foo\nbar".to_owned(),
+            AtomKind::Comment,
+        );
         let y = Syntax::new_atom(&arena, pos, "foo\n    bar".to_owned(), AtomKind::Comment);
         init_all_info(&[x], &[y]);
 

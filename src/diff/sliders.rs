@@ -714,7 +714,12 @@ mod tests {
             start_col: 1,
             end_col: 2,
         }];
-        let rhs = [Syntax::new_atom(&arena, pos, "a".to_owned(), AtomKind::Comment)];
+        let rhs = [Syntax::new_atom(
+            &arena,
+            pos,
+            "a".to_owned(),
+            AtomKind::Comment,
+        )];
 
         init_all_info(&lhs, &rhs);
 
@@ -763,7 +768,12 @@ mod tests {
             start_col: 1,
             end_col: 2,
         }];
-        let rhs = [Syntax::new_atom(&arena, pos, "a".to_owned(), AtomKind::Comment)];
+        let rhs = [Syntax::new_atom(
+            &arena,
+            pos,
+            "a".to_owned(),
+            AtomKind::Comment,
+        )];
 
         init_all_info(&lhs, &rhs);
 
