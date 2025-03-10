@@ -1,4 +1,10 @@
-//! A fast diff for linear content, using Myer's diff algorithm.
+//! A fast diff for linear content, particularly lines of text.
+//!
+//! This file uses the Wu algorithm, using the `wu-diff` crate.
+//!
+//! Difftastic has the files huge_cpp_1.cpp and huge_cpp_2.cpp in the
+//! sample_files directory for a performance stress test. These files
+//! are 22 MiB and 590,000 lines.
 
 use std::hash::Hash;
 
@@ -11,8 +17,7 @@ pub(crate) enum DiffResult<T> {
     Right(T),
 }
 
-/// Compute a linear diff between `lhs` and `rhs`. This is the
-/// traditional Myer's diff algorithm.
+/// Compute a linear diff between `lhs` and `rhs`.
 pub(crate) fn slice<'a, T: PartialEq + Clone>(
     lhs: &'a [T],
     rhs: &'a [T],

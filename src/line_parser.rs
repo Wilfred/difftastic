@@ -6,7 +6,7 @@ use regex::Regex;
 
 use crate::words::split_words;
 use crate::{
-    diff::myers_diff,
+    diff::lcs_diff,
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 
@@ -81,15 +81,15 @@ fn changed_parts<'a>(
     let opposite_src_lines = split_lines_keep_newline(opposite_src);
 
     let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
-    for diff_res in myers_diff::slice_unique_by_hash(&src_lines, &opposite_src_lines) {
+    for diff_res in lcs_diff::slice_unique_by_hash(&src_lines, &opposite_src_lines) {
         match diff_res {
-            myers_diff::DiffResult::Left(line) => {
+            lcs_diff::DiffResult::Left(line) => {
                 res.push((TextChangeKind::Novel, vec![line], vec![]));
             }
-            myers_diff::DiffResult::Both(line, opposite_line) => {
+            lcs_diff::DiffResult::Both(line, opposite_line) => {
                 res.push((TextChangeKind::Unchanged, vec![line], vec![opposite_line]));
             }
-            myers_diff::DiffResult::Right(opposite_line) => {
+            lcs_diff::DiffResult::Right(opposite_line) => {
                 res.push((TextChangeKind::Novel, vec![], vec![opposite_line]));
             }
         }
@@ -176,9 +176,9 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                     continue;
                 }
 
-                for diff_res in myers_diff::slice_unique_by_hash(&lhs_words, &rhs_words) {
+                for diff_res in lcs_diff::slice_unique_by_hash(&lhs_words, &rhs_words) {
                     match diff_res {
-                        myers_diff::DiffResult::Left(lhs_word) => {
+                        lcs_diff::DiffResult::Left(lhs_word) => {
                             let lhs_pos =
                                 lhs_lp.from_region(lhs_offset, lhs_offset + lhs_word.len());
 
@@ -191,7 +191,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
 
                             lhs_offset += lhs_word.len();
                         }
-                        myers_diff::DiffResult::Both(lhs_word, rhs_word) => {
+                        lcs_diff::DiffResult::Both(lhs_word, rhs_word) => {
                             if *lhs_word != "\n" {
                                 let lhs_pos =
                                     lhs_lp.from_region(lhs_offset, lhs_offset + lhs_word.len());
@@ -211,7 +211,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                             lhs_offset += lhs_word.len();
                             rhs_offset += rhs_word.len();
                         }
-                        myers_diff::DiffResult::Right(rhs_word) => {
+                        lcs_diff::DiffResult::Right(rhs_word) => {
                             rhs_offset += rhs_word.len();
                         }
                     }

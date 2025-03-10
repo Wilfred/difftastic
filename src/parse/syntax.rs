@@ -14,7 +14,7 @@ use crate::words::split_words_and_numbers;
 use crate::{
     diff::changes::ChangeKind,
     diff::changes::{ChangeKind::*, ChangeMap},
-    diff::myers_diff,
+    diff::lcs_diff,
     hash::DftHashMap,
     lines::is_all_whitespace,
 };
@@ -708,7 +708,7 @@ fn split_atom_words(
     let content_parts = split_words_and_numbers(content);
     let other_parts = split_words_and_numbers(opposite_content);
 
-    let word_diffs = myers_diff::slice_by_hash(&content_parts, &other_parts);
+    let word_diffs = lcs_diff::slice_by_hash(&content_parts, &other_parts);
 
     if !has_common_words(&word_diffs) {
         return pos
@@ -731,7 +731,7 @@ fn split_atom_words(
     let mut mps = vec![];
     for diff_res in word_diffs {
         match diff_res {
-            myers_diff::DiffResult::Left(word) => {
+            lcs_diff::DiffResult::Left(word) => {
                 // This word is novel to this side.
                 if !is_all_whitespace(word) {
                     mps.push(MatchedPos {
@@ -748,7 +748,7 @@ fn split_atom_words(
                 }
                 offset += word.len();
             }
-            myers_diff::DiffResult::Both(word, opposite_word) => {
+            lcs_diff::DiffResult::Both(word, opposite_word) => {
                 // This word is present on both sides.
                 // TODO: don't assume this atom is on a single line.
                 let word_pos =
@@ -771,7 +771,7 @@ fn split_atom_words(
                 offset += word.len();
                 opposite_offset += opposite_word.len();
             }
-            myers_diff::DiffResult::Right(opposite_word) => {
+            lcs_diff::DiffResult::Right(opposite_word) => {
                 // Only exists on other side, nothing to do on this side.
                 opposite_offset += opposite_word.len();
             }
@@ -783,13 +783,13 @@ fn split_atom_words(
 
 /// Are there sufficient common words that we should only highlight
 /// individual changed words?
-fn has_common_words(word_diffs: &Vec<myers_diff::DiffResult<&&str>>) -> bool {
+fn has_common_words(word_diffs: &Vec<lcs_diff::DiffResult<&&str>>) -> bool {
     let mut novel_count = 0;
     let mut unchanged_count = 0;
 
     for word_diff in word_diffs {
         match word_diff {
-            myers_diff::DiffResult::Both(word, _) => {
+            lcs_diff::DiffResult::Both(word, _) => {
                 if **word != " " {
                     unchanged_count += 1;
                 }

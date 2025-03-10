@@ -4,7 +4,7 @@
 use std::hash::Hash;
 
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
-use crate::diff::myers_diff;
+use crate::diff::lcs_diff;
 use crate::hash::DftHashSet;
 use crate::parse::syntax::Syntax;
 
@@ -255,9 +255,9 @@ fn split_unchanged_toplevel<'a>(
     let mut section_lhs_nodes = vec![];
     let mut section_rhs_nodes = vec![];
 
-    for diff_res in myers_diff::slice(&lhs_node_ids, &rhs_node_ids) {
+    for diff_res in lcs_diff::slice(&lhs_node_ids, &rhs_node_ids) {
         match diff_res {
-            myers_diff::DiffResult::Both(lhs, rhs) => {
+            lcs_diff::DiffResult::Both(lhs, rhs) => {
                 let lhs_node = lhs.1;
                 let rhs_node = rhs.1;
 
@@ -293,10 +293,10 @@ fn split_unchanged_toplevel<'a>(
                     res.push((ChangeState::UnchangedNode, vec![lhs_node], vec![rhs_node]));
                 }
             }
-            myers_diff::DiffResult::Left(lhs) => {
+            lcs_diff::DiffResult::Left(lhs) => {
                 section_lhs_nodes.push(lhs.1);
             }
-            myers_diff::DiffResult::Right(rhs) => {
+            lcs_diff::DiffResult::Right(rhs) => {
                 section_rhs_nodes.push(rhs.1);
             }
         }
