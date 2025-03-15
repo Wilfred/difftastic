@@ -22,7 +22,7 @@ jobs:
           test-node: true
           test-python: true
           test-go: true
-          test-swift: false
+          test-swift: true
       - name: Parse Petalisp
         run: |
           git submodule init
