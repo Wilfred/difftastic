@@ -15,22 +15,25 @@ jobs:
       - uses: tree-sitter/setup-action@v1
         with:
           install-lib: false
-      - run: npm i
-      - run: tree-sitter generate
-      - uses: tree-sitter/parser-test-action@v1.2
+      - name: Run tests
+        uses: tree-sitter/parser-test-action@v2
         with:
-          test-library: true
+          test-rust: true
+          test-node: true
+          test-python: true
+          test-go: true
+          test-swift: false
       - name: Parse Petalisp
         run: |
           git submodule init
           git submodule update
           if (( $(node_modules/tree-sitter-cli/tree-sitter parse test/Petalisp/**/*.lisp -q | wc -l) > 2 )); then # There are 2 known failures (strings that are not format strings but use ~X syntax)
-            exit 1 
+            exit 1
           else
             echo "Successfully parsed Petalisp."
           fi
           if (( $(node_modules/tree-sitter-cli/tree-sitter parse test/sly/**/*.lisp -q | wc -l) > 4 )); then # There are 2 known failures (strings that are not format strings but use ~X syntax)
-            exit 1 
+            exit 1
           else
             echo "Successfully parsed Sly"
           fi
