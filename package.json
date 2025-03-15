@@ -24,7 +24,7 @@
     "node-gyp-build": "^4.8.0"
   },
   "peerDependencies": {
-    "tree-sitter": "^0.21.0"
+    "tree-sitter": "^0.21.1"
   },
   "peerDependenciesMeta": {
     "tree_sitter": {
@@ -36,7 +36,7 @@
     "url": "git://github.com/theHamsta/tree-sitter-commonlisp"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.8",
+    "tree-sitter-cli": "^0.24.4",
     "tree-sitter-clojure": "git@github.com:theHamsta/tree-sitter-clojure.git#commonlisp",
     "prebuildify": "^6.0.0"
   },
