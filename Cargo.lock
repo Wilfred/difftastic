@@ -179,7 +179,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-commonlisp"
-version = "0.3.3"
+version = "0.4.0"
 dependencies = [
  "cc",
  "tree-sitter",
