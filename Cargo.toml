@@ -5,7 +5,7 @@ version = "0.3.3"
 keywords = ["incremental", "parsing", "lisp"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/theHamsta/tree-sitter-commonlisp"
-edition = "2018"
+edition = "2024"
 authors = ["Stephan Seitz"]
 license = "MIT"
 
