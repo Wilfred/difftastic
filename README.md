@@ -14,7 +14,7 @@ All praise goes to https://github.com/sogaiu/tree-sitter-clojure which is extend
 
 TODOs:
 
-- support number literatls that are different from clojure (e.g. `.9`)
+- support number literals that are different from clojure (e.g. `.9`)
 
 Macros with special respresentation in syntax tree (when written with lowercase letters):
 
@@ -22,6 +22,25 @@ Macros with special respresentation in syntax tree (when written with lowercase 
 - loop macro
 
 This grammar is used in https://github.com/Wilfred/difftastic to generate syntax-ware diffs for Common Lisp.
+
+## Usage
+
+- C/C++
+   - compilation run `make` (optional `make install`)
+   - Follow the [Guide on using tree-sitter parsers](https://tree-sitter.github.io/tree-sitter/using-parsers/1-getting-started.html#getting-started)
+   - set `tree_sitter_commonlisp()` as language on your Tree-Sitter parser from [`tree_sitter_commonlisp.h`](https://github.com/tree-sitter-grammars/tree-sitter-commonlisp/blob/4d2a2247bb0ec117193ef33e3ce546a6781c5bf5/bindings/c/tree-sitter-commonlisp.h#L10-L10)
+    ```c
+    ts_parser_set_language(parser, tree_sitter_json());
+     ```
+
+- Python (`pip install tree-sitter-commonlisp tree-sitter`)
+  https://github.com/tree-sitter-grammars/tree-sitter-commonlisp/blob/4d2a2247bb0ec117193ef33e3ce546a6781c5bf5/bindings/python/tests/test_import.py#L15-L23
+- Rust `cargo add tree-sitter tree-sitter-grammars`
+  https://github.com/tree-sitter-grammars/tree-sitter-commonlisp/blob/4d2a2247bb0ec117193ef33e3ce546a6781c5bf5/bindings/rust/lib.rs#L47-L50
+- Swift
+  https://github.com/tree-sitter-grammars/tree-sitter-commonlisp/blob/4d2a2247bb0ec117193ef33e3ce546a6781c5bf5/bindings/swift/TreeSitterCommonlispTests/TreeSitterCommonlispTests.swift#L3-L13
+- Go
+  https://github.com/tree-sitter-grammars/tree-sitter-commonlisp/blob/4d2a2247bb0ec117193ef33e3ce546a6781c5bf5/bindings/go/binding_test.go#L1-L15
 
 [ci]: https://img.shields.io/github/actions/workflow/status/tree-sitter-grammars/tree-sitter-commonlisp/ci.yml?logo=github&label=CI
 [discord]: https://img.shields.io/discord/1063097320771698699?logo=discord&label=discord
