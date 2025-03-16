@@ -30,7 +30,7 @@ This grammar is used in https://github.com/Wilfred/difftastic to generate syntax
    - Follow the [Guide on using tree-sitter parsers](https://tree-sitter.github.io/tree-sitter/using-parsers/1-getting-started.html#getting-started)
    - set `tree_sitter_commonlisp()` as language on your Tree-Sitter parser from [`tree_sitter_commonlisp.h`](https://github.com/tree-sitter-grammars/tree-sitter-commonlisp/blob/4d2a2247bb0ec117193ef33e3ce546a6781c5bf5/bindings/c/tree-sitter-commonlisp.h#L10-L10)
     ```c
-    ts_parser_set_language(parser, tree_sitter_json());
+    ts_parser_set_language(parser, tree_sitter_commonlisp());
      ```
 
 - Python (`pip install tree-sitter-commonlisp tree-sitter`)
