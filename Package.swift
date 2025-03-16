@@ -7,7 +7,9 @@ let package = Package(
     products: [
         .library(name: "TreeSitterCommonlisp", targets: ["TreeSitterCommonlisp"]),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/ChimeHQ/SwiftTreeSitter", from: "0.8.0"),
+    ],
     targets: [
         .target(name: "TreeSitterCommonlisp",
                 path: ".",
@@ -41,7 +43,15 @@ let package = Package(
                     .copy("queries")
                 ],
                 publicHeadersPath: "bindings/swift",
-                cSettings: [.headerSearchPath("src")])
+                cSettings: [.headerSearchPath("src")]),
+         .testTarget(
+                name: "TreeSitterCommonlispTests",
+                dependencies: [
+                    "SwiftTreeSitter",
+                    "TreeSitterCommonlisp",
+                ],
+                path: "bindings/swift/TreeSitterCommonlispTests"
+        )
     ],
     cLanguageStandard: .c11
 )
