@@ -14,7 +14,7 @@ classifiers = [
   "Topic :: Text Processing :: Linguistic",
   "Typing :: Typed"
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license.text = "MIT"
 readme = "README.md"
 
@@ -25,5 +25,5 @@ Homepage = "https://github.com/tree-sitter-grammars/tree-sitter-commonlisp"
 core = ["tree-sitter~=0.21"]
 
 [tool.cibuildwheel]
-build = "cp38-*"
+build = "cp39-*"
 build-frontend = "build"
