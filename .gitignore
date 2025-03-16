@@ -1,2 +1,4 @@
 node_modules
 target
+# Swift
+.build
