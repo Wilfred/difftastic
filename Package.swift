@@ -27,7 +27,6 @@ let package = Package(
                     "pyproject.toml",
                     "setup.py",
                     "test",
-                    "examples",
                     ".editorconfig",
                     ".github",
                     ".gitignore",
