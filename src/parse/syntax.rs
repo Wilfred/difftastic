@@ -112,6 +112,10 @@ pub(crate) enum Syntax<'a> {
         position: Vec<SingleLineSpan>,
         content: String,
         kind: AtomKind,
+        /// Is this atom a named tree-sitter node? Unnamed nodes are
+        /// typically basic syntax elements, such as punctuation or
+        /// keywords.
+        is_named: bool,
     },
 }
 
@@ -251,6 +255,7 @@ impl<'a> Syntax<'a> {
         mut position: Vec<SingleLineSpan>,
         mut content: String,
         kind: AtomKind,
+        is_named: bool,
     ) -> &'a Syntax<'a> {
         // If a parser hasn't cleaned up \r on CRLF files with
         // comments, discard it.
@@ -272,6 +277,7 @@ impl<'a> Syntax<'a> {
             position,
             content,
             kind,
+            is_named,
         })
     }
 
@@ -1084,8 +1090,14 @@ mod tests {
 
         let arena = Arena::new();
 
-        let comment = Syntax::new_atom(&arena, pos.clone(), "foo".to_owned(), AtomKind::Comment);
-        let atom = Syntax::new_atom(&arena, pos, "foo".to_owned(), AtomKind::Normal);
+        let comment = Syntax::new_atom(
+            &arena,
+            pos.clone(),
+            "foo".to_owned(),
+            AtomKind::Comment,
+            true,
+        );
+        let atom = Syntax::new_atom(&arena, pos, "foo".to_owned(), AtomKind::Normal, true);
         init_all_info(&[comment], &[atom]);
 
         assert_ne!(comment, atom);
@@ -1097,7 +1109,13 @@ mod tests {
         let position = vec![];
         let content = "foo\r";
 
-        let atom = Syntax::new_atom(&arena, position, content.to_owned(), AtomKind::Comment);
+        let atom = Syntax::new_atom(
+            &arena,
+            position,
+            content.to_owned(),
+            AtomKind::Comment,
+            true,
+        );
 
         match atom {
             List { .. } => unreachable!(),
@@ -1124,7 +1142,13 @@ mod tests {
         ];
         let content = ";; hello\n";
 
-        let atom = Syntax::new_atom(&arena, position, content.to_owned(), AtomKind::Comment);
+        let atom = Syntax::new_atom(
+            &arena,
+            position,
+            content.to_owned(),
+            AtomKind::Comment,
+            true,
+        );
 
         match atom {
             List { .. } => unreachable!(),
@@ -1157,8 +1181,9 @@ mod tests {
 
         let arena = Arena::new();
 
-        let type_atom = Syntax::new_atom(&arena, pos.clone(), "foo".to_owned(), AtomKind::Type);
-        let atom = Syntax::new_atom(&arena, pos, "foo".to_owned(), AtomKind::Normal);
+        let type_atom =
+            Syntax::new_atom(&arena, pos.clone(), "foo".to_owned(), AtomKind::Type, true);
+        let atom = Syntax::new_atom(&arena, pos, "foo".to_owned(), AtomKind::Normal, true);
         init_all_info(&[type_atom], &[atom]);
 
         assert_eq!(type_atom, atom);
@@ -1173,7 +1198,7 @@ mod tests {
         }];
 
         let arena = Arena::new();
-        let atom = Syntax::new_atom(&arena, pos, "foo".to_owned(), AtomKind::Normal);
+        let atom = Syntax::new_atom(&arena, pos, "foo".to_owned(), AtomKind::Normal, true);
 
         let trivial_list = Syntax::new_list(&arena, "", vec![], vec![atom], "", vec![]);
 
@@ -1189,7 +1214,7 @@ mod tests {
         }];
 
         let arena = Arena::new();
-        let atom = Syntax::new_atom(&arena, pos, "".to_owned(), AtomKind::Normal);
+        let atom = Syntax::new_atom(&arena, pos, "".to_owned(), AtomKind::Normal, true);
 
         let trivial_list = Syntax::new_list(&arena, "(", vec![], vec![atom], ")", vec![]);
 
@@ -1216,8 +1241,15 @@ mod tests {
             pos.clone(),
             "foo\nbar".to_owned(),
             AtomKind::Comment,
+            true,
         );
-        let y = Syntax::new_atom(&arena, pos, "foo\n    bar".to_owned(), AtomKind::Comment);
+        let y = Syntax::new_atom(
+            &arena,
+            pos,
+            "foo\n    bar".to_owned(),
+            AtomKind::Comment,
+            true,
+        );
         init_all_info(&[x], &[y]);
 
         assert_eq!(x, y);

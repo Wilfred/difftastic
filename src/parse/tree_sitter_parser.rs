@@ -1801,6 +1801,7 @@ fn atom_from_cursor<'a>(
         position,
         content.to_owned(),
         highlight,
+        node.is_named(),
     ))
 }
 
