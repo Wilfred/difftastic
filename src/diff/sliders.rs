@@ -49,7 +49,7 @@ pub(crate) fn fix_all_sliders<'a>(
     fix_all_nested_sliders(language, nodes, change_map);
 }
 
-/// Should nester slider correction prefer the inner or outer
+/// Should nested slider correction prefer the inner or outer
 /// delimiter?
 fn prefer_outer_delimiter(language: guess_language::Language) -> bool {
     use crate::parse::guess_language::Language::*;
