@@ -47,6 +47,64 @@ pub(crate) fn fix_all_sliders<'a>(
     fix_all_sliders_one_step(nodes, change_map);
 
     fix_all_nested_sliders(language, nodes, change_map);
+    fix_invisible_delims(nodes, change_map);
+}
+
+/// Handle lists with no visible delimiters, where we still want to
+/// highlighting something when a parent's node is moved into us. This
+/// occurs the most when diffing python.
+fn fix_invisible_delims<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut ChangeMap<'a>) {
+    for node in nodes {
+        let List {
+            open_content,
+            children,
+            close_content,
+            ..
+        } = node
+        else {
+            continue;
+        };
+
+        let Some(change_kind) = change_map.get(node) else {
+            continue;
+        };
+
+        if open_content == "" && close_content == "" && matches!(change_kind, Novel) {
+            let mut all_children_unchanged = true;
+            for child in children {
+                let Some(child_change) = change_map.get(child) else {
+                    continue;
+                };
+
+                if !matches!(child_change, Unchanged(_)) {
+                    all_children_unchanged = false;
+                    break;
+                }
+            }
+
+            if let Some(child) = children.first() {
+                if let Atom { is_named, .. } = child {
+                    if !*is_named && all_children_unchanged {
+                        change_unchanged_to_novel(child, change_map);
+                    }
+                }
+            }
+        }
+
+        fix_invisible_delims(children, change_map);
+    }
+}
+
+fn change_unchanged_to_novel<'a>(node: &'a Syntax<'a>, change_map: &mut ChangeMap<'a>) {
+    let Some(change) = change_map.get(node) else {
+        return;
+    };
+    let Unchanged(opposite_node) = change else {
+        return;
+    };
+
+    change_map.insert(node, Novel);
+    change_map.insert(opposite_node, Novel);
 }
 
 /// Should nester slider correction prefer the inner or outer

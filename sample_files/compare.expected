@@ -92,7 +92,7 @@ sample_files/hcl_1.hcl sample_files/hcl_2.hcl
 7c2aaa3a8b401bc007817f5dd608946d  -
 
 sample_files/hello_world_1.smali sample_files/hello_world_2.smali
-c9acab2700d02e2898431523e2a581b9  -
+c3b7b48ed080cf8a6ccc4777e26cfeda  -
 
 sample_files/helpful_1.el sample_files/helpful_2.el
 056471124ae2e582942e214ce9222477  -
@@ -137,7 +137,7 @@ sample_files/julia_1.jl sample_files/julia_2.jl
 55aa779597d1f6afa681af267706c9b6  -
 
 sample_files/load_1.js sample_files/load_2.js
-8defc3cea4d10a8db826973352abe2a1  -
+c67bbb87220ab67056cead6ff97bb1ca  -
 
 sample_files/long_line_1.txt sample_files/long_line_2.txt
 7fc50bd547f0c20fda89a1931e5eb61e  -
@@ -167,7 +167,7 @@ sample_files/multiline_string_eof_1.yml sample_files/multiline_string_eof_2.yml
 ba8a8e7ed2f4b519feaa391fd05c95fe  -
 
 sample_files/nest_1.rs sample_files/nest_2.rs
-d3a799fe2cd9d81aa251c96af5cd9711  -
+46755317312db800a54edd6dbad0d4be  -
 
 sample_files/nested_slider_1.el sample_files/nested_slider_2.el
 f68f8b8c09afb86965d5e54519f2d881  -
@@ -248,7 +248,7 @@ sample_files/slider_at_end_1.json sample_files/slider_at_end_2.json
 cb370f1c0ccc5e155743330629f899f0  -
 
 sample_files/slow_1.rs sample_files/slow_2.rs
-7a74881e854d68763769991c6445698a  -
+010d036c12f3ca262131d7e29a2c67ba  -
 
 sample_files/small_1.js sample_files/small_2.js
 42506285003bb4eacdb2f8d3bd1b07bb  -
@@ -290,13 +290,13 @@ sample_files/typescript_1.ts sample_files/typescript_2.ts
 fee7ee33d2037ad1941ba6bb5532a1db  -
 
 sample_files/typing_1.ml sample_files/typing_2.ml
-975a97f2a6798abd1e4c0ce219e183fd  -
+f28741fa8ff709875f84561724efa240  -
 
 sample_files/utf16_1.py sample_files/utf16_2.py
 3bcee785d4cebc38a42eafe49a198b52  -
 
 sample_files/vhdl_1.vhd sample_files/vhdl_2.vhd
-ca98b4d14fc21e0f04cf24aeb3d2526c  -
+a40f478f9fd358189b60cb6f9f905e81  -
 
 sample_files/whitespace_1.tsx sample_files/whitespace_2.tsx
 ac8b1a89ac26333f2d4e9433b2ca3958  -
