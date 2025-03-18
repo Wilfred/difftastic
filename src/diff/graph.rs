@@ -63,7 +63,7 @@ pub(crate) struct Vertex<'s, 'b> {
     rhs_parent_id: Option<SyntaxId>,
 }
 
-impl<'s, 'b> PartialEq for Vertex<'s, 'b> {
+impl PartialEq for Vertex<'_, '_> {
     fn eq(&self, other: &Self) -> bool {
         // Strictly speaking, we should compare the whole
         // EnteredDelimiter stack, not just the immediate
@@ -101,9 +101,9 @@ impl<'s, 'b> PartialEq for Vertex<'s, 'b> {
         b0 && b1 && b2
     }
 }
-impl<'s, 'b> Eq for Vertex<'s, 'b> {}
+impl Eq for Vertex<'_, '_> {}
 
-impl<'s, 'b> Hash for Vertex<'s, 'b> {
+impl Hash for Vertex<'_, '_> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
@@ -132,7 +132,7 @@ enum EnteredDelimiter<'s, 'b> {
     PopBoth((&'s Syntax<'s>, &'s Syntax<'s>)),
 }
 
-impl<'s, 'b> fmt::Debug for EnteredDelimiter<'s, 'b> {
+impl fmt::Debug for EnteredDelimiter<'_, '_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
             EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {

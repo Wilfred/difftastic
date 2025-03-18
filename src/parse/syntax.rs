@@ -22,7 +22,7 @@ use crate::{
 /// A Debug implementation that does not recurse into the
 /// corresponding node mentioned for Unchanged. Otherwise we will
 /// infinitely loop on unchanged nodes, which both point to the other.
-impl<'a> fmt::Debug for ChangeKind<'a> {
+impl fmt::Debug for ChangeKind<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
             Unchanged(node) => format!("Unchanged(ID: {})", node.id()),
@@ -91,7 +91,7 @@ impl<'a> SyntaxInfo<'a> {
     }
 }
 
-impl<'a> Default for SyntaxInfo<'a> {
+impl Default for SyntaxInfo<'_> {
     fn default() -> Self {
         Self::new()
     }
@@ -591,7 +591,7 @@ fn set_num_ancestors(nodes: &[&Syntax], num_ancestors: u32) {
     }
 }
 
-impl<'a> PartialEq for Syntax<'a> {
+impl PartialEq for Syntax<'_> {
     fn eq(&self, other: &Self) -> bool {
         debug_assert!(self.content_id() > 0);
         debug_assert!(other.content_id() > 0);

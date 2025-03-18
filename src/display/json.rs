@@ -170,7 +170,7 @@ impl<'f> From<&'f DiffResult> for File<'f> {
     }
 }
 
-impl<'f> Serialize for File<'f> {
+impl Serialize for File<'_> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,

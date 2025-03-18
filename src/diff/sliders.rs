@@ -621,7 +621,7 @@ fn distance_between(prev: &Syntax, next: &Syntax) -> (u32, u32) {
     (0, 0)
 }
 
-impl<'a> Syntax<'a> {
+impl Syntax<'_> {
     fn first_line_span(&self) -> Option<SingleLineSpan> {
         match self {
             List {
