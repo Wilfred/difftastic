@@ -839,6 +839,21 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Proto => {
+            let language_fn = tree_sitter_proto::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: ["string"].into_iter().collect(),
+                delimiter_tokens: vec![("{", "}")],
+                highlight_query: ts::Query::new(
+                    &language,
+                    include_str!("../../vendored_parsers/highlights/proto.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Python => {
             let language_fn = tree_sitter_python::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
