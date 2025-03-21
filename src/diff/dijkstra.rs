@@ -4,7 +4,6 @@
 use std::{cmp::Reverse, env};
 
 use bumpalo::Bump;
-use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 
 use crate::{
@@ -240,7 +239,7 @@ pub(crate) fn mark_syntax<'a>(
                 )
             })
             .take(print_length)
-            .collect_vec()
+            .collect::<Vec<_>>()
     );
 
     populate_change_map(&route, change_map);
@@ -249,7 +248,6 @@ pub(crate) fn mark_syntax<'a>(
 
 #[cfg(test)]
 mod tests {
-    use itertools::Itertools;
     use line_numbers::SingleLineSpan;
     use typed_arena::Arena;
 
@@ -282,7 +280,7 @@ mod tests {
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
         assert_eq!(
             actions,
             vec![UnchangedNode {
@@ -324,7 +322,7 @@ mod tests {
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
         assert_eq!(
             actions,
             vec![
@@ -366,7 +364,7 @@ mod tests {
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
         assert_eq!(
             actions,
             vec![
@@ -412,7 +410,7 @@ mod tests {
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
         assert_eq!(
             actions,
             vec![
@@ -453,7 +451,7 @@ mod tests {
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
         assert_eq!(
             actions,
             vec![ReplacedComment {
@@ -485,7 +483,7 @@ mod tests {
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
         assert_eq!(
             actions,
             vec![ReplacedComment {
@@ -525,7 +523,7 @@ mod tests {
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
         assert_eq!(
             actions,
             vec![

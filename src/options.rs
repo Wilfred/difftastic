@@ -9,7 +9,6 @@ use std::{
 
 use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
 use crossterm::tty::IsTty;
-use itertools::Itertools;
 
 use crate::{
     display::style::BackgroundColor,
@@ -612,19 +611,20 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
         std::process::exit(EXIT_BAD_ARGUMENTS);
     }
 
-    overrides
-        .into_iter()
-        .coalesce(
-            |(prev_lang, mut prev_globs), (current_lang, current_globs)| {
-                if prev_lang == current_lang {
-                    prev_globs.extend(current_globs);
-                    Ok((prev_lang, prev_globs))
-                } else {
-                    Err(((prev_lang, prev_globs), (current_lang, current_globs)))
-                }
-            },
-        )
-        .collect()
+    let mut combined_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)> = vec![];
+    for (lang, globs) in overrides {
+        if let Some((prev_lang, prev_globs)) = combined_overrides.last_mut() {
+            if *prev_lang == lang {
+                prev_globs.extend(globs);
+            } else {
+                combined_overrides.push((lang, globs));
+            }
+        } else {
+            combined_overrides.push((lang, globs));
+        }
+    }
+
+    combined_overrides
 }
 
 /// Parse CLI arguments passed to the binary.

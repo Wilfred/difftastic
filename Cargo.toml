@@ -36,7 +36,6 @@ pkg-fmt = "zip"
 [dependencies]
 regex = "1.10.4"
 clap = { version = "4.0.0", features = ["cargo", "env", "wrap_help", "string"] }
-itertools = "0.11.0"
 typed-arena = "2.0.2"
 rustc-hash = "2.0.0"
 strsim = "0.10.0"
