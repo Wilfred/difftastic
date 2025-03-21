@@ -28,6 +28,10 @@
 //! This module fixes these cases. It identifies situations where we
 //! can change which item is marked as novel (e.g. either `B` in the
 //! example above) whilst still showing a valid, minimal diff.
+//!
+//! A similar problem exists with line-based textual diffs, see
+//! [diff-slider-tools](https://github.com/mhagger/diff-slider-tools)
+//! for a thorough discussion.
 
 use line_numbers::SingleLineSpan;
 
