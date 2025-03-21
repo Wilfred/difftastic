@@ -1,8 +1,6 @@
 //! A fallback "parser" for plain text.
 
-use lazy_static::lazy_static;
 use line_numbers::{LinePositions, SingleLineSpan};
-use regex::Regex;
 
 use crate::words::split_words;
 use crate::{
@@ -11,25 +9,6 @@ use crate::{
 };
 
 const MAX_WORDS_IN_LINE: usize = 1000;
-
-fn split_lines_keep_newline(s: &str) -> Vec<&str> {
-    lazy_static! {
-        static ref NEWLINE_RE: Regex = Regex::new("\n").unwrap();
-    }
-
-    let mut offset = 0;
-    let mut lines = vec![];
-    for newline_match in NEWLINE_RE.find_iter(s) {
-        lines.push(s[offset..newline_match.end()].into());
-        offset = newline_match.end();
-    }
-
-    if offset < s.len() {
-        lines.push(s[offset..].into());
-    }
-
-    lines
-}
 
 #[derive(Debug)]
 enum TextChangeKind {
@@ -77,11 +56,8 @@ fn changed_parts<'a>(
     src: &'a str,
     opposite_src: &'a str,
 ) -> Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> {
-    let src_lines = split_lines_keep_newline(src);
-    let opposite_src_lines = split_lines_keep_newline(opposite_src);
-
     let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
-    for diff_res in lcs_diff::slice_unique_by_hash(&src_lines, &opposite_src_lines) {
+    for diff_res in lcs_diff::string_lines(src, opposite_src) {
         match diff_res {
             lcs_diff::DiffResult::Left(line) => {
                 res.push((TextChangeKind::Novel, vec![line], vec![]));
@@ -257,13 +233,6 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
-
-    #[test]
-    fn test_split_newlines() {
-        let s = "foo\nbar\nbaz";
-        let res = split_lines_keep_newline(s);
-        assert_eq!(res, vec!["foo\n", "bar\n", "baz"])
-    }
 
     #[test]
     fn test_positions_no_changes() {

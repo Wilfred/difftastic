@@ -95,6 +95,54 @@ pub(crate) fn slice_by_hash<'a, T: Eq + Hash>(
         .collect::<Vec<_>>()
 }
 
+use imara_diff::intern::InternedInput;
+use imara_diff::sources::lines_with_terminator;
+use imara_diff::{diff, Algorithm};
+
+/// Diff `lhs` and `rhs` by comparing individual lines.
+pub(crate) fn string_lines<'a>(lhs: &'a str, rhs: &'a str) -> Vec<DiffResult<&'a str>> {
+    let mut res: Vec<DiffResult<&'a str>> = vec![];
+
+    let input = InternedInput::new(lines_with_terminator(lhs), lines_with_terminator(rhs));
+
+    let mut lhs_i = 0;
+
+    let sink = |before: std::ops::Range<u32>, after: std::ops::Range<u32>| {
+        if before.start > 0 {
+            while lhs_i < before.start - 1 {
+                let token = input.before[lhs_i as usize];
+                res.push(DiffResult::Both(
+                    input.interner[token],
+                    input.interner[token],
+                ));
+                lhs_i += 1;
+            }
+        }
+
+        for token in &input.before[before.start as usize..before.end as usize] {
+            res.push(DiffResult::Left(input.interner[*token]))
+        }
+        for token in &input.after[after.start as usize..after.end as usize] {
+            res.push(DiffResult::Right(input.interner[*token]))
+        }
+
+        lhs_i = before.end;
+    };
+
+    diff(Algorithm::Histogram, &input, sink);
+
+    while (lhs_i as usize) < input.before.len() {
+        let token = input.before[lhs_i as usize];
+        res.push(DiffResult::Both(
+            input.interner[token],
+            input.interner[token],
+        ));
+        lhs_i += 1;
+    }
+
+    res
+}
+
 /// Compute the linear diff between `lhs` and `rhs`. If there are
 /// items that only occur on a single side, mark them as novel without
 /// processing them with Myer's diff.
