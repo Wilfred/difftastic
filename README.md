@@ -87,9 +87,10 @@ You can! The difftastic manual [includes instructions for git
 usage](https://difftastic.wilfred.me.uk/git.html). You can also use it
 [with mercurial](https://difftastic.wilfred.me.uk/mercurial.html).
 
-If you're a magit user, check out [this blog
+If you're an Emacs user, check out [this blog
 post](https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html)
-showing one way to use difftastic with magit.
+showing one way to use difftastic with magit, as well as
+[difftastic.el](https://github.com/pkryger/difftastic.el).
 
 ### Does difftastic integrate with my favourite tool?
 
