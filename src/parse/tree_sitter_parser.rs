@@ -604,7 +604,26 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(&language, tree_sitter_json::HIGHLIGHTS_QUERY)
                     .unwrap(),
-                sub_languages: vec![],
+                sub_languages: vec![TreeSitterSubLanguage {
+                    query: ts::Query::new(
+                        &language,
+                        r#"(document
+                        (object
+                          (pair
+                            key: (string (string_content) @key_name)
+                            value: (object
+                              (pair
+                                value: (string (string_content) @root)
+                              )
+                            )
+                            (#eq? @key_name "scripts")
+                          )
+                        )
+                      )"#,
+                    )
+                    .unwrap(),
+                    parse_as: Bash,
+                }],
             }
         }
         Julia => {
@@ -1170,9 +1189,10 @@ pub(crate) fn parse_subtrees(
         let mut query_cursor = tree_sitter::QueryCursor::new();
         let mut query_matches =
             query_cursor.matches(&language.query, tree.root_node(), src.as_bytes());
+        let capture_index = language.query.capture_index_for_name("root").unwrap_or(0);
 
         while let Some(m) = query_matches.next() {
-            let node = m.nodes_for_capture_index(0).next().unwrap();
+            let node = m.nodes_for_capture_index(capture_index).next().unwrap();
             if node.byte_range().is_empty() {
                 continue;
             }
