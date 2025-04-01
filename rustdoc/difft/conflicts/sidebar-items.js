@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["END_RHS_MARKER","START_BASE_MARKER","START_LHS_MARKER","START_RHS_MARKER"],"enum":["ConflictState"],"fn":["apply_conflict_markers"],"struct":["ConflictFiles"]};

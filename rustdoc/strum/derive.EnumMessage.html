@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Add a verbose message to an enum variant."><title>EnumMessage in strum - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-fa3bb1812debf86c.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="strum" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.1 (a28077b28 2023-12-04)" data-channel="1.74.1" data-search-js="search-8be46b629f5f14a8.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-c5bd66d33317d69f.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc derive"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../strum/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a></nav><nav class="sidebar"><a class="logo-container" href="../strum/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><div class="sidebar-elems"><h2><a href="index.html">In strum</a></h2></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Derive Macro <a href="index.html">strum</a>::<wbr><a class="derive" href="#">EnumMessage</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/strum_macros/lib.rs.html#752">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><pre class="rust item-decl"><code>#[derive(EnumMessage)]
+{
+    // Attributes available to this derive:
+    #[strum]
+}
+</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Add a verbose message to an enum variant.</p>
+<p>Encode strings into the enum itself. The <code>strum_macros::EmumMessage</code> macro implements the <code>strum::EnumMessage</code> trait.
+<code>EnumMessage</code> looks for <code>#[strum(message=&quot;...&quot;)]</code> attributes on your variants.
+You can also provided a <code>detailed_message=&quot;...&quot;</code> attribute to create a separate more detailed message than the first.</p>
+<p><code>EnumMessage</code> also exposes the variants doc comments through <code>get_documentation()</code>. This is useful in some scenarios,
+but <code>get_message</code> should generally be preferred. Rust doc comments are intended for developer facing documentation,
+not end user messaging.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="comment">// You need to bring the trait into scope to use it
+</span><span class="kw">use </span>strum::EnumMessage;
+<span class="kw">use </span>strum_macros;
+
+<span class="attr">#[derive(strum_macros::EnumMessage, Debug)]
+#[allow(dead_code)]
+</span><span class="kw">enum </span>Color {
+    <span class="doccomment">/// Danger color.
+    </span><span class="attr">#[strum(message = <span class="string">&quot;Red&quot;</span>, detailed_message = <span class="string">&quot;This is very red&quot;</span>)]
+    </span>Red,
+    <span class="attr">#[strum(message = <span class="string">&quot;Simply Green&quot;</span>)]
+    </span>Green { range: usize },
+    <span class="attr">#[strum(serialize = <span class="string">&quot;b&quot;</span>, serialize = <span class="string">&quot;blue&quot;</span>)]
+    </span>Blue(usize),
+}
+
+<span class="comment">// Generated code looks like more or less like this:
+/*
+impl ::strum::EnumMessage for Color {
+    fn get_message(&amp;self) -&gt; ::core::option::Option&lt;&amp;&#39;static str&gt; {
+        match self {
+            &amp;Color::Red =&gt; ::core::option::Option::Some(&quot;Red&quot;),
+            &amp;Color::Green {..} =&gt; ::core::option::Option::Some(&quot;Simply Green&quot;),
+            _ =&gt; None
+        }
+    }
+
+    fn get_detailed_message(&amp;self) -&gt; ::core::option::Option&lt;&amp;&#39;static str&gt; {
+        match self {
+            &amp;Color::Red =&gt; ::core::option::Option::Some(&quot;This is very red&quot;),
+            &amp;Color::Green {..}=&gt; ::core::option::Option::Some(&quot;Simply Green&quot;),
+            _ =&gt; None
+        }
+    }
+
+    fn get_documentation(&amp;self) -&gt; ::std::option::Option&lt;&amp;&#39;static str&gt; {
+        match self {
+            &amp;Color::Red =&gt; ::std::option::Option::Some(&quot;Danger color.&quot;),
+            _ =&gt; None
+        }
+    }
+
+    fn get_serializations(&amp;self) -&gt; &amp;&#39;static [&amp;&#39;static str] {
+        match self {
+            &amp;Color::Red =&gt; {
+                static ARR: [&amp;&#39;static str; 1] = [&quot;Red&quot;];
+                &amp;ARR
+            },
+            &amp;Color::Green {..}=&gt; {
+                static ARR: [&amp;&#39;static str; 1] = [&quot;Green&quot;];
+                &amp;ARR
+            },
+            &amp;Color::Blue (..) =&gt; {
+                static ARR: [&amp;&#39;static str; 2] = [&quot;b&quot;, &quot;blue&quot;];
+                &amp;ARR
+            },
+        }
+    }
+}
+*/
+
+</span><span class="kw">let </span>c = Color::Red;
+<span class="macro">assert_eq!</span>(<span class="string">&quot;Red&quot;</span>, c.get_message().unwrap());
+<span class="macro">assert_eq!</span>(<span class="string">&quot;This is very red&quot;</span>, c.get_detailed_message().unwrap());
+<span class="macro">assert_eq!</span>(<span class="string">&quot;Danger color.&quot;</span>, c.get_documentation().unwrap());
+<span class="macro">assert_eq!</span>([<span class="string">&quot;Red&quot;</span>], c.get_serializations());</code></pre></div>
+</div></details></section></div></main></body></html>
