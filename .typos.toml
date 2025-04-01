@@ -1,0 +1,4 @@
+[default.extend-words]
+ba = "ba"
+edn = "edn"
+mak = "mak"
