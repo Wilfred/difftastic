@@ -106,7 +106,7 @@ Fixed crash on some textual files where a single change contained more than
 
 Added support for device tree and F#.
 
-Difftastic now uses tree-sitter comment highlighing as a hint that
+Difftastic now uses tree-sitter comment highlighting as a hint that
 nodes should be treated as atoms. This ensures comments are treated
 more consistently across languages. This fixes cases in Elm where
 comment differences were ignored, and may improve other languages too.
@@ -1429,11 +1429,11 @@ Fixed a parsing performance regression introduced in 0.13.
 ### Diffing
 
 Text diffing now has a standalone implementation rather than reusing
-structural diff logic. This is signficantly faster and highlighted
+structural diff logic. This is significantly faster and highlighted
 better.
 
 Improved performance when diffing two identical files. This is common
-when diffing directorires.
+when diffing directories.
 
 ### Display
 

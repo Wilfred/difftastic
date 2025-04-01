@@ -24,7 +24,7 @@ You can override language detection for specific file globs using the
 $ difft --override=GLOB:NAME FIRST-FILE SECOND-FILE
 
 # For example, treating .h files as C rather than C++:
-$ difft --override=*.h:c sample_files/preprocesor_1.h sample_files/preprocesor_2.h
+$ difft --override=*.h:c sample_files/preprocessor_1.h sample_files/preprocessor_2.h
 ```
 
 See `difft --help` for more examples of `--override` usage.

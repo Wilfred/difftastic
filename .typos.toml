@@ -1,4 +1,12 @@
+[files]
+extend-exclude = [
+  "vendored_parsers/", "sample_files/",
+  "homepage/home_static/", "homepage/home_img",
+  "difft.1",
+]
+
 [default.extend-words]
 ba = "ba"
 edn = "edn"
 mak = "mak"
+ND = "ND"
