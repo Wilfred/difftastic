@@ -246,7 +246,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
             Arg::new("skip-unchanged").long("skip-unchanged")
                 .action(ArgAction::SetTrue)
                 .env("DFT_SKIP_UNCHANGED")
-                .help("Don't display anything if a file is unchanged.")
+                .help("Don't display anything if a file is unchanged. This is useful when comparing directories of files.")
         )
         .arg(
             Arg::new("override").long("override")
@@ -274,7 +274,7 @@ When multiple overrides are specified, the first matching override wins."))
         .arg(
             Arg::new("list-languages").long("list-languages")
                 .action(ArgAction::SetTrue)
-                .help("Print all the languages supported by difftastic, along with their extensions.")
+                .help("Print all the languages supported by difftastic, along with their recognised extensions.")
         )
         .arg(
             Arg::new("byte-limit").long("byte-limit")
