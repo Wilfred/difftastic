@@ -289,7 +289,9 @@ When multiple overrides are specified, the first matching override wins."))
         .arg(
             Arg::new("graph-limit").long("graph-limit")
                 .value_name("LIMIT")
-                .help("Use a text diff if the structural graph exceed this number of nodes in memory.")
+                .help("Use a text diff if the internal graph exceeds this number of vertices. This limit controls the worst case runtime and memory usage for difftastic.
+
+Higher values will allow difftastic to perform a structural diff in more cases. Higher values will also increase the time before difftastic gives up on structural diffing, and increase peak memory usage.")
                 .default_value(format!("{}", DEFAULT_GRAPH_LIMIT))
                 .action(ArgAction::Set)
                 .env("DFT_GRAPH_LIMIT")
