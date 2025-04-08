@@ -208,7 +208,7 @@ sample_files/perl_1.pl sample_files/perl_2.pl
 sample_files/prefer_outer_1.el sample_files/prefer_outer_2.el
 991038c9988cccc2c824652e33f772a2  -
 
-sample_files/preprocesor_1.h sample_files/preprocesor_2.h
+sample_files/preprocessor_1.h sample_files/preprocessor_2.h
 a680158a7980d738ba831aab3a63165d  -
 
 sample_files/qml_1.qml sample_files/qml_2.qml
