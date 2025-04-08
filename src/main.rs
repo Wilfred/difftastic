@@ -81,7 +81,7 @@ static GLOBAL: MiMalloc = MiMalloc;
 use std::path::Path;
 use std::{env, thread};
 
-use humansize::{format_size, BINARY};
+use humansize::{format_size, FormatSizeOptions, BINARY};
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
 use strum::IntoEnumIterator;
@@ -705,10 +705,11 @@ fn diff_file_content(
                     }
                 }
                 Err(tsp::ExceededByteLimit(num_bytes)) => {
+                    let format_options = FormatSizeOptions::from(BINARY).decimal_places(1);
                     let file_format = FileFormat::TextFallback {
                         reason: format!(
                             "{} exceeded DFT_BYTE_LIMIT",
-                            &format_size(num_bytes, BINARY)
+                            &format_size(num_bytes, format_options)
                         ),
                     };
 
