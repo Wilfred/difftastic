@@ -97,6 +97,28 @@ showing one way to use difftastic with magit, as well as
 Probably not. Difftastic is young. Consider writing a plugin for your
 favourite tool, and I will link it in the README!
 
+### What about parse errors?
+
+By default, difftastic falls back to a line-oriented text diff
+whenever parse errors are encountered.
+
+This is a conservative choice to ensure that difftastic never claims
+two syntactically different files are the same.
+
+Parse errors can occur if the file uses language features that the
+parser does not understand, if the language relies on a preprocessor
+before parsing (e.g. C++), or if the file has genuine syntactic
+mistakes.
+
+In practice, difftastic virtually always produces a good result when
+there are a few minor parse errors. Consider allowing a small number
+of parse errors when using difftastic.
+
+```
+$ export DFT_PARSE_ERROR_LIMIT=20
+$ difft foo1.c foo2.c
+```
+
 ### Can difftastic help me with merge conflicts?
 
 Yes! As of version 0.50, difftastic understands merge conflict markers
