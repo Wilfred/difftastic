@@ -7,7 +7,7 @@ on:
 
 jobs:
   pre_deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
@@ -20,7 +20,7 @@ jobs:
   deploy:
     needs: pre_deploy
     if: needs.pre_deploy.outputs.should_skip != 'true'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 

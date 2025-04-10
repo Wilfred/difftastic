@@ -5,6 +5,11 @@
 Updated to the latest tree-sitter parser for Erlang, F#, Pascal and
 Swift.
 
+### Build
+
+CI on GitHub now uses Ubuntu 22.04 for Linux builds (previously Ubuntu
+20.04), so prebuilt binaries will require a newer glibc version to run.
+
 ## 0.63 (released 11th February 2025)
 
 ### Diffing

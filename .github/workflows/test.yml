@@ -11,17 +11,17 @@ jobs:
       matrix:
         job:
           # Operating systems available: https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
-          - { target: x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
+          - { target: x86_64-unknown-linux-gnu, os: ubuntu-22.04 }
           # mac-latest (currently mac-14) is an ARM device, so use macos-13 to get Intel.
           - { target: x86_64-apple-darwin, os: macos-13 }
           - { target: x86_64-pc-windows-msvc, os: windows-latest }
 
-          - { target: aarch64-unknown-linux-gnu, os: ubuntu-20.04, use-cross: true }
+          - { target: aarch64-unknown-linux-gnu, os: ubuntu-22.04, use-cross: true }
 
           # mac-14 is an M1 ARM device.
           - { target: aarch64-apple-darwin, os: macos-14 }
 
-          - { target: x86_64-unknown-linux-musl, os: ubuntu-20.04, use-cross: true }
+          - { target: x86_64-unknown-linux-musl, os: ubuntu-22.04, use-cross: true }
     env:
       BUILD_CMD: cargo
       SUBCOMMAND: test
@@ -52,7 +52,7 @@ jobs:
 
   test_mime_db:
     name: Test with MIME database
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.74.1
@@ -61,7 +61,7 @@ jobs:
 
   test_linux_latest_stable:
     name: Test Linux (latest stable Rust)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -69,7 +69,7 @@ jobs:
 
   regression_test:
     name: Output Regression Test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.74.1
@@ -80,7 +80,7 @@ jobs:
 
   package:
     name: Check Linux Packaging
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.74.1
@@ -88,7 +88,7 @@ jobs:
 
   fmt:
     name: Rustfmt
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.74.1
@@ -96,7 +96,7 @@ jobs:
 
   actionlint:
     name: Actionlint
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: raven-actions/actionlint@v2
