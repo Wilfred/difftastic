@@ -288,14 +288,15 @@ fn assignment() {
   let y = x
   let #(x, _) = #(1, 2)
 }
-fn assertations() {
-  assert Ok(a) = Ok(1)
-  assert x = {
-    1 + 1
-    "Hello, World!"
-  }
-  assert y = x
-  assert #(x, _) = #(1, 2)
+fn assertions() {
+  assert True && False
+  assert add(1, 2) == 3
+  assert !some_value
+  assert {
+    10
+    11
+  } != 10
+  assert result.is_ok(Ok(10))
 }
 fn update(x) {
   Cat(..x, name: "Nubi", cuteness: 1000 + 1001)
@@ -557,34 +558,42 @@ fn field_access(x) {
     parameters: (function_parameters)
     body: (block
       (assert
-        pattern: (record_pattern
-          name: (constructor_name)
-          arguments: (record_pattern_arguments
-            (record_pattern_argument
-              pattern: (identifier))))
-        value: (record
-          name: (constructor_name)
+        value: (binary_expression
+          left: (record
+            name: (constructor_name))
+          right: (record
+            name: (constructor_name))))
+      (assert
+        value: (binary_expression
+          left: (function_call
+            function: (identifier)
+            arguments: (arguments
+              (argument
+                value: (integer))
+              (argument
+                value: (integer))))
+          right: (integer)))
+      (assert
+        value: (boolean_negation
+          (identifier)))
+      (assert
+        value: (binary_expression
+          left: (block
+            (integer)
+            (integer))
+          right: (integer)))
+      (assert
+        value: (function_call
+          function: (field_access
+            record: (identifier)
+            field: (label))
           arguments: (arguments
             (argument
-              value: (integer)))))
-      (assert
-        pattern: (identifier)
-        value: (block
-          (binary_expression
-            left: (integer)
-            right: (integer))
-          (string
-            (quoted_content))))
-      (assert
-        pattern: (identifier)
-        value: (identifier))
-      (assert
-        pattern: (tuple_pattern
-          (identifier)
-          (discard))
-        value: (tuple
-          (integer)
-          (integer)))))
+              value: (record
+                name: (constructor_name)
+                arguments: (arguments
+                  (argument
+                    value: (integer))))))))))
   (function
     name: (identifier)
     parameters: (function_parameters

@@ -277,7 +277,7 @@ module.exports = grammar({
       seq(field("label", $.label), field("name", $.identifier)),
     _name_param: ($) => field("name", $.identifier),
     _statement_seq: ($) => repeat1($._statement),
-    _statement: ($) => choice($._expression, $.let, $.let_assert, $.use),
+    _statement: ($) => choice($._expression, $.let, $.let_assert, $.use, $.assert),
     _expression: ($) => choice($._expression_unit, $.binary_expression),
     binary_expression: ($) =>
       choice(
@@ -337,7 +337,6 @@ module.exports = grammar({
         $.anonymous_function,
         $.block,
         $.case,
-        $.assert,
         $.boolean_negation,
         $.integer_negation,
         $.record_update,
@@ -491,6 +490,12 @@ module.exports = grammar({
         $._assignment,
         optional(seq("as", field("message", $._expression)))
       ),
+    assert: ($) =>
+      seq(
+        "assert",
+        field("value", $._expression),
+        optional(seq("as", field("message", $._expression)))
+      ),
     let: ($) => seq("let", $._assignment),
     use: ($) =>
       seq(
@@ -501,7 +506,6 @@ module.exports = grammar({
       ),
     use_assignments: ($) => series_of($.use_assignment, ","),
     use_assignment: ($) => seq($._pattern, optional($._type_annotation)),
-    assert: ($) => seq("assert", $._assignment),
     boolean_negation: ($) => seq("!", $._expression_unit),
     integer_negation: ($) => seq("-", $._expression_unit),
     _assignment: ($) =>
