@@ -277,7 +277,8 @@ module.exports = grammar({
       seq(field("label", $.label), field("name", $.identifier)),
     _name_param: ($) => field("name", $.identifier),
     _statement_seq: ($) => repeat1($._statement),
-    _statement: ($) => choice($._expression, $.let, $.let_assert, $.use, $.assert),
+    _statement: ($) =>
+      choice($._expression, $.let, $.let_assert, $.use, $.assert),
     _expression: ($) => choice($._expression_unit, $.binary_expression),
     binary_expression: ($) =>
       choice(
