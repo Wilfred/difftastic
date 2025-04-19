@@ -74,10 +74,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -188,42 +184,48 @@
     "type": "assert",
     "named": true,
     "fields": {
-      "assign": {
-        "multiple": true,
+      "message": {
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "as",
-            "named": false
-          },
-          {
-            "type": "identifier",
+            "type": "anonymous_function",
             "named": true
-          }
-        ]
-      },
-      "pattern": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "as",
-            "named": false
           },
           {
             "type": "binary_expression",
             "named": true
           },
           {
-            "type": "bit_string_pattern",
+            "type": "bit_string",
             "named": true
           },
           {
-            "type": "discard",
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "echo",
+            "named": true
+          },
+          {
+            "type": "field_access",
             "named": true
           },
           {
             "type": "float",
+            "named": true
+          },
+          {
+            "type": "function_call",
             "named": true
           },
           {
@@ -235,11 +237,23 @@
             "named": true
           },
           {
-            "type": "list_pattern",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "record_pattern",
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "panic",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
             "named": true
           },
           {
@@ -247,33 +261,15 @@
             "named": true
           },
           {
-            "type": "tuple_pattern",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "function_type",
+            "type": "todo",
             "named": true
           },
           {
-            "type": "tuple_type",
+            "type": "tuple",
             "named": true
           },
           {
-            "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_hole",
-            "named": true
-          },
-          {
-            "type": "type_var",
+            "type": "tuple_access",
             "named": true
           }
         ]
@@ -284,10 +280,6 @@
         "types": [
           {
             "type": "anonymous_function",
-            "named": true
-          },
-          {
-            "type": "assert",
             "named": true
           },
           {
@@ -513,10 +505,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -737,10 +725,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -931,10 +915,6 @@
             "named": false
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -1048,10 +1028,6 @@
       "types": [
         {
           "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "assert",
           "named": true
         },
         {
@@ -1280,10 +1256,6 @@
           "named": true
         },
         {
-          "type": "assert",
-          "named": true
-        },
-        {
           "type": "bit_string",
           "named": true
         },
@@ -1418,10 +1390,6 @@
         "types": [
           {
             "type": "anonymous_function",
-            "named": true
-          },
-          {
-            "type": "assert",
             "named": true
           },
           {
@@ -1673,10 +1641,6 @@
       "types": [
         {
           "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "assert",
           "named": true
         },
         {
@@ -1970,10 +1934,6 @@
       "types": [
         {
           "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "assert",
           "named": true
         },
         {
@@ -2558,10 +2518,6 @@
           "named": true
         },
         {
-          "type": "assert",
-          "named": true
-        },
-        {
           "type": "bit_string",
           "named": true
         },
@@ -2748,10 +2704,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -2859,10 +2811,6 @@
         "types": [
           {
             "type": "anonymous_function",
-            "named": true
-          },
-          {
-            "type": "assert",
             "named": true
           },
           {
@@ -3032,10 +2980,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -3132,10 +3076,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -3224,10 +3164,6 @@
       "types": [
         {
           "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "assert",
           "named": true
         },
         {
@@ -3417,10 +3353,6 @@
         "types": [
           {
             "type": "anonymous_function",
-            "named": true
-          },
-          {
-            "type": "assert",
             "named": true
           },
           {
@@ -3713,10 +3645,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -3820,10 +3748,6 @@
         "types": [
           {
             "type": "anonymous_function",
-            "named": true
-          },
-          {
-            "type": "assert",
             "named": true
           },
           {
@@ -4215,10 +4139,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -4312,10 +4232,6 @@
       "types": [
         {
           "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "assert",
           "named": true
         },
         {
@@ -4828,10 +4744,6 @@
         "types": [
           {
             "type": "anonymous_function",
-            "named": true
-          },
-          {
-            "type": "assert",
             "named": true
           },
           {

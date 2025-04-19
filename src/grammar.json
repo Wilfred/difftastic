@@ -1981,6 +1981,10 @@
         {
           "type": "SYMBOL",
           "name": "use"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assert"
         }
       ]
     },
@@ -2833,10 +2837,6 @@
         {
           "type": "SYMBOL",
           "name": "case"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assert"
         },
         {
           "type": "SYMBOL",
@@ -4635,6 +4635,48 @@
         }
       ]
     },
+    "assert": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "assert"
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "as"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "message",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "let": {
       "type": "SEQ",
       "members": [
@@ -4740,19 +4782,6 @@
               "type": "BLANK"
             }
           ]
-        }
-      ]
-    },
-    "assert": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "assert"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_assignment"
         }
       ]
     },
