@@ -698,6 +698,7 @@ module.exports = grammar({
     data_constructors: ($) => repeat1($.data_constructor),
     data_constructor: ($) =>
       seq(
+        optional($.attribute),
         field("name", $.constructor_name),
         optional(field("arguments", $.data_constructor_arguments))
       ),
