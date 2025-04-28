@@ -280,7 +280,7 @@ When multiple overrides are specified, the first matching override wins."))
             Arg::new("byte-limit").long("byte-limit")
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
-                .help("Use a text diff if either input file exceeds this size.")
+                .help("Use a line-oriented diff if either input file exceeds this size.")
                 .default_value(format!("{}", DEFAULT_BYTE_LIMIT))
                 .env("DFT_BYTE_LIMIT")
                 .value_parser(clap::value_parser!(usize))
@@ -289,7 +289,7 @@ When multiple overrides are specified, the first matching override wins."))
         .arg(
             Arg::new("graph-limit").long("graph-limit")
                 .value_name("LIMIT")
-                .help("Use a text diff if the internal graph exceeds this number of vertices. This limit controls the worst case runtime and memory usage for difftastic.
+                .help("Use a line-oriented diff if the internal graph exceeds this number of vertices. This limit controls the worst case runtime and memory usage for difftastic.
 
 Higher values will allow difftastic to perform a structural diff in more cases. Higher values will also increase the time before difftastic gives up on structural diffing, and increase peak memory usage.")
                 .default_value(format!("{}", DEFAULT_GRAPH_LIMIT))
@@ -302,7 +302,7 @@ Higher values will allow difftastic to perform a structural diff in more cases. 
             Arg::new("parse-error-limit").long("parse-error-limit")
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
-                .help("Use a text diff if the number of parse errors exceeds this value.")
+                .help("Use a line-oriented diff if the number of parse errors exceeds this value.")
                 .default_value(format!("{}", DEFAULT_PARSE_ERROR_LIMIT))
                 .env("DFT_PARSE_ERROR_LIMIT")
                 .value_parser(clap::value_parser!(usize))

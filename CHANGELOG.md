@@ -291,7 +291,7 @@ types.
 ### Diffing
 
 Fixed an issue where adding or removing blank lines would be ignored
-by the textual diffing logic.
+by the line-oriented diffing logic.
 
 Directory diffing now respects `.gitignore` files.
 
@@ -512,8 +512,8 @@ UTF-16. Many files can be decoded as UTF-16 without decoding errors
 but produce nonsense results, so this heuristic seems to work better.
 
 Fixed an issue where difftastic would discard the last newline in a
-file before diffing. This was most noticeable when doing textual diffs
-and the last line had changed.
+file before diffing. This was most noticeable when doing line-oriented
+diffs and the last line had changed.
 
 ### Display
 
@@ -543,12 +543,12 @@ Added support for Newick and Racket.
 
 ### Diffing
 
-Difftastic now uses a textual diff on files that have any parse
+Difftastic now uses a line-oriented diff on files that have any parse
 errors. The parse error limit defaults to 0, but it is configurable
 with `DFT_PARSE_ERROR_LIMIT` or `--parse-error-limit`.
 
-Textual diffing now respects `--check-only`, consistent with syntactic
-diffing.
+Line-oriented diffing now respects `--check-only`, consistent with
+structural diffing.
 
 ### Display
 
@@ -603,13 +603,13 @@ Improved CSS parsing and HTML sublanguage parsing.
 
 Added an `--ignore-comments` option.
 
-Improved textual diffing performance, particularly when the two files
-have few lines in common.
+Improved line-oriented diffing performance, particularly when the two
+files have few lines in common.
 
 ### Display
 
-Fixed an issue with unwanted underlines with textual diffing when
-DFT_BYTE_LIMIT is reached.
+Fixed an issue with unwanted underlines with line-oriented diffing
+when DFT_BYTE_LIMIT is reached.
 
 Fixed a crash in inline display when the file ends with whitespace.
 
@@ -640,8 +640,8 @@ constituents.
 
 `--display=inline` now respects `--tab-width`.
 
-Fixed an issue with unwanted underlines with textual diffing when
-DFT_GRAPH_LIMIT is reached.
+Fixed an issue with unwanted underlines with line-oriented diffing
+when DFT_GRAPH_LIMIT is reached.
 
 Improved syntax highlighting for predefined types in TypeScript.
 
@@ -1241,9 +1241,9 @@ Fixed a crash when line wrapping produced an entirely blank line.
 
 ### Diffing
 
-Improved word diffing (in both comments and textual diffs) when source
-contains Unicode characters. Word splitting now uses the Unicode
-alphabetic property.
+Improved word diffing (in both comments and line-oriented diffs) when
+the source contains Unicode characters. Word splitting now uses the
+Unicode alphabetic property.
 
 Fixed a crash when comments contained multibyte Unicode characters.
 
@@ -1308,12 +1308,12 @@ Improved minor display issues when one file is longer than the other.
 If given binary files, difftastic will now report if the file contents
 are identical.
 
-Difftastic will now use a text diff for large files, rather than
-trying to use more memory than is available. This threshold is
+Difftastic will now use a line-oriented diff for large files, rather
+than trying to use more memory than is available. This threshold is
 configurable with `--node-limit` and `DFT_NODE_LIMIT`.
 
-Fixed a bug in the text diff logic where lines weren't shown if they
-did not have both word additions and word removals.
+Fixed a bug in the line-oriented diff logic where lines weren't shown
+if they did not have both word additions and word removals.
 
 ### Command Line Interface
 
@@ -1433,9 +1433,9 @@ Fixed a parsing performance regression introduced in 0.13.
 
 ### Diffing
 
-Text diffing now has a standalone implementation rather than reusing
-structural diff logic. This is significantly faster and highlighted
-better.
+Line-oriented diffing now has a standalone implementation rather than
+reusing structural diff logic. This is significantly faster and
+highlighted better.
 
 Improved performance when diffing two identical files. This is common
 when diffing directories.

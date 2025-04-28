@@ -99,8 +99,8 @@ favourite tool, and I will link it in the README!
 
 ### What about parse errors?
 
-By default, difftastic falls back to a line-oriented text diff
-whenever parse errors are encountered.
+By default, difftastic falls back to a line-oriented diff whenever
+parse errors are encountered.
 
 This is a conservative choice to ensure that difftastic never claims
 two syntactically different files are the same.

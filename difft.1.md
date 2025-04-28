@@ -35,7 +35,7 @@ OPTIONS
 
 **\-\-byte-limit** _LIMIT_
 
-: Use a text diff if either input file exceeds this size.
+: Use a line-oriented diff if either input file exceeds this size.
 
 **\-\-check-only**
 
@@ -71,7 +71,7 @@ OPTIONS
 
 **\-\-graph-limit** _LIMIT_
 
-: Use a text diff if the structural graph exceed this number of nodes in memory.
+: Use a line-oriented diff if the structural graph exceed this number of nodes in memory.
 
 **-h, \-\-help**
 
@@ -111,7 +111,7 @@ OPTIONS
 
 **\-\-parse-error-limit** _LIMIT_
 
-: Use a text diff if the number of parse errors exceeds this value.
+: Use a line-oriented diff if the number of parse errors exceeds this value.
 
 **\-\-skip-unchanged**
 

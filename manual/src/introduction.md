@@ -52,15 +52,15 @@ A line-oriented diff does a much worse job here.
 </code>
 </pre>
 
-Some textual diff tools also highlight word changes (e.g. GitHub or
-git's `--word-diff`). They still don't understand the code
+Some line-oriented diff tools also highlight word changes (e.g. GitHub
+or git's `--word-diff`). They still don't understand the code
 though. Difftastic will always find matched delimiters: you can see
 the closing `)` from `or_else` has been highlighted.
 
-## Fallback Textual Diffing
+## Fallback Line-Oriented Diffing
 
 If input files are not in a format that difftastic understands, it
-uses a conventional line-oriented text diff with word highlighting.
+uses a conventional line-oriented diff with word highlighting.
 
-Difftastic will also use textual diffing when given extremely large
-inputs.
+Difftastic will also use line-oriented diffing when given extremely
+large inputs.

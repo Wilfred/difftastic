@@ -107,8 +107,9 @@ fn line_len_in_bytes(line: &str) -> usize {
     }
 }
 
-/// Build a vec of MatchedPos, performing a textual diff. Match up
-/// unchanged lines, and match up unchanged words within novel lines.
+/// Build a vec of MatchedPos, performing a line-oriented diff. Match
+/// up unchanged lines, and match up unchanged words within novel
+/// lines.
 ///
 /// The resulting vec only has novel items from the LHS. Callers
 /// should do `change_positions(rhs_src, lhs_src)` to obtain
