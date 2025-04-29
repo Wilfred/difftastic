@@ -256,8 +256,8 @@ module.exports = grammar({
           choice(
             seq(field("set", $.set_body), optional(field("get", $.get_body))),
             seq(field("get", $.get_body), optional(field("set", $.set_body))),
-            seq($._set_assign, ",", $._get_assign),
-            seq($._get_assign, ",", $._set_assign)
+            seq($._set_assign, optional(seq(",", $._get_assign))),
+            seq($._get_assign, optional(seq(",", $._set_assign)))
           ),
           $._dedent
         )

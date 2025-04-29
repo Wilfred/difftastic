@@ -1,0 +1,26 @@
+============================================
+Setget parse failure
+============================================
+
+var is_active = true:
+	set = set_is_active
+
+@onready var _state = initial_state:
+	set = set_state
+
+---
+
+(source
+  (variable_statement
+    name: (name)
+    value: (true)
+    setget: (setget
+      set: (setter)))
+  (variable_statement
+    (annotations
+      (annotation
+        (identifier)))
+    name: (name)
+    value: (identifier)
+    setget: (setget
+      set: (setter))))
