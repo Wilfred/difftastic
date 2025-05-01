@@ -563,6 +563,7 @@ module.exports = grammar({
         ["-", PREC.plus],
         ["*", PREC.times],
         ["/", PREC.times],
+        ["**", PREC.times],
         ["%", PREC.times],
         ["|", PREC.bitwise_or],
         ["&", PREC.bitwise_and],
@@ -646,7 +647,7 @@ module.exports = grammar({
     augmented_assignment: ($) =>
       seq(
         field("left", $._expression),
-        choice("+=", "-=", "*=", "/=", "%=", ">>=", "<<=", "&=", "^=", "|="),
+        choice("+=", "-=", "*=", "/=", "**=", "%=", ">>=", "<<=", "&=", "^=", "|="),
         field("right", $._rhs_expression)
       ),
 

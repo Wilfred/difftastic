@@ -5,6 +5,7 @@ Math Expressions
 1 + x + 1
 0xDEAD * x / 0.01
 0xDEAD * (x / 0.01)
+2 ** 4
 
 ---
 
@@ -15,7 +16,9 @@ Math Expressions
     (binary_operator (binary_operator (integer) (identifier)) (float)))
   (expression_statement
     (binary_operator (integer) (parenthesized_expression
-      (binary_operator (identifier) (float))))))
+      (binary_operator (identifier) (float)))))
+  (expression_statement
+    (binary_operator (integer) (integer))))
 
 =====================================
 Operators Boolean
@@ -292,6 +295,21 @@ var x = 1 + x + 1
 (source
   (variable_statement (name)
       (binary_operator (binary_operator (integer) (identifier)) (integer))))
+
+=====================================
+Augmented Assignment
+=====================================
+
+x += 1
+x **= 2.0
+
+---
+
+(source
+  (expression_statement
+    (augmented_assignment (identifier) (integer)))
+  (expression_statement
+    (augmented_assignment (identifier) (float))))
 
 =====================================
 Variables Remote
