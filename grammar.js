@@ -90,7 +90,6 @@ module.exports = grammar({
     true: ($) => "true",
     false: ($) => "false",
     null: ($) => "null",
-    underscore: ($) => "_",
     static_keyword: ($) => "static",
     remote_keyword: ($) =>
       choice(
@@ -457,7 +456,6 @@ module.exports = grammar({
         $.pattern_dictionary,
         $.pattern_binding,
         $.identifier,
-        $.underscore,
         $.string,
         $.integer,
         $.float,

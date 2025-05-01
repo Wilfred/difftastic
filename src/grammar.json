@@ -50,10 +50,6 @@
       "type": "STRING",
       "value": "null"
     },
-    "underscore": {
-      "type": "STRING",
-      "value": "_"
-    },
     "static_keyword": {
       "type": "STRING",
       "value": "static"
@@ -2172,10 +2168,6 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "underscore"
         },
         {
           "type": "SYMBOL",

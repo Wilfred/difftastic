@@ -194,10 +194,6 @@
       {
         "type": "true",
         "named": true
-      },
-      {
-        "type": "underscore",
-        "named": true
       }
     ]
   },
@@ -655,7 +651,7 @@
   },
   {
     "type": "body",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": true,
@@ -2560,10 +2556,6 @@
   },
   {
     "type": "true",
-    "named": true
-  },
-  {
-    "type": "underscore",
     "named": true
   },
   {

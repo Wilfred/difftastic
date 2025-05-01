@@ -15,7 +15,7 @@ match x:
 (source
   (match_statement (identifier) (match_body
     (pattern_section (integer) (body (pass_statement)))
-    (pattern_section (underscore) (body (pass_statement)))
+    (pattern_section (identifier) (body (pass_statement)))
     (pattern_section (identifier) (body (pass_statement)))
     (pattern_section (pattern_binding (identifier)) (body (pass_statement)))
   )))
@@ -33,7 +33,7 @@ match x:
 
 (source
   (match_statement (identifier) (match_body
-    (pattern_section (underscore) (body (pass_statement)))
+    (pattern_section (identifier) (body (pass_statement)))
     (pattern_section (integer) (integer) (integer)
       (body (pass_statement)))
   )))
@@ -59,7 +59,7 @@ match x:
       (pattern_array (integer) (integer) (string) (null))
       (body (pass_statement)))
     (pattern_section
-      (pattern_array (pattern_binding (identifier)) (underscore))
+      (pattern_array (pattern_binding (identifier)) (identifier))
       (body (pass_statement)))
     (pattern_section
       (pattern_array (integer) (pattern_open_ending))
