@@ -450,11 +450,7 @@ module.exports = grammar({
         field("body", $.body)
       ),
 
-    _pattern: ($) =>
-      choice(
-        $._primary_expression,
-        $.pattern_binding
-      ),
+    _pattern: ($) => choice($._primary_expression, $.pattern_binding),
 
     // Rather than creating distinct pattern array, dictionary, and expression
     // rules, we insert $.pattern_binding and $.pattern_open_ending into the
@@ -624,7 +620,19 @@ module.exports = grammar({
     augmented_assignment: ($) =>
       seq(
         field("left", $._expression),
-        choice("+=", "-=", "*=", "/=", "**=", "%=", ">>=", "<<=", "&=", "^=", "|="),
+        choice(
+          "+=",
+          "-=",
+          "*=",
+          "/=",
+          "**=",
+          "%=",
+          ">>=",
+          "<<=",
+          "&=",
+          "^=",
+          "|="
+        ),
         field("right", $._rhs_expression)
       ),
 
@@ -641,9 +649,21 @@ module.exports = grammar({
         field("value", choice($._rhs_expression, $.pattern_binding))
       ),
 
-    dictionary: ($) => seq("{", optional(trailCommaSep1($.pair)), optional($.pattern_open_ending), "}"),
+    dictionary: ($) =>
+      seq(
+        "{",
+        optional(trailCommaSep1($.pair)),
+        optional($.pattern_open_ending),
+        "}"
+      ),
 
-    array: ($) => seq("[", optional(trailCommaSep1(choice($._rhs_expression, $.pattern_binding))), optional($.pattern_open_ending), "]"),
+    array: ($) =>
+      seq(
+        "[",
+        optional(trailCommaSep1(choice($._rhs_expression, $.pattern_binding))),
+        optional($.pattern_open_ending),
+        "]"
+      ),
 
     // -----------------------------------------------------------------------------
     // -                              Function Definition                          -
