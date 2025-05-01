@@ -54,15 +54,15 @@ match x:
 
 (source
   (match_statement (identifier) (match_body
-    (pattern_section (pattern_array) (body (pass_statement)))
+    (pattern_section (array) (body (pass_statement)))
     (pattern_section
-      (pattern_array (integer) (integer) (string) (null))
+      (array (integer) (integer) (string) (null))
       (body (pass_statement)))
     (pattern_section
-      (pattern_array (pattern_binding (identifier)) (identifier))
+      (array (pattern_binding (identifier)) (identifier))
       (body (pass_statement)))
     (pattern_section
-      (pattern_array (integer) (pattern_open_ending))
+      (array (integer) (pattern_open_ending))
       (body (pass_statement)))
   )))
 
@@ -80,19 +80,54 @@ match x:
 
 (source
   (match_statement (identifier) (match_body
-    (pattern_section (pattern_dictionary) (body (pass_statement)))
+    (pattern_section (dictionary) (body (pass_statement)))
     (pattern_section
-      (pattern_dictionary (pattern_pair (string) (string)))
+      (dictionary (pair (string) (string)))
       (body (pass_statement)))
     (pattern_section
-      (pattern_dictionary
-        (pattern_pair (string) (string))
-        (pattern_pair (string) (pattern_binding (identifier))))
+      (dictionary
+        (pair (string) (string))
+        (pair (string) (pattern_binding (identifier))))
       (body (pass_statement)))
     (pattern_section
-      (pattern_dictionary
-        (pattern_pair (string) (string))
+      (dictionary
+        (pair (string) (string))
         (pattern_open_ending))
       (body (pass_statement)))
   )))
 
+=====================================
+Expressions
+=====================================
+
+match x:
+  Hello.World: pass
+  Hello.World(): pass
+  function(): pass
+  Color().a: pass
+  [var hello, _, ..]: pass
+
+---
+
+(source
+  (match_statement (identifier) (match_body
+    (pattern_section
+      (attribute (identifier) (identifier))
+      (body (pass_statement)))
+    (pattern_section
+      (attribute (identifier) (attribute_call (identifier) (arguments)))
+        (body (pass_statement)))
+    (pattern_section
+      (call (identifier) (arguments))
+      (body (pass_statement)))
+    (pattern_section
+      (attribute
+        (call (identifier) (arguments))
+        (identifier))
+      (body (pass_statement)))
+    (pattern_section
+      (array
+        (pattern_binding (identifier))
+        (identifier)
+        (pattern_open_ending))
+      (body (pass_statement))))))

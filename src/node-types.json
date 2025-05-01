@@ -156,43 +156,11 @@
     "named": true,
     "subtypes": [
       {
-        "type": "false",
-        "named": true
-      },
-      {
-        "type": "float",
-        "named": true
-      },
-      {
-        "type": "identifier",
-        "named": true
-      },
-      {
-        "type": "integer",
-        "named": true
-      },
-      {
-        "type": "null",
-        "named": true
-      },
-      {
-        "type": "pattern_array",
+        "type": "_primary_expression",
         "named": true
       },
       {
         "type": "pattern_binding",
-        "named": true
-      },
-      {
-        "type": "pattern_dictionary",
-        "named": true
-      },
-      {
-        "type": "string",
-        "named": true
-      },
-      {
-        "type": "true",
         "named": true
       }
     ]
@@ -361,6 +329,14 @@
         },
         {
           "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "pattern_binding",
+          "named": true
+        },
+        {
+          "type": "pattern_open_ending",
           "named": true
         }
       ]
@@ -960,6 +936,10 @@
       "types": [
         {
           "type": "pair",
+          "named": true
+        },
+        {
+          "type": "pattern_open_ending",
           "named": true
         }
       ]
@@ -1589,6 +1569,10 @@
           {
             "type": "lambda",
             "named": true
+          },
+          {
+            "type": "pattern_binding",
+            "named": true
           }
         ]
       }
@@ -1634,25 +1618,6 @@
     "fields": {}
   },
   {
-    "type": "pattern_array",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "_pattern",
-          "named": true
-        },
-        {
-          "type": "pattern_open_ending",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "pattern_binding",
     "named": true,
     "fields": {},
@@ -1662,25 +1627,6 @@
       "types": [
         {
           "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "pattern_dictionary",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "pattern_open_ending",
-          "named": true
-        },
-        {
-          "type": "pattern_pair",
           "named": true
         }
       ]
@@ -1699,32 +1645,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "pattern_pair",
-    "named": true,
-    "fields": {
-      "key": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_pattern",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {

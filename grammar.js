@@ -452,38 +452,17 @@ module.exports = grammar({
 
     _pattern: ($) =>
       choice(
-        $.pattern_array,
-        $.pattern_dictionary,
-        $.pattern_binding,
-        $.identifier,
-        $.string,
-        $.integer,
-        $.float,
-        $.true,
-        $.false,
-        $.null
+        $._primary_expression,
+        $.pattern_binding
       ),
 
+    // Rather than creating distinct pattern array, dictionary, and expression
+    // rules, we insert $.pattern_binding and $.pattern_open_ending into the
+    // $.array and $.dictionary rules. Although, they are only valid in the
+    // context of a pattern, this keeps the grammar simpler and allows us to
+    // have arbitrary expressions in patterns.
     pattern_binding: ($) => seq("var", $.identifier),
-
     pattern_open_ending: ($) => "..",
-
-    pattern_array: ($) =>
-      seq(
-        "[",
-        optional(commaSep1(choice($._pattern, $.pattern_open_ending))),
-        "]"
-      ),
-
-    pattern_dictionary: ($) =>
-      seq(
-        "{",
-        optional(commaSep1(choice($.pattern_pair, $.pattern_open_ending))),
-        "}"
-      ),
-
-    pattern_pair: ($) =>
-      seq(field("key", $._expression), ":", field("value", $._pattern)),
 
     // -----------------------------------------------------------------------------
     // -                                  Expressions                              -
@@ -659,12 +638,12 @@ module.exports = grammar({
           seq(field("key", $._rhs_expression), ":"), // Lambdas are allowed here.
           seq(field("key", $.identifier), "=")
         ),
-        field("value", $._rhs_expression)
+        field("value", choice($._rhs_expression, $.pattern_binding))
       ),
 
-    dictionary: ($) => seq("{", optional(trailCommaSep1($.pair)), "}"),
+    dictionary: ($) => seq("{", optional(trailCommaSep1($.pair)), optional($.pattern_open_ending), "}"),
 
-    array: ($) => seq("[", optional(trailCommaSep1($._rhs_expression)), "]"),
+    array: ($) => seq("[", optional(trailCommaSep1(choice($._rhs_expression, $.pattern_binding))), optional($.pattern_open_ending), "]"),
 
     // -----------------------------------------------------------------------------
     // -                              Function Definition                          -
