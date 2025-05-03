@@ -1,0 +1,20 @@
+=====================================
+Generic type arguments can accept call syntax #9
+=====================================
+
+[node name="Node" type="Node"]
+property/0/index = Array[ExtResource("2_k17ep")]([SubResource("Resource_ji6et")])
+
+---
+
+(resource
+  (section
+    (identifier)
+    (attribute (identifier) (string))
+    (attribute (identifier) (string))
+    (property (path)
+      (constructor
+        (identifier)
+        (constructor (identifier) (arguments (string)))
+        (arguments (array (constructor (identifier) (arguments (string)))))
+        ))))

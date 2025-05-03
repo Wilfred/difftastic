@@ -154,6 +154,32 @@ a = Constructor( 1 )
         (arguments (integer))))))
 
 =====================================
+Constructor Generic Type Arguments
+=====================================
+
+[id]
+b = Constructor[TypeArg1]()
+c = Constructor[TypeArg1, TypeArgC(1)]("value")
+
+---
+
+(resource
+  (section (identifier)
+    (property (path)
+      (constructor
+        (identifier)
+        (identifier)
+        (arguments)))
+    (property (path)
+      (constructor
+        (identifier)
+        (identifier)
+        (constructor
+          (identifier)
+          (arguments (integer)))
+        (arguments (string))))))
+
+=====================================
 Underscore Property
 =====================================
 

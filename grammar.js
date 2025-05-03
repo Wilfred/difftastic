@@ -107,12 +107,11 @@ module.exports = grammar({
     arguments: ($) =>
       seq("(", optional(commaSep1(choice($._value, $.pair))), ")"),
 
-    // Generic type arguments are parsed as additional identifiers in the
-    // constructor node.
-    // This is a temporary fix.
-    _typeArgs: ($) => seq("[", commaSep1($.identifier), "]"),
+    // Generic type arguments are parsed as arbitrary values.
+    // I haven't seen attributes, e.g. "Type.SubType", in the wild. Not sure if resources parse them.
+    _type_args: ($) => seq("[", commaSep1($._value), "]"),
     constructor: ($) =>
-      prec.right(1, seq($.identifier, optional($._typeArgs), $.arguments)),
+      prec.right(1, seq($.identifier, optional($._type_args), $.arguments)),
   }, // end rules
 });
 

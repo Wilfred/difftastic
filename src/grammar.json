@@ -605,7 +605,7 @@
         }
       ]
     },
-    "_typeArgs": {
+    "_type_args": {
       "type": "SEQ",
       "members": [
         {
@@ -617,7 +617,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "_value"
             },
             {
               "type": "REPEAT",
@@ -630,7 +630,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "_value"
                   }
                 ]
               }
@@ -658,7 +658,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_typeArgs"
+                "name": "_type_args"
               },
               {
                 "type": "BLANK"
