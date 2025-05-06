@@ -287,6 +287,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "*.gltf",
             "*.har",
             "*.ice",
+            "*.ipynb",
             "*.JSON-tmLanguage",
             "*.jsonl",
             "*.mcmeta",
