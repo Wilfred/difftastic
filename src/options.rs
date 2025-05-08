@@ -228,7 +228,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
                 .value_parser(["on", "off"])
                 .default_value("on")
                 .action(ArgAction::Set)
-                .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or mutiline text (e.g. in HTML) to differ if the two input files have different line endings.")
+                .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or multiline text (e.g. in HTML) to differ if the two input files have different line endings.")
         )
         .arg(
             Arg::new("check-only").long("check-only")
