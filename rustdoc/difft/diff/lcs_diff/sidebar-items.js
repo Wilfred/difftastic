@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DiffResult"],"fn":["slice","slice_by_hash","slice_unique_by_hash"]};
