@@ -3,6 +3,7 @@
 - [Introduction](./introduction.md)
 - [Installation](./installation.md)
   - [From Source](./from_source.md)
+  - [Packaging Difftastic](./packaging_difftastic.md)
 - [Usage](./usage.md)
   - [Git](./git.md)
   - [Mercurial](./mercurial.md)
