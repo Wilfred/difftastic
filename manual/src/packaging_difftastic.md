@@ -3,7 +3,7 @@
 This page contains recommendations for people creating a difftastic
 package.
 
-Note that the difftastic author only provides the source code and
+Note that the difftastic author only provides the source code and the
 prebuilt binaries on GitHub. Packages have been created by other
 people -- thank you!
 
@@ -47,8 +47,8 @@ database package, if available.
 Difftastic respects the [XDG base
 specification](https://specifications.freedesktop.org/basedir-spec/latest/index.html#basics)
 to find the MIME database files. These files are typically at
-`/usr/share/mime`, `/usr/local/share/mime` or
-`/opt/homebrew/share/mime`.
+`/usr/share/mime/`, `/usr/local/share/mime/` or
+`/opt/homebrew/share/mime/`.
 
 ## Man Page
 
@@ -61,14 +61,36 @@ is included in the repository for convenience.
 ## The Manual
 
 Please consider including the difftastic manual with your
-package. These are HTML files that can be generated with `mdbook`.
+package. These are HTML files that can be generated with `mdbook`. The
+following command generates HTML at `manual/book/`.
+
+```
+$ cd manual
+$ mdbook build
+```
+
+`manual/book.toml` also references a script
+`replace_version_placeholder.sh` that replaces occurrences of
+`DFT_VERSION_HERE` in the manual. For packaging, it may be easier to
+remove the configuration from `book.toml` and replace the text
+directly.
+
+```diff
+-[preprocessor.replace-version-placeholder]
+-command = "./replace_version_placeholder.sh"
+```
+
+```
+$ export CURRENTVERSION="7.8.9"
+$ sed -i "s/DFT_VERSION_HERE/$CURRENTVERSION/g" -i src/introduction.md
+```
 
 ## Testing
 
 If your packaging tool supports testing, consider running the
 difftastic unit tests.
 
-```bash
+```
 # Run the normal tests.
 $ cargo test
 
