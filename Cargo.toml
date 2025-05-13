@@ -56,7 +56,7 @@ ignore = ">= 0.4, < 0.4.24"
 owo-colors = "3.5.0"
 wu-diff = "0.1.2"
 rayon = "1.7.0"
-tree_magic_mini = "3.1.5"
+tree_magic_mini = "3.1.6"
 
 bumpalo = "3.16.0"
 unicode-width = "0.1.9"
