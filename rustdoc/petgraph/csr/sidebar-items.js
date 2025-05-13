@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["Csr","EdgeReference","EdgeReferences","Edges","EdgesNotSorted","Neighbors","NodeIdentifiers","NodeReferences"],"type":["EdgeIndex","NodeIndex"]};
