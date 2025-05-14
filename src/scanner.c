@@ -492,6 +492,12 @@ void *tree_sitter_gdscript_external_scanner_create() {
     assert(sizeof(Delimiter) == sizeof(char));
 #endif
     Scanner *scanner = calloc(1, sizeof(Scanner));
+    if (!scanner) {
+        // What is the tree-sitter idiomatic way to handle this?
+        // fprintf(stderr, "Failed to allocate memory for scanner\n");
+        return NULL;
+    }
+
     scanner->indents = calloc(1, sizeof(indent_vec));
     scanner->delimiters = calloc(1, sizeof(delimiter_vec));
     tree_sitter_gdscript_external_scanner_deserialize(scanner, NULL, 0);
