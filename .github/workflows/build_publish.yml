@@ -30,9 +30,11 @@ jobs:
       # Should I always explicitly run npm i tree-sitter? The general consensus is yes.
       # But then, why does it install peer deps sometimes?
       - run: |
-          npm run versions
+          node --version
+          npm --version
           npm ci --include=peer --include=optional --include=dev
           npm i tree-sitter
+          npm run ts --version
       - run: npm test
       - run: npm run prebuild
       # upload-artifact@v4 requires each artifact name to be unique.
@@ -52,7 +54,8 @@ jobs:
         with:
           node-version: lts/*
       - run: |
-          npm run versions
+          node --version
+          npm --version
           npm ci
       # Download all artifacts and merge into prebuilds dir.
       - uses: actions/download-artifact@v4

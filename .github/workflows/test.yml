@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: lts/*
       - run: |
-          npm run versions
+          node --version
+          npm --version
           npm ci --include=dev --include=optional --include=peer
-          npm i tree-sitter
       - run: npm test
