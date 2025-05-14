@@ -17,5 +17,5 @@ jobs:
           node-version: lts/*
       - run: |
           npm run versions
-          npm ci
+          npm ci --include=dev --include=optional --include=peer
       - run: npm test
