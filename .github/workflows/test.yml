@@ -18,4 +18,5 @@ jobs:
       - run: |
           npm run versions
           npm ci --include=dev --include=optional --include=peer
+          npm i tree-sitter
       - run: npm test
