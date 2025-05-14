@@ -2,7 +2,9 @@ name: Test
 
 on:
   push:
-    branches: [ master ]
+    paths:
+      - 'grammar.js'
+      - 'corpus/**'
   workflow_dispatch:
 
 jobs:
@@ -12,13 +14,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-
-      - name: Install Package
-        run: |
+          node-version: lts/*
+      - run: |
           node --version
           npm --version
-          npm ci
-
-      - name: Test
-        run: npm test
+      - run: npm ci --include=dev --include=optional --include=peer
+      - run: npm test
