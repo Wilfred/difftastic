@@ -24,13 +24,13 @@
     "*.wasm"
   ],
   "dependencies": {
-    "node-addon-api": "^8.2.1",
-    "node-gyp-build": "^4.8.2"
+    "node-addon-api": "^8.3.1",
+    "node-gyp-build": "^4.8.4"
   },
   "devDependencies": {
     "prebuildify": "^6.0.1",
-    "prettier": "^2.8.1",
-    "tree-sitter-cli": "^0.24.6"
+    "prettier": "^2.8.8",
+    "tree-sitter-cli": "^0.24.7"
   },
   "peerDependencies": {
     "tree-sitter": "^0.21.1"
@@ -45,10 +45,11 @@
     "prebuild": "prebuildify --strip -t electron@32.2.6 -t v20.18.1",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
-    "test": "tree-sitter --version && tree-sitter test && node --test bindings/node/*_test.js",
-    "generate": "tree-sitter --version && tree-sitter generate",
-    "genTest": "tree-sitter --version && tree-sitter generate && tree-sitter test && node --test bindings/node/*_test.js",
-    "parse": "tree-sitter --version && tree-sitter parse",
+    "versions": "node --version && npm --version && tree-sitter --version",
+    "test": "tree-sitter test && node --test bindings/node/*_test.js",
+    "generate": "tree-sitter generate",
+    "genTest": "tree-sitter generate && npm test",
+    "parse": "tree-sitter parse",
     "format": "prettier -w grammar.js package.json && prettier -w --parser json binding.gyp"
   }
 }
