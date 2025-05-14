@@ -42,7 +42,7 @@
   },
   "scripts": {
     "install": "node-gyp-build",
-    "prebuild": "prebuildify --strip -t electron@32.2.6 -t v20.18.1",
+    "prebuild": "prebuildify --strip -t electron@34.5.5 -t electron@35.3.0 -t electron@36.2.0 -t v20.19.1 -t v22.15.0 -t v23.11.0 -t v24.0.1",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "versions": "node --version && npm --version && tree-sitter --version",
