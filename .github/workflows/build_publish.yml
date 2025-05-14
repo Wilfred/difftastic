@@ -53,6 +53,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          # https://docs.github.com/en/actions/use-cases-and-examples/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
+          # https://github.com/actions/setup-node/issues/342
+          # This is required to publish to npm.
+          registry-url: 'https://registry.npmjs.org'
       - run: |
           node --version
           npm --version
