@@ -2,7 +2,10 @@
   "name": "tree-sitter-gdscript",
   "version": "5.0.0",
   "description": "Grammar for Godot's built-in scripting language.",
-  "repository": "https://github.com/prestonknopp/tree-sitter-gdscript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prestonknopp/tree-sitter-gdscript.git"
+  },
   "license": "MIT",
   "author": "Preston Knopp",
   "main": "bindings/node",
