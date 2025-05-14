@@ -11,7 +11,7 @@
     }
   ],
   "metadata": {
-    "version": "5.0.0",
+    "version": "5.0.1",
     "license": "MIT",
     "description": "Grammar for Godot's built-in scripting language.",
     "authors": [
