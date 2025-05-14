@@ -448,7 +448,7 @@ unsigned tree_sitter_gdscript_external_scanner_serialize(void *payload,
     }
     size += delimiter_count;
 
-    for (int iter = 1; iter < scanner->indents->len &&
+    for (int iter = 1; (uint32_t)iter < scanner->indents->len &&
                        size < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
          ++iter) {
         buffer[size++] = (char)scanner->indents->data[iter];
