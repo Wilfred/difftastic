@@ -36,8 +36,7 @@ git log --oneline --no-merges modules/gdscript
      - If commit is an issue fix, prefix message with `fix(#<issue-number>):`
      - List the rules changed in commit message.
      - Note what rules need to be updated in [nvim-treesitter][] queries.
-  1. Commit generated files separately.
-     - With commit message: "tree-sitter generate"
+  1. Commit generated files with the latest non-wip commit.
   1. Push
 - Release
   1. Manually edit version in package files: CMakeLists.txt, Cargo.toml,
