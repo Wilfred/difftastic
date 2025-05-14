@@ -32,9 +32,9 @@ jobs:
       - run: |
           node --version
           npm --version
-          npm ci --include=peer --include=optional --include=dev
-          npm i tree-sitter
-          npm run ts --version
+      - run: npm ci --include=peer --include=optional --include=dev
+      - run: npm i tree-sitter
+      - run: npm run versions
       - run: npm test
       - run: npm run prebuild
       # upload-artifact@v4 requires each artifact name to be unique.
@@ -56,7 +56,7 @@ jobs:
       - run: |
           node --version
           npm --version
-          npm ci
+      - run: npm ci
       # Download all artifacts and merge into prebuilds dir.
       - uses: actions/download-artifact@v4
         with:

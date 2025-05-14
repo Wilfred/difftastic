@@ -18,5 +18,5 @@ jobs:
       - run: |
           node --version
           npm --version
-          npm ci --include=dev --include=optional --include=peer
+      - run: npm ci --include=dev --include=optional --include=peer
       - run: npm test
