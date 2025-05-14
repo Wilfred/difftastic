@@ -50,6 +50,6 @@
     "generate": "tree-sitter generate",
     "genTest": "tree-sitter generate && npm test",
     "parse": "tree-sitter parse",
-    "format": "prettier -w grammar.js package.json && prettier -w --parser json binding.gyp"
+    "format": "prettier -w grammar.js package.json"
   }
 }
