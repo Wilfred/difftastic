@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tree-sitter-godot-resource"
 description = "Grammar for the Godot game engine's resource format."
-version = "0.6.1"
+version = "0.7.0"
 keywords = ["incremental", "parsing", "tree-sitter", "godot-resource"]
 classifiers = [
   "Intended Audience :: Developers",

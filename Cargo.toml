@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-godot-resource"
 description = "Grammar for the Godot game engine's resource format."
-version = "0.6.1"
+version = "0.7.0"
 authors = ["Preston Knopp"]
 license = "MIT"
 readme = "README.md"

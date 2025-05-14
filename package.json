@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-godot-resource",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Grammar for the Godot game engine's text resource format.",
   "repository": "https://github.com/prestonknopp/tree-sitter-godot-resource",
   "license": "MIT",
