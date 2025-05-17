@@ -4694,6 +4694,10 @@
         "required": false,
         "types": [
           {
+            "type": "constructor_name",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -4707,6 +4711,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "constructor_name",
+            "named": true
+          },
           {
             "type": "identifier",
             "named": true
