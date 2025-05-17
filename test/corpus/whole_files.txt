@@ -161,7 +161,7 @@ pub fn negate(bool: Bool) -> Bool {
     module: (module)
     imports: (unqualified_imports
       (unqualified_import
-        name: (type_identifier))))
+        name: (constructor_name))))
   (statement_comment)
   (statement_comment)
   (statement_comment)
@@ -234,7 +234,7 @@ fn foo(a,) {
     (module)
     (unqualified_imports
       (unqualified_import
-        (type_identifier))))
+        (constructor_name))))
   (constant
     (identifier)
     (tuple_type
