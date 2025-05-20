@@ -163,8 +163,16 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         // application/* is a mix of stuff, application/json is fine
         // but application/zip is binary that often decodes as valid
         // UTF-16.
+        //
+        // See
+        // <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types/Common_types>
+        // for a list of MIME types.
+        "application/x-bzip" => return ProbableFileKind::Binary,
+        "application/x-bzip2" => return ProbableFileKind::Binary,
+        "application/x-7zip-compressed" => return ProbableFileKind::Binary,
         "application/gzip" => return ProbableFileKind::Binary,
         "application/zip" => return ProbableFileKind::Binary,
+        "application/zstd" => return ProbableFileKind::Binary,
         // Treat all image content as binary.
         v if v.starts_with("image/") => return ProbableFileKind::Binary,
         // Treat all audio content as binary.
@@ -199,7 +207,7 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         .take(5000)
         .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
         .count();
-    if num_utf8_invalid <= 10 {
+    if num_utf8_invalid <= 2 {
         info!(
             "Input file is mostly valid UTF-8 (invalid characters: {})",
             num_utf8_invalid

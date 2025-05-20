@@ -5,6 +5,9 @@
 Updated to the latest tree-sitter parser for Erlang, F#, Pascal and
 Swift.
 
+File detection is now stricter for UTF-8, and recognises more
+compression file types as binary (e.g. zstd or bzip2).
+
 ### Build
 
 CI on GitHub now uses Ubuntu 22.04 for Linux builds (previously Ubuntu
