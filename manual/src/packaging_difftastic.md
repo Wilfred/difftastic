@@ -37,9 +37,9 @@ $ RAYON_NUM_THREADS=1 cargo build --release
 
 Difftastic depends on
 [tree_magic_mini](https://docs.rs/tree_magic_mini/latest/tree_magic_mini/),
-which access the MIME database on the current system. The MIME database is
-used to recognise file types, to ensure that binary files are not
-compared as text.
+which accesses the MIME database on the current system. The MIME
+database is used to recognise file types, so difftastic does not try
+to compoare binary files as text.
 
 This means that the difftastic package should depend on a MIME
 database package, if available.
