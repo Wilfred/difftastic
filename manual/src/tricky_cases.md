@@ -465,8 +465,8 @@ There's no guarantee that the input we're given is valid syntax. Even
 if the code is valid, it might use syntax that isn't supported by the
 parser.
 
-**Difftastic**: Difftastic will fall back to a text-based diff if any
-parse errors occur, to avoid diffing incomplete syntax trees. When
+**Difftastic**: Difftastic will fall back to a line-oriented diff if
+any parse errors occur, to avoid diffing incomplete syntax trees. When
 this occurs, the file header reports the error count.
 
 ```
