@@ -7,6 +7,7 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * alehatsman - nvim-treesitter and related discussion
 * alexmiller - clojure-related inquiries and docs
 * andrewchambers - discussion
+* bbatsov - discussions and clojure-ts-mode
 * bfredl - neovim and tree-sitter work
 * borkdude - analyze-reify, babashka, clj-kondo, edamame, and more
 * carocad - parcera and discussions
@@ -39,6 +40,7 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * pyrmont - review, error-spotting, fix, and discussions
 * rewinfrey - helpful bits from tree-sitter-haskell
 * richhickey - clojure, etc.
+* rrudakov - discussions and clojure-ts-mode
 * Saikyun - discussions
 * seancorfield - clojure-related inquiries
 * SergeevPavel - tree-sitter-clojure.SergeevPavel (fork of tree-sitter-clojure.Tavistock with further work)
