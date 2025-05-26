@@ -43,6 +43,8 @@ module.exports = grammar({
         ),
       ),
 
+    string_name: ($) => seq("&", alias($.string, "string")),
+
     // -----------------------------------------------------------------------------
     // -                                   Compound                                -
     // -----------------------------------------------------------------------------
@@ -52,6 +54,7 @@ module.exports = grammar({
         $.float,
         $.integer,
         $.string,
+        $.string_name,
         $.true,
         $.false,
         $.null,
