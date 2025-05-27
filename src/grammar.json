@@ -294,6 +294,24 @@
         ]
       }
     },
+    "string_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "&"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string"
+          },
+          "named": false,
+          "value": "string"
+        }
+      ]
+    },
     "_value": {
       "type": "CHOICE",
       "members": [
@@ -308,6 +326,10 @@
         {
           "type": "SYMBOL",
           "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_name"
         },
         {
           "type": "SYMBOL",
