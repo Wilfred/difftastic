@@ -334,13 +334,13 @@ module.exports = grammar({
     continue_statement: ($) => prec.left("continue"),
     tool_statement: ($) => "tool",
 
-    signal_statement: ($) => seq("signal", $.name, optional($.parameters)),
+    signal_statement: ($) => seq("signal", field("name", $.name), optional($.parameters)),
 
     class_name_statement: ($) =>
       seq(
         "class_name",
-        $.name,
-        optional(seq(",", field("icon_path", $.string))),
+        field("name", $.name),
+        optional(seq(",", field("icon_path", $.string)))
       ),
 
     extends_statement: ($) => seq("extends", choice($.string, $.type)),
@@ -740,7 +740,7 @@ module.exports = grammar({
     lambda: ($) =>
       seq(
         "func",
-        optional($.name),
+        optional(field("name", $.name)),
         $.parameters,
         optional($._return_type),
         ":",
