@@ -1094,6 +1094,21 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Verilog => {
+            let language_fn = tree_sitter_verilog::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: [].into_iter().collect(),
+                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("begin", "end")],
+                highlight_query: ts::Query::new(
+                    &language,
+                    include_str!("../../vendored_parsers/highlights/verilog.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Vhdl => {
             let language = unsafe { tree_sitter_vhdl() };
             TreeSitterConfig {

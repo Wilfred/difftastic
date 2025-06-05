@@ -106,6 +106,7 @@ tree-sitter-scala = "0.23.3"
 tree-sitter-swift = "0.7.0"
 tree-sitter-toml-ng = "0.7.0"
 tree-sitter-typescript = "0.23.2"
+tree-sitter-verilog = "1.0.3"
 tree-sitter-xml = "0.7.0"
 tree-sitter-yaml = "0.7.0"
 

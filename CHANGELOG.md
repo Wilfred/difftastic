@@ -8,6 +8,8 @@ Swift.
 File detection is now stricter for UTF-8, and recognises more
 compression file types as binary (e.g. zstd or bzip2).
 
+Added support for Verilog and SystemVerilog.
+
 ### Build
 
 CI on GitHub now uses Ubuntu 22.04 for Linux builds (previously Ubuntu

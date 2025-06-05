@@ -295,6 +295,9 @@ sample_files/typing_1.ml sample_files/typing_2.ml
 sample_files/utf16_1.py sample_files/utf16_2.py
 3bcee785d4cebc38a42eafe49a198b52  -
 
+sample_files/verilog_1.sv sample_files/verilog_2.sv
+2f59632b5a4e5addfa7b4d5274da72cc  -
+
 sample_files/vhdl_1.vhd sample_files/vhdl_2.vhd
 ca98b4d14fc21e0f04cf24aeb3d2526c  -
 
