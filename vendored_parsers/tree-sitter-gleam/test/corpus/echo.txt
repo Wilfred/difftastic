@@ -1,0 +1,112 @@
+================================================================================
+Echo with expression
+================================================================================
+
+pub fn main() {
+  echo 1
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (block
+      (echo
+        (integer)))))
+
+================================================================================
+Echo in pipeline
+================================================================================
+
+pub fn main() {
+  []
+  |> echo
+  |> panic
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (block
+      (binary_expression
+        (binary_expression
+          (list)
+          (pipeline_echo))
+        (panic)))))
+
+================================================================================
+Echo last in pipeline
+================================================================================
+
+pub fn main() {
+  []
+  |> echo
+
+  1
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (block
+      (binary_expression
+        (list)
+        (pipeline_echo))
+      (integer))))
+
+================================================================================
+Echo precedence with pipes
+================================================================================
+
+pub fn main() {
+  echo 1 |> 2
+  3
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (block
+      (echo
+        (binary_expression
+          (integer)
+          (integer)))
+      (integer))))
+
+================================================================================
+Echo precedence with binop
+================================================================================
+
+pub fn main() {
+  echo 1 + 2
+  3
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (block
+      (echo
+        (binary_expression
+          (integer)
+          (integer)))
+      (integer))))

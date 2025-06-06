@@ -1,4 +1,6 @@
 ; Scopes
+(block) @local.scope
+
 (function) @local.scope
 
 (case_clause) @local.scope
