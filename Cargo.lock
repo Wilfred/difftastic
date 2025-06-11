@@ -279,6 +279,7 @@ dependencies = [
  "tree-sitter-css",
  "tree-sitter-elixir",
  "tree-sitter-erlang",
+ "tree-sitter-fish",
  "tree-sitter-fsharp",
  "tree-sitter-go",
  "tree-sitter-haskell",
@@ -1065,6 +1066,15 @@ checksum = "eb9265a444b04975b2ecc2e1a64114a03e009737e7fae19ce9078b962b8be1af"
 dependencies = [
  "cc",
  "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-fish"
+version = "3.6.0"
+source = "git+https://github.com/ram02z/tree-sitter-fish?tag=3.6.0#aa074a0bacde8b5823c592574d7138f156a95776"
+dependencies = [
+ "cc",
+ "tree-sitter",
 ]
 
 [[package]]
