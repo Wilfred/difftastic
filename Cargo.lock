@@ -289,6 +289,7 @@ dependencies = [
  "tree-sitter-elixir",
  "tree-sitter-elm",
  "tree-sitter-erlang",
+ "tree-sitter-fish",
  "tree-sitter-fsharp",
  "tree-sitter-gleam",
  "tree-sitter-go",
@@ -1162,6 +1163,16 @@ checksum = "eb9265a444b04975b2ecc2e1a64114a03e009737e7fae19ce9078b962b8be1af"
 dependencies = [
  "cc",
  "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-fish"
+version = "3.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "014e3b299f251e9c2e372e3b5e1b0323ef21196e9aa2e90a5bc1f6130cbe8b18"
+dependencies = [
+ "cc",
+ "tree-sitter",
 ]
 
 [[package]]
