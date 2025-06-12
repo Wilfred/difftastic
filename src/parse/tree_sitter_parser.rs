@@ -32,17 +32,27 @@ pub(crate) struct TreeSitterConfig {
     /// The tree-sitter language parser.
     pub(crate) language: ts::Language,
 
-    /// Tree-sitter nodes that we treat as indivisible atoms.
+    /// Force these tree-sitter nodes to be difftastic atoms and
+    /// ignore their children.
     ///
-    /// This is particularly useful for strings, as some grammars use
-    /// several nodes for a single string literal. We don't want to
-    /// say e.g. the closing string delimiter moved, as it's confusing
-    /// and not well-balanced syntax.
+    /// Difftastic only cares about list delimiters and atom
+    /// contents. This ensures that "x" and " x" are different, but
+    /// [x] and [ x] are not.
     ///
-    /// This is also useful for when tree-sitter nodes don't include
-    /// all the children in the source. This is known limitation of
-    /// tree-sitter, and occurs more often for complex string syntax.
+    /// This causes problems for tree-sitter grammars that have more
+    /// complex structure for literals. If string interpolation
+    /// produces an AST with a separate interpolation node, difftastic
+    /// will think that "$x" and " $x" are the same, because the atom
+    /// is just $x and the delimiter is ".
+    ///
+    /// This problem also occurs when the tree-sitter AST is missing
+    /// some children. This is known limitation of tree-sitter, and
+    /// occurs more often for complex string syntax.
     /// <https://github.com/tree-sitter/tree-sitter/issues/1156>
+    ///
+    /// By forcing the tree-sitter subtree to be a difftastic atom, we
+    /// guarantee a correct diff, at the cost of losing some structure
+    /// in the tree-sitter AST.
     atom_nodes: DftHashSet<&'static str>,
 
     /// We want to consider delimiter tokens as part of lists, not
