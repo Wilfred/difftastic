@@ -50,7 +50,6 @@ extern crate log;
 
 use display::style::print_warning;
 use log::info;
-use mimalloc::MiMalloc;
 use options::FilePermissions;
 use options::USAGE;
 
@@ -73,10 +72,26 @@ use crate::parse::syntax;
 
 /// The global allocator used by difftastic.
 ///
-/// Diffing allocates a large amount of memory, and `MiMalloc` performs
-/// better.
+/// Diffing allocates a large amount of memory, and both Jemalloc and
+/// MiMalloc perform better than the system allocator.
+///
+/// Some versions of MiMalloc (specifically libmimalloc-sys greater
+/// than 0.1.24) handle very large, mostly unused allocations
+/// badly. This makes large line-oriented diffs very slow, as
+/// discussed in #297.
+///
+/// MiMalloc is generally faster than Jemalloc, but older versions of
+/// MiMalloc don't compile on GCC 15+, so use Jemalloc for now. See
+/// #805.
+///
+/// For reference, Jemalloc uses 10-20% more time (although up to 33%
+/// more instructions) when testing on sample files.
+#[cfg(not(target_env = "msvc"))]
+use tikv_jemallocator::Jemalloc;
+
+#[cfg(not(target_env = "msvc"))]
 #[global_allocator]
-static GLOBAL: MiMalloc = MiMalloc;
+static GLOBAL: Jemalloc = Jemalloc;
 
 use std::path::Path;
 use std::{env, thread};

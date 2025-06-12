@@ -44,10 +44,9 @@ libc = "0.2.108"
 log = "0.4.14"
 pretty_env_logger = "0.5.0"
 
-mimalloc = { version = "0.1.28", default-features = false }
-# Pin libmimalloc-sys due to 0.1.25 producing a huge slowdown in very
-# large textual files, as discussed in #297.
-libmimalloc-sys = "=0.1.24"
+[target.'cfg(not(target_env = "msvc"))'.dependencies]
+tikv-jemallocator = "0.6"
+
 radix-heap = "0.4.2"
 # ignore does not declare a MSRV, but it's part of ripgrep, which has
 # a slightly more aggressive MSRV than difftastic. Constrain ignore to
