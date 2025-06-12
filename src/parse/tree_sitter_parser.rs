@@ -13,9 +13,9 @@ use crate::parse::guess_language as guess;
 use crate::parse::syntax::{AtomKind, Syntax};
 
 /// A language may contain certain nodes that are in other languages
-/// and should be parsed as such (e.g. HTML `<script>` nodes containing
-/// JavaScript). This contains how to identify such nodes, and what
-/// languages we should parse them as.
+/// and should be parsed as such (e.g. HTML `<script>` nodes
+/// containing JavaScript). This struct describes how to identify such
+/// nodes, and what languages we should parse them as.
 ///
 /// Note that we don't support sub-languages more than one layer deep.
 pub(crate) struct TreeSitterSubLanguage {
@@ -60,7 +60,7 @@ pub(crate) struct TreeSitterConfig {
     /// mark which token pairs we consider to be delimiters.
     delimiter_tokens: Vec<(&'static str, &'static str)>,
 
-    /// Tree-sitter query used for syntax highlighting this
+    /// The tree-sitter query used for syntax highlighting this
     /// language.
     highlight_query: ts::Query,
 
