@@ -83,6 +83,7 @@ tree-sitter-cpp = "0.23.4"
 tree-sitter-css = "0.23.1"
 tree-sitter-elixir = "0.3.4"
 tree-sitter-erlang = "0.13.0"
+tree-sitter-fish = { git = "https://github.com/ram02z/tree-sitter-fish", tag = "3.6.0", version = "3.6.0" }
 tree-sitter-fsharp = "0.1.0"
 tree-sitter-go = "0.23.4"
 tree-sitter-haskell = "0.23.1"
