@@ -21,6 +21,7 @@ import a.{b}
 import a/b.{c, d}
 import a/b.{c as d, e}
 import a/b.{c, D as E}
+import a/b.{A as B, type C as D}
 
 --------------------------------------------------------------------------------
 
@@ -51,6 +52,15 @@ import a/b.{c, D as E}
       (unqualified_import
         name: (identifier))
       (unqualified_import
+        name: (constructor_name)
+        alias: (constructor_name))))
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (constructor_name)
+        alias: (constructor_name))
+      (unqualified_import
         name: (type_identifier)
         alias: (type_identifier)))))
 
@@ -61,6 +71,7 @@ Aliased imports
 import a/b.{c as d} as e
 import animal/cat as kitty
 import animal.{Cat as Kitty} as a
+import animal.{type Cat as Kitty} as a
 import animal.{}
 
 --------------------------------------------------------------------------------
@@ -80,9 +91,54 @@ import animal.{}
     module: (module)
     imports: (unqualified_imports
       (unqualified_import
+        name: (constructor_name)
+        alias: (constructor_name)))
+    alias: (identifier))
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
         name: (type_identifier)
         alias: (type_identifier)))
     alias: (identifier))
   (import
     module: (module)
     imports: (unqualified_imports)))
+
+================================================================================
+Type imports
+================================================================================
+
+import a/b.{type C}
+import animal.{type Cat as Kitty}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (type_identifier))))
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (type_identifier)
+        alias: (type_identifier)))))
+
+================================================================================
+Discard module imports
+================================================================================
+
+import wibble.{wobble} as _
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import
+    (module)
+    (unqualified_imports
+      (unqualified_import
+        (identifier)))
+    (discard)))

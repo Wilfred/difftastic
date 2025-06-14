@@ -1,0 +1,255 @@
+================================================================================
+Case examples
+================================================================================
+
+case value {
+  "A" -> True
+  _ -> False
+}
+
+case value {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (case
+    (case_subjects
+      (identifier))
+    (case_clauses
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (string
+              (quoted_content))))
+        (record
+          (constructor_name)))
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (discard)))
+        (record
+          (constructor_name)))))
+  (case
+    (case_subjects
+      (identifier))))
+
+================================================================================
+Case examples
+================================================================================
+
+// From https://gleam.run/news/v0.31-keeping-dependencies-explicit/#quality-of-life-improvements
+pub fn listed(names: List(String), person: Person) -> String {
+  case names {
+    [name, ..names] if name == person.name -> True
+    [_, ..names] -> listed(names, person)
+    [] -> False
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters
+      (function_parameter
+        (identifier)
+        (type
+          (type_identifier)
+          (type_arguments
+            (type_argument
+              (type
+                (type_identifier))))))
+      (function_parameter
+        (identifier)
+        (type
+          (type_identifier))))
+    (type
+      (type_identifier))
+    (block
+      (case
+        (case_subjects
+          (identifier))
+        (case_clauses
+          (case_clause
+            (case_clause_patterns
+              (case_clause_pattern
+                (list_pattern
+                  (identifier)
+                  (list_pattern_tail
+                    (identifier)))))
+            (case_clause_guard
+              (binary_expression
+                (identifier)
+                (field_access
+                  (identifier)
+                  (label))))
+            (record
+              (constructor_name)))
+          (case_clause
+            (case_clause_patterns
+              (case_clause_pattern
+                (list_pattern
+                  (discard)
+                  (list_pattern_tail
+                    (identifier)))))
+            (function_call
+              (identifier)
+              (arguments
+                (argument
+                  (identifier))
+                (argument
+                  (identifier)))))
+          (case_clause
+            (case_clause_patterns
+              (case_clause_pattern
+                (list_pattern)))
+            (record
+              (constructor_name))))))))
+
+================================================================================
+Pattern matching binaries with 'as'
+================================================================================
+
+// From https://gleam.run/news/v0.31-keeping-dependencies-explicit/#quality-of-life-improvements
+case tag {
+  "category " as key <> value
+  | "region " as key <> value
+  | "priority " as key <> value -> {
+    let key = string.trim(key)
+    Ok(Tag(key, value))
+  }
+  _ -> Error(Nil)
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (case
+    (case_subjects
+      (identifier))
+    (case_clauses
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (binary_expression
+              (binary_expression
+                (string
+                  (quoted_content))
+                (identifier))
+              (identifier)))
+          (case_clause_pattern
+            (binary_expression
+              (binary_expression
+                (string
+                  (quoted_content))
+                (identifier))
+              (identifier)))
+          (case_clause_pattern
+            (binary_expression
+              (binary_expression
+                (string
+                  (quoted_content))
+                (identifier))
+              (identifier))))
+        (block
+          (let
+            (identifier)
+            (function_call
+              (field_access
+                (identifier)
+                (label))
+              (arguments
+                (argument
+                  (identifier)))))
+          (record
+            (constructor_name)
+            (arguments
+              (argument
+                (record
+                  (constructor_name)
+                  (arguments
+                    (argument
+                      (identifier))
+                    (argument
+                      (identifier)))))))))
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (discard)))
+        (record
+          (constructor_name)
+          (arguments
+            (argument
+              (record
+                (constructor_name)))))))))
+
+================================================================================
+Case with boolean negation in a guard
+================================================================================
+
+case var {
+  1 if !other_var -> True
+  _ -> False
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (case
+    (case_subjects
+      (identifier))
+    (case_clauses
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (integer)))
+        (case_clause_guard
+          (boolean_negation
+            (identifier)))
+        (record
+          (constructor_name)))
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (discard)))
+        (record
+          (constructor_name))))))
+
+================================================================================
+Case with int remainder in guard
+================================================================================
+
+case var {
+  _ if 11 % 2 == 0 -> True
+  _ -> False
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (case
+    (case_subjects
+      (identifier))
+    (case_clauses
+      (case_clause
+      (case_clause_patterns
+        (case_clause_pattern
+        (discard)))
+      (case_clause_guard
+        (binary_expression
+        (binary_expression
+            (integer)
+            (integer))
+        (integer)))
+      (record
+        (constructor_name)))
+      (case_clause
+      (case_clause_patterns
+        (case_clause_pattern
+        (discard)))
+      (record
+        (constructor_name))))))

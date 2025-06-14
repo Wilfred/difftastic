@@ -1,0 +1,59 @@
+================================================================================
+Use
+================================================================================
+
+use <- f()
+
+use a <- f()
+
+use a, b, c, d, e <- f()
+
+use #(a, b) <- blah
+
+use x : OfType <- f()
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (use
+    (function_call
+      (identifier)
+      (arguments)))
+  (use
+    (use_assignments
+      (use_assignment
+        (identifier)))
+    (function_call
+      (identifier)
+      (arguments)))
+  (use
+    (use_assignments
+      (use_assignment
+        (identifier))
+      (use_assignment
+        (identifier))
+      (use_assignment
+        (identifier))
+      (use_assignment
+        (identifier))
+      (use_assignment
+        (identifier)))
+    (function_call
+      (identifier)
+      (arguments)))
+  (use
+    (use_assignments
+      (use_assignment
+        (tuple_pattern
+          (identifier)
+          (identifier))))
+    (identifier))
+  (use
+    (use_assignments
+      (use_assignment
+        (identifier)
+        (type
+          (type_identifier))))
+    (function_call
+      (identifier)
+      (arguments))))

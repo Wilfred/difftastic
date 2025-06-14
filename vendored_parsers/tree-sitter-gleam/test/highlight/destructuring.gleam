@@ -2,8 +2,8 @@ fn case_case(x: Option(String)) {
   //         ^ variable.parameter
   //             ^ type
   case #(x, x) {
-  //     ^ variable.parameter
-  //        ^ variable.parameter
+    //   ^ variable.parameter
+    //      ^ variable.parameter
     #(None, None) -> None
     // ^ constructor
     //       ^ constructor
@@ -21,4 +21,12 @@ fn case_case(x: Option(String)) {
   // so it should be interpereted as a module
   z.foo()
   // <- module
+}
+
+fn shorthand_label_pattern_arg() {
+  case todo {
+    Wibble(arg1:, arg2:) -> todo
+    //      ^ property
+    //              ^ property
+  }
 }

@@ -21,6 +21,8 @@
 
 ; Functions
 (unqualified_import (identifier) @function)
+(unqualified_import "type" (type_identifier) @type)
+(unqualified_import (type_identifier) @constructor)
 (function
   name: (identifier) @function)
 (external_function
@@ -43,6 +45,13 @@
 (tuple_access
   index: (integer) @property)
 
+; Attributes
+(attribute
+  "@" @attribute
+  name: (identifier) @attribute)
+
+(attribute_value (identifier) @constant)
+
 ; Type names
 (remote_type_identifier) @type
 (type_identifier) @type
@@ -52,18 +61,23 @@
 
 ; Literals
 (string) @string
+((escape_sequence) @warning
+ ; Deprecated in v0.33.0-rc2:
+ (#eq? @warning "\\e"))
+(escape_sequence) @string.escape
 (bit_string_segment_option) @function.builtin
 (integer) @number
 (float) @number
 
+; Reserved identifiers
+; TODO: when tree-sitter supports `#any-of?` in the Rust bindings,
+; refactor this to use `#any-of?` rather than `#match?`
+((identifier) @error
+ (#match? @error "^(auto|delegate|derive|else|implement|macro|test)$"))
+
 ; Variables
 (identifier) @variable
 (discard) @comment.unused
-
-; Operators
-(binary_expression
-  operator: _ @operator)
-"!" @operator
 
 ; Keywords
 [
@@ -73,15 +87,24 @@
   "assert"
   "case"
   "const"
+  "echo"
+  ; DEPRECATED: 'external' was removed in v0.30.
   "external"
   "fn"
   "if"
   "import"
   "let"
+  "panic"
   "todo"
-  "try"
   "type"
+  "use"
 ] @keyword
+
+; Operators
+(binary_expression
+  operator: _ @operator)
+(boolean_negation "!" @operator)
+(integer_negation "-" @operator)
 
 ; Punctuation
 [
@@ -104,4 +127,5 @@
   "->"
   ".."
   "-"
+  "<-"
 ] @punctuation.delimiter

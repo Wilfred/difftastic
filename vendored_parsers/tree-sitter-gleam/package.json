@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-gleam",
-  "version": "0.22.1",
+  "version": "1.0.0",
   "description": "A tree-sitter grammar for the Gleam programming language",
   "main": "bindings/node",
   "scripts": {
@@ -27,11 +27,12 @@
   },
   "homepage": "https://github.com/J3RN/tree-sitter-gleam#readme",
   "dependencies": {
-    "nan": "^2.15.0"
+    "nan": "^2.18.0"
   },
   "devDependencies": {
     "prettier": "^2.5.1",
-    "tree-sitter-cli": "^0.20.6"
+    "tree-sitter-cli": "^0.20.6",
+    "node-gyp": "^10.0.1"
   },
   "tree-sitter": [
     {

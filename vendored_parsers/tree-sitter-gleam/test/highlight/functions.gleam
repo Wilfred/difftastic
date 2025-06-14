@@ -108,3 +108,22 @@ fn comment_string_test() {
   // ^ function
   //            ^ string
 }
+
+fn let_assert_test() {
+  let assert #(x, _) = #(1, 2)
+  // <- keyword
+  //  ^ keyword
+}
+
+fn assert_test() {
+  assert x == add(1, 4)
+  // <- keyword
+  //          ^ function
+}
+
+fn punned_call_arg_test() {
+  wibble(arg:, arg2:)
+  // ^ function
+  //      ^ property
+  //            ^ property
+}

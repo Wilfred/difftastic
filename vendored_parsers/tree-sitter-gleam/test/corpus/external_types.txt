@@ -2,9 +2,9 @@
 External types
 ================================================================================
 
-external type IODevice
-external type IODevice()
-external type Map(key, value)
+type IODevice
+type IODevice()
+type Map(key, value)
 
 --------------------------------------------------------------------------------
 
@@ -27,9 +27,9 @@ external type Map(key, value)
 Public external types
 ================================================================================
 
-pub external type IODevice
-pub external type IODevice()
-pub external type Map(key, value)
+pub type IODevice
+pub type IODevice()
+pub type Map(key, value)
 
 --------------------------------------------------------------------------------
 

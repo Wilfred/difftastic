@@ -4,7 +4,6 @@ module.exports = grammar({
   name: "gleam",
   externals: ($) => [$.quoted_content],
   extras: ($) => [
-    ";",
     NEWLINE,
     /\s/,
     $.module_comment,
@@ -16,22 +15,20 @@ module.exports = grammar({
     [
       $._maybe_record_expression,
       $._maybe_tuple_expression,
-      $.remote_type_identifier,
-    ],
-    [
-      $._maybe_record_expression,
-      $._maybe_tuple_expression,
       $.remote_constructor_name,
     ],
     [$.case_subjects],
     [$.source_file],
+    [$._constant_value, $._case_clause_guard_unit],
+    [$.integer],
+    [$.echo],
   ],
   rules: {
     /* General rules */
     source_file: ($) =>
-      repeat(choice($.target_group, $._statement, $._expression_seq)),
+      repeat(choice($.target_group, $._module_statement, $._statement_seq)),
 
-    _statement: ($) =>
+    _module_statement: ($) =>
       choice(
         $.import,
         $.constant,
@@ -39,7 +36,8 @@ module.exports = grammar({
         $.external_function,
         $.function,
         $.type_definition,
-        $.type_alias
+        $.type_alias,
+        $.attribute
       ),
 
     /* Comments */
@@ -47,10 +45,35 @@ module.exports = grammar({
     statement_comment: ($) => token(seq("///", /.*/)),
     comment: ($) => token(seq("//", /.*/)),
 
-    /* Target groups */
+    /* Target groups
+     * DEPRECATED: This syntax was replaced with attributes in v0.30.
+     */
     target_group: ($) =>
-      seq("if", field("target", $.target), "{", repeat($._statement), "}"),
+      seq(
+        "if",
+        field("target", $.target),
+        "{",
+        repeat($._module_statement),
+        "}"
+      ),
     target: ($) => choice("erlang", "javascript"),
+
+    /* Attributes */
+    attribute: ($) =>
+      seq(
+        "@",
+        field("name", $.identifier),
+        optional(field("arguments", alias($._attribute_arguments, $.arguments)))
+      ),
+
+    _attribute_arguments: ($) =>
+      seq("(", series_of($.attribute_value, ","), ")"),
+
+    attribute_value: ($) =>
+      choice(
+        $._constant_value,
+        seq(field("label", $.label), ":", field("value", $._constant_value))
+      ),
 
     /* Import statements */
     import: ($) =>
@@ -58,7 +81,7 @@ module.exports = grammar({
         "import",
         field("module", $.module),
         optional(seq(".", field("imports", $.unqualified_imports))),
-        optional(seq("as", field("alias", $.identifier)))
+        optional(seq("as", field("alias", choice($.identifier, $.discard))))
       ),
     module: ($) => seq($._name, repeat(seq("/", $._name))),
     unqualified_imports: ($) =>
@@ -70,8 +93,13 @@ module.exports = grammar({
           optional(seq("as", field("alias", $.identifier)))
         ),
         seq(
+          "type",
           field("name", $.type_identifier),
           optional(seq("as", field("alias", $.type_identifier)))
+        ),
+        seq(
+          field("name", $.constructor_name),
+          optional(seq("as", field("alias", $.constructor_name)))
         )
       ),
 
@@ -93,7 +121,9 @@ module.exports = grammar({
         alias($.constant_tuple, $.tuple),
         alias($.constant_list, $.list),
         alias($._constant_bit_string, $.bit_string),
-        alias($.constant_record, $.record)
+        alias($.constant_record, $.record),
+        $.identifier,
+        alias($.constant_field_access, $.field_access)
       ),
     constant_tuple: ($) =>
       seq("#", "(", optional(series_of($._constant_value, ",")), ")"),
@@ -114,10 +144,17 @@ module.exports = grammar({
         ")"
       ),
     constant_record_argument: ($) =>
-      seq(
-        optional(seq(field("label", $.label), ":")),
-        field("value", $._constant_value)
+      choice(
+        seq(
+          optional(seq(field("label", $.label), ":")),
+          field("value", $._constant_value)
+        ),
+        seq(field("label", $.label), ":")
       ),
+    // This rule exists to parse remote function references which are generally
+    // indistinguishable from field accesses and so share an AST node.
+    constant_field_access: ($) =>
+      seq(field("record", $.identifier), ".", field("field", $.label)),
 
     /* Special constant types */
     // Versions of $._type, $._type_annotation, etc, that have constraints
@@ -126,11 +163,29 @@ module.exports = grammar({
       choice(
         $.type_hole,
         alias($.constant_tuple_type, $.tuple_type),
+        alias($.constant_function_type, $.function_type),
         alias($.constant_type, $.type)
       ),
     _constant_type_annotation: ($) => seq(":", field("type", $._constant_type)),
     constant_tuple_type: ($) =>
       seq("#", "(", optional(series_of($._constant_type, ",")), ")"),
+    constant_function_type: ($) =>
+      seq(
+        "fn",
+        optional(
+          field(
+            "parameter_types",
+            alias(
+              $.constant_function_parameter_types,
+              $.function_parameter_types
+            )
+          )
+        ),
+        "->",
+        field("return_type", $._constant_type)
+      ),
+    constant_function_parameter_types: ($) =>
+      seq("(", optional(series_of($._constant_type, ",")), ")"),
     constant_type: ($) =>
       seq(
         field("name", choice($.type_identifier, $.remote_type_identifier)),
@@ -149,7 +204,15 @@ module.exports = grammar({
     constant_type_argument: ($) => $._constant_type,
 
     external_type: ($) =>
-      seq(optional($.visibility_modifier), "external", "type", $.type_name),
+      prec.right(
+        seq(
+          optional($.visibility_modifier),
+          // DEPRECATED: the external token was removed in v0.30.
+          optional("external"),
+          "type",
+          $.type_name
+        )
+      ),
 
     /* External function */
     external_function: ($) =>
@@ -189,15 +252,15 @@ module.exports = grammar({
 
     /* Functions */
     function: ($) =>
-      seq(
-        optional($.visibility_modifier),
-        "fn",
-        field("name", $.identifier),
-        field("parameters", $.function_parameters),
-        optional(seq("->", field("return_type", $._type))),
-        "{",
-        field("body", alias($._expression_seq, $.function_body)),
-        "}"
+      prec.right(
+        seq(
+          optional($.visibility_modifier),
+          "fn",
+          field("name", $.identifier),
+          field("parameters", $.function_parameters),
+          optional(seq("->", field("return_type", $._type))),
+          optional(field("body", $.block))
+        )
       ),
     function_parameters: ($) =>
       seq("(", optional(series_of($.function_parameter, ",")), ")"),
@@ -217,36 +280,9 @@ module.exports = grammar({
     _labeled_name_param: ($) =>
       seq(field("label", $.label), field("name", $.identifier)),
     _name_param: ($) => field("name", $.identifier),
-    // This method diverges from the parser's `parse_expression_seq` somewhat.
-    // The parser considers all expressions after a `try` to be part of its AST
-    // node, namely the "then" section. Gleam code like this:
-    //
-    //    try int_a = parse(a)
-    //    try int_b = parse(b)
-    //    Ok(int_a + int_b)
-    //
-    // is parsed as:
-    //
-    // (try
-    //   pattern: (pattern)
-    //   value: (call (identifier))
-    //   then: (try
-    //     pattern: (pattern)
-    //     value: (call (identifier))
-    //     then: (record (...))))
-    //
-    // This makes sense for the parser, but (IMO) would be more confusing for
-    // users and tooling which don't think about `try`s as having a "then". Thus,
-    // `try`s are essentially treated the same as any other expression.
-    _expression_seq: ($) => repeat1(choice($._expression, $.try)),
-    try: ($) =>
-      seq(
-        "try",
-        field("pattern", $._pattern),
-        optional($._type_annotation),
-        "=",
-        field("value", $._expression)
-      ),
+    _statement_seq: ($) => repeat1($._statement),
+    _statement: ($) =>
+      choice($._expression, $.let, $.let_assert, $.use, $.assert),
     _expression: ($) => choice($._expression_unit, $.binary_expression),
     binary_expression: ($) =>
       choice(
@@ -262,7 +298,13 @@ module.exports = grammar({
         binaryExpr(prec.left, 4, ">=", $._expression),
         binaryExpr(prec.left, 4, ">.", $._expression),
         binaryExpr(prec.left, 4, ">=.", $._expression),
-        binaryExpr(prec.left, 5, "|>", $._expression),
+        binaryExpr(
+          prec.left,
+          5,
+          "|>",
+          $._expression,
+          choice($.pipeline_echo, $._expression)
+        ),
         binaryExpr(prec.left, 6, "+", $._expression),
         binaryExpr(prec.left, 6, "+.", $._expression),
         binaryExpr(prec.left, 6, "-", $._expression),
@@ -271,7 +313,8 @@ module.exports = grammar({
         binaryExpr(prec.left, 7, "*.", $._expression),
         binaryExpr(prec.left, 7, "/", $._expression),
         binaryExpr(prec.left, 7, "/.", $._expression),
-        binaryExpr(prec.left, 7, "%", $._expression)
+        binaryExpr(prec.left, 7, "%", $._expression),
+        binaryExpr(prec.left, 7, "<>", $._expression)
       ),
     // The way that this function is written in the Gleam parser is essentially
     // incompatible with tree-sitter. It first parses some base expression,
@@ -291,15 +334,16 @@ module.exports = grammar({
         $.record,
         $.identifier,
         $.todo,
+        $.panic,
         $.tuple,
+        $.echo,
         $.list,
         alias($._expression_bit_string, $.bit_string),
         $.anonymous_function,
-        $.expression_group,
+        $.block,
         $.case,
-        $.let,
-        $.assert,
-        $.negation,
+        $.boolean_negation,
+        $.integer_negation,
         $.record_update,
         $.tuple_access,
         $.field_access,
@@ -311,7 +355,32 @@ module.exports = grammar({
         optional(field("arguments", $.arguments))
       ),
     todo: ($) =>
-      seq("todo", optional(seq("(", field("message", $.string), ")"))),
+      prec.left(
+        seq(
+          "todo",
+          optional(
+            choice(
+              // DEPRECATED: The 'as' syntax was introduced in v0.30.
+              seq("(", field("message", $.string), ")"),
+              seq("as", field("message", $._expression))
+            )
+          )
+        )
+      ),
+    panic: ($) =>
+      prec.left(
+        seq(
+          "panic",
+          optional(
+            choice(
+              seq("(", field("message", $.string), ")"),
+              seq("as", field("message", $._expression))
+            )
+          )
+        )
+      ),
+    pipeline_echo: (_$) => prec.left("echo"),
+    echo: ($) => seq("echo", $._expression),
     tuple: ($) => seq("#", "(", optional(series_of($._expression, ",")), ")"),
     list: ($) =>
       seq(
@@ -335,9 +404,7 @@ module.exports = grammar({
           alias($.anonymous_function_parameters, $.function_parameters)
         ),
         optional(seq("->", field("return_type", $._type))),
-        "{",
-        field("body", alias($._expression_seq, $.function_body)),
-        "}"
+        field("body", $.block)
       ),
     anonymous_function_parameters: ($) =>
       seq(
@@ -355,13 +422,13 @@ module.exports = grammar({
         choice($._discard_param, $._name_param),
         optional($._type_annotation)
       ),
-    expression_group: ($) => seq("{", $._expression_seq, "}"),
+    block: ($) => seq("{", optional($._statement_seq), "}"),
     case: ($) =>
       seq(
         "case",
         field("subjects", $.case_subjects),
         "{",
-        field("clauses", $.case_clauses),
+        optional(field("clauses", $.case_clauses)),
         "}"
       ),
     case_subjects: ($) => seq(series_of($._expression, ",")),
@@ -385,7 +452,8 @@ module.exports = grammar({
     _case_clause_guard_expression: ($) =>
       choice(
         $._case_clause_guard_unit,
-        alias($._case_clause_guard_binary_expression, $.binary_expression)
+        alias($._case_clause_guard_binary_expression, $.binary_expression),
+        $.boolean_negation
       ),
     _case_clause_guard_binary_expression: ($) =>
       choice(
@@ -400,7 +468,16 @@ module.exports = grammar({
         binaryExpr(prec.left, 4, ">", $._case_clause_guard_expression),
         binaryExpr(prec.left, 4, ">=", $._case_clause_guard_expression),
         binaryExpr(prec.left, 4, ">.", $._case_clause_guard_expression),
-        binaryExpr(prec.left, 4, ">=.", $._case_clause_guard_expression)
+        binaryExpr(prec.left, 4, ">=.", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 5, "+", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 5, "+.", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 5, "-", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 5, "-.", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 6, "*", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 6, "*.", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 6, "/", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 6, "/.", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 6, "%", $._case_clause_guard_expression)
       ),
     _case_clause_guard_unit: ($) =>
       choice(
@@ -411,9 +488,31 @@ module.exports = grammar({
       ),
     _case_clause_tuple_access: ($) =>
       seq(field("tuple", $.identifier), ".", field("index", $.integer)),
+    let_assert: ($) =>
+      seq(
+        "let",
+        "assert",
+        $._assignment,
+        optional(seq("as", field("message", $._expression)))
+      ),
+    assert: ($) =>
+      seq(
+        "assert",
+        field("value", $._expression),
+        optional(seq("as", field("message", $._expression)))
+      ),
     let: ($) => seq("let", $._assignment),
-    assert: ($) => seq("assert", $._assignment),
-    negation: ($) => seq("!", $._expression_unit),
+    use: ($) =>
+      seq(
+        "use",
+        optional(field("assignments", $.use_assignments)),
+        "<-",
+        field("value", $._expression)
+      ),
+    use_assignments: ($) => series_of($.use_assignment, ","),
+    use_assignment: ($) => seq($._pattern, optional($._type_annotation)),
+    boolean_negation: ($) => seq("!", $._expression_unit),
+    integer_negation: ($) => seq("-", $._expression_unit),
     _assignment: ($) =>
       seq(
         field("pattern", $._pattern),
@@ -436,7 +535,10 @@ module.exports = grammar({
       ),
     record_update_arguments: ($) => series_of($.record_update_argument, ","),
     record_update_argument: ($) =>
-      seq(field("label", $.label), ":", field("value", $._expression)),
+      choice(
+        seq(field("label", $.label), ":", field("value", $._expression)),
+        seq(field("label", $.label), ":")
+      ),
     // As with other AST nodes in this section, `_maybe_record_expression`,
     // `_maybe_tuple_expression`, and `_maybe_function_expresssion` have no
     // corollaries in the Gleam parser. These anonymous AST node denote any
@@ -450,7 +552,7 @@ module.exports = grammar({
         $.identifier,
         $.function_call,
         $.tuple,
-        $.expression_group,
+        $.block,
         $.case,
         $.field_access,
         $.tuple_access
@@ -468,7 +570,7 @@ module.exports = grammar({
         $.record,
         $.identifier,
         $.function_call,
-        $.expression_group,
+        $.block,
         $.case,
         $.record_update,
         $.field_access,
@@ -494,7 +596,7 @@ module.exports = grammar({
       choice(
         $.identifier,
         $.anonymous_function,
-        $.expression_group,
+        $.block,
         $.case,
         $.tuple_access,
         $.field_access,
@@ -504,9 +606,12 @@ module.exports = grammar({
     // record arguments, hence the ambiguous name.
     arguments: ($) => seq("(", optional(series_of($.argument, ",")), ")"),
     argument: ($) =>
-      seq(
-        optional(seq(field("label", $.label), ":")),
-        field("value", choice($.hole, $._expression))
+      choice(
+        seq(
+          optional(seq(field("label", $.label), ":")),
+          field("value", choice($.hole, $._expression))
+        ),
+        seq(field("label", $.label), ":")
       ),
     hole: ($) => $._discard_name,
     function_call: ($) =>
@@ -514,19 +619,27 @@ module.exports = grammar({
         field("function", $._maybe_function_expression),
         field("arguments", $.arguments)
       ),
+    _pattern_expression: ($) =>
+      choice(
+        $.identifier,
+        $.discard,
+        $.record_pattern,
+        $.string,
+        $.integer,
+        $.float,
+        $.tuple_pattern,
+        alias($._pattern_bit_string, $.bit_string_pattern),
+        $.list_pattern,
+        alias($._pattern_binary_expression, $.binary_expression)
+      ),
+    _pattern_binary_expression: ($) =>
+      choice(
+        binaryExpr(prec.left, 1, "<>", $._pattern_expression),
+        binaryExpr(prec.left, 1, "as", $.string, $.identifier)
+      ),
     _pattern: ($) =>
       seq(
-        choice(
-          $.identifier,
-          $.discard,
-          $.record_pattern,
-          $.string,
-          $.integer,
-          $.float,
-          $.tuple_pattern,
-          alias($._pattern_bit_string, $.bit_string_pattern),
-          $.list_pattern
-        ),
+        $._pattern_expression,
         optional(field("assign", seq("as", $.identifier)))
       ),
     record_pattern: ($) =>
@@ -542,9 +655,12 @@ module.exports = grammar({
         ")"
       ),
     record_pattern_argument: ($) =>
-      seq(
-        optional(seq(field("label", $.label), ":")),
-        field("pattern", $._pattern)
+      choice(
+        seq(
+          optional(seq(field("label", $.label), ":")),
+          field("pattern", $._pattern)
+        ),
+        seq(field("label", $.label), ":")
       ),
     pattern_spread: ($) => seq("..", optional(",")),
     tuple_pattern: ($) =>
@@ -586,6 +702,7 @@ module.exports = grammar({
     data_constructors: ($) => repeat1($.data_constructor),
     data_constructor: ($) =>
       seq(
+        optional($.attribute),
         field("name", $.constructor_name),
         optional(field("arguments", $.data_constructor_arguments))
       ),
@@ -612,8 +729,12 @@ module.exports = grammar({
         repeat(choice($.escape_sequence, $.quoted_content)),
         token.immediate('"')
       ),
-    escape_sequence: ($) => token.immediate(/\\[efnrt\"\\]/),
-    float: ($) => /-?[0-9_]+\.[0-9_]*/,
+    escape_sequence: ($) =>
+      choice(
+        token.immediate(/\\[efnrt\"\\]/),
+        token.immediate(/\\u\{[0-9a-fA-F]{1,6}\}/)
+      ),
+    float: ($) => /-?[0-9_]+\.[0-9_]*(e-?[0-9_]+)?/,
     integer: ($) =>
       seq(optional("-"), choice($._hex, $._decimal, $._octal, $._binary)),
     _hex: ($) => /0[xX][0-9a-fA-F_]+/,
@@ -769,9 +890,13 @@ function series_of(rule, separator) {
 
 // A binary expression with a left-hand side, infix operator, and then right-hand-side
 // https://github.com/elixir-lang/tree-sitter-elixir/blob/de20391afe5cb03ef1e8a8e43167e7b58cc52869/grammar.js#L850-L859
-function binaryExpr(assoc, precedence, operator, expr) {
+function binaryExpr(assoc, precedence, operator, left, right = null) {
   return assoc(
     precedence,
-    seq(field("left", expr), field("operator", operator), field("right", expr))
+    seq(
+      field("left", left),
+      field("operator", operator),
+      field("right", right || left)
+    )
   );
 }

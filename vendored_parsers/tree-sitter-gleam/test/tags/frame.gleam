@@ -1,8 +1,8 @@
-import gleam/option.{Option, Some, None}
+import gleam/option.{type Option, Some, None}
 //      ^ reference.module
-//                    ^ reference.type
-//                            ^ reference.type
-//                                  ^ reference.type
+//                        ^ reference.type
+//                                ^ reference.constructor
+//                                      ^ reference.constructor
 import gleam/bit_builder
 //      ^ reference.module
 

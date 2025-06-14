@@ -48,7 +48,7 @@ if javascript {
           name: (type_identifier))))
     return_type: (type
       name: (type_identifier))
-    body: (function_body
+    body: (block
       (let
         pattern: (identifier)
         value: (function_call
@@ -161,7 +161,7 @@ pub fn negate(bool: Bool) -> Bool {
     module: (module)
     imports: (unqualified_imports
       (unqualified_import
-        name: (type_identifier))))
+        name: (constructor_name))))
   (statement_comment)
   (statement_comment)
   (statement_comment)
@@ -184,7 +184,7 @@ pub fn negate(bool: Bool) -> Bool {
           name: (type_identifier))))
     return_type: (type
       name: (type_identifier))
-    body: (function_body
+    body: (block
       (case
         subjects: (case_subjects
           (identifier))
@@ -234,7 +234,7 @@ fn foo(a,) {
     (module)
     (unqualified_imports
       (unqualified_import
-        (type_identifier))))
+        (constructor_name))))
   (constant
     (identifier)
     (tuple_type
@@ -290,7 +290,7 @@ fn foo(a,) {
     (function_parameters
       (function_parameter
         (identifier)))
-    (function_body
+    (block
       (function_call
         (identifier)
         (arguments

@@ -1,0 +1,73 @@
+================================================================================
+Guard Expressions
+================================================================================
+
+case value {
+  n if n + 1 > 10 -> True
+  n if n / 2 < 5 -> False
+}
+
+case value {
+  n if n -. 1.0 <. 10.0 -> True
+  n if n *. 2 >. 5 -> False
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (case
+    (case_subjects
+      (identifier))
+    (case_clauses
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (identifier)))
+        (case_clause_guard
+          (binary_expression
+            (binary_expression
+              (identifier)
+              (integer))
+            (integer)))
+        (record
+          (constructor_name)))
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (identifier)))
+        (case_clause_guard
+          (binary_expression
+            (binary_expression
+              (identifier)
+              (integer))
+            (integer)))
+        (record
+          (constructor_name)))))
+  (case
+    (case_subjects
+      (identifier))
+    (case_clauses
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (identifier)))
+        (case_clause_guard
+          (binary_expression
+            (binary_expression
+              (identifier)
+              (float))
+            (float)))
+        (record
+          (constructor_name)))
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (identifier)))
+        (case_clause_guard
+          (binary_expression
+            (binary_expression
+              (identifier)
+              (integer))
+            (integer)))
+        (record
+          (constructor_name))))))
