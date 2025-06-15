@@ -93,8 +93,10 @@ use tikv_jemallocator::Jemalloc;
 #[global_allocator]
 static GLOBAL: Jemalloc = Jemalloc;
 
+use std::cmp::Ordering;
+use std::collections::BinaryHeap;
 use std::path::Path;
-use std::{env, thread};
+use std::{env, iter, thread};
 
 use humansize::{format_size, FormatSizeOptions, BINARY};
 use owo_colors::OwoColorize;
@@ -305,16 +307,6 @@ fn main() {
                             .iter()
                             .any(|diff_result| diff_result.has_reportable_change());
                         display::json::print_directory(results, display_options.print_unchanged);
-                    } else if display_options.sort_paths {
-                        let mut result: Vec<DiffResult> = diff_iter.collect();
-                        result.sort_unstable_by(|a, b| a.display_path.cmp(&b.display_path));
-                        for diff_result in result {
-                            print_diff_result(&display_options, &diff_result);
-
-                            if diff_result.has_reportable_change() {
-                                encountered_changes = true;
-                            }
-                        }
                     } else {
                         // We want to diff files in the directory in
                         // parallel, but print the results serially
@@ -325,11 +317,18 @@ fn main() {
 
                             s.spawn(move || {
                                 diff_iter
+                                    .enumerate()
                                     .try_for_each_with(send, |s, diff_result| s.send(diff_result))
                                     .expect("Receiver should be connected")
                             });
 
-                            for diff_result in recv.into_iter() {
+                            let serial_iter: Box<dyn Iterator<Item = _>> =
+                                if display_options.sort_paths {
+                                    Box::new(reorder_by_index(recv.into_iter(), 0))
+                                } else {
+                                    Box::new(recv.into_iter())
+                                };
+                            for (_, diff_result) in serial_iter {
                                 print_diff_result(&display_options, &diff_result);
 
                                 if diff_result.has_reportable_change() {
@@ -786,7 +785,7 @@ fn diff_directories<'a>(
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
-) -> impl ParallelIterator<Item = DiffResult> + 'a {
+) -> impl IndexedParallelIterator<Item = DiffResult> + 'a {
     let diff_options = diff_options.clone();
     let display_options = display_options.clone();
     let overrides: Vec<_> = overrides.into();
@@ -794,7 +793,10 @@ fn diff_directories<'a>(
     // We greedily list all files in the directory, and then diff them
     // in parallel. This is assuming that diffing is slower than
     // enumerating files, so it benefits more from parallelism.
-    let paths = relative_paths_in_either(lhs_dir, rhs_dir);
+    let mut paths = relative_paths_in_either(lhs_dir, rhs_dir);
+    if display_options.sort_paths {
+        paths.sort_unstable();
+    }
 
     paths.into_par_iter().map(move |rel_path| {
         info!("Relative path is {:?} inside {:?}", rel_path, lhs_dir);
@@ -943,6 +945,57 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
     }
 }
 
+/// Sort items in the `source` iterator by the 0th `usize` field, yield when all
+/// preceding items are received.
+///
+/// The idea is borrowed from
+/// <https://users.rust-lang.org/t/parallel-work-collected-sequentially/13504/3>.
+fn reorder_by_index<T>(
+    source: impl Iterator<Item = (usize, T)>,
+    mut next_index: usize,
+) -> impl Iterator<Item = (usize, T)> {
+    struct WorkItem<T> {
+        index: usize,
+        value: T,
+    }
+
+    impl<T> Eq for WorkItem<T> {}
+
+    impl<T> Ord for WorkItem<T> {
+        fn cmp(&self, other: &Self) -> Ordering {
+            self.index.cmp(&other.index).reverse() // min heap
+        }
+    }
+
+    impl<T> PartialEq for WorkItem<T> {
+        fn eq(&self, other: &Self) -> bool {
+            self.index == other.index
+        }
+    }
+
+    impl<T> PartialOrd for WorkItem<T> {
+        fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+            Some(self.cmp(other))
+        }
+    }
+
+    let mut source = source.fuse();
+    let mut queue: BinaryHeap<WorkItem<T>> = BinaryHeap::new();
+    iter::from_fn(move || {
+        // Consume the source iterator until the next_index item is found.
+        while queue.peek().map_or(true, |item| item.index > next_index) {
+            if let Some((index, value)) = source.next() {
+                queue.push(WorkItem { index, value });
+            } else {
+                break;
+            }
+        }
+        let item = queue.pop()?;
+        next_index = item.index + 1;
+        Some((item.index, item.value))
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use std::ffi::OsStr;
@@ -966,5 +1019,14 @@ mod tests {
 
         assert_eq!(res.lhs_positions, vec![]);
         assert_eq!(res.rhs_positions, vec![]);
+    }
+
+    #[test]
+    fn test_reorder_by_index() {
+        let source = vec![(0, "a"), (4, "b"), (2, "c"), (1, "d"), (3, "e")];
+        let reordered: Vec<_> = reorder_by_index(source.iter().copied(), 0).collect();
+        let mut sorted = source.clone();
+        sorted.sort();
+        assert_eq!(reordered, sorted);
     }
 }
