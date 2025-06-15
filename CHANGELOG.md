@@ -2,8 +2,8 @@
 
 ### Parsing
 
-Updated to the latest tree-sitter parser for Erlang, F#, Pascal and
-Swift.
+Updated to the latest tree-sitter parser for Erlang, F#, Gleam, Pascal
+and Swift.
 
 File detection is now stricter for UTF-8, and recognises more
 compression file types as binary (e.g. zstd or bzip2).
