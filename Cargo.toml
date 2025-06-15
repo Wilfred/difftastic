@@ -44,9 +44,6 @@ libc = "0.2.108"
 log = "0.4.14"
 pretty_env_logger = "0.5.0"
 
-[target.'cfg(not(target_env = "msvc"))'.dependencies]
-tikv-jemallocator = "0.6"
-
 radix-heap = "0.4.2"
 # ignore does not declare a MSRV, but it's part of ripgrep, which has
 # a slightly more aggressive MSRV than difftastic. Constrain ignore to
@@ -108,6 +105,9 @@ tree-sitter-typescript = "0.23.2"
 tree-sitter-verilog = "1.0.3"
 tree-sitter-xml = "0.7.0"
 tree-sitter-yaml = "0.7.0"
+
+[target.'cfg(not(target_env = "msvc"))'.dependencies]
+tikv-jemallocator = "0.6"
 
 [dev-dependencies]
 # assert_cmd 2.0.10 requires predicates 3.
