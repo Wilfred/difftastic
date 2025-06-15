@@ -28,7 +28,8 @@ jobs:
 
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v4
+      # v4.2.2
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
     - name: Install Rust toolchain
       uses: dtolnay/rust-toolchain@1.74.1
@@ -54,7 +55,8 @@ jobs:
     name: Test with MIME database
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@1.74.1
       # This runs tests that rely on the MIME database being present.
       - run: cargo test -- --ignored
@@ -63,7 +65,8 @@ jobs:
     name: Test Linux (latest stable Rust)
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo +stable test
 
@@ -71,7 +74,8 @@ jobs:
     name: Output Regression Test
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@1.74.1
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
@@ -82,7 +86,8 @@ jobs:
     name: Check Linux Packaging
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@1.74.1
       - run: cargo package --allow-dirty
 
@@ -90,7 +95,8 @@ jobs:
     name: Rustfmt
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@1.74.1
       - run: cargo fmt --all -- --check
 
@@ -98,7 +104,8 @@ jobs:
     name: Actionlint
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: raven-actions/actionlint@v2
         with:
           shellcheck: false
