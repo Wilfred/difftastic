@@ -1,0 +1,101 @@
+================================================================================
+Target attribute
+================================================================================
+
+@target(erlang)
+pub fn main() { todo }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute
+    name: (identifier)
+    arguments: (arguments
+      (attribute_value
+        (identifier))))
+  (function
+    (visibility_modifier)
+    name: (identifier)
+    parameters: (function_parameters)
+    body: (block
+      (todo))))
+
+================================================================================
+Attribute with multiple values
+================================================================================
+
+@deprecated(since: "1.2.0", replacement: wobble)
+pub fn wibble() { todo }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute
+    name: (identifier)
+    arguments: (arguments
+      (attribute_value
+        label: (label)
+        value: (string
+          (quoted_content)))
+      (attribute_value
+        label: (label)
+        value: (identifier))))
+  (function
+    (visibility_modifier)
+    name: (identifier)
+    parameters: (function_parameters)
+    body: (block
+      (todo))))
+
+================================================================================
+Attribute without arguments
+================================================================================
+
+@internal
+pub fn wibble() { todo }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute
+    name: (identifier))
+  (function
+    (visibility_modifier)
+    name: (identifier)
+    parameters: (function_parameters)
+    body: (block
+      (todo))))
+
+================================================================================
+Individually deprecated constructors
+================================================================================
+
+pub type SomeType {
+  NotDeprecated
+  @deprecated("Please use the NotDeprecated variant")
+  Deprecated(reason: String)
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_definition
+    (visibility_modifier)
+    (type_name
+      name: (type_identifier))
+    (data_constructors
+      (data_constructor
+        name: (constructor_name))
+      (data_constructor
+        (attribute
+          name: (identifier)
+          arguments: (arguments
+            (attribute_value
+              (string
+                (quoted_content)))))
+        name: (constructor_name)
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
+            label: (label)
+            value: (type
+              name: (type_identifier))))))))

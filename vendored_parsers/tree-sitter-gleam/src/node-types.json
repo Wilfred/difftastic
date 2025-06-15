@@ -8,7 +8,7 @@
         "required": true,
         "types": [
           {
-            "type": "function_body",
+            "type": "block",
             "named": true
           }
         ]
@@ -67,14 +67,10 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "anonymous_function",
-            "named": true
-          },
-          {
-            "type": "assert",
             "named": true
           },
           {
@@ -86,11 +82,19 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "echo",
             "named": true
           },
           {
@@ -118,7 +122,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -126,7 +130,7 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "panic",
             "named": true
           },
           {
@@ -168,6 +172,10 @@
         {
           "type": "argument",
           "named": true
+        },
+        {
+          "type": "attribute_value",
+          "named": true
         }
       ]
     }
@@ -176,102 +184,12 @@
     "type": "assert",
     "named": true,
     "fields": {
-      "assign": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "as",
-            "named": false
-          },
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "pattern": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "as",
-            "named": false
-          },
-          {
-            "type": "bit_string_pattern",
-            "named": true
-          },
-          {
-            "type": "discard",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "list_pattern",
-            "named": true
-          },
-          {
-            "type": "record_pattern",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "tuple_pattern",
-            "named": true
-          }
-        ]
-      },
-      "type": {
+      "message": {
         "multiple": false,
         "required": false,
-        "types": [
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_hole",
-            "named": true
-          },
-          {
-            "type": "type_var",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
         "types": [
           {
             "type": "anonymous_function",
-            "named": true
-          },
-          {
-            "type": "assert",
             "named": true
           },
           {
@@ -283,11 +201,19 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "echo",
             "named": true
           },
           {
@@ -311,7 +237,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -319,7 +245,97 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "panic",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "todo",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "echo",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "integer_negation",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "panic",
             "named": true
           },
           {
@@ -351,6 +367,132 @@
     }
   },
   {
+    "type": "attribute",
+    "named": true,
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "arguments",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "attribute_value",
+    "named": true,
+    "fields": {
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "label",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "bit_string",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "binary_expression",
     "named": true,
     "fields": {
@@ -363,10 +505,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -375,11 +513,27 @@
             "named": true
           },
           {
+            "type": "bit_string_pattern",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "discard",
+            "named": true
+          },
+          {
+            "type": "echo",
             "named": true
           },
           {
@@ -403,7 +557,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -411,11 +565,19 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "panic",
             "named": true
           },
           {
             "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_pattern",
             "named": true
           },
           {
@@ -436,6 +598,10 @@
           },
           {
             "type": "tuple_access",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
             "named": true
           },
           {
@@ -513,6 +679,10 @@
             "named": false
           },
           {
+            "type": "<>",
+            "named": false
+          },
+          {
             "type": "==",
             "named": false
           },
@@ -530,6 +700,10 @@
           },
           {
             "type": ">=.",
+            "named": false
+          },
+          {
+            "type": "as",
             "named": false
           },
           {
@@ -551,10 +725,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -563,11 +733,27 @@
             "named": true
           },
           {
+            "type": "bit_string_pattern",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "discard",
+            "named": true
+          },
+          {
+            "type": "echo",
             "named": true
           },
           {
@@ -591,7 +777,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -599,11 +785,23 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "panic",
+            "named": true
+          },
+          {
+            "type": "pipeline_echo",
             "named": true
           },
           {
             "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_pattern",
             "named": true
           },
           {
@@ -624,6 +822,10 @@
           },
           {
             "type": "tuple_access",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
             "named": true
           },
           {
@@ -713,7 +915,7 @@
             "named": false
           },
           {
-            "type": "assert",
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -725,6 +927,14 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -733,7 +943,7 @@
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "echo",
             "named": true
           },
           {
@@ -757,7 +967,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -769,7 +979,7 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "panic",
             "named": true
           },
           {
@@ -821,10 +1031,6 @@
           "named": true
         },
         {
-          "type": "assert",
-          "named": true
-        },
-        {
           "type": "binary_expression",
           "named": true
         },
@@ -833,11 +1039,19 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
         {
-          "type": "expression_group",
+          "type": "echo",
           "named": true
         },
         {
@@ -861,7 +1075,7 @@
           "named": true
         },
         {
-          "type": "let",
+          "type": "integer_negation",
           "named": true
         },
         {
@@ -869,7 +1083,7 @@
           "named": true
         },
         {
-          "type": "negation",
+          "type": "panic",
           "named": true
         },
         {
@@ -919,12 +1133,214 @@
     }
   },
   {
+    "type": "block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bit_string",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "echo",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "integer_negation",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_assert",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "panic",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "todo",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
+          "named": true
+        },
+        {
+          "type": "use",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "boolean_negation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "bit_string",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "echo",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "integer_negation",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "panic",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "todo",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "case",
     "named": true,
     "fields": {
       "clauses": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "case_clauses",
@@ -977,10 +1393,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -989,11 +1401,19 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "echo",
             "named": true
           },
           {
@@ -1017,7 +1437,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -1025,7 +1445,7 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "panic",
             "named": true
           },
           {
@@ -1070,6 +1490,14 @@
         },
         {
           "type": "bit_string",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
+          "type": "field_access",
           "named": true
         },
         {
@@ -1130,6 +1558,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
         {
           "type": "bit_string_pattern",
           "named": true
@@ -1212,10 +1644,6 @@
           "named": true
         },
         {
-          "type": "assert",
-          "named": true
-        },
-        {
           "type": "binary_expression",
           "named": true
         },
@@ -1224,11 +1652,19 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
         {
-          "type": "expression_group",
+          "type": "echo",
           "named": true
         },
         {
@@ -1252,7 +1688,7 @@
           "named": true
         },
         {
-          "type": "let",
+          "type": "integer_negation",
           "named": true
         },
         {
@@ -1260,7 +1696,7 @@
           "named": true
         },
         {
-          "type": "negation",
+          "type": "panic",
           "named": true
         },
         {
@@ -1309,6 +1745,10 @@
         "required": false,
         "types": [
           {
+            "type": "function_type",
+            "named": true
+          },
+          {
             "type": "tuple_type",
             "named": true
           },
@@ -1331,7 +1771,15 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           },
           {
@@ -1397,6 +1845,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1477,19 +1935,15 @@
     "fields": {}
   },
   {
-    "type": "expression_group",
+    "type": "echo",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
           "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "assert",
           "named": true
         },
         {
@@ -1501,11 +1955,19 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
         {
-          "type": "expression_group",
+          "type": "echo",
           "named": true
         },
         {
@@ -1529,7 +1991,7 @@
           "named": true
         },
         {
-          "type": "let",
+          "type": "integer_negation",
           "named": true
         },
         {
@@ -1537,7 +1999,7 @@
           "named": true
         },
         {
-          "type": "negation",
+          "type": "panic",
           "named": true
         },
         {
@@ -1557,10 +2019,6 @@
           "named": true
         },
         {
-          "type": "try",
-          "named": true
-        },
-        {
           "type": "tuple",
           "named": true
         },
@@ -1570,6 +2028,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "escape_sequence",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "external_function",
@@ -1696,11 +2159,11 @@
         "required": true,
         "types": [
           {
-            "type": "case",
+            "type": "block",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "case",
             "named": true
           },
           {
@@ -1737,10 +2200,10 @@
     "fields": {
       "body": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
-            "type": "function_body",
+            "type": "block",
             "named": true
           }
         ]
@@ -1804,101 +2267,6 @@
     }
   },
   {
-    "type": "function_body",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "assert",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "bit_string",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "expression_group",
-          "named": true
-        },
-        {
-          "type": "field_access",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "let",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "record",
-          "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "todo",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "tuple_access",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "function_call",
     "named": true,
     "fields": {
@@ -1921,11 +2289,11 @@
             "named": true
           },
           {
-            "type": "case",
+            "type": "block",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "case",
             "named": true
           },
           {
@@ -2111,6 +2479,10 @@
         "required": false,
         "types": [
           {
+            "type": "discard",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -2144,6 +2516,97 @@
     "fields": {}
   },
   {
+    "type": "integer_negation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "bit_string",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "echo",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "integer_negation",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "panic",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "todo",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "label",
     "named": true,
     "fields": {}
@@ -2173,6 +2636,10 @@
           {
             "type": "as",
             "named": false
+          },
+          {
+            "type": "binary_expression",
+            "named": true
           },
           {
             "type": "bit_string_pattern",
@@ -2247,10 +2714,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -2259,11 +2722,19 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "echo",
             "named": true
           },
           {
@@ -2287,7 +2758,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -2295,7 +2766,283 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "panic",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "todo",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "let_assert",
+    "named": true,
+    "fields": {
+      "assign": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "message": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "echo",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "integer_negation",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "panic",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "todo",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bit_string_pattern",
+            "named": true
+          },
+          {
+            "type": "discard",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "record_pattern",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_hole",
+            "named": true
+          },
+          {
+            "type": "type_var",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "echo",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "integer_negation",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "panic",
             "named": true
           },
           {
@@ -2339,10 +3086,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -2351,11 +3094,19 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "echo",
             "named": true
           },
           {
@@ -2379,7 +3130,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -2387,7 +3138,7 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "panic",
             "named": true
           },
           {
@@ -2426,10 +3177,6 @@
           "named": true
         },
         {
-          "type": "assert",
-          "named": true
-        },
-        {
           "type": "binary_expression",
           "named": true
         },
@@ -2438,11 +3185,19 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
         {
-          "type": "expression_group",
+          "type": "echo",
           "named": true
         },
         {
@@ -2466,7 +3221,7 @@
           "named": true
         },
         {
-          "type": "let",
+          "type": "integer_negation",
           "named": true
         },
         {
@@ -2474,7 +3229,7 @@
           "named": true
         },
         {
-          "type": "negation",
+          "type": "panic",
           "named": true
         },
         {
@@ -2527,6 +3282,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
         {
           "type": "bit_string_pattern",
           "named": true
@@ -2595,94 +3354,108 @@
     "fields": {}
   },
   {
-    "type": "negation",
+    "type": "panic",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "assert",
-          "named": true
-        },
-        {
-          "type": "bit_string",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "expression_group",
-          "named": true
-        },
-        {
-          "type": "field_access",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "let",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "record",
-          "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "todo",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "tuple_access",
-          "named": true
-        }
-      ]
+    "fields": {
+      "message": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "echo",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "integer_negation",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "panic",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "todo",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "pattern_spread",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "pipeline_echo",
     "named": true,
     "fields": {}
   },
@@ -2776,11 +3549,15 @@
       },
       "pattern": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "as",
             "named": false
+          },
+          {
+            "type": "binary_expression",
+            "named": true
           },
           {
             "type": "bit_string_pattern",
@@ -2878,10 +3655,6 @@
             "named": true
           },
           {
-            "type": "assert",
-            "named": true
-          },
-          {
             "type": "binary_expression",
             "named": true
           },
@@ -2890,11 +3663,19 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "echo",
             "named": true
           },
           {
@@ -2918,7 +3699,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -2926,7 +3707,7 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "panic",
             "named": true
           },
           {
@@ -2973,14 +3754,10 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "anonymous_function",
-            "named": true
-          },
-          {
-            "type": "assert",
             "named": true
           },
           {
@@ -2992,11 +3769,19 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "echo",
             "named": true
           },
           {
@@ -3020,7 +3805,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -3028,7 +3813,7 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "panic",
             "named": true
           },
           {
@@ -3143,11 +3928,23 @@
           "named": true
         },
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "bit_string",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
           "named": true
         },
         {
@@ -3159,7 +3956,7 @@
           "named": true
         },
         {
-          "type": "expression_group",
+          "type": "echo",
           "named": true
         },
         {
@@ -3199,7 +3996,15 @@
           "named": true
         },
         {
+          "type": "integer_negation",
+          "named": true
+        },
+        {
           "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_assert",
           "named": true
         },
         {
@@ -3207,7 +4012,7 @@
           "named": true
         },
         {
-          "type": "negation",
+          "type": "panic",
           "named": true
         },
         {
@@ -3231,10 +4036,6 @@
           "named": true
         },
         {
-          "type": "try",
-          "named": true
-        },
-        {
           "type": "tuple",
           "named": true
         },
@@ -3248,6 +4049,10 @@
         },
         {
           "type": "type_definition",
+          "named": true
+        },
+        {
+          "type": "use",
           "named": true
         }
       ]
@@ -3297,6 +4102,10 @@
       "required": false,
       "types": [
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "constant",
           "named": true
         },
@@ -3336,113 +4145,7 @@
         "required": false,
         "types": [
           {
-            "type": "string",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "try",
-    "named": true,
-    "fields": {
-      "assign": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "as",
-            "named": false
-          },
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "pattern": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "as",
-            "named": false
-          },
-          {
-            "type": "bit_string_pattern",
-            "named": true
-          },
-          {
-            "type": "discard",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "list_pattern",
-            "named": true
-          },
-          {
-            "type": "record_pattern",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "tuple_pattern",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_hole",
-            "named": true
-          },
-          {
-            "type": "type_var",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
             "type": "anonymous_function",
-            "named": true
-          },
-          {
-            "type": "assert",
             "named": true
           },
           {
@@ -3454,11 +4157,19 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "echo",
             "named": true
           },
           {
@@ -3482,7 +4193,7 @@
             "named": true
           },
           {
-            "type": "let",
+            "type": "integer_negation",
             "named": true
           },
           {
@@ -3490,7 +4201,7 @@
             "named": true
           },
           {
-            "type": "negation",
+            "type": "panic",
             "named": true
           },
           {
@@ -3534,10 +4245,6 @@
           "named": true
         },
         {
-          "type": "assert",
-          "named": true
-        },
-        {
           "type": "binary_expression",
           "named": true
         },
@@ -3546,11 +4253,19 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
         {
-          "type": "expression_group",
+          "type": "echo",
           "named": true
         },
         {
@@ -3574,7 +4289,7 @@
           "named": true
         },
         {
-          "type": "let",
+          "type": "integer_negation",
           "named": true
         },
         {
@@ -3582,7 +4297,7 @@
           "named": true
         },
         {
-          "type": "negation",
+          "type": "panic",
           "named": true
         },
         {
@@ -3631,11 +4346,11 @@
         "required": true,
         "types": [
           {
-            "type": "case",
+            "type": "block",
             "named": true
           },
           {
-            "type": "expression_group",
+            "type": "case",
             "named": true
           },
           {
@@ -3685,6 +4400,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
         {
           "type": "bit_string_pattern",
           "named": true
@@ -3975,6 +4694,10 @@
         "required": false,
         "types": [
           {
+            "type": "constructor_name",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -3988,6 +4711,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "constructor_name",
+            "named": true
+          },
           {
             "type": "identifier",
             "named": true
@@ -4010,6 +4737,219 @@
       "types": [
         {
           "type": "unqualified_import",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "use",
+    "named": true,
+    "fields": {
+      "assignments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "use_assignments",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "echo",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "integer_negation",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "panic",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "todo",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "use_assignment",
+    "named": true,
+    "fields": {
+      "assign": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_hole",
+            "named": true
+          },
+          {
+            "type": "type_var",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bit_string_pattern",
+          "named": true
+        },
+        {
+          "type": "discard",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "list_pattern",
+          "named": true
+        },
+        {
+          "type": "record_pattern",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "use_assignments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "use_assignment",
           "named": true
         }
       ]
@@ -4104,6 +5044,10 @@
     "named": false
   },
   {
+    "type": "<-",
+    "named": false
+  },
+  {
     "type": "<.",
     "named": false
   },
@@ -4117,6 +5061,10 @@
   },
   {
     "type": "<=.",
+    "named": false
+  },
+  {
+    "type": "<>",
     "named": false
   },
   {
@@ -4145,6 +5093,10 @@
   },
   {
     "type": ">>",
+    "named": false
+  },
+  {
+    "type": "@",
     "named": false
   },
   {
@@ -4196,12 +5148,12 @@
     "named": false
   },
   {
-    "type": "erlang",
+    "type": "echo",
     "named": false
   },
   {
-    "type": "escape_sequence",
-    "named": true
+    "type": "erlang",
+    "named": false
   },
   {
     "type": "external",
@@ -4256,6 +5208,10 @@
     "named": true
   },
   {
+    "type": "panic",
+    "named": false
+  },
+  {
     "type": "quoted_content",
     "named": true
   },
@@ -4276,10 +5232,6 @@
     "named": false
   },
   {
-    "type": "try",
-    "named": false
-  },
-  {
     "type": "type",
     "named": false
   },
@@ -4289,6 +5241,10 @@
   },
   {
     "type": "unsigned",
+    "named": false
+  },
+  {
+    "type": "use",
     "named": false
   },
   {
