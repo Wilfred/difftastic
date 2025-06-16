@@ -1,4 +1,6 @@
-## 0.64 (unreleased)
+## 0.65 (unreleased)
+
+## 0.64 (released 16th June 2025)
 
 ### Parsing
 
