@@ -9,7 +9,7 @@ file](https://jj-vcs.github.io/jj/v0.26.0/config/#user-config-file).
 
 ```toml
 [ui]
-diff.tool = ["difft", "--color=always", "$left", "$right"]
+diff-formatter = ["difft", "--color=always", "$left", "$right"]
 ```
 
 
