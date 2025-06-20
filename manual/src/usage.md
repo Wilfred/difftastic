@@ -1,8 +1,8 @@
 # Usage
 
 This page describes how to use the `difft` binary directly. See also
-the [Git](./git.html), [Mercurial](./mercurial.html) and
-[Fossil](./fossil.html) pages for instructions on how to configure
+the [Git](./git.html), [Mercurial](./mercurial.html),
+[Fossil](./fossil.html), or [Jujutsu](./jj.html) pages for instructions on how to configure
 them to use difftastic.
 
 ## File Arguments
