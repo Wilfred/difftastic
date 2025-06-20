@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A trait that can provide the `Span` of the complete contents of a syntax tree node."><title>syn::spanned - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-fa3bb1812debf86c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="syn" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.1 (a28077b28 2023-12-04)" data-channel="1.74.1" data-search-js="search-8be46b629f5f14a8.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/main-c5bd66d33317d69f.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../../syn/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a></nav><nav class="sidebar"><a class="logo-container" href="../../syn/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Module spanned</a></h2><div class="sidebar-elems"><section><ul class="block"><li><a href="#traits">Traits</a></li></ul></section></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../index.html">syn</a>::<wbr><a class="mod" href="#">spanned</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/syn/spanned.rs.html#1-118">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A trait that can provide the <code>Span</code> of the complete contents of a syntax
+tree node.</p>
+<br>
+<h2 id="example"><a href="#example">Example</a></h2>
+<p>Suppose in a procedural macro we have a <a href="../enum.Type.html" title="enum syn::Type"><code>Type</code></a> that we want to assert
+implements the <a href="https://doc.rust-lang.org/1.74.1/core/marker/trait.Sync.html" title="trait core::marker::Sync"><code>Sync</code></a> trait. Maybe this is the type of one of the fields
+of a struct for which we are deriving a trait implementation, and we need to
+be able to pass a reference to one of those fields across threads.</p>
+<p>If the field type does <em>not</em> implement <code>Sync</code> as required, we want the
+compiler to report an error pointing out exactly which type it was.</p>
+<p>The following macro code takes a variable <code>ty</code> of type <code>Type</code> and produces a
+static assertion that <code>Sync</code> is implemented for that type.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>proc_macro::TokenStream;
+<span class="kw">use </span>proc_macro2::Span;
+<span class="kw">use </span>quote::quote_spanned;
+<span class="kw">use </span>syn::Type;
+<span class="kw">use </span>syn::spanned::Spanned;
+
+<span class="attr">#[proc_macro_derive(MyMacro)]
+</span><span class="kw">pub fn </span>my_macro(input: TokenStream) -&gt; TokenStream {
+    <span class="comment">/* ... */
+
+    </span><span class="kw">let </span>assert_sync = <span class="macro">quote_spanned! </span>{ty.span()=&gt;
+        <span class="kw">struct </span>_AssertSync <span class="kw">where </span>#ty: Sync;
+    };
+
+    <span class="comment">/* ... */
+</span>}</code></pre></div>
+<p>By inserting this <code>assert_sync</code> fragment into the output code generated by
+our macro, the user’s code will fail to compile if <code>ty</code> does not implement
+<code>Sync</code>. The errors they would see look like the following.</p>
+<div class="example-wrap"><pre class="language-text"><code>error[E0277]: the trait bound `*const i32: std::marker::Sync` is not satisfied
+  --&gt; src/main.rs:10:21
+   |
+10 |     bad_field: *const i32,
+   |                ^^^^^^^^^^ `*const i32` cannot be shared between threads safely
+</code></pre></div>
+<p>In this technique, using the <code>Type</code>’s span for the error message makes the
+error appear in the correct place underlining the right type.</p>
+<br>
+<h2 id="limitations"><a href="#limitations">Limitations</a></h2>
+<p>The underlying <a href="https://doc.rust-lang.org/1.74.1/proc_macro/struct.Span.html#method.join" title="method proc_macro::Span::join"><code>proc_macro::Span::join</code></a> method is nightly-only. When
+called from within a procedural macro in a nightly compiler, <code>Spanned</code> will
+use <code>join</code> to produce the intended span. When not using a nightly compiler,
+only the span of the <em>first token</em> of the syntax tree node is returned.</p>
+<p>In the common case of wanting to use the joined span as the span of a
+<code>syn::Error</code>, consider instead using <a href="../parse/struct.Error.html#method.new_spanned" title="associated function syn::parse::Error::new_spanned"><code>syn::Error::new_spanned</code></a> which is
+able to span the error correctly under the complete syntax tree node without
+needing the unstable <code>join</code>.</p>
+</div></details><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.Spanned.html" title="trait syn::spanned::Spanned">Spanned</a></div><div class="desc docblock-short">A trait that can provide the <code>Span</code> of the complete contents of a syntax
+tree node.</div></li></ul></section></div></main></body></html>
