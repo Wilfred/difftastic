@@ -188,13 +188,14 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     // to be valid UTF-16. Decoding these as UTF-16 leads to garbage
     // ("mojibake").
     //
-    // To avoid this, we only try UTF-16 after we'vedone MIME type
+    // To avoid this, we only try UTF-16 after we've done MIME type
     // checks for binary, and we conservatively require an explicit
     // byte order mark.
     let u16_values = u16_from_bytes(bytes);
     let utf16_str_result = String::from_utf16(&u16_values);
     match utf16_str_result {
         Ok(valid_utf16_string) if has_utf16_byte_order_mark(bytes) => {
+            info!("Input file is valid UTF-16 with a byte order mark");
             return ProbableFileKind::Text(valid_utf16_string);
         }
         _ => {}
@@ -238,9 +239,13 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         let num_null = utf16_string
             .chars()
             .take(5000)
-            .filter(|c| *c == '\0')
+            .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
             .count();
         if num_null <= 1 {
+            info!(
+                "Input file is mostly valid Latin 1 (invalid characters: {})",
+                num_null
+            );
             return ProbableFileKind::Text(latin1_str.to_string());
         }
     }
