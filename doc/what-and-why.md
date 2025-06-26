@@ -66,14 +66,14 @@ other programming language).
 
 They should be straight-forward to generate as long as one has a
 suitable `tree-sitter` cli and the `grammar.js` file mentioned above.
-See some [official
-docs](https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-3-creating-parsers.md#command-generate)
-for further information.
 
-N.B. it might be better to remove `package.json` before running
-`tree-sitter generate` so that appropriate binding information is
-placed in the `package.json` which is freshly created by the
-invocation.
+Binding code used to be created by the `generate` subcommand, but this
+may have changed.  According to [this
+documentation](https://tree-sitter.github.io/tree-sitter/cli/init.html#the-bindings-field),
+it is the `init` subcommand that will generate them based on values
+specified in `tree-sitter.json`.  Probably it's better to consult the
+official documentation and/or ask around about what the latest
+procedure is though.
 
 ## Footnotes
 
@@ -94,3 +94,4 @@ _is_ required for the `generate` subcommand to work.
 non-generated files such as `scanner.c`, `scanner.cc`, etc.  In the
 current case, no external scanner is used and the `src` directory
 content is entirely generated.
+
