@@ -28,7 +28,7 @@ not meant to reflect relative importance.
 * `package.json` - this file is needed by a
   [component](https://github.com/cursorless-dev/vscode-parse-tree/) of
   [Cursorless](https://www.cursorless.org/).  It uses our grammar via
-  yarn and `package.json` seems to be essential [1].
+  yarn and `package.json` seems to be essential.
 
 * `queries` - this directory and the simple file it contains are
   provided on request from
@@ -38,7 +38,7 @@ not meant to reflect relative importance.
 
 * `README.md` - this file contains the repository's README content.
 
-* `src` - this directory contains source files that are generated [2]
+* `src` - this directory contains source files that are generated [1]
   from `grammar.js`.  The files are typically used to generate a
   dynamic library / shared object that can be used by the tree-sitter
   library to handle Clojure / ClojureScript source code.  Although the
@@ -68,29 +68,33 @@ They should be straight-forward to generate as long as one has a
 suitable `tree-sitter` cli and the `grammar.js` file mentioned above.
 
 Binding code used to be created by the `generate` subcommand, but this
-may have changed.  According to [this
-documentation](https://tree-sitter.github.io/tree-sitter/cli/init.html#the-bindings-field),
-it is the `init` subcommand that will generate them based on values
-specified in `tree-sitter.json`.  Probably it's better to consult the
-official documentation and/or ask around about what the latest
-procedure is though.
+appears to have [changed from version 0.24.0 of the `tree-sitter`
+cli](https://github.com/tree-sitter/tree-sitter/releases/tag/v0.24.0):
+
+> Move generation of grammar files to an init command ([#3694](https://github.com/tree-sitter/tree-sitter/pull/3694))
+
+Note that "grammar files" here seems to refer to "bindings" files.
+
+Further evidence in support of this change is [this
+documentation](https://tree-sitter.github.io/tree-sitter/cli/init.html#binding-files):
+
+> When you run tree-sitter init, the CLI will also generate a number
+> of files in your repository that allow for your parser to be used
+> from different language.
+
+Which languages bindings files are generated for is affected by [the
+`bindings` field in
+`tree-sitter.json`](https://tree-sitter.github.io/tree-sitter/cli/init.html#the-bindings-field).
+(It appears that omitting the field means "don't generate any
+bindings".)
+
+Probably it's better to consult the official documentation and/or ask
+around about what the latest procedure is rather than rely on these
+brief notes though.
 
 ## Footnotes
 
-[1] The file `package.json` may also be required if it's important to
-use some of the capabilities of the `tree-sitter` cli such as the
-`tags` and `highlight` subcommands (which we don't typically use).
-
-It's not necessary for all subcommands though (e.g. neither the
-`generate` nor `test` subcommands seem to require it).  Its presence
-also doesn't signify necessary use of `npm`.
-
-Possibly contrary to what might be indicated elsewhere, `npm` is
-not necessary for certain core parts of tree-sitter grammar
-development.  However, at the moment, an appropriate version of `node`
-_is_ required for the `generate` subcommand to work.
-
-[2] If the grammar uses an external scanner, `src` may contain
+[1] If the grammar uses an external scanner, `src` may contain
 non-generated files such as `scanner.c`, `scanner.cc`, etc.  In the
 current case, no external scanner is used and the `src` directory
 content is entirely generated.
