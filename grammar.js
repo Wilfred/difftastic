@@ -755,7 +755,7 @@ module.exports = grammar({
         "func",
         "_init",
         field("parameters", $.parameters),
-        optional(seq(".", field("constructor_arguments", $.arguments))),
+        optional(seq(".", field("arguments", $.arguments))),
         optional($._return_type),
         ":",
         field("body", $.body),
