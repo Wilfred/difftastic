@@ -3334,6 +3334,61 @@
         }
       ]
     },
+    "subscript_arguments": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_rhs_expression"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_rhs_expression"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
     "subscript": {
       "type": "SEQ",
       "members": [
@@ -3342,16 +3397,8 @@
           "name": "_primary_expression"
         },
         {
-          "type": "STRING",
-          "value": "["
-        },
-        {
           "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "]"
+          "name": "subscript_arguments"
         }
       ]
     },
@@ -3383,16 +3430,8 @@
             "name": "identifier"
           },
           {
-            "type": "STRING",
-            "value": "["
-          },
-          {
             "type": "SYMBOL",
-            "name": "_expression"
-          },
-          {
-            "type": "STRING",
-            "value": "]"
+            "name": "subscript_arguments"
           }
         ]
       }

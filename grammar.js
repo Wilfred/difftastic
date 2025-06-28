@@ -602,11 +602,12 @@ module.exports = grammar({
       ),
 
     // -- Accessors
-    subscript: ($) => seq($._primary_expression, "[", $._expression, "]"),
+    subscript_arguments: ($) => seq("[", trailCommaSep1($._rhs_expression), "]"),
+    subscript: ($) => seq($._primary_expression, $.subscript_arguments),
 
     attribute_call: ($) => prec(PREC.attribute, seq($.identifier, $.arguments)),
     attribute_subscript: ($) =>
-      prec(PREC.attribute, seq($.identifier, "[", $._expression, "]")),
+      prec(PREC.attribute, seq($.identifier, $.subscript_arguments)),
     attribute: ($) =>
       prec(
         PREC.attribute,

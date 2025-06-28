@@ -782,10 +782,10 @@ x['s'].y.z[0]
   (expression_statement (attribute (identifier) (attribute_call (identifier) (arguments)) (identifier)))
   (expression_statement (attribute (call (identifier) (arguments)) (identifier)))
 
-  (expression_statement (attribute (identifier) (attribute_subscript (identifier) (integer))))
-  (expression_statement (attribute (subscript (identifier) (integer)) (identifier)))
-  (expression_statement (attribute (identifier) (identifier) (attribute_subscript (identifier) (integer))))
-  (expression_statement (attribute (subscript (identifier) (string)) (identifier) (attribute_subscript (identifier) (integer))))
+  (expression_statement (attribute (identifier) (attribute_subscript (identifier) (subscript_arguments (integer)))))
+  (expression_statement (attribute (subscript (identifier) (subscript_arguments (integer))) (identifier)))
+  (expression_statement (attribute (identifier) (identifier) (attribute_subscript (identifier) (subscript_arguments (integer)))))
+  (expression_statement (attribute (subscript (identifier) (subscript_arguments (string))) (identifier) (attribute_subscript (identifier) (subscript_arguments (integer)))))
 )
 
 =====================================
@@ -1007,5 +1007,5 @@ enum {
       (enumerator (identifier) (attribute (identifier) (identifier)))
       (enumerator (identifier) (parenthesized_expression (binary_operator (attribute (identifier) (identifier)) (integer))))
       (enumerator (identifier) (call (identifier) (arguments (true))))
-      (enumerator (identifier) (subscript (identifier) (integer)))
+      (enumerator (identifier) (subscript (identifier) (subscript_arguments (integer))))
       (enumerator (identifier)) (ERROR (dictionary (pair (identifier) (integer)))))))

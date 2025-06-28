@@ -121,7 +121,8 @@ var children:
           (attribute
             (subscript
               (identifier)
-              (integer))
+              (subscript_arguments
+                (integer)))
             (attribute_call
               (identifier)
               (arguments))))))))

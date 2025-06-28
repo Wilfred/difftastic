@@ -427,11 +427,11 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "identifier",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "subscript_arguments",
           "named": true
         }
       ]
@@ -635,7 +635,7 @@
   },
   {
     "type": "body",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -2028,7 +2028,30 @@
       "required": true,
       "types": [
         {
+          "type": "_primary_expression",
+          "named": true
+        },
+        {
+          "type": "subscript_arguments",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subscript_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         }
       ]
