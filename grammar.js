@@ -606,7 +606,7 @@ module.exports = grammar({
 
     attribute_call: ($) => prec(PREC.attribute, seq($.identifier, $.arguments)),
     attribute_subscript: ($) =>
-      prec(PREC.attribute, seq($.identifier, "[", $._primary_expression, "]")),
+      prec(PREC.attribute, seq($.identifier, "[", $._expression, "]")),
     attribute: ($) =>
       prec(
         PREC.attribute,

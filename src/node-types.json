@@ -427,7 +427,11 @@
       "required": true,
       "types": [
         {
-          "type": "_primary_expression",
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]

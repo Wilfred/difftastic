@@ -3388,7 +3388,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_primary_expression"
+            "name": "_expression"
           },
           {
             "type": "STRING",
