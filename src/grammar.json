@@ -793,8 +793,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "arguments"
+              "type": "FIELD",
+              "name": "arguments",
+              "content": {
+                "type": "SYMBOL",
+                "name": "arguments"
+              }
             },
             {
               "type": "BLANK"
@@ -1383,7 +1387,7 @@
           "members": [
             {
               "type": "FIELD",
-              "name": "export_arguments",
+              "name": "arguments",
               "content": {
                 "type": "SYMBOL",
                 "name": "arguments"
@@ -3397,8 +3401,12 @@
           "name": "_primary_expression"
         },
         {
-          "type": "SYMBOL",
-          "name": "subscript_arguments"
+          "type": "FIELD",
+          "name": "arguments",
+          "content": {
+            "type": "SYMBOL",
+            "name": "subscript_arguments"
+          }
         }
       ]
     },
@@ -3413,8 +3421,12 @@
             "name": "identifier"
           },
           {
-            "type": "SYMBOL",
-            "name": "arguments"
+            "type": "FIELD",
+            "name": "arguments",
+            "content": {
+              "type": "SYMBOL",
+              "name": "arguments"
+            }
           }
         ]
       }
@@ -3430,8 +3442,12 @@
             "name": "identifier"
           },
           {
-            "type": "SYMBOL",
-            "name": "subscript_arguments"
+            "type": "FIELD",
+            "name": "arguments",
+            "content": {
+              "type": "SYMBOL",
+              "name": "subscript_arguments"
+            }
           }
         ]
       }
@@ -4235,7 +4251,7 @@
                 },
                 {
                   "type": "FIELD",
-                  "name": "constructor_arguments",
+                  "name": "arguments",
                   "content": {
                     "type": "SYMBOL",
                     "name": "arguments"
@@ -4352,8 +4368,12 @@
             "name": "identifier"
           },
           {
-            "type": "SYMBOL",
-            "name": "arguments"
+            "type": "FIELD",
+            "name": "arguments",
+            "content": {
+              "type": "SYMBOL",
+              "name": "arguments"
+            }
           }
         ]
       }
@@ -4369,8 +4389,12 @@
             "name": "_primary_expression"
           },
           {
-            "type": "SYMBOL",
-            "name": "arguments"
+            "type": "FIELD",
+            "name": "arguments",
+            "content": {
+              "type": "SYMBOL",
+              "name": "arguments"
+            }
           }
         ]
       }
