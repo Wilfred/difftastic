@@ -216,7 +216,8 @@ module.exports = grammar({
 
     // -- Annotation
 
-    annotation: ($) => seq("@", $.identifier, optional(field("arguments", $.arguments))),
+    annotation: ($) =>
+      seq("@", $.identifier, optional(field("arguments", $.arguments))),
 
     // The syntax tree looks better when annotations are grouped in a container
     // node in contexts like variable_statement and function_definition.
@@ -602,12 +603,18 @@ module.exports = grammar({
       ),
 
     // -- Accessors
-    subscript_arguments: ($) => seq("[", trailCommaSep1($._rhs_expression), "]"),
-    subscript: ($) => seq($._primary_expression, field("arguments", $.subscript_arguments)),
+    subscript_arguments: ($) =>
+      seq("[", trailCommaSep1($._rhs_expression), "]"),
+    subscript: ($) =>
+      seq($._primary_expression, field("arguments", $.subscript_arguments)),
 
-    attribute_call: ($) => prec(PREC.attribute, seq($.identifier, field("arguments", $.arguments))),
+    attribute_call: ($) =>
+      prec(PREC.attribute, seq($.identifier, field("arguments", $.arguments))),
     attribute_subscript: ($) =>
-      prec(PREC.attribute, seq($.identifier, field("arguments", $.subscript_arguments))),
+      prec(
+        PREC.attribute,
+        seq($.identifier, field("arguments", $.subscript_arguments)),
+      ),
     attribute: ($) =>
       prec(
         PREC.attribute,
@@ -625,7 +632,13 @@ module.exports = grammar({
     conditional_expression: ($) =>
       prec.right(
         PREC.conditional,
-        seq(field("left", $._expression), "if", field("condition", $._expression), "else", field("right", $._expression)),
+        seq(
+          field("left", $._expression),
+          "if",
+          field("condition", $._expression),
+          "else",
+          field("right", $._expression),
+        ),
       ),
 
     parenthesized_expression: ($) =>
@@ -669,7 +682,8 @@ module.exports = grammar({
 
     pair: ($) =>
       seq(
-        field("key",
+        field(
+          "key",
           choice(
             seq($._rhs_expression, ":"), // Lambdas are allowed here.
             seq($.identifier, "="),
@@ -768,9 +782,14 @@ module.exports = grammar({
     arguments: ($) =>
       seq("(", optional(trailCommaSep1($._rhs_expression)), ")"),
 
-    base_call: ($) => prec(PREC.call, seq(".", $.identifier, field("arguments", $.arguments))),
+    base_call: ($) =>
+      prec(PREC.call, seq(".", $.identifier, field("arguments", $.arguments))),
 
-    call: ($) => prec(PREC.call, seq($._primary_expression, field("arguments", $.arguments))),
+    call: ($) =>
+      prec(
+        PREC.call,
+        seq($._primary_expression, field("arguments", $.arguments)),
+      ),
   }, // end rules
 });
 
