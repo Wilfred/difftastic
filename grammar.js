@@ -308,7 +308,7 @@ module.exports = grammar({
     export_variable_statement: ($) =>
       seq(
         "export",
-        optional(field("export_arguments", $.arguments)),
+        optional(field("arguments", $.arguments)),
         optional(choice("onready", $.remote_keyword)),
         $._variable_statement,
       ),
