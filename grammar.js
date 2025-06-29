@@ -661,7 +661,7 @@ module.exports = grammar({
     augmented_assignment: ($) =>
       seq(
         field("left", $._expression),
-        choice(
+        field("op", choice(
           "+=",
           "-=",
           "*=",
@@ -673,7 +673,7 @@ module.exports = grammar({
           "&=",
           "^=",
           "|=",
-        ),
+        )),
         field("right", $._rhs_expression),
       ),
 
