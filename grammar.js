@@ -683,12 +683,9 @@ module.exports = grammar({
 
     pair: ($) =>
       seq(
-        field(
-          "key",
-          choice(
-            seq($._rhs_expression, ":"), // Lambdas are allowed here.
-            seq($.identifier, "="),
-          ),
+        choice(
+          seq(field("left", $._rhs_expression), ":"), // Lambdas are allowed here.
+          seq(field("left", $.identifier), "="),
         ),
         field("value", choice($._rhs_expression, $.pattern_binding)),
       ),
