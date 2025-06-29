@@ -744,8 +744,8 @@ module.exports = grammar({
 
     function_definition: ($) =>
       seq(
-        optional(choice($.static_keyword, $.remote_keyword)),
         optional($.annotations),
+        optional(choice($.static_keyword, $.remote_keyword)),
         "func",
         optional(field("name", $.name)),
         field("parameters", $.parameters),
