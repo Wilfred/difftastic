@@ -335,7 +335,8 @@ module.exports = grammar({
     continue_statement: ($) => prec.left("continue"),
     tool_statement: ($) => "tool",
 
-    signal_statement: ($) => seq("signal", field("name", $.name), optional($.parameters)),
+    signal_statement: ($) =>
+      seq("signal", field("name", $.name), optional(field("parameters", $.parameters))),
 
     class_name_statement: ($) =>
       seq(
