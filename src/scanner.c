@@ -307,7 +307,7 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                 // Region delimiters are always on their own line, so we
                 // check for trailing whitespace and line returns after the token to determine
                 // if we have a valid region or endregion token.
-                if (is_region && look_ahead_string(lexer, "region")) {
+                if (valid_symbols[REGION_START] && is_region && look_ahead_string(lexer, "region")) {
                     if (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
                         lexer->lookahead == '\n' || lexer->lookahead == '\r' ||
                         lexer->eof(lexer)) {
@@ -315,7 +315,7 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                         lexer->result_symbol = REGION_START;
                         return true;
                     }
-                } else if (is_endregion && look_ahead_string(lexer, "endregion")) {
+                } else if (valid_symbols[REGION_END] && is_endregion && look_ahead_string(lexer, "endregion")) {
                     if (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
                         lexer->lookahead == '\n' || lexer->lookahead == '\r' ||
                         lexer->eof(lexer)) {
