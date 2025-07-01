@@ -53,6 +53,8 @@ enum TokenType {
     COMMA,
     /* COLON, // See grammar.js externals */
     BODY_END,
+    REGION_START,
+    REGION_END,
 };
 
 typedef enum {
@@ -163,6 +165,19 @@ typedef struct {
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
+
+// Helper function to check for a string from current lexer position
+// Used for matching the "region" and "endregion" keywords.
+static bool look_ahead_string(TSLexer *lexer, const char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        char c = str[i];
+        if (lexer->lookahead != c) {
+            return false;
+        }
+        advance(lexer);
+    }
+    return true;
+}
 
 bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                 const bool *valid_symbols) {
@@ -279,6 +294,39 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             indent_length += 8;
             skip(lexer);
         } else if (lexer->lookahead == '#') {
+            // Check for #region and #endregion in priority before handling the token as a comment.
+            if (valid_symbols[REGION_START] || valid_symbols[REGION_END]) {
+                // We first walk over the # character
+                advance(lexer);
+
+                // We check if the next characters might be the start or end of a region keyword to filter out
+                // comments that are not region markers before making more checks.
+                bool is_region = (lexer->lookahead == 'r');
+                bool is_endregion = (lexer->lookahead == 'e');
+
+                // Region delimiters are always on their own line, so we
+                // check for trailing whitespace and line returns after the token to determine
+                // if we have a valid region or endregion token.
+                if (is_region && look_ahead_string(lexer, "region")) {
+                    if (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
+                        lexer->lookahead == '\n' || lexer->lookahead == '\r' ||
+                        lexer->eof(lexer)) {
+                        lexer->mark_end(lexer);
+                        lexer->result_symbol = REGION_START;
+                        return true;
+                    }
+                } else if (is_endregion && look_ahead_string(lexer, "endregion")) {
+                    if (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
+                        lexer->lookahead == '\n' || lexer->lookahead == '\r' ||
+                        lexer->eof(lexer)) {
+                        lexer->mark_end(lexer);
+                        lexer->result_symbol = REGION_END;
+                        return true;
+                    }
+                }
+            }
+
+            // We were not looking at a region or endregion token, handle as regular comment
             if (first_comment_indent_length == -1) {
                 first_comment_indent_length = (int32_t)indent_length;
             }
