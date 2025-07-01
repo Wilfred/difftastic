@@ -84,9 +84,15 @@ pub(crate) enum Language {
     Zig,
 }
 
+/// Users can explicitly request to treat a certain file glob pattern
+/// as a specific languages, rather than using the normal language
+/// detection logic.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub(crate) enum LanguageOverride {
+    /// Treat the file as this language regardless of what language
+    /// detection thinks.
     Language(Language),
+    /// Treat this file as plain text.
     PlainText,
 }
 
