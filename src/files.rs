@@ -141,6 +141,7 @@ pub(crate) enum ProbableFileKind {
 pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     // If the bytes are entirely valid UTF-8, treat them as a string.
     if let Ok(valid_utf8_string) = std::str::from_utf8(bytes) {
+        info!("Input file is valid UTF-8");
         return ProbableFileKind::Text(valid_utf8_string.to_owned());
     }
 
