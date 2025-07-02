@@ -22,6 +22,8 @@
 // It's sometimes more readable to explicitly create a vec than to use
 // the Default trait.
 #![allow(clippy::manual_unwrap_or_default)]
+// I find the explicit arithmetic clearer sometimes.
+#![allow(clippy::implicit_saturating_sub)]
 // .to_owned() is more explicit on string references.
 #![warn(clippy::str_to_string)]
 // .to_string() on a String is clearer as .clone().
