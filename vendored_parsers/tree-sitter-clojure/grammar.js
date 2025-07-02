@@ -3,6 +3,10 @@
 // things.  this is more or less in line with advice from tree-sitter
 // folks.
 
+function regex(...patts) {
+  return RegExp(patts.join(""));
+}
+
 // java.lang.Character.isWhitespace AND comma
 //
 // Space Separator (Zs) but NOT including (U+00A0, U+2007, U+202F)
@@ -31,29 +35,35 @@
 // Unit Separator
 //   U+001F
 const WHITESPACE_CHAR =
-      /[\f\n\r\t, \u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
+      regex("[",
+            "\\f\\n\\r\\t, ",
+            "\\u000B\\u001C\\u001D\\u001E\\u001F",
+            "\\u2028\\u2029\\u1680",
+            "\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008",
+            "\\u2009\\u200a\\u205f\\u3000",
+            "]");
 
 const WHITESPACE =
       token(repeat1(WHITESPACE_CHAR));
 
 const COMMENT =
-      token(/(;|#!).*\n?/);
+      token(regex('(;|#!).*\n?'));
 
 const DIGIT =
-      /[0-9]/;
+      regex('[0-9]');
 
 const ALPHANUMERIC =
-      /[0-9a-zA-Z]/;
+      regex('[0-9a-zA-Z]');
 
 const HEX_DIGIT =
-      /[0-9a-fA-F]/;
+      regex('[0-9a-fA-F]');
 
 const OCTAL_DIGIT =
-      /[0-7]/;
+      regex('[0-7]');
 
 const HEX_NUMBER =
       seq("0",
-          /[xX]/,
+          regex('[xX]'),
           repeat1(HEX_DIGIT),
           optional("N"));
 
@@ -66,10 +76,9 @@ const OCTAL_NUMBER =
 // XXX: not constraining portion after r/R
 const RADIX_NUMBER =
       seq(repeat1(DIGIT),
-          /[rR]/,
+          regex('[rR]'),
           repeat1(ALPHANUMERIC));
 
-// XXX: not accounting for division by zero
 const RATIO =
       seq(repeat1(DIGIT),
           "/",
@@ -79,17 +88,17 @@ const DOUBLE =
       seq(repeat1(DIGIT),
           optional(seq(".",
                        repeat(DIGIT))),
-          optional(seq(/[eE]/,
-                       optional(/[+-]/),
+          optional(seq(regex('[eE]'),
+                       optional(regex('[+-]')),
                        repeat1(DIGIT))),
           optional("M"));
 
 const INTEGER =
       seq(repeat1(DIGIT),
-          optional(/[MN]/));
+          optional(regex('[MN]')));
 
 const NUMBER =
-      token(prec(10, seq(optional(/[+-]/),
+      token(prec(10, seq(optional(regex('[+-]')),
                          choice(HEX_NUMBER,
                                 OCTAL_NUMBER,
                                 RADIX_NUMBER,
@@ -105,13 +114,26 @@ const BOOLEAN =
                    'true'));
 
 const KEYWORD_HEAD =
-      /[^\f\n\r\t ()\[\]{}"@~^;`\\,:/\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
+      regex("[^",
+            "\\f\\n\\r\\t ",
+            "()",
+            "\\[\\]",
+            "{}",
+            '"',
+            "@~^;`",
+            "\\\\",
+            ",:/",
+            "\\u000B\\u001C\\u001D\\u001E\\u001F",
+            "\\u2028\\u2029\\u1680",
+            "\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008",
+            "\\u2009\\u200a\\u205f\\u3000",
+            "]");
 
 const KEYWORD_BODY =
-      choice(/[:']/, KEYWORD_HEAD);
+      choice(regex("[:']"), KEYWORD_HEAD);
 
 const KEYWORD_NAMESPACED_BODY =
-      token(repeat1(choice(/[:'\/]/, KEYWORD_HEAD)));
+      token(repeat1(choice(regex("[:'/]"), KEYWORD_HEAD)));
 
 const KEYWORD_NO_SIGIL =
       token(seq(KEYWORD_HEAD,
@@ -125,10 +147,10 @@ const AUTO_RESOLVE_MARK =
 
 const STRING =
       token(seq('"',
-                repeat(/[^"\\]/),
+                repeat(regex('[^"\\\\]')),
                 repeat(seq("\\",
-                           /./,
-                           repeat(/[^"\\]/))),
+                           regex("."),
+                           repeat(regex('[^"\\\\]')))),
                 '"'));
 
 // XXX: better to match \o378 as a single item
@@ -137,9 +159,6 @@ const OCTAL_CHAR =
           choice(seq(DIGIT, DIGIT, DIGIT),
                  seq(DIGIT, DIGIT),
                  seq(DIGIT)));
-// choice(seq(/[0-3]/, OCTAL_DIGIT, OCTAL_DIGIT),
-//        seq(OCTAL_DIGIT, OCTAL_DIGIT),
-//        seq(OCTAL_DIGIT)));
 
 const NAMED_CHAR =
       choice("backspace",
@@ -165,7 +184,7 @@ const UNICODE =
 // XXX: null is supposed to be usable but putting \x00 below
 //      does not seem to work
 const ANY_CHAR =
-      /.|\n/;
+      regex('.|\n');
 
 const CHARACTER =
       token(seq("\\",
@@ -175,18 +194,30 @@ const CHARACTER =
                        ANY_CHAR)));
 
 const SYMBOL_HEAD =
-      /[^\f\n\r\t \/()\[\]{}"@~^;`\\,:#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
+      regex("[^",
+            "\\f\\n\\r\\t ",
+            "/",
+            "()\\[\\]{}",
+            '"',
+            "@~^;`",
+            "\\\\",
+            ",:#'0-9",
+            "\\u000B\\u001C\\u001D\\u001E\\u001F",
+            "\\u2028\\u2029\\u1680",
+            "\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008",
+            "\\u2009\\u200a\\u205f\\u3000",
+            "]");
 
 const NS_DELIMITER =
       token("/");
 
 const SYMBOL_BODY =
       choice(SYMBOL_HEAD,
-             /[:#'0-9]/);
+             regex("[:#'0-9]"));
 
 const SYMBOL_NAMESPACED_NAME =
       token(repeat1(choice(SYMBOL_HEAD,
-                           /[\/:#'0-9]/)));
+                           regex("[/:#'0-9]"))));
 
 // XXX: no attempt is made to enforce certain complex things, e.g.
 //
@@ -335,20 +366,12 @@ module.exports = grammar({
     meta_lit: $ =>
     seq(field('marker', "^"),
         repeat($._gap),
-        field('value', choice($.read_cond_lit,
-                              $.map_lit,
-                              $.str_lit,
-                              $.kwd_lit,
-                              $.sym_lit))),
+        field('value', $._form)),
 
     old_meta_lit: $ =>
     seq(field('marker', "#^"),
         repeat($._gap),
-        field('value', choice($.read_cond_lit,
-                              $.map_lit,
-                              $.str_lit,
-                              $.kwd_lit,
-                              $.sym_lit))),
+        field('value', $._form)),
 
     list_lit: $ =>
     seq(repeat($._metadata_lit),
@@ -438,7 +461,7 @@ module.exports = grammar({
     sym_val_lit: $ =>
     seq(field('marker', "##"),
         repeat($._gap),
-        field('value', $.sym_lit)),
+        field('value', $._form)),
 
     evaling_lit: $ =>
     seq(repeat($._metadata_lit), // ^:x #=(vector 1)

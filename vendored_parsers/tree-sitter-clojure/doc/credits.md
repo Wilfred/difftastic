@@ -7,6 +7,7 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * alehatsman - nvim-treesitter and related discussion
 * alexmiller - clojure-related inquiries and docs
 * andrewchambers - discussion
+* bbatsov - discussions and clojure-ts-mode
 * bfredl - neovim and tree-sitter work
 * borkdude - analyze-reify, babashka, clj-kondo, edamame, and more
 * carocad - parcera and discussions
@@ -14,6 +15,7 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * clojars - including everyone who has uploaded there
 * CoenraadS - Bracket-Pair-Colorizer-2
 * dannyfreeman - grammar.js enhancements and fixes, clojure-ts-mode and discussions
+* dmiller - ClojureCLR consultation
 * EvegeniyPeshkov - syntax-highlighter
 * georgewfraser - vscode-tree-sitter
 * gfredericks - test.check, generators, and discussions
@@ -34,9 +36,11 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * p00f - nvim-ts-rainbow
 * pedrorgirardi - discussions, vscode and tree-sitter-clojure bits
 * PEZ - calva, vscode tips, and general discussion
+* phronmophobic - dewey, discussion, and repository data
 * pyrmont - review, error-spotting, fix, and discussions
 * rewinfrey - helpful bits from tree-sitter-haskell
 * richhickey - clojure, etc.
+* rrudakov - discussions and clojure-ts-mode
 * Saikyun - discussions
 * seancorfield - clojure-related inquiries
 * SergeevPavel - tree-sitter-clojure.SergeevPavel (fork of tree-sitter-clojure.Tavistock with further work)
