@@ -19,5 +19,5 @@ To see when each parser was last updated, use the following shell
 command:
 
 ```
-$ for d in $(git log | grep git-subtree-dir | tr -d ' ' | cut -d ":" -f2 | sort); do echo "$d"; git log --pretty="  %cs" -n 1 $d; done
+$ for d in $(git log vendored_parsers/* | grep git-subtree-dir | tr -d ' ' | cut -d ":" -f2 | sort); do echo "$d"; git log --pretty="  %cs" -n 1 $d; done
 ```
