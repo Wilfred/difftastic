@@ -40,7 +40,7 @@ with `difft --list-languages`.
 | Nix             | [nix-community/tree-sitter-nix](https://github.com/nix-community/tree-sitter-nix)                 |
 | Objective-C     | [amaanq/tree-sitter-objc](https://github.com/amaanq/tree-sitter-objc)                             |
 | OCaml           | [tree-sitter/tree-sitter-ocaml](https://github.com/tree-sitter/tree-sitter-ocaml)                 |
-| Pascal          | [Isopod/tree-sitter-pascal](https://github.com/Isopod/tree-sitter-pascal)      |
+| Pascal          | [Isopod/tree-sitter-pascal](https://github.com/Isopod/tree-sitter-pascal)                         |
 | Perl            | [ganezdragon/tree-sitter-perl](https://github.com/ganezdragon/tree-sitter-perl)                   |
 | PHP             | [tree-sitter/tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php)                     |
 | Python          | [tree-sitter/tree-sitter-python](https://github.com/tree-sitter/tree-sitter-python)               |
@@ -58,6 +58,7 @@ with `difft --list-languages`.
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)       |
 | Verilog         | [tree-sitter/tree-sitter-verilog](https://github.com/tree-sitter/tree-sitter-verilog)             |
 | VHDL            | [JLeemaster/tree-sitter-vhdl](https://github.com/JLeemaster/tree-sitter-vhdl)                     |
+| VHDL            | [tree-sitter-grammars/tree-sitter-zig](https://github.com/tree-sitter-grammars/tree-sitter-zig)   |
 | Zig             | [maxxnino/tree-sitter-zig](https://github.com/maxxnino/tree-sitter-zig)                           |
 
 ## Structured Text Formats

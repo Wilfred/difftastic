@@ -4,7 +4,7 @@
 
 ## 编程语言
 
-| 语言             | 使用的解析器                                                                                                                                                      |
+| 语言            | 使用的解析器                                                                                                                                                   |
 |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Bash            | [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash)                                                                                |
 | Apex            | [aheber/tree-sitter-sfapex](https://github.com/aheber/tree-sitter-sfapex)                                                                                      |

@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Updated Zig parser.
+
 File detection is now stricter with Windows-1252 (Latin 1) encoded
 text. Windows-1252 was added in 0.63 and some binary files
 (e.g. Brotli compressed files) were incorrectly treated as this
