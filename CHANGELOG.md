@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Updated Clojure and Zig parsers.
+Updated Clojure, Common Lisp and Zig parsers.
 
 File detection is now stricter with Windows-1252 (Latin 1) encoded
 text. Windows-1252 was added in 0.63 and some binary files
