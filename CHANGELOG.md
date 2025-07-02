@@ -7,6 +7,9 @@ text. Windows-1252 was added in 0.63 and some binary files
 (e.g. Brotli compressed files) were incorrectly treated as this
 encoding.
 
+Added the `--override-binary` option to force files to be treated as
+binary rather than text.
+
 ## 0.64 (released 16th June 2025)
 
 ### Parsing

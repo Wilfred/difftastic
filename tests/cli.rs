@@ -62,6 +62,17 @@ fn binary_changed() {
 }
 
 #[test]
+fn binary_override() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--override-binary=*.js")
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
+    let predicate_fn = predicate::str::contains("Binary contents changed");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
 fn has_changes_default_exit_code() {
     let mut cmd = get_base_command();
 

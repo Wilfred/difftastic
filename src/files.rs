@@ -138,7 +138,24 @@ pub(crate) enum ProbableFileKind {
 }
 
 /// Do these bytes look like a binary (non-textual) format?
-pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
+pub(crate) fn guess_content(
+    bytes: &[u8],
+    path: &FileArgument,
+    binary_overrides: &[glob::Pattern],
+) -> ProbableFileKind {
+    if let FileArgument::NamedPath(path) = path {
+        let path = path.to_string_lossy();
+        for pattern in binary_overrides {
+            if pattern.matches(&path) {
+                info!(
+                    "Input file is treated as binary due to explicit override glob {}",
+                    pattern
+                );
+                return ProbableFileKind::Binary;
+            }
+        }
+    }
+
     // If the bytes are entirely valid UTF-8, treat them as a string.
     if let Ok(valid_utf8_string) = std::str::from_utf8(bytes) {
         info!("Input file is valid UTF-8");
@@ -340,6 +357,10 @@ pub(crate) fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<Pa
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn guess_content(bytes: &[u8]) -> ProbableFileKind {
+        super::guess_content(bytes, &FileArgument::Stdin, &[])
+    }
 
     #[test]
     fn test_plaintext_is_text() {
