@@ -36,14 +36,14 @@ pub(crate) struct TreeSitterConfig {
     /// ignore their children.
     ///
     /// Difftastic only cares about list delimiters and atom
-    /// contents. This ensures that "x" and " x" are different, but
-    /// [x] and [ x] are not.
+    /// contents. This ensures that `"x"` and `" x"` are different,
+    /// but `[x]` and `[ x]` are not.
     ///
     /// This causes problems for tree-sitter grammars that have more
     /// complex structure for literals. If string interpolation
     /// produces an AST with a separate interpolation node, difftastic
-    /// will think that "$x" and " $x" are the same, because the atom
-    /// is just $x and the delimiter is ".
+    /// will think that `"$x"` and `" $x"` are the same, because the atom
+    /// is just `$x` and the delimiter is `"`.
     ///
     /// This problem also occurs when the tree-sitter AST is missing
     /// some children. This is known limitation of tree-sitter, and
