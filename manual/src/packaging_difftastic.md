@@ -16,7 +16,7 @@ Difftastic can be built with `cargo`. The compiled binary will be at
 $ cargo build --release
 ```
 
-C library dependencies are built with the `cc` crate, which [exposes
+C library dependencies are built with the `cc` crate, which [has
 various environment
 variables](https://docs.rs/cc/1.1.30/cc/index.html#external-configuration-via-environment-variables)
 to configure the C toolchain (e.g. `CFLAGS`).
