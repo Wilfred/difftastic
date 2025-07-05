@@ -447,8 +447,11 @@ module.exports = grammar({
         optional($.region_name),
         $._newline,
         repeat($._statement),
-        $._region_end
+        $._endregion_with_name
       ),
+
+    // The goal of this rule is to consume and hide the region end marker
+    _endregion_with_name: ($) => seq($._region_end, optional(/[^\r\n]+/)),
 
     region_name: ($) => /[^\r\n]+/,
 
