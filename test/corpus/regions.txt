@@ -9,7 +9,7 @@ Empty region
 
 (source
   (region
-    (region_name)
+    (region_label)
 ))
 
 =====================================
@@ -44,7 +44,7 @@ func _process(delta: float) -> void:
 
 (source
   (region
-    (region_name)
+    (region_label)
     (function_definition
       (name)
       (parameters
@@ -81,7 +81,7 @@ func _physics_process(delta: float) -> void:
     (type (identifier))
     (body
       (region
-        (region_name)
+        (region_label)
         (pass_statement)
     ))))
 
@@ -103,7 +103,7 @@ func take_damage(amount) -> void:
 
 (source
   (region
-    (region_name)
+    (region_label)
     (variable_statement
       (name)
       (type
@@ -115,7 +115,7 @@ func take_damage(amount) -> void:
         (identifier))
       (float)))
   (region
-    (region_name)
+    (region_label)
     (function_definition
       (name)
       (parameters
