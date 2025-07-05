@@ -304,14 +304,22 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                 bool is_region = (lexer->lookahead == 'r');
                 bool is_endregion = (lexer->lookahead == 'e');
 
-                // Region delimiters are always on their own line, so we
-                // check for trailing whitespace and line returns after the token to determine
-                // if we have a valid region or endregion token.
+                // Region delimiters are always on their own line. They have an
+                // optional label after the keyword that is ignored by the
+                // GDScript parser (so the opening and closing labels don't have
+                // to match).
                 if (valid_symbols[REGION_START] && is_region && look_ahead_string(lexer, "region")) {
                     lexer->mark_end(lexer);
                     lexer->result_symbol = REGION_START;
                     return true;
                 } else if (valid_symbols[REGION_END] && is_endregion && look_ahead_string(lexer, "endregion")) {
+                    // We want to capture the opening label if it is present in
+                    // case someone wants to use it for text editor outline for
+                    // example, but ignore the closing label. Here we consume
+                    // the entire line because of that.
+                    while (lexer->lookahead && lexer->lookahead != '\n' && lexer->lookahead != '\r' && !lexer->eof(lexer)) {
+                        advance(lexer);
+                    }
                     lexer->mark_end(lexer);
                     lexer->result_symbol = REGION_END;
                     return true;

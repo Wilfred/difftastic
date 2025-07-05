@@ -444,16 +444,13 @@ module.exports = grammar({
     region: ($) =>
       seq(
         $._region_start,
-        optional($.region_name),
+        optional($.region_label),
         $._newline,
         repeat($._statement),
-        $._endregion_with_name
+        $._region_end
       ),
 
-    // The goal of this rule is to consume and hide the region end marker
-    _endregion_with_name: ($) => seq($._region_end, optional(/[^\r\n]+/)),
-
-    region_name: ($) => /[^\r\n]+/,
+    region_label: ($) => /[^\r\n]+/,
 
     // Sources:
     // - https://github.com/godotengine/godot-proposals/issues/4775
