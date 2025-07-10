@@ -254,7 +254,7 @@ pub(crate) fn guess_content(
     // ISO-8859-1 aka Latin 1), treat them as such.
     let (latin1_str, _encoding, saw_malformed) = encoding_rs::WINDOWS_1252.decode(bytes);
     if !saw_malformed {
-        let num_null = utf16_string
+        let num_null = latin1_str
             .chars()
             .take(5000)
             .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
