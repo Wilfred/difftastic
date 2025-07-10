@@ -223,7 +223,7 @@ pub(crate) fn guess_content(
     let utf8_string = String::from_utf8_lossy(bytes).to_string();
     let num_utf8_invalid = utf8_string
         .chars()
-        .take(5000)
+        .take(50000)
         .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
         .count();
     if num_utf8_invalid <= 2 {
@@ -239,7 +239,7 @@ pub(crate) fn guess_content(
     let utf16_string = String::from_utf16_lossy(&u16_values);
     let num_utf16_invalid = utf16_string
         .chars()
-        .take(5000)
+        .take(50000)
         .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
         .count();
     if num_utf16_invalid <= 1 {
@@ -250,13 +250,13 @@ pub(crate) fn guess_content(
         return ProbableFileKind::Text(utf16_string);
     }
 
-    // If the input bytes are valid Windows-1252 (an extension of
+    // If the input bytes are mostly valid Windows-1252 (an extension of
     // ISO-8859-1 aka Latin 1), treat them as such.
     let (latin1_str, _encoding, saw_malformed) = encoding_rs::WINDOWS_1252.decode(bytes);
     if !saw_malformed {
         let num_null = latin1_str
             .chars()
-            .take(5000)
+            .take(50000)
             .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
             .count();
         if num_null <= 1 {
