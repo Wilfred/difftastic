@@ -403,8 +403,8 @@ fn diff_file(
     // Override here? Separate option or part of existing --override arg?
 
     let (mut lhs_src, mut rhs_src) = match (
-        guess_content(&lhs_bytes, &lhs_path, binary_overrides),
-        guess_content(&rhs_bytes, &rhs_path, binary_overrides),
+        guess_content(&lhs_bytes, lhs_path, binary_overrides),
+        guess_content(&rhs_bytes, rhs_path, binary_overrides),
     ) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
             return DiffResult {
