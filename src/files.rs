@@ -185,6 +185,7 @@ pub(crate) fn guess_content(
         // See
         // <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types/Common_types>
         // for a list of MIME types.
+        "application/x-archive" => return ProbableFileKind::Binary,
         "application/x-bzip" => return ProbableFileKind::Binary,
         "application/x-bzip2" => return ProbableFileKind::Binary,
         "application/x-7zip-compressed" => return ProbableFileKind::Binary,
