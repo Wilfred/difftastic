@@ -2,7 +2,8 @@
 
 ### Parsing
 
-Updated Clojure, Common Lisp and Zig parsers.
+Updated Clojure, Common Lisp and Zig parsers. Improved parsing of
+Kotlin.
 
 Text encoding detection is now stricter, fixing more cases where
 binary files were treated as text.

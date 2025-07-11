@@ -648,9 +648,14 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 // structure of complex types within, but it beats
                 // ignoring nullable changes.
                 // https://github.com/Wilfred/difftastic/issues/411
-                atom_nodes: ["line_string_literal", "character_literal", "nullable_type"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: [
+                    "nullable_type",
+                    "string_literal",
+                    "line_string_literal",
+                    "character_literal",
+                ]
+                .into_iter()
+                .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")]
                     .into_iter()
                     .collect(),
