@@ -50,7 +50,9 @@ pub(crate) struct DiffResult {
     pub(crate) lhs_positions: Vec<MatchedPos>,
     pub(crate) rhs_positions: Vec<MatchedPos>,
 
-    pub(crate) has_byte_changes: bool,
+    /// If the two files do not have exactly the same bytes, the
+    /// number of bytes in each file.
+    pub(crate) has_byte_changes: Option<(usize, usize)>,
     pub(crate) has_syntactic_changes: bool,
 }
 
@@ -59,7 +61,7 @@ impl DiffResult {
         if matches!(self.lhs_src, FileContent::Binary)
             || matches!(self.rhs_src, FileContent::Binary)
         {
-            return self.has_byte_changes;
+            return self.has_byte_changes.is_some();
         }
 
         self.has_syntactic_changes

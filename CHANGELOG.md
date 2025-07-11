@@ -11,6 +11,11 @@ binary files were treated as text.
 Added the `--override-binary` option to force files to be treated as
 binary rather than text.
 
+### Display
+
+When diffing binary files, the file sizes are now shown to help see
+big changes.
+
 ## 0.64 (released 16th June 2025)
 
 ### Parsing
