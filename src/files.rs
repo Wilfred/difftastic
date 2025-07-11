@@ -220,7 +220,10 @@ pub(crate) fn guess_content(
         _ => {}
     }
 
-    // If the input bytes are *almost* valid UTF-8, treat them as UTF-8.
+    // If the input bytes are *almost* valid UTF-8, treat them as
+    // UTF-8. This is helpful when the user has written a small number
+    // of bad bytes to a file. Users would still like to be able to
+    // diff these files.
     let utf8_string = String::from_utf8_lossy(bytes).to_string();
     let num_utf8_invalid = utf8_string
         .chars()
@@ -235,21 +238,8 @@ pub(crate) fn guess_content(
         return ProbableFileKind::Text(utf8_string);
     }
 
-    // If the input bytes are *almost* valid UTF-16, treat them as
-    // UTF-16.
-    let utf16_string = String::from_utf16_lossy(&u16_values);
-    let num_utf16_invalid = utf16_string
-        .chars()
-        .take(50000)
-        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
-        .count();
-    if num_utf16_invalid <= 1 {
-        info!(
-            "Input file is mostly valid UTF-16 (invalid characters: {})",
-            num_utf16_invalid
-        );
-        return ProbableFileKind::Text(utf16_string);
-    }
+    // Deliberately don't check for mostly-valid UTF-16 due to the
+    // high UTF-16 false positive rate on binary files.
 
     // If the input bytes are mostly valid Windows-1252 (an extension of
     // ISO-8859-1 aka Latin 1), treat them as such.
