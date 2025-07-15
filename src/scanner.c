@@ -53,6 +53,8 @@ enum TokenType {
     COMMA,
     /* COLON, // See grammar.js externals */
     BODY_END,
+    REGION_START,
+    REGION_END,
 };
 
 typedef enum {
@@ -163,6 +165,19 @@ typedef struct {
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
+
+// Helper function to check for a string from current lexer position
+// Used for matching the "region" and "endregion" keywords.
+static bool look_ahead_string(TSLexer *lexer, const char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        char c = str[i];
+        if (lexer->lookahead != c) {
+            return false;
+        }
+        advance(lexer);
+    }
+    return true;
+}
 
 bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                 const bool *valid_symbols) {
@@ -279,6 +294,39 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             indent_length += 8;
             skip(lexer);
         } else if (lexer->lookahead == '#') {
+            // Check for #region and #endregion in priority before handling the token as a comment.
+            if (valid_symbols[REGION_START] || valid_symbols[REGION_END]) {
+                // We first walk over the # character
+                advance(lexer);
+
+                // We check if the next characters might be the start or end of a region keyword to filter out
+                // comments that are not region markers before making more checks.
+                bool is_region = (lexer->lookahead == 'r');
+                bool is_endregion = (lexer->lookahead == 'e');
+
+                // Region delimiters are always on their own line. They have an
+                // optional label after the keyword that is ignored by the
+                // GDScript parser (so the opening and closing labels don't have
+                // to match).
+                if (valid_symbols[REGION_START] && is_region && look_ahead_string(lexer, "region")) {
+                    lexer->mark_end(lexer);
+                    lexer->result_symbol = REGION_START;
+                    return true;
+                } else if (valid_symbols[REGION_END] && is_endregion && look_ahead_string(lexer, "endregion")) {
+                    // We want to capture the opening label if it is present in
+                    // case someone wants to use it for text editor outline for
+                    // example, but ignore the closing label. Here we consume
+                    // the entire line because of that.
+                    while (lexer->lookahead && lexer->lookahead != '\n' && lexer->lookahead != '\r' && !lexer->eof(lexer)) {
+                        advance(lexer);
+                    }
+                    lexer->mark_end(lexer);
+                    lexer->result_symbol = REGION_END;
+                    return true;
+                }
+            }
+
+            // We were not looking at a region or endregion token, handle as regular comment
             if (first_comment_indent_length == -1) {
                 first_comment_indent_length = (int32_t)indent_length;
             }
