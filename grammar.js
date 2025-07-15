@@ -252,18 +252,26 @@ module.exports = grammar({
     _set_assign: ($) => seq("set", "=", field("set", $.setter)),
     _get_assign: ($) => seq("get", "=", field("get", $.getter)),
 
+    _setget_assign: ($) =>
+      choice(
+        seq($._set_assign, optional(seq(",", $._get_assign))),
+        seq($._get_assign, optional(seq(",", $._set_assign))),
+      ),
+
     _setget_body: ($) =>
       seq(
         ":",
-        seq(
-          $._indent,
-          choice(
-            seq(field("set", $.set_body), optional(field("get", $.get_body))),
-            seq(field("get", $.get_body), optional(field("set", $.set_body))),
-            seq($._set_assign, optional(seq(",", $._get_assign))),
-            seq($._get_assign, optional(seq(",", $._set_assign))),
+        choice(
+          $._setget_assign,
+          seq(
+            $._indent,
+            choice(
+              seq(field("set", $.set_body), optional(field("get", $.get_body))),
+              seq(field("get", $.get_body), optional(field("set", $.set_body))),
+              $._setget_assign,
+            ),
+            $._dedent,
           ),
-          $._dedent,
         ),
       ),
 
