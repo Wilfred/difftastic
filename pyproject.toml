@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tree-sitter-gdscript"
 description = "Grammar for Godot's built-in scripting language."
-version = "5.0.1"
+version = "6.0.0"
 keywords = ["incremental", "parsing", "tree-sitter", "gdscript"]
 classifiers = [
   "Intended Audience :: Developers",

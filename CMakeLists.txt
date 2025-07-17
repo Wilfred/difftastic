@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 project(tree-sitter-gdscript
-        VERSION "5.0.1"
+        VERSION "6.0.0"
         DESCRIPTION "Grammar for Godot's built-in scripting language."
         HOMEPAGE_URL "https://github.com/prestonknopp/tree-sitter-gdscript"
         LANGUAGES C)

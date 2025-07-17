@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-gdscript",
-  "version": "5.0.1",
+  "version": "6.0.0",
   "description": "Grammar for Godot's built-in scripting language.",
   "repository": {
     "type": "git",
