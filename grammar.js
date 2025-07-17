@@ -336,13 +336,17 @@ module.exports = grammar({
     tool_statement: ($) => "tool",
 
     signal_statement: ($) =>
-      seq("signal", field("name", $.name), optional(field("parameters", $.parameters))),
+      seq(
+        "signal",
+        field("name", $.name),
+        optional(field("parameters", $.parameters)),
+      ),
 
     class_name_statement: ($) =>
       seq(
         "class_name",
         field("name", $.name),
-        optional(seq(",", field("icon_path", $.string)))
+        optional(seq(",", field("icon_path", $.string))),
       ),
 
     extends_statement: ($) => seq("extends", choice($.string, $.type)),
@@ -661,19 +665,22 @@ module.exports = grammar({
     augmented_assignment: ($) =>
       seq(
         field("left", $._expression),
-        field("op", choice(
-          "+=",
-          "-=",
-          "*=",
-          "/=",
-          "**=",
-          "%=",
-          ">>=",
-          "<<=",
-          "&=",
-          "^=",
-          "|=",
-        )),
+        field(
+          "op",
+          choice(
+            "+=",
+            "-=",
+            "*=",
+            "/=",
+            "**=",
+            "%=",
+            ">>=",
+            "<<=",
+            "&=",
+            "^=",
+            "|=",
+          ),
+        ),
         field("right", $._rhs_expression),
       ),
 
