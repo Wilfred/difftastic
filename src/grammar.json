@@ -101,7 +101,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "U[a-fA-F\\d]{8}"
+                "value": "U[a-fA-F\\d]{6}"
               },
               {
                 "type": "PATTERN",

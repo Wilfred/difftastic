@@ -112,7 +112,7 @@ module.exports = grammar({
           "\\",
           choice(
             /u[a-fA-F\d]{4}/,
-            /U[a-fA-F\d]{8}/,
+            /U[a-fA-F\d]{6}/,
             /x[a-fA-F\d]{2}/,
             /o\d{3}/,
             /\r\n/,
