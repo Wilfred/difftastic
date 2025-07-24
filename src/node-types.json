@@ -713,7 +713,7 @@
   },
   {
     "type": "body",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1442,6 +1442,11 @@
     "fields": {}
   },
   {
+    "type": "get_node",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "getter",
     "named": true,
     "fields": {}
@@ -1587,6 +1592,21 @@
     "type": "name",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "node_path",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "onready_variable_statement",
@@ -2094,7 +2114,17 @@
   {
     "type": "string_name",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "subscript",
@@ -2377,6 +2407,10 @@
     "named": false
   },
   {
+    "type": "$",
+    "named": false
+  },
+  {
     "type": "%",
     "named": false
   },
@@ -2386,6 +2420,10 @@
   },
   {
     "type": "&",
+    "named": false
+  },
+  {
+    "type": "&\"",
     "named": false
   },
   {
@@ -2525,6 +2563,10 @@
     "named": false
   },
   {
+    "type": "^\"",
+    "named": false
+  },
+  {
     "type": "^=",
     "named": false
   },
@@ -2618,10 +2660,6 @@
     "named": false
   },
   {
-    "type": "get_node",
-    "named": true
-  },
-  {
     "type": "if",
     "named": false
   },
@@ -2648,10 +2686,6 @@
   {
     "type": "match",
     "named": false
-  },
-  {
-    "type": "node_path",
-    "named": true
   },
   {
     "type": "not",

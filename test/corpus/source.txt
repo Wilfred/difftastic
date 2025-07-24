@@ -213,7 +213,7 @@ var x = $"node/path"
   (expression_statement (get_node))
   (expression_statement (get_node))
   (expression_statement (get_node))
-  (ERROR (UNEXPECTED '$')) (expression_statement (string))
+  (expression_statement (get_node))
   (variable_statement (name) (get_node))
   (expression_statement (get_node)))
 

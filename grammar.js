@@ -37,6 +37,8 @@ module.exports = grammar({
     $._string_start,
     $._string_content,
     $._string_end,
+    $._string_name_start,
+    $._node_path_start,
 
     // Mark comments as external tokens so that the external scanner is always
     // invoked, even if no external token is expected. This allows for better
@@ -151,14 +153,44 @@ module.exports = grammar({
         ),
       ),
 
-    // This should be a token.
-    string_name: ($) => seq("&", alias($.string, "value")),
-    node_path: ($) => token(seq(choice("@", "^"), nodePathString())),
+    string_name: ($) => 
+      seq(
+        alias($._string_name_start, '&"'),
+        repeat(choice($.escape_sequence, $._string_content)),
+        alias($._string_end, '"'),
+      ),
+    node_path: ($) =>
+      seq(
+        alias($._node_path_start, '^"'),
+        repeat(choice($.escape_sequence, $._string_content)),
+        alias($._string_end, '"'),
+      ),
     get_node: ($) =>
-      token(
+      prec.right(
         seq(
-          choice("$", "%"),
-          choice(nodePathString(), /[a-zA-Z_][a-zA-Z_/0-9]*/),
+          choice(
+            seq(
+              "$",
+              choice(
+                alias($.string, "value"),
+                seq(
+                  optional("/"),
+                  $._identifier,
+                  repeat(seq("/", $._identifier))
+                ),
+              ),
+            ),
+            seq(
+              "%",
+              choice(
+                alias($.string, "value"),
+                seq(
+                  $._identifier,
+                  repeat(seq("/", $._identifier))
+                ),
+              ),
+            ),
+          ),
         ),
       ),
 
@@ -812,14 +844,4 @@ function commaSep1(rule) {
 
 function trailCommaSep1(rule) {
   return trailSep1(rule, ",");
-}
-
-// This is a function instead of a rule since it's is used more than once and
-// token body must be made of terminals. This can be defined as a rule and
-// specify it as inlined, but this is fine.
-function nodePathString() {
-  return choice(
-    seq('"', /[0-9a-zA-Z_/\- .]*/, '"'),
-    seq("'", /[0-9a-zA-Z_/\- .]*/, "'"),
-  );
 }

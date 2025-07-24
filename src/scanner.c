@@ -46,6 +46,8 @@ enum TokenType {
     STRING_START,
     STRING_CONTENT,
     STRING_END,
+    STRING_NAME_START,
+    NODE_PATH_START,
     COMMENT,
     CLOSE_PAREN,
     CLOSE_BRACKET,
@@ -60,11 +62,10 @@ enum TokenType {
 typedef enum {
     SingleQuote = 1 << 0,
     DoubleQuote = 1 << 1,
-    BackQuote = 1 << 2,
+    Triple = 1 << 2,
     Raw = 1 << 3,
-    Format = 1 << 4,
-    Triple = 1 << 5,
-    Bytes = 1 << 6,
+    Name = 1 << 4,
+    NodePath = 1 << 5,
 } Flags;
 
 typedef struct {
@@ -73,20 +74,20 @@ typedef struct {
 
 static inline Delimiter new_delimiter() { return (Delimiter){0}; }
 
-static inline bool is_format(Delimiter *delimiter) {
-    return delimiter->flags & Format;
+static inline bool is_triple(Delimiter *delimiter) {
+    return delimiter->flags & Triple;
 }
 
 static inline bool is_raw(Delimiter *delimiter) {
     return delimiter->flags & Raw;
 }
 
-static inline bool is_triple(Delimiter *delimiter) {
-    return delimiter->flags & Triple;
+static inline bool is_name(Delimiter *delimiter) {
+    return delimiter->flags & Name;
 }
 
-static inline bool is_bytes(Delimiter *delimiter) {
-    return delimiter->flags & Bytes;
+static inline bool is_node_path(Delimiter *delimiter) {
+    return delimiter->flags & NodePath;
 }
 
 static inline int32_t end_character(Delimiter *delimiter) {
@@ -96,24 +97,23 @@ static inline int32_t end_character(Delimiter *delimiter) {
     if (delimiter->flags & DoubleQuote) {
         return '"';
     }
-    if (delimiter->flags & BackQuote) {
-        return '`';
-    }
     return 0;
 }
-
-static inline void set_format(Delimiter *delimiter) {
-    delimiter->flags |= Format;
-}
-
-static inline void set_raw(Delimiter *delimiter) { delimiter->flags |= Raw; }
 
 static inline void set_triple(Delimiter *delimiter) {
     delimiter->flags |= Triple;
 }
 
-static inline void set_bytes(Delimiter *delimiter) {
-    delimiter->flags |= Bytes;
+static inline void set_raw(Delimiter *delimiter) {
+    delimiter->flags |= Raw;
+}
+
+static inline void set_name(Delimiter *delimiter) {
+    delimiter->flags |= Name;
+}
+
+static inline void set_node_path(Delimiter *delimiter) {
+    delimiter->flags |= NodePath;
 }
 
 static inline void set_end_character(Delimiter *delimiter, int32_t character) {
@@ -123,9 +123,6 @@ static inline void set_end_character(Delimiter *delimiter, int32_t character) {
             break;
         case '"':
             delimiter->flags |= DoubleQuote;
-            break;
-        case '`':
-            delimiter->flags |= BackQuote;
             break;
         default:
             assert(false);
@@ -138,9 +135,6 @@ static inline const char *delimiter_string(Delimiter *delimiter) {
     }
     if (delimiter->flags & DoubleQuote) {
         return "\"";
-    }
-    if (delimiter->flags & BackQuote) {
-        return "`";
     }
     return "";
 }
@@ -179,6 +173,21 @@ static bool look_ahead_string(TSLexer *lexer, const char *str) {
     return true;
 }
 
+static inline void handle_quote(TSLexer *lexer, Delimiter *delimiter, char quote) {
+    set_end_character(delimiter, quote);
+    advance(lexer);
+    lexer->mark_end(lexer);
+
+    if (lexer->lookahead == quote) {
+        advance(lexer);
+        if (lexer->lookahead == quote) {
+            advance(lexer);
+            lexer->mark_end(lexer);
+            set_triple(delimiter);
+        }
+    }
+}
+
 bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                 const bool *valid_symbols) {
     Scanner *scanner = (Scanner *)payload;
@@ -195,12 +204,6 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
         int32_t end_char = end_character(&delimiter);
         bool has_content = false;
         while (lexer->lookahead) {
-            if ((lexer->lookahead == '{' || lexer->lookahead == '}') &&
-                is_format(&delimiter)) {
-                lexer->mark_end(lexer);
-                lexer->result_symbol = STRING_CONTENT;
-                return has_content;
-            }
             if (lexer->lookahead == '\\') {
                 if (is_raw(&delimiter)) {
                     // Step over the backslash.
@@ -211,20 +214,6 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                         lexer->advance(lexer, false);
                     }
                     continue;
-                }
-                if (is_bytes(&delimiter)) {
-                    lexer->mark_end(lexer);
-                    lexer->advance(lexer, false);
-                    if (lexer->lookahead == 'N' || lexer->lookahead == 'u' ||
-                        lexer->lookahead == 'U') {
-                        // In bytes string, \N{...}, \uXXXX and \UXXXXXXXX are
-                        // not escape sequences
-                        // https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals
-                        lexer->advance(lexer, false);
-                    } else {
-                        lexer->result_symbol = STRING_CONTENT;
-                        return has_content;
-                    }
                 } else {
                     lexer->mark_end(lexer);
                     lexer->result_symbol = STRING_CONTENT;
@@ -366,7 +355,10 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             }
 
             if ((valid_symbols[DEDENT] ||
-                 (!valid_symbols[NEWLINE] && !valid_symbols[STRING_START] &&
+                 (!valid_symbols[NEWLINE] &&
+                  !valid_symbols[STRING_START] &&
+                  !valid_symbols[STRING_NAME_START] &&
+                  !valid_symbols[NODE_PATH_START] &&
                   !within_brackets)) &&
                 indent_length < current_indent_length &&
 
@@ -417,60 +409,44 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
         }
     }
 
-    if (first_comment_indent_length == -1 && valid_symbols[STRING_START]) {
+    if (first_comment_indent_length == -1 && 
+            (valid_symbols[STRING_START] ||
+            valid_symbols[STRING_NAME_START] ||
+            valid_symbols[NODE_PATH_START])) {
         Delimiter delimiter = new_delimiter();
 
-        bool has_flags = false;
-        while (lexer->lookahead) {
-            if (lexer->lookahead == 'f' || lexer->lookahead == 'F') {
-                set_format(&delimiter);
-            } else if (lexer->lookahead == 'r' || lexer->lookahead == 'R') {
-                set_raw(&delimiter);
-            } else if (lexer->lookahead == 'b' || lexer->lookahead == 'B') {
-                set_bytes(&delimiter);
-            } else if (lexer->lookahead != 'u' && lexer->lookahead != 'U') {
-                break;
-            }
-            has_flags = true;
-            advance(lexer);
+        bool has_flags = true;
+
+        switch (lexer->lookahead) {
+            case 'r': set_raw(&delimiter); break;
+            case '&': set_name(&delimiter); break;
+            case '^': set_node_path(&delimiter); break;
+
+            // For backward compatibility with 3.x versions
+            case '@': set_node_path(&delimiter); break;
+            default: has_flags = false; break;
         }
 
-        if (lexer->lookahead == '`') {
-            set_end_character(&delimiter, '`');
-            advance(lexer);
-            lexer->mark_end(lexer);
-        } else if (lexer->lookahead == '\'') {
-            set_end_character(&delimiter, '\'');
-            advance(lexer);
-            lexer->mark_end(lexer);
-            if (lexer->lookahead == '\'') {
-                advance(lexer);
-                if (lexer->lookahead == '\'') {
-                    advance(lexer);
-                    lexer->mark_end(lexer);
-                    set_triple(&delimiter);
-                }
-            }
-        } else if (lexer->lookahead == '"') {
-            set_end_character(&delimiter, '"');
-            advance(lexer);
-            lexer->mark_end(lexer);
-            if (lexer->lookahead == '"') {
-                advance(lexer);
-                if (lexer->lookahead == '"') {
-                    advance(lexer);
-                    lexer->mark_end(lexer);
-                    set_triple(&delimiter);
-                }
-            }
+        if (has_flags) advance(lexer);
+
+        if (lexer->lookahead == '\'' || lexer->lookahead == '"') {
+            handle_quote(lexer, &delimiter, lexer->lookahead);
         }
 
         if (end_character(&delimiter)) {
             VEC_PUSH(scanner->delimiters, delimiter);
-            lexer->result_symbol = STRING_START;
+
+            if (is_node_path(&delimiter)) {
+                lexer->result_symbol = NODE_PATH_START;
+            } else if (is_name(&delimiter)) {
+                lexer->result_symbol = STRING_NAME_START;
+            } else {
+                lexer->result_symbol = STRING_START;
+            }
 
             return true;
         }
+
         if (has_flags) {
             return false;
         }
