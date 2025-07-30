@@ -689,8 +689,8 @@ pub(crate) struct MatchedPos {
     pub(crate) pos: SingleLineSpan,
 }
 
-/// Given the text `content` from a comment or strings, split it into
-/// MatchedPos values for the novel and unchanged words.
+/// Given the text `content` from a comment or string, split it into
+/// `MatchedPos` values for the novel and unchanged words.
 ///
 /// If there is negligible text in common with `opposite_content`,
 /// treat the whole `content` as a single novel region.
