@@ -156,7 +156,7 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                 File::with_sections(&summary.file_format, &summary.display_path, chunks)
             }
             (FileContent::Binary, FileContent::Binary) => {
-                let status = if summary.has_byte_changes {
+                let status = if summary.has_byte_changes.is_some() {
                     Status::Changed
                 } else {
                     Status::Unchanged

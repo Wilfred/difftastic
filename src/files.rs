@@ -185,6 +185,7 @@ pub(crate) fn guess_content(
         // See
         // <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types/Common_types>
         // for a list of MIME types.
+        "application/x-archive" => return ProbableFileKind::Binary,
         "application/x-bzip" => return ProbableFileKind::Binary,
         "application/x-bzip2" => return ProbableFileKind::Binary,
         "application/x-7zip-compressed" => return ProbableFileKind::Binary,
@@ -219,11 +220,14 @@ pub(crate) fn guess_content(
         _ => {}
     }
 
-    // If the input bytes are *almost* valid UTF-8, treat them as UTF-8.
+    // If the input bytes are *almost* valid UTF-8, treat them as
+    // UTF-8. This is helpful when the user has written a small number
+    // of bad bytes to a file. Users would still like to be able to
+    // diff these files.
     let utf8_string = String::from_utf8_lossy(bytes).to_string();
     let num_utf8_invalid = utf8_string
         .chars()
-        .take(5000)
+        .take(50000)
         .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
         .count();
     if num_utf8_invalid <= 2 {
@@ -234,29 +238,16 @@ pub(crate) fn guess_content(
         return ProbableFileKind::Text(utf8_string);
     }
 
-    // If the input bytes are *almost* valid UTF-16, treat them as
-    // UTF-16.
-    let utf16_string = String::from_utf16_lossy(&u16_values);
-    let num_utf16_invalid = utf16_string
-        .chars()
-        .take(5000)
-        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
-        .count();
-    if num_utf16_invalid <= 1 {
-        info!(
-            "Input file is mostly valid UTF-16 (invalid characters: {})",
-            num_utf16_invalid
-        );
-        return ProbableFileKind::Text(utf16_string);
-    }
+    // Deliberately don't check for mostly-valid UTF-16 due to the
+    // high UTF-16 false positive rate on binary files.
 
-    // If the input bytes are valid Windows-1252 (an extension of
+    // If the input bytes are mostly valid Windows-1252 (an extension of
     // ISO-8859-1 aka Latin 1), treat them as such.
     let (latin1_str, _encoding, saw_malformed) = encoding_rs::WINDOWS_1252.decode(bytes);
     if !saw_malformed {
-        let num_null = utf16_string
+        let num_null = latin1_str
             .chars()
-            .take(5000)
+            .take(50000)
             .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
             .count();
         if num_null <= 1 {

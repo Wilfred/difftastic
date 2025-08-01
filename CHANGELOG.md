@@ -2,15 +2,19 @@
 
 ### Parsing
 
-Updated Clojure, Common Lisp and Zig parsers.
+Updated Clojure, Common Lisp and Zig parsers. Improved parsing of
+Kotlin.
 
-File detection is now stricter with Windows-1252 (Latin 1) encoded
-text. Windows-1252 was added in 0.63 and some binary files
-(e.g. Brotli compressed files) were incorrectly treated as this
-encoding.
+Text encoding detection is now stricter, fixing more cases where
+binary files were treated as text.
 
 Added the `--override-binary` option to force files to be treated as
 binary rather than text.
+
+### Display
+
+When diffing binary files, the file sizes are now shown to help see
+big changes.
 
 ## 0.64 (released 16th June 2025)
 
