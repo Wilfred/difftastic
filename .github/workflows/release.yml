@@ -41,6 +41,8 @@ jobs:
             os: ubuntu-22.04
           - target: aarch64-apple-darwin
             os: macos-latest
+          - target: aarch64-pc-windows-msvc
+            os: windows-latest
     runs-on: ${{ matrix.os }}
     steps:
       # v4.2.2
