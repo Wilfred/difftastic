@@ -267,6 +267,52 @@
     }
   },
   {
+    "type": "abstract_function_declaration",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "parameters": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "parameters",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "annotation",
     "named": true,
     "fields": {
@@ -713,7 +759,7 @@
   },
   {
     "type": "body",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -721,6 +767,10 @@
       "types": [
         {
           "type": "_compound_statement",
+          "named": true
+        },
+        {
+          "type": "abstract_function_declaration",
           "named": true
         },
         {
@@ -851,6 +901,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -877,6 +937,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1836,6 +1906,10 @@
           "named": true
         },
         {
+          "type": "abstract_function_declaration",
+          "named": true
+        },
+        {
           "type": "annotation",
           "named": true
         },
@@ -2031,6 +2105,10 @@
       "types": [
         {
           "type": "_compound_statement",
+          "named": true
+        },
+        {
+          "type": "abstract_function_declaration",
           "named": true
         },
         {
@@ -2604,8 +2682,7 @@
   },
   {
     "type": "comment",
-    "named": true,
-    "extra": true
+    "named": true
   },
   {
     "type": "const",

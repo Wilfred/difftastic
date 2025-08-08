@@ -153,7 +153,7 @@ module.exports = grammar({
         ),
       ),
 
-    string_name: ($) => 
+    string_name: ($) =>
       seq(
         alias($._string_name_start, '&"'),
         repeat(choice($.escape_sequence, $._string_content)),
@@ -176,7 +176,7 @@ module.exports = grammar({
                 seq(
                   optional("/"),
                   $._identifier,
-                  repeat(seq("/", $._identifier))
+                  repeat(seq("/", $._identifier)),
                 ),
               ),
             ),
@@ -184,10 +184,7 @@ module.exports = grammar({
               "%",
               choice(
                 alias($.string, "value"),
-                seq(
-                  $._identifier,
-                  repeat(seq("/", $._identifier))
-                ),
+                seq($._identifier, repeat(seq("/", $._identifier))),
               ),
             ),
           ),
@@ -241,6 +238,7 @@ module.exports = grammar({
         $.break_statement,
         $.breakpoint_statement,
         $.continue_statement,
+        $.abstract_function_declaration,
       ),
 
     expression_statement: ($) =>
@@ -255,6 +253,17 @@ module.exports = grammar({
     // node in contexts like variable_statement and function_definition.
     _annotations: ($) => repeat1($.annotation),
     annotations: ($) => $._annotations,
+
+    // -- Abstract Function Declaration
+
+    abstract_function_declaration: ($) =>
+      seq(
+        $.annotations,
+        "func",
+        optional(field("name", $.name)),
+        field("parameters", $.parameters),
+        optional($._return_type),
+      ),
 
     // -- Variables
 
@@ -376,6 +385,7 @@ module.exports = grammar({
 
     class_name_statement: ($) =>
       seq(
+        optional($.annotations),
         "class_name",
         field("name", $.name),
         optional(seq(",", field("icon_path", $.string))),
@@ -437,6 +447,7 @@ module.exports = grammar({
 
     class_definition: ($) =>
       seq(
+        optional($.annotations),
         "class",
         field("name", $.name),
         optional(field("extends", $.extends_statement)),
