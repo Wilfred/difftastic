@@ -68,7 +68,9 @@ line, and it tracks the relationship between line numbers in the old
 and new file.)
 
 Merging. AST merging is a hard problem that difftastic does not
-address.
+address. You might be interested in the [mergiraf
+tool](https://mergiraf.org/) ("merge giraffe"), which does do AST
+merging.
 
 ## FAQ
 
