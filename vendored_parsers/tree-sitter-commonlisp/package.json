@@ -1,0 +1,51 @@
+{
+  "name": "tree-sitter-commonlisp",
+  "version": "0.4.1",
+  "description": "Tree-sitter grammar for Common Lisp",
+  "tree-sitter": [
+    {
+      "scope": "source.lisp",
+      "file-types": [
+        "lisp"
+      ]
+    }
+  ],
+  "main": "bindings/node",
+  "types": "bindings/node",
+  "scripts": {
+    "test": "tree-sitter generate && tree-sitter test",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
+  },
+  "author": "Stephan Seitz",
+  "license": "MIT",
+  "dependencies": {
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.1"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/theHamsta/tree-sitter-commonlisp"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.24.4",
+    "tree-sitter-clojure": "git@github.com:theHamsta/tree-sitter-clojure.git#commonlisp",
+    "prebuildify": "^6.0.0"
+  },
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ]
+}
