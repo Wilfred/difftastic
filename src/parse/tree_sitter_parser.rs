@@ -73,6 +73,7 @@ extern "C" {
     fn tree_sitter_apex() -> ts::Language;
     fn tree_sitter_clojure() -> ts::Language;
     fn tree_sitter_cmake() -> ts::Language;
+    fn tree_sitter_commonlisp() -> ts::Language;
     fn tree_sitter_dart() -> ts::Language;
     fn tree_sitter_devicetree() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
@@ -225,8 +226,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         CommonLisp => {
-            let language_fn = tree_sitter_commonlisp::LANGUAGE_COMMONLISP;
-            let language = tree_sitter::Language::new(language_fn);
+            let language = unsafe { tree_sitter_commonlisp() };
 
             TreeSitterConfig {
                 language: language.clone(),
