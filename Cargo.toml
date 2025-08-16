@@ -106,7 +106,6 @@ tree-sitter-verilog = "1.0.3"
 tree-sitter-xml = "0.7.0"
 tree-sitter-yaml = "0.7.0"
 tree-sitter-zig = "1.1.2"
-tree-sitter-commonlisp = "0.4.1"
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 tikv-jemallocator = "0.6"
