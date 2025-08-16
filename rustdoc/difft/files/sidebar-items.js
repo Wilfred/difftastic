@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ProbableFileKind"],"fn":["eprint_read_error","guess_content","has_utf16_byte_order_mark","read_file_arg","read_file_or_die","read_files_or_die","read_or_die","relative_file_paths_in_dir","relative_paths_in_either","u16_from_bytes"]};
