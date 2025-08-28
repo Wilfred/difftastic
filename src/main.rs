@@ -19,6 +19,9 @@
 // implementation does not consider the mutable fields, so it is still
 // correct.
 #![allow(clippy::mutable_key_type)]
+// manual_unwrap_or_default was added in Rust 1.79, so earlier versions of
+// clippy complain about allowing it.
+#![allow(unknown_lints)]
 // It's sometimes more readable to explicitly create a vec than to use
 // the Default trait.
 #![allow(clippy::manual_unwrap_or_default)]
