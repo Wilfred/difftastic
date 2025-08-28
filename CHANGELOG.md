@@ -1,5 +1,9 @@
 ## 0.65 (unreleased)
 
+### Build
+
+difftastic now requires Rust 1.75 to build.
+
 ### Parsing
 
 Updated Clojure, Common Lisp and Zig parsers. Improved parsing of

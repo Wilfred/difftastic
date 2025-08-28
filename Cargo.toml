@@ -12,10 +12,13 @@ edition = "2021"
 # Goal: support at least 12 months of Rust versions, and be
 # conservative about upgrades to help packagers.
 #
+# https://releases.rs/ is a useful website to see when different Rust
+# versions were released.
+#
 # For reference, Debian stable is on 1.63 (see
 # https://tracker.debian.org/pkg/rustc) but Debian doesn't currently
 # package difftastic. Other distros are somewhat newer.
-rust-version = "1.74.1"
+rust-version = "1.75.0"
 include = [
         "/build.rs",
         "/src/",
