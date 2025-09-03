@@ -154,6 +154,7 @@ typedef struct {
 typedef struct {
     indent_vec *indents;
     delimiter_vec *delimiters;
+    bool has_inline_comment;
 } Scanner;
 
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -272,6 +273,7 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
         if (lexer->lookahead == '\n') {
             found_end_of_line = true;
             indent_length = 0;
+            scanner->has_inline_comment = false;
             skip(lexer);
         } else if (lexer->lookahead == ' ') {
             indent_length++;
@@ -283,6 +285,13 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             indent_length += 8;
             skip(lexer);
         } else if (lexer->lookahead == '#') {
+            uint32_t comment_column = lexer->get_column(lexer);
+            // We check if the comment marker comes right after the indent to
+            // determine if it's located at the start of the line. If so it's a
+            // standalone comment. Otherwise, it's inline with code.
+            bool is_comment_at_line_start = (comment_column == indent_length);
+            bool is_region_marker = false;
+
             // Check for #region and #endregion in priority before handling the token as a comment.
             if (valid_symbols[REGION_START] || valid_symbols[REGION_END]) {
                 // We first walk over the # character
@@ -316,8 +325,10 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             }
 
             // We were not looking at a region or endregion token, handle as regular comment
-            if (first_comment_indent_length == -1) {
+            if (first_comment_indent_length == -1 && is_comment_at_line_start) {
                 first_comment_indent_length = (int32_t)indent_length;
+            } else if (!is_comment_at_line_start) {
+                scanner->has_inline_comment = true;
             }
             while (lexer->lookahead && lexer->lookahead != '\n') {
                 skip(lexer);
@@ -354,18 +365,25 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                 return true;
             }
 
-            if ((valid_symbols[DEDENT] ||
-                 (!valid_symbols[NEWLINE] &&
-                  !valid_symbols[STRING_START] &&
-                  !valid_symbols[STRING_NAME_START] &&
-                  !valid_symbols[NODE_PATH_START] &&
-                  !within_brackets)) &&
-                indent_length < current_indent_length &&
+            // Check if the lexer is expecting a DEDENT token, but we're not
+            // within brackets or expecting a string.
+            bool dedent_explicitly_valid = valid_symbols[DEDENT];
+            bool not_expecting_strings_or_in_brackets = !valid_symbols[NEWLINE] &&
+                                     !valid_symbols[STRING_START] &&
+                                     !valid_symbols[STRING_NAME_START] &&
+                                     !valid_symbols[NODE_PATH_START] &&
+                                     !within_brackets;
+            bool should_generate_dedent = dedent_explicitly_valid || not_expecting_strings_or_in_brackets;
+            bool indentation_has_decreased = indent_length < current_indent_length;
 
-                // Wait to create a dedent token until we've consumed any
-                // comments
-                // whose indentation matches the current block.
-                first_comment_indent_length < (int32_t)current_indent_length) {
+            // Wait to create a dedent token until we've consumed any comments
+            // whose indentation matches the current block. Also delay dedent if
+            // we have inline comments to allow them to be associated with the
+            // current scope.
+            bool comments_allow_dedent = first_comment_indent_length < (int32_t)current_indent_length &&
+                                       !scanner->has_inline_comment;
+
+            if (should_generate_dedent && indentation_has_decreased && comments_allow_dedent) {
                 VEC_POP(scanner->indents);
                 lexer->result_symbol = DEDENT;
                 return true;
@@ -409,7 +427,7 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
         }
     }
 
-    if (first_comment_indent_length == -1 && 
+    if (first_comment_indent_length == -1 &&
             (valid_symbols[STRING_START] ||
             valid_symbols[STRING_NAME_START] ||
             valid_symbols[NODE_PATH_START])) {
