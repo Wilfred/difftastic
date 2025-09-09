@@ -456,45 +456,54 @@ var my_prop:
     (type (identifier))
     (setget
       (get_body
-        (pass_statement))
+        (body
+          (pass_statement)))
       (set_body
         (parameters (identifier))
-        (pass_statement))))
+        (body
+          (pass_statement)))))
   (variable_statement
     (name)
     (type (identifier))
     (integer)
     (setget
       (get_body
-        (pass_statement))
+        (body
+          (pass_statement)))
       (set_body
         (parameters (identifier))
-        (pass_statement))))
+        (body
+          (pass_statement)))))
   (variable_statement
     (name)
     (integer)
     (setget
       (get_body
-        (pass_statement))
+        (body
+          (pass_statement)))
       (set_body
         (parameters (identifier))
-        (pass_statement))))
+        (body
+          (pass_statement)))))
   (variable_statement
     (name)
     (setget
       (get_body
-        (pass_statement))))
+        (body
+          (pass_statement)))))
   (variable_statement
     (name)
     (setget
       (get_body
-        (pass_statement))))
+        (body
+          (pass_statement)))))
   (variable_statement
     (name)
     (setget
       (get_body
-        (pass_statement)
-        (pass_statement))))
+        (body
+          (pass_statement)
+          (pass_statement)))))
   (variable_statement
     (name)
     (type (identifier))
@@ -502,7 +511,8 @@ var my_prop:
       (set_body
         (parameters
           (identifier))
-        (pass_statement))))
+        (body
+          (pass_statement)))))
   (variable_statement
     (name)
     (setget

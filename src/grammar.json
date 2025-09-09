@@ -1002,13 +1002,12 @@
           "value": ":"
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "body",
           "content": {
             "type": "SYMBOL",
             "name": "body"
-          },
-          "named": false,
-          "value": "body"
+          }
         }
       ]
     },
@@ -1041,13 +1040,12 @@
           "value": ":"
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "body",
           "content": {
             "type": "SYMBOL",
             "name": "body"
-          },
-          "named": false,
-          "value": "body"
+          }
         }
       ]
     },

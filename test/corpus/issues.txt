@@ -107,25 +107,27 @@ var children:
     (name)
     (setget
       (get_body
-        (return_statement
-          (attribute
-            (identifier)
-            (attribute_call
+        (body
+          (return_statement
+            (attribute
               (identifier)
-              (arguments)))))))
+              (attribute_call
+                (identifier)
+                (arguments))))))))
   (variable_statement
     (name)
     (setget
       (get_body
-        (return_statement
-          (attribute
-            (subscript
-              (identifier)
-              (subscript_arguments
-                (integer)))
-            (attribute_call
-              (identifier)
-              (arguments))))))))
+        (body
+          (return_statement
+            (attribute
+              (subscript
+                (identifier)
+                (subscript_arguments
+                  (integer)))
+              (attribute_call
+                (identifier)
+                (arguments)))))))))
 
 ============================================
 Export Var Stmt can be onready

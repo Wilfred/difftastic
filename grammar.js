@@ -153,7 +153,7 @@ module.exports = grammar({
         ),
       ),
 
-    string_name: ($) => 
+    string_name: ($) =>
       seq(
         alias($._string_name_start, '&"'),
         repeat(choice($.escape_sequence, $._string_content)),
@@ -176,7 +176,7 @@ module.exports = grammar({
                 seq(
                   optional("/"),
                   $._identifier,
-                  repeat(seq("/", $._identifier))
+                  repeat(seq("/", $._identifier)),
                 ),
               ),
             ),
@@ -184,10 +184,7 @@ module.exports = grammar({
               "%",
               choice(
                 alias($.string, "value"),
-                seq(
-                  $._identifier,
-                  repeat(seq("/", $._identifier))
-                ),
+                seq($._identifier, repeat(seq("/", $._identifier))),
               ),
             ),
           ),
@@ -271,7 +268,7 @@ module.exports = grammar({
 
     // -- SetGet
 
-    set_body: ($) => seq("set", $.parameters, ":", alias($.body, "body")),
+    set_body: ($) => seq("set", $.parameters, ":", field("body", $.body)),
     get_body: ($) =>
       seq(
         "get",
@@ -279,7 +276,7 @@ module.exports = grammar({
         // get does not take any parameters.
         optional(alias($.parameters, "()")),
         ":",
-        alias($.body, "body"),
+        field("body", $.body),
       ),
 
     _set_assign: ($) => seq("set", "=", field("set", $.setter)),

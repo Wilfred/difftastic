@@ -82,7 +82,8 @@ var x:
     (name)
     (setget
       (get_body
-        (pass_statement)))))
+        (body
+          (pass_statement))))))
 
 ============================================
 Pattern Guards for Match Statement
