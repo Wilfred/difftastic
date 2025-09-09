@@ -496,6 +496,10 @@ unsigned tree_sitter_gdscript_external_scanner_serialize(void *payload,
         buffer[size++] = (char)scanner->indents->data[iter];
     }
 
+    if (size < TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+        buffer[size++] = scanner->has_inline_comment ? 1 : 0;
+    }
+
     return size;
 }
 
@@ -507,6 +511,7 @@ void tree_sitter_gdscript_external_scanner_deserialize(void *payload,
     VEC_CLEAR(scanner->delimiters);
     VEC_CLEAR(scanner->indents);
     VEC_PUSH(scanner->indents, 0);
+    scanner->has_inline_comment = false;
 
     if (length > 0) {
         size_t size = 0;
@@ -519,8 +524,17 @@ void tree_sitter_gdscript_external_scanner_deserialize(void *payload,
             size += delimiter_count;
         }
 
-        for (; size < length; size++) {
+        // Deserialize the indents. Right now it's all except the last byte
+        // which is the has_inline_comment field.
+        for (; size < length - 1; size++) {
             VEC_PUSH(scanner->indents, (unsigned char)buffer[size]);
+        }
+
+        // Now we got all indents, deserialize the has_inline_comment field,
+        // which is the last byte in the buffer. It's a char so we need to
+        // convert it to a bool.
+        if (size < length) {
+            scanner->has_inline_comment = buffer[size++] != 0;
         }
 
         assert(size == length);
