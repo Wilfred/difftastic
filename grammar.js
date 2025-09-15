@@ -588,6 +588,7 @@ module.exports = grammar({
     binary_operator: ($) => {
       // Inspired by tree-sitter-c
       const operators = [
+        [seq("not", "in"), PREC.in],
         ["in", PREC.in],
         ["and", PREC.and],
         ["&&", PREC.and],
@@ -611,7 +612,8 @@ module.exports = grammar({
         [">=", PREC.compare],
         [">", PREC.compare],
         ["as", PREC.as],
-        [seq("is", optional("not")), PREC.is],
+        [seq("is", "not"), PREC.is],
+        ["is", PREC.is],
       ];
 
       const choices = operators.map(([operator, precedence]) => {
