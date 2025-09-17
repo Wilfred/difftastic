@@ -6,7 +6,7 @@ Double-quoted regular string
 
 ---
 
-(source 
+(source
   (expression_statement
     (string)))
 
@@ -56,7 +56,7 @@ Single-quoted regular string
 
 ---
 
-(source 
+(source
   (expression_statement
     (string)))
 
@@ -621,7 +621,8 @@ var v = ^ ''''''
   (expression_statement
     (get_node))
   (expression_statement
-    (get_node))
+    (get_node
+        (line_continuation)))
   (comment)
   (comment)
   (expression_statement
@@ -668,4 +669,3 @@ var v = ^ ''''''
   (variable_statement (name) (ERROR) (string))
   (variable_statement (name) (ERROR) (string))
   (variable_statement (name) (ERROR) (string)))
-
