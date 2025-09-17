@@ -180,11 +180,7 @@ module.exports = grammar({
                     // It's valid syntax in GDScript to wrap get node paths with
                     // $ or % over multiple lines with line continuation marks.
                     // But the continuation mark can only come after a trailing /
-                    seq(
-                      "/",
-                      optional($._line_continuation),
-                      $._identifier
-                    ),
+                    seq("/", optional($._line_continuation), $._identifier),
                   ),
                 ),
               ),
@@ -196,11 +192,7 @@ module.exports = grammar({
                 seq(
                   $._identifier,
                   repeat(
-                    seq(
-                      "/",
-                      optional($._line_continuation),
-                      $._identifier,
-                    ),
+                    seq("/", optional($._line_continuation), $._identifier),
                   ),
                 ),
               ),
@@ -846,7 +838,7 @@ module.exports = grammar({
       ),
     // This rule is for trailing backslashes to indicate line continuation. We
     // capture those as anonymous '\' tokens to be able to preserve them in code
-    // formatters. 
+    // formatters.
     line_continuation: ($) => token(prec(1, seq("\\", /\r?\n/))),
     _line_continuation: ($) => alias($.line_continuation, ""),
   }, // end rules
