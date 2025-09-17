@@ -28,7 +28,7 @@ module.exports = grammar({
 
   word: ($) => $._identifier,
 
-  extras: ($) => [$.comment, /[\s\uFEFF\u2060\u200B]|\\\r?\n/],
+  extras: ($) => [$.comment, /[\s\uFEFF\u2060\u200B]/],
 
   externals: ($) => [
     $._newline,
@@ -176,7 +176,16 @@ module.exports = grammar({
                 seq(
                   optional("/"),
                   $._identifier,
-                  repeat(seq("/", $._identifier)),
+                  repeat(
+                    // It's valid syntax in GDScript to wrap get node paths with
+                    // $ or % over multiple lines with line continuation marks.
+                    // But the continuation mark can only come after a trailing /
+                    seq(
+                      "/",
+                      optional($._line_continuation),
+                      $._identifier
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -184,7 +193,16 @@ module.exports = grammar({
               "%",
               choice(
                 alias($.string, "value"),
-                seq($._identifier, repeat(seq("/", $._identifier))),
+                seq(
+                  $._identifier,
+                  repeat(
+                    seq(
+                      "/",
+                      optional($._line_continuation),
+                      $._identifier,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -826,6 +844,11 @@ module.exports = grammar({
         PREC.call,
         seq($._primary_expression, field("arguments", $.arguments)),
       ),
+    // This rule is for trailing backslashes to indicate line continuation. We
+    // capture those as anonymous '\' tokens to be able to preserve them in code
+    // formatters. 
+    line_continuation: ($) => token(prec(1, seq("\\", /\r?\n/))),
+    _line_continuation: ($) => alias($.line_continuation, ""),
   }, // end rules
 });
 
