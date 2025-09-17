@@ -1,0 +1,37 @@
+===
+Syntax sugar line continuations
+===
+
+$get/node/\
+my/node
+
+%hello/ \
+world
+
+&"hello \
+world"
+
+---
+
+(source
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (string_name
+      (escape_sequence))))
+
+===
+Invalid syntax sugar line continuations
+===
+
+$get\
+/node
+
+---
+
+(source
+  (expression_statement
+  (get_node
+    (ERROR))))
