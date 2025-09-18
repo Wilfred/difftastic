@@ -2417,10 +2417,6 @@
     }
   },
   {
-    "type": "",
-    "named": false
-  },
-  {
     "type": "!",
     "named": false
   },
@@ -2700,6 +2696,11 @@
   {
     "type": "is",
     "named": false
+  },
+  {
+    "type": "line_continuation",
+    "named": true,
+    "extra": true
   },
   {
     "type": "master",

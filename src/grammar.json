@@ -534,18 +534,6 @@
                                   "value": "/"
                                 },
                                 {
-                                  "type": "CHOICE",
-                                  "members": [
-                                    {
-                                      "type": "SYMBOL",
-                                      "name": "_line_continuation"
-                                    },
-                                    {
-                                      "type": "BLANK"
-                                    }
-                                  ]
-                                },
-                                {
                                   "type": "SYMBOL",
                                   "name": "_identifier"
                                 }
@@ -592,18 +580,6 @@
                                 {
                                   "type": "STRING",
                                   "value": "/"
-                                },
-                                {
-                                  "type": "CHOICE",
-                                  "members": [
-                                    {
-                                      "type": "SYMBOL",
-                                      "name": "_line_continuation"
-                                    },
-                                    {
-                                      "type": "BLANK"
-                                    }
-                                  ]
                                 },
                                 {
                                   "type": "SYMBOL",
@@ -4556,31 +4532,18 @@
     "line_continuation": {
       "type": "TOKEN",
       "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "\\"
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\r?\\n"
-            }
-          ]
-        }
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "\\"
+          },
+          {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
+        ]
       }
-    },
-    "_line_continuation": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "line_continuation"
-      },
-      "named": false,
-      "value": ""
     }
   },
   "extras": [
@@ -4591,6 +4554,10 @@
     {
       "type": "PATTERN",
       "value": "[\\s\\uFEFF\\u2060\\u200B]"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "line_continuation"
     }
   ],
   "conflicts": [],
