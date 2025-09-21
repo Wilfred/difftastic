@@ -2,7 +2,6 @@
 Sample - GDScript 1
 =====================================
 
-tool
 extends Node2D
 class_name CustomNode, "icon_path"
 
@@ -24,7 +23,6 @@ func _ready():
 ---
 
 (source
-  (tool_statement)
   (extends_statement (type (identifier)))
   (class_name_statement (name) (string))
   (class_definition (name) (extends_statement (type (identifier)))
@@ -50,4 +48,3 @@ func _ready():
               (call (identifier) (arguments (string) (identifier)))))
           (expression_statement
             (call (identifier) (arguments (identifier)))))))))
-

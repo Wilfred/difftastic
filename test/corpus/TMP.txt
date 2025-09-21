@@ -160,3 +160,32 @@ match get_value():
             (call
               (identifier)
               arguments: (arguments))))))))
+
+
+============================================
+Callables: Calling a callable named tool
+============================================
+
+var tool = Callable()
+
+func test():
+	tool.call()
+
+---
+
+(source
+  (variable_statement
+    name: (name)
+    value: (call
+      (identifier)
+      arguments: (arguments)))
+  (function_definition
+    name: (name)
+    parameters: (parameters)
+    body: (body
+      (expression_statement
+        (attribute
+          (identifier)
+          (attribute_call
+            (identifier)
+            arguments: (arguments)))))))
