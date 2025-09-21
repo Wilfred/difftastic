@@ -145,18 +145,18 @@ match get_value():
       arguments: (arguments))
     body: (match_body
       (pattern_section
-        (expression_statement
-            (conditional_expression
-            left: (identifier)
-            condition: (call
-                (identifier)
-                arguments: (arguments))
-            right: (identifier)))
+        (conditional_expression
+          left: (identifier)
+          condition: (call
+            (identifier)
+            arguments: (arguments))
+          right: (identifier))
         body: (body
-            (annotation
-              (identifier)
-              arguments: (arguments
-                (string))
+          (annotation
+            (identifier)
+            arguments: (arguments
+              (string)))
+          (expression_statement
             (call
               (identifier)
               arguments: (arguments))))))))
