@@ -28,7 +28,7 @@ func _ready():
   (extends_statement (type (identifier)))
   (class_name_statement (name) (string))
   (class_definition (name) (extends_statement (type (identifier)))
-    (body
+    (class_body
       (variable_statement (name) (type (identifier)))
       (function_definition (name) (parameters) (type (identifier))
         (body
@@ -50,4 +50,3 @@ func _ready():
               (call (identifier) (arguments (string) (identifier)))))
           (expression_statement
             (call (identifier) (arguments (identifier)))))))))
-

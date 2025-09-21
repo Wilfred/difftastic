@@ -361,10 +361,12 @@ module.exports = grammar({
     tool_statement: ($) => "tool",
 
     signal_statement: ($) =>
-      seq(
-        "signal",
-        field("name", $.name),
-        optional(field("parameters", $.parameters)),
+      prec.right(
+        seq(
+          "signal",
+          field("name", $.name),
+          optional(field("parameters", $.parameters)),
+        ),
       ),
 
     class_name_statement: ($) =>
@@ -375,7 +377,8 @@ module.exports = grammar({
         optional(seq(",", field("icon_path", $.string))),
       ),
 
-    extends_statement: ($) => seq("extends", choice($.string, $.type)),
+    extends_statement: ($) =>
+      prec(PREC.type, seq("extends", choice($.string, $.type))),
 
     _compound_statement: ($) =>
       choice(
@@ -435,7 +438,30 @@ module.exports = grammar({
         field("name", $.name),
         optional(field("extends", $.extends_statement)),
         ":",
-        field("body", $.body),
+        field("body", $.class_body),
+      ),
+
+    class_body: ($) =>
+      choice(
+        seq(
+          $._indent,
+          seq(repeat($._class_member), choice($._body_end, $._dedent)),
+        ),
+        $._class_member,
+      ),
+
+    // A class body can only directly contain class members. Then these class
+    // members can contain statements in their bodies, but not directly in the
+    // class.
+    _class_member: ($) =>
+      choice(
+        $.extends_statement,
+        $.function_definition,
+        $.variable_statement,
+        $.signal_statement,
+        $.enum_definition,
+        $.const_statement,
+        $.class_definition,
       ),
 
     // -- Enum
@@ -627,7 +653,12 @@ module.exports = grammar({
     subscript_arguments: ($) =>
       seq("[", trailCommaSep1($._rhs_expression), "]"),
     subscript: ($) =>
-      seq($._primary_expression, field("arguments", $.subscript_arguments)),
+      // The high precedence resolves ambiguity when parsing a definition
+      // followed by code on the same line like class C: var x = my_array[0]
+      prec(
+        PREC.attribute,
+        seq($._primary_expression, field("arguments", $.subscript_arguments)),
+      ),
 
     attribute_call: ($) =>
       prec(PREC.attribute, seq($.identifier, field("arguments", $.arguments))),

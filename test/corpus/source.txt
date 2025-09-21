@@ -947,15 +947,15 @@ class Name:
 
 (source
   (class_definition (name)
-    (body
+    (class_body
       (function_definition (name) (parameters)
         (body (pass_statement)))))
   (class_definition (name) (extends_statement (type (identifier)))
-    (body
+    (class_body
       (function_definition (name) (parameters)
         (body (pass_statement)))))
   (class_definition (name)
-    (body
+    (class_body
       (extends_statement (type (identifier))))))
 
 ============================================
