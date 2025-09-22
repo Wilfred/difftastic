@@ -780,12 +780,19 @@ module.exports = grammar({
     typed_default_parameter: ($) =>
       prec(
         PREC.typed_parameter,
-        seq(
-          $.identifier,
-          ":",
-          field("type", $.type),
-          "=",
-          field("value", $._rhs_expression),
+        choice(
+          seq(
+            $.identifier,
+            ":",
+            field("type", $.type),
+            "=",
+            field("value", $._rhs_expression),
+          ),
+          seq(
+            $.identifier,
+            field("type", $.inferred_type),
+            field("value", $._rhs_expression),
+          ),
         ),
       ),
 
