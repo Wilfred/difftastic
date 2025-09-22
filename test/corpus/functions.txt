@@ -1,5 +1,5 @@
 ============================================
-TMP: Functions: Type inference in function parameters
+Functions: Type inference in function parameters
 ============================================
 
 func set_avatar_at(at := AvatarAt.LEFT) -> void:
@@ -23,7 +23,7 @@ func set_avatar_at(at := AvatarAt.LEFT) -> void:
       (pass_statement))))
 
 ============================================
-TMP: Functions: Type inference in multiple function parameters
+Functions: Type inference in multiple function parameters
 ============================================
 
 func test(x := 10, y := "hello"):
