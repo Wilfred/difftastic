@@ -54,8 +54,6 @@ enum TokenType {
     COMMA,
     /* COLON, // See grammar.js externals */
     BODY_END,
-    REGION_START,
-    REGION_END,
 };
 
 typedef enum {
@@ -159,18 +157,7 @@ static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
-// Helper function to check for a string from current lexer position
-// Used for matching the "region" and "endregion" keywords.
-static bool look_ahead_string(TSLexer *lexer, const char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {
-        char c = str[i];
-        if (lexer->lookahead != c) {
-            return false;
-        }
-        advance(lexer);
-    }
-    return true;
-}
+
 
 static inline void handle_quote(TSLexer *lexer, Delimiter *delimiter, char quote) {
     set_end_character(delimiter, quote);
@@ -283,27 +270,6 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             indent_length += 8;
             skip(lexer);
         } else if (lexer->lookahead == '#') {
-            // Check for #region and #endregion markers, as currently we do not treat them the same as normal comments.
-            if (valid_symbols[REGION_START] || valid_symbols[REGION_END]) {
-                advance(lexer);
-
-                bool is_potential_region_start = (lexer->lookahead == 'r');
-                bool is_potential_endregion_start = (lexer->lookahead == 'e');
-
-                if (valid_symbols[REGION_START] && is_potential_region_start && look_ahead_string(lexer, "region")) {
-                    lexer->mark_end(lexer);
-                    lexer->result_symbol = REGION_START;
-                    return true;
-                } else if (valid_symbols[REGION_END] && is_potential_endregion_start && look_ahead_string(lexer, "endregion")) {
-                    while (lexer->lookahead && lexer->lookahead != '\n' && lexer->lookahead != '\r' && !lexer->eof(lexer)) {
-                        advance(lexer);
-                    }
-                    lexer->mark_end(lexer);
-                    lexer->result_symbol = REGION_END;
-                    return true;
-                }
-            }
-
             // The current scanner can scan past a line return into a comment.
             // In that case we want to stop processing here, since it means
             // we're looking potentially at a comment on the next line compared
