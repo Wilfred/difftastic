@@ -91,10 +91,10 @@ use crate::parse::syntax;
 ///
 /// For reference, Jemalloc uses 10-20% more time (although up to 33%
 /// more instructions) when testing on sample files.
-#[cfg(not(any(target_env = "msvc", target_os = "illumos")))]
+#[cfg(not(any(target_env = "msvc", target_os = "illumos", target_os = "freebsd")))]
 use tikv_jemallocator::Jemalloc;
 
-#[cfg(not(any(target_env = "msvc", target_os = "illumos")))]
+#[cfg(not(any(target_env = "msvc", target_os = "illumos", target_os = "freebsd")))]
 #[global_allocator]
 static GLOBAL: Jemalloc = Jemalloc;
 
