@@ -1,4 +1,6 @@
-## 0.65 (unreleased)
+## 0.66 (unreleased)
+
+## 0.65 (released 23rd September 2025)
 
 ### Build
 
