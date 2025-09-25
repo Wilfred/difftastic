@@ -328,6 +328,88 @@ fn highlight_as_novel(
     false
 }
 
+/// Find the longest line in `lhs_src` and `rhs_src` that will be
+/// displayed.
+fn displayed_content_max_len_in_bytes(
+    lhs_src: &str,
+    rhs_src: &str,
+    hunks: &[Hunk],
+    num_context_lines: u32,
+) -> usize {
+    let mut lhs_displayed_lines: DftHashSet<usize> = DftHashSet::default();
+    let mut rhs_displayed_lines: DftHashSet<usize> = DftHashSet::default();
+
+    for hunk in hunks {
+        let mut min_lhs_line: Option<LineNumber> = None;
+        let mut max_lhs_line: Option<LineNumber> = None;
+        let mut min_rhs_line: Option<LineNumber> = None;
+        let mut max_rhs_line: Option<LineNumber> = None;
+
+        for (lhs_line, rhs_line) in &hunk.lines {
+            if let Some(lhs_line) = lhs_line {
+                if let Some(current_min) = min_lhs_line {
+                    min_lhs_line = Some(min(current_min, *lhs_line));
+                } else {
+                    min_lhs_line = Some(*lhs_line);
+                }
+
+                if let Some(current_max) = max_lhs_line {
+                    max_lhs_line = Some(max(current_max, *lhs_line));
+                } else {
+                    max_lhs_line = Some(*lhs_line);
+                }
+            }
+
+            if let Some(rhs_line) = rhs_line {
+                if let Some(current_min) = min_rhs_line {
+                    min_rhs_line = Some(min(current_min, *rhs_line));
+                } else {
+                    min_rhs_line = Some(*rhs_line);
+                }
+
+                if let Some(current_max) = max_rhs_line {
+                    max_rhs_line = Some(max(current_max, *rhs_line));
+                } else {
+                    max_rhs_line = Some(*rhs_line);
+                }
+            }
+
+            if let (Some(min_lhs_line), Some(max_lhs_line)) = (min_lhs_line, max_lhs_line) {
+                let min_lhs_plus_padding =
+                    max(0, min_lhs_line.0 as isize - num_context_lines as isize) as usize;
+                let max_lhs_plus_padding = max_lhs_line.0 as usize + num_context_lines as usize;
+                for lhs_line_num in min_lhs_plus_padding..=max_lhs_plus_padding {
+                    lhs_displayed_lines.insert(lhs_line_num);
+                }
+            }
+
+            if let (Some(min_rhs_line), Some(max_rhs_line)) = (min_rhs_line, max_rhs_line) {
+                let min_rhs_plus_padding =
+                    max(0, min_rhs_line.0 as isize - num_context_lines as isize) as usize;
+                let max_rhs_plus_padding = max_rhs_line.0 as usize + num_context_lines as usize;
+                for rhs_line_num in min_rhs_plus_padding..=max_rhs_plus_padding {
+                    rhs_displayed_lines.insert(rhs_line_num);
+                }
+            }
+        }
+    }
+
+    let mut content_max_width: usize = 0;
+
+    for (lhs_i, lhs_line) in lhs_src.lines().enumerate() {
+        if lhs_displayed_lines.contains(&lhs_i) {
+            content_max_width = max(content_max_width, lhs_line.len());
+        }
+    }
+    for (rhs_i, rhs_line) in rhs_src.lines().enumerate() {
+        if rhs_displayed_lines.contains(&rhs_i) {
+            content_max_width = max(content_max_width, rhs_line.len());
+        }
+    }
+
+    content_max_width
+}
+
 pub(crate) fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
@@ -339,13 +421,12 @@ pub(crate) fn print(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) {
-    let mut content_max_width: usize = 0;
-    for line in lhs_src.lines() {
-        content_max_width = max(content_max_width, line.len());
-    }
-    for line in rhs_src.lines() {
-        content_max_width = max(content_max_width, line.len());
-    }
+    let content_max_width = displayed_content_max_len_in_bytes(
+        lhs_src,
+        rhs_src,
+        hunks,
+        display_options.num_context_lines,
+    );
 
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (

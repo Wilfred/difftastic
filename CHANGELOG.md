@@ -1,5 +1,11 @@
 ## 0.66 (unreleased)
 
+### Display
+
+Difftastic is now smarter about calculating the display width for
+side-by-side diffs. Long lines that are not included in the output no
+longer affect display.
+
 ## 0.65 (released 23rd September 2025)
 
 ### Build

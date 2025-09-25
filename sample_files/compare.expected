@@ -32,10 +32,10 @@ sample_files/chinese_1.po sample_files/chinese_2.po
 a729587c647a4390573c86e95abe6263  -
 
 sample_files/clojure_1.clj sample_files/clojure_2.clj
-592b9f4e3bc12ede3075d23551074b3e  -
+cdc99aad6117c0cfc2e6896fe629876e  -
 
 sample_files/comma_1.js sample_files/comma_2.js
-a4e3564f6e336fead6eb0410496c20f1  -
+0e29285c944ffe768790ffbbf9542470  -
 
 sample_files/comma_and_comment_1.js sample_files/comma_and_comment_2.js
 0a5ccbcd368607e62eaff0c4ae25049f  -
@@ -59,7 +59,7 @@ sample_files/devicetree_1.dts sample_files/devicetree_2.dts
 f7c4e7b4444b02d87b2eec1485d86211  -
 
 sample_files/elisp_1.el sample_files/elisp_2.el
-74b5c1cd11a21bbba2bcbc9493f7e46a  -
+e15f3fc1aab76bdf4eca3f4148d02f10  -
 
 sample_files/elisp_contiguous_1.el sample_files/elisp_contiguous_2.el
 4a5a33873a4f84ee055d95e1448fba35  -
@@ -134,7 +134,7 @@ sample_files/jsx_1.jsx sample_files/jsx_2.jsx
 712ef0cf61b469bbacc84b53b944e5ff  -
 
 sample_files/julia_1.jl sample_files/julia_2.jl
-55aa779597d1f6afa681af267706c9b6  -
+532405b3959d8864c06d2fb3548df119  -
 
 sample_files/load_1.js sample_files/load_2.js
 8defc3cea4d10a8db826973352abe2a1  -
@@ -155,7 +155,7 @@ sample_files/metadata_1.clj sample_files/metadata_2.clj
 4b58ce366467c8cca46db53508e81323  -
 
 sample_files/modules_1.ml sample_files/modules_2.ml
-b29a0d9427b7f5a9450163a9f1ba7f49  -
+1e0e58cbadcbf0cd92a8416e8bfbec44  -
 
 sample_files/multibyte_1.py sample_files/multibyte_2.py
 f761255d521267ace4f4887a21664a12  -
@@ -170,7 +170,7 @@ sample_files/nest_1.rs sample_files/nest_2.rs
 d3a799fe2cd9d81aa251c96af5cd9711  -
 
 sample_files/nested_slider_1.el sample_files/nested_slider_2.el
-f68f8b8c09afb86965d5e54519f2d881  -
+0880b11fd8a2e1245622f1f2a908e0c4  -
 
 sample_files/nested_slider_1.rs sample_files/nested_slider_2.rs
 342df46db959e8c90925ff4400c0fa63  -
@@ -182,7 +182,7 @@ sample_files/newick_1.nwk sample_files/newick_2.nwk
 45ec08ce924513fb24846b9609d3cbe8  -
 
 sample_files/nix_1.nix sample_files/nix_2.nix
-486bb1ac5a844c41ca6bd59003c71c18  -
+6f9bea063047d66e9f857123dfe95e10  -
 
 sample_files/nullable_1.kt sample_files/nullable_2.kt
 d0a51e7201cc16dc6bcb99cbad64f6be  -
@@ -200,10 +200,10 @@ sample_files/outer_delimiter_1.el sample_files/outer_delimiter_2.el
 a7e206f6391237be0ce8ed244ec3dd62  -
 
 sample_files/pascal_1.pascal sample_files/pascal_2.pascal
-acc46c16e83dd1b48c6f761e59541923  -
+4e8dbdc95cbaba358cbc5dfa4cb22a55  -
 
 sample_files/perl_1.pl sample_files/perl_2.pl
-9bb6ae2a12bc0debfde17013ed190344  -
+e90ef13054f1e541addcac5ee4bad880  -
 
 sample_files/prefer_outer_1.el sample_files/prefer_outer_2.el
 991038c9988cccc2c824652e33f772a2  -
@@ -215,7 +215,7 @@ sample_files/qml_1.qml sample_files/qml_2.qml
 41a0432c03b87ad59fc8c942d83b20b5  -
 
 sample_files/r_1.R sample_files/r_2.R
-10f45a80a8554419bf30a2a0f574ab86  -
+bcc8684cac16dcadba64144571336096  -
 
 sample_files/racket_1.rkt sample_files/racket_2.rkt
 b017e169d9fc79336fd7ef82140fe8a7  -
@@ -242,7 +242,7 @@ sample_files/simple_1.txt sample_files/simple_2.txt
 60e62ad60b18c754acd99aeb0ac2120e  -
 
 sample_files/slider_1.rs sample_files/slider_2.rs
-d10128f3d9ffc4a8670f417a9371bacc  -
+b745a929b67acbf309f63a1f63b04953  -
 
 sample_files/slider_at_end_1.json sample_files/slider_at_end_2.json
 cb370f1c0ccc5e155743330629f899f0  -
@@ -251,7 +251,7 @@ sample_files/slow_1.rs sample_files/slow_2.rs
 7a74881e854d68763769991c6445698a  -
 
 sample_files/small_1.js sample_files/small_2.js
-42506285003bb4eacdb2f8d3bd1b07bb  -
+86b1132b6c17fcc2cbec65b1c248baa9  -
 
 sample_files/string_subwords_1.el sample_files/string_subwords_2.el
 b66e960672189960c2d35ef68b47a195  -
