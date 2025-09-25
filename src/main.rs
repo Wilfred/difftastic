@@ -34,6 +34,9 @@
 // Debugging features shouldn't be in checked-in code.
 #![warn(clippy::todo)]
 #![warn(clippy::dbg_macro)]
+// I frequently develop difftastic on a newer rustc than the MSRV, so
+// this isn't relevant.
+#![allow(renamed_and_removed_lints)]
 
 mod conflicts;
 mod constants;
