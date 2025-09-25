@@ -851,6 +851,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -877,6 +887,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1378,7 +1398,7 @@
     "fields": {
       "body": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "body",
@@ -2626,8 +2646,7 @@
   },
   {
     "type": "comment",
-    "named": true,
-    "extra": true
+    "named": true
   },
   {
     "type": "const",
@@ -2699,8 +2718,7 @@
   },
   {
     "type": "line_continuation",
-    "named": true,
-    "extra": true
+    "named": true
   },
   {
     "type": "master",

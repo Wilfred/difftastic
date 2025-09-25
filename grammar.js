@@ -373,6 +373,7 @@ module.exports = grammar({
 
     class_name_statement: ($) =>
       seq(
+        optional($.annotations),
         "class_name",
         field("name", $.name),
         optional(seq(",", field("icon_path", $.string))),
@@ -434,6 +435,7 @@ module.exports = grammar({
 
     class_definition: ($) =>
       seq(
+        optional($.annotations),
         "class",
         field("name", $.name),
         optional(field("extends", $.extends_statement)),
@@ -786,8 +788,8 @@ module.exports = grammar({
         optional(field("name", $.name)),
         field("parameters", $.parameters),
         optional($._return_type),
-        ":",
-        field("body", $.body),
+        // $.body is optional to support abstract function definitions.
+        optional(seq(":", field("body", $.body))),
       ),
 
     lambda: ($) =>
