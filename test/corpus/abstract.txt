@@ -56,7 +56,7 @@ Abstract function declaration
 ---
 
 (source
-  (abstract_function_declaration
+  (function_definition
     (annotations
       (annotation (identifier)))
     (name)
@@ -71,7 +71,7 @@ Abstract function with parameters
 ---
 
 (source
-  (abstract_function_declaration
+  (function_definition
     (annotations
       (annotation (identifier)))
     (name)
@@ -88,7 +88,7 @@ Abstract function with return type
 ---
 
 (source
-  (abstract_function_declaration
+  (function_definition
     (annotations
       (annotation (identifier)))
     (name)
@@ -104,7 +104,7 @@ Abstract function with parameters and return type
 ---
 
 (source
-  (abstract_function_declaration
+  (function_definition
     (annotations
       (annotation (identifier)))
     (name)
@@ -130,7 +130,7 @@ Mixed abstract and concrete methods in class
       (annotation (identifier)))
     (name)
     (body
-      (abstract_function_declaration
+      (function_definition
         (annotations
           (annotation (identifier)))
         (name)
@@ -159,25 +159,25 @@ func concrete_method():
 ---
 
 (source
-  (abstract_function_declaration
+  (function_definition
     (annotations
       (annotation (identifier)))
     (name)
     (parameters))
-  (abstract_function_declaration
+  (function_definition
     (annotations
       (annotation (identifier)))
     (name)
     (parameters
       (typed_parameter (identifier) (type (identifier)))
       (typed_parameter (identifier) (type (identifier)))))
-  (abstract_function_declaration
+  (function_definition
     (annotations
       (annotation (identifier)))
     (name)
     (parameters)
     (type (identifier)))
-  (abstract_function_declaration
+  (function_definition
     (annotations
       (annotation (identifier)))
     (name)

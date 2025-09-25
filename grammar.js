@@ -238,7 +238,6 @@ module.exports = grammar({
         $.break_statement,
         $.breakpoint_statement,
         $.continue_statement,
-        $.abstract_function_declaration,
       ),
 
     expression_statement: ($) =>
@@ -253,17 +252,6 @@ module.exports = grammar({
     // node in contexts like variable_statement and function_definition.
     _annotations: ($) => repeat1($.annotation),
     annotations: ($) => $._annotations,
-
-    // -- Abstract Function Declaration
-
-    abstract_function_declaration: ($) =>
-      seq(
-        $.annotations,
-        "func",
-        optional(field("name", $.name)),
-        field("parameters", $.parameters),
-        optional($._return_type),
-      ),
 
     // -- Variables
 
@@ -798,8 +786,8 @@ module.exports = grammar({
         optional(field("name", $.name)),
         field("parameters", $.parameters),
         optional($._return_type),
-        ":",
-        field("body", $.body),
+        // $.body is optional to support abstract function definitions.
+        optional(seq(":", field("body", $.body))),
       ),
 
     lambda: ($) =>
