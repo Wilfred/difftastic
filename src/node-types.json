@@ -106,10 +106,6 @@
         "named": true
       },
       {
-        "type": "region",
-        "named": true
-      },
-      {
         "type": "while_statement",
         "named": true
       }
@@ -765,6 +761,14 @@
         },
         {
           "type": "pass_statement",
+          "named": true
+        },
+        {
+          "type": "region_end",
+          "named": true
+        },
+        {
+          "type": "region_start",
           "named": true
         },
         {
@@ -1855,79 +1859,15 @@
     }
   },
   {
-    "type": "region",
+    "type": "region_start",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "_compound_statement",
-          "named": true
-        },
-        {
-          "type": "annotation",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "breakpoint_statement",
-          "named": true
-        },
-        {
-          "type": "class_name_statement",
-          "named": true
-        },
-        {
-          "type": "const_statement",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "export_variable_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "extends_statement",
-          "named": true
-        },
-        {
-          "type": "onready_variable_statement",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
           "type": "region_label",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "signal_statement",
-          "named": true
-        },
-        {
-          "type": "tool_statement",
-          "named": true
-        },
-        {
-          "type": "variable_statement",
           "named": true
         }
       ]
@@ -2117,6 +2057,14 @@
         },
         {
           "type": "pass_statement",
+          "named": true
+        },
+        {
+          "type": "region_end",
+          "named": true
+        },
+        {
+          "type": "region_start",
           "named": true
         },
         {
@@ -2449,6 +2397,10 @@
     "named": false
   },
   {
+    "type": "#region",
+    "named": false
+  },
+  {
     "type": "$",
     "named": false
   },
@@ -2763,6 +2715,10 @@
   {
     "type": "puppetsync",
     "named": false
+  },
+  {
+    "type": "region_end",
+    "named": true
   },
   {
     "type": "region_label",
