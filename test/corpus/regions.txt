@@ -1,5 +1,5 @@
 =====================================
-Empty region
+Region: Empty region
 =====================================
 
 #region empty
@@ -8,12 +8,12 @@ Empty region
 ---
 
 (source
-  (region
-    (region_label)
-))
+  (region_start
+    (region_label))
+  (region_end))
 
 =====================================
-Basic anonymous region with code
+Region: Basic anonymous region with code
 =====================================
 
 #region
@@ -24,15 +24,16 @@ func _ready() -> void:
 ---
 
 (source
-  (region
-    (function_definition
-      (name)
-      (parameters)
-      (type (identifier))
-      (body (pass_statement)))))
+  (region_start)
+  (function_definition
+    (name)
+    (parameters)
+    (type (identifier))
+    (body (pass_statement)))
+  (region_end))
 
 =====================================
-Named region with more code
+Region: Named region with more code
 =====================================
 
 #region process
@@ -43,25 +44,26 @@ func _process(delta: float) -> void:
 ---
 
 (source
-  (region
-    (region_label)
-    (function_definition
-      (name)
-      (parameters
-        (typed_parameter
+  (region_start
+    (region_label))
+  (function_definition
+    (name)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type (identifier))))
+    (type (identifier))
+    (body
+      (expression_statement
+        (augmented_assignment
           (identifier)
-          (type (identifier))))
-      (type (identifier))
-      (body
-        (expression_statement
-          (augmented_assignment
+          (binary_operator
             (identifier)
-            (binary_operator
-              (identifier)
-              (identifier))))))))
+            (identifier))))))
+  (region_end))
 
 =====================================
-Region with leading indentation
+Region: Region with leading indentation
 =====================================
 
 func _physics_process(delta: float) -> void:
@@ -80,13 +82,13 @@ func _physics_process(delta: float) -> void:
         (type (identifier))))
     (type (identifier))
     (body
-      (region
-        (region_label)
-        (pass_statement)
-    ))))
+      (region_start
+        (region_label))
+      (pass_statement)))
+  (region_end))
 
 =====================================
-Two sibling regions
+Region: Two sibling regions
 =====================================
 
 #region variables
@@ -102,28 +104,30 @@ func take_damage(amount) -> void:
 ---
 
 (source
-  (region
-    (region_label)
-    (variable_statement
-      (name)
-      (type
-        (identifier))
-      (integer))
-    (variable_statement
-      (name)
-      (type
-        (identifier))
-      (float)))
-  (region
-    (region_label)
-    (function_definition
-      (name)
-      (parameters
-        (identifier))
-      (type
-        (identifier))
-      (body
-        (expression_statement
-          (augmented_assignment
-            (identifier)
-            (identifier)))))))
+  (region_start
+    (region_label))
+  (variable_statement
+    (name)
+    (type
+      (identifier))
+    (integer))
+  (variable_statement
+    (name)
+    (type
+      (identifier))
+    (float))
+  (region_end)
+  (region_start
+    (region_label))
+  (function_definition
+    (name)
+    (parameters
+      (identifier))
+    (type
+      (identifier))
+    (body
+      (expression_statement
+        (augmented_assignment
+          (identifier)
+          (identifier)))))
+  (region_end))

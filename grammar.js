@@ -40,13 +40,6 @@ module.exports = grammar({
     $._string_name_start,
     $._node_path_start,
 
-    // Mark comments as external tokens so that the external scanner is always
-    // invoked, even if no external token is expected. This allows for better
-    // error recovery, because the external scanner can maintain the overall
-    // structure by returning dedent tokens whenever a dedent occurs, even
-    // if no dedent is expected.
-    $.comment,
-
     // Allow the external scanner to check for the validity of closing brackets
     // so that it can avoid returning dedent tokens between brackets.
     "]",
@@ -62,11 +55,6 @@ module.exports = grammar({
     // However, it breaks nested if else chains.
     /* ":", */
     $._body_end,
-
-    // Region markers for code folding. We need to add them here because they are
-    // parsed by the scanner.c file and not by the grammar.
-    $._region_start,
-    $._region_end,
   ],
 
   inline: ($) => [$._simple_statement, $._compound_statement],
@@ -93,6 +81,12 @@ module.exports = grammar({
     // named symbol of a statement
     // such as a function name or class name
     name: ($) => $._identifier,
+    // Code region syntax, parsed to offer code folding support (these are #region and #endregion marks)
+    region_start: ($) =>
+      seq(token(prec(100, "#region")), optional($.region_label)),
+    region_end: ($) =>
+      token(seq(prec(100, "#endregion"), optional(/[^\r\n]*/))),
+    region_label: ($) => /[^\r\n]+/,
     comment: ($) => token(seq("#", /.*/)),
     true: ($) => "true",
     false: ($) => "false",
@@ -238,6 +232,8 @@ module.exports = grammar({
         $.break_statement,
         $.breakpoint_statement,
         $.continue_statement,
+        $.region_start,
+        $.region_end,
       ),
 
     expression_statement: ($) =>
@@ -391,7 +387,6 @@ module.exports = grammar({
         $.class_definition,
         $.enum_definition,
         $.match_statement,
-        $.region,
       ),
 
     if_statement: ($) =>
@@ -484,18 +479,6 @@ module.exports = grammar({
       ),
 
     match_body: ($) => seq($._indent, repeat1($.pattern_section), $._dedent),
-
-    // Code region syntax, parsed to offer code folding support (these are #region and #endregion marks)
-    region: ($) =>
-      seq(
-        $._region_start,
-        optional($.region_label),
-        $._newline,
-        repeat($._statement),
-        $._region_end,
-      ),
-
-    region_label: ($) => /[^\r\n]+/,
 
     // Sources:
     // - https://github.com/godotengine/godot-proposals/issues/4775
