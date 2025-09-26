@@ -50,7 +50,7 @@ func foo(): # func comment
   (class_definition
     (name)
     (comment)
-    (body
+    (class_body
       (pass_statement)))
   (constructor_definition
     (parameters)
@@ -227,7 +227,7 @@ class MyClass:
 (source
   (class_definition
     (name)
-    (body
+    (class_body
       (pass_statement)
       (comment))))
 

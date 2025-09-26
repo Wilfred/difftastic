@@ -464,6 +464,7 @@ module.exports = grammar({
         $.enum_definition,
         $.const_statement,
         $.class_definition,
+        $.pass_statement,
       ),
 
     // -- Enum
