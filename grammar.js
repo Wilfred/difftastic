@@ -218,7 +218,6 @@ module.exports = grammar({
     _simple_statement: ($) =>
       choice(
         $._annotations,
-        $.tool_statement,
         $.signal_statement,
         $.class_name_statement,
         $.extends_statement,
@@ -242,7 +241,9 @@ module.exports = grammar({
     // -- Annotation
 
     annotation: ($) =>
-      seq("@", $.identifier, optional(field("arguments", $.arguments))),
+      prec.right(
+        seq("@", $.identifier, optional(field("arguments", $.arguments))),
+      ),
 
     // The syntax tree looks better when annotations are grouped in a container
     // node in contexts like variable_statement and function_definition.
@@ -358,7 +359,6 @@ module.exports = grammar({
     break_statement: ($) => prec.left("break"),
     breakpoint_statement: ($) => "breakpoint",
     continue_statement: ($) => prec.left("continue"),
-    tool_statement: ($) => "tool",
 
     signal_statement: ($) =>
       seq(
@@ -375,7 +375,8 @@ module.exports = grammar({
         optional(seq(",", field("icon_path", $.string))),
       ),
 
-    extends_statement: ($) => seq("extends", choice($.string, $.type)),
+    extends_statement: ($) =>
+      prec(PREC.type, seq("extends", choice($.string, $.type))),
 
     _compound_statement: ($) =>
       choice(
@@ -435,7 +436,35 @@ module.exports = grammar({
         field("name", $.name),
         optional(field("extends", $.extends_statement)),
         ":",
-        field("body", $.body),
+        field("body", $.class_body),
+      ),
+
+    class_body: ($) =>
+      choice(
+        $._class_members,
+        seq(
+          $._indent,
+          seq(repeat($._class_member), choice($._body_end, $._dedent)),
+        ),
+        choice($._newline, $._body_end),
+      ),
+
+    // A class body can only directly contain class members. Then these class
+    // members can contain statements in their bodies, but not directly in the
+    // class.
+    _class_members: ($) =>
+      seq(trailSep1($._class_member, ";"), choice($._newline, $._body_end)),
+
+    _class_member: ($) =>
+      choice(
+        $.extends_statement,
+        $.function_definition,
+        $.variable_statement,
+        $.signal_statement,
+        $.enum_definition,
+        $.const_statement,
+        $.class_definition,
+        $.pass_statement,
       ),
 
     // -- Enum
@@ -478,7 +507,20 @@ module.exports = grammar({
         field("body", $.match_body),
       ),
 
-    match_body: ($) => seq($._indent, repeat1($.pattern_section), $._dedent),
+    match_body: ($) =>
+      seq(
+        $._indent,
+        // Annotations are generally supported as statements throughout code but
+        // as match blocks are expressions, we need to explicitly allow them
+        // here. The pattern section body itself supports statements (thus annotations).
+        repeat1(
+          seq(
+            optional(repeat(seq($.annotation, optional($._newline)))),
+            $.pattern_section,
+          ),
+        ),
+        $._dedent,
+      ),
 
     // Sources:
     // - https://github.com/godotengine/godot-proposals/issues/4775
@@ -496,7 +538,12 @@ module.exports = grammar({
         field("body", $.body),
       ),
 
-    _pattern: ($) => choice($._primary_expression, $.pattern_binding),
+    _pattern: ($) =>
+      choice(
+        $._primary_expression,
+        $.conditional_expression,
+        $.pattern_binding,
+      ),
 
     // Rather than creating distinct pattern array, dictionary, and expression
     // rules, we insert $.pattern_binding and $.pattern_open_ending into the
@@ -627,7 +674,12 @@ module.exports = grammar({
     subscript_arguments: ($) =>
       seq("[", trailCommaSep1($._rhs_expression), "]"),
     subscript: ($) =>
-      seq($._primary_expression, field("arguments", $.subscript_arguments)),
+      // The high precedence resolves ambiguity when parsing a definition
+      // followed by code on the same line like class C: var x = my_array[0]
+      prec(
+        PREC.attribute,
+        seq($._primary_expression, field("arguments", $.subscript_arguments)),
+      ),
 
     attribute_call: ($) =>
       prec(PREC.attribute, seq($.identifier, field("arguments", $.arguments))),
@@ -742,12 +794,19 @@ module.exports = grammar({
     typed_default_parameter: ($) =>
       prec(
         PREC.typed_parameter,
-        seq(
-          $.identifier,
-          ":",
-          field("type", $.type),
-          "=",
-          field("value", $._rhs_expression),
+        choice(
+          seq(
+            $.identifier,
+            ":",
+            field("type", $.type),
+            "=",
+            field("value", $._rhs_expression),
+          ),
+          seq(
+            $.identifier,
+            field("type", $.inferred_type),
+            field("value", $._rhs_expression),
+          ),
         ),
       ),
 

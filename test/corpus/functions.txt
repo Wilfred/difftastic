@@ -1,0 +1,74 @@
+============================================
+Functions: Type inference in function parameters
+============================================
+
+func set_avatar_at(at := AvatarAt.LEFT) -> void:
+	pass
+
+---
+
+(source
+  (function_definition
+    name: (name)
+    parameters: (parameters
+      (typed_default_parameter
+        (identifier)
+        type: (inferred_type)
+        value: (attribute
+          (identifier)
+          (identifier))))
+    return_type: (type
+      (identifier))
+    body: (body
+      (pass_statement))))
+
+============================================
+Functions: Type inference in multiple function parameters
+============================================
+
+func test(x := 10, y := "hello"):
+	pass
+
+---
+(source
+  (function_definition
+    name: (name)
+    parameters: (parameters
+      (typed_default_parameter
+        (identifier)
+        type: (inferred_type)
+        value: (integer))
+      (typed_default_parameter
+        (identifier)
+        type: (inferred_type)
+        value: (string)))
+    body: (body
+      (pass_statement))))
+
+============================================
+Callables: Calling a callable named tool
+============================================
+
+var tool = Callable()
+
+func test():
+	tool.call()
+
+---
+
+(source
+  (variable_statement
+    name: (name)
+    value: (call
+      (identifier)
+      arguments: (arguments)))
+  (function_definition
+    name: (name)
+    parameters: (parameters)
+    body: (body
+      (expression_statement
+        (attribute
+          (identifier)
+          (attribute_call
+            (identifier)
+            arguments: (arguments)))))))

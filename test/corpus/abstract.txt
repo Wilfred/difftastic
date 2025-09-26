@@ -26,7 +26,7 @@ Abstract class definition
     (annotations
       (annotation (identifier)))
     (name)
-    (body
+    (class_body
       (pass_statement))))
 
 =====================================
@@ -44,7 +44,7 @@ Abstract class with extends
       (annotation (identifier)))
     (name)
     (extends_statement (type (identifier)))
-    (body
+    (class_body
       (pass_statement))))
 
 =====================================
@@ -129,7 +129,7 @@ Mixed abstract and concrete methods in class
     (annotations
       (annotation (identifier)))
     (name)
-    (body
+    (class_body
       (function_definition
         (annotations
           (annotation (identifier)))

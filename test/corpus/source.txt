@@ -912,7 +912,6 @@ class_name Name, "icon"
 Tool and Extend
 =====================================
 
-tool
 extends "class/path"
 extends "class/path".Attr
 extends "class/path".Attr.Attr
@@ -922,7 +921,6 @@ extends Ident.Attr.Attr
 
 ---
 (source
-  (tool_statement)
   (extends_statement (string))
   (extends_statement (type (attribute (string) (identifier))))
   (extends_statement (type (attribute (string) (identifier) (identifier))))
@@ -947,15 +945,15 @@ class Name:
 
 (source
   (class_definition (name)
-    (body
+    (class_body
       (function_definition (name) (parameters)
         (body (pass_statement)))))
   (class_definition (name) (extends_statement (type (identifier)))
-    (body
+    (class_body
       (function_definition (name) (parameters)
         (body (pass_statement)))))
   (class_definition (name)
-    (body
+    (class_body
       (extends_statement (type (identifier))))))
 
 ============================================
