@@ -361,12 +361,10 @@ module.exports = grammar({
     tool_statement: ($) => "tool",
 
     signal_statement: ($) =>
-      prec.right(
-        seq(
-          "signal",
-          field("name", $.name),
-          optional(field("parameters", $.parameters)),
-        ),
+      seq(
+        "signal",
+        field("name", $.name),
+        optional(field("parameters", $.parameters)),
       ),
 
     class_name_statement: ($) =>
@@ -443,16 +441,20 @@ module.exports = grammar({
 
     class_body: ($) =>
       choice(
+        $._class_members,
         seq(
           $._indent,
           seq(repeat($._class_member), choice($._body_end, $._dedent)),
         ),
-        $._class_member,
+        choice($._newline, $._body_end),
       ),
 
     // A class body can only directly contain class members. Then these class
     // members can contain statements in their bodies, but not directly in the
     // class.
+    _class_members: ($) =>
+      seq(trailSep1($._class_member, ";"), choice($._newline, $._body_end)),
+
     _class_member: ($) =>
       choice(
         $.extends_statement,
