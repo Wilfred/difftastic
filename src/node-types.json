@@ -160,6 +160,10 @@
         "named": true
       },
       {
+        "type": "conditional_expression",
+        "named": true
+      },
+      {
         "type": "pattern_binding",
         "named": true
       }
@@ -780,10 +784,6 @@
           "named": true
         },
         {
-          "type": "tool_statement",
-          "named": true
-        },
-        {
           "type": "variable_statement",
           "named": true
         }
@@ -822,6 +822,49 @@
     }
   },
   {
+    "type": "class_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "const_statement",
+          "named": true
+        },
+        {
+          "type": "enum_definition",
+          "named": true
+        },
+        {
+          "type": "extends_statement",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "pass_statement",
+          "named": true
+        },
+        {
+          "type": "signal_statement",
+          "named": true
+        },
+        {
+          "type": "variable_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "class_definition",
     "named": true,
     "fields": {
@@ -830,7 +873,7 @@
         "required": true,
         "types": [
           {
-            "type": "body",
+            "type": "class_body",
             "named": true
           }
         ]
@@ -1591,6 +1634,10 @@
       "required": true,
       "types": [
         {
+          "type": "annotation",
+          "named": true
+        },
+        {
           "type": "pattern_section",
           "named": true
         }
@@ -2076,10 +2123,6 @@
           "named": true
         },
         {
-          "type": "tool_statement",
-          "named": true
-        },
-        {
           "type": "variable_statement",
           "named": true
         }
@@ -2192,6 +2235,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "inferred_type",
+            "named": true
+          },
           {
             "type": "type",
             "named": true
@@ -2750,10 +2797,6 @@
   },
   {
     "type": "static_keyword",
-    "named": true
-  },
-  {
-    "type": "tool_statement",
     "named": true
   },
   {
