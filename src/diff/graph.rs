@@ -50,15 +50,18 @@ use crate::{
 /// LHS: X A     RHS: A
 ///      ^              ^
 /// ```
+///
+/// Vertices are arena allocated (the 'v lifetime) and have references
+/// to syntax nodes (the 's lifetime).
 #[derive(Debug, Clone)]
-pub(crate) struct Vertex<'s, 'b> {
-    pub(crate) neighbours: RefCell<Option<&'b [(Edge, &'b Vertex<'s, 'b>)]>>,
-    pub(crate) predecessor: Cell<Option<(u32, &'b Vertex<'s, 'b>)>>,
+pub(crate) struct Vertex<'s, 'v> {
+    pub(crate) neighbours: RefCell<Option<&'v [(Edge, &'v Vertex<'s, 'v>)]>>,
+    pub(crate) predecessor: Cell<Option<(u32, &'v Vertex<'s, 'v>)>>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
     pub(crate) lhs_syntax: Option<&'s Syntax<'s>>,
     pub(crate) rhs_syntax: Option<&'s Syntax<'s>>,
-    parents: Stack<'b, EnteredDelimiter<'s, 'b>>,
+    parents: Stack<'v, EnteredDelimiter<'s, 'v>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
 }
@@ -116,12 +119,12 @@ impl Hash for Vertex<'_, '_> {
 
 /// Tracks entering syntax List nodes.
 #[derive(Clone, PartialEq)]
-enum EnteredDelimiter<'s, 'b> {
+enum EnteredDelimiter<'s, 'v> {
     /// If we've entered the LHS or RHS separately, we can pop either
     /// side independently.
     ///
     /// Assumes that at least one stack is non-empty.
-    PopEither((Stack<'b, &'s Syntax<'s>>, Stack<'b, &'s Syntax<'s>>)),
+    PopEither((Stack<'v, &'s Syntax<'s>>, Stack<'v, &'s Syntax<'s>>)),
     /// If we've entered the LHS and RHS together, we must pop both
     /// sides together too. Otherwise we'd consider the following case to have no changes.
     ///
@@ -148,12 +151,12 @@ impl fmt::Debug for EnteredDelimiter<'_, '_> {
     }
 }
 
-fn push_both_delimiters<'s, 'b>(
-    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
+fn push_both_delimiters<'s, 'v>(
+    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
     lhs_delim: &'s Syntax<'s>,
     rhs_delim: &'s Syntax<'s>,
-    alloc: &'b Bump,
-) -> Stack<'b, EnteredDelimiter<'s, 'b>> {
+    alloc: &'v Bump,
+) -> Stack<'v, EnteredDelimiter<'s, 'v>> {
     entered.push(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)), alloc)
 }
 
@@ -161,12 +164,12 @@ fn can_pop_either_parent(entered: &Stack<EnteredDelimiter>) -> bool {
     matches!(entered.peek(), Some(EnteredDelimiter::PopEither(_)))
 }
 
-fn try_pop_both<'s, 'b>(
-    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
+fn try_pop_both<'s, 'v>(
+    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
 ) -> Option<(
     &'s Syntax<'s>,
     &'s Syntax<'s>,
-    Stack<'b, EnteredDelimiter<'s, 'b>>,
+    Stack<'v, EnteredDelimiter<'s, 'v>>,
 )> {
     match entered.peek() {
         Some(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim))) => {
@@ -176,10 +179,10 @@ fn try_pop_both<'s, 'b>(
     }
 }
 
-fn try_pop_lhs<'s, 'b>(
-    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
-    alloc: &'b Bump,
-) -> Option<(&'s Syntax<'s>, Stack<'b, EnteredDelimiter<'s, 'b>>)> {
+fn try_pop_lhs<'s, 'v>(
+    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+    alloc: &'v Bump,
+) -> Option<(&'s Syntax<'s>, Stack<'v, EnteredDelimiter<'s, 'v>>)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match lhs_delims.peek() {
             Some(lhs_delim) => {
@@ -201,10 +204,10 @@ fn try_pop_lhs<'s, 'b>(
     }
 }
 
-fn try_pop_rhs<'s, 'b>(
-    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
-    alloc: &'b Bump,
-) -> Option<(&'s Syntax<'s>, Stack<'b, EnteredDelimiter<'s, 'b>>)> {
+fn try_pop_rhs<'s, 'v>(
+    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+    alloc: &'v Bump,
+) -> Option<(&'s Syntax<'s>, Stack<'v, EnteredDelimiter<'s, 'v>>)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match rhs_delims.peek() {
             Some(rhs_delim) => {
@@ -226,11 +229,11 @@ fn try_pop_rhs<'s, 'b>(
     }
 }
 
-fn push_lhs_delimiter<'s, 'b>(
-    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
+fn push_lhs_delimiter<'s, 'v>(
+    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
     delimiter: &'s Syntax<'s>,
-    alloc: &'b Bump,
-) -> Stack<'b, EnteredDelimiter<'s, 'b>> {
+    alloc: &'v Bump,
+) -> Stack<'v, EnteredDelimiter<'s, 'v>> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
             EnteredDelimiter::PopEither((lhs_delims.push(delimiter, alloc), rhs_delims.clone())),
@@ -243,11 +246,11 @@ fn push_lhs_delimiter<'s, 'b>(
     }
 }
 
-fn push_rhs_delimiter<'s, 'b>(
-    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
+fn push_rhs_delimiter<'s, 'v>(
+    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
     delimiter: &'s Syntax<'s>,
-    alloc: &'b Bump,
-) -> Stack<'b, EnteredDelimiter<'s, 'b>> {
+    alloc: &'v Bump,
+) -> Stack<'v, EnteredDelimiter<'s, 'v>> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
             EnteredDelimiter::PopEither((lhs_delims.clone(), rhs_delims.push(delimiter, alloc))),
@@ -260,7 +263,7 @@ fn push_rhs_delimiter<'s, 'b>(
     }
 }
 
-impl<'s, 'b> Vertex<'s, 'b> {
+impl<'s, 'v> Vertex<'s, 'v> {
     pub(crate) fn is_end(&self) -> bool {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
@@ -363,11 +366,11 @@ impl Edge {
     }
 }
 
-fn allocate_if_new<'s, 'b>(
-    v: Vertex<'s, 'b>,
-    alloc: &'b Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'b>, SmallVec<[&'b Vertex<'s, 'b>; 2]>>,
-) -> &'b Vertex<'s, 'b> {
+fn allocate_if_new<'s, 'v>(
+    v: Vertex<'s, 'v>,
+    alloc: &'v Bump,
+    seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+) -> &'v Vertex<'s, 'v> {
     // We use the entry API so that we only need to do a single lookup
     // for access and insert.
     match seen.raw_entry_mut().from_key(&v) {
@@ -404,7 +407,7 @@ fn allocate_if_new<'s, 'b>(
             //
             // We still use a vec to enable experiments with the value
             // of how many possible parenthesis nestings to explore.
-            let existing: SmallVec<[&'b Vertex<'s, 'b>; 2]> = smallvec![&*allocated];
+            let existing: SmallVec<[&'v Vertex<'s, 'v>; 2]> = smallvec![&*allocated];
 
             vacant.insert(allocated, existing);
             allocated
@@ -425,19 +428,19 @@ fn looks_like_punctuation(node: &Syntax) -> bool {
 
 /// Pop as many parents of `lhs_node` and `rhs_node` as
 /// possible. Return the new syntax nodes and parents.
-fn pop_all_parents<'s, 'b>(
+fn pop_all_parents<'s, 'v>(
     lhs_node: Option<&'s Syntax<'s>>,
     rhs_node: Option<&'s Syntax<'s>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
-    parents: &Stack<'b, EnteredDelimiter<'s, 'b>>,
-    alloc: &'b Bump,
+    parents: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+    alloc: &'v Bump,
 ) -> (
     Option<&'s Syntax<'s>>,
     Option<&'s Syntax<'s>>,
     Option<SyntaxId>,
     Option<SyntaxId>,
-    Stack<'b, EnteredDelimiter<'s, 'b>>,
+    Stack<'v, EnteredDelimiter<'s, 'v>>,
 ) {
     let mut lhs_node = lhs_node;
     let mut rhs_node = rhs_node;
@@ -493,10 +496,10 @@ fn pop_all_parents<'s, 'b>(
 
 /// Compute the neighbours of `v` if we haven't previously done so,
 /// and write them to the .neighbours cell inside `v`.
-pub(crate) fn set_neighbours<'s, 'b>(
-    v: &Vertex<'s, 'b>,
-    alloc: &'b Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'b>, SmallVec<[&'b Vertex<'s, 'b>; 2]>>,
+pub(crate) fn set_neighbours<'s, 'v>(
+    v: &Vertex<'s, 'v>,
+    alloc: &'v Bump,
+    seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
 ) {
     if v.neighbours.borrow().is_some() {
         return;
@@ -796,8 +799,8 @@ pub(crate) fn set_neighbours<'s, 'b>(
         .replace(Some(alloc.alloc_slice_copy(neighbours.as_slice())));
 }
 
-pub(crate) fn populate_change_map<'s, 'b>(
-    route: &[(Edge, &'b Vertex<'s, 'b>)],
+pub(crate) fn populate_change_map<'s, 'v>(
+    route: &[(Edge, &'v Vertex<'s, 'v>)],
     change_map: &mut ChangeMap<'s>,
 ) {
     for (e, v) in route {
