@@ -218,7 +218,6 @@ module.exports = grammar({
     _simple_statement: ($) =>
       choice(
         $._annotations,
-        $.tool_statement,
         $.signal_statement,
         $.class_name_statement,
         $.extends_statement,
@@ -242,7 +241,9 @@ module.exports = grammar({
     // -- Annotation
 
     annotation: ($) =>
-      seq("@", $.identifier, optional(field("arguments", $.arguments))),
+      prec.right(
+        seq("@", $.identifier, optional(field("arguments", $.arguments))),
+      ),
 
     // The syntax tree looks better when annotations are grouped in a container
     // node in contexts like variable_statement and function_definition.
@@ -358,7 +359,6 @@ module.exports = grammar({
     break_statement: ($) => prec.left("break"),
     breakpoint_statement: ($) => "breakpoint",
     continue_statement: ($) => prec.left("continue"),
-    tool_statement: ($) => "tool",
 
     signal_statement: ($) =>
       seq(
@@ -506,7 +506,20 @@ module.exports = grammar({
         field("body", $.match_body),
       ),
 
-    match_body: ($) => seq($._indent, repeat1($.pattern_section), $._dedent),
+    match_body: ($) =>
+      seq(
+        $._indent,
+        // Annotations are generally supported as statements throughout code but
+        // as match blocks are expressions, we need to explicitly allow them
+        // here. The pattern section body itself supports statements (thus annotations).
+        repeat1(
+          seq(
+            optional(repeat(seq($.annotation, optional($._newline)))),
+            $.pattern_section,
+          ),
+        ),
+        $._dedent,
+      ),
 
     // Sources:
     // - https://github.com/godotengine/godot-proposals/issues/4775
@@ -524,7 +537,12 @@ module.exports = grammar({
         field("body", $.body),
       ),
 
-    _pattern: ($) => choice($._primary_expression, $.pattern_binding),
+    _pattern: ($) =>
+      choice(
+        $._primary_expression,
+        $.conditional_expression,
+        $.pattern_binding,
+      ),
 
     // Rather than creating distinct pattern array, dictionary, and expression
     // rules, we insert $.pattern_binding and $.pattern_open_ending into the
@@ -775,12 +793,19 @@ module.exports = grammar({
     typed_default_parameter: ($) =>
       prec(
         PREC.typed_parameter,
-        seq(
-          $.identifier,
-          ":",
-          field("type", $.type),
-          "=",
-          field("value", $._rhs_expression),
+        choice(
+          seq(
+            $.identifier,
+            ":",
+            field("type", $.type),
+            "=",
+            field("value", $._rhs_expression),
+          ),
+          seq(
+            $.identifier,
+            field("type", $.inferred_type),
+            field("value", $._rhs_expression),
+          ),
         ),
       ),
 
