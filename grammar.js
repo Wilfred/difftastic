@@ -373,6 +373,7 @@ module.exports = grammar({
         "class_name",
         field("name", $.name),
         optional(seq(",", field("icon_path", $.string))),
+        field("extends", optional($.extends_statement)),
       ),
 
     extends_statement: ($) =>

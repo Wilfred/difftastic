@@ -1,4 +1,21 @@
 ============================================
+#61 Extends with a class name less than three characters causes a parse error
+============================================
+
+class_name UI extends Control
+class_name Hello extends World
+
+---
+
+(source
+  (class_name_statement
+    (name)
+    (extends_statement (type (identifier))))
+  (class_name_statement
+    (name)
+    (extends_statement (type (identifier)))))
+
+============================================
 #21 Parse condition with comparison_operator and binary_operator wrong
 ============================================
 
