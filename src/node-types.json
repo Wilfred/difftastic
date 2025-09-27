@@ -914,6 +914,16 @@
     "type": "class_name_statement",
     "named": true,
     "fields": {
+      "extends": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "extends_statement",
+            "named": true
+          }
+        ]
+      },
       "icon_path": {
         "multiple": false,
         "required": false,
