@@ -239,10 +239,6 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                 }
                 lexer->mark_end(lexer);
                 return true;
-
-            } else if (lexer->lookahead == '\n' && has_content &&
-                       !is_triple(&delimiter)) {
-                return false;
             }
             advance(lexer);
             has_content = true;

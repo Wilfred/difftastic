@@ -1,4 +1,34 @@
 ============================================
+#57 Parser can't handle certain multiline raw strings
+============================================
+
+r"hello"
+
+r"hello
+	"
+
+"
+asdfasdfasf
+"
+
+print(r"hello
+	")
+
+var a = "
+asdfasdfasf
+"
+
+---
+(source
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement
+    (call (identifier) (arguments (string))))
+  (variable_statement (name) (string)))
+
+
+============================================
 #56 Error when matching a dictionary without specifying values
 ============================================
 
