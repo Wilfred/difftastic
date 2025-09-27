@@ -1,4 +1,27 @@
 ============================================
+#56 Error when matching a dictionary without specifying values
+============================================
+
+match x:
+	{ "key", 1, 0xFF, "key": 100 }: pass
+
+---
+(source
+  (match_statement
+  (identifier)
+  (match_body
+    (pattern_section
+    (dictionary
+      (string)
+      (integer)
+      (integer)
+      (pair
+      (string)
+      (integer)))
+    (body
+      (pass_statement))))))
+
+============================================
 #61 Extends with a class name less than three characters causes a parse error
 ============================================
 

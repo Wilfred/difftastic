@@ -551,6 +551,10 @@ module.exports = grammar({
     // $.array and $.dictionary rules. Although, they are only valid in the
     // context of a pattern, this keeps the grammar simpler and allows us to
     // have arbitrary expressions in patterns.
+    //
+    // Additionally, $.dictionary accepts comma separated list of keys mixed
+    // with pairs. This is also only valid in patterns and keeps the grammar a
+    // bit simpler.
     pattern_binding: ($) => seq("var", $.identifier),
     pattern_open_ending: ($) => "..",
 
@@ -766,10 +770,22 @@ module.exports = grammar({
         field("value", choice($._rhs_expression, $.pattern_binding)),
       ),
 
+    // See $.pattern_binding for more information.
     dictionary: ($) =>
       seq(
         "{",
-        optional(trailCommaSep1($.pair)),
+        optional(
+          trailCommaSep1(
+            choice(
+              $.pair,
+              // This allows dictionaries in pattern sections to support "key"
+              // only pattern matching:
+              //     match { "key_to_match": some_value }:
+              //         { "key_to_match" }: print("Matches here!")
+              $._primary_expression,
+            ),
+          ),
+        ),
         optional($.pattern_open_ending),
         "}",
       ),

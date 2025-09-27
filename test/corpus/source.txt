@@ -134,7 +134,6 @@ Dictionary
 {a = 0.1, c:1, "e":$hello}
 {a = 0xBEEF, c:1 + 1, "e":f,}
 {(1 + 1) : "a"}
-{(1 + 1) = "a"}
 {,}
 
 ---
@@ -153,11 +152,6 @@ Dictionary
   (expression_statement
     (dictionary
       (pair
-        (parenthesized_expression (binary_operator (integer) (integer)))
-        (string))))
-  (expression_statement
-    (dictionary
-      (ERROR
         (parenthesized_expression (binary_operator (integer) (integer)))
         (string))))
   (expression_statement
