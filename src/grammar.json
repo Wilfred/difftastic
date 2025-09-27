@@ -4130,8 +4130,17 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "pair"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "pair"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_primary_expression"
+                        }
+                      ]
                     },
                     {
                       "type": "REPEAT",
@@ -4143,8 +4152,17 @@
                             "value": ","
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "pair"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "pair"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "_primary_expression"
+                              }
+                            ]
                           }
                         ]
                       }

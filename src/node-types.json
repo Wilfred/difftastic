@@ -1126,6 +1126,10 @@
       "required": false,
       "types": [
         {
+          "type": "_primary_expression",
+          "named": true
+        },
+        {
           "type": "pair",
           "named": true
         },
