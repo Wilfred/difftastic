@@ -562,12 +562,7 @@ module.exports = grammar({
     // -                                  Expressions                              -
     // -----------------------------------------------------------------------------
 
-    _expression: ($) =>
-      choice(
-        $._primary_expression,
-        $.conditional_expression,
-        $.await_expression,
-      ),
+    _expression: ($) => choice($._primary_expression, $.conditional_expression),
 
     _primary_expression: ($) =>
       choice(
@@ -590,6 +585,7 @@ module.exports = grammar({
         $.array,
         $.dictionary,
         $.parenthesized_expression,
+        $.await_expression,
       ),
 
     _rhs_expression: ($) => choice($._expression, $.lambda),
