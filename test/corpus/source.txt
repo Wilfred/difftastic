@@ -246,6 +246,20 @@ func x():
 				(await_expression (attribute (get_node) (identifier)))))))))
 
 =====================================
+Await Not Expression
+=====================================
+
+not await test()
+
+---
+
+(source
+  (expression_statement
+    (unary_operator
+      (await_expression
+        (call (identifier) (arguments))))))
+
+=====================================
 Breakpoint Statement
 =====================================
 
