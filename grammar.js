@@ -847,8 +847,11 @@ module.exports = grammar({
         optional(field("name", $.name)),
         field("parameters", $.parameters),
         optional($._return_type),
-        // $.body is optional to support abstract function definitions.
-        optional(seq(":", field("body", $.body))),
+        // body is optional to support abstract function definitions. Without
+        // body, there must be a newline or body_end. _return_type with generic
+        // parameters without a newline or body_end will erroneously parse
+        // any following lines.
+        choice(seq(":", field("body", $.body)), $._newline, $._body_end),
       ),
 
     lambda: ($) =>

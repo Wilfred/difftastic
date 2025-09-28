@@ -1,4 +1,71 @@
 ============================================
+Functions: Generic types in parameters and return types
+============================================
+
+func process_data(items: Array[String], mapping: Dictionary[int, String]) -> Dictionary[String, int]:
+	pass
+
+func get_nodes() -> Array[Node]:
+	return []
+
+func store_values(data: Dictionary[String, float]):
+	pass
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type
+          (subscript
+            (identifier)
+            (subscript_arguments
+              (identifier)))))
+      (typed_parameter
+        (identifier)
+        (type
+          (subscript
+            (identifier)
+            (subscript_arguments
+              (identifier)
+              (identifier))))))
+    (type
+      (subscript
+        (identifier)
+        (subscript_arguments
+          (identifier)
+          (identifier))))
+    (body
+      (pass_statement)))
+  (function_definition
+    (name)
+    (parameters)
+    (type
+      (subscript
+        (identifier)
+        (subscript_arguments
+          (identifier))))
+    (body
+      (return_statement
+        (array))))
+  (function_definition
+    (name)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type
+          (subscript
+            (identifier)
+            (subscript_arguments
+              (identifier)
+              (identifier))))))
+    (body
+      (pass_statement))))
+
+============================================
 Functions: Type inference in function parameters
 ============================================
 
