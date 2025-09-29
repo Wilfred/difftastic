@@ -256,3 +256,31 @@ func test():
           (continue_statement)))
       (comment)
       (pass_statement))))
+
+=====================================
+Trailing Comments After Final Statement
+=====================================
+
+func test():
+	pass
+	# comment after final statement
+
+func test2():
+  pass
+  # another comment after final statement
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (pass_statement)
+      (comment)))
+  (function_definition
+      (name)
+      (parameters)
+      (body
+        (pass_statement)
+        (comment))))
