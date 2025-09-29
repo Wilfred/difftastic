@@ -277,6 +277,16 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             // Store the current indentation level before processing the comment
             uint32_t comment_indent_length = indent_length;
             
+            // If we're in a situation where we need to emit a DEDENT first,
+            // don't consume the comment - let the DEDENT be processed first
+            if (scanner->indents->len > 0) {
+                uint16_t current_indent_length = VEC_BACK(scanner->indents);
+                if (valid_symbols[DEDENT] && indent_length < current_indent_length) {
+                    // Don't consume the comment, let the dedent happen first
+                    break;
+                }
+            }
+            
             // Look ahead to see if this is a region marker
             // If it is, we do not want to preserve indentation
             bool is_region_marker = false;
@@ -352,13 +362,20 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                         }
                     }
                     
-                    // If we're at EOF or the next content has less indentation, preserve this comment's indentation
+                    // If we're at EOF, or the next content has less indentation, preserve this comment's indentation
+                    // If the next content has the same or greater indentation, preserve it too
                     if (lexer->eof(lexer) || next_indent < current_indent_length) {
+                        indent_length = comment_indent_length;
+                    } else if (next_indent >= current_indent_length) {
+                        // Next content is at same or greater indentation - preserve comment level
                         indent_length = comment_indent_length;
                     } else {
                         indent_length = 0;
                     }
                 } else {
+                    // Comment is not at the current indentation level
+                    // This might be a comment that should be at a dedented level
+                    // Only set indent_length = 0 if we're not in a situation that should preserve it
                     indent_length = 0;
                 }
             } else {
