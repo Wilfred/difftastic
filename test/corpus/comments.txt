@@ -262,8 +262,8 @@ Trailing Comments After Final Statement
 =====================================
 
 func test():
-	pass
-	# comment after final statement
+  pass
+  # comment after final statement
 
 func test2():
   pass
