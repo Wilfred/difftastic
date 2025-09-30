@@ -310,9 +310,9 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             
             // If we're in a situation where we need to emit a DEDENT first,
             // don't consume the comment - let the DEDENT be processed first
-            if (scanner->indents->len > 0) {
+            if (valid_symbols[DEDENT] && scanner->indents->len > 0) {
                 uint16_t current_indent_length = VEC_BACK(scanner->indents);
-                if (valid_symbols[DEDENT] && indent_length < current_indent_length) {
+                if (indent_length < current_indent_length) {
                     // Don't consume the comment, let the dedent happen first
                     break;
                 }
