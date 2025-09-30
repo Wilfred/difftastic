@@ -157,7 +157,49 @@ static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
+/**
+ * Skip whitespace characters and update indentation tracking.
+ * 
+ * @param lexer The lexer to advance
+ * @param indent_length Pointer to current indentation length (modified in place)
+ * @param found_end_of_line Pointer to end-of-line flag (set to true if newline encountered), can be NULL
+ * @return true if a whitespace character was processed, false otherwise
+ * 
+ * Handles:
+ * - ' ' (space): increments indent_length
+ * - '\t' (tab): adds 8 to indent_length
+ * - '\n' (newline): resets indent_length to 0, sets found_end_of_line to true (if not NULL)
+ * - '\r', '\f' (carriage return, form feed): resets indent_length to 0
+ */
+static inline bool skip_whitespace(TSLexer *lexer, uint32_t *indent_length, bool *found_end_of_line) {
+    if (lexer->lookahead == '\n') {
+        if (found_end_of_line) {
+            *found_end_of_line = true;
+        }
 
+        *indent_length = 0;
+        skip(lexer);
+
+        return true;
+    } else if (lexer->lookahead == ' ') {
+        (*indent_length)++;
+        skip(lexer);
+
+        return true;
+    } else if (lexer->lookahead == '\r' || lexer->lookahead == '\f') {
+        *indent_length = 0;
+        skip(lexer);
+
+        return true;
+    } else if (lexer->lookahead == '\t') {
+        *indent_length += 8;
+        skip(lexer);
+
+        return true;
+    }
+
+    return false;
+}
 
 static inline void handle_quote(TSLexer *lexer, Delimiter *delimiter, char quote) {
     set_end_character(delimiter, quote);
@@ -252,19 +294,8 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
     bool found_end_of_line = false;
     uint32_t indent_length = 0;
     for (;;) {
-        if (lexer->lookahead == '\n') {
-            found_end_of_line = true;
-            indent_length = 0;
-            skip(lexer);
-        } else if (lexer->lookahead == ' ') {
-            indent_length++;
-            skip(lexer);
-        } else if (lexer->lookahead == '\r' || lexer->lookahead == '\f') {
-            indent_length = 0;
-            skip(lexer);
-        } else if (lexer->lookahead == '\t') {
-            indent_length += 8;
-            skip(lexer);
+        if (skip_whitespace(lexer, &indent_length, &found_end_of_line)) {
+            continue;
         } else if (lexer->lookahead == '#') {
             // The current scanner can scan past a line return into a comment.
             // In that case we want to stop processing here, since it means
@@ -345,18 +376,8 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                     
                     // Scan ahead to find the next non-whitespace, non-comment content
                     while (lexer->lookahead && !found_next_content) {
-                        if (lexer->lookahead == '\n') {
-                            next_indent = 0;
-                            skip(lexer);
-                        } else if (lexer->lookahead == ' ') {
-                            next_indent++;
-                            skip(lexer);
-                        } else if (lexer->lookahead == '\t') {
-                            next_indent += 8;
-                            skip(lexer);
-                        } else if (lexer->lookahead == '\r' || lexer->lookahead == '\f') {
-                            next_indent = 0;
-                            skip(lexer);
+                        if (skip_whitespace(lexer, &next_indent, NULL)) {
+                            continue;
                         } else {
                             found_next_content = true;
                         }
