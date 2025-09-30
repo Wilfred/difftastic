@@ -81,7 +81,6 @@ extern "C" {
     fn tree_sitter_gleam() -> ts::Language;
     fn tree_sitter_hare() -> ts::Language;
     fn tree_sitter_hack() -> ts::Language;
-    fn tree_sitter_hcl() -> ts::Language;
     fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
@@ -477,7 +476,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Hcl => {
-            let language = unsafe { tree_sitter_hcl() };
+            let language_fn = tree_sitter_hcl::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["string_lit", "heredoc_template"].into_iter().collect(),

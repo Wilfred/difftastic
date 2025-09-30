@@ -65,7 +65,7 @@ with `difft --list-languages`.
 | Language | Parser Used                                                                                       |
 |----------|---------------------------------------------------------------------------------------------------|
 | CSS      | [tree-sitter/tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)                     |
-| HCL      | [MichaHoffmann/tree-sitter-hcl](https://github.com/MichaHoffmann/tree-sitter-hcl)                 |
+| HCL      | [tree-sitter-grammars/tree-sitter-hcl](https://github.com/tree-sitter-grammars/tree-sitter-hcl)                 |
 | HTML     | [tree-sitter/tree-sitter-html](https://github.com/tree-sitter/tree-sitter-html)                   |
 | JSON     | [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)                   |
 | LaTeX    | [latex-lsp/tree-sitter-latex](https://github.com/latex-lsp/tree-sitter-latex)                     |
