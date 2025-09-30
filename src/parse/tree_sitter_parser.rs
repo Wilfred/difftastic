@@ -72,7 +72,6 @@ extern "C" {
     fn tree_sitter_ada() -> ts::Language;
     fn tree_sitter_apex() -> ts::Language;
     fn tree_sitter_clojure() -> ts::Language;
-    fn tree_sitter_cmake() -> ts::Language;
     fn tree_sitter_commonlisp() -> ts::Language;
     fn tree_sitter_dart() -> ts::Language;
     fn tree_sitter_devicetree() -> ts::Language;
@@ -212,7 +211,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         CMake => {
-            let language = unsafe { tree_sitter_cmake() };
+            let language_fn = tree_sitter_cmake::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["argument"].into_iter().collect(),
