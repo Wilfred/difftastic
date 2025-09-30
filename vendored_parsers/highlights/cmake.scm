@@ -34,8 +34,6 @@
   "$"
   "{"
   "}"
-  "<"
-  ">"
 ] @punctuation.special
 
 [
