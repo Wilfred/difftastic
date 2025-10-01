@@ -445,7 +445,7 @@ module.exports = grammar({
 
     class_body: ($) =>
       choice(
-        $._class_members,
+        $._class_member,
         seq(
           $._indent,
           seq(repeat($._class_member), choice($._body_end, $._dedent)),
@@ -456,20 +456,26 @@ module.exports = grammar({
     // A class body can only directly contain class members. Then these class
     // members can contain statements in their bodies, but not directly in the
     // class.
-    _class_members: ($) =>
-      seq(trailSep1($._class_member, ";"), choice($._newline, $._body_end)),
-
     _class_member: ($) =>
-      choice(
-        $.extends_statement,
-        $.function_definition,
-        $.variable_statement,
-        $.signal_statement,
-        $.enum_definition,
-        $.const_statement,
-        $.class_definition,
-        $.pass_statement,
+      choice($._simple_class_members, $._compound_class_member),
+
+    _simple_class_members: ($) =>
+      seq(
+        trailSep1($._simple_class_member, repeat1(";")),
+        choice($._newline, $._body_end),
       ),
+
+    _simple_class_member: ($) =>
+      choice(
+        $.const_statement,
+        $.extends_statement,
+        $.pass_statement,
+        $.signal_statement,
+        $.variable_statement,
+      ),
+
+    _compound_class_member: ($) =>
+      choice($.class_definition, $.enum_definition, $.function_definition),
 
     // -- Enum
     enum_definition: ($) =>

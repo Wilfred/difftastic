@@ -3,6 +3,10 @@
 ============================================
 
 test() ; ; print()
+class T:
+	var hello: T = "";; ;const c = 1;;;;;signal world
+	func hello():
+		pass;;pass
 
 ---
 
@@ -14,7 +18,26 @@ test() ; ; print()
   (expression_statement
     (call
       (identifier)
-      (arguments))))
+      (arguments)))
+  (class_definition
+    (name)
+    (class_body
+      (variable_statement
+        (name)
+        (type
+          (identifier))
+        (string))
+      (const_statement
+        (name)
+        (integer))
+      (signal_statement
+        (name))
+      (function_definition
+        (name)
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement))))))
 
 ============================================
 #57 Parser can't handle certain multiline raw strings
