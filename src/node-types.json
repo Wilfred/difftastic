@@ -144,6 +144,10 @@
       {
         "type": "typed_parameter",
         "named": true
+      },
+      {
+        "type": "variadic_parameter",
+        "named": true
       }
     ]
   },
@@ -2420,6 +2424,21 @@
     }
   },
   {
+    "type": "variadic_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "while_statement",
     "named": true,
     "fields": {
@@ -2539,6 +2558,10 @@
   },
   {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": "...",
     "named": false
   },
   {
