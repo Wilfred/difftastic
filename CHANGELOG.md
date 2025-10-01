@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added support for protocol buffer files.
+Added support for protocol buffer files. Updated CMake parser.
 
 ### Display
 
