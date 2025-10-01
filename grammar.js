@@ -203,11 +203,13 @@ module.exports = grammar({
     body: ($) =>
       choice(
         $._simple_statements,
+        $._newline,
+        $._body_end,
         seq(
           $._indent,
-          seq(repeat($._statement), choice($._body_end, $._dedent)),
+          repeat($._statement),
+          choice($._body_end, $._dedent),
         ),
-        choice($._newline, $._body_end),
       ),
 
     // Simple statements
@@ -446,11 +448,13 @@ module.exports = grammar({
     class_body: ($) =>
       choice(
         $._class_member,
+        $._newline,
+        $._body_end,
         seq(
           $._indent,
-          seq(repeat($._class_member), choice($._body_end, $._dedent)),
+          repeat($._class_member),
+          choice($._body_end, $._dedent),
         ),
-        choice($._newline, $._body_end),
       ),
 
     // A class body can only directly contain class members. Then these class
