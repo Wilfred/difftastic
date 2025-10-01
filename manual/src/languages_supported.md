@@ -71,6 +71,7 @@ with `difft --list-languages`.
 | JSON     | [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)                   |
 | LaTeX    | [latex-lsp/tree-sitter-latex](https://github.com/latex-lsp/tree-sitter-latex)                     |
 | Newick   | [delehef/tree-sitter-newick](https://github.com/delehef/tree-sitter-newick)                       |
+| Proto    | [coder3101/tree-sitter-proto](https://github.com/coder3101/tree-sitter-proto)                     |
 | SCSS     | [serenadeai/tree-sitter-scss](https://github.com/serenadeai/tree-sitter-scss)                     |
 | TOML     | [tree-sitter-grammars/tree-sitter-toml](https://github.com/tree-sitter-grammars/tree-sitter-toml) |
 | XML      | [tree-sitter-grammars/tree-sitter-xml](https://github.com/tree-sitter-grammars/tree-sitter-xml)   |

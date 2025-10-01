@@ -1,5 +1,9 @@
 ## 0.66 (unreleased)
 
+### Parsing
+
+Added support for protocol buffer files.
+
 ### Display
 
 Difftastic is now smarter about calculating the display width for
