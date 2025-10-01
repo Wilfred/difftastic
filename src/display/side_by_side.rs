@@ -158,9 +158,11 @@ struct SourceDimensions {
     /// The number of characters required to display line numbers on
     /// the RHS.
     rhs_line_nums_width: usize,
-    /// The highest line number in the LHS source.
+    /// The highest line number in the LHS source that we will
+    /// display.
     lhs_max_line: LineNumber,
-    /// The highest line number in the RHS source.
+    /// The highest line number in the RHS source that we will
+    /// display.
     rhs_max_line: LineNumber,
 }
 
