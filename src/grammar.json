@@ -768,8 +768,11 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": ";"
+                        "type": "REPEAT1",
+                        "content": {
+                          "type": "STRING",
+                          "value": ";"
+                        }
                       },
                       {
                         "type": "SYMBOL",
@@ -784,8 +787,11 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": ";"
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "STRING",
+                    "value": ";"
+                  }
                 },
                 {
                   "type": "BLANK"
@@ -2069,7 +2075,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_class_members"
+          "name": "_class_member"
         },
         {
           "type": "SEQ",
@@ -2120,7 +2126,20 @@
         }
       ]
     },
-    "_class_members": {
+    "_class_member": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_simple_class_members"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_compound_class_member"
+        }
+      ]
+    },
+    "_simple_class_members": {
       "type": "SEQ",
       "members": [
         {
@@ -2131,7 +2150,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_class_member"
+                  "name": "_simple_class_member"
                 },
                 {
                   "type": "REPEAT",
@@ -2139,12 +2158,15 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": ";"
+                        "type": "REPEAT1",
+                        "content": {
+                          "type": "STRING",
+                          "value": ";"
+                        }
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_class_member"
+                        "name": "_simple_class_member"
                       }
                     ]
                   }
@@ -2155,8 +2177,11 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": ";"
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "STRING",
+                    "value": ";"
+                  }
                 },
                 {
                   "type": "BLANK"
@@ -2180,20 +2205,20 @@
         }
       ]
     },
-    "_class_member": {
+    "_simple_class_member": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "const_statement"
+        },
         {
           "type": "SYMBOL",
           "name": "extends_statement"
         },
         {
           "type": "SYMBOL",
-          "name": "function_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "variable_statement"
+          "name": "pass_statement"
         },
         {
           "type": "SYMBOL",
@@ -2201,19 +2226,24 @@
         },
         {
           "type": "SYMBOL",
-          "name": "enum_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "const_statement"
-        },
+          "name": "variable_statement"
+        }
+      ]
+    },
+    "_compound_class_member": {
+      "type": "CHOICE",
+      "members": [
         {
           "type": "SYMBOL",
           "name": "class_definition"
         },
         {
           "type": "SYMBOL",
-          "name": "pass_statement"
+          "name": "enum_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_definition"
         }
       ]
     },
