@@ -120,10 +120,6 @@
         "named": true
       },
       {
-        "type": "await_expression",
-        "named": true
-      },
-      {
         "type": "conditional_expression",
         "named": true
       }
@@ -179,6 +175,10 @@
       },
       {
         "type": "attribute",
+        "named": true
+      },
+      {
+        "type": "await_expression",
         "named": true
       },
       {
@@ -2659,8 +2659,7 @@
   },
   {
     "type": "comment",
-    "named": true,
-    "extra": true
+    "named": true
   },
   {
     "type": "const",
@@ -2732,8 +2731,7 @@
   },
   {
     "type": "line_continuation",
-    "named": true,
-    "extra": true
+    "named": true
   },
   {
     "type": "master",

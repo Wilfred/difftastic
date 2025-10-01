@@ -2577,10 +2577,6 @@
         {
           "type": "SYMBOL",
           "name": "conditional_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "await_expression"
         }
       ]
     },
@@ -2662,6 +2658,10 @@
         {
           "type": "SYMBOL",
           "name": "parenthesized_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "await_expression"
         }
       ]
     },
@@ -4955,6 +4955,5 @@
     "_primary_expression",
     "_attribute_expression",
     "_parameters"
-  ],
-  "reserved": {}
+  ]
 }
