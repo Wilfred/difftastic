@@ -1,4 +1,22 @@
 ============================================
+#67 Parsing error when there are two or more consecutive semicolons
+============================================
+
+test() ; ; print()
+
+---
+
+(source
+  (expression_statement
+    (call
+      (identifier)
+      (arguments)))
+  (expression_statement
+    (call
+      (identifier)
+      (arguments))))
+
+============================================
 #57 Parser can't handle certain multiline raw strings
 ============================================
 

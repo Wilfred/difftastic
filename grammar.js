@@ -213,7 +213,10 @@ module.exports = grammar({
     // Simple statements
 
     _simple_statements: ($) =>
-      seq(trailSep1($._simple_statement, ";"), choice($._newline, $._body_end)),
+      seq(
+        trailSep1($._simple_statement, repeat1(";")),
+        choice($._newline, $._body_end),
+      ),
 
     _simple_statement: ($) =>
       choice(
