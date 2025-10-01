@@ -157,7 +157,49 @@ static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
+/**
+ * Skip whitespace characters and update indentation tracking.
+ * 
+ * @param lexer The lexer to advance
+ * @param indent_length Pointer to current indentation length (modified in place)
+ * @param found_end_of_line Pointer to end-of-line flag (set to true if newline encountered), can be NULL
+ * @return true if a whitespace character was processed, false otherwise
+ * 
+ * Handles:
+ * - ' ' (space): increments indent_length
+ * - '\t' (tab): adds 8 to indent_length
+ * - '\n' (newline): resets indent_length to 0, sets found_end_of_line to true (if not NULL)
+ * - '\r', '\f' (carriage return, form feed): resets indent_length to 0
+ */
+static inline bool skip_whitespace(TSLexer *lexer, uint32_t *indent_length, bool *found_end_of_line) {
+    if (lexer->lookahead == '\n') {
+        if (found_end_of_line) {
+            *found_end_of_line = true;
+        }
 
+        *indent_length = 0;
+        skip(lexer);
+
+        return true;
+    } else if (lexer->lookahead == ' ') {
+        (*indent_length)++;
+        skip(lexer);
+
+        return true;
+    } else if (lexer->lookahead == '\r' || lexer->lookahead == '\f') {
+        *indent_length = 0;
+        skip(lexer);
+
+        return true;
+    } else if (lexer->lookahead == '\t') {
+        *indent_length += 8;
+        skip(lexer);
+
+        return true;
+    }
+
+    return false;
+}
 
 static inline void handle_quote(TSLexer *lexer, Delimiter *delimiter, char quote) {
     set_end_character(delimiter, quote);
@@ -252,19 +294,8 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
     bool found_end_of_line = false;
     uint32_t indent_length = 0;
     for (;;) {
-        if (lexer->lookahead == '\n') {
-            found_end_of_line = true;
-            indent_length = 0;
-            skip(lexer);
-        } else if (lexer->lookahead == ' ') {
-            indent_length++;
-            skip(lexer);
-        } else if (lexer->lookahead == '\r' || lexer->lookahead == '\f') {
-            indent_length = 0;
-            skip(lexer);
-        } else if (lexer->lookahead == '\t') {
-            indent_length += 8;
-            skip(lexer);
+        if (skip_whitespace(lexer, &indent_length, &found_end_of_line)) {
+            continue;
         } else if (lexer->lookahead == '#') {
             // The current scanner can scan past a line return into a comment.
             // In that case we want to stop processing here, since it means
@@ -274,13 +305,103 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                 break;
             }
 
+            // Store the current indentation level before processing the comment
+            uint32_t comment_indent_length = indent_length;
+            
+            // If we're in a situation where we need to emit a DEDENT first,
+            // don't consume the comment - let the DEDENT be processed first
+            if (valid_symbols[DEDENT] && scanner->indents->len > 0) {
+                uint16_t current_indent_length = VEC_BACK(scanner->indents);
+                if (indent_length < current_indent_length) {
+                    // Don't consume the comment, let the dedent happen first
+                    break;
+                }
+            }
+            
+            // Look ahead to see if this is a region marker
+            // If it is, we do not want to preserve indentation
+            bool is_region_marker = false;
+            if (lexer->lookahead == '#') {
+                // Skip the #
+                skip(lexer);
+                
+                // Check if the next characters spell "region" or "endregion"
+                if (lexer->lookahead == 'r') {
+                    // Check for "region"
+                    uint32_t chars_to_check = 0;
+                    char region_word[] = "region";
+                    while (chars_to_check < 6 && lexer->lookahead == region_word[chars_to_check]) {
+                        skip(lexer);
+                        chars_to_check++;
+                    }
+
+                    if (chars_to_check == 6) {
+                        is_region_marker = true;
+                    }
+                } else if (lexer->lookahead == 'e') {
+                    // Check for "endregion"
+                    uint32_t chars_to_check = 0;
+                    char endregion_word[] = "endregion";
+                    while (chars_to_check < 9 && lexer->lookahead == endregion_word[chars_to_check]) {
+                        skip(lexer);
+                        chars_to_check++;
+                    }
+
+                    if (chars_to_check == 9) {
+                        is_region_marker = true;
+                    }
+                }
+            }
+            
+            // Consume the rest of the line
             while (lexer->lookahead && lexer->lookahead != '\n') {
                 skip(lexer);
             }
+
             if (lexer->lookahead == '\n') {
                 skip(lexer);
             }
-            indent_length = 0;
+            
+            // For regular comments (not region markers), check if we should preserve indentation
+            // We preserve indentation if:
+            // 1. This is a regular comment (not a region marker)
+            // 2. The comment is at the same indentation level as the current body
+            // 3. We're either at EOF or the next non-whitespace content would trigger a dedent
+            if (!is_region_marker && scanner->indents->len > 0) {
+                uint16_t current_indent_length = VEC_BACK(scanner->indents);
+                if (comment_indent_length == current_indent_length) {
+                    // Look ahead to see what comes next
+                    uint32_t next_indent = 0;
+                    bool found_next_content = false;
+                    
+                    // Scan ahead to find the next non-whitespace, non-comment content
+                    while (lexer->lookahead && !found_next_content) {
+                        if (skip_whitespace(lexer, &next_indent, NULL)) {
+                            continue;
+                        } else {
+                            found_next_content = true;
+                        }
+                    }
+                    
+                    // If we're at EOF, or the next content has less indentation, preserve this comment's indentation
+                    // If the next content has the same or greater indentation, preserve it too
+                    if (lexer->eof(lexer) || next_indent < current_indent_length) {
+                        indent_length = comment_indent_length;
+                    } else if (next_indent >= current_indent_length) {
+                        // Next content is at same or greater indentation - preserve comment level
+                        indent_length = comment_indent_length;
+                    } else {
+                        indent_length = 0;
+                    }
+                } else {
+                    // Comment is not at the current indentation level
+                    // This might be a comment that should be at a dedented level
+                    // Only set indent_length = 0 if we're not in a situation that should preserve it
+                    indent_length = 0;
+                }
+            } else {
+                indent_length = 0;
+            }
         } else if (lexer->lookahead == '\\') {
             skip(lexer);
             if (lexer->lookahead == '\r') {
@@ -292,7 +413,18 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                 return false;
             }
         } else if (lexer->eof(lexer)) {
-            indent_length = 0;
+            // If we're at EOF and we have the same indentation as the current body,
+            // don't force indent_length to 0 as this would trigger an unwanted dedent.
+            // This handles the case where there are trailing comments at the same
+            // indentation level as the function body.
+            if (scanner->indents->len > 0) {
+                uint16_t current_indent_length = VEC_BACK(scanner->indents);
+                if (indent_length != current_indent_length) {
+                    indent_length = 0;
+                }
+            } else {
+                indent_length = 0;
+            }
             found_end_of_line = true;
             break;
         } else {
