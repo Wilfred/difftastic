@@ -836,12 +836,19 @@ module.exports = grammar({
         ),
       ),
 
+    variadic_parameter: ($) =>
+      seq(
+        "...",
+        $._parameters,
+      ),
+
     _parameters: ($) =>
       choice(
         $.identifier,
         $.typed_parameter,
         $.default_parameter,
         $.typed_default_parameter,
+        $.variadic_parameter,
       ),
 
     parameters: ($) => seq("(", optional(trailCommaSep1($._parameters)), ")"),

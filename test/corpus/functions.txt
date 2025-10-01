@@ -1,4 +1,32 @@
 ============================================
+Functions: Variadic parameters
+============================================
+
+func sum(first_number: float, ...numbers: Array) -> float:
+	return 0.0
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type
+          (identifier)))
+      (variadic_parameter
+        (typed_parameter
+          (identifier)
+          (type
+            (identifier)))))
+    (type
+      (identifier))
+    (body
+      (return_statement
+        (float)))))
+
+============================================
 Functions: Generic types in parameters and return types
 ============================================
 
