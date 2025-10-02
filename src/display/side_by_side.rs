@@ -37,6 +37,7 @@ fn format_missing_line_num(
     prev_num: LineNumber,
     source_dims: &SourceDimensions,
     side: Side,
+    is_continuation: bool,
     use_color: bool,
 ) -> String {
     let column_width = match side {
@@ -54,17 +55,23 @@ fn format_missing_line_num(
         style = style.dimmed();
     }
 
+    let c = if is_continuation {
+        // Always show dots when this line is too long so we had to
+        // split it over several lines when displaying.
+        "."
+    } else if after_end {
+        // The file on this side has fewer lines, and we've already
+        // shown the last ones.
+        " "
+    } else {
+        // There are more lines in this file.
+        "."
+    };
+
     let num_digits = prev_num.display().len();
     format!(
         "{:>width$} ",
-        // If there are further lines in this file, we want to use
-        // . (i.e. dot), but if we've already shown the last line we
-        // just render whitespace.
-        //
-        // We also want to show dots when we're rendering a
-        // continuation line, i.e. the content line is so long we need
-        // to wrap it.
-        (if after_end { " " } else { "." }).repeat(num_digits),
+        c.repeat(num_digits),
         width = column_width - 1
     )
     .style(style)
@@ -134,6 +141,7 @@ fn display_line_nums(
             prev_lhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
             Side::Left,
+            false,
             display_options.use_color,
         ),
     };
@@ -146,6 +154,7 @@ fn display_line_nums(
             prev_rhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
             Side::Right,
+            false,
             display_options.use_color,
         ),
     };
@@ -176,21 +185,10 @@ struct SourceDimensions {
 impl SourceDimensions {
     fn new(
         terminal_width: usize,
-        line_nums: &[(Option<LineNumber>, Option<LineNumber>)],
+        lhs_max_line: LineNumber,
+        rhs_max_line: LineNumber,
         content_max_width: usize,
     ) -> Self {
-        let mut lhs_max_line: LineNumber = 1.into();
-        let mut rhs_max_line: LineNumber = 1.into();
-
-        for (lhs_line_num, rhs_line_num) in line_nums {
-            if let Some(lhs_line_num) = lhs_line_num {
-                lhs_max_line = max(lhs_max_line, *lhs_line_num);
-            }
-            if let Some(rhs_line_num) = rhs_line_num {
-                rhs_max_line = max(rhs_max_line, *rhs_line_num);
-            }
-        }
-
         let lhs_line_nums_width = format_line_num(lhs_max_line).len();
         let rhs_line_nums_width = format_line_num(rhs_max_line).len();
 
@@ -548,6 +546,38 @@ pub(crate) fn print(
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
     let mut matched_lines_to_print = &matched_lines[..];
 
+    let mut lhs_max_visible_line = 1.into();
+    let mut rhs_max_visible_line = 1.into();
+
+    for (lhs_line_num, rhs_line_num) in matched_lines_to_print.iter().rev() {
+        if let Some(lhs_line_num) = *lhs_line_num {
+            lhs_max_visible_line = max(lhs_max_visible_line, lhs_line_num);
+        }
+        if let Some(rhs_line_num) = *rhs_line_num {
+            rhs_max_visible_line = max(rhs_max_visible_line, rhs_line_num);
+        }
+
+        if lhs_max_visible_line > 1.into() && rhs_max_visible_line > 1.into() {
+            break;
+        }
+    }
+
+    lhs_max_visible_line = LineNumber(min(
+        lhs_max_visible_line.0 + display_options.num_context_lines,
+        lhs_lines.len().saturating_sub(1) as u32,
+    ));
+    rhs_max_visible_line = LineNumber(min(
+        rhs_max_visible_line.0 + display_options.num_context_lines,
+        rhs_lines.len().saturating_sub(1) as u32,
+    ));
+
+    let source_dims = SourceDimensions::new(
+        display_options.terminal_width,
+        lhs_max_visible_line,
+        rhs_max_visible_line,
+        content_max_width,
+    );
+
     for (i, hunk) in hunks.iter().enumerate() {
         println!(
             "{}",
@@ -578,11 +608,6 @@ pub(crate) fn print(
         let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let source_dims = SourceDimensions::new(
-            display_options.terminal_width,
-            aligned_lines,
-            content_max_width,
-        );
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
                 *lhs_line_num,
@@ -686,6 +711,7 @@ pub(crate) fn print(
                                 .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
                             Side::Left,
+                            true,
                             display_options.use_color,
                         );
                         if let Some(line_num) = lhs_line_num {
@@ -706,6 +732,7 @@ pub(crate) fn print(
                                 .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
                             Side::Right,
+                            true,
                             display_options.use_color,
                         );
                         if let Some(line_num) = rhs_line_num {
@@ -747,8 +774,7 @@ mod tests {
 
     #[test]
     fn test_width_calculations() {
-        let line_nums = [(Some(1.into()), Some(10.into()))];
-        let source_dims = SourceDimensions::new(DEFAULT_TERMINAL_WIDTH, &line_nums, 9999);
+        let source_dims = SourceDimensions::new(DEFAULT_TERMINAL_WIDTH, 1.into(), 10.into(), 9999);
 
         assert_eq!(source_dims.lhs_line_nums_width, 2);
         assert_eq!(source_dims.rhs_line_nums_width, 3);
@@ -756,42 +782,28 @@ mod tests {
 
     #[test]
     fn test_format_missing_line_num() {
-        let source_dims = SourceDimensions::new(
-            DEFAULT_TERMINAL_WIDTH,
-            &[
-                (Some(0.into()), Some(0.into())),
-                (Some(1.into()), Some(1.into())),
-            ],
-            9999,
-        );
+        let source_dims = SourceDimensions::new(DEFAULT_TERMINAL_WIDTH, 1.into(), 1.into(), 9999);
 
         assert_eq!(
-            format_missing_line_num(0.into(), &source_dims, Side::Left, true),
+            format_missing_line_num(0.into(), &source_dims, Side::Left, false, true),
             ". ".dimmed().to_string()
         );
         assert_eq!(
-            format_missing_line_num(0.into(), &source_dims, Side::Left, false),
+            format_missing_line_num(0.into(), &source_dims, Side::Left, false, false),
             ". ".to_owned()
         );
     }
 
     #[test]
     fn test_format_missing_line_num_at_end() {
-        let source_dims = SourceDimensions::new(
-            80,
-            &[
-                (Some(0.into()), Some(0.into())),
-                (Some(1.into()), Some(1.into())),
-            ],
-            9999,
-        );
+        let source_dims = SourceDimensions::new(80, 1.into(), 1.into(), 9999);
 
         assert_eq!(
-            format_missing_line_num(1.into(), &source_dims, Side::Left, true),
+            format_missing_line_num(1.into(), &source_dims, Side::Left, false, true),
             "  ".dimmed().to_string()
         );
         assert_eq!(
-            format_missing_line_num(1.into(), &source_dims, Side::Left, false),
+            format_missing_line_num(1.into(), &source_dims, Side::Left, false, false),
             "  ".to_owned()
         );
     }
