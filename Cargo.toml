@@ -15,10 +15,10 @@ edition = "2021"
 # https://releases.rs/ is a useful website to see when different Rust
 # versions were released.
 #
-# For reference, Debian stable is on 1.63 (see
+# For reference, Debian stable is on 1.85 (see
 # https://tracker.debian.org/pkg/rustc) but Debian doesn't currently
 # package difftastic. Other distros are somewhat newer.
-rust-version = "1.75.0"
+rust-version = "1.76.0"
 include = [
         "/build.rs",
         "/src/",
@@ -72,7 +72,7 @@ streaming-iterator = "0.1.9"
 encoding_rs = "0.8.35"
 
 # tree-sitter itself.
-tree-sitter = "0.24.0"
+tree-sitter = "0.25.9"
 tree-sitter-language = "0.1.3"
 
 # tree-sitter parsers that are available on crates.io.
