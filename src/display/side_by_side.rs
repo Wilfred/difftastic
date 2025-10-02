@@ -57,6 +57,13 @@ fn format_missing_line_num(
     let num_digits = prev_num.display().len();
     format!(
         "{:>width$} ",
+        // If there are further lines in this file, we want to use
+        // . (i.e. dot), but if we've already shown the last line we
+        // just render whitespace.
+        //
+        // We also want to show dots when we're rendering a
+        // continuation line, i.e. the content line is so long we need
+        // to wrap it.
         (if after_end { " " } else { "." }).repeat(num_digits),
         width = column_width - 1
     )
