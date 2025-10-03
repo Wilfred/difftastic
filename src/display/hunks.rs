@@ -623,6 +623,9 @@ fn either_side_equal(
     false
 }
 
+/// Given a set of matched lines between the LHS and RHS, return the
+/// start and end indexes in `matched_lines` that should be displayed
+/// for `hunk`.
 pub(crate) fn matched_lines_indexes_for_hunk(
     matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
     hunk: &Hunk,
