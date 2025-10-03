@@ -612,6 +612,9 @@ pub(crate) enum StringKind {
 
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
 pub(crate) enum AtomKind {
+    /// The kind of this atom when we don't know anything else about
+    /// it. This is typically a variable, e.g. `foo`, or a literal
+    /// `123`. Note that string literals have a separate kind.
     Normal,
     // TODO: We should either have a AtomWithWords(HighlightKind) or a
     // separate String, Text and Comment kind.
