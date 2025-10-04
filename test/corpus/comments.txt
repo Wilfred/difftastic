@@ -289,29 +289,18 @@ func test2():
 Comments: dedented comment in function body
 =====================================
 
-extends Node
-
-func test_function():
-	var a = "test"
-# Some comment
-	print(a)
+func test():
+	# properly indented comment
+# improperly indented comment
+	pass
 
 ---
 
-(source
-    (extends_statement
-    (type
-        (identifier)))
+(source   
     (function_definition
     (name)
     (parameters)
-    (body
-        (variable_statement
-        (name)
-        (string))
+    (body        
         (comment)
-        (expression_statement
-        (call
-            (identifier)
-            (arguments
-            (identifier)))))))
+        (comment)
+        (pass_statement))))

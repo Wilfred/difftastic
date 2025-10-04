@@ -84,8 +84,8 @@ func _physics_process(delta: float) -> void:
     (body
       (region_start
         (region_label))
-      (pass_statement)))
-  (region_end))
+     (pass_statement)
+      (region_end))))
 
 =====================================
 Region: Two sibling regions
