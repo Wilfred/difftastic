@@ -59,7 +59,7 @@ sample_files/devicetree_1.dts sample_files/devicetree_2.dts
 f7c4e7b4444b02d87b2eec1485d86211  -
 
 sample_files/elisp_1.el sample_files/elisp_2.el
-c47ace7b6cfecb9d6195ad323eb38407  -
+d7bdaf5f87e1c44475774c6e7ba70822  -
 
 sample_files/elisp_contiguous_1.el sample_files/elisp_contiguous_2.el
 4a5a33873a4f84ee055d95e1448fba35  -
@@ -152,7 +152,7 @@ sample_files/many_newlines_1.txt sample_files/many_newlines_2.txt
 52ca05855e520876479e6f608c5e7831  -
 
 sample_files/metadata_1.clj sample_files/metadata_2.clj
-25326c138b8e05d250ba7de40655fb0e  -
+fd0fee4a660e938c44182e6f77746d0e  -
 
 sample_files/modules_1.ml sample_files/modules_2.ml
 8584f755c99a93dd744a6722596a4418  -
@@ -242,7 +242,7 @@ sample_files/simple_1.txt sample_files/simple_2.txt
 7df04bd5dbc68a2392b2f0b375c4413e  -
 
 sample_files/slider_1.rs sample_files/slider_2.rs
-9182f0f53b7588d7cb6e93ab8ff5ce57  -
+346155adadb1340c026bbfa5cfd5669d  -
 
 sample_files/slider_at_end_1.json sample_files/slider_at_end_2.json
 cb370f1c0ccc5e155743330629f899f0  -

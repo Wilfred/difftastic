@@ -174,12 +174,6 @@ struct SourceDimensions {
     /// The number of characters required to display line numbers on
     /// the RHS.
     rhs_line_nums_width: usize,
-    /// The highest line number in the LHS source that we will
-    /// display.
-    lhs_max_line_visible: LineNumber,
-    /// The highest line number in the RHS source that we will
-    /// display.
-    rhs_max_line_visible: LineNumber,
     lhs_max_line_in_file: LineNumber,
     rhs_max_line_in_file: LineNumber,
 }
@@ -247,8 +241,6 @@ impl SourceDimensions {
             content_display_width: content_width,
             lhs_line_nums_width,
             rhs_line_nums_width,
-            lhs_max_line_visible,
-            rhs_max_line_visible,
             lhs_max_line_in_file,
             rhs_max_line_in_file,
         }
@@ -555,16 +547,25 @@ pub(crate) fn print(
     let mut lhs_max_visible_line = 1.into();
     let mut rhs_max_visible_line = 1.into();
 
-    for (lhs_line_num, rhs_line_num) in matched_lines_to_print.iter().rev() {
-        if let Some(lhs_line_num) = *lhs_line_num {
-            lhs_max_visible_line = max(lhs_max_visible_line, lhs_line_num);
-        }
-        if let Some(rhs_line_num) = *rhs_line_num {
-            rhs_max_visible_line = max(rhs_max_visible_line, rhs_line_num);
-        }
+    if let Some(hunk) = hunks.last() {
+        let (start_i, end_i) = matched_lines_indexes_for_hunk(
+            matched_lines_to_print,
+            hunk,
+            display_options.num_context_lines as usize,
+        );
+        let aligned_lines = &matched_lines_to_print[start_i..end_i];
 
-        if lhs_max_visible_line > 1.into() && rhs_max_visible_line > 1.into() {
-            break;
+        for (lhs_line_num, rhs_line_num) in aligned_lines.iter().rev() {
+            if let Some(lhs_line_num) = *lhs_line_num {
+                lhs_max_visible_line = max(lhs_max_visible_line, lhs_line_num);
+            }
+            if let Some(rhs_line_num) = *rhs_line_num {
+                rhs_max_visible_line = max(rhs_max_visible_line, rhs_line_num);
+            }
+
+            if lhs_max_visible_line > 1.into() && rhs_max_visible_line > 1.into() {
+                break;
+            }
         }
     }
 
