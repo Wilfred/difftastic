@@ -46,8 +46,8 @@ fn format_missing_line_num(
     };
 
     let after_end = match side {
-        Side::Left => prev_num >= source_dims.lhs_max_line_visible,
-        Side::Right => prev_num >= source_dims.rhs_max_line_visible,
+        Side::Left => prev_num >= source_dims.lhs_max_line_in_file,
+        Side::Right => prev_num >= source_dims.rhs_max_line_in_file,
     };
 
     let mut style = Style::new();
