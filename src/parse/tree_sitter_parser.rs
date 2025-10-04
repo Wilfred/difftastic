@@ -87,7 +87,6 @@ extern "C" {
     fn tree_sitter_newick() -> ts::Language;
     fn tree_sitter_perl() -> ts::Language;
     fn tree_sitter_qmljs() -> ts::Language;
-    fn tree_sitter_r() -> ts::Language;
     fn tree_sitter_racket() -> ts::Language;
     fn tree_sitter_scheme() -> ts::Language;
     fn tree_sitter_smali() -> ts::Language;
@@ -881,16 +880,14 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         R => {
-            let language = unsafe { tree_sitter_r() };
+            let language_fn = tree_sitter_r::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["string", "special"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/r.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_r::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
