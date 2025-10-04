@@ -46,8 +46,8 @@ fn format_missing_line_num(
     };
 
     let after_end = match side {
-        Side::Left => prev_num >= source_dims.lhs_max_line,
-        Side::Right => prev_num >= source_dims.rhs_max_line,
+        Side::Left => prev_num >= source_dims.lhs_max_line_visible,
+        Side::Right => prev_num >= source_dims.rhs_max_line_visible,
     };
 
     let mut style = Style::new();
@@ -176,10 +176,10 @@ struct SourceDimensions {
     rhs_line_nums_width: usize,
     /// The highest line number in the LHS source that we will
     /// display.
-    lhs_max_line: LineNumber,
+    lhs_max_line_visible: LineNumber,
     /// The highest line number in the RHS source that we will
     /// display.
-    rhs_max_line: LineNumber,
+    rhs_max_line_visible: LineNumber,
     lhs_max_line_in_file: LineNumber,
     rhs_max_line_in_file: LineNumber,
 }
@@ -187,14 +187,14 @@ struct SourceDimensions {
 impl SourceDimensions {
     fn new(
         terminal_width: usize,
-        lhs_max_line: LineNumber,
-        rhs_max_line: LineNumber,
+        lhs_max_line_visible: LineNumber,
+        rhs_max_line_visible: LineNumber,
         lhs_max_line_in_file: LineNumber,
         rhs_max_line_in_file: LineNumber,
         content_max_width: usize,
     ) -> Self {
-        let lhs_line_nums_width = format_line_num(lhs_max_line).len();
-        let rhs_line_nums_width = format_line_num(rhs_max_line).len();
+        let lhs_line_nums_width = format_line_num(lhs_max_line_visible).len();
+        let rhs_line_nums_width = format_line_num(rhs_max_line_visible).len();
 
         // If the file lines are extremely short, treat them as if
         // they have a line of 25 characters.
@@ -247,8 +247,8 @@ impl SourceDimensions {
             content_display_width: content_width,
             lhs_line_nums_width,
             rhs_line_nums_width,
-            lhs_max_line,
-            rhs_max_line,
+            lhs_max_line_visible,
+            rhs_max_line_visible,
             lhs_max_line_in_file,
             rhs_max_line_in_file,
         }
