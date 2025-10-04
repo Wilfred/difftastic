@@ -73,7 +73,6 @@ extern "C" {
     fn tree_sitter_apex() -> ts::Language;
     fn tree_sitter_clojure() -> ts::Language;
     fn tree_sitter_commonlisp() -> ts::Language;
-    fn tree_sitter_dart() -> ts::Language;
     fn tree_sitter_devicetree() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
     fn tree_sitter_elm() -> ts::Language;
@@ -277,14 +276,15 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Dart => {
-            let language = unsafe { tree_sitter_dart() };
+            let language_fn = tree_sitter_dart_orchard::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["string_literal", "script_tag"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(
                     &language,
-                    include_str!("../../vendored_parsers/highlights/dart.scm"),
+                    tree_sitter_dart_orchard::HIGHLIGHTS_QUERY,
                 )
                 .unwrap(),
                 sub_languages: vec![],

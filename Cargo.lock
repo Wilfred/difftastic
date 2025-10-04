@@ -279,6 +279,7 @@ dependencies = [
  "tree-sitter-cmake",
  "tree-sitter-cpp",
  "tree-sitter-css",
+ "tree-sitter-dart-orchard",
  "tree-sitter-elixir",
  "tree-sitter-erlang",
  "tree-sitter-fsharp",
@@ -1078,6 +1079,16 @@ name = "tree-sitter-css"
 version = "0.23.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "25435a275adb3226b6fddab891bbc50d1a500774a44ceb97022a39666ccda75d"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-dart-orchard"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "206d0062b36beab07b152aa9c02f5b4944453cd942ba01471df951b40292e9ad"
 dependencies = [
  "cc",
  "tree-sitter-language",
