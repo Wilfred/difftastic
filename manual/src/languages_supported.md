@@ -17,7 +17,7 @@ with `difft --list-languages`.
 | Clojure         | [sogaiu/tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure)                       |
 | CMake           | [uyha/tree-sitter-cmake](https://github.com/uyha/tree-sitter-cmake)                               |
 | Common Lisp     | [theHamsta/tree-sitter-commonlisp](https://github.com/theHamsta/tree-sitter-commonlisp)           |
-| Dart            | [UserNobody14/tree-sitter-dart](https://github.com/UserNobody14/tree-sitter-dart)                 |
+| Dart            | [grammar-orchard/tree-sitter-dart](https://codeberg.org/grammar-orchard/tree-sitter-dart-orchard)                 |
 | Device Tree     | [joelspadin/tree-sitter-devicetree](https://github.com/joelspadin/tree-sitter-devicetree)         |
 | Elixir          | [elixir-lang/tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir)               |
 | Elm             | [elm-tooling/tree-sitter-elm](https://github.com/elm-tooling/tree-sitter-elm)                     |
