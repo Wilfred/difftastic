@@ -308,16 +308,6 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             // Store the current indentation level before processing the comment
             uint32_t comment_indent_length = indent_length;
             
-            // If we're in a situation where we need to emit a DEDENT first,
-            // don't consume the comment - let the DEDENT be processed first
-            if (valid_symbols[DEDENT] && scanner->indents->len > 0) {
-                uint16_t current_indent_length = VEC_BACK(scanner->indents);
-                if (indent_length < current_indent_length) {
-                    // Don't consume the comment, let the dedent happen first
-                    break;
-                }
-            }
-            
             // Look ahead to see if this is a region marker
             // If it is, we do not want to preserve indentation
             bool is_region_marker = false;

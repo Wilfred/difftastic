@@ -284,3 +284,34 @@ func test2():
       (body
         (pass_statement)
         (comment))))
+
+=====================================
+Comments: dedented comment in function body
+=====================================
+
+extends Node
+
+func test_function():
+	var a = "test"
+# Some comment
+	print(a)
+
+---
+
+(source
+    (extends_statement
+    (type
+        (identifier)))
+    (function_definition
+    (name)
+    (parameters)
+    (body
+        (variable_statement
+        (name)
+        (string))
+        (comment)
+        (expression_statement
+        (call
+            (identifier)
+            (arguments
+            (identifier)))))))
