@@ -180,6 +180,8 @@ struct SourceDimensions {
     /// The highest line number in the RHS source that we will
     /// display.
     rhs_max_line: LineNumber,
+    lhs_max_line_in_file: LineNumber,
+    rhs_max_line_in_file: LineNumber,
 }
 
 impl SourceDimensions {
@@ -187,6 +189,8 @@ impl SourceDimensions {
         terminal_width: usize,
         lhs_max_line: LineNumber,
         rhs_max_line: LineNumber,
+        lhs_max_line_in_file: LineNumber,
+        rhs_max_line_in_file: LineNumber,
         content_max_width: usize,
     ) -> Self {
         let lhs_line_nums_width = format_line_num(lhs_max_line).len();
@@ -245,6 +249,8 @@ impl SourceDimensions {
             rhs_line_nums_width,
             lhs_max_line,
             rhs_max_line,
+            lhs_max_line_in_file,
+            rhs_max_line_in_file,
         }
     }
 }
@@ -562,19 +568,24 @@ pub(crate) fn print(
         }
     }
 
+    let lhs_max_line_in_file = LineNumber(lhs_lines.len().saturating_sub(1) as u32);
+    let rhs_max_line_in_file = LineNumber(rhs_lines.len().saturating_sub(1) as u32);
+
     lhs_max_visible_line = LineNumber(min(
         lhs_max_visible_line.0 + display_options.num_context_lines,
-        lhs_lines.len().saturating_sub(1) as u32,
+        lhs_max_line_in_file.0,
     ));
     rhs_max_visible_line = LineNumber(min(
         rhs_max_visible_line.0 + display_options.num_context_lines,
-        rhs_lines.len().saturating_sub(1) as u32,
+        rhs_max_line_in_file.0,
     ));
 
     let source_dims = SourceDimensions::new(
         display_options.terminal_width,
         lhs_max_visible_line,
         rhs_max_visible_line,
+        lhs_max_line_in_file,
+        rhs_max_line_in_file,
         content_max_width,
     );
 
@@ -774,7 +785,14 @@ mod tests {
 
     #[test]
     fn test_width_calculations() {
-        let source_dims = SourceDimensions::new(DEFAULT_TERMINAL_WIDTH, 1.into(), 10.into(), 9999);
+        let source_dims = SourceDimensions::new(
+            DEFAULT_TERMINAL_WIDTH,
+            1.into(),
+            10.into(),
+            1.into(),
+            10.into(),
+            9999,
+        );
 
         assert_eq!(source_dims.lhs_line_nums_width, 2);
         assert_eq!(source_dims.rhs_line_nums_width, 3);
@@ -782,7 +800,14 @@ mod tests {
 
     #[test]
     fn test_format_missing_line_num() {
-        let source_dims = SourceDimensions::new(DEFAULT_TERMINAL_WIDTH, 1.into(), 1.into(), 9999);
+        let source_dims = SourceDimensions::new(
+            DEFAULT_TERMINAL_WIDTH,
+            1.into(),
+            1.into(),
+            1.into(),
+            1.into(),
+            9999,
+        );
 
         assert_eq!(
             format_missing_line_num(0.into(), &source_dims, Side::Left, false, true),
@@ -796,7 +821,7 @@ mod tests {
 
     #[test]
     fn test_format_missing_line_num_at_end() {
-        let source_dims = SourceDimensions::new(80, 1.into(), 1.into(), 9999);
+        let source_dims = SourceDimensions::new(80, 1.into(), 1.into(), 1.into(), 1.into(), 9999);
 
         assert_eq!(
             format_missing_line_num(1.into(), &source_dims, Side::Left, false, true),
