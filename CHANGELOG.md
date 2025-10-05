@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added support for protocol buffer files. Updated CMake, Solidity, HCL and R parsers.
+Added support for protocol buffer files. Updated CMake, Solidity, HCL, Dart and R parsers.
 
 ### Display
 
