@@ -108,8 +108,27 @@ fn app() -> clap::Command {
             .to_string(),
     );
 
-    after_help.push_str("\n\nDifftastic can also be invoked with 7 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n");
-    after_help.push_str("See the full manual at: https://difftastic.wilfred.me.uk/");
+    after_help.push_str("\n\nDifftastic can also be invoked with 7 or 9 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n");
+    after_help.push_str(
+        &format!(
+            "$ {} DISPLAY-PATH OLD-FILE OLD-HEX OLD-MODE NEW-FILE NEW-HEX NEW-MODE",
+            bin_name
+        )
+        .bold()
+        .to_string(),
+    );
+
+    after_help.push('\n');
+    after_help.push_str(
+        &format!(
+            "$ {} OLD-NAME OLD-FILE OLD-HEX OLD-MODE NEW-FILE NEW-HEX NEW-MODE NEW-NAME METADATA",
+            bin_name
+        )
+        .bold()
+        .to_string(),
+    );
+
+    after_help.push_str("\n\nSee the full manual at: https://difftastic.wilfred.me.uk/");
 
     Command::new("Difftastic")
         .override_usage(USAGE)
@@ -850,7 +869,6 @@ pub(crate) fn parse_args() -> Mode {
         }
     }
 
-    // TODO: document these different ways of calling difftastic.
     let (display_path, lhs_path, rhs_path, lhs_permissions, rhs_permissions, renamed) = match &args
         [..]
     {
