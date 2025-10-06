@@ -284,3 +284,23 @@ func test2():
       (body
         (pass_statement)
         (comment))))
+
+=====================================
+Comments: dedented comment in function body
+=====================================
+
+func test():
+	# properly indented comment
+# improperly indented comment
+	pass
+
+---
+
+(source   
+    (function_definition
+    (name)
+    (parameters)
+    (body        
+        (comment)
+        (comment)
+        (pass_statement))))
