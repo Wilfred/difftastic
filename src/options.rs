@@ -998,14 +998,16 @@ fn detect_terminal_width() -> usize {
 pub(crate) fn should_use_color(color_output: ColorOutput) -> bool {
     match color_output {
         ColorOutput::Always => true,
-        ColorOutput::Auto => {
-            // Always enable colour if stdout is a TTY or if the git pager is active.
-            // TODO: consider following the env parsing logic in git_config_bool
-            // in config.c.
-            std::io::stdout().is_tty() || env::var("GIT_PAGER_IN_USE").is_ok()
-        }
+        ColorOutput::Auto => detect_color_support(),
         ColorOutput::Never => false,
     }
+}
+
+/// Always enable colour if stdout is a TTY or if the git pager is active.
+fn detect_color_support() -> bool {
+    // TODO: consider following the env parsing logic in git_config_bool
+    // in config.c.
+    std::io::stdout().is_tty() || env::var("GIT_PAGER_IN_USE").is_ok()
 }
 
 #[cfg(test)]
