@@ -10,6 +10,9 @@ Difftastic is now smarter about calculating the display width for
 side-by-side diffs. Long lines that are not included in the output no
 longer affect display.
 
+The `--background` option now supports `auto` to automatically detect
+the terminal background color.
+
 ## 0.65 (released 23rd September 2025)
 
 ### Build

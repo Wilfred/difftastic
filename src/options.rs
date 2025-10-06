@@ -201,8 +201,8 @@ json: Output the results as a machine-readable JSON array with an element per fi
             Arg::new("background").long("background")
                 .value_name("BACKGROUND")
                 .env("DFT_BACKGROUND")
-                .value_parser(["dark", "light"])
-                .default_value("dark")
+                .value_parser(["dark", "light", "auto"])
+                .default_value("auto")
                 .action(ArgAction::Set)
                 .help("Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.")
         )
@@ -782,6 +782,7 @@ pub(crate) fn parse_args() -> Mode {
     {
         "dark" => BackgroundColor::Dark,
         "light" => BackgroundColor::Light,
+        "auto" => detect_background_color().unwrap_or(BackgroundColor::Dark),
         _ => unreachable!("clap has already validated the values"),
     };
 
@@ -957,6 +958,15 @@ pub(crate) fn parse_args() -> Mode {
         rhs_permissions,
         display_path,
         renamed,
+    }
+}
+
+/// Try to detect the terminal background color.
+fn detect_background_color() -> Option<BackgroundColor> {
+    match terminal_colorsaurus::theme_mode(terminal_colorsaurus::QueryOptions::default()) {
+        Ok(terminal_colorsaurus::ThemeMode::Dark) => Some(BackgroundColor::Dark),
+        Ok(terminal_colorsaurus::ThemeMode::Light) => Some(BackgroundColor::Light),
+        Err(_) => None,
     }
 }
 
