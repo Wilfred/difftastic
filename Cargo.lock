@@ -284,6 +284,7 @@ dependencies = [
  "tree-sitter-dart-orchard",
  "tree-sitter-devicetree",
  "tree-sitter-elixir",
+ "tree-sitter-elm",
  "tree-sitter-erlang",
  "tree-sitter-fsharp",
  "tree-sitter-go",
@@ -1098,6 +1099,16 @@ name = "tree-sitter-elixir"
 version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e45d444647b4fd53d8fd32474c1b8bedc1baa22669ce3a78d083e365fa9a2d3f"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-elm"
+version = "5.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "accee95d95c001e53f5ab1a1168f1ed1c6ec763a17fb48b43acf5bf4ff9e3423"
 dependencies = [
  "cc",
  "tree-sitter-language",
