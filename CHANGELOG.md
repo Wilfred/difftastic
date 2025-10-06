@@ -14,7 +14,7 @@ longer affect display.
 
 ### Build
 
-Incrased the default page size of Jemalloc, so difftastic should work
+Increased the default page size of Jemalloc, so difftastic should work
 on systems with large page sizes (typically aarch64, i.e. Arm).
 
 difftastic now requires Rust 1.75 to build.
