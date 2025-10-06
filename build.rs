@@ -83,11 +83,6 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
-            name: "tree-sitter-devicetree",
-            src_dir: "vendored_parsers/tree-sitter-devicetree-src",
-            extra_files: vec![],
-        },
-        TreeSitterParser {
             name: "tree-sitter-elisp",
             src_dir: "vendored_parsers/tree-sitter-elisp-src",
             extra_files: vec![],

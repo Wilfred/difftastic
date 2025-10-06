@@ -73,7 +73,6 @@ extern "C" {
     fn tree_sitter_apex() -> ts::Language;
     fn tree_sitter_clojure() -> ts::Language;
     fn tree_sitter_commonlisp() -> ts::Language;
-    fn tree_sitter_devicetree() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
     fn tree_sitter_elvish() -> ts::Language;
     fn tree_sitter_gleam() -> ts::Language;
@@ -289,7 +288,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         DeviceTree => {
-            let language = unsafe { tree_sitter_devicetree() };
+            let language_fn = tree_sitter_devicetree::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["byte_string_literal", "string_literal"]
