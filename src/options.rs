@@ -9,6 +9,7 @@ use std::{
 
 use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
 use crossterm::tty::IsTty;
+use owo_colors::OwoColorize as _;
 
 use crate::{
     display::style::BackgroundColor,
@@ -90,28 +91,33 @@ impl Default for DiffOptions {
 }
 
 fn app() -> clap::Command {
+    let bin_name = env!("CARGO_BIN_NAME");
+
+    let mut after_help = String::new();
+    after_help
+        .push_str("You can compare two files with difftastic by specifying them as arguments.\n\n");
+    after_help.push_str(&format!("$ {} old.js new.js", bin_name).bold().to_string());
+
+    after_help.push_str("\n\nYou can also use directories as arguments. Difftastic will walk both directories and compare files with matching names.\n\n");
+    after_help.push_str(&format!("$ {} old/ new/", bin_name).bold().to_string());
+
+    after_help.push_str("\n\nIf you have a file with conflict markers, you can pass it as a single argument. Difftastic will diff the two conflicting file states.\n\n");
+    after_help.push_str(
+        &format!("$ {} file_with_conflicts.js", bin_name)
+            .bold()
+            .to_string(),
+    );
+
+    after_help.push_str("\n\nDifftastic can also be invoked with 7 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n");
+    after_help.push_str("See the full manual at: https://difftastic.wilfred.me.uk/");
+
     Command::new("Difftastic")
         .override_usage(USAGE)
         .version(env!("CARGO_PKG_VERSION"))
         .long_version(VERSION.as_str())
         .about(crate_description!())
         .author(crate_authors!())
-        .after_long_help(concat!(
-            "You can compare two files with difftastic by specifying them as arguments.\n\n",
-            "$ ",
-            env!("CARGO_BIN_NAME"),
-            " old.js new.js\n\n",
-            "You can also use directories as arguments. Difftastic will walk both directories and compare files with matching names.\n\n",
-            "$ ",
-            env!("CARGO_BIN_NAME"),
-            " old/ new/\n\n",
-            "If you have a file with conflict markers, you can pass it as a single argument. Difftastic will diff the two conflicting file states.\n\n",
-            "$ ",
-            env!("CARGO_BIN_NAME"),
-            " file_with_conflicts.js\n\n",
-            "Difftastic can also be invoked with 7 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n",
-            "See the full manual at: https://difftastic.wilfred.me.uk/")
-        )
+        .after_long_help(after_help)
         .arg(
             Arg::new("dump-syntax")
                 .long("dump-syntax")
