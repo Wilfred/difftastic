@@ -40,4 +40,9 @@ hg dft -r .^ -r .
 ```
 
 This is equivalent to `hg log -l 1 -p`, although it does not show the
-commit message.
+commit message. I like to define an alias for this:
+
+```
+[alias]
+dp = dft -r .^ -r .
+```
