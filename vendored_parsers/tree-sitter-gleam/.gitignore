@@ -1,6 +1,0 @@
-*.wasm
-build
-gleam.so*
-log.html
-node_modules
-target
