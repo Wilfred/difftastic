@@ -128,12 +128,23 @@ fn app() -> clap::Command {
         .to_string(),
     );
 
-    // Make the link to the manual clickable in termainals that
-    // support OSC 8, the ANSI escape code for hyperlinks.
-    //
-    // https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
-    // https://github.com/Alhadis/OSC8-Adoption
-    after_help.push_str("\n\nSee the full manual at \x1b]8;;https://difftastic.wilfred.me.uk/\x1b\\https://difftastic.wilfred.me.uk/\x1b]8;;\x1b\\.");
+    after_help.push_str("\n\nSee the full manual at ");
+    if std::io::stdout().is_tty() {
+        // Make the link to the manual clickable in terminals that
+        // support OSC 8, the ANSI escape code for hyperlinks.
+        //
+        // https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
+        // https://github.com/Alhadis/OSC8-Adoption
+        //
+        // There isn't any way of detecting whether the terminal
+        // supports OSC 8 specifically, but we can limit usage to when
+        // there's a TTY. This is similar to how we detect whether to
+        // use colour.
+        after_help.push_str("\x1b]8;;https://difftastic.wilfred.me.uk/\x1b\\https://difftastic.wilfred.me.uk/\x1b]8;;\x1b\\");
+    } else {
+        after_help.push_str("https://difftastic.wilfred.me.uk/");
+    }
+    after_help.push_str(".");
 
     Command::new("Difftastic")
         .override_usage(USAGE)
