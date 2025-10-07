@@ -108,25 +108,21 @@ fn app() -> clap::Command {
             .to_string(),
     );
 
+    // For some reason clap will hard wrap these invocations weirdly
+    // (with extra blank lines) if we use bold. Since these are
+    // showing CLI formats rather than concrete values, compromise by
+    // not using bold.
     after_help.push_str("\n\nDifftastic can also be invoked with 7 or 9 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n");
-    after_help.push_str(
-        &format!(
-            "$ {} DISPLAY-PATH OLD-FILE OLD-HEX OLD-MODE NEW-FILE NEW-HEX NEW-MODE",
-            bin_name
-        )
-        .bold()
-        .to_string(),
-    );
+    after_help.push_str(&format!(
+        "$ {} DISPLAY-PATH OLD-FILE OLD-HEX OLD-MODE NEW-FILE NEW-HEX NEW-MODE",
+        bin_name
+    ));
 
     after_help.push('\n');
-    after_help.push_str(
-        &format!(
-            "$ {} OLD-NAME OLD-FILE OLD-HEX OLD-MODE NEW-FILE NEW-HEX NEW-MODE NEW-NAME METADATA",
-            bin_name
-        )
-        .bold()
-        .to_string(),
-    );
+    after_help.push_str(&format!(
+        "$ {} OLD-NAME OLD-FILE OLD-HEX OLD-MODE NEW-FILE NEW-HEX NEW-MODE NEW-NAME METADATA",
+        bin_name
+    ));
 
     after_help.push_str("\n\nSee the full manual at ");
     if std::io::stdout().is_tty() {
