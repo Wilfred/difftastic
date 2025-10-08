@@ -706,7 +706,6 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Newick => {
-            // The bindings are still using the old format, but the parser is generated for TS 0.25
             let language_fn = tree_sitter_newick::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
 
