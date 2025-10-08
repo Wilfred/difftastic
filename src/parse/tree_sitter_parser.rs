@@ -70,7 +70,6 @@ pub(crate) struct TreeSitterConfig {
 
 extern "C" {
     fn tree_sitter_ada() -> ts::Language;
-    fn tree_sitter_apex() -> ts::Language;
     fn tree_sitter_clojure() -> ts::Language;
     fn tree_sitter_commonlisp() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
@@ -120,7 +119,9 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Apex => {
-            let language = unsafe { tree_sitter_apex() };
+            let language_fn = tree_sitter_sfapex::apex::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: [
@@ -137,7 +138,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("[", "]"), ("(", ")"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     &language,
-                    include_str!("../../vendored_parsers/highlights/apex.scm"),
+                    tree_sitter_sfapex::apex::HIGHLIGHTS_QUERY,
                 )
                 .unwrap(),
                 sub_languages: vec![],

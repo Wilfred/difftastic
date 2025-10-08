@@ -1,7 +1,0 @@
-SELECT Contact.FirstName, Contact.Account.Name FROM Contact
-/// <- keyword
-///    ^^^^^^^^^^^^^^^^^ property
-///                     ^ punctuation
-///                       ^^^^^^^^^^^^^^^^^^^^ property
-///                                            ^^^^ keyword
-///                                                 ^^^^^^^ type
