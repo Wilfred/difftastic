@@ -80,7 +80,6 @@ extern "C" {
     fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
-    fn tree_sitter_newick() -> ts::Language;
     fn tree_sitter_perl() -> ts::Language;
     fn tree_sitter_qmljs() -> ts::Language;
     fn tree_sitter_racket() -> ts::Language;
@@ -707,7 +706,10 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Newick => {
-            let language = unsafe { tree_sitter_newick() };
+            // The bindings are still using the old format, but the parser is generated for TS 0.25
+            let language_fn = tree_sitter_newick::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: [].into_iter().collect(),

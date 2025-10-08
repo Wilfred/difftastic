@@ -300,6 +300,7 @@ dependencies = [
  "tree-sitter-language",
  "tree-sitter-lua",
  "tree-sitter-make",
+ "tree-sitter-newick",
  "tree-sitter-nix",
  "tree-sitter-objc",
  "tree-sitter-ocaml",
@@ -1273,6 +1274,16 @@ name = "tree-sitter-make"
 version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c5998dc7cbcbdab19fae8aefef982bf2d6544513d8d2e69cc44aec4c63810104"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-newick"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "08c5785bcf2ade84e16242b1a8d1f574334ddd26032c15a5d9bcc012e013f4e1"
 dependencies = [
  "cc",
  "tree-sitter-language",
