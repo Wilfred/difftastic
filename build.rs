@@ -143,11 +143,6 @@ fn main() {
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
-            name: "tree-sitter-sfapex",
-            src_dir: "vendored_parsers/tree-sitter-sfapex-src",
-            extra_files: vec![],
-        },
-        TreeSitterParser {
             name: "tree-sitter-smali",
             src_dir: "vendored_parsers/tree-sitter-smali-src",
             extra_files: vec!["scanner.c"],

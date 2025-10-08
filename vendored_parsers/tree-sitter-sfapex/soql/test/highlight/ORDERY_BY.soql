@@ -1,9 +1,0 @@
-SELECT Name FROM Account ORDER BY Name DESC NULLS LAST
-/// <- keyword
-///    ^^^^ property
-///         ^^^^ keyword
-///              ^^^^^^^ type
-///                      ^^^^^^^^ keyword
-///                               ^^^^ property
-///                                    ^^^^ keyword
-///                                         ^^^^^^^^^^ keyword
