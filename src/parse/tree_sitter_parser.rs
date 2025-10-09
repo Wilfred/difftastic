@@ -79,7 +79,6 @@ extern "C" {
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
     fn tree_sitter_perl() -> ts::Language;
-    fn tree_sitter_qmljs() -> ts::Language;
     fn tree_sitter_smali() -> ts::Language;
     fn tree_sitter_scss() -> ts::Language;
     fn tree_sitter_vhdl() -> ts::Language;
@@ -859,11 +858,12 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Qml => {
-            let language = unsafe { tree_sitter_qmljs() };
+            let language_fn = tree_sitter_qmljs::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
 
             let mut highlight_query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();
             highlight_query.push_str(tree_sitter_typescript::HIGHLIGHTS_QUERY);
-            highlight_query.push_str(include_str!("../../vendored_parsers/highlights/qmljs.scm"));
+            highlight_query.push_str(tree_sitter_qmljs::HIGHLIGHTS_QUERY);
 
             TreeSitterConfig {
                 language: language.clone(),

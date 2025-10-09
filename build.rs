@@ -118,11 +118,6 @@ fn main() {
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
-            name: "tree-sitter-qmljs",
-            src_dir: "vendored_parsers/tree-sitter-qmljs-src",
-            extra_files: vec!["scanner.c"],
-        },
-        TreeSitterParser {
             name: "tree-sitter-scss",
             src_dir: "vendored_parsers/tree-sitter-scss-src",
             extra_files: vec!["scanner.c"],
