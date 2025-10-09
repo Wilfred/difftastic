@@ -81,7 +81,6 @@ extern "C" {
     fn tree_sitter_latex() -> ts::Language;
     fn tree_sitter_perl() -> ts::Language;
     fn tree_sitter_qmljs() -> ts::Language;
-    fn tree_sitter_scheme() -> ts::Language;
     fn tree_sitter_smali() -> ts::Language;
     fn tree_sitter_scss() -> ts::Language;
     fn tree_sitter_sql() -> ts::Language;
@@ -950,16 +949,14 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Scheme => {
-            let language = unsafe { tree_sitter_scheme() };
+            let language_fn = tree_sitter_scheme::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/scheme.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_scheme::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
