@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Error","ThemeMode"],"fn":["background_color","color_palette","foreground_color","theme_mode"],"struct":["Color","ColorPalette","QueryOptions"],"type":["Result"]};
