@@ -140,7 +140,7 @@ fn app() -> clap::Command {
     } else {
         after_help.push_str("https://difftastic.wilfred.me.uk/");
     }
-    after_help.push_str(".");
+    after_help.push('.');
 
     Command::new("Difftastic")
         .override_usage(USAGE)
