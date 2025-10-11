@@ -3,10 +3,12 @@
 
 use std::hash::Hash;
 
+use typed_arena::Arena;
+
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::diff::lcs_diff;
 use crate::hash::DftHashSet;
-use crate::parse::syntax::Syntax;
+use crate::parse::syntax::{init_all_info, AtomKind, Syntax, SyntaxInfo};
 
 const TINY_TREE_THRESHOLD: u32 = 10;
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
@@ -16,9 +18,29 @@ const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 pub(crate) fn mark_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
+    arena: &'a Arena<Syntax<'a>>,
     change_map: &mut ChangeMap<'a>,
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     let (_, lhs_nodes, rhs_nodes) = shrink_unchanged_at_ends(lhs_nodes, rhs_nodes, change_map);
+
+    let lhs_symbol_ids = symbol_atom_ids(&lhs_nodes);
+    let rhs_symbol_ids = symbol_atom_ids(&rhs_nodes);
+
+    let lhs_nodes = mark_novel_symbols(
+        &lhs_nodes,
+        &lhs_symbol_ids,
+        &rhs_symbol_ids,
+        arena,
+        change_map,
+    );
+    let rhs_nodes = mark_novel_symbols(
+        &rhs_nodes,
+        &rhs_symbol_ids,
+        &lhs_symbol_ids,
+        arena,
+        change_map,
+    );
+    init_all_info(&lhs_nodes, &rhs_nodes);
 
     let mut nodes_to_diff = vec![];
     for (lhs_nodes, rhs_nodes) in split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes) {
@@ -28,6 +50,97 @@ pub(crate) fn mark_unchanged<'a>(
     }
 
     nodes_to_diff
+}
+
+/// For every node in `nodes` (including descendants), discard any
+/// atom that only has its ID on this side and mark it as novel.
+fn mark_novel_symbols<'a>(
+    nodes: &[&'a Syntax<'a>],
+    symbol_ids_this_side: &DftHashSet<u32>,
+    symbols_ids_other_side: &DftHashSet<u32>,
+    arena: &'a Arena<Syntax<'a>>,
+    change_map: &mut ChangeMap<'a>,
+) -> Vec<&'a Syntax<'a>> {
+    let mut result = vec![];
+
+    for node in nodes {
+        match node {
+            Syntax::Atom { .. } => {
+                if symbol_ids_this_side.contains(&node.content_id())
+                    && !symbols_ids_other_side.contains(&node.content_id())
+                {
+                    change_map.insert(node, ChangeKind::Novel);
+                } else {
+                    result.push(*node);
+                }
+            }
+            Syntax::List {
+                children,
+                open_content,
+                close_content,
+                open_position,
+                close_position,
+                num_descendants,
+                info,
+            } => {
+                let children = mark_novel_symbols(
+                    children,
+                    symbol_ids_this_side,
+                    symbols_ids_other_side,
+                    arena,
+                    change_map,
+                );
+
+                let new_info = SyntaxInfo::default();
+                new_info.unique_id.set(info.unique_id.get());
+
+                let new_list = arena.alloc(Syntax::List {
+                    info: new_info,
+                    open_position: open_position.clone(),
+                    open_content: open_content.clone(),
+                    children,
+                    close_position: close_position.clone(),
+                    close_content: close_content.clone(),
+                    num_descendants: *num_descendants,
+                });
+                result.push(new_list);
+            }
+        }
+    }
+
+    result
+}
+
+/// The IDs of all atoms that are symbols.
+pub(crate) fn symbol_atom_ids<'a>(nodes: &[&'a Syntax<'a>]) -> DftHashSet<u32> {
+    let mut ids = DftHashSet::default();
+    symbol_atom_ids_(nodes, &mut ids);
+    ids
+}
+
+fn symbol_atom_ids_<'a>(nodes: &[&'a Syntax<'a>], ids: &mut DftHashSet<u32>) {
+    for node in nodes {
+        match node {
+            Syntax::List { children, .. } => symbol_atom_ids_(children, ids),
+            Syntax::Atom { kind, .. } => match kind {
+                AtomKind::Comment | AtomKind::String(_) => {
+                    // We don't want to consider comments and strings
+                    // as symbol atoms, because we match up similar
+                    // but non-identical comments and strings during
+                    // diffing.
+                    //
+                    // A string being unique to one side isn't
+                    // sufficient to discard it.
+                }
+                AtomKind::Normal
+                | AtomKind::Type
+                | AtomKind::Keyword
+                | AtomKind::TreeSitterError => {
+                    ids.insert(node.content_id());
+                }
+            },
+        }
+    }
 }
 
 #[derive(Debug)]

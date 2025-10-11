@@ -63,7 +63,7 @@ pub(crate) struct SyntaxInfo<'a> {
     num_ancestors: Cell<u32>,
     pub(crate) num_after: Cell<usize>,
     /// A number that uniquely identifies this syntax node.
-    unique_id: Cell<SyntaxId>,
+    pub(crate) unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
     /// node. This may be the same as nodes on the other side of the
     /// diff, or nodes at different positions.
@@ -497,9 +497,12 @@ fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
 
 fn set_unique_id(nodes: &[&Syntax], next_id: &mut SyntaxId) {
     for node in nodes {
-        node.info().unique_id.set(*next_id);
-        *next_id = NonZeroU32::new(u32::from(*next_id) + 1)
-            .expect("Should not have more than u32::MAX nodes");
+        if node.info().unique_id.get() == NonZeroU32::new(u32::MAX).unwrap() {
+            node.info().unique_id.set(*next_id);
+            *next_id = NonZeroU32::new(u32::from(*next_id) + 1)
+                .expect("Should not have more than u32::MAX nodes");
+        }
+
         if let List { children, .. } = node {
             set_unique_id(children, next_id);
         }

@@ -674,7 +674,7 @@ fn diff_file_content(
                             let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
                                 vec![(lhs.clone(), rhs.clone())]
                             } else {
-                                unchanged::mark_unchanged(&lhs, &rhs, &mut change_map)
+                                unchanged::mark_unchanged(&lhs, &rhs, &arena, &mut change_map)
                             };
 
                             let mut exceeded_graph_limit = false;
