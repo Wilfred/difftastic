@@ -27,6 +27,9 @@
 #![allow(clippy::manual_unwrap_or_default)]
 // I find the explicit arithmetic clearer sometimes.
 #![allow(clippy::implicit_saturating_sub)]
+// It's helpful being super explicit about byte length versus Unicode
+// character point length sometimes.
+#![allow(clippy::needless_as_bytes)]
 // .to_owned() is more explicit on string references.
 #![warn(clippy::str_to_string)]
 // .to_string() on a String is clearer as .clone().
