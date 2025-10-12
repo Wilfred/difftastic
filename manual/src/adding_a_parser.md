@@ -14,7 +14,7 @@ Ideally, the parser should be available as a Rust crate on crates.io.
 If that's the case, add it to `Cargo.toml` in the alphabetically sorted list
 of parser dependencies. For instance:
 ```
-tree-sitter-bash = "0.24.8"
+tree-sitter-json = "0.24.8"
 ```
 Otherwise, it is possible to [vendor the parser in difftastic's source code](./parser_vendoring.md),
 but this should only be used as a last resort.
