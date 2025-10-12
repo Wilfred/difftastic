@@ -68,11 +68,6 @@ impl TreeSitterParser {
 fn main() {
     let parsers = vec![
         TreeSitterParser {
-            name: "tree-sitter-ada",
-            src_dir: "vendored_parsers/tree-sitter-ada-src",
-            extra_files: vec![],
-        },
-        TreeSitterParser {
             name: "tree-sitter-clojure",
             src_dir: "vendored_parsers/tree-sitter-clojure-src",
             extra_files: vec![],

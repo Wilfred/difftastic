@@ -69,7 +69,6 @@ pub(crate) struct TreeSitterConfig {
 }
 
 extern "C" {
-    fn tree_sitter_ada() -> ts::Language;
     fn tree_sitter_clojure() -> ts::Language;
     fn tree_sitter_commonlisp() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
@@ -101,7 +100,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
     use guess::Language::*;
     match language {
         Ada => {
-            let language = unsafe { tree_sitter_ada() };
+            let language_fn = tree_sitter_ada::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["string_literal", "character_literal"]
