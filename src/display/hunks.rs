@@ -130,6 +130,11 @@ fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     relevant
 }
 
+/// If any hunks are sufficiently close that they have overlapping
+/// lines, merge them.
+///
+/// For example, given a hunk from lines 8-10 and a hunk from lines
+/// 12-15 with 5 context lines, combine the two hunks.
 pub(crate) fn merge_adjacent(
     hunks: &[Hunk],
     opposite_to_lhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,

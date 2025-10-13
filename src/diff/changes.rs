@@ -7,6 +7,9 @@ use crate::{
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub(crate) enum ChangeKind<'a> {
+    /// This node is shallowly unchanged. For lists, this means that
+    /// the delimiters match, but there may still be some differences
+    /// in the children between LHS and RHS.
     Unchanged(&'a Syntax<'a>),
     ReplacedComment(&'a Syntax<'a>, &'a Syntax<'a>),
     ReplacedString(&'a Syntax<'a>, &'a Syntax<'a>),
