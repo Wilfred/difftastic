@@ -88,6 +88,11 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
+            name: "tree-sitter-gdscript",
+            src_dir: "vendored_parsers/tree-sitter-gdscript-src",
+            extra_files: vec!["scanner.c"],
+        },
+        TreeSitterParser {
             name: "tree-sitter-hack",
             src_dir: "vendored_parsers/tree-sitter-hack-src",
             extra_files: vec!["scanner.cc"],
