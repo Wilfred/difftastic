@@ -74,6 +74,7 @@ extern "C" {
     fn tree_sitter_elisp() -> ts::Language;
     fn tree_sitter_elvish() -> ts::Language;
     fn tree_sitter_gdscript() -> ts::Language;
+    fn tree_sitter_godot_resource() -> ts::Language;
     fn tree_sitter_hare() -> ts::Language;
     fn tree_sitter_hack() -> ts::Language;
     fn tree_sitter_janet_simple() -> ts::Language;
@@ -392,12 +393,12 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
         }
         GDScript => {
             let language = unsafe { tree_sitter_gdscript() };
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec![].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")],
-                highlight_query: ts::Query::new(&language, "")
-                    .unwrap(),
+                highlight_query: ts::Query::new(&language, "").unwrap(),
                 sub_languages: vec![],
             }
         }
@@ -427,6 +428,17 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .collect(),
                 highlight_query: ts::Query::new(&language, tree_sitter_go::HIGHLIGHTS_QUERY)
                     .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        GodotResource => {
+            let language = unsafe { tree_sitter_godot_resource() };
+
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: vec![].into_iter().collect(),
+                delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")],
+                highlight_query: ts::Query::new(&language, "").unwrap(),
                 sub_languages: vec![],
             }
         }
