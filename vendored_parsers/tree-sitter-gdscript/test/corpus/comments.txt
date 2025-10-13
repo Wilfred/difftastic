@@ -1,0 +1,306 @@
+=====================================
+Inline Comments in Set and Get Blocks
+=====================================
+
+var prop = 10: # var comment
+	set(value): # set comment
+		prop = value
+	get: # get comment
+		return prop
+
+---
+
+(source
+  (variable_statement
+    name: (name)
+    value: (integer)
+    setget: (setget
+      (comment)
+      set: (set_body
+        (parameters
+          (identifier))
+        (comment)
+        body: (body
+          (expression_statement
+            (assignment
+              left: (identifier)
+              right: (identifier)))))
+      get: (get_body
+        (comment)
+        body: (body
+          (return_statement
+            (identifier)))))))
+
+=====================================
+Inline Comments in Class and Function Definitions
+=====================================
+
+class InnerClass: # class comment
+	pass
+
+func _init(): # constructor comment
+	pass
+
+func foo(): # func comment
+    pass
+
+---
+
+(source
+  (class_definition
+    (name)
+    (comment)
+    (class_body
+      (pass_statement)))
+  (constructor_definition
+    (parameters)
+    (comment)
+    (body
+      (pass_statement)))
+  (function_definition
+    (name)
+    (parameters)
+    (comment)
+    (body
+      (pass_statement))))
+
+
+=====================================
+Inline Comments in If/Elif/Else
+=====================================
+
+func test():
+	if true: # if comment
+		pass
+	elif false: # elif comment
+		pass
+	else: # else comment
+		pass
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (if_statement
+        (true)
+        (comment)
+        (body
+          (pass_statement))
+        (elif_clause
+          (false)
+          (comment)
+          (body
+            (pass_statement)))
+        (else_clause
+          (comment)
+          (body
+            (pass_statement)))))))
+
+=====================================
+Inline Comments in Match Block
+=====================================
+
+func test():
+	match 0: # match comment
+		1: # case comment
+			pass
+		_: # default comment
+			pass
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (match_statement
+        (integer)
+        (comment)
+        (match_body
+          (pattern_section
+            (integer)
+            (comment)
+            (body
+              (pass_statement)))
+          (pattern_section
+            (identifier)
+            (comment)
+            (body
+              (pass_statement))))))))
+
+=====================================
+Inline Comments in For Loop
+=====================================
+
+func test():
+	for i in 10: # for comment
+		pass
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (for_statement
+        (identifier)
+        (integer)
+        (comment)
+        (body
+          (pass_statement))))))
+
+=====================================
+Inline Comments in While Loop
+=====================================
+
+func test():
+	while false: # while comment
+		pass
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (while_statement
+        (false)
+        (comment)
+        (body
+          (pass_statement))))))
+
+=====================================
+Inline Comments in Lambda
+=====================================
+
+func test():
+	var lam = func(): # lambda comment
+		pass
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (variable_statement
+        (name)
+        (lambda
+          (parameters)
+          (comment)
+          (body
+            (pass_statement)))))))
+
+=====================================
+Inline Trailing Comments
+=====================================
+
+func test():
+	return # function trailing comment at end
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (return_statement)
+      (comment))))
+
+=====================================
+Inline Trailing Comments After Class Definition
+=====================================
+
+class MyClass:
+	pass # class trailing comment
+
+---
+
+(source
+  (class_definition
+    (name)
+    (class_body
+      (pass_statement)
+      (comment))))
+
+=====================================
+Inline Comments After Control Flow
+=====================================
+
+func test():
+	for x in y:
+		continue
+
+	# Comment
+	pass
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (for_statement
+        (identifier)
+        (identifier)
+        (body
+          (continue_statement)))
+      (comment)
+      (pass_statement))))
+
+=====================================
+Trailing Comments After Final Statement
+=====================================
+
+func test():
+  pass
+  # comment after final statement
+
+func test2():
+  pass
+  # another comment after final statement
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (pass_statement)
+      (comment)))
+  (function_definition
+      (name)
+      (parameters)
+      (body
+        (pass_statement)
+        (comment))))
+
+=====================================
+Comments: dedented comment in function body
+=====================================
+
+func test():
+	# properly indented comment
+# improperly indented comment
+	pass
+
+---
+
+(source   
+    (function_definition
+    (name)
+    (parameters)
+    (body        
+        (comment)
+        (comment)
+        (pass_statement))))

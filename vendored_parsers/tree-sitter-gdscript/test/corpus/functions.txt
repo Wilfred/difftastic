@@ -1,0 +1,169 @@
+============================================
+Functions: Variadic parameters
+============================================
+
+func sum(first_number: float, ...numbers: Array) -> float:
+	return 0.0
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type
+          (identifier)))
+      (variadic_parameter
+        (typed_parameter
+          (identifier)
+          (type
+            (identifier)))))
+    (type
+      (identifier))
+    (body
+      (return_statement
+        (float)))))
+
+============================================
+Functions: Generic types in parameters and return types
+============================================
+
+func process_data(items: Array[String], mapping: Dictionary[int, String]) -> Dictionary[String, int]:
+	pass
+
+func get_nodes() -> Array[Node]:
+	return []
+
+func store_values(data: Dictionary[String, float]):
+	pass
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type
+          (subscript
+            (identifier)
+            (subscript_arguments
+              (identifier)))))
+      (typed_parameter
+        (identifier)
+        (type
+          (subscript
+            (identifier)
+            (subscript_arguments
+              (identifier)
+              (identifier))))))
+    (type
+      (subscript
+        (identifier)
+        (subscript_arguments
+          (identifier)
+          (identifier))))
+    (body
+      (pass_statement)))
+  (function_definition
+    (name)
+    (parameters)
+    (type
+      (subscript
+        (identifier)
+        (subscript_arguments
+          (identifier))))
+    (body
+      (return_statement
+        (array))))
+  (function_definition
+    (name)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type
+          (subscript
+            (identifier)
+            (subscript_arguments
+              (identifier)
+              (identifier))))))
+    (body
+      (pass_statement))))
+
+============================================
+Functions: Type inference in function parameters
+============================================
+
+func set_avatar_at(at := AvatarAt.LEFT) -> void:
+	pass
+
+---
+
+(source
+  (function_definition
+    name: (name)
+    parameters: (parameters
+      (typed_default_parameter
+        (identifier)
+        type: (inferred_type)
+        value: (attribute
+          (identifier)
+          (identifier))))
+    return_type: (type
+      (identifier))
+    body: (body
+      (pass_statement))))
+
+============================================
+Functions: Type inference in multiple function parameters
+============================================
+
+func test(x := 10, y := "hello"):
+	pass
+
+---
+(source
+  (function_definition
+    name: (name)
+    parameters: (parameters
+      (typed_default_parameter
+        (identifier)
+        type: (inferred_type)
+        value: (integer))
+      (typed_default_parameter
+        (identifier)
+        type: (inferred_type)
+        value: (string)))
+    body: (body
+      (pass_statement))))
+
+============================================
+Callables: Calling a callable named tool
+============================================
+
+var tool = Callable()
+
+func test():
+	tool.call()
+
+---
+
+(source
+  (variable_statement
+    name: (name)
+    value: (call
+      (identifier)
+      arguments: (arguments)))
+  (function_definition
+    name: (name)
+    parameters: (parameters)
+    body: (body
+      (expression_statement
+        (attribute
+          (identifier)
+          (attribute_call
+            (identifier)
+            arguments: (arguments)))))))

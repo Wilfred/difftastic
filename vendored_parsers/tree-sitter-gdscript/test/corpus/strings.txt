@@ -1,0 +1,671 @@
+===============================================================
+Double-quoted regular string
+===============================================================
+
+"I used to be an adventurer like you."
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Double-quoted regular string containing escape sequence
+===============================================================
+
+"Then i \took an arrow in \the knee."
+
+---
+
+(source
+  (expression_statement
+    (string
+      (escape_sequence)
+      (escape_sequence))))
+
+===============================================================
+Double-quoted raw string
+===============================================================
+
+r"Wake up Mr. Freeman."
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Double-quoted raw string containing escape sequence
+===============================================================
+
+r"Wake up and smell \the ashes."
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Single-quoted regular string
+===============================================================
+
+'Would you kindly?'
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Single-quoted regular string containing escape sequence
+===============================================================
+
+'Wind\'s howling.'
+
+---
+
+(source
+  (expression_statement
+    (string (escape_sequence))))
+
+===============================================================
+Single-quoted raw string
+===============================================================
+
+r'Patrolling the Mojave almost makes you wish for a nuclear winter.'
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Single-quoted raw string containing escape sequence
+===============================================================
+
+r'Praise \the sun.'
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Triple double-quoted regular string
+===============================================================
+
+"""Snake?
+Snake?!
+SNAAAAKE!"""
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Triple double-quoted regular string containing escape sequence
+===============================================================
+
+"""It's \too dangerous \to go alone!
+            Take this."""
+
+---
+
+(source
+  (expression_statement
+    (string
+      (escape_sequence)
+      (escape_sequence))))
+
+===============================================================
+Triple double-quoted raw string
+===============================================================
+
+r"""Requiescat
+        in
+       pace."""
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Triple double-quoted raw string containing escape sequence
+===============================================================
+
+r"""Rip and \tear,
+      until it's done"""
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Triple single-quoted regular string
+===============================================================
+
+'''You must construct
+      additional pylons!'''
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Triple single-quoted regular string containing escape sequence
+===============================================================
+
+'''We\'re more ghost
+  \than people.'''
+
+---
+
+(source
+  (expression_statement
+    (string
+      (escape_sequence)
+      (escape_sequence))))
+
+===============================================================
+Triple single-quoted raw string
+===============================================================
+
+r'''Heroes
+    never
+    die!'''
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Triple single-quoted raw string containing escape sequence
+===============================================================
+
+r'''For
+   \the
+   a\\iance!'''
+
+---
+
+(source
+  (expression_statement
+    (string)))
+
+===============================================================
+Double-quoted string_name
+===============================================================
+
+&"Hadouken!"
+
+---
+
+(source
+  (expression_statement
+    (string_name)))
+
+===============================================================
+Double-quoted string_name containing escape sequence
+===============================================================
+
+&"No cost \too great."
+
+---
+
+(source
+  (expression_statement
+    (string_name (escape_sequence))))
+
+===============================================================
+Single-quoted string_name
+===============================================================
+
+&'Why do we fight?'
+
+---
+
+(source
+  (expression_statement
+    (string_name)))
+
+===============================================================
+Single-quoted string_name containing escape sequence
+===============================================================
+
+&'Cut off \their limbs!'
+
+---
+
+(source
+  (expression_statement
+    (string_name (escape_sequence))))
+
+===============================================================
+Triple double-quoted string_name
+===============================================================
+
+&"""It's a
+      mad world, kid."""
+
+---
+
+(source
+  (expression_statement
+    (string_name)))
+
+===============================================================
+Triple double-quoted string_name containing escape sequence
+===============================================================
+
+&"""And it's only
+    ge\t\ting madder."""
+
+---
+
+(source
+  (expression_statement
+    (string_name
+      (escape_sequence)
+      (escape_sequence))))
+
+===============================================================
+Triple single-quoted string_name
+===============================================================
+
+&'''I am
+    fragile'''
+
+---
+
+(source
+  (expression_statement
+    (string_name)))
+
+===============================================================
+Triple single-quoted string_name containing escape sequence
+===============================================================
+
+&'''but not
+    \that fragile.'''
+
+---
+
+(source
+  (expression_statement
+    (string_name (escape_sequence))))
+
+===============================================================
+Double-quoted node_path
+===============================================================
+
+^"./../Sandwich/makes/me:strong"
+
+---
+
+(source
+  (expression_statement
+    (node_path)))
+
+===============================================================
+Double-quoted node_path containing escape sequence
+===============================================================
+
+^"../../Ain't/no/rest/for/\the:wicked!"
+
+---
+
+(source
+  (expression_statement
+    (node_path (escape_sequence))))
+
+===============================================================
+Single-quoted node_path
+===============================================================
+
+^'Did/i/ever/tell/you/definition:of:insanity?'
+
+---
+
+(source
+  (expression_statement
+    (node_path)))
+
+===============================================================
+Single-quoted node_path containing escape sequence
+===============================================================
+
+^'You\'ve/met/with/a/terrible/fate:haven\'t:you?'
+
+---
+
+(source
+  (expression_statement
+    (node_path
+      (escape_sequence)
+      (escape_sequence))))
+
+===============================================================
+Triple double-quoted node_path
+===============================================================
+
+^"""We/stand/upon/the
+                     /precipice:of:change"""
+
+---
+
+(source
+  (expression_statement
+    (node_path)))
+
+===============================================================
+Triple double-quoted node_path containing escape sequence
+===============================================================
+
+^"""The/pas\t/is/a/puzzle
+                        /like/a/broken:mirror"""
+
+---
+
+(source
+  (expression_statement
+    (node_path (escape_sequence))))
+
+===============================================================
+Triple single-quoted node_path
+===============================================================
+
+^'''As/you/piece/it/together
+                            /you:cut/yourself'''
+
+---
+
+(source
+  (expression_statement
+    (node_path)))
+
+==============================================================
+Triple single-quoted node_path containing escape sequence
+==============================================================
+
+^'''Do/a/barrel
+               :ro\\'''
+
+---
+
+(source
+  (expression_statement
+    (node_path (escape_sequence))))
+
+==============================================================
+Unquoted get_node
+==============================================================
+
+$_We/all/start/with/innocence
+%But/the/world/leads/us/to/guilt_
+
+---
+
+(source
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node)))
+
+==============================================================
+Double-quoted get_node
+==============================================================
+
+$"0Your/health/is:low"
+%"0Do/you/any/potions/or:food?"
+
+---
+
+(source
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node)))
+
+==============================================================
+Double-quoted get_node containing escape sequence
+==============================================================
+
+$"\the/power:is:yours"
+%"\return/to\the/mission:"
+
+---
+
+(source
+  (expression_statement
+    (get_node (escape_sequence)))
+  (expression_statement
+    (get_node
+      (escape_sequence)
+      (escape_sequence))))
+
+==============================================================
+Single-quoted get_node
+==============================================================
+
+$'../They/call/me:zero'
+%'Because/i/am:nothing'
+
+---
+
+(source
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node)))
+
+==============================================================
+Single-quoted get_node containing escape sequence
+==============================================================
+
+$'People/don\'t/forget'
+%'Nothing/gets:\forgiven'
+
+---
+
+(source
+  (expression_statement
+    (get_node (escape_sequence)))
+  (expression_statement
+    (get_node (escape_sequence))))
+
+==============================================================
+Triple double-quoted get_node
+==============================================================
+
+$"""../A hunter
+              /is:hunter"""
+%"""./Even/in
+             /a:dream"""
+
+---
+
+(source
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node)))
+
+==============================================================
+Triple double-quoted get_node containing escape sequence
+==============================================================
+
+$"""This/was
+            /a:\triumph"""
+%"""I'm/making/a/no\te/here
+            /huge:success"""
+
+---
+
+(source
+  (expression_statement
+    (get_node (escape_sequence)))
+  (expression_statement
+    (get_node (escape_sequence))))
+
+
+==============================================================
+Triple single-quoted get_node
+==============================================================
+
+$'''Honor/
+          died'''
+%'''on/the
+          /beach'''
+
+---
+
+(source
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node)))
+
+==============================================================
+Triple single-quoted get_node containing escape sequence
+==============================================================
+
+$'''Stop/right:
+              \there'''
+%'''Crimina\\:
+              scum'''
+
+---
+
+(source
+  (expression_statement
+    (get_node (escape_sequence)))
+  (expression_statement
+    (get_node (escape_sequence))))
+
+==============================================================
+Extras and errors
+==============================================================
+
+# Somehow, these are perfectly valid.
+# Maybe a bug?
+# Probably because they look like literals but they aren't.
+$ _Fus/ro / dah
+%	You/are/finally/ \
+        awake
+
+# These are not valid.
+# It's because, there must be at least and at most one "/" symbol between the identifiers
+$Let me/guess
+%Someone//stole/your/sweetrool
+
+# Btw, $ nodepath supports "/" symbol at the begining
+$/i/m/not/even/angry
+
+# But % uniquenode does not.
+# (This might be a bug)
+%/open/your/eyes
+
+# These are valid too.
+$ "Why/did/i \
+/move:here?"
+%    "I/guess/it:was:\the \
+      :weather"
+$ 'Ah/s***'
+%  '../here/we/go: \
+again'
+$ """Here/come/the\test/results:"""
+% \
+"""You \
+are/a/horrible:person"""
+$ '''Punc/a\tree'''
+% '''\to/gather:wood'''
+
+# But these are not valid.
+# They should be a token.
+
+var v = & ""
+var v = & ''
+var v = & """"""
+var v = & ''''''
+var v = r ""
+var v = r ''
+var v = r """"""
+var v = r ''''''
+var v = ^ ""
+var v = ^ ''
+var v = ^ """"""
+var v = ^ ''''''
+
+---
+
+(source
+  (comment)
+  (comment)
+  (comment)
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node
+        (line_continuation)))
+  (comment)
+  (comment)
+  (expression_statement
+    (get_node (ERROR)))
+  (expression_statement
+    (get_node (ERROR)))
+  (comment)
+  (expression_statement
+    (get_node))
+  (comment)
+  (comment)
+  (expression_statement
+    (get_node (ERROR)))
+  (comment)
+  (expression_statement
+    (get_node (escape_sequence)))
+  (expression_statement
+    (get_node
+      (escape_sequence)
+      (escape_sequence)))
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node (escape_sequence)))
+  (expression_statement
+    (get_node (escape_sequence)))
+  (expression_statement
+    (get_node (escape_sequence)))
+  (expression_statement
+    (get_node (escape_sequence)))
+  (expression_statement
+    (get_node (escape_sequence)))
+  (comment)
+  (comment)
+  (variable_statement (name) (ERROR) (string))
+  (variable_statement (name) (ERROR) (string))
+  (variable_statement (name) (ERROR) (string))
+  (variable_statement (name) (ERROR) (string))
+  (variable_statement (name) (ERROR (identifier)) (string))
+  (variable_statement (name) (ERROR (identifier)) (string))
+  (variable_statement (name) (ERROR (identifier)) (string))
+  (variable_statement (name) (ERROR (identifier)) (string))
+  (variable_statement (name) (ERROR) (string))
+  (variable_statement (name) (ERROR) (string))
+  (variable_statement (name) (ERROR) (string))
+  (variable_statement (name) (ERROR) (string)))

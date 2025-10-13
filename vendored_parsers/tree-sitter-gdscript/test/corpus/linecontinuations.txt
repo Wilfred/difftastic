@@ -1,0 +1,148 @@
+===
+Syntax sugar line continuations
+===
+
+$get/node/\
+my/node
+
+%hello/ \
+world
+
+&"hello \
+world"
+
+---
+
+(source
+  (expression_statement
+    (get_node
+      (line_continuation)))
+  (expression_statement
+    (get_node
+      (line_continuation)))
+  (expression_statement
+    (string_name
+      (escape_sequence))))
+
+===
+Invalid syntax sugar line continuations
+===
+
+# This is invalid GDScript but I'm making the parser accept it for the sake of simplicity with line continuations
+$get\
+/node
+
+---
+
+(source
+  (comment)
+  (expression_statement
+    (get_node
+      (line_continuation))))
+
+===
+Line continuation in binary expressions
+===
+
+func _handles(resource):
+    return resource is NoiseTexture2D \
+    or resource is GradientTexture1D
+
+---
+
+(source
+  (function_definition
+    name: (name)
+    parameters: (parameters
+      (identifier))
+    body: (body
+      (return_statement
+        (binary_operator
+          left: (binary_operator
+            left: (identifier)
+            right: (identifier))
+          (line_continuation)
+          right: (binary_operator
+            left: (identifier)
+            right: (identifier)))))))
+
+===
+Line continuation in function calls
+===
+
+func _process(delta):
+    move_and_slide(velocity * \
+                    delta)
+
+---
+
+(source
+  (function_definition
+    name: (name)
+    parameters: (parameters
+      (identifier))
+    body: (body
+      (expression_statement
+        (call
+          (identifier)
+          arguments: (arguments
+            (binary_operator
+              left: (identifier)
+              (line_continuation)
+              right: (identifier))))))))
+
+===
+Line continuation in array literals
+===
+
+func test():
+	var array = [
+		1, \
+		2, \
+		3
+	]
+
+---
+
+(source
+  (function_definition
+    name: (name)
+    parameters: (parameters)
+    body: (body
+      (variable_statement
+        name: (name)
+        value: (array
+          (integer)
+          (line_continuation)
+          (integer)
+          (line_continuation)
+          (integer))))))
+
+===
+Line continuation in dictionary
+===
+
+func test():
+	var dict = {
+		"key": \
+		"value",
+		"key2": \
+		"value2"
+	}
+
+---
+
+(source
+  (function_definition
+    name: (name)
+    parameters: (parameters)
+    body: (body
+      (variable_statement
+        name: (name)
+        value: (dictionary
+          (pair
+            left: (string)
+            value: (string))
+          (pair
+            left: (string)
+            value: (string)))))))
