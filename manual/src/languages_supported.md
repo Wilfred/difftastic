@@ -53,7 +53,7 @@ with `difft --list-languages`.
 | Scheme          | [6cdh/tree-sitter-scheme](https://github.com/6cdh/tree-sitter-scheme)                             |
 | Smali           | [amaanq/tree-sitter-smali](https://github.com/amaanq/tree-sitter-smali)                           |
 | Solidity        | [JoranHonig/tree-sitter-solidity](https://github.com/JoranHonig/tree-sitter-solidity)             |
-| SQL             | [m-novikov/tree-sitter-sql](https://github.com/m-novikov/tree-sitter-sql)                         |
+| SQL             | [derekstride/tree-sitter-sql](https://github.com/derekstride/tree-sitter-sql)                         |
 | Swift           | [alex-pinkus/tree-sitter-swift](https://github.com/alex-pinkus/tree-sitter-swift)                 |
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)       |
 | Verilog         | [tree-sitter/tree-sitter-verilog](https://github.com/tree-sitter/tree-sitter-verilog)             |
