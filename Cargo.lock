@@ -315,6 +315,7 @@ dependencies = [
  "tree-sitter-rust-orchard",
  "tree-sitter-scala",
  "tree-sitter-scheme",
+ "tree-sitter-sequel",
  "tree-sitter-sfapex",
  "tree-sitter-solidity",
  "tree-sitter-swift",
@@ -1428,6 +1429,16 @@ name = "tree-sitter-scheme"
 version = "0.24.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8a7e7f156bdf38145f26705d1733185698845307d3e9d9c071ecce4375575131"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-sequel"
+version = "0.3.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9d198ad3c319c02e43c21efa1ec796b837afcb96ffaef1a40c1978fbdcec7d17"
 dependencies = [
  "cc",
  "tree-sitter-language",

@@ -253,6 +253,9 @@ sample_files/slow_1.rs sample_files/slow_2.rs
 sample_files/small_1.js sample_files/small_2.js
 86b1132b6c17fcc2cbec65b1c248baa9  -
 
+sample_files/sql_1.sql sample_files/sql_2.sql
+ee54ee3f974aa54c8bdfc2b9075824f2  -
+
 sample_files/string_subwords_1.el sample_files/string_subwords_2.el
 b66e960672189960c2d35ef68b47a195  -
 
