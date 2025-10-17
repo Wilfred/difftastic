@@ -27,8 +27,9 @@ pub(crate) fn all_matched_lines_filled(
 /// Extend `matched_lines` to include the leading and trailing lines
 /// in the file.
 ///
-/// If the leading or trailing lines are blank, we won't have any
-/// MatchedPos values corresponding with those lines.
+/// This is useful when the file contains blank lines at the beginning
+/// or end. Those lines won't have MatchedPos values associated with
+/// them, but we still want to match them up.
 fn add_ends(
     matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
     lhs_lines: &[&str],
