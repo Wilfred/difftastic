@@ -105,7 +105,7 @@ By default, difftastic falls back to a line-oriented diff whenever
 parse errors are encountered.
 
 This is a conservative choice to ensure that difftastic never claims
-two syntactically different files are the same.
+that two syntactically different files are the same.
 
 Parse errors can occur if the file uses language features that the
 parser does not understand, if the language relies on a preprocessor
