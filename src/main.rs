@@ -59,6 +59,7 @@ mod words;
 #[macro_use]
 extern crate log;
 
+use crossterm::tty::IsTty as _;
 use display::style::print_warning;
 use log::info;
 use options::FilePermissions;
@@ -518,7 +519,12 @@ fn diff_conflicts_file(
 
     if conflict_files.num_conflicts == 0 {
         eprintln!(
-            "error: Difftastic requires two paths, or a single file with conflict markers {}.\n",
+            "{}: Difftastic requires two paths, or a single file with conflict markers {}.\n",
+            if std::io::stdout().is_tty() {
+                "error".red().bold().to_string()
+            } else {
+                "error".to_owned()
+            },
             START_LHS_MARKER,
         );
 

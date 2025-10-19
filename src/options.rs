@@ -958,7 +958,12 @@ pub(crate) fn parse_args() -> Mode {
         _ => {
             if !args.is_empty() {
                 eprintln!(
-                    "error: Difftastic does not support being called with {} argument{}.\n",
+                    "{}: Difftastic does not support being called with {} argument{}.\n",
+                    if use_color {
+                        "error".red().bold().to_string()
+                    } else {
+                        "error".to_owned()
+                    },
                     args.len(),
                     if args.len() == 1 { "" } else { "s" }
                 );
