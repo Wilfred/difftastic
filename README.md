@@ -14,22 +14,23 @@ their syntax.
 [Installation](https://difftastic.wilfred.me.uk/installation.html) in
 [the manual](http://difftastic.wilfred.me.uk/).**
 
-## Basic Example
+## Examples
 
-![Screenshot of difftastic and JS](img/js.png)
+![Screenshot of difftastic and Rust](img/wrap_expr.png)
 
-In this JavaScript example, we can see:
+^ Difftastic understands exactly which pieces of syntax has changed,
+and can highlight them in context.
 
-(1) Difftastic understands nesting. It highlights the matching `{` and
-`}`, but understands that `foo()` hasn't changed despite the leading
-whitespace.
+![Screenshot of difftastic and HTML](img/html.png)
 
-(2) Difftastic understands which lines should be aligned. It's aligned
-`bar(1)` on the left with `bar(2)` on the right, even though the
-textual content isn't identical.
+^ Difftastic understands when whitespace matters, and when it's just
+an indentation change.
 
-(3) Difftastic understands that line-wrapping isn't
-meaningful. `"eric"` is now on a new line, but it hasn't changed.
+![Screenshot of difftastic and JS](img/reformat.png)
+
+^ Difftastic is not line-oriented. If you reformat your code and it's
+now split over multiple lines, difftastic will show you what's
+actually changed.
 
 ## One Minute Demo
 
@@ -73,15 +74,6 @@ tool](https://mergiraf.org/) ("merge giraffe"), which does do AST
 merging.
 
 ## FAQ
-
-### Isn't this basically `--word-diff --ignore-all-space`?
-
-Word diffing [can't do
-this](https://twitter.com/_wilfredh/status/1510139929971421191/photo/1).
-
-Difftastic parses your code. It understands when whitespace matters,
-such as inside string literals or languages like Python. It understands
-that `x-1` is three tokens in JS but one token in Lisp.
 
 ### Can I use difftastic with git?
 
