@@ -32,12 +32,11 @@ an indentation change.
 now split over multiple lines, difftastic will show you what's
 actually changed.
 
-## One Minute Demo
+![Screenshot of difftastic and git](img/git.png)
 
-[![asciicast](https://asciinema.org/a/480875.svg)](https://asciinema.org/a/480875)
-
-This one minute screencast demonstrates difftastic usage with both
-standalone files and git.
+^ Difftastic is compatible with git (see [the configuration
+instructions](http://difftastic.wilfred.me.uk/git.html)), as well as
+many other version control systems.
 
 ## Languages
 
