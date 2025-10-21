@@ -974,11 +974,31 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 match summary.has_byte_changes {
                     Some((lhs_len, rhs_len)) => {
                         let format_options = FormatSizeOptions::from(BINARY).decimal_places(1);
-                        println!(
-                            "Binary contents changed (old: {}, new: {}).\n",
-                            &format_size(lhs_len, format_options),
-                            &format_size(rhs_len, format_options),
-                        )
+
+                        if lhs_len == 0 {
+                            // Strictly speaking this is wrong:
+                            // previously we may have had an empty but
+                            // existent file. In that case, it's a
+                            // file modification instead of a file
+                            // creation.
+                            //
+                            // TODO: Fix this pedantic case.
+                            println!(
+                                "Binary file added ({}).\n",
+                                &format_size(rhs_len, format_options),
+                            )
+                        } else if rhs_len == 0 {
+                            println!(
+                                "Binary file removed ({}).\n",
+                                &format_size(lhs_len, format_options),
+                            )
+                        } else {
+                            println!(
+                                "Binary file modified (old: {}, new: {}).\n",
+                                &format_size(lhs_len, format_options),
+                                &format_size(rhs_len, format_options),
+                            )
+                        }
                     }
                     None => println!("No changes.\n"),
                 }

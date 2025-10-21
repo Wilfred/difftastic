@@ -57,7 +57,7 @@ fn binary_changed() {
         .arg("img/logo.png")
         .arg("/dev/null");
 
-    let predicate_fn = predicate::str::contains("Binary contents changed");
+    let predicate_fn = predicate::str::contains("Binary file removed");
     cmd.assert().stdout(predicate_fn);
 }
 
@@ -68,7 +68,7 @@ fn binary_override() {
     cmd.arg("--override-binary=*.js")
         .arg("sample_files/simple_1.js")
         .arg("sample_files/simple_2.js");
-    let predicate_fn = predicate::str::contains("Binary contents changed");
+    let predicate_fn = predicate::str::contains("Binary file modified");
     cmd.assert().stdout(predicate_fn);
 }
 
