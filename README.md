@@ -44,7 +44,7 @@ Difftastic supports over 30 programming languages, see [the
 manual](https://difftastic.wilfred.me.uk/languages_supported.html) for the full list.
 
 If a file has an unrecognised extension, difftastic uses a
-textual diff with word highlighting.
+line-oriented diff with word highlighting.
 
 ## Known Issues
 
@@ -200,4 +200,4 @@ the `vendored_parsers/` directory. These are a mix of the MIT license and the
 Apache license. See `vendored_parsers/*/LICENSE` for more details.
 
 Files in `sample_files/` are also under the MIT license unless stated
-otherwise in their header.
+otherwise in their headers.
