@@ -457,6 +457,19 @@ pub(crate) fn print_warning(s: &str, display_options: &DisplayOptions) {
     eprint!("{}\n\n", s);
 }
 
+/// Style `s` as an error and write to stderr.
+pub(crate) fn print_error(s: &str, use_color: bool) {
+    // TODO: this is inconsistent with print_warning regarding
+    // arguments and trailing whitespace.
+    let prefix = if use_color {
+        "error: ".red().bold().to_string()
+    } else {
+        "error: ".to_owned()
+    };
+
+    eprintln!("{}{}", prefix, s);
+}
+
 pub(crate) fn apply_line_number_color(
     s: &str,
     is_novel: bool,

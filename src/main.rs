@@ -59,7 +59,6 @@ mod words;
 #[macro_use]
 extern crate log;
 
-use crossterm::tty::IsTty as _;
 use display::style::print_warning;
 use log::info;
 use options::FilePermissions;
@@ -72,6 +71,7 @@ use crate::diff::dijkstra::ExceededGraphLimit;
 use crate::diff::{dijkstra, unchanged};
 use crate::display::context::opposite_positions;
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
+use crate::display::style::print_error;
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
 use crate::exit_codes::{EXIT_FOUND_CHANGES, EXIT_SUCCESS};
 use crate::files::{
@@ -500,7 +500,10 @@ fn diff_conflicts_file(
     let mut src = match guess_content(&bytes, path, binary_overrides) {
         ProbableFileKind::Text(src) => src,
         ProbableFileKind::Binary => {
-            eprintln!("error: Expected a text file with conflict markers, got a binary file.");
+            print_error(
+                "Expected a text file with conflict markers, got a binary file.",
+                display_options.use_color,
+            );
             std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     };
@@ -512,20 +515,22 @@ fn diff_conflicts_file(
     let conflict_files = match apply_conflict_markers(&src) {
         Ok(cf) => cf,
         Err(msg) => {
-            eprintln!("error: {}", msg);
+            print_error(&msg, display_options.use_color);
             std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     };
 
     if conflict_files.num_conflicts == 0 {
-        eprintln!(
-            "{}: Difftastic requires two paths, or a single file with conflict markers {}.\n",
-            if std::io::stdout().is_tty() {
-                "error".red().bold().to_string()
-            } else {
-                "error".to_owned()
-            },
-            START_LHS_MARKER,
+        print_error(
+            &format!(
+                "Difftastic requires two paths, or a single file with conflict markers {}.\n",
+                if display_options.use_color {
+                    START_LHS_MARKER.bold().to_string()
+                } else {
+                    START_LHS_MARKER.to_owned()
+                }
+            ),
+            display_options.use_color,
         );
 
         eprintln!("USAGE:\n\n    {}\n", USAGE);

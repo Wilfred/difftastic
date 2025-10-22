@@ -12,7 +12,7 @@ use crossterm::tty::IsTty;
 use owo_colors::OwoColorize as _;
 
 use crate::{
-    display::style::BackgroundColor,
+    display::style::{print_error, BackgroundColor},
     exit_codes::EXIT_BAD_ARGUMENTS,
     parse::guess_language::{language_override_from_name, LanguageOverride},
     version::VERSION,
@@ -957,15 +957,13 @@ pub(crate) fn parse_args() -> Mode {
         }
         _ => {
             if !args.is_empty() {
-                eprintln!(
-                    "{}: Difftastic does not support being called with {} argument{}.\n",
-                    if use_color {
-                        "error".red().bold().to_string()
-                    } else {
-                        "error".to_owned()
-                    },
-                    args.len(),
-                    if args.len() == 1 { "" } else { "s" }
+                print_error(
+                    &format!(
+                        "Difftastic does not support being called with {} argument{}.\n",
+                        args.len(),
+                        if args.len() == 1 { "" } else { "s" }
+                    ),
+                    use_color,
                 );
             }
             eprintln!("USAGE:\n\n    {}\n", USAGE);
