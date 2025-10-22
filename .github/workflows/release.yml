@@ -28,10 +28,10 @@ jobs:
           # Targets that match the OS of the runner.
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-22.04
-          - target: x86_64-apple-darwin
-            os: macos-13
           - target: x86_64-pc-windows-msvc
             os: windows-latest
+          - target: aarch64-apple-darwin
+            os: macos-latest
 
           # Targets using cross-compilation (upload-rust-binary-action
           # detects that they need cross).
@@ -39,10 +39,10 @@ jobs:
             os: ubuntu-22.04
           - target: aarch64-unknown-linux-gnu
             os: ubuntu-22.04
-          - target: aarch64-apple-darwin
-            os: macos-latest
           - target: aarch64-pc-windows-msvc
             os: windows-latest
+          - target: x86_64-apple-darwin
+            os: macos-latest
     runs-on: ${{ matrix.os }}
     steps:
       # v4.2.2
