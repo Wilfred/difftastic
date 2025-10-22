@@ -110,3 +110,19 @@ jobs:
       - uses: raven-actions/actionlint@v2
         with:
           shellcheck: false
+
+  typo-check:
+    name: Typo Check
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    env:
+      FORCE_COLOR: 1
+      TYPOS_VERSION: v1.38.1
+    steps:
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Download typos
+        run: curl -LsSf https://github.com/crate-ci/typos/releases/download/$TYPOS_VERSION/typos-$TYPOS_VERSION-x86_64-unknown-linux-musl.tar.gz | tar zxf - -C ${CARGO_HOME:-~/.cargo}/bin
+      - name: Check for typos
+        run: typos
+
