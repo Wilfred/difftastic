@@ -38,7 +38,7 @@ actually changed.
 instructions](http://difftastic.wilfred.me.uk/git.html)), as well as
 many other version control systems.
 
-## Languages
+## Languages Supported
 
 Difftastic supports over 30 programming languages, see [the
 manual](https://difftastic.wilfred.me.uk/languages_supported.html) for the full list.
