@@ -307,8 +307,8 @@ ca98b4d14fc21e0f04cf24aeb3d2526c  -
 sample_files/whitespace_1.tsx sample_files/whitespace_2.tsx
 6449f177ecbaadbbf97d2eedfbf26f16  -
 
-sample_files/windows_1251_1.txt sample_files/windows_2251_1.txt
-d41d8cd98f00b204e9800998ecf8427e  -
+sample_files/windows1251_1.txt sample_files/windows1251_2.txt
+9ebe6bb440ac2e630f889827b98d4714  -
 
 sample_files/xml_1.xml sample_files/xml_2.xml
 e629cbd2e721fd249c7ce1626f17e953  -
