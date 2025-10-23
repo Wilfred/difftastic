@@ -1,0 +1,104 @@
+============================================
+Inner Class: Test basic class with function
+============================================
+
+class Name:
+  func hello(): pass
+
+---
+
+(source
+  (class_definition (name)
+    (class_body
+      (function_definition (name) (parameters)
+        (body (pass_statement))))))
+
+============================================
+Inner Class: Test class with extends on one line and function
+============================================
+
+class Name extends Type:
+  func hello(): pass
+
+---
+
+(source
+  (class_definition (name) (extends_statement (type (identifier)))
+    (class_body
+      (function_definition (name) (parameters)
+        (body (pass_statement))))))
+
+============================================
+Inner Class: Test class with extends only
+============================================
+
+class Name:
+  extends Type
+
+---
+
+(source
+  (class_definition (name)
+    (class_body
+      (extends_statement (type (identifier))))))
+
+============================================
+Inner Class: Inner class with function definition on the same line
+============================================
+
+class C: func test(x):
+    print(x)
+
+---
+
+(source
+  (class_definition
+  name: (name)
+  body: (class_body
+    (function_definition
+    name: (name)
+    parameters: (parameters
+      (identifier))
+    body: (body
+      (expression_statement
+      (call
+        (identifier)
+        arguments: (arguments
+        (identifier)))))))))
+
+============================================
+Inner Class: Inner class with variable declaration on the same line
+============================================
+
+class MyClass: var x = 10
+
+---
+
+(source
+  (class_definition
+  name: (name)
+  body: (class_body
+    (variable_statement
+    name: (name)
+    value: (integer)))))
+
+============================================
+Inner Class: Inner class with static function definition on the same line
+============================================
+
+class Helper: static func utility():
+    return true
+
+---
+
+(source
+  (class_definition
+  name: (name)
+  body: (class_body
+    (function_definition
+    (static_keyword)
+    name: (name)
+    parameters: (parameters)
+    body: (body
+      (return_statement
+      (true)))))))

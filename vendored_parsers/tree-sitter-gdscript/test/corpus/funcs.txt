@@ -1,0 +1,20 @@
+============================================
+Annotations and keywords
+============================================
+
+@outside
+@inside static func hello():
+	pass
+
+---
+
+(source
+  (annotation (identifier))
+  (function_definition
+  (annotations
+    (annotation (identifier)))
+  (static_keyword)
+  (name)
+  (parameters)
+  (body
+    (pass_statement))))

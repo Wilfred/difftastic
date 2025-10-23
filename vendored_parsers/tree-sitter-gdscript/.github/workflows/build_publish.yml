@@ -1,0 +1,73 @@
+# This workflow will
+# - test tree sitter grammar
+# - upload build native binaries as an artifact for each major platform
+# - download artifacts for each major platform and bundle them to be published
+#   to npm
+# when a new version tag is pushed to the master branch.
+name: Test Build Publish
+
+on:
+  push:
+    tags: [v*]
+
+jobs:
+
+  build_native_binaries:
+    strategy:
+      matrix:
+        # Use macos-14 for arm, however the artifact upload name conflicts with
+        # macos-latest. There's probably a way to crossbuild for arm with
+        # prebuildify.
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      # Why is npm only occassionally installing peer dependencies?
+      # I cannot get consistent peer dependency installs with the same command runs.
+      # Should I always explicitly run npm i tree-sitter? The general consensus is yes.
+      # But then, why does it install peer deps sometimes?
+      - run: |
+          node --version
+          npm --version
+      - run: npm ci --include=peer --include=optional --include=dev
+      - run: npm i tree-sitter
+      - run: npm run versions
+      - run: npm test
+      - run: npm run prebuild
+      # upload-artifact@v4 requires each artifact name to be unique.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prebuilds-${{ matrix.os }}
+          path: prebuilds
+          retention-days: 1
+
+
+  publish_npm:
+    needs: build_native_binaries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          # https://docs.github.com/en/actions/use-cases-and-examples/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
+          # https://github.com/actions/setup-node/issues/342
+          # This is required to publish to npm.
+          registry-url: 'https://registry.npmjs.org'
+      - run: |
+          node --version
+          npm --version
+      - run: npm ci
+      # Download all artifacts and merge into prebuilds dir.
+      - uses: actions/download-artifact@v4
+        with:
+          path: prebuilds
+          pattern: prebuilds-*
+          merge-multiple: true
+      - run: ls -R prebuilds
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

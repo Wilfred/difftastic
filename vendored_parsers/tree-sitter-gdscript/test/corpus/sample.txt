@@ -1,0 +1,50 @@
+=====================================
+Sample - GDScript 1
+=====================================
+
+extends Node2D
+class_name CustomNode, "icon_path"
+
+class Data extends Resource:
+        var source: DataSource
+
+        func process_source() -> ProcessedSource:
+                if source.is_processable():
+                        var processed = ProcessedSource.new(source)
+                        return processed
+                return null
+
+func _ready():
+        for i in range(100):
+                var child = Node.new()
+                child.name = str("Name-", i)
+                add_child(child)
+
+---
+
+(source
+  (extends_statement (type (identifier)))
+  (class_name_statement (name) (string))
+  (class_definition (name) (extends_statement (type (identifier)))
+    (class_body
+      (variable_statement (name) (type (identifier)))
+      (function_definition (name) (parameters) (type (identifier))
+        (body
+          (if_statement (attribute (identifier) (attribute_call (identifier) (arguments)))
+            (body
+              (variable_statement (name)
+                (attribute (identifier) (attribute_call (identifier) (arguments (identifier)))))
+              (return_statement (identifier))))
+          (return_statement (null))))))
+  (function_definition (name) (parameters)
+    (body
+      (for_statement (identifier) (call (identifier) (arguments (integer)))
+        (body
+          (variable_statement (name)
+            (attribute (identifier) (attribute_call (identifier) (arguments))))
+          (expression_statement
+            (assignment
+              (attribute (identifier) (identifier))
+              (call (identifier) (arguments (string) (identifier)))))
+          (expression_statement
+            (call (identifier) (arguments (identifier)))))))))
