@@ -2,7 +2,9 @@
 
 ### Parsing
 
-Added support for protocol buffer files. Updated CMake, Solidity, HCL, Dart, Elm, Devicetree, Gleam, Newick, Racket, Scheme, Ada, SQL, QMLJS and R parsers.
+Added support for protocol buffer files. Updated CMake, Solidity, HCL,
+Dart, Elm, Devicetree, Gleam, Newick, Racket, Scheme, Ada, SQL, QMLJS
+and R parsers.
 
 ### Display
 
