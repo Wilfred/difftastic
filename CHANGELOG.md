@@ -8,6 +8,10 @@ and R parsers.
 
 Improved handling of variable names `$foo` in shell scripts.
 
+### Diffing
+
+Improved subword highlighting for words with hyphens.
+
 ### Display
 
 Difftastic is now smarter about calculating the display width for
