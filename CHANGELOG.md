@@ -6,6 +6,8 @@ Added support for protocol buffer files. Updated CMake, Solidity, HCL,
 Dart, Elm, Devicetree, Gleam, Newick, Racket, Scheme, Ada, SQL, QMLJS
 and R parsers.
 
+Improved handling of variable names `$foo` in shell scripts.
+
 ### Display
 
 Difftastic is now smarter about calculating the display width for

@@ -146,7 +146,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "raw_string", "heredoc_body"]
+                atom_nodes: ["string", "raw_string", "heredoc_body", "simple_expansion"]
                     .into_iter()
                     .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
