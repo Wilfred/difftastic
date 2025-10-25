@@ -5,7 +5,7 @@ use std::hash::Hash;
 
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::diff::lcs_diff;
-use crate::hash::DftHashSet;
+use crate::hash::{DftHashMap, DftHashSet};
 use crate::parse::syntax::{ContentId, Syntax};
 
 const TINY_TREE_THRESHOLD: u32 = 10;
@@ -18,9 +18,12 @@ pub(crate) fn mark_unchanged<'a>(
     rhs_nodes: &[&'a Syntax<'a>],
     change_map: &mut ChangeMap<'a>,
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
-    let (_, lhs_nodes, rhs_nodes) = shrink_unchanged_at_ends(lhs_nodes, rhs_nodes, change_map);
+    // let (_, lhs_nodes, rhs_nodes) = shrink_unchanged_at_ends(lhs_nodes, rhs_nodes, change_map);
 
     let mut nodes_to_diff = vec![];
+
+    split_on_matching_run(&lhs_nodes, &rhs_nodes);
+
     for (lhs_nodes, rhs_nodes) in split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes) {
         let (_, lhs_nodes, rhs_nodes) =
             shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, change_map);
@@ -175,6 +178,96 @@ fn is_mostly_unchanged_list(lhs: &Syntax, rhs: &Syntax) -> bool {
         }
         _ => false,
     }
+}
+
+fn split_on_matching_run<'a>(lhs_nodes: &[&'a Syntax<'a>], rhs_nodes: &[&'a Syntax<'a>]) {
+    let unique_and_both_sides = roots_present_once_both_sides(lhs_nodes, rhs_nodes);
+
+    let lhs_deep_node_count = deep_node_count(lhs_nodes);
+
+    let mut last_match_i: Option<usize> = None;
+
+    let mut i = 0;
+    while i < dbg!(lhs_nodes.len()) {
+        let lhs_node = lhs_nodes[i];
+        if unique_and_both_sides.contains(&lhs_node.content_id()) {
+            let first_match_i = i;
+
+            let mut j = 0;
+            let mut found_first_match = false;
+
+            while i < lhs_nodes.len() && j < rhs_nodes.len() {
+                let lhs_node = lhs_nodes[i];
+                let rhs_node = rhs_nodes[j];
+                if lhs_node.content_id() == rhs_node.content_id() {
+                    if !found_first_match {
+                        found_first_match = true;
+                    }
+                    i += 1;
+                    j += 1;
+                } else {
+                    if found_first_match {
+                        last_match_i = Some(i);
+                        i += 1;
+                        break;
+                    } else {
+                        j += 1;
+                    }
+                }
+            }
+
+            if let Some(last_match_i) = last_match_i {
+                let deep_nodes_in_range =
+                    deep_node_count(&lhs_nodes[dbg!(first_match_i)..=dbg!(last_match_i)]);
+
+                dbg!(deep_nodes_in_range);
+                dbg!(lhs_deep_node_count);
+            }
+        }
+    }
+
+    println!("done")
+}
+
+fn deep_node_count(nodes: &[&Syntax<'_>]) -> usize {
+    let mut count = 0;
+    for node in nodes {
+        count += 1;
+        if let Syntax::List { children, .. } = node {
+            count += deep_node_count(children);
+        }
+    }
+    count
+}
+
+fn roots_present_once_both_sides(
+    lhs_nodes: &[&Syntax<'_>],
+    rhs_nodes: &[&Syntax<'_>],
+) -> DftHashSet<ContentId> {
+    let mut lhs_counts: DftHashMap<ContentId, usize> = DftHashMap::default();
+    for lhs_node in lhs_nodes {
+        *lhs_counts.entry(lhs_node.content_id()).or_default() += 1;
+    }
+
+    let mut rhs_counts: DftHashMap<ContentId, usize> = DftHashMap::default();
+    for rhs_node in rhs_nodes {
+        *rhs_counts.entry(rhs_node.content_id()).or_default() += 1;
+    }
+
+    let lhs_unique_nodes = lhs_counts
+        .iter()
+        .filter_map(|(content_id, count)| if *count == 1 { Some(*content_id) } else { None })
+        .collect::<DftHashSet<_>>();
+
+    let rhs_unique_nodes = rhs_counts
+        .iter()
+        .filter_map(|(content_id, count)| if *count == 1 { Some(*content_id) } else { None })
+        .collect::<DftHashSet<_>>();
+
+    lhs_unique_nodes
+        .intersection(&rhs_unique_nodes)
+        .cloned()
+        .collect()
 }
 
 /// Split out top-level lists that are largely the same.
