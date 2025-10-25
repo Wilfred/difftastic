@@ -48,6 +48,8 @@ impl fmt::Debug for ChangeKind<'_> {
 
 pub(crate) type SyntaxId = NonZeroU32;
 
+pub(crate) type ContentId = u32;
+
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub(crate) struct SyntaxInfo<'a> {
     /// The previous node with the same parent as this one.
@@ -69,7 +71,7 @@ pub(crate) struct SyntaxInfo<'a> {
     /// diff, or nodes at different positions.
     ///
     /// Values are sequential, not hashes. Collisions never occur.
-    content_id: Cell<u32>,
+    content_id: Cell<ContentId>,
     /// Is this the only node with this content? Ignores nodes on the
     /// other side.
     content_is_unique: Cell<bool>,
@@ -298,7 +300,7 @@ impl<'a> Syntax<'a> {
     /// A content ID of this syntax node. Two nodes have the same
     /// content ID if they have the same content, regardless of
     /// position.
-    pub(crate) fn content_id(&self) -> u32 {
+    pub(crate) fn content_id(&self) -> ContentId {
         self.info().content_id.get()
     }
 
@@ -507,7 +509,7 @@ fn set_unique_id(nodes: &[&Syntax], next_id: &mut SyntaxId) {
 }
 
 /// Assumes that `set_content_id` has already run.
-fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut DftHashMap<u32, usize>) {
+fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut DftHashMap<ContentId, usize>) {
     for node in nodes {
         *counts.entry(node.content_id()).or_insert(0) += 1;
         if let List { children, .. } = node {
@@ -516,7 +518,7 @@ fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut DftHashMap<u32
     }
 }
 
-fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &DftHashMap<u32, usize>) {
+fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &DftHashMap<ContentId, usize>) {
     for node in nodes {
         let count = counts
             .get(&node.content_id())
