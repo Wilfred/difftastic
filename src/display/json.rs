@@ -36,7 +36,7 @@ impl<'f> File<'f> {
         language: &'f FileFormat,
         path: &'f str,
         chunks: Vec<Vec<Line<'f>>>,
-    ) -> File<'f> {
+    ) -> Self {
         File {
             language,
             path,
@@ -45,7 +45,7 @@ impl<'f> File<'f> {
         }
     }
 
-    fn with_status(language: &'f FileFormat, path: &'f str, status: Status) -> File<'f> {
+    fn with_status(language: &'f FileFormat, path: &'f str, status: Status) -> Self {
         File {
             language,
             path,
@@ -201,7 +201,7 @@ struct Line<'l> {
 }
 
 impl<'l> Line<'l> {
-    fn new(lhs_number: Option<u32>, rhs_number: Option<u32>) -> Line<'l> {
+    fn new(lhs_number: Option<u32>, rhs_number: Option<u32>) -> Self {
         Line {
             lhs: lhs_number.map(Side::new),
             rhs: rhs_number.map(Side::new),
@@ -216,7 +216,7 @@ struct Side<'s> {
 }
 
 impl<'s> Side<'s> {
-    fn new(line_number: u32) -> Side<'s> {
+    fn new(line_number: u32) -> Self {
         Side {
             line_number,
             changes: Vec::new(),
@@ -259,15 +259,15 @@ impl Highlight {
         };
 
         match highlight {
-            TokenKind::Delimiter => Highlight::Delimiter,
+            TokenKind::Delimiter => Self::Delimiter,
             TokenKind::Atom(atom) => match atom {
-                AtomKind::String(StringKind::StringLiteral) => Highlight::String,
-                AtomKind::String(StringKind::Text) => Highlight::Normal,
-                AtomKind::Keyword => Highlight::Keyword,
-                AtomKind::Comment => Highlight::Comment,
-                AtomKind::Type => Highlight::Type,
-                AtomKind::Normal => Highlight::Normal,
-                AtomKind::TreeSitterError => Highlight::TreeSitterError,
+                AtomKind::String(StringKind::StringLiteral) => Self::String,
+                AtomKind::String(StringKind::Text) => Self::Normal,
+                AtomKind::Keyword => Self::Keyword,
+                AtomKind::Comment => Self::Comment,
+                AtomKind::Type => Self::Type,
+                AtomKind::Normal => Self::Normal,
+                AtomKind::TreeSitterError => Self::TreeSitterError,
             },
         }
     }

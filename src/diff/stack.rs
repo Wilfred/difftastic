@@ -24,11 +24,11 @@ impl<'b, T> Stack<'b, T> {
         self.head.map(|n| &n.val)
     }
 
-    pub(crate) fn pop(&self) -> Option<Stack<'b, T>> {
+    pub(crate) fn pop(&self) -> Option<Self> {
         self.head.map(|n| Self { head: n.next })
     }
 
-    pub(crate) fn push(&self, v: T, alloc: &'b Bump) -> Stack<'b, T> {
+    pub(crate) fn push(&self, v: T, alloc: &'b Bump) -> Self {
         Self {
             head: Some(alloc.alloc(Node {
                 val: v,

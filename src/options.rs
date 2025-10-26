@@ -398,7 +398,7 @@ pub(crate) enum FileArgument {
 impl FileArgument {
     pub(crate) fn permissions(&self) -> Option<FilePermissions> {
         match self {
-            FileArgument::NamedPath(path) => {
+            Self::NamedPath(path) => {
                 // When used with `git difftool`, the first argument
                 // is a temporary file that always has the same
                 // permissions. That doesn't mean the file permissions
@@ -410,8 +410,8 @@ impl FileArgument {
                 let metadata = std::fs::metadata(path).ok()?;
                 Some(metadata.permissions().into())
             }
-            FileArgument::Stdin => None,
-            FileArgument::DevNull => None,
+            Self::Stdin => None,
+            Self::DevNull => None,
         }
     }
 }
@@ -484,11 +484,11 @@ impl FileArgument {
     /// argument.
     pub(crate) fn from_cli_argument(arg: &OsStr) -> Self {
         if arg == "/dev/null" {
-            FileArgument::DevNull
+            Self::DevNull
         } else if arg == "-" {
-            FileArgument::Stdin
+            Self::Stdin
         } else {
-            FileArgument::NamedPath(PathBuf::from(arg))
+            Self::NamedPath(PathBuf::from(arg))
         }
     }
 
@@ -497,9 +497,9 @@ impl FileArgument {
     pub(crate) fn from_path_argument(arg: &OsStr) -> Self {
         // For new and deleted files, Git passes `/dev/null` as the reference file.
         if arg == "/dev/null" {
-            FileArgument::DevNull
+            Self::DevNull
         } else {
-            FileArgument::NamedPath(PathBuf::from(arg))
+            Self::NamedPath(PathBuf::from(arg))
         }
     }
 }
@@ -507,11 +507,11 @@ impl FileArgument {
 impl Display for FileArgument {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            FileArgument::NamedPath(path) => {
+            Self::NamedPath(path) => {
                 write!(f, "{}", relative_to_current(path).display())
             }
-            FileArgument::Stdin => write!(f, "(stdin)"),
-            FileArgument::DevNull => write!(f, "/dev/null"),
+            Self::Stdin => write!(f, "(stdin)"),
+            Self::DevNull => write!(f, "/dev/null"),
         }
     }
 }

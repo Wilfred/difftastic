@@ -27,10 +27,10 @@ pub(crate) enum FileFormat {
 impl Display for FileFormat {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            FileFormat::SupportedLanguage(language) => write!(f, "{}", language_name(*language)),
-            FileFormat::PlainText => write!(f, "Text"),
-            FileFormat::TextFallback { reason } => write!(f, "Text ({})", reason),
-            FileFormat::Binary => write!(f, "Binary"),
+            Self::SupportedLanguage(language) => write!(f, "{}", language_name(*language)),
+            Self::PlainText => write!(f, "Text"),
+            Self::TextFallback { reason } => write!(f, "Text ({})", reason),
+            Self::Binary => write!(f, "Binary"),
         }
     }
 }

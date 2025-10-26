@@ -66,7 +66,7 @@ impl Hunk {
             ));
         }
 
-        Hunk {
+        Self {
             novel_lhs: self.novel_lhs.union(&other.novel_lhs).copied().collect(),
             novel_rhs: self.novel_rhs.union(&other.novel_rhs).copied().collect(),
             lines: deduped_lines,
