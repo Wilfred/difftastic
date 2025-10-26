@@ -39,13 +39,7 @@ impl<'b, T> Stack<'b, T> {
 
     // O(n)
     pub(crate) fn size(&self) -> usize {
-        let mut count = 0;
-        let mut node = &self.head;
-        while let Some(next) = node {
-            count += 1;
-            node = &next.next;
-        }
-        count
+        std::iter::successors(self.head, |&n| n.next).count()
     }
 
     pub(crate) fn is_empty(&self) -> bool {

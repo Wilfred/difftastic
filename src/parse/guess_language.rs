@@ -569,7 +569,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "yaml" => Yaml,
             "zig" => Zig,
             _ => continue,
-        })
+        });
     }
 
     None
