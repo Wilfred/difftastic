@@ -26,7 +26,7 @@ pub(crate) enum BackgroundColor {
 
 impl BackgroundColor {
     pub(crate) fn is_dark(self) -> bool {
-        matches!(self, BackgroundColor::Dark)
+        matches!(self, Self::Dark)
     }
 }
 

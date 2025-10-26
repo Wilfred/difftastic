@@ -196,13 +196,13 @@ impl<'a> fmt::Debug for Syntax<'a> {
 
 impl<'a> Syntax<'a> {
     pub(crate) fn new_list(
-        arena: &'a Arena<Syntax<'a>>,
+        arena: &'a Arena<Self>,
         open_content: &str,
         open_position: Vec<SingleLineSpan>,
-        children: Vec<&'a Syntax<'a>>,
+        children: Vec<&'a Self>,
         close_content: &str,
         close_position: Vec<SingleLineSpan>,
-    ) -> &'a Syntax<'a> {
+    ) -> &'a Self {
         // Skip empty atoms: they aren't displayed, so there's no
         // point making our syntax tree bigger. These occur when we're
         // parsing incomplete or malformed programs.
@@ -249,11 +249,11 @@ impl<'a> Syntax<'a> {
     }
 
     pub(crate) fn new_atom(
-        arena: &'a Arena<Syntax<'a>>,
+        arena: &'a Arena<Self>,
         mut position: Vec<SingleLineSpan>,
         mut content: String,
         kind: AtomKind,
-    ) -> &'a Syntax<'a> {
+    ) -> &'a Self {
         // If a parser hasn't cleaned up \r on CRLF files with
         // comments, discard it.
         if content.ends_with('\r') {
@@ -283,11 +283,11 @@ impl<'a> Syntax<'a> {
         }
     }
 
-    pub(crate) fn parent(&self) -> Option<&'a Syntax<'a>> {
+    pub(crate) fn parent(&self) -> Option<&'a Self> {
         self.info().parent.get()
     }
 
-    pub(crate) fn next_sibling(&self) -> Option<&'a Syntax<'a>> {
+    pub(crate) fn next_sibling(&self) -> Option<&'a Self> {
         self.info().next_sibling.get()
     }
 
@@ -681,9 +681,7 @@ impl MatchKind {
     pub(crate) fn is_novel(&self) -> bool {
         matches!(
             self,
-            MatchKind::Novel { .. }
-                | MatchKind::NovelWord { .. }
-                | MatchKind::UnchangedPartOfNovelItem { .. }
+            Self::Novel { .. } | Self::NovelWord { .. } | Self::UnchangedPartOfNovelItem { .. }
         )
     }
 }

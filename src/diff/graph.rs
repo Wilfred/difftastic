@@ -138,14 +138,14 @@ enum EnteredDelimiter<'s, 'v> {
 impl fmt::Debug for EnteredDelimiter<'_, '_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
-            EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {
+            Self::PopEither((lhs_delims, rhs_delims)) => {
                 format!(
                     "PopEither(lhs count: {}, rhs count: {})",
                     lhs_delims.size(),
                     rhs_delims.size()
                 )
             }
-            EnteredDelimiter::PopBoth(_) => "PopBoth".to_owned(),
+            Self::PopBoth(_) => "PopBoth".to_owned(),
         };
         f.write_str(&desc)
     }

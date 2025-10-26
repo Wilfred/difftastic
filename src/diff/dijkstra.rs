@@ -156,33 +156,20 @@ fn edge_between<'s, 'v>(before: &Vertex<'s, 'v>, after: &Vertex<'s, 'v>) -> Edge
 
 /// What is the total number of AST nodes?
 fn node_count(root: Option<&Syntax>) -> u32 {
-    let mut node = root;
-    let mut count = 0;
-    while let Some(current_node) = node {
-        let current_count = match current_node {
-            Syntax::List {
-                num_descendants, ..
-            } => *num_descendants,
-            Syntax::Atom { .. } => 1,
-        };
-        count += current_count;
+    let iter = std::iter::successors(root, |node| node.next_sibling());
 
-        node = current_node.next_sibling();
-    }
-
-    count
+    iter.map(|node| match node {
+        Syntax::List {
+            num_descendants, ..
+        } => *num_descendants,
+        Syntax::Atom { .. } => 1,
+    })
+    .sum::<u32>()
 }
 
 /// How many top-level AST nodes do we have?
 fn tree_count(root: Option<&Syntax>) -> u32 {
-    let mut node = root;
-    let mut count = 0;
-    while let Some(current_node) = node {
-        count += 1;
-        node = current_node.next_sibling();
-    }
-
-    count
+    std::iter::successors(root, |node| node.next_sibling()).count() as _
 }
 
 pub(crate) fn mark_syntax<'a>(
