@@ -681,9 +681,7 @@ impl MatchKind {
     pub(crate) fn is_novel(&self) -> bool {
         matches!(
             self,
-            Self::Novel { .. }
-                | Self::NovelWord { .. }
-                | Self::UnchangedPartOfNovelItem { .. }
+            Self::Novel { .. } | Self::NovelWord { .. } | Self::UnchangedPartOfNovelItem { .. }
         )
     }
 }

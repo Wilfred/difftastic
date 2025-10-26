@@ -32,11 +32,7 @@ struct File<'f> {
 }
 
 impl<'f> File<'f> {
-    fn with_sections(
-        language: &'f FileFormat,
-        path: &'f str,
-        chunks: Vec<Vec<Line<'f>>>,
-    ) -> Self {
+    fn with_sections(language: &'f FileFormat, path: &'f str, chunks: Vec<Vec<Line<'f>>>) -> Self {
         File {
             language,
             path,
