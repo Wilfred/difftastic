@@ -58,11 +58,42 @@ fn byte_offset_for_width(s: &str, width: usize, tab_width: usize) -> usize {
 }
 
 fn substring_by_byte(s: &str, start: usize, end: usize) -> &str {
+    // Ensure start and end are within bounds and on UTF-8 character boundaries.
+    // This is a defensive measure against byte offset calculation mismatches,
+    // particularly when handling CRLF line endings or files without trailing newlines.
+
+    // Clamp start to valid range and find the nearest valid UTF-8 boundary
+    let start = if start > s.len() {
+        s.len()
+    } else if !s.is_char_boundary(start) {
+        // Find the previous valid boundary
+        (0..start)
+            .rev()
+            .find(|&i| s.is_char_boundary(i))
+            .unwrap_or(0)
+    } else {
+        start
+    };
+
+    // Clamp end to valid range and find the nearest valid UTF-8 boundary
+    let end = if end > s.len() {
+        s.len()
+    } else if !s.is_char_boundary(end) {
+        // Find the previous valid boundary
+        (0..end)
+            .rev()
+            .find(|&i| s.is_char_boundary(i))
+            .unwrap_or(start)
+    } else {
+        end
+    };
+
     &s[start..end]
 }
 
 fn substring_by_byte_replace_tabs(s: &str, start: usize, end: usize, tab_width: usize) -> String {
-    let s = s[start..end].to_string();
+    // Use substring_by_byte to ensure safe slicing with UTF-8 boundary checks
+    let s = substring_by_byte(s, start, end).to_string();
     s.replace('\t', &" ".repeat(tab_width))
 }
 
@@ -671,5 +702,40 @@ mod tests {
             Side::Left,
         );
         assert_eq!(res, vec!["foobar", "      "])
+    }
+
+    #[test]
+    fn test_substring_by_byte_utf8_boundary() {
+        // Test that substring_by_byte handles invalid UTF-8 boundaries gracefully
+        let s = "car ê"; // 'ê' is 2 bytes (bytes 4-5)
+
+        // Valid boundaries - should work normally
+        assert_eq!(substring_by_byte(s, 0, 3), "car");
+        assert_eq!(substring_by_byte(s, 4, 6), "ê");
+
+        // Invalid boundary in the middle of 'ê' - should adjust to previous valid boundary
+        // Trying to start at byte 5 (middle of 'ê') should adjust to byte 4
+        assert_eq!(substring_by_byte(s, 5, 6), "");
+
+        // Out of bounds - should clamp to string length
+        assert_eq!(substring_by_byte(s, 0, 100), "car ê");
+        assert_eq!(substring_by_byte(s, 10, 20), "");
+    }
+
+    #[test]
+    fn test_substring_by_byte_with_multibyte_chars() {
+        // Test with various multi-byte UTF-8 characters
+        let s = "Hello 世界"; // 世 and 界 are 3 bytes each
+
+        // Valid slicing
+        assert_eq!(substring_by_byte(s, 0, 5), "Hello");
+        assert_eq!(substring_by_byte(s, 6, 9), "世");
+        assert_eq!(substring_by_byte(s, 9, 12), "界");
+
+        // Invalid boundary in the middle of a 3-byte character
+        // Should adjust to the previous valid boundary
+        let result = substring_by_byte(s, 7, 10);
+        // Starting at byte 7 (middle of '世') should adjust
+        assert!(result.len() < 4); // Should not include partial characters
     }
 }
