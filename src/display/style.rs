@@ -329,12 +329,12 @@ pub(crate) fn color_positions(
     background: BackgroundColor,
     syntax_highlight: bool,
     file_format: &FileFormat,
-    positions: &[MatchedPos],
+    mps: &[MatchedPos],
 ) -> Vec<(SingleLineSpan, Style)> {
     let mut styles = vec![];
-    for pos in positions {
+    for mp in mps {
         let mut style = Style::new();
-        match pos.kind {
+        match mp.kind {
             MatchKind::UnchangedToken { highlight, .. } | MatchKind::Ignored { highlight } => {
                 if syntax_highlight {
                     if let TokenKind::Atom(atom_kind) = highlight {
@@ -400,7 +400,7 @@ pub(crate) fn color_positions(
                 }
             }
         };
-        styles.push((pos.pos, style));
+        styles.push((mp.pos, style));
     }
     styles
 }
@@ -411,9 +411,9 @@ pub(crate) fn apply_colors(
     syntax_highlight: bool,
     file_format: &FileFormat,
     background: BackgroundColor,
-    positions: &[MatchedPos],
+    mps: &[MatchedPos],
 ) -> Vec<String> {
-    let styles = color_positions(side, background, syntax_highlight, file_format, positions);
+    let styles = color_positions(side, background, syntax_highlight, file_format, mps);
     let lines = split_on_newlines(s).collect::<Vec<_>>();
     style_lines(&lines, &styles)
 }

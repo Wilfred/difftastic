@@ -17,8 +17,8 @@ pub(crate) fn print(
     lhs_src: &str,
     rhs_src: &str,
     display_options: &DisplayOptions,
-    lhs_positions: &[MatchedPos],
-    rhs_positions: &[MatchedPos],
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
     hunks: &[Hunk],
     display_path: &str,
     extra_info: &Option<String>,
@@ -32,7 +32,7 @@ pub(crate) fn print(
                 display_options.syntax_highlight,
                 file_format,
                 display_options.background_color,
-                lhs_positions,
+                lhs_mps,
             ),
             apply_colors(
                 rhs_src,
@@ -40,7 +40,7 @@ pub(crate) fn print(
                 display_options.syntax_highlight,
                 file_format,
                 display_options.background_color,
-                rhs_positions,
+                rhs_mps,
             ),
         )
     } else {
@@ -63,8 +63,8 @@ pub(crate) fn print(
         .map(|line| style::replace_tabs(&line, display_options.tab_width))
         .collect();
 
-    let opposite_to_lhs = opposite_positions(lhs_positions);
-    let opposite_to_rhs = opposite_positions(rhs_positions);
+    let opposite_to_lhs = opposite_positions(lhs_mps);
+    let opposite_to_rhs = opposite_positions(rhs_mps);
 
     for (i, hunk) in hunks.iter().enumerate() {
         println!(
