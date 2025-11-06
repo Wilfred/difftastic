@@ -14,10 +14,10 @@ with `difft --list-languages`.
 | C               | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c)                         |
 | C++             | [tree-sitter/tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp)                     |
 | C#              | [tree-sitter/tree-sitter-c-sharp](https://github.com/tree-sitter/tree-sitter-c-sharp)             |
-| Clojure         | [sogaiu/tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure)                       |
+| Clojure         | [grammar-orchard/tree-sitter-clojure-orchard](https://codeberg.org/grammar-orchard/tree-sitter-clojure-orchard) |
 | CMake           | [uyha/tree-sitter-cmake](https://github.com/uyha/tree-sitter-cmake)                               |
 | Common Lisp     | [theHamsta/tree-sitter-commonlisp](https://github.com/theHamsta/tree-sitter-commonlisp)           |
-| Dart            | [grammar-orchard/tree-sitter-dart](https://codeberg.org/grammar-orchard/tree-sitter-dart-orchard)                 |
+| Dart            | [grammar-orchard/tree-sitter-dart-orchard](https://codeberg.org/grammar-orchard/tree-sitter-dart-orchard) |
 | Device Tree     | [joelspadin/tree-sitter-devicetree](https://github.com/joelspadin/tree-sitter-devicetree)         |
 | Elixir          | [elixir-lang/tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir)               |
 | Elm             | [elm-tooling/tree-sitter-elm](https://github.com/elm-tooling/tree-sitter-elm)                     |
@@ -48,12 +48,12 @@ with `difft --list-languages`.
 | R               | [r-lib/tree-sitter-r](https://github.com/r-lib/tree-sitter-r)                                     |
 | Racket          | [6cdh/tree-sitter-racket](https://github.com/6cdh/tree-sitter-racket)                             |
 | Ruby            | [tree-sitter/tree-sitter-ruby](https://github.com/tree-sitter/tree-sitter-ruby)                   |
-| Rust            | [tree-sitter/tree-sitter-rust](https://github.com/tree-sitter/tree-sitter-rust)                   |
+| Rust            | [grammar-orchard/tree-sitter-rust-orchard](https://codeberg.org/grammar-orchard/tree-sitter-rust-orchard) |
 | Scala           | [tree-sitter/tree-sitter-scala](https://github.com/tree-sitter/tree-sitter-scala)                 |
 | Scheme          | [6cdh/tree-sitter-scheme](https://github.com/6cdh/tree-sitter-scheme)                             |
 | Smali           | [amaanq/tree-sitter-smali](https://github.com/amaanq/tree-sitter-smali)                           |
 | Solidity        | [JoranHonig/tree-sitter-solidity](https://github.com/JoranHonig/tree-sitter-solidity)             |
-| SQL             | [derekstride/tree-sitter-sql](https://github.com/derekstride/tree-sitter-sql)                         |
+| SQL             | [derekstride/tree-sitter-sql](https://github.com/derekstride/tree-sitter-sql)                     |
 | Swift           | [alex-pinkus/tree-sitter-swift](https://github.com/alex-pinkus/tree-sitter-swift)                 |
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)       |
 | Verilog         | [tree-sitter/tree-sitter-verilog](https://github.com/tree-sitter/tree-sitter-verilog)             |
