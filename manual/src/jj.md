@@ -11,5 +11,3 @@ file](https://jj-vcs.github.io/jj/latest/config/#user-config-files).
 [ui]
 diff-formatter = ["difft", "--color=always", "$left", "$right"]
 ```
-
-

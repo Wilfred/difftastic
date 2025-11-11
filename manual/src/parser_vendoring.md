@@ -27,7 +27,7 @@ $ ln -s tree-sitter-json/src tree-sitter-json-src
 ```
 
 You can now add the parser to build by including the directory in
-`build.rs`. 
+`build.rs`.
 
 ```
 TreeSitterParser {

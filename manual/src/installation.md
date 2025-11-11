@@ -4,8 +4,12 @@ Difftastic can be installed as pre-built binaries or using various package manag
 
 ## Pre-Built Binaries
 
-Difftastic releases are published as [GitHub releases](https://github.com/Wilfred/difftastic/releases) with pre-built binaries for Windows, macOS and Linux.
-Open the [latest release page](https://github.com/Wilfred/difftastic/releases/latest), download the file matching your OS and CPU architecture, and extract the `difft` executable application file.
+Difftastic releases are published as [GitHub
+releases](https://github.com/Wilfred/difftastic/releases) with
+pre-built binaries for Windows, macOS and Linux. Open the [latest
+release page](https://github.com/Wilfred/difftastic/releases/latest),
+download the file matching your OS and CPU architecture, and extract
+the `difft` executable application file.
 
 ## Package Manager
 
@@ -36,7 +40,9 @@ with `nix-env`.
 $ nix-env --install difftastic
 ```
 
-If you're a **Fedora** user, you can install [difftastic](https://packages.fedoraproject.org/pkgs/rust-difftastic/difftastic/) with `dnf`.
+If you're a **Fedora** user, you can install
+[difftastic](https://packages.fedoraproject.org/pkgs/rust-difftastic/difftastic/)
+with `dnf`.
 
 ```
 $ sudo dnf install difftastic
@@ -52,7 +58,8 @@ $ sudo pkg install difftastic
 
 ### Windows
 
-If you're a Windows user using **Windows Package Manager** (*WinGet*), you can install difftastic with `winget`.
+If you're a Windows user using **Windows Package Manager** (*WinGet*),
+you can install difftastic with `winget`.
 
 ```
 $ winget install difftastic
