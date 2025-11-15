@@ -40,7 +40,7 @@ pub(crate) fn split_words(s: &str) -> Vec<&str> {
 /// Split `s` into a vec of things that look like words and individual
 /// non-word characters.
 ///
-/// "foo..bar23" -> vec!["foo", ".", ".", "bar23"]
+/// "foo..bar23" -> vec!["foo", ".", ".", "bar", "23"]
 pub(crate) fn split_words_and_numbers(s: &str) -> Vec<&str> {
     let mut words = vec![];
     let mut word_start: Option<(usize, char)> = None;
