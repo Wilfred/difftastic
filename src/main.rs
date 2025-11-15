@@ -4,6 +4,9 @@
 //! manual](http://difftastic.wilfred.me.uk/).
 //!
 
+// I frequently develop difftastic on a newer rustc than the MSRV, so
+// these two aren't relevant.
+#![allow(renamed_and_removed_lints)]
 // This tends to trigger on larger tuples of simple types, and naming
 // them would probably be worse for readability.
 #![allow(clippy::type_complexity)]
@@ -37,9 +40,6 @@
 // Debugging features shouldn't be in checked-in code.
 #![warn(clippy::todo)]
 #![warn(clippy::dbg_macro)]
-// I frequently develop difftastic on a newer rustc than the MSRV, so
-// this isn't relevant.
-#![allow(renamed_and_removed_lints)]
 
 mod conflicts;
 mod constants;
