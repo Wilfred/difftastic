@@ -51,7 +51,7 @@ pub(crate) fn split_words_and_numbers(s: &str) -> Vec<&str> {
                     // Word character, add to the current word if it's
                     // not a number.
                     if c.is_ascii_digit() == start_c.is_ascii_digit() {
-                        // Just carry on in this word.
+                        // Just carry on in this word/number.
                     } else {
                         // Finish previous word, start a new one.
                         words.push(&s[start..idx]);
