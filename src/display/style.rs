@@ -324,6 +324,48 @@ pub(crate) fn novel_style(style: Style, side: Side, background: BackgroundColor)
     }
 }
 
+/// Merge spans where the end of one span matches the start of the
+/// next span.
+///
+/// This reduces the number of ANSI character codes in the
+/// output. This is negligible for performance, but makes regression
+/// testing easier for difftastic.
+///
+/// The file compare.expected contains hashes of the output, so it
+/// considers `<green>ab</green>` to be distinct from
+/// `<green>a</green><green>b</green>`. Merging the spans normalises
+/// the output to `<green>ab</green>`.
+fn merge_adjacent(items: &[(SingleLineSpan, Style)]) -> Vec<(SingleLineSpan, Style)> {
+    let mut merged: Vec<(SingleLineSpan, Style)> = vec![];
+    let mut prev_item: Option<(SingleLineSpan, Style)> = None;
+
+    for (span, style) in items.iter().copied() {
+        match prev_item.take() {
+            Some((mut prev_span, prev_style)) => {
+                if prev_style == style
+                    && prev_span.line == span.line
+                    && prev_span.end_col == span.start_col
+                {
+                    prev_span.end_col = span.end_col;
+                    prev_item = Some((prev_span, style));
+                } else {
+                    merged.push((prev_span, prev_style));
+                    prev_item = Some((span, style));
+                }
+            }
+            None => {
+                prev_item = Some((span, style));
+            }
+        }
+    }
+
+    if let Some(last_item) = prev_item {
+        merged.push(last_item);
+    }
+
+    merged
+}
+
 pub(crate) fn color_positions(
     side: Side,
     background: BackgroundColor,
@@ -402,7 +444,8 @@ pub(crate) fn color_positions(
         };
         styles.push((mp.pos, style));
     }
-    styles
+
+    merge_adjacent(&styles)
 }
 
 pub(crate) fn apply_colors(
