@@ -414,7 +414,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             ".cproject",
             ".project",
         ],
-        Yaml => &["*.yaml", "*.yml"],
+        Yaml => &["*.yaml", "*.yml", "yarn.lock", "CITATION.cff"],
         Zig => &["*.zig"],
     };
 

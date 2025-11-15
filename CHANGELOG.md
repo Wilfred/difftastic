@@ -8,6 +8,8 @@ Solidity parsers.
 
 Improved handling of variable names `$foo` in shell scripts.
 
+Improved detection of YAML files.
+
 ### Diffing
 
 Improved subword highlighting for words with hyphens.
