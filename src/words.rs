@@ -12,7 +12,7 @@ pub(crate) fn split_words(s: &str) -> Vec<&str> {
     for (idx, c) in s.char_indices() {
         match word_start {
             Some(start) => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
+                if c.is_alphanumeric() || c == '_' {
                     // Just carry on in this word.
                 } else {
                     // Push the previous word, then this non-word character.
@@ -22,7 +22,7 @@ pub(crate) fn split_words(s: &str) -> Vec<&str> {
                 }
             }
             None => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
+                if c.is_alphanumeric() || c == '_' {
                     word_start = Some(idx);
                 } else {
                     words.push(&s[idx..idx + c.len_utf8()]);
@@ -47,7 +47,7 @@ pub(crate) fn split_words_and_numbers(s: &str) -> Vec<&str> {
     for (idx, c) in s.char_indices() {
         match word_start {
             Some((start, start_c)) => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
+                if c.is_alphanumeric() || c == '_' {
                     // Word character, add to the current word if it's
                     // not a number.
                     if c.is_ascii_digit() == start_c.is_ascii_digit() {
@@ -65,7 +65,7 @@ pub(crate) fn split_words_and_numbers(s: &str) -> Vec<&str> {
                 }
             }
             None => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
+                if c.is_alphanumeric() || c == '_' {
                     word_start = Some((idx, c));
                 } else {
                     words.push(&s[idx..idx + c.len_utf8()]);
@@ -91,13 +91,6 @@ mod tests {
         let s = "example.com";
         let res = split_words(s);
         assert_eq!(res, vec!["example", ".", "com"])
-    }
-
-    #[test]
-    fn test_split_words_hyphens() {
-        let s = "foo -bar-baz-";
-        let res = split_words(s);
-        assert_eq!(res, vec!["foo", " ", "-bar-baz-"])
     }
 
     #[test]
@@ -147,13 +140,6 @@ mod tests {
         let s = "a123b";
         let res = split_words_and_numbers(s);
         assert_eq!(res, vec!["a", "123", "b"])
-    }
-
-    #[test]
-    fn test_split_words_and_numbers_hyphens() {
-        let s = "a-b -c-";
-        let res = split_words_and_numbers(s);
-        assert_eq!(res, vec!["a-b", " ", "-c-"])
     }
 
     #[test]

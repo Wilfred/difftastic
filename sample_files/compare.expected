@@ -41,7 +41,7 @@ sample_files/comma_and_comment_1.js sample_files/comma_and_comment_2.js
 0a5ccbcd368607e62eaff0c4ae25049f  -
 
 sample_files/comments_1.rs sample_files/comments_2.rs
-cc3a5f9134765192e034c65fb9d02026  -
+a75827163654d6aed8f837bb586e733c  -
 
 sample_files/context_1.rs sample_files/context_2.rs
 1a1633bcf672a582867c815381ae1609  -
@@ -65,7 +65,7 @@ sample_files/elisp_contiguous_1.el sample_files/elisp_contiguous_2.el
 4a5a33873a4f84ee055d95e1448fba35  -
 
 sample_files/elixir_1.ex sample_files/elixir_2.ex
-6bcd4f912e6adfd9cf2f83c602d72415  -
+85494310196ac5065b3b4ce1d4b350fd  -
 
 sample_files/elm_1.elm sample_files/elm_2.elm
 ccc1f4bb568cd72781dbcd623b612c43  -
@@ -86,7 +86,7 @@ sample_files/hare_1.ha sample_files/hare_2.ha
 ef6fd59edc55241311a97d21dd81e4c0  -
 
 sample_files/haskell_1.hs sample_files/haskell_2.hs
-6791dd931d74391b3d9fb9e351a6de54  -
+68fd7f9865c2b1defe05ffd509e08b93  -
 
 sample_files/hcl_1.hcl sample_files/hcl_2.hcl
 7c2aaa3a8b401bc007817f5dd608946d  -
@@ -98,13 +98,13 @@ sample_files/helpful_1.el sample_files/helpful_2.el
 295640aa4cbc23640658a80ad2393ce4  -
 
 sample_files/html_1.html sample_files/html_2.html
-64285a8ed6ddecab1e24bcf0ce649b62  -
+3cc8b445a56b74f05e1d7bb84874edab  -
 
 sample_files/html_simple_1.html sample_files/html_simple_2.html
 bb129dce38cd26eac81ca52d2016bade  -
 
 sample_files/huge_cpp_1.cpp sample_files/huge_cpp_2.cpp
-7f65e42e16ee318bbfc342b8bcc03d2e  -
+09e8a30ad7be5686e4d03a3e6b2588aa  -
 
 sample_files/identical_1.scala sample_files/identical_2.scala
 15c5a789e644348cb7e0de051ff4b63e  -
@@ -146,7 +146,7 @@ sample_files/lua_1.lua sample_files/lua_2.lua
 81ad9478e64494320e96284cb7632ced  -
 
 sample_files/makefile_1.mk sample_files/makefile_2.mk
-d0572210b5121ce68ac0ce45e43b922b  -
+4759883325ade33566f2c8afa09e2d82  -
 
 sample_files/many_newlines_1.txt sample_files/many_newlines_2.txt
 52ca05855e520876479e6f608c5e7831  -
@@ -164,7 +164,7 @@ sample_files/multiline_string_1.ml sample_files/multiline_string_2.ml
 ed80815053ba156505d156277d0f4195  -
 
 sample_files/multiline_string_eof_1.yml sample_files/multiline_string_eof_2.yml
-ba8a8e7ed2f4b519feaa391fd05c95fe  -
+cd9cfd627c28b8ecd7c990adc683281a  -
 
 sample_files/nest_1.rs sample_files/nest_2.rs
 d3a799fe2cd9d81aa251c96af5cd9711  -
@@ -260,7 +260,7 @@ sample_files/string_subwords_1.el sample_files/string_subwords_2.el
 b66e960672189960c2d35ef68b47a195  -
 
 sample_files/strings_1.el sample_files/strings_2.el
-fe61803e3391fb14f5a3f05750bb94ff  -
+26ea57243abb16043088b17bfee482a4  -
 
 sample_files/swift_1.swift sample_files/swift_2.swift
 73830b14bd8aacac8d4590a3bed61c40  -
