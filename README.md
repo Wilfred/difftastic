@@ -18,7 +18,7 @@ their syntax.
 
 ![Screenshot of difftastic and Rust](img/wrap_expr.png)
 
-^ Difftastic understands exactly which pieces of syntax has changed,
+^ Difftastic understands exactly which pieces of syntax have changed,
 and can highlight them in context.
 
 ![Screenshot of difftastic and HTML](img/html.png)
