@@ -3,7 +3,7 @@
 ### Parsing
 
 Added support for protocol buffer files. Updated Ada, Clojure, CMake, Dart,
-Devicetree, Elm, Gleam, HCL, Newick, QML, R, Racket, SQL, Scheme, and
+Devicetree, Elisp, Elm, Gleam, HCL, Newick, QML, R, Racket, SQL, Scheme, and
 Solidity parsers.
 
 Improved handling of variable names `$foo` in shell scripts.

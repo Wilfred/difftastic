@@ -285,6 +285,7 @@ dependencies = [
  "tree-sitter-css",
  "tree-sitter-dart-orchard",
  "tree-sitter-devicetree",
+ "tree-sitter-elisp",
  "tree-sitter-elixir",
  "tree-sitter-elm",
  "tree-sitter-erlang",
@@ -1118,6 +1119,16 @@ name = "tree-sitter-devicetree"
 version = "0.14.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b1e6874b59d8252cbaf9750f7152166e17ed162921a5f6d4e8bd2a2bc2aed46b"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-elisp"
+version = "1.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5e2e9a6ab3cebf24ca41cdc1f985549b9b33f7ef25c19ac7d18e53a4ee24da09"
 dependencies = [
  "cc",
  "tree-sitter-language",
