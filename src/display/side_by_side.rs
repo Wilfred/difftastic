@@ -23,6 +23,7 @@ use crate::{
     summary::FileFormat,
 };
 
+/// The single space shown between LHS and RHS columns.
 const SPACER: &str = " ";
 
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
