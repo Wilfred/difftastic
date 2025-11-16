@@ -205,7 +205,12 @@ impl SourceDimensions {
         // This naively assumes that byte length is the same as
         // display length, which is generally OK because byte length
         // will tend to be larger than the display length.
-        let display_width = min(terminal_width, (content_max_width + 4) * 2 + SPACER.len());
+        let width_without_truncation = lhs_line_nums_width
+            + content_max_width
+            + SPACER.len()
+            + rhs_line_nums_width
+            + content_max_width;
+        let display_width = min(terminal_width, width_without_truncation);
 
         assert!(
             display_width > SPACER.len(),

@@ -22,6 +22,9 @@ longer affect display.
 
 Improved descriptions of changes to binary files.
 
+Fixed an issue where difftastic would not use the full width of the
+terminal on side-by-side diffs when files had more than 1,000 lines.
+
 ## 0.65 (released 23rd September 2025)
 
 ### Build
