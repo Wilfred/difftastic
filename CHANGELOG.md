@@ -1,4 +1,6 @@
-## 0.66 (unreleased)
+## 0.68 (unreleased)
+
+## 0.67 (released 16 November 2025)
 
 ### Parsing
 
@@ -25,6 +27,11 @@ Improved descriptions of changes to binary files.
 Fixed an issue (introduced after 0.65) where difftastic would not use
 the full width of the terminal on side-by-side diffs when files had
 more than 1,000 lines.
+
+## 0.66 (skipped)
+
+Due to an issue with the release process, 0.66 was abandoned in favour
+of doing a normal release with version 0.67.
 
 ## 0.65 (released 23rd September 2025)
 
