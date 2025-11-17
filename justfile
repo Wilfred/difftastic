@@ -1,12 +1,15 @@
 default:
     @just --list
 
+# Build and serve the manual.
 doc:
     cd manual && mdbook serve --open
 
+# Run the output regression test.
 compare:
     sample_files/compare_all.sh
 
+# Create a git tag and push it, to trigger a release on GitHub actions.
 release:
     #!/bin/bash
 
@@ -18,10 +21,12 @@ release:
 
     cargo set-version --bump minor
 
+# Serve the homepage locally.
 home:
     echo "http://localhost:8080"
     cd homepage && python -m http.server 8080
 
+# Generate release notes for the currently unreleased version.
 rel_notes:
     #!/bin/bash
 
@@ -29,5 +34,6 @@ rel_notes:
 
     rg --max-count 1 -B 9999 "released " CHANGELOG.md | tail -n +3 | head -n -2 | awk 'BEGIN{RS="\n\n"; ORS="\n\n"} {gsub(/\n/, " "); print}'
 
+# Regenerate the man page difft.1 from diff.1.md.
 man:
     pandoc --standalone --to man difft.1.md -o difft.1
