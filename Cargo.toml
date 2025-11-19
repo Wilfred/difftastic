@@ -151,4 +151,14 @@ lto = "thin"
 name = "difft"
 path = "src/main.rs"
 
+[package.metadata.deb]
+depends = "$auto"
+section = "utility"
+priority = "optional"
+assets = [
+	"$auto",
+	[ "difft.1", "usr/share/man/man1/", "644" ],
+	[ "CHANGELOG.md", "usr/share/doc/difftastic/", "644" ],
+]
+
 [features]
