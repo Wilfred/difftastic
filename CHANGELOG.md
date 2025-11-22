@@ -1,5 +1,9 @@
 ## 0.68 (unreleased)
 
+### Parsing
+
+Fixed an issue with parsing raw string literals in Rust.
+
 ## 0.67 (released 16 November 2025)
 
 ### Parsing

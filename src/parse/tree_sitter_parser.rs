@@ -927,7 +927,9 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["char_literal", "string_literal"].into_iter().collect(),
+                atom_nodes: ["char_literal", "string_literal", "raw_string_literal"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|"), ("<", ">")],
                 highlight_query: ts::Query::new(
                     &language,
