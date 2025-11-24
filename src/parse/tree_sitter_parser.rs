@@ -94,7 +94,7 @@ const OCAML_ATOM_NODES: [&str; 6] = [
     "attribute_id",
 ];
 
-const TS_CSS_INJECTION_QUERY: &str = r#"
+const TEMPLATE_STRING_CSS_INJECTION_QUERY: &str = r#"
 (_
   ; Capture the 'callee' or 'left' side.
   ; We accept any named node here to act as the anchor.
@@ -608,7 +608,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_javascript::HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![TreeSitterSubLanguage {
-                    query: ts::Query::new(&language, TS_CSS_INJECTION_QUERY).unwrap(),
+                    query: ts::Query::new(&language, TEMPLATE_STRING_CSS_INJECTION_QUERY).unwrap(),
                     parse_as: Css,
                 }],
             }
@@ -1074,7 +1074,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![TreeSitterSubLanguage {
-                    query: ts::Query::new(&language, TS_CSS_INJECTION_QUERY).unwrap(),
+                    query: ts::Query::new(&language, TEMPLATE_STRING_CSS_INJECTION_QUERY).unwrap(),
                     parse_as: Css,
                 }],
             }
@@ -1094,7 +1094,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![TreeSitterSubLanguage {
-                    query: ts::Query::new(&language, TS_CSS_INJECTION_QUERY).unwrap(),
+                    query: ts::Query::new(&language, TEMPLATE_STRING_CSS_INJECTION_QUERY).unwrap(),
                     parse_as: Css,
                 }],
             }
