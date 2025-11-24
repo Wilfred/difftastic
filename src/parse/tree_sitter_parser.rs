@@ -1894,8 +1894,6 @@ mod tests {
 
     use strum::IntoEnumIterator as _;
 
-    use crate::parse::syntax::SyntaxTreeDisplay;
-
     use super::*;
 
     /// Simple smoke test for tree-sitter parsing. Having a test also
