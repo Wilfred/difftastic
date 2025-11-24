@@ -1978,9 +1978,13 @@ mod tests {
 
         if let Some(remaining) = current_expected {
             panic!(
-                "Could not find all atom sequences. \nMissing: {:?}\nDebug Tree:\n{}",
+                "Could not find all atom sequences. \nMissing: {:?}\nDebug Tree:\n{:?}",
                 remaining,
-                SyntaxTreeDisplay::from(nodes.to_vec())
+                nodes
+                    .iter()
+                    .map(|node| node.dbg_content())
+                    .collect::<Vec<_>>()
+                    .join("\n")
             );
         }
     }
