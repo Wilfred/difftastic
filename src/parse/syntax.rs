@@ -117,6 +117,69 @@ pub(crate) enum Syntax<'a> {
     },
 }
 
+pub struct SyntaxTreeDisplay<'a>(Vec<&'a Syntax<'a>>);
+
+#[allow(dead_code)]
+impl<'a> SyntaxTreeDisplay<'a> {
+    pub fn from(tree: Vec<&'a Syntax<'a>>) -> Self {
+        Self(tree)
+    }
+
+    fn print_node(
+        f: &mut fmt::Formatter<'_>,
+        node: &Syntax,
+        prefix: &str,
+        is_last: bool,
+    ) -> fmt::Result {
+        let connector = if is_last { "└── " } else { "├── " };
+
+        match node {
+            Syntax::List {
+                open_position,
+                close_position,
+                children,
+                ..
+            } => {
+                writeln!(
+                    f,
+                    "{}{}List (open: {:?}, close: {:?})",
+                    prefix, connector, open_position, close_position
+                )?;
+
+                // Prepare prefix for children
+                // If this was the last node, children don't need the vertical bar │
+                let child_prefix = format!("{}{}", prefix, if is_last { "    " } else { "│   " });
+
+                for (i, child) in children.iter().enumerate() {
+                    Self::print_node(f, child, &child_prefix, i == children.len() - 1)?;
+                }
+            }
+            Syntax::Atom {
+                content,
+                position,
+                kind,
+                ..
+            } => {
+                writeln!(
+                    f,
+                    "{}{}Atom: {:?} {:#?} ({:?})",
+                    prefix, connector, content, kind, position
+                )?;
+            }
+        }
+        Ok(())
+    }
+}
+
+impl<'a> fmt::Display for SyntaxTreeDisplay<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        for (i, node) in self.0.iter().enumerate() {
+            SyntaxTreeDisplay::print_node(f, node, "", i == self.0.len() - 1)?;
+        }
+        Ok(())
+    }
+}
+
 fn dbg_pos(pos: &[SingleLineSpan]) -> String {
     match pos {
         [] => "-".into(),

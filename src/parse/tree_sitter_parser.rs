@@ -94,6 +94,23 @@ const OCAML_ATOM_NODES: [&str; 6] = [
     "attribute_id",
 ];
 
+const TS_CSS_INJECTION_QUERY: &str = r#"
+(_
+  ; Capture the 'callee' or 'left' side.
+  ; We accept any named node here to act as the anchor.
+  (_) @callee
+
+  ; Capture the template string contents.
+  (template_string) @contents
+
+  ; Predicate: The 'callee' text must start with 'styled' or 'css'.
+  ; This matches "styled.div", "styled(C)", and even "styled.div<{}>"
+  ; (which might be parsed as a binary expression 'styled.div < {}' or
+  ; a call expression depending on the grammar version).
+  (#match? @callee "^(styled|css)")
+)
+"#;
+
 pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
     use guess::Language::*;
     match language {
@@ -590,7 +607,10 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ],
                 highlight_query: ts::Query::new(&language, tree_sitter_javascript::HIGHLIGHT_QUERY)
                     .unwrap(),
-                sub_languages: vec![],
+                sub_languages: vec![TreeSitterSubLanguage {
+                    query: ts::Query::new(&language, TS_CSS_INJECTION_QUERY).unwrap(),
+                    parse_as: Css,
+                }],
             }
         }
         Json => {
@@ -1053,7 +1073,10 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 atom_nodes: ["string", "template_string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
-                sub_languages: vec![],
+                sub_languages: vec![TreeSitterSubLanguage {
+                    query: ts::Query::new(&language, TS_CSS_INJECTION_QUERY).unwrap(),
+                    parse_as: Css,
+                }],
             }
         }
         TypeScript => {
@@ -1070,7 +1093,10 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
-                sub_languages: vec![],
+                sub_languages: vec![TreeSitterSubLanguage {
+                    query: ts::Query::new(&language, TS_CSS_INJECTION_QUERY).unwrap(),
+                    parse_as: Css,
+                }],
             }
         }
         Xml => {
@@ -1198,8 +1224,39 @@ pub(crate) fn parse_subtrees(
         let mut query_matches =
             query_cursor.matches(&language.query, tree.root_node(), src.as_bytes());
 
+        let content_idx = language
+            .query
+            .capture_index_for_name("contents")
+            .unwrap_or(0);
+
         while let Some(m) = query_matches.next() {
-            let node = m.nodes_for_capture_index(0).next().unwrap();
+            let node = match m.nodes_for_capture_index(content_idx).next() {
+                None => continue,
+                Some(node) => node,
+            };
+
+            let mut range = node.range();
+            match (language.parse_as, node.grammar_name()) {
+                (guess::Language::Css, "template_string") => {
+                    // If this is a template string (starts/ends with backtick), shrink the range.
+                    // We check the text to be safe, or just assume based on the node kind.
+                    let node_text = &src[node.start_byte()..node.end_byte()];
+                    if node_text.starts_with('`')
+                        && node_text.ends_with('`')
+                        && node_text.len() >= 2
+                    {
+                        range.start_byte += 1;
+                        range.end_byte -= 1;
+
+                        // We also need to update start_point and end_point for Tree-sitter to be happy.
+                        // Since we know a backtick is 1 column wide and doesn't span lines:
+                        range.start_point.column += 1;
+                        range.end_point.column -= 1;
+                    }
+                }
+                _ => {}
+            };
+
             if node.byte_range().is_empty() {
                 continue;
             }
@@ -1210,7 +1267,7 @@ pub(crate) fn parse_subtrees(
                 .set_language(&subconfig.language)
                 .expect("Incompatible tree-sitter version");
             parser
-                .set_included_ranges(&[node.range()])
+                .set_included_ranges(&[range])
                 .expect("Incompatible tree-sitter version");
 
             let tree = parser.parse(src, None).unwrap();
@@ -1833,7 +1890,11 @@ fn atom_from_cursor<'a>(
 
 #[cfg(test)]
 mod tests {
+    use std::collections::VecDeque;
+
     use strum::IntoEnumIterator as _;
+
+    use crate::parse::syntax::SyntaxTreeDisplay;
 
     use super::*;
 
@@ -1878,6 +1939,128 @@ mod tests {
                 panic!("Top level isn't a list");
             }
         };
+    }
+
+    fn assert_contains_atoms<'a>(nodes: &[&'a Syntax<'a>], expected_sequence: Vec<Vec<&str>>) {
+        let mut to_search = VecDeque::from(nodes.to_vec());
+        let mut expected_iter = expected_sequence.into_iter();
+        let mut current_expected = expected_iter.next();
+
+        while let Some(node) = to_search.pop_front() {
+            if let Some(expected) = &current_expected {
+                match node {
+                    Syntax::List { children, .. } => {
+                        // Extract just the normal atoms from this list to see if they match the line
+                        let atom_texts: Vec<&str> = children
+                            .iter()
+                            .filter_map(|child| match child {
+                                Syntax::Atom { content, .. } => Some(content.as_str()),
+                                _ => None,
+                            })
+                            .collect();
+
+                        // If this list matches the current expected line, advance expectation
+                        if !atom_texts.is_empty() && atom_texts == *expected {
+                            current_expected = expected_iter.next();
+                        }
+
+                        for child in children.iter().rev() {
+                            to_search.push_front(child);
+                        }
+                    }
+                    _ => {}
+                }
+            } else {
+                // All expectations met
+                return;
+            }
+        }
+
+        if let Some(remaining) = current_expected {
+            panic!(
+                "Could not find all atom sequences. \nMissing: {:?}\nDebug Tree:\n{}",
+                remaining,
+                SyntaxTreeDisplay::from(nodes.to_vec())
+            );
+        }
+    }
+
+    #[test]
+    fn test_typescript_css_injection_table() {
+        let arena = Arena::new();
+        let configs = vec![
+            from_language(guess::Language::TypeScript),
+            from_language(guess::Language::TypeScriptTsx),
+            from_language(guess::Language::JavaScript),
+            from_language(guess::Language::JavascriptJsx),
+        ];
+
+        let cases = vec![
+            // Case 1: Standard styled.button
+            (
+                r#"
+                const Button = styled.button`
+                  background: #BF4F74;
+                  border-radius: 3px;
+                  border: none;
+                  color: white;
+                `
+                "#,
+                vec![
+                    vec!["background", ":", "#BF4F74", ";"],
+                    vec!["border-radius", ":", "3px", ";"],
+                    vec!["border", ":", "none", ";"],
+                    vec!["color", ":", "white", ";"],
+                ],
+            ),
+            // Case 2: Component wrapping styled(C)
+            (
+                r#"
+                const Button = styled(OtherButton)`
+                  color: white;
+                `
+                "#,
+                vec![vec!["color", ":", "white", ";"]],
+            ),
+            // Case 3: Helper css`...`
+            (
+                r#"
+                const Button = css`
+                  color: white;
+                `
+                "#,
+                vec![vec!["color", ":", "white", ";"]],
+            ),
+            // Case 4: Nested Interpolation
+            (
+                r#"
+                const Button = styled.button`
+                  color: white;
+                  ${props => props.$withSeparator && css`padding-top: 22px;`}
+                `
+                "#,
+                vec![vec!["color", ":", "white", ";"]],
+            ),
+            // Case 5: Generics
+            (
+                r#"
+                export const Button = styled.button<{}>` color: white; `;
+                "#,
+                vec![vec!["color", ":", "white", ";"]],
+            ),
+            // Case 6: Multiline Edge Case
+            (
+                "\nconst X = styled.div`\ncolor: white;\n`",
+                vec![vec!["color", ":", "white", ";"]],
+            ),
+        ];
+
+        for config in configs {
+            for (src, expected_atoms) in cases.iter() {
+                let nodes = parse(&arena, src, &config, false);
+                assert_contains_atoms(&nodes, expected_atoms.clone());
+            }
+        }
     }
 
     /// Ensure that we don't crash when loading any of the
