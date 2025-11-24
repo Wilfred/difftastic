@@ -1216,6 +1216,7 @@ pub(crate) fn parse_subtrees(
     src: &str,
     config: &TreeSitterConfig,
     tree: &tree_sitter::Tree,
+    nl_pos: &LinePositions,
 ) -> DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)> {
     let mut subtrees = DftHashMap::default();
 
@@ -1249,9 +1250,20 @@ pub(crate) fn parse_subtrees(
                         range.end_byte -= 1;
 
                         // We also need to update start_point and end_point for Tree-sitter to be happy.
-                        // Since we know a backtick is 1 column wide and doesn't span lines:
-                        range.start_point.column += 1;
-                        range.end_point.column -= 1;
+                        // Use line positions to calculate the exact row/col for the new byte offsets.
+                        // this handles cases where the backtick is followed by a newline or
+                        // other complex formatting.
+                        let start_span = nl_pos.from_region(range.start_byte, range.start_byte)[0];
+                        let end_span = nl_pos.from_region(range.end_byte, range.end_byte)[0];
+
+                        range.start_point = ts::Point {
+                            row: start_span.line.0 as usize,
+                            column: start_span.start_col as usize,
+                        };
+                        range.end_point = ts::Point {
+                            row: end_span.line.0 as usize,
+                            column: end_span.start_col as usize,
+                        };
                     }
                 }
                 _ => {}
@@ -1482,11 +1494,13 @@ pub(crate) fn to_syntax<'a>(
 
     let highlights = tree_highlights(tree, src, config);
 
+    // Use line numbers to handle sub-language ranges correctly.
+    let nl_pos = LinePositions::from(src);
+
     // Parse sub-languages, if any, which will be used both for
     // highlighting and for more precise Syntax nodes where applicable.
-    let subtrees = parse_subtrees(src, config, tree);
+    let subtrees = parse_subtrees(src, config, tree, &nl_pos);
 
-    let nl_pos = LinePositions::from(src);
     let mut cursor = tree.walk();
 
     let mut error_count: usize = 0;
@@ -1941,11 +1955,10 @@ mod tests {
 
     fn assert_contains_atoms<'a>(nodes: &[&'a Syntax<'a>], expected_sequence: Vec<Vec<&str>>) {
         let mut to_search = VecDeque::from(nodes.to_vec());
-        let mut expected_iter = expected_sequence.into_iter();
-        let mut current_expected = expected_iter.next();
+        let mut to_check = VecDeque::from(expected_sequence);
 
         while let Some(node) = to_search.pop_front() {
-            if let Some(expected) = &current_expected {
+            if let Some(expected) = to_check.front() {
                 match node {
                     Syntax::List { children, .. } => {
                         // Extract just the normal atoms from this list to see if they match the line
@@ -1959,9 +1972,10 @@ mod tests {
 
                         // If this list matches the current expected line, advance expectation
                         if !atom_texts.is_empty() && atom_texts == *expected {
-                            current_expected = expected_iter.next();
+                            to_check.pop_front();
                         }
 
+                        // Continue searching children in order (DFS)
                         for child in children.iter().rev() {
                             to_search.push_front(child);
                         }
@@ -1974,14 +1988,15 @@ mod tests {
             }
         }
 
-        if let Some(remaining) = current_expected {
+        if !to_check.is_empty() {
             panic!(
-                "Could not find all atom sequences. \nMissing: {:?}\nDebug Tree:\n{:?}",
-                remaining,
+                "Could not find all atom sequences. \nMissing: {:?}\nDebug Tree:\n{}",
+                to_check,
                 nodes
+                    .to_vec()
                     .iter()
                     .map(|node| node.dbg_content())
-                    .collect::<Vec<_>>()
+                    .collect::<Vec<String>>()
                     .join("\n")
             );
         }
@@ -2052,8 +2067,12 @@ mod tests {
             ),
             // Case 6: Multiline Edge Case
             (
-                "\nconst X = styled.div`\ncolor: white;\n`",
-                vec![vec!["color", ":", "white", ";"]],
+                r#"
+                const Button = styled.button`
+                  color: green;
+                `;
+                "#,
+                vec![vec!["color", ":", "green", ";"]],
             ),
         ];
 
