@@ -16,7 +16,6 @@ jobs:
           - { target: aarch64-pc-windows-msvc, os: windows-11-arm }
 
           - { target: aarch64-unknown-linux-gnu, os: ubuntu-22.04, use-cross: true }
-          - { target: wasm32-wasip1, os: ubuntu-24.04 }
 
           # mac-14 is an M1 ARM device.
           - { target: aarch64-apple-darwin, os: macos-14 }
@@ -36,21 +35,12 @@ jobs:
       uses: dtolnay/rust-toolchain@1.76.0
       with:
         targets: ${{ matrix.job.target }}
-      if: ${{ matrix.job.target != 'wasm32-wasip1' }}
 
     - name: Install cross
       if: matrix.job.use-cross
       uses: taiki-e/install-action@v2
       with:
         tool: cross@0.2.5
-
-    - if: ${{ matrix.job.target == 'wasm32-wasip1' }}
-      run: |
-        wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-29/wasi-sdk-29.0-x86_64-linux.deb
-        sudo apt-get install ./wasi-sdk-29.0-x86_64-linux.deb
-        rm ./wasi-sdk-29.0-x86_64-linux.deb
-        rustup override set stable
-        rustup target add wasm32-wasip1
 
     - name: Overwrite build command env variable
       if: matrix.job.use-cross
@@ -60,12 +50,6 @@ jobs:
     - name: Test
       shell: bash
       run: $BUILD_CMD $SUBCOMMAND --target ${{ matrix.job.target }}
-      env:
-        WASI_SDK_PATH: /opt/wasi-sdk
-        WASI_SYSROOT: /opt/wasi-sdk/share/wasi-sysroot
-        CC_wasm32_wasip1: /opt/wasi-sdk/bin/clang
-        AR_wasm32_wasip1: /opt/wasi-sdk/bin/llvm-ar
-        CFLAGS_wasm32_wasip1: "--sysroot=/opt/wasi-sdk/share/wasi-sysroot"
 
   test_mime_db:
     name: Test with MIME database

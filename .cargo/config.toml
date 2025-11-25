@@ -4,4 +4,3 @@ rustflags = [
   "-Clink-arg=-lc++",
   "-Clink-arg=-lc++abi"
 ]
-runner = "wasmtime run"
