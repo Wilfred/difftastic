@@ -24,7 +24,6 @@ jobs:
           - { target: x86_64-unknown-linux-musl, os: ubuntu-22.04, use-cross: true }
     env:
       BUILD_CMD: cargo
-      SUBCOMMAND: test
 
     steps:
     - name: Checkout source code
@@ -49,7 +48,7 @@ jobs:
 
     - name: Test
       shell: bash
-      run: $BUILD_CMD $SUBCOMMAND --target ${{ matrix.job.target }}
+      run: $BUILD_CMD test --target ${{ matrix.job.target }}
 
   test_mime_db:
     name: Test with MIME database
