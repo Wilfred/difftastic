@@ -194,9 +194,8 @@ impl Serialize for File<'_> {
         // Count fields: language, path, status are always present (3)
         // + aligned_lines if not empty (1)
         // + chunks if not empty (1)
-        let field_count = 3
-            + (!self.aligned_lines.is_empty()) as usize
-            + (!self.chunks.is_empty()) as usize;
+        let field_count =
+            3 + (!self.aligned_lines.is_empty()) as usize + (!self.chunks.is_empty()) as usize;
 
         let mut file = serializer.serialize_struct("File", field_count)?;
 
