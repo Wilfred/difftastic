@@ -27,15 +27,22 @@ enum Status {
 struct File<'f> {
     language: &'f FileFormat,
     path: &'f str,
+    aligned_lines: Vec<(Option<u32>, Option<u32>)>,
     chunks: Vec<Vec<Line<'f>>>,
     status: Status,
 }
 
 impl<'f> File<'f> {
-    fn with_sections(language: &'f FileFormat, path: &'f str, chunks: Vec<Vec<Line<'f>>>) -> Self {
+    fn with_sections(
+        language: &'f FileFormat,
+        path: &'f str,
+        aligned_lines: Vec<(Option<u32>, Option<u32>)>,
+        chunks: Vec<Vec<Line<'f>>>,
+    ) -> Self {
         File {
             language,
             path,
+            aligned_lines,
             chunks,
             status: Status::Changed,
         }
@@ -45,6 +52,7 @@ impl<'f> File<'f> {
         File {
             language,
             path,
+            aligned_lines: Vec::new(),
             chunks: Vec::new(),
             status,
         }
@@ -104,6 +112,13 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                     &lhs_lines,
                     &rhs_lines,
                 );
+
+                // Convert alignment to serializable format (Option<u32>, Option<u32>)
+                let aligned_lines: Vec<(Option<u32>, Option<u32>)> = matched_lines
+                    .iter()
+                    .map(|(lhs, rhs)| (lhs.map(|l| l.0), rhs.map(|l| l.0)))
+                    .collect();
+
                 let mut matched_lines = &matched_lines[..];
 
                 let mut chunks = Vec::with_capacity(hunks.len());
@@ -149,7 +164,12 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                     chunks.push(lines.into_values().collect());
                 }
 
-                File::with_sections(&summary.file_format, &summary.display_path, chunks)
+                File::with_sections(
+                    &summary.file_format,
+                    &summary.display_path,
+                    aligned_lines,
+                    chunks,
+                )
             }
             (FileContent::Binary, FileContent::Binary) => {
                 let status = if summary.has_byte_changes.is_some() {
@@ -171,14 +191,21 @@ impl Serialize for File<'_> {
     where
         S: Serializer,
     {
-        // equivalent to #[serde(skip_serializing_if = "Vec::is_empty")]
-        let mut file = if self.chunks.is_empty() {
-            serializer.serialize_struct("File", 3)?
-        } else {
-            let mut file = serializer.serialize_struct("File", 4)?;
+        // Count fields: language, path, status are always present (3)
+        // + aligned_lines if not empty (1)
+        // + chunks if not empty (1)
+        let field_count = 3
+            + (!self.aligned_lines.is_empty()) as usize
+            + (!self.chunks.is_empty()) as usize;
+
+        let mut file = serializer.serialize_struct("File", field_count)?;
+
+        if !self.aligned_lines.is_empty() {
+            file.serialize_field("aligned_lines", &self.aligned_lines)?;
+        }
+        if !self.chunks.is_empty() {
             file.serialize_field("chunks", &self.chunks)?;
-            file
-        };
+        }
 
         file.serialize_field("language", &format!("{}", self.language))?;
         file.serialize_field("path", &self.path)?;
