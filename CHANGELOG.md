@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Updated Lua parser.
+Updated C and Lua parsers.
 
 Fixed an issue with parsing raw string literals in Rust.
 
