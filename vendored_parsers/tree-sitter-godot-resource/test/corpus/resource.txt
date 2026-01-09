@@ -1,0 +1,45 @@
+=====================================
+Resource File
+=====================================
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="path" type="type" id=1]
+
+[node]
+
+[node name="game"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node parent="game/test"]
+script = ExtResource( 1 )
+editor/display_folded = true
+float = 10000390.03230329
+bool = false
+str = "hello
+       world \"okay\""
+
+---
+
+(resource
+  (section (identifier)
+    (attribute (identifier) (integer))
+    (attribute (identifier) (integer)))
+  (section (identifier)
+    (attribute (identifier) (string))
+    (attribute (identifier) (string))
+    (attribute (identifier) (integer)))
+  (section (identifier))
+  (section (identifier)
+    (attribute (identifier) (string))
+    (property (path) (dictionary
+      (pair (string) (true)))))
+  (section (identifier)
+    (attribute (identifier) (string))
+    (property (path) (constructor
+      (identifier) (arguments (integer))))
+    (property (path) (true))
+    (property (path) (float))
+    (property (path) (false))
+    (property (path) (string))))

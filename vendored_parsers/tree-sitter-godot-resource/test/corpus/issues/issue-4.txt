@@ -1,0 +1,29 @@
+=====================================
+Constructors accept type arguments #4
+=====================================
+
+[resource]
+test_array = Dictionary[int, String]({1: "first value",2: "second value",3: "etc"})
+
+---
+
+(resource
+  (section
+    (identifier)
+    (property
+      (path)
+      (constructor
+        (identifier)
+        (identifier)
+        (identifier)
+        (arguments
+          (dictionary
+            (pair
+              (integer)
+              (string))
+            (pair
+              (integer)
+              (string))
+            (pair
+              (integer)
+              (string))))))))

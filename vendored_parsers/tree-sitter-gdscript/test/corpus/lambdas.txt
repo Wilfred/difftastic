@@ -1,0 +1,464 @@
+=====================================
+Lambdas Assignment
+=====================================
+
+var x = func hello():
+  pass
+
+var x = func():
+  pass
+
+var x = func hello(): pass
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (lambda
+      (name)
+      (parameters)
+      (body
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (lambda
+      (parameters)
+      (body
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (lambda
+      (name)
+      (parameters)
+      (body
+        (pass_statement)))))
+
+=====================================
+Lambdas in Dictionary
+=====================================
+
+{key = func(): pass; pass, key = 1}
+{key = 1, 'key': func():
+	pass
+        pass}
+{key = 1, 'key': func():
+	pass
+        pass, 'key': 1}
+
+---
+
+(source
+  (expression_statement
+    (dictionary
+      (pair (identifier)
+        (lambda
+          (parameters)
+          (body
+            (pass_statement)
+            (pass_statement))))
+      (pair (identifier) (integer))))
+  (expression_statement
+    (dictionary
+      (pair (identifier) (integer))
+      (pair (string)
+        (lambda
+          (parameters)
+          (body
+            (pass_statement)
+            (pass_statement))))))
+  (expression_statement
+    (dictionary
+      (pair
+        (identifier)
+        (integer))
+      (pair
+        (string)
+        (lambda
+          (parameters)
+          (body
+            (pass_statement)
+            (pass_statement))))
+      (pair
+        (string)
+        (integer)))))
+
+; =====================================
+; Lambdas as Dictionary Keys
+; =====================================
+
+; {func():
+;   pass
+;   pass: 'value'}
+
+; ---
+
+; (source
+;   (expression_statement
+;     (dictionary
+;       (pair
+;         (lambda
+;           (parameters)
+;           (body
+;             (pass_statement)
+;             (pass_statement)))
+;         (string)))))
+
+=====================================
+Lambdas in Array
+=====================================
+
+[func x(): pass; pass]
+[func x(): pass; pass,]
+[func x():
+  pass
+  pass]
+[func x():
+  pass
+  pass,]
+[
+  func():
+    pass
+    pass,
+  func():
+    pass
+    pass,
+]
+
+func x():
+  if true:
+    var a = [func(): pass ; pass,]
+    var a = [func():
+                pass
+                pass,]
+
+---
+
+(source
+  (expression_statement
+    (array
+      (lambda
+        (name)
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))))
+  (expression_statement
+    (array
+      (lambda
+        (name)
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))))
+  (expression_statement
+    (array
+      (lambda
+        (name)
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))))
+  (expression_statement
+    (array
+      (lambda
+        (name)
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))))
+  (expression_statement
+    (array
+      (lambda
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))
+      (lambda
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))))
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (if_statement
+        (true)
+        (body
+          (variable_statement
+            (name)
+            (array
+              (lambda
+                (parameters)
+                (body
+                  (pass_statement)
+                  (pass_statement)))))
+          (variable_statement
+            (name)
+            (array
+              (lambda
+                (parameters)
+                (body
+                  (pass_statement)
+                  (pass_statement))))))))))
+
+=====================================
+Lambdas Nested
+=====================================
+
+var x = func(): (func hello(): pass) ; pass
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (lambda
+      (parameters)
+      (body
+        (expression_statement
+          (parenthesized_expression
+            (lambda
+              (name)
+              (parameters)
+              (body
+                (pass_statement)))))
+        (pass_statement)))))
+
+=====================================
+Lambdas as Params
+=====================================
+
+func hello(p = func(p: int) -> int: pass; pass, x: int):
+  pass
+
+func hello(p = func(p: int) -> int:
+    pass
+    pass, x: int):
+  pass
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters
+      (default_parameter
+        (identifier)
+        (lambda
+          (parameters
+            (typed_parameter
+              (identifier)
+              (type (identifier))))
+          (type (identifier))
+          (body
+            (pass_statement)
+            (pass_statement))))
+      (typed_parameter
+        (identifier)
+        (type (identifier))))
+    (body
+      (pass_statement)))
+  (function_definition
+    (name)
+    (parameters
+      (default_parameter
+        (identifier)
+        (lambda
+          (parameters
+            (typed_parameter
+              (identifier)
+              (type (identifier))))
+          (type (identifier))
+          (body
+            (pass_statement)
+            (pass_statement))))
+      (typed_parameter
+        (identifier)
+        (type (identifier))))
+    (body
+      (pass_statement))))
+
+=====================================
+Lambdas as Args
+=====================================
+
+hello(func(): pass)
+
+---
+
+(source
+  (expression_statement
+    (call
+      (identifier)
+      (arguments
+        (lambda
+          (parameters)
+          (body
+            (pass_statement)))))))
+
+
+=====================================
+Lambdas in Statements
+=====================================
+
+func x(p: int = 1) -> int:
+  if p == 1:
+    var v = func(p: int) -> int:
+        var result = v + p
+        return result
+    return x(p)
+  else:
+    return (func(v: int) -> int:
+        var result = v + p
+        return result)(p)
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters
+      (typed_default_parameter
+        (identifier)
+        (type (identifier))
+        (integer)))
+    (type (identifier))
+    (body
+      (if_statement
+        (binary_operator
+          (identifier)
+          (integer))
+        (body
+          (variable_statement
+            (name)
+            (lambda
+              (parameters
+                (typed_parameter
+                  (identifier)
+                  (type (identifier))))
+              (type (identifier))
+              (body
+                (variable_statement
+                  (name)
+                  (binary_operator
+                    (identifier)
+                    (identifier)))
+                (return_statement
+                  (identifier)))))
+          (return_statement
+            (call
+              (identifier)
+              (arguments
+                (identifier)))))
+        (else_clause
+          (body
+            (return_statement
+              (call
+                (parenthesized_expression
+                  (lambda
+                    (parameters
+                      (typed_parameter
+                        (identifier)
+                        (type (identifier))))
+                    (type (identifier))
+                    (body
+                      (variable_statement
+                        (name)
+                        (binary_operator
+                          (identifier)
+                          (identifier)))
+                      (return_statement
+                        (identifier)))))
+                (arguments
+                  (identifier))))))))))
+
+=====================================
+Lambdas Return Stmt
+=====================================
+
+var x = func():
+	pass
+	return func x(t: T) -> T:
+		pass
+		return t
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (lambda
+      (parameters)
+      (body
+        (pass_statement)
+        (return_statement
+          (lambda
+            (name)
+            (parameters
+              (typed_parameter
+                (identifier)
+                (type (identifier))))
+            (type (identifier))
+            (body
+              (pass_statement)
+              (return_statement
+                (identifier)))))))))
+
+=====================================
+Lambdas Nested Ifs
+=====================================
+
+func x():
+  x(func():
+    if true:
+      y(func():
+        if true:
+          pass
+        else:
+          var x = 1 + 1 ,
+        "END y")
+    else:
+      pass, "END x")
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (expression_statement
+        (call
+          (identifier)
+          (arguments
+            (lambda
+              (parameters)
+              (body
+                (if_statement
+                  (true)
+                  (body
+                    (expression_statement
+                      (call
+                        (identifier)
+                        (arguments
+                          (lambda
+                            (parameters)
+                            (body
+                              (if_statement
+                                (true)
+                                (body
+                                  (pass_statement))
+                                (else_clause
+                                  (body
+                                    (variable_statement
+                                      (name)
+                                      (binary_operator
+                                        (integer)
+                                        (integer))))))))
+                          (string)))))
+                  (else_clause
+                    (body
+                      (pass_statement))))))
+            (string)))))))
+
