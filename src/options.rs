@@ -8,7 +8,6 @@ use std::{
 };
 
 use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
-use crossterm::tty::IsTty;
 use owo_colors::OwoColorize as _;
 
 use crate::{
@@ -50,6 +49,30 @@ pub(crate) struct DisplayOptions {
 }
 
 pub(crate) const DEFAULT_TERMINAL_WIDTH: usize = 80;
+
+#[cfg(not(target_arch = "wasm32"))]
+fn stdout_is_tty() -> bool {
+    use crossterm::tty::IsTty;
+    std::io::stdout().is_tty()
+}
+
+#[cfg(target_arch = "wasm32")]
+fn stdout_is_tty() -> bool {
+    false
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn terminal_columns() -> Option<usize> {
+    crossterm::terminal::size()
+        .ok()
+        .map(|(cols, _rows)| cols as usize)
+        .filter(|cols| *cols > 0)
+}
+
+#[cfg(target_arch = "wasm32")]
+fn terminal_columns() -> Option<usize> {
+    None
+}
 
 impl Default for DisplayOptions {
     fn default() -> Self {
@@ -125,7 +148,7 @@ fn app() -> clap::Command {
     ));
 
     after_help.push_str("\n\nSee the full manual at ");
-    if std::io::stdout().is_tty() {
+    if stdout_is_tty() {
         // Make the link to the manual clickable in terminals that
         // support OSC 8, the ANSI escape code for hyperlinks.
         //
@@ -596,6 +619,7 @@ fn common_path_suffix(lhs_path: &Path, rhs_path: &Path) -> Option<String> {
 }
 
 /// Does `path` look like "/tmp/git-blob-abcdef/modified_field.txt"?
+#[cfg(not(target_arch = "wasm32"))]
 fn is_git_tmpfile(path: &Path) -> bool {
     let Ok(rel_path) = path.strip_prefix(std::env::temp_dir()) else {
         return false;
@@ -610,6 +634,12 @@ fn is_git_tmpfile(path: &Path) -> bool {
         .as_os_str()
         .to_string_lossy()
         .starts_with("git-blob-")
+}
+
+#[cfg(target_arch = "wasm32")]
+fn is_git_tmpfile(_path: &Path) -> bool {
+    // WASI environments may not have a writable /tmp; skip special-casing.
+    false
 }
 
 fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> String {
@@ -1002,10 +1032,8 @@ pub(crate) fn parse_args() -> Mode {
 /// Try to work out the width of the terminal we're on, or fall back
 /// to a sensible default value.
 fn detect_terminal_width() -> usize {
-    if let Ok((columns, _rows)) = crossterm::terminal::size() {
-        if columns > 0 {
-            return columns.into();
-        }
+    if let Some(columns) = terminal_columns() {
+        return columns;
     }
 
     // If crossterm couldn't detect the terminal width, use the
@@ -1036,7 +1064,7 @@ pub(crate) fn should_use_color(color_output: ColorOutput) -> bool {
 fn detect_color_support() -> bool {
     // TODO: consider following the env parsing logic in git_config_bool
     // in config.c.
-    std::io::stdout().is_tty() || env::var("GIT_PAGER_IN_USE").is_ok()
+    stdout_is_tty() || env::var("GIT_PAGER_IN_USE").is_ok()
 }
 
 #[cfg(test)]
