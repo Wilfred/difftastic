@@ -128,7 +128,7 @@ tree-sitter-xml = "0.7.0"
 tree-sitter-yaml = "0.7.0"
 tree-sitter-zig = "1.1.2"
 
-[target.'cfg(not(any(target_env = "msvc", target_os = "illumos", target_os = "freebsd")))'.dependencies]
+[target.'cfg(not(any(windows, target_os = "illumos", target_os = "freebsd")))'.dependencies]
 tikv-jemallocator = "0.6"
 
 [dev-dependencies]
