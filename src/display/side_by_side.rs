@@ -545,7 +545,7 @@ pub(crate) fn print(
     }
 
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
-    let mut matched_lines_to_print = &matched_lines[..];
+    let matched_lines_to_print = &matched_lines[..];
 
     let mut lhs_max_visible_line = 1.into();
     let mut rhs_max_visible_line = 1.into();
@@ -612,12 +612,11 @@ pub(crate) fn print(
             display_options.num_context_lines as usize,
         );
         let aligned_lines = &matched_lines_to_print[start_i..end_i];
-        // We iterate through hunks in order, so we know the next hunk
-        // must appear after start_i. This makes
-        // `matched_lines_indexes_for_hunk` faster on later
-        // iterations, and this function is hot on large textual
-        // diffs.
-        matched_lines_to_print = &matched_lines_to_print[start_i..];
+        // Note: We previously sliced matched_lines_to_print here as an
+        // optimization, assuming hunks appear in order. However, hunks
+        // from matched_novel_lines may not be strictly ordered by their
+        // position in matched_lines when there are interleaved LHS-only
+        // and RHS-only novel sections. See issue #770.
 
         let no_lhs_changes = hunk.novel_lhs.is_empty();
         let no_rhs_changes = hunk.novel_rhs.is_empty();
