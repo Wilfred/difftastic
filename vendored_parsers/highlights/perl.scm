@@ -88,7 +88,10 @@
 
 (method_invocation
   function_name: (identifier) @method)
-(call_expression
+
+;; call_expression for tree-sitter-perl 1.1.2
+;; Only call_expression_with_bareword has a function_name field
+(call_expression_with_bareword
   function_name: (identifier) @function)
 
 ;; ----------
@@ -96,8 +99,7 @@
 (use_constant_statement
   constant: (identifier) @constant)
 
-(named_block_statement
-  function_name: (identifier) @function)
+;; named_block_statement removed in tree-sitter-perl 1.1.2
 
 (function_definition
   name: (identifier) @function)
@@ -123,7 +125,6 @@
 "//"
 "||"
 (arrow_operator)
-(hash_arrow_operator)
 (array_dereference)
 (hash_dereference)
 (to_reference)
@@ -143,13 +144,12 @@
 (string_single_quoted)
 (string_double_quoted)
 (string_qq_quoted)
-(bareword)
 (transliteration_tr_or_y)
 ] @string
 
 [
-(regex_pattern_qr) 
-(patter_matcher_m)
+(regex_pattern_qr)
+(pattern_matcher_m)
 (substitution_pattern_s)
 ] @string.regex
 
@@ -157,7 +157,7 @@
 
 [
 ","
-(semi_colon)
+";"
 (start_delimiter)
 (end_delimiter)
 (ellipsis_statement)
