@@ -76,7 +76,6 @@ extern "C" {
     fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
-    fn tree_sitter_perl() -> ts::Language;
     fn tree_sitter_smali() -> ts::Language;
     fn tree_sitter_scss() -> ts::Language;
     fn tree_sitter_vhdl() -> ts::Language;
@@ -795,7 +794,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Perl => {
-            let language = unsafe { tree_sitter_perl() };
+            let language_fn = tree_sitter_perl::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: [
@@ -803,10 +803,13 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                     "string_double_quoted",
                     "comments",
                     "command_qx_quoted",
-                    "patter_matcher_m",
+                    "pattern_matcher_m",
                     "regex_pattern_qr",
                     "transliteration_tr_or_y",
                     "substitution_pattern_s",
+                    "scalar_variable",
+                    "array_variable",
+                    "hash_variable",
                 ]
                 .into_iter()
                 .collect(),
