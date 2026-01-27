@@ -4,3 +4,6 @@ pub(crate) mod inline;
 pub(crate) mod json;
 pub(crate) mod side_by_side;
 pub(crate) mod style;
+
+#[cfg(test)]
+pub(crate) mod test_util;

@@ -782,6 +782,10 @@ mod tests {
 
     use super::*;
     use crate::{
+        display::{
+            hunks::matched_pos_to_hunks,
+            test_util::{novel, unchanged},
+        },
         options::DEFAULT_TERMINAL_WIDTH,
         parse::guess_language::Language,
         syntax::{AtomKind, MatchKind, TokenKind},
@@ -903,6 +907,41 @@ mod tests {
             &FileFormat::SupportedLanguage(Language::EmacsLisp),
             "foo",
             "bar",
+            &lhs_mps,
+            &rhs_mps,
+        );
+    }
+
+    /// Regression test for issue #770: slicing optimization assumed hunks appear
+    /// in matched_lines order, but LHS-only hunks may appear before RHS-only hunks
+    /// even when RHS lines come first. Would panic before fix.
+    #[test]
+    fn test_display_hunks_out_of_order_issue_770() {
+        // LHS novels at 10-12, RHS novels at 3-5. Hunks: [LHS, RHS] but
+        // matched_lines has RHS first. Slicing after LHS hunk would remove RHS lines.
+        let lhs_src = (0..15)
+            .map(|i| format!("L{i}"))
+            .collect::<Vec<_>>()
+            .join("\n");
+        let rhs_src = (0..10)
+            .map(|i| format!("R{i}"))
+            .collect::<Vec<_>>()
+            .join("\n");
+
+        let lhs_mps = vec![unchanged(0, 0), novel(10), novel(11), novel(12)];
+        let rhs_mps = vec![unchanged(0, 0), novel(3), novel(4), novel(5)];
+
+        let hunks = matched_pos_to_hunks(&lhs_mps, &rhs_mps);
+
+        // Would panic before fix with "Hunk lines should be present in matched lines"
+        print(
+            &hunks,
+            &DisplayOptions::default(),
+            "t.txt",
+            None,
+            &FileFormat::PlainText,
+            &lhs_src,
+            &rhs_src,
             &lhs_mps,
             &rhs_mps,
         );
