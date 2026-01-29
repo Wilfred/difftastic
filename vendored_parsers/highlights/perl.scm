@@ -99,6 +99,15 @@
 (use_constant_statement
   constant: (identifier) @constant)
 
+;; Hash-style use constant { SEC => 0, MIN => 1, ... }
+;; In tree-sitter-perl 1.1.2, the keys are call_expression_with_bareword nodes
+;; inside a hash_ref. Capture as @string to match the bright magenta styling
+;; that the old vendored grammar produced.
+(use_constant_statement
+  (hash_ref
+    (call_expression_with_bareword
+      (identifier) @string)))
+
 ;; named_block_statement removed in tree-sitter-perl 1.1.2
 
 (function_definition
@@ -128,9 +137,14 @@
 (array_dereference)
 (hash_dereference)
 (to_reference)
-(hash_access_variable)
 (ternary_expression)
 ] @operator
+
+;; fat_comma (=>) is only styled as an operator inside hash_ref, matching the
+;; old vendored grammar's behavior where the single-constant form
+;; (use constant FOO => ...) left => unstyled.
+(hash_ref
+  (fat_comma) @operator)
 
 [
 (regex_option)

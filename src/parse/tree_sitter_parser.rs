@@ -810,6 +810,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                     "scalar_variable",
                     "array_variable",
                     "hash_variable",
+                    "hash_access_variable",
                 ]
                 .into_iter()
                 .collect(),
