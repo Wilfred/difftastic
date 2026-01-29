@@ -138,6 +138,29 @@ fn text_changes_at_end_doesnt_crash() {
 }
 
 #[test]
+fn perl_heredoc_doesnt_crash() {
+    // The vendored tree-sitter-perl scanner has heap buffer overflow bugs in
+    // its heredoc queue. These only crash reliably in release mode (debug
+    // mode's allocator padding absorbs the overflow). Run multiple times
+    // because the crash is non-deterministic (depends on ASLR).
+    let bin = assert_cmd::cargo_bin!("difft")
+        .to_string_lossy()
+        .replace("/debug/", "/release/");
+    let status = std::process::Command::new("cargo")
+        .args(["build", "--release", "--bin", "difft"])
+        .status()
+        .expect("failed to run cargo build --release");
+    assert!(status.success(), "release build failed");
+
+    for _ in 0..10 {
+        let mut cmd = Command::new(&bin);
+        cmd.arg("sample_files/perl_heredoc_1.pl")
+            .arg("sample_files/perl_heredoc_2.pl");
+        cmd.assert().success();
+    }
+}
+
+#[test]
 fn makefile_text_as_atom() {
     let mut cmd = get_base_command();
 
