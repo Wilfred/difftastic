@@ -2,9 +2,13 @@
 
 ### Parsing
 
-Updated C and Lua parsers.
+Updated C, Lua, Perl and Swift parsers.
 
 Fixed an issue with parsing raw string literals in Rust.
+
+### Build
+
+Difftastic now requires Rust 1.77 or later to build.
 
 ## 0.67 (released 16 November 2025)
 
