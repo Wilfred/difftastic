@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A module for integrating signal handling with the MIO 1.0 runtime."><title>signal_hook_mio::v1_0 - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="signal_hook_mio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../signal_hook_mio/index.html">signal_hook_mio</a><span class="version">0.2.4</span></h2></div><h2 class="location"><a href="#">Module v1_0</a></h2><div class="sidebar-elems"><section><ul class="block"><li><a href="#structs">Structs</a></li><li><a href="#types">Type Aliases</a></li></ul></section><h2><a href="../index.html">In crate signal_hook_mio</a></h2></div></nav><div class="sidebar-resizer"></div>
+    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../signal_hook_mio/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../index.html">signal_hook_mio</a>::<wbr><a class="mod" href="#">v1_0</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/signal_hook_mio/lib.rs.html#159">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A module for integrating signal handling with the MIO 1.0 runtime.</p>
+<p>This provides the <a href="type.Signals.html" title="type signal_hook_mio::v1_0::Signals"><code>Signals</code></a> struct as an abstraction
+which can be used with <a href="../../mio/poll/struct.Poll.html" title="struct mio::poll::Poll"><code>mio::Poll</code></a>.</p>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io::{Error, ErrorKind};
+
+<span class="kw">use </span>signal_hook::consts::signal::<span class="kw-2">*</span>;
+<span class="kw">use </span>signal_hook_mio::v1_0::Signals;
+
+<span class="kw">use </span>mio::{Events, Poll, Interest, Token};
+
+<span class="kw">fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>poll = Poll::new()<span class="question-mark">?</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>signals = Signals::new(<span class="kw-2">&amp;</span>[
+        SIGTERM,
+    ])<span class="question-mark">?</span>;
+
+    <span class="kw">let </span>signal_token = Token(<span class="number">0</span>);
+
+    poll.registry().register(<span class="kw-2">&amp;mut </span>signals, signal_token, Interest::READABLE)<span class="question-mark">?</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>events = Events::with_capacity(<span class="number">10</span>);
+    <span class="lifetime">'outer</span>: <span class="kw">loop </span>{
+        poll.poll(<span class="kw-2">&amp;mut </span>events, <span class="prelude-val">None</span>)
+            .or_else(|e| <span class="kw">if </span>e.kind() == ErrorKind::Interrupted {
+                <span class="comment">// We get interrupt when a signal happens inside poll. That's non-fatal, just
+                // retry.
+                </span>events.clear();
+                <span class="prelude-val">Ok</span>(())
+            } <span class="kw">else </span>{
+                <span class="prelude-val">Err</span>(e)
+            })<span class="question-mark">?</span>;
+        <span class="kw">for </span>event <span class="kw">in </span>events.iter() {
+            <span class="kw">match </span>event.token() {
+                Token(<span class="number">0</span>) =&gt; {
+                    <span class="kw">for </span>signal <span class="kw">in </span>signals.pending() {
+                        <span class="kw">match </span>signal {
+                            SIGTERM =&gt; <span class="kw">break </span><span class="lifetime">'outer</span>,
+                            <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
+                        }
+                    }
+                },
+                <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(<span class="string">"Register other sources and match for their tokens here"</span>),
+            }
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.Pending.html" title="struct signal_hook_mio::v1_0::Pending">Pending</a></div><div class="desc docblock-short">The iterator of one batch of signals.</div></li><li><div class="item-name"><a class="struct" href="struct.SignalsInfo.html" title="struct signal_hook_mio::v1_0::SignalsInfo">SignalsInfo</a></div><div class="desc docblock-short">A struct which mimics <a href="../../signal_hook/iterator/struct.SignalsInfo.html" title="struct signal_hook::iterator::SignalsInfo"><code>signal_hook::iterator::SignalsInfo</code></a>
+but also allows usage together with MIO runtime.</div></li></ul><h2 id="types" class="section-header">Type Aliases<a href="#types" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="type" href="type.Signals.html" title="type signal_hook_mio::v1_0::Signals">Signals</a></div><div class="desc docblock-short">A simplified signal iterator.</div></li></ul></section></div></main></body></html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="The globset crate provides cross platform single glob and glob set matching."><title>globset - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="globset" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../static.files/storage-4c98445ec4002617.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../globset/index.html">globset</a><span class="version">0.4.15</span></h2></div><div class="sidebar-elems"><ul class="block">
+            <li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#functions">Functions</a></li></ul></section></div></nav><div class="sidebar-resizer"></div>
+    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../globset/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">globset</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/globset/lib.rs.html#1-1022">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>The globset crate provides cross platform single glob and glob set matching.</p>
+<p>Glob set matching is the process of matching one or more glob patterns against
+a single candidate path simultaneously, and returning all of the globs that
+matched. For example, given this set of globs:</p>
+<ul>
+<li><code>*.rs</code></li>
+<li><code>src/lib.rs</code></li>
+<li><code>src/**/foo.rs</code></li>
+</ul>
+<p>and a path <code>src/bar/baz/foo.rs</code>, then the set would report the first and third
+globs as matching.</p>
+<h2 id="example-one-glob"><a class="doc-anchor" href="#example-one-glob">§</a>Example: one glob</h2>
+<p>This example shows how to match a single glob against a single file path.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>globset::Glob;
+
+<span class="kw">let </span>glob = Glob::new(<span class="string">"*.rs"</span>)<span class="question-mark">?</span>.compile_matcher();
+
+<span class="macro">assert!</span>(glob.is_match(<span class="string">"foo.rs"</span>));
+<span class="macro">assert!</span>(glob.is_match(<span class="string">"foo/bar.rs"</span>));
+<span class="macro">assert!</span>(!glob.is_match(<span class="string">"Cargo.toml"</span>));</code></pre></div>
+<h2 id="example-configuring-a-glob-matcher"><a class="doc-anchor" href="#example-configuring-a-glob-matcher">§</a>Example: configuring a glob matcher</h2>
+<p>This example shows how to use a <code>GlobBuilder</code> to configure aspects of match
+semantics. In this example, we prevent wildcards from matching path separators.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>globset::GlobBuilder;
+
+<span class="kw">let </span>glob = GlobBuilder::new(<span class="string">"*.rs"</span>)
+    .literal_separator(<span class="bool-val">true</span>).build()<span class="question-mark">?</span>.compile_matcher();
+
+<span class="macro">assert!</span>(glob.is_match(<span class="string">"foo.rs"</span>));
+<span class="macro">assert!</span>(!glob.is_match(<span class="string">"foo/bar.rs"</span>)); <span class="comment">// no longer matches
+</span><span class="macro">assert!</span>(!glob.is_match(<span class="string">"Cargo.toml"</span>));</code></pre></div>
+<h2 id="example-match-multiple-globs-at-once"><a class="doc-anchor" href="#example-match-multiple-globs-at-once">§</a>Example: match multiple globs at once</h2>
+<p>This example shows how to match multiple glob patterns at once.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>globset::{Glob, GlobSetBuilder};
+
+<span class="kw">let </span><span class="kw-2">mut </span>builder = GlobSetBuilder::new();
+<span class="comment">// A GlobBuilder can be used to configure each glob's match semantics
+// independently.
+</span>builder.add(Glob::new(<span class="string">"*.rs"</span>)<span class="question-mark">?</span>);
+builder.add(Glob::new(<span class="string">"src/lib.rs"</span>)<span class="question-mark">?</span>);
+builder.add(Glob::new(<span class="string">"src/**/foo.rs"</span>)<span class="question-mark">?</span>);
+<span class="kw">let </span>set = builder.build()<span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(set.matches(<span class="string">"src/bar/baz/foo.rs"</span>), <span class="macro">vec!</span>[<span class="number">0</span>, <span class="number">2</span>]);</code></pre></div>
+<h2 id="syntax"><a class="doc-anchor" href="#syntax">§</a>Syntax</h2>
+<p>Standard Unix-style glob syntax is supported:</p>
+<ul>
+<li><code>?</code> matches any single character. (If the <code>literal_separator</code> option is
+enabled, then <code>?</code> can never match a path separator.)</li>
+<li><code>*</code> matches zero or more characters. (If the <code>literal_separator</code> option is
+enabled, then <code>*</code> can never match a path separator.)</li>
+<li><code>**</code> recursively matches directories but are only legal in three situations.
+First, if the glob starts with <code>**/</code>, then it matches
+all directories. For example, <code>**/foo</code> matches <code>foo</code>
+and <code>bar/foo</code> but not <code>foo/bar</code>. Secondly, if the glob ends with
+<code>/**</code>, then it matches all sub-entries. For example,
+<code>foo/**</code> matches <code>foo/a</code> and <code>foo/a/b</code>, but not <code>foo</code>.
+Thirdly, if the glob contains <code>/**/</code> anywhere within
+the pattern, then it matches zero or more directories. Using <code>**</code> anywhere
+else is illegal (N.B. the glob <code>**</code> is allowed and means “match everything”).</li>
+<li><code>{a,b}</code> matches <code>a</code> or <code>b</code> where <code>a</code> and <code>b</code> are arbitrary glob patterns.
+(N.B. Nesting <code>{...}</code> is not currently allowed.)</li>
+<li><code>[ab]</code> matches <code>a</code> or <code>b</code> where <code>a</code> and <code>b</code> are characters. Use
+<code>[!ab]</code> to match any character except for <code>a</code> and <code>b</code>.</li>
+<li>Metacharacters such as <code>*</code> and <code>?</code> can be escaped with character class
+notation. e.g., <code>[*]</code> matches <code>*</code>.</li>
+<li>When backslash escapes are enabled, a backslash (<code>\</code>) will escape all meta
+characters in a glob. If it precedes a non-meta character, then the slash is
+ignored. A <code>\\</code> will match a literal <code>\\</code>. Note that this mode is only
+enabled on Unix platforms by default, but can be enabled on any platform
+via the <code>backslash_escape</code> setting on <code>Glob</code>.</li>
+</ul>
+<p>A <code>GlobBuilder</code> can be used to prevent wildcards from matching path separators,
+or to enable case insensitive matching.</p>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.Candidate.html" title="struct globset::Candidate">Candidate</a></div><div class="desc docblock-short">A candidate path for matching.</div></li><li><div class="item-name"><a class="struct" href="struct.Error.html" title="struct globset::Error">Error</a></div><div class="desc docblock-short">Represents an error that can occur when parsing a glob pattern.</div></li><li><div class="item-name"><a class="struct" href="struct.Glob.html" title="struct globset::Glob">Glob</a></div><div class="desc docblock-short">Glob represents a successfully parsed shell glob pattern.</div></li><li><div class="item-name"><a class="struct" href="struct.GlobBuilder.html" title="struct globset::GlobBuilder">GlobBuilder</a></div><div class="desc docblock-short">A builder for a pattern.</div></li><li><div class="item-name"><a class="struct" href="struct.GlobMatcher.html" title="struct globset::GlobMatcher">GlobMatcher</a></div><div class="desc docblock-short">A matcher for a single pattern.</div></li><li><div class="item-name"><a class="struct" href="struct.GlobSet.html" title="struct globset::GlobSet">GlobSet</a></div><div class="desc docblock-short">GlobSet represents a group of globs that can be matched together in a
+single pass.</div></li><li><div class="item-name"><a class="struct" href="struct.GlobSetBuilder.html" title="struct globset::GlobSetBuilder">GlobSetBuilder</a></div><div class="desc docblock-short">GlobSetBuilder builds a group of patterns that can be used to
+simultaneously match a file path.</div></li></ul><h2 id="enums" class="section-header">Enums<a href="#enums" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="enum" href="enum.ErrorKind.html" title="enum globset::ErrorKind">ErrorKind</a></div><div class="desc docblock-short">The kind of error that can occur when parsing a glob pattern.</div></li></ul><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="fn" href="fn.escape.html" title="fn globset::escape">escape</a></div><div class="desc docblock-short">Escape meta-characters within the given glob pattern.</div></li></ul></section></div></main></body></html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Rust Tree-sitter"><title>tree_sitter - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="tree_sitter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../static.files/storage-4c98445ec4002617.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../tree_sitter/index.html">tree_sitter</a><span class="version">0.26.3</span></h2></div><div class="sidebar-elems"><ul class="block">
+            <li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></section></div></nav><div class="sidebar-resizer"></div>
+    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../tree_sitter/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">tree_sitter</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/tree_sitter/lib.rs.html#1-3912">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="rust-tree-sitter"><a class="doc-anchor" href="#rust-tree-sitter">§</a>Rust Tree-sitter</h2>
+<p><a href="https://crates.io/crates/tree-sitter"><img src="https://img.shields.io/crates/v/tree-sitter.svg?color=%23B48723" alt="crates.io badge" /></a></p>
+<p>Rust bindings to the <a href="https://github.com/tree-sitter/tree-sitter">Tree-sitter</a> parsing library.</p>
+<h3 id="basic-usage"><a class="doc-anchor" href="#basic-usage">§</a>Basic Usage</h3>
+<p>First, create a parser:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tree_sitter::{InputEdit, Language, Parser, Point};
+
+<span class="kw">let </span><span class="kw-2">mut </span>parser = Parser::new();</code></pre></div>
+<p>Then, add a language as a dependency:</p>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+tree-sitter = &quot;0.24&quot;
+tree-sitter-rust = &quot;0.23&quot;
+</code></pre></div>
+<p>To use a language, you assign them to the parser.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>parser.set_language(<span class="kw-2">&amp;</span>tree_sitter_rust::LANGUAGE.into()).expect(<span class="string">"Error loading Rust grammar"</span>);</code></pre></div>
+<p>Now you can parse source code:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>source_code = <span class="string">"fn test() {}"</span>;
+<span class="kw">let </span><span class="kw-2">mut </span>tree = parser.parse(source_code, <span class="prelude-val">None</span>).unwrap();
+<span class="kw">let </span>root_node = tree.root_node();
+
+<span class="macro">assert_eq!</span>(root_node.kind(), <span class="string">"source_file"</span>);
+<span class="macro">assert_eq!</span>(root_node.start_position().column, <span class="number">0</span>);
+<span class="macro">assert_eq!</span>(root_node.end_position().column, <span class="number">12</span>);</code></pre></div>
+<h4 id="editing"><a class="doc-anchor" href="#editing">§</a>Editing</h4>
+<p>Once you have a syntax tree, you can update it when your source code changes.
+Passing in the previous edited tree makes <code>parse</code> run much more quickly:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>new_source_code = <span class="string">"fn test(a: u32) {}"</span>;
+
+tree.edit(<span class="kw-2">&amp;</span>InputEdit {
+  start_byte: <span class="number">8</span>,
+  old_end_byte: <span class="number">8</span>,
+  new_end_byte: <span class="number">14</span>,
+  start_position: Point::new(<span class="number">0</span>, <span class="number">8</span>),
+  old_end_position: Point::new(<span class="number">0</span>, <span class="number">8</span>),
+  new_end_position: Point::new(<span class="number">0</span>, <span class="number">14</span>),
+});
+
+<span class="kw">let </span>new_tree = parser.parse(new_source_code, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tree));</code></pre></div>
+<h4 id="text-input"><a class="doc-anchor" href="#text-input">§</a>Text Input</h4>
+<p>The source code to parse can be provided either as a string, a slice, a vector,
+or as a function that returns a slice. The text can be encoded as either UTF8 or UTF16:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="comment">// Store some source code in an array of lines.
+</span><span class="kw">let </span>lines = <span class="kw-2">&amp;</span>[
+    <span class="string">"pub fn foo() {"</span>,
+    <span class="string">"  1"</span>,
+    <span class="string">"}"</span>,
+];
+
+<span class="comment">// Parse the source code using a custom callback. The callback is called
+// with both a byte offset and a row/column offset.
+</span><span class="kw">let </span>tree = parser.parse_with(<span class="kw-2">&amp;mut </span>|_byte: usize, position: Point| -&gt; <span class="kw-2">&amp;</span>[u8] {
+    <span class="kw">let </span>row = position.row <span class="kw">as </span>usize;
+    <span class="kw">let </span>column = position.column <span class="kw">as </span>usize;
+    <span class="kw">if </span>row &lt; lines.len() {
+        <span class="kw">if </span>column &lt; lines[row].as_bytes().len() {
+            <span class="kw-2">&amp;</span>lines[row].as_bytes()[column..]
+        } <span class="kw">else </span>{
+            <span class="string">b"\n"
+        </span>}
+    } <span class="kw">else </span>{
+        <span class="kw-2">&amp;</span>[]
+    }
+}, <span class="prelude-val">None</span>).unwrap();
+
+<span class="macro">assert_eq!</span>(
+  tree.root_node().to_sexp(),
+  <span class="string">"(source_file (function_item (visibility_modifier) (identifier) (parameters) (block (number_literal))))"
+</span>);</code></pre></div>
+<h3 id="using-wasm-grammar-files"><a class="doc-anchor" href="#using-wasm-grammar-files">§</a>Using Wasm Grammar Files</h3>
+<blockquote>
+<p>Requires the feature <strong>wasm</strong> to be enabled.</p>
+</blockquote>
+<p>First, create a parser with a Wasm store:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tree_sitter::{wasmtime::Engine, Parser, WasmStore};
+
+<span class="kw">let </span>engine = Engine::default();
+<span class="kw">let </span>store = WasmStore::new(<span class="kw-2">&amp;</span>engine).unwrap();
+
+<span class="kw">let </span><span class="kw-2">mut </span>parser = Parser::new();
+parser.set_wasm_store(store).unwrap();</code></pre></div>
+<p>Then, load the language from a Wasm file:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">const </span>JAVASCRIPT_GRAMMAR: <span class="kw-2">&amp;</span>[u8] = <span class="macro">include_bytes!</span>(<span class="string">"path/to/tree-sitter-javascript.wasm"</span>);
+
+<span class="kw">let </span><span class="kw-2">mut </span>store = WasmStore::new(<span class="kw-2">&amp;</span>engine).unwrap();
+<span class="kw">let </span>javascript = store
+    .load_language(<span class="string">"javascript"</span>, JAVASCRIPT_GRAMMAR)
+    .unwrap();
+
+<span class="comment">// The language may be loaded from a different WasmStore than the one set on
+// the parser but it must use the same underlying WasmEngine.
+</span>parser.set_language(<span class="kw-2">&amp;</span>javascript).unwrap();</code></pre></div>
+<p>Now you can parse source code:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>source_code = <span class="string">"let x = 1;"</span>;
+<span class="kw">let </span>tree = parser.parse(source_code, <span class="prelude-val">None</span>).unwrap();
+
+<span class="macro">assert_eq!</span>(
+    tree.root_node().to_sexp(),
+    <span class="string">"(program (lexical_declaration (variable_declarator name: (identifier) value: (number))))"
+</span>);</code></pre></div>
+<h3 id="features"><a class="doc-anchor" href="#features">§</a>Features</h3>
+<ul>
+<li><strong>std</strong> - This feature is enabled by default and allows <code>tree-sitter</code> to use the standard library.
+<ul>
+<li>Error types implement the <code>std::error:Error</code> trait.</li>
+<li><code>regex</code> performance optimizations are enabled.</li>
+<li>The DOT graph methods are enabled.</li>
+</ul>
+</li>
+<li><strong>wasm</strong> - This feature allows <code>tree-sitter</code> to be built for Wasm targets using the <code>wasmtime-c-api</code> crate.</li>
+</ul>
+</div></details><h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="ffi/index.html" title="mod tree_sitter::ffi">ffi</a></div></li></ul><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.IncludedRangesError.html" title="struct tree_sitter::IncludedRangesError">IncludedRangesError</a></div><div class="desc docblock-short">An error that occurred in <a href="struct.Parser.html#method.set_included_ranges" title="method tree_sitter::Parser::set_included_ranges"><code>Parser::set_included_ranges</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.InputEdit.html" title="struct tree_sitter::InputEdit">InputEdit</a></div><div class="desc docblock-short">A summary of a change to a text document.</div></li><li><div class="item-name"><a class="struct" href="struct.Language.html" title="struct tree_sitter::Language">Language</a></div><div class="desc docblock-short">An opaque object that defines how to parse a particular language. The code
+for each <code>Language</code> is generated by the Tree-sitter CLI.</div></li><li><div class="item-name"><a class="struct" href="struct.LanguageMetadata.html" title="struct tree_sitter::LanguageMetadata">LanguageMetadata</a></div><div class="desc docblock-short">The metadata associated with a language.</div></li><li><div class="item-name"><a class="struct" href="struct.LanguageRef.html" title="struct tree_sitter::LanguageRef">LanguageRef</a></div></li><li><div class="item-name"><a class="struct" href="struct.LookaheadIterator.html" title="struct tree_sitter::LookaheadIterator">LookaheadIterator</a></div><div class="desc docblock-short">A stateful object that is used to look up symbols valid in a specific parse
+state</div></li><li><div class="item-name"><a class="struct" href="struct.LossyUtf8.html" title="struct tree_sitter::LossyUtf8">LossyUtf8</a></div></li><li><div class="item-name"><a class="struct" href="struct.Node.html" title="struct tree_sitter::Node">Node</a></div><div class="desc docblock-short">A single node within a syntax <a href="struct.Tree.html" title="struct tree_sitter::Tree"><code>Tree</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.ParseOptions.html" title="struct tree_sitter::ParseOptions">ParseOptions</a></div></li><li><div class="item-name"><a class="struct" href="struct.ParseState.html" title="struct tree_sitter::ParseState">ParseState</a></div><div class="desc docblock-short">A stateful object that is passed into a [<code>ParseProgressCallback</code>]
+to pass in the current state of the parser.</div></li><li><div class="item-name"><a class="struct" href="struct.Parser.html" title="struct tree_sitter::Parser">Parser</a></div><div class="desc docblock-short">A stateful object that this is used to produce a <a href="struct.Tree.html" title="struct tree_sitter::Tree"><code>Tree</code></a> based on some
+source code.</div></li><li><div class="item-name"><a class="struct" href="struct.Point.html" title="struct tree_sitter::Point">Point</a></div><div class="desc docblock-short">A position in a multi-line text document, in terms of rows and columns.</div></li><li><div class="item-name"><a class="struct" href="struct.Query.html" title="struct tree_sitter::Query">Query</a></div><div class="desc docblock-short">A set of patterns that match nodes in a syntax tree.</div></li><li><div class="item-name"><a class="struct" href="struct.QueryCapture.html" title="struct tree_sitter::QueryCapture">QueryCapture</a></div><div class="desc docblock-short">A particular <a href="struct.Node.html" title="struct tree_sitter::Node"><code>Node</code></a> that has been captured with a particular name within a
+<a href="struct.Query.html" title="struct tree_sitter::Query"><code>Query</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.QueryCaptures.html" title="struct tree_sitter::QueryCaptures">QueryCaptures</a></div><div class="desc docblock-short">A sequence of <a href="struct.QueryCapture.html" title="struct tree_sitter::QueryCapture"><code>QueryCapture</code></a>s associated with a given <a href="struct.QueryCursor.html" title="struct tree_sitter::QueryCursor"><code>QueryCursor</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.QueryCursor.html" title="struct tree_sitter::QueryCursor">QueryCursor</a></div><div class="desc docblock-short">A stateful object for executing a <a href="struct.Query.html" title="struct tree_sitter::Query"><code>Query</code></a> on a syntax <a href="struct.Tree.html" title="struct tree_sitter::Tree"><code>Tree</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.QueryCursorOptions.html" title="struct tree_sitter::QueryCursorOptions">QueryCursorOptions</a></div></li><li><div class="item-name"><a class="struct" href="struct.QueryCursorState.html" title="struct tree_sitter::QueryCursorState">QueryCursorState</a></div><div class="desc docblock-short">A stateful object that is passed into a [<code>QueryProgressCallback</code>]
+to pass in the current state of the query execution.</div></li><li><div class="item-name"><a class="struct" href="struct.QueryError.html" title="struct tree_sitter::QueryError">QueryError</a></div><div class="desc docblock-short">An error that occurred when trying to create a <a href="struct.Query.html" title="struct tree_sitter::Query"><code>Query</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.QueryMatch.html" title="struct tree_sitter::QueryMatch">QueryMatch</a></div><div class="desc docblock-short">A match of a <a href="struct.Query.html" title="struct tree_sitter::Query"><code>Query</code></a> to a particular set of <a href="struct.Node.html" title="struct tree_sitter::Node"><code>Node</code></a>s.</div></li><li><div class="item-name"><a class="struct" href="struct.QueryMatches.html" title="struct tree_sitter::QueryMatches">QueryMatches</a></div><div class="desc docblock-short">A sequence of <a href="struct.QueryMatch.html" title="struct tree_sitter::QueryMatch"><code>QueryMatch</code></a>es associated with a given <a href="struct.QueryCursor.html" title="struct tree_sitter::QueryCursor"><code>QueryCursor</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.QueryPredicate.html" title="struct tree_sitter::QueryPredicate">QueryPredicate</a></div><div class="desc docblock-short">A key-value pair associated with a particular pattern in a <a href="struct.Query.html" title="struct tree_sitter::Query"><code>Query</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.QueryProperty.html" title="struct tree_sitter::QueryProperty">QueryProperty</a></div><div class="desc docblock-short">A key-value pair associated with a particular pattern in a <a href="struct.Query.html" title="struct tree_sitter::Query"><code>Query</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.Range.html" title="struct tree_sitter::Range">Range</a></div><div class="desc docblock-short">A range of positions in a multi-line text document, both in terms of bytes
+and of rows and columns.</div></li><li><div class="item-name"><a class="struct" href="struct.Tree.html" title="struct tree_sitter::Tree">Tree</a></div><div class="desc docblock-short">A tree that represents the syntactic structure of a source code file.</div></li><li><div class="item-name"><a class="struct" href="struct.TreeCursor.html" title="struct tree_sitter::TreeCursor">TreeCursor</a></div><div class="desc docblock-short">A stateful object for walking a syntax <a href="struct.Tree.html" title="struct tree_sitter::Tree"><code>Tree</code></a> efficiently.</div></li></ul><h2 id="enums" class="section-header">Enums<a href="#enums" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="enum" href="enum.CaptureQuantifier.html" title="enum tree_sitter::CaptureQuantifier">CaptureQuantifier</a></div><div class="desc docblock-short">A quantifier for captures</div></li><li><div class="item-name"><a class="enum" href="enum.LanguageError.html" title="enum tree_sitter::LanguageError">LanguageError</a></div><div class="desc docblock-short">An error that occurred when trying to assign an incompatible <a href="struct.Language.html" title="struct tree_sitter::Language"><code>Language</code></a> to
+a <a href="struct.Parser.html" title="struct tree_sitter::Parser"><code>Parser</code></a>. If the <code>wasm</code> feature is enabled, this can also indicate a failure
+to load the Wasm store.</div></li><li><div class="item-name"><a class="enum" href="enum.LogType.html" title="enum tree_sitter::LogType">LogType</a></div><div class="desc docblock-short">A type of log message.</div></li><li><div class="item-name"><a class="enum" href="enum.QueryErrorKind.html" title="enum tree_sitter::QueryErrorKind">QueryErrorKind</a></div></li><li><div class="item-name"><a class="enum" href="enum.QueryPredicateArg.html" title="enum tree_sitter::QueryPredicateArg">QueryPredicateArg</a></div></li></ul><h2 id="constants" class="section-header">Constants<a href="#constants" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="constant" href="constant.LANGUAGE_VERSION.html" title="constant tree_sitter::LANGUAGE_VERSION">LANGUAGE_VERSION</a></div><div class="desc docblock-short">The latest ABI version that is supported by the current version of the
+library.</div></li><li><div class="item-name"><a class="constant" href="constant.MIN_COMPATIBLE_LANGUAGE_VERSION.html" title="constant tree_sitter::MIN_COMPATIBLE_LANGUAGE_VERSION">MIN_COMPATIBLE_LANGUAGE_VERSION</a></div><div class="desc docblock-short">The earliest ABI version that is supported by the current version of the
+library.</div></li><li><div class="item-name"><a class="constant" href="constant.PARSER_HEADER.html" title="constant tree_sitter::PARSER_HEADER">PARSER_HEADER</a></div></li></ul><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.Decode.html" title="trait tree_sitter::Decode">Decode</a></div></li><li><div class="item-name"><a class="trait" href="trait.StreamingIterator.html" title="trait tree_sitter::StreamingIterator">StreamingIterator</a></div><div class="desc docblock-short">An interface for dealing with streaming iterators.</div></li><li><div class="item-name"><a class="trait" href="trait.StreamingIteratorMut.html" title="trait tree_sitter::StreamingIteratorMut">StreamingIteratorMut</a></div><div class="desc docblock-short">An interface for dealing with mutable streaming iterators.</div></li><li><div class="item-name"><a class="trait" href="trait.TextProvider.html" title="trait tree_sitter::TextProvider">TextProvider</a></div></li></ul><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="fn" href="fn.set_allocator.html" title="fn tree_sitter::set_allocator">set_allocator</a><sup title="unsafe function">⚠</sup></div><div class="desc docblock-short">Sets the memory allocation functions that the core library should use.</div></li><li><div class="item-name"><a class="fn" href="fn.wasm_stdlib_symbols.html" title="fn tree_sitter::wasm_stdlib_symbols">wasm_stdlib_symbols</a></div></li></ul></section></div></main></body></html>

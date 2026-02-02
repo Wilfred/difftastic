@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["SPACER"],"fn":["display_line_nums","display_single_column","displayed_content_max_len_in_bytes","format_line_num_padded","format_missing_line_num","highlight_as_novel","highlight_positions","lines_with_novel","print"],"struct":["SourceDimensions"]};

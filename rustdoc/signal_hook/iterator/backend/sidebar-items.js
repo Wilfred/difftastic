@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["PollResult"],"struct":["Handle","Pending","SignalDelivery","SignalIterator"],"type":["OwningSignalIterator","RefSignalIterator"]};

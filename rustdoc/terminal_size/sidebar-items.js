@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["terminal_size","terminal_size_of","terminal_size_using_fd"],"struct":["Height","Width"]};

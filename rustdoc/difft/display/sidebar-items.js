@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["context","hunks","inline","json","side_by_side","style"]};

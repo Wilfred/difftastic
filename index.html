@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2e3436" />
+    <title>Difftastic, a structural diff</title>
+    <meta
+      name="description"
+      content="Difftastic, a structural diff tool that understands syntax"
+    />
+
+    <meta
+      property="og:title"
+      content="Difftastic, a structural diff tool that understands syntax"
+    />
+    <meta property="og:url" content="https://difftastic.wilfred.me.uk/" />
+    <meta property="og:image" content="" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" type="text/css" href="home_static/style.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="home_static/asciinema-player.css"
+    />
+  </head>
+
+  <body>
+    <div class="px-4 pt-5 text-center">
+      <h1 class="display-2">
+        <span class="red">diff</span><span class="green">tastic</span>
+      </h1>
+
+      <div class="col-lg-6 mx-auto">
+        <h2 class="fs-4 lead">
+          a structural diff tool that understands syntax
+        </h2>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-3">
+          <a
+            class="btn btn-lg btn-light"
+            href="https://github.com/Wilfred/difftastic"
+            role="button"
+            ><object
+              class="github-logo"
+              width="16"
+              height="16"
+              data="home_img/github.svg"
+              type="image/svg+xml"
+            ></object>
+            GitHub</a
+          >
+          <a
+            class="btn btn-lg btn-light"
+            href="https://difftastic.wilfred.me.uk/introduction.html"
+            role="button"
+            >📖 Manual</a
+          >
+          <a
+            class="btn btn-lg btn-light"
+            href="https://difftastic.wilfred.me.uk/installation.html"
+            role="button"
+            >🚦 Install</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="container-sm px-0">
+      <p class="my-5 px-4">
+        Difftastic is a CLI diff tool that compares files based on their syntax,
+        not line-by-line. Difftastic produces accurate diffs that are easier for
+        humans to read.
+      </p>
+
+      <div class="card-set">
+        <div class="card px-2 pt-2">
+          <div class="card-body">
+            <h2>
+              <span class="green">Understand</span>
+              What Actually Changed
+            </h2>
+
+            <div class="img-wrapper mb-4">
+              <img src="home_img/add_wrap.png" alt="screenshot" />
+            </div>
+            <p>
+              Difftastic parses your code with
+              <a href="https://tree-sitter.github.io/tree-sitter/"
+                >tree-sitter</a
+              >. Unlike a line-oriented diff, difftastic understands that the
+              inner expression hasn't changed here.
+            </p>
+          </div>
+        </div>
+
+        <div class="card px-2 pt-2">
+          <div class="card-body">
+            <h2><span class="green">Ignore</span> Formatting Changes</h2>
+
+            <div class="img-wrapper mb-4">
+              <img src="home_img/reformat.png" alt="screenshot" />
+            </div>
+            <p>
+              Has your code formatter decided to split something over multiple
+              lines? Difftastic can show what has actually changed.
+            </p>
+          </div>
+        </div>
+
+        <div class="card px-2 pt-2">
+          <div class="card-body">
+            <h2><span class="green">Visualise</span> Wrapping Changes</h2>
+
+            <div class="img-wrapper mb-4">
+              <img src="home_img/wrap_struct.png" alt="screenshot" />
+            </div>
+            <p>
+              Have you added a wrapper? Difftastic can match the delimiters
+              exactly.
+            </p>
+
+            <div class="img-wrapper mb-4">
+              <img
+                src="home_img/change_wrap.png"
+                class="mb-4"
+                alt="screenshot"
+              />
+            </div>
+            <p>
+              Even if you change the inner content, difftastic can still show
+              you the additional wrapper.
+            </p>
+          </div>
+        </div>
+
+        <div class="card px-2 pt-2">
+          <div class="card-body">
+            <h2>
+              <span class="green">Real</span>
+              Line Numbers
+            </h2>
+
+            <div class="img-wrapper mb-4">
+              <img
+                src="home_img/line_numbers.png"
+                class="mb-4"
+                alt="screenshot"
+              />
+            </div>
+            <p>
+              Do you know how to read
+              <code>@@ -5,6 +5,7 @@</code> syntax? Difftastic shows the actual
+              line numbers from your files, both before and after.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card px-2 py-2 mt-5">
+        <div class="card-body">
+          <h2>60 Second <span class="green">Demo</span></h2>
+
+          <div id="demo"></div>
+        </div>
+      </div>
+
+      <!-- https://devicon.dev/ provides SVG logos. -->
+      <div class="card-set">
+        <div class="card px-2 pt-2 mt-5">
+          <div class="card-body">
+            <h2>Programming Languages</h2>
+
+            <div
+              class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
+            >
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/cplusplus.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <h3 class="fw-bold mb-0 fs-4">C++</h3>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/csharp.svg"
+                  type="image/svg+xml"
+                ></object>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">C#</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/clojure.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Clojure</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/dart.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Dart</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/erlang.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Erlang</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/go.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Go</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/haskell.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Haskell</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/java.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Java</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/javascript.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">JavaScript</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/kotlin.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Kotlin</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/lisp.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Lisp</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/lua.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Lua</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/ocaml.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">OCaml</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/php.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">PHP</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/python.svg"
+                  type="image/svg+xml"
+                ></object>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Python</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/r.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">R</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/ruby.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Ruby</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/rust.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Rust</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/scala.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">Scala</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/typescript.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">TypeScript</h3>
+                </div>
+              </div>
+
+              <!-- end languages -->
+            </div>
+
+            <p>
+              And more! See the full
+              <a
+                href="https://difftastic.wilfred.me.uk/languages_supported.html"
+                >list of supported languages</a
+              >
+              in the manual.
+            </p>
+          </div>
+        </div>
+
+        <div class="card px-2 pt-2">
+          <div class="card-body">
+            <h2>File Formats</h2>
+
+            <div
+              class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
+            >
+              <div class="col d-flex align-items-start">
+                <!-- https://www.svgrepo.com/svg/371192/curly-brackets -->
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/braces.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">HCL</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/html5.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">HTML</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/json.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">JSON</h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="home_img/yaml.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">YAML</h3>
+                </div>
+              </div>
+              <!-- end formats -->
+            </div>
+
+            <p>
+              And even more! See the full
+              <a
+                href="https://difftastic.wilfred.me.uk/languages_supported.html#structured-text-formats"
+                >list of supported file formats</a
+              >
+              in the manual.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card px-2 pt-2 mt-5">
+        <div class="card-body">
+          <h2>Works With <span class="green">Git</span></h2>
+          <div class="img-wrapper mb-4">
+            <img src="home_img/git_difftool.png" alt="screenshot" />
+          </div>
+          <p>
+            See the
+            <a href="https://difftastic.wilfred.me.uk/git.html"
+              >git configuration</a
+            >
+            instructions in the manual.
+          </p>
+        </div>
+      </div>
+
+      <div class="card px-2 pt-2 mt-5">
+        <div class="card-body">
+          <h2>Fully <span class="green">Open Source</span></h2>
+          <p>
+            Difftastic is
+            <a href="https://github.com/Wilfred/difftastic/blob/master/LICENSE"
+              >MIT licensed</a
+            >. Download it, modify it, share it with your friends!
+          </p>
+        </div>
+      </div>
+
+      <p class="px-4 mt-5">
+        <em
+          >Made with Emacs and coffee by
+          <a href="https://github.com/wilfred/">Wilfred Hughes</a>.</em
+        >
+      </p>
+    </div>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Fontdiner+Swanky"
+    />
+
+    <script src="home_static/asciinema-player.min.js"></script>
+    <script>
+      AsciinemaPlayer.create(
+        "home_static/demo.cast",
+        document.getElementById("demo"),
+        {
+          theme: "tango",
+          cols: 133,
+          rows: 24,
+        },
+      );
+    </script>
+  </body>
+</html>
