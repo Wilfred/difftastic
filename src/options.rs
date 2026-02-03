@@ -188,6 +188,22 @@ fn app() -> clap::Command {
                 .required(false),
         )
         .arg(
+            // Dummy 'unified' flag of POSIX/GNU diff utility for svn support:
+            // This takes no effect.
+            Arg::new("nop_unified")
+                .short('u')
+                .action(ArgAction::SetTrue)
+                .hide(true)
+        )
+        .arg(
+            Arg::new("label").short('L')
+                .long("label")
+                .value_name("LABEL")
+                .action(ArgAction::Append)
+                .value_parser(value_parser!(OsString))
+                .help("Label of file(s) which should be used for printing instead of PATH(s).")
+        )
+        .arg(
             Arg::new("width")
                 .long("width")
                 .value_name("COLUMNS")
@@ -886,7 +902,29 @@ pub(crate) fn parse_args() -> Mode {
         [lhs_path, rhs_path] => {
             let lhs_arg = FileArgument::from_cli_argument(lhs_path);
             let rhs_arg = FileArgument::from_cli_argument(rhs_path);
-            let display_path = build_display_path(&lhs_arg, &rhs_arg);
+            let display_path = if matches.contains_id("label") {
+                let labels: Vec<_> = matches
+                    .get_many::<OsString>("label")
+                    .unwrap_or_default()
+                    .collect();
+                let (_lhs_display_path, rhs_display_path) = match &labels[..] {
+                    [lhs_display_path, rhs_display_path] => (
+                        lhs_display_path.to_string_lossy().to_string(),
+                        rhs_display_path.to_string_lossy().to_string(),
+                    ),
+                    [display_path] => (
+                        display_path.to_string_lossy().to_string(),
+                        display_path.to_string_lossy().to_string(),
+                    ),
+                    _ => {
+                        eprintln!("More than 2 labels specified");
+                        std::process::exit(EXIT_BAD_ARGUMENTS);
+                    }
+                };
+                rhs_display_path
+            } else {
+                build_display_path(&lhs_arg, &rhs_arg)
+            };
 
             let lhs_permissions = lhs_arg.permissions();
             let rhs_permissions = rhs_arg.permissions();
