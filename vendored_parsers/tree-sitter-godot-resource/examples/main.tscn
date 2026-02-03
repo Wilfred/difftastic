@@ -1,0 +1,250 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scripts/NodeStateMachine.gd" type="Script" id=1]
+[ext_resource path="res://phases/farming_phase.gd" type="Script" id=2]
+[ext_resource path="res://phases/defending_phase.gd" type="Script" id=3]
+[ext_resource path="res://phases/spawner.gd" type="Script" id=4]
+[ext_resource path="res://entities/enemy/enemy.tscn" type="PackedScene" id=5]
+[ext_resource path="res://phases/upgrading_phase.gd" type="Script" id=6]
+[ext_resource path="res://farm/farm.tscn" type="PackedScene" id=7]
+[ext_resource path="res://entities/player/player.tscn" type="PackedScene" id=8]
+[ext_resource path="res://forest_ambiance.ogg" type="AudioStream" id=9]
+
+[node name="main" type="Node"]
+
+[node name="game" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="phases" type="Node" parent="game"]
+script = ExtResource( 1 )
+starting_state = 0
+
+[node name="farming" type="Node" parent="game/phases"]
+editor/display_folded = true
+script = ExtResource( 2 )
+
+[node name="farming_label" type="Label" parent="game/phases/farming"]
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 63.0
+margin_bottom = 14.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "farming"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ProgressBar" type="ProgressBar" parent="game/phases/farming"]
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1.0
+margin_top = 19.0
+margin_right = 237.0
+margin_bottom = 33.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 5.0
+step = 0.0
+page = 0.0
+value = 0.0
+exp_edit = false
+rounded = false
+allow_greater = false
+allow_lesser = false
+percent_visible = true
+
+[node name="defending" type="Node" parent="game/phases"]
+editor/display_folded = true
+script = ExtResource( 3 )
+
+[node name="defending_label" type="Label" parent="game/phases/defending"]
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 14.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "defending"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="spawner" type="Node" parent="game/phases/defending"]
+script = ExtResource( 4 )
+count = 20
+over_time = 20.0
+enemy_scene = ExtResource( 5 )
+
+[node name="spawn_timer" type="Timer" parent="game/phases/defending/spawner"]
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
+[node name="upgrading" type="Node" parent="game/phases"]
+editor/display_folded = true
+script = ExtResource( 6 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="game/phases/upgrading"]
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="upgrading_label" type="Label" parent="game/phases/upgrading/CanvasLayer"]
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 63.0
+margin_bottom = 14.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "upgrading"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="upgrade_dialog" type="AcceptDialog" parent="game/phases/upgrading/CanvasLayer"]
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 40.0
+margin_right = -20.0
+margin_bottom = -20.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+popup_exclusive = false
+window_title = "Upgrade"
+resizable = false
+dialog_hide_on_ok = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="game/phases/upgrading/CanvasLayer/upgrade_dialog"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 976.0
+margin_bottom = 480.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="upgrade_plot_butt" type="Button" parent="game/phases/upgrading/CanvasLayer/upgrade_dialog/VBoxContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 968.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "upgrade plot"
+flat = false
+align = 1
+
+[node name="buy_seeds_butt" type="Button" parent="game/phases/upgrading/CanvasLayer/upgrade_dialog/VBoxContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 24.0
+margin_right = 968.0
+margin_bottom = 44.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "buy seeds"
+flat = false
+align = 1
+
+[node name="farm" parent="game" instance=ExtResource( 7 )]
+
+[node name="player" parent="game" instance=ExtResource( 8 )]
+position = Vector2( 532.068, 267.483 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="game"]
+stream = ExtResource( 9 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = true
+stream_paused = false
+mix_target = 0
+bus = "Master"
+
+[connection signal="entered" from="game/phases/farming" to="game/phases/farming/ProgressBar" method="show"]
+[connection signal="entered" from="game/phases/farming" to="game/phases/farming/farming_label" method="show"]
+[connection signal="exited" from="game/phases/farming" to="game/phases/farming/ProgressBar" method="hide"]
+[connection signal="exited" from="game/phases/farming" to="game/phases/farming/farming_label" method="hide"]
+[connection signal="entered" from="game/phases/defending" to="game/phases/defending/defending_label" method="show"]
+[connection signal="exited" from="game/phases/defending" to="game/phases/defending/defending_label" method="hide"]
+[connection signal="spawns_dead" from="game/phases/defending/spawner" to="game/phases/defending" method="_on_spawner_spawns_dead"]
+[connection signal="timeout" from="game/phases/defending/spawner/spawn_timer" to="game/phases/defending/spawner" method="_on_spawn_timer_timeout"]
+[connection signal="entered" from="game/phases/upgrading" to="game/phases/upgrading/CanvasLayer/upgrading_label" method="show"]
+[connection signal="entered" from="game/phases/upgrading" to="game/phases/upgrading/CanvasLayer/upgrade_dialog" method="popup_centered"]
+[connection signal="exited" from="game/phases/upgrading" to="game/phases/upgrading/CanvasLayer/upgrading_label" method="hide"]
+[connection signal="confirmed" from="game/phases/upgrading/CanvasLayer/upgrade_dialog" to="game/phases/upgrading" method="_on_AcceptDialog_confirmed"]
+[connection signal="pressed" from="game/phases/upgrading/CanvasLayer/upgrade_dialog/VBoxContainer/upgrade_plot_butt" to="game/phases/upgrading" method="_on_upgrade_plot_butt_pressed"]
+[connection signal="pressed" from="game/phases/upgrading/CanvasLayer/upgrade_dialog/VBoxContainer/upgrade_plot_butt" to="game/farm" method="upgrade_plot"]
+[connection signal="pressed" from="game/phases/upgrading/CanvasLayer/upgrade_dialog/VBoxContainer/buy_seeds_butt" to="game/phases/upgrading" method="_on_buy_seeds_butt_pressed"]

@@ -1,0 +1,361 @@
+============================================
+#67 Parsing error when there are two or more consecutive semicolons
+============================================
+
+test() ; ; print()
+class T:
+	var hello: T = "";; ;const c = 1;;;;;signal world
+	func hello():
+		pass;;pass
+
+---
+
+(source
+  (expression_statement
+    (call
+      (identifier)
+      (arguments)))
+  (expression_statement
+    (call
+      (identifier)
+      (arguments)))
+  (class_definition
+    (name)
+    (class_body
+      (variable_statement
+        (name)
+        (type
+          (identifier))
+        (string))
+      (const_statement
+        (name)
+        (integer))
+      (signal_statement
+        (name))
+      (function_definition
+        (name)
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement))))))
+
+============================================
+#57 Parser can't handle certain multiline raw strings
+============================================
+
+r"hello"
+
+r"hello
+	"
+
+"
+asdfasdfasf
+"
+
+print(r"hello
+	")
+
+var a = "
+asdfasdfasf
+"
+
+---
+(source
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement
+    (call (identifier) (arguments (string))))
+  (variable_statement (name) (string)))
+
+
+============================================
+#56 Error when matching a dictionary without specifying values
+============================================
+
+match x:
+	{ "key", 1, 0xFF, "key": 100 }: pass
+
+---
+(source
+  (match_statement
+  (identifier)
+  (match_body
+    (pattern_section
+    (dictionary
+      (string)
+      (integer)
+      (integer)
+      (pair
+      (string)
+      (integer)))
+    (body
+      (pass_statement))))))
+
+============================================
+#61 Extends with a class name less than three characters causes a parse error
+============================================
+
+class_name UI extends Control
+class_name Hello extends World
+
+---
+
+(source
+  (class_name_statement
+    (name)
+    (extends_statement (type (identifier))))
+  (class_name_statement
+    (name)
+    (extends_statement (type (identifier)))))
+
+============================================
+#21 Parse condition with comparison_operator and binary_operator wrong
+============================================
+
+1 == 2 or 3 == 4
+
+---
+
+(source
+  (expression_statement
+    (binary_operator
+      (binary_operator
+        (integer)
+        (integer))
+      (binary_operator
+        (integer)
+        (integer)))))
+
+============================================
+Variable right after lambda
+============================================
+
+func _on_pressed_button() -> void:
+	var root = func() -> Node:
+		var node: Node
+		var node_type: String = lib.editor.root.get_class()
+
+		match node_type:
+			"Node3D":
+				node = Node3D.new()
+			"Node2D":
+				node = Node2D.new()
+
+		return node
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (type (identifier))
+    (body
+      (variable_statement
+        (name)
+        (lambda
+          (parameters)
+          (type (identifier))
+          (body
+            (variable_statement
+              (name)
+              (type (identifier)))
+            (variable_statement
+              (name)
+              (type (identifier))
+              (attribute
+                (identifier)
+                (identifier)
+                (identifier)
+                (attribute_call
+                  (identifier)
+                  (arguments))))
+            (match_statement
+              (identifier)
+              (match_body
+                (pattern_section
+                  (string)
+                  (body
+                    (expression_statement
+                      (assignment
+                        (identifier)
+                        (attribute
+                          (identifier)
+                          (attribute_call
+                            (identifier)
+                            (arguments)))))))
+                (pattern_section
+                  (string)
+                  (body
+                    (expression_statement
+                      (assignment
+                        (identifier)
+                        (attribute
+                          (identifier)
+                          (attribute_call
+                            (identifier)
+                            (arguments)))))))))
+            (return_statement
+              (identifier))))))))
+
+============================================
+Highlight incorrect when just setting get
+============================================
+
+var selection:
+  get:
+    return interface.get_selection()
+
+var children:
+  get:
+    return selected[0].get_children()
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (setget
+      (get_body
+        (body
+          (return_statement
+            (attribute
+              (identifier)
+              (attribute_call
+                (identifier)
+                (arguments))))))))
+  (variable_statement
+    (name)
+    (setget
+      (get_body
+        (body
+          (return_statement
+            (attribute
+              (subscript
+                (identifier)
+                (subscript_arguments
+                  (integer)))
+              (attribute_call
+                (identifier)
+                (arguments)))))))))
+
+============================================
+Export Var Stmt can be onready
+============================================
+
+export(NodePath) onready var path = get_node(path)
+
+---
+
+(source
+  (export_variable_statement
+    (arguments
+      (identifier))
+    (name)
+    (call
+      (identifier)
+      (arguments
+        (identifier)))))
+
+============================================
+Literals bugs with [get_node]
+============================================
+
+$"../inspectorHeader/inspectorHeaderHBoxContainer/CurrentBlock"
+$"../../CommandsSettings"
+$'../../Node'
+
+---
+
+(source
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node)))
+
+============================================
+Fails to parse basic blocks
+============================================
+
+extends Node
+
+func _ready():
+	var x := 2
+	for i in range(x):
+		prints(i)
+
+	while x > 0:
+		print(x)
+
+	if x > 0:
+		print("if test")
+	elif x < 0:
+		print("if test")
+	else:
+		print("if test")
+
+---
+
+(source
+  (extends_statement
+    (type (identifier)))
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (variable_statement
+        (name)
+        (inferred_type)
+        (integer))
+      (for_statement
+        (identifier)
+        (call
+          (identifier)
+          (arguments
+            (identifier)))
+        (body
+          (expression_statement
+            (call
+              (identifier)
+              (arguments
+                (identifier))))))
+      (while_statement
+        (binary_operator
+          (identifier)
+          (integer))
+        (body
+          (expression_statement
+            (call
+              (identifier)
+              (arguments
+                (identifier))))))
+      (if_statement
+        (binary_operator
+          (identifier)
+          (integer))
+        (body
+          (expression_statement
+            (call
+              (identifier)
+              (arguments
+                (string)))))
+        (elif_clause
+          (binary_operator
+            (identifier)
+            (integer))
+          (body
+            (expression_statement
+              (call
+                (identifier)
+                (arguments
+                  (string))))))
+        (else_clause
+          (body
+            (expression_statement
+              (call
+                (identifier)
+                (arguments
+                  (string))))))))))

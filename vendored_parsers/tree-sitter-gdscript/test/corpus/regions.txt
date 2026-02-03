@@ -1,0 +1,133 @@
+=====================================
+Region: Empty region
+=====================================
+
+#region empty
+#endregion
+
+---
+
+(source
+  (region_start
+    (region_label))
+  (region_end))
+
+=====================================
+Region: Basic anonymous region with code
+=====================================
+
+#region
+func _ready() -> void:
+    pass
+#endregion
+
+---
+
+(source
+  (region_start)
+  (function_definition
+    (name)
+    (parameters)
+    (type (identifier))
+    (body (pass_statement)))
+  (region_end))
+
+=====================================
+Region: Named region with more code
+=====================================
+
+#region process
+func _process(delta: float) -> void:
+    position += velocity * delta
+#endregion
+
+---
+
+(source
+  (region_start
+    (region_label))
+  (function_definition
+    (name)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type (identifier))))
+    (type (identifier))
+    (body
+      (expression_statement
+        (augmented_assignment
+          (identifier)
+          (binary_operator
+            (identifier)
+            (identifier))))))
+  (region_end))
+
+=====================================
+Region: Region with leading indentation
+=====================================
+
+func _physics_process(delta: float) -> void:
+    #region movement
+    pass
+    #endregion
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters
+        (typed_parameter
+        (identifier)
+        (type (identifier))))
+    (type (identifier))
+    (body
+      (region_start
+        (region_label))
+     (pass_statement)
+      (region_end))))
+
+=====================================
+Region: Two sibling regions
+=====================================
+
+#region variables
+var health: int = 100
+var speed: float = 5.0
+#endregion
+
+#region functions
+func take_damage(amount) -> void:
+    health -= amount
+#endregion
+
+---
+
+(source
+  (region_start
+    (region_label))
+  (variable_statement
+    (name)
+    (type
+      (identifier))
+    (integer))
+  (variable_statement
+    (name)
+    (type
+      (identifier))
+    (float))
+  (region_end)
+  (region_start
+    (region_label))
+  (function_definition
+    (name)
+    (parameters
+      (identifier))
+    (type
+      (identifier))
+    (body
+      (expression_statement
+        (augmented_assignment
+          (identifier)
+          (identifier)))))
+  (region_end))

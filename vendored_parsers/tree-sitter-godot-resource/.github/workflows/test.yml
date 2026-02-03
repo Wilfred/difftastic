@@ -1,0 +1,22 @@
+name: Test
+
+on:
+  push:
+    paths:
+      - 'grammar.js'
+      - 'corpus/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - run: |
+          node --version
+          npm --version
+      - run: npm ci --include=dev --include=optional --include=peer
+      - run: npm test

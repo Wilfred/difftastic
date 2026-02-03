@@ -1,0 +1,37 @@
+=====================================
+Handle String Names #12
+=====================================
+
+[resource]
+test_string_name = &"test stringname"
+test_dict = Dictionary[int, StringName]({1: &"first value",2: &"second value",3: &"with escaped quote\""})
+test_string = "String with a literal newline and an
+&"
+---
+
+(resource
+  (section
+    (identifier)
+    (property
+      (path)
+      (string_name))
+    (property
+      (path)
+      (constructor
+        (identifier)
+        (identifier)
+        (identifier)
+        (arguments
+          (dictionary
+            (pair
+              (integer)
+              (string_name))
+            (pair
+              (integer)
+              (string_name))
+            (pair
+              (integer)
+              (string_name))))))
+    (property
+      (path)
+      (string))))

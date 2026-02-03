@@ -1,0 +1,191 @@
+=====================================
+Abstract class_name statement
+=====================================
+
+@abstract class_name BaseClass
+
+---
+
+(source
+  (class_name_statement
+    (annotations
+      (annotation (identifier)))
+    (name)))
+
+=====================================
+Abstract class definition
+=====================================
+
+@abstract class TestClass:
+	pass
+
+---
+
+(source
+  (class_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (class_body
+      (pass_statement))))
+
+=====================================
+Abstract class with extends
+=====================================
+
+@abstract class TestClass extends BaseClass:
+	pass
+
+---
+
+(source
+  (class_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (extends_statement (type (identifier)))
+    (class_body
+      (pass_statement))))
+
+=====================================
+Abstract function declaration
+=====================================
+
+@abstract func test_func()
+
+---
+
+(source
+  (function_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (parameters)))
+
+=====================================
+Abstract function with parameters
+=====================================
+
+@abstract func abstract_with_params(param1: String, param2: int)
+
+---
+
+(source
+  (function_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (parameters
+      (typed_parameter (identifier) (type (identifier)))
+      (typed_parameter (identifier) (type (identifier))))))
+
+=====================================
+Abstract function with return type
+=====================================
+
+@abstract func abstract_with_return_type() -> String
+
+---
+
+(source
+  (function_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (parameters)
+    (type (identifier))))
+
+=====================================
+Abstract function with parameters and return type
+=====================================
+
+@abstract func abstract_with_params_and_return(input: String) -> int
+
+---
+
+(source
+  (function_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (parameters
+      (typed_parameter (identifier) (type (identifier))))
+    (type (identifier))))
+
+=====================================
+Mixed abstract and concrete methods in class
+=====================================
+
+@abstract class TestClass:
+	@abstract func test_func()
+
+	func concrete_method():
+		pass
+
+---
+
+(source
+  (class_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (class_body
+      (function_definition
+        (annotations
+          (annotation (identifier)))
+        (name)
+        (parameters))
+      (function_definition
+        (name)
+        (parameters)
+        (body
+          (pass_statement))))))
+
+=====================================
+Standalone abstract and concrete functions
+=====================================
+
+@abstract func simple_abstract()
+
+@abstract func abstract_with_params(param1: String, param2: int)
+
+@abstract func abstract_with_return_type() -> String
+
+@abstract func abstract_with_params_and_return(input: String) -> int
+
+func concrete_method():
+	pass
+
+---
+
+(source
+  (function_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (parameters))
+  (function_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (parameters
+      (typed_parameter (identifier) (type (identifier)))
+      (typed_parameter (identifier) (type (identifier)))))
+  (function_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (parameters)
+    (type (identifier)))
+  (function_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (parameters
+      (typed_parameter (identifier) (type (identifier))))
+    (type (identifier)))
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (pass_statement))))

@@ -1,0 +1,25 @@
+============================================
+Subscripts
+============================================
+
+T[1, 2]
+T.T[1, 2, 3]
+
+---
+
+(source
+  (expression_statement
+  (subscript
+    (identifier)
+    (subscript_arguments
+    (integer)
+    (integer))))
+  (expression_statement
+  (attribute
+    (identifier)
+    (attribute_subscript
+    (identifier)
+    (subscript_arguments
+      (integer)
+      (integer)
+      (integer))))))

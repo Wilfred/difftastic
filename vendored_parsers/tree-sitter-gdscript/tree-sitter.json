@@ -1,0 +1,35 @@
+{
+  "grammars": [
+    {
+      "name": "gdscript",
+      "camelcase": "GDScript",
+      "scope": "source.gdscript",
+      "file-types": [
+        ".gd"
+      ],
+      "injection-regex": "^gdscript$"
+    }
+  ],
+  "metadata": {
+    "version": "6.0.0",
+    "license": "MIT",
+    "description": "Grammar for Godot's built-in scripting language.",
+    "authors": [
+      {
+        "name": "Preston Knopp",
+        "email": "prestonknopp@gmail.com"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/PrestonKnopp/tree-sitter-gdscript"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}

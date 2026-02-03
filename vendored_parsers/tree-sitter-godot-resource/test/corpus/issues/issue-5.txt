@@ -1,0 +1,44 @@
+
+=====================================
+Dictionaries can have any variant as a key #5
+=====================================
+
+[resource]
+test_untyped_dict = {
+    1: "first value",
+    { 1: 5.2 }: "second value",
+    [0, 1, 2]: "third value",
+    PackedStringArray("foo", "bar", "baz"): "fourth value"
+}
+
+---
+
+(resource
+  (section
+    (identifier)
+    (property
+      (path)
+        (dictionary
+            (pair
+              (integer)
+              (string))
+            (pair
+              (dictionary
+                (pair
+                  (integer)
+                  (float)))
+              (string))
+            (pair
+              (array
+                (integer)
+                (integer)
+                (integer))
+              (string))
+            (pair
+              (constructor
+                (identifier)
+                (arguments
+                  (string)
+                  (string)
+                  (string)))
+              (string))))))

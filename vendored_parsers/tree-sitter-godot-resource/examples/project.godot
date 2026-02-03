@@ -1,0 +1,193 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Reference",
+"class": "CellInfo",
+"language": "GDScript",
+"path": "res://farm/cell_info.gd"
+}, {
+"base": "Resource",
+"class": "CellOrientation",
+"language": "GDScript",
+"path": "res://farm/cell_orientation.gd"
+}, {
+"base": "Reference",
+"class": "CellVariant",
+"language": "GDScript",
+"path": "res://farm/cell_variant.gd"
+}, {
+"base": "Node",
+"class": "Component",
+"language": "GDScript",
+"path": "res://entities/Component.gd"
+}, {
+"base": "Node",
+"class": "ComponentRegistration",
+"language": "GDScript",
+"path": "res://scripts/ComponentRegistration.gd"
+}, {
+"base": "Node",
+"class": "HealthNode",
+"language": "GDScript",
+"path": "res://entities/health.gd"
+}, {
+"base": "Reference",
+"class": "InventoryItem",
+"language": "GDScript",
+"path": "res://entities/player/inventory/inventory_item.gd"
+}, {
+"base": "TileMap",
+"class": "LandMap",
+"language": "GDScript",
+"path": "res://farm/land_map.gd"
+}, {
+"base": "Resource",
+"class": "MatrixRule",
+"language": "GDScript",
+"path": "res://farm/resources/sources/MatrixRule.gd"
+}, {
+"base": "Resource",
+"class": "MatrixRuleSet",
+"language": "GDScript",
+"path": "res://farm/resources/sources/MatrixRuleSet.gd"
+}, {
+"base": "Node",
+"class": "NodeStateMachine",
+"language": "GDScript",
+"path": "res://scripts/NodeStateMachine.gd"
+}, {
+"base": "Node",
+"class": "PivotRotator",
+"language": "GDScript",
+"path": "res://entities/player/pivot_rotator.gd"
+}, {
+"base": "Node2D",
+"class": "Plant",
+"language": "GDScript",
+"path": "res://botany/Plant.gd"
+}, {
+"base": "Node",
+"class": "stc",
+"language": "GDScript",
+"path": "res://scripts/static.gd"
+} ]
+_global_script_class_icons={
+"CellInfo": "",
+"CellOrientation": "",
+"CellVariant": "",
+"Component": "",
+"ComponentRegistration": "",
+"HealthNode": "",
+"InventoryItem": "",
+"LandMap": "",
+"MatrixRule": "",
+"MatrixRuleSet": "",
+"NodeStateMachine": "",
+"PivotRotator": "",
+"Plant": "",
+"stc": ""
+}
+
+[application]
+
+config/name="Farmer Shooter"
+run/main_scene="res://main.tscn"
+config/icon="res://icon.png"
+
+[debug]
+
+gdscript/warnings/enable=false
+gdscript/warnings/unused_variable=false
+gdscript/warnings/unused_class_variable=false
+gdscript/warnings/unused_argument=false
+gdscript/warnings/narrowing_conversion=false
+gdscript/warnings/unused_signal=false
+
+[display]
+
+window/size/height=576
+window/stretch/mode="2d"
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d": false,
+"flags/anisotropic": false,
+"flags/filter": false,
+"flags/mipmaps": false,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
+ogg_vorbis={
+"loop": false,
+"loop_offset": 0
+}
+
+[input]
+
+movement_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"unicode":0,"echo":false,"script":null)
+ ]
+}
+movement_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"unicode":0,"echo":false,"script":null)
+ ]
+}
+movement_up={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":44,"unicode":0,"echo":false,"script":null)
+ ]
+}
+movement_down={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":79,"unicode":0,"echo":false,"script":null)
+ ]
+}
+inventory_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":39,"unicode":0,"echo":false,"script":null)
+ ]
+}
+inventory_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":46,"unicode":0,"echo":false,"script":null)
+ ]
+}
+action={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="enemies"
+2d_physics/layer_3="farms"
+2d_physics/layer_4="pickups"
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
