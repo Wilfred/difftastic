@@ -47,6 +47,7 @@ mod diff;
 mod display;
 mod exit_codes;
 mod files;
+mod git;
 mod hash;
 mod line_parser;
 mod lines;
@@ -78,6 +79,7 @@ use crate::files::{
     guess_content, read_file_or_die, read_files_or_die, read_or_die, relative_paths_in_either,
     ProbableFileKind,
 };
+use crate::git::{check_attr, DiffAttribute};
 use crate::parse::guess_language::language_globs;
 use crate::parse::guess_language::{guess, language_name, Language, LanguageOverride};
 use crate::parse::syntax;
@@ -413,8 +415,11 @@ fn diff_file(
     let (mut lhs_src, mut rhs_src) = match (
         guess_content(&lhs_bytes, lhs_path, binary_overrides),
         guess_content(&rhs_bytes, rhs_path, binary_overrides),
+        check_attr(Path::new(display_path)),
     ) {
-        (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
+        (ProbableFileKind::Binary, _, _)
+        | (_, ProbableFileKind::Binary, _)
+        | (_, _, Some(DiffAttribute::Unset)) => {
             let has_byte_changes = if lhs_bytes == rhs_bytes {
                 None
             } else {
@@ -433,7 +438,7 @@ fn diff_file(
                 has_syntactic_changes: false,
             };
         }
-        (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
+        (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src), _) => (lhs_src, rhs_src),
     };
 
     if diff_options.strip_cr {
