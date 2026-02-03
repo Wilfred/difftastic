@@ -1,0 +1,6 @@
+[target.wasm32-wasip1]
+rustflags = [
+  "-L/opt/wasi-sdk/share/wasi-sysroot/lib/wasm32-wasi",
+  "-Clink-arg=-lc++",
+  "-Clink-arg=-lc++abi"
+]

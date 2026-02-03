@@ -78,6 +78,7 @@ fn read_file_arg(file_arg: &FileArgument) -> std::io::Result<Vec<u8>> {
 }
 
 /// Write a human-friendly description of `e` to stderr.
+#[cfg(not(target_arch = "wasm32"))]
 fn eprint_read_error(file_arg: &FileArgument, e: &std::io::Error) {
     match e.kind() {
         std::io::ErrorKind::NotFound => {
@@ -95,12 +96,26 @@ fn eprint_read_error(file_arg: &FileArgument, e: &std::io::Error) {
     };
 }
 
+#[cfg(target_arch = "wasm32")]
+fn eprint_read_error(file_arg: &FileArgument, e: &std::io::Error) {
+    // For the browser/WASM demo, fail softly so we can keep running.
+    println!("WASM read error on {} ({:?})", file_arg, e.kind());
+}
+
 pub(crate) fn read_or_die(path: &Path) -> Vec<u8> {
     match fs::read(path) {
         Ok(src) => src,
         Err(e) => {
             eprint_read_error(&FileArgument::NamedPath(path.to_path_buf()), &e);
-            std::process::exit(EXIT_BAD_ARGUMENTS);
+            #[cfg(target_arch = "wasm32")]
+            {
+                // Return empty content in WASM to avoid aborting the demo.
+                return Vec::new();
+            }
+            #[cfg(not(target_arch = "wasm32"))]
+            {
+                std::process::exit(EXIT_BAD_ARGUMENTS);
+            }
         }
     }
 }
