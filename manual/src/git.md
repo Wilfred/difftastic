@@ -50,7 +50,7 @@ so you can use difftastic more easily.
 ```ini
 [alias]
     # Difftastic aliases, so `git dlog` is `git log` with difftastic and so on.
-    dlog = -c diff.external=difft log -p --ext-diff
+    dlog = -c diff.external=difft log --ext-diff --patch
     dshow = -c diff.external=difft show --ext-diff
     ddiff = -c diff.external=difft diff
 ```
@@ -60,7 +60,7 @@ The author likes the following additional aliases to reduce typing:
 ```ini
 [alias]
     # `git log` with patches shown with difftastic.
-    dl = -c diff.external=difft log -p --ext-diff
+    dl = -c diff.external=difft log --ext-diff --patch
 
     # Show the most recent commit with difftastic.
     ds = -c diff.external=difft show --ext-diff
