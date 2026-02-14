@@ -577,11 +577,16 @@ fn matched_novel_lines(
                     true
                 };
                 if should_append {
-                    lines.push((
-                        Some(self_line),
-                        next_opposite(self_line, &opposite_to_lhs, highest_rhs),
-                    ));
+                    let opposite = next_opposite(self_line, &opposite_to_lhs, highest_rhs);
+                    lines.push((Some(self_line), opposite));
                     highest_lhs = Some(self_line);
+                    // Also update highest_rhs if we used an RHS line as opposite,
+                    // to prevent that RHS line from being added again when processed.
+                    if let Some(opp) = opposite {
+                        if highest_rhs.map_or(true, |h| opp > h) {
+                            highest_rhs = Some(opp);
+                        }
+                    }
                 }
             }
             Side::Right => {
@@ -591,11 +596,16 @@ fn matched_novel_lines(
                     true
                 };
                 if should_append {
-                    lines.push((
-                        next_opposite(self_line, &opposite_to_rhs, highest_rhs),
-                        Some(self_line),
-                    ));
+                    let opposite = next_opposite(self_line, &opposite_to_rhs, highest_lhs);
+                    lines.push((opposite, Some(self_line)));
                     highest_rhs = Some(self_line);
+                    // Also update highest_lhs if we used an LHS line as opposite,
+                    // to prevent that LHS line from being added again when processed.
+                    if let Some(opp) = opposite {
+                        if highest_lhs.map_or(true, |h| opp > h) {
+                            highest_lhs = Some(opp);
+                        }
+                    }
                 }
             }
         }
@@ -694,6 +704,7 @@ mod tests {
 
     use super::*;
     use crate::{
+        display::test_util::{novel, unchanged},
         hash::DftHashMap,
         syntax::{MatchKind, TokenKind},
     };
@@ -867,5 +878,32 @@ mod tests {
                 (Some(5.into()), Some(5.into())),
             ]
         );
+    }
+
+    #[test]
+    fn test_matched_novel_lines_opposite_threshold() {
+        // LHS novels at lines 3, 6; RHS novel at line 2, then at line 10
+        // RHS line 10 has LHS opposites {4, 8}
+        // Should pick LHS 8 (first > highest_lhs=6), not LHS 4
+        let lhs_mps = [novel(3), novel(6), unchanged(4, 10), unchanged(8, 10)];
+        let rhs_mps = [novel(2), unchanged(10, 4), unchanged(10, 8), novel(10)];
+
+        let result = matched_novel_lines(&lhs_mps, &rhs_mps);
+        let (lhs, _) = result.iter().find(|(_, r)| *r == Some(10.into())).unwrap();
+        assert_eq!(*lhs, Some(8.into()));
+    }
+
+    #[test]
+    fn test_matched_novel_lines_no_duplicate_lines() {
+        // LHS novel at line 1 pairs with RHS line 2 as opposite.
+        // RHS novel at line 2 should not create another entry.
+        let lhs_mps = [novel(1), unchanged(1, 2)];
+        let rhs_mps = [novel(2), unchanged(2, 1)];
+
+        let result = matched_novel_lines(&lhs_mps, &rhs_mps);
+
+        // RHS line 2 should appear exactly once
+        let rhs_2_count = result.iter().filter(|(_, r)| *r == Some(2.into())).count();
+        assert_eq!(rhs_2_count, 1);
     }
 }
