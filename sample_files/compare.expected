@@ -61,6 +61,9 @@ sample_files/devicetree_1.dts sample_files/devicetree_2.dts
 sample_files/displaypanic_1.txt sample_files/displaypanic_2.txt
 bc16c760953aa3789b53c3a56a66cd2d  -
 
+sample_files/displaypanic_b_1.nix sample_files/displaypanic_b_2.nix
+474dcbe72b3c62d6acc5eb8ed80da52a  -
+
 sample_files/elisp_1.el sample_files/elisp_2.el
 98571b62f7407e90e9441e4f47ea85ae  -
 
