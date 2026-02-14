@@ -59,7 +59,7 @@ sample_files/devicetree_1.dts sample_files/devicetree_2.dts
 64b33c6d65dbc85777ee30cf3893fbdb  -
 
 sample_files/displaypanic_a_1.txt sample_files/displaypanic_a_2.txt
-5fd61c721072760a1a8f3b9ddf9352b6  -
+34442b044ab320973fc989efda46e9d6  -
 
 sample_files/displaypanic_b_1.nix sample_files/displaypanic_b_2.nix
 474dcbe72b3c62d6acc5eb8ed80da52a  -
