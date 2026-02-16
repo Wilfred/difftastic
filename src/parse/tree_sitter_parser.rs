@@ -387,6 +387,21 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Fortran => {
+            let language_fn = tree_sitter_fortran::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: ["string_literal"].into_iter().collect(),
+                delimiter_tokens: vec![("(", ")"), ("(/", "/)"), ("[", "]")],
+                highlight_query: ts::Query::new(
+                    &language,
+                    include_str!("../../vendored_parsers/highlights/fortran.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Gleam => {
             let language_fn = tree_sitter_gleam::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
