@@ -1,0 +1,64 @@
+============================================
+Setget parse failure
+============================================
+
+var is_active = true:
+	set = set_is_active
+
+@onready var _state = initial_state:
+	set = set_state
+
+---
+
+(source
+  (variable_statement
+    name: (name)
+    value: (true)
+    setget: (setget
+      set: (setter)))
+  (variable_statement
+    (annotations
+      (annotation
+        (identifier)))
+    name: (name)
+    value: (identifier)
+    setget: (setget
+      set: (setter))))
+
+============================================
+#35 Parsing: The valid syntax : set = ... : get = ... is not supported
+============================================
+
+var is_active := false: set = set_is_active
+var test = -1: get = get_test
+
+var x = true: get = g, set = s
+var y = false: set = s, get = g
+
+---
+
+(source
+  (variable_statement
+    name: (name)
+    type: (inferred_type)
+    value: (false)
+    setget: (setget
+      set: (setter)))
+  (variable_statement
+    name: (name)
+    value: (unary_operator (integer))
+    setget: (setget
+      get: (getter)))
+  (variable_statement
+    name: (name)
+    value: (true)
+    setget: (setget
+      get: (getter)
+      set: (setter)))
+  (variable_statement
+    name: (name)
+    value: (false)
+    setget: (setget
+      set: (setter)
+      get: (getter)))
+)

@@ -1,0 +1,59 @@
+{
+  "name": "tree-sitter-gdscript",
+  "version": "6.0.0",
+  "description": "Grammar for Godot's built-in scripting language.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prestonknopp/tree-sitter-gdscript.git"
+  },
+  "license": "MIT",
+  "author": "Preston Knopp",
+  "main": "bindings/node",
+  "keywords": [
+    "incremental",
+    "parsing",
+    "tree-sitter",
+    "gdscript",
+    "godot"
+  ],
+  "files": [
+    "grammar.js",
+    "tree-sitter.json",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**",
+    "*.wasm"
+  ],
+  "dependencies": {
+    "node-addon-api": "^8.3.1",
+    "node-gyp-build": "^4.8.4"
+  },
+  "devDependencies": {
+    "prebuildify": "^6.0.1",
+    "prettier": "^3.6.2",
+    "tree-sitter-cli": "^0.24.7"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.1"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "install": "node-gyp-build",
+    "prebuild": "prebuildify --strip -t electron@34.5.5 -t electron@35.3.0 -t electron@36.2.0 -t v20.19.1 -t v22.15.0 -t v23.11.0 -t v24.0.1",
+    "prestart": "tree-sitter build --wasm",
+    "start": "tree-sitter playground",
+    "versions": "node --version && npm --version && tree-sitter --version",
+    "test": "tree-sitter test && node --test bindings/node/*_test.js",
+    "generate": "tree-sitter generate",
+    "genTest": "tree-sitter generate && npm test",
+    "parse": "tree-sitter parse",
+    "ts": "tree-sitter",
+    "format": "prettier -w grammar.js package.json"
+  }
+}

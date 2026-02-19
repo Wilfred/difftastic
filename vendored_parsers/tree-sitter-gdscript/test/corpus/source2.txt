@@ -1,0 +1,179 @@
+============================================
+Typed Arrays (#18)
+============================================
+
+var a1: Array[IClass.IIClass]
+var a3: Array[int]
+
+---
+
+(source
+  (variable_statement
+  (name)
+  (type
+    (subscript
+    (identifier)
+    (subscript_arguments
+      (attribute
+        (identifier)
+        (identifier))))))
+  (variable_statement
+  (name)
+  (type
+    (subscript
+    (identifier)
+    (subscript_arguments
+      (identifier))))))
+
+============================================
+Static Variable Statements
+============================================
+
+static var name
+static var name := "Me"
+static var name: int
+
+# There may be valid annotations for static vars.
+@some_annotation static var name
+
+---
+
+(source
+  (variable_statement (static_keyword) (name))
+  (variable_statement (static_keyword) (name) (inferred_type) (string))
+  (variable_statement (static_keyword) (name) (type (identifier)))
+  (comment)
+  (variable_statement
+    (annotations (annotation (identifier)))
+    (static_keyword)
+    (name)))
+
+
+============================================
+Static Typed For Loop
+============================================
+
+for i: int in [1, 2]:
+	pass
+
+---
+
+(source
+  (for_statement
+    (identifier)
+    (type (identifier))
+    (array
+      (integer)
+      (integer))
+    (body
+      (pass_statement))))
+
+============================================
+SetGet Getter with Empty Parenthesis
+============================================
+
+var x:
+  get(): pass
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (setget
+      (get_body
+        (body
+          (pass_statement))))))
+
+============================================
+Pattern Guards for Match Statement
+============================================
+
+var a = 0
+match a:
+	0 when false: print("does not run")
+	0 when true: print("but this does")
+
+var when = 1
+match when:
+    when when when:
+        when
+
+---
+
+(source
+  (variable_statement (name) (integer))
+  (match_statement
+    (identifier)
+    (match_body
+      (pattern_section
+        (integer)
+        (pattern_guard
+          (false))
+        (body
+          (expression_statement
+            (call
+              (identifier)
+              (arguments
+                (string))))))
+      (pattern_section
+        (integer)
+        (pattern_guard
+          (true))
+        (body
+          (expression_statement
+            (call
+              (identifier)
+              (arguments
+                (string))))))))
+  (variable_statement (name) (integer))
+  (match_statement
+    (identifier)
+    (match_body
+      (pattern_section
+        (identifier)
+        (pattern_guard
+          (identifier))
+        (body
+          (expression_statement (identifier)))))))
+
+============================================
+Is Not Test
+============================================
+
+x is T
+x is not T
+x is (not T)
+
+---
+
+(source
+  (expression_statement (binary_operator (identifier) (identifier)))
+  (expression_statement (binary_operator (identifier) (identifier)))
+  (expression_statement (binary_operator (identifier) (parenthesized_expression (unary_operator (identifier))))))
+
+============================================
+In And Not In Test
+============================================
+
+x in y
+x not in y
+not (x in y)
+
+---
+
+(source
+  (expression_statement
+    (binary_operator
+      (identifier)
+      (identifier)))
+  (expression_statement
+    (binary_operator
+      (identifier)
+      (identifier)))
+  (expression_statement
+    (unary_operator
+      (parenthesized_expression
+        (binary_operator
+          (identifier)
+          (identifier))))))

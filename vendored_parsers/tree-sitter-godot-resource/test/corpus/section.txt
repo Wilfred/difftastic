@@ -1,0 +1,256 @@
+=====================================
+Lonely Section
+=====================================
+
+[id]
+
+---
+
+(resource
+  (section (identifier)))
+
+=====================================
+Section with Attributes
+=====================================
+
+[id a=1 b="s"]
+
+---
+
+(resource
+  (section (identifier)
+    (attribute (identifier) (integer))
+    (attribute (identifier) (string))))
+
+=====================================
+Section Properties
+=====================================
+
+[id]
+a = 1
+b = 2
+
+---
+
+(resource
+  (section (identifier)
+    (property (path) (integer))
+    (property (path) (integer))))
+
+=====================================
+Section with Attributes Properties
+=====================================
+
+[id a=1 b="s"]
+a = 1
+b = 2
+
+---
+
+(resource
+  (section (identifier)
+    (attribute (identifier) (integer))
+    (attribute (identifier) (string))
+    (property (path) (integer))
+    (property (path) (integer))))
+
+=====================================
+Dictionary Properties
+=====================================
+
+[id]
+dict = {}
+dict = {
+"a": 1,
+"b": 2
+}
+
+---
+
+(resource
+  (section (identifier)
+    (property (path) (dictionary))
+    (property (path)
+      (dictionary
+        (pair (string) (integer))
+        (pair (string) (integer))))))
+
+=====================================
+Sub Dictionary Properties
+=====================================
+
+[id]
+dict = {
+"a": {
+"b": 1
+}
+}
+
+---
+
+(resource
+  (section (identifier)
+    (property (path)
+      (dictionary
+        (pair
+          (string)
+          (dictionary
+            (pair
+              (string)
+              (integer))))))))
+
+=====================================
+Indented Dictionary Properties
+=====================================
+
+[id]
+dict = {
+  "a": 1,
+  "b": 2
+}
+
+---
+
+(resource
+  (section (identifier)
+    (property (path)
+      (dictionary
+        (pair (string) (integer))
+        (pair (string) (integer))))))
+
+=====================================
+Section with String Attr and Prop
+=====================================
+
+[id a="a/b"]
+dict = {
+"a": true
+}
+
+---
+
+(resource
+  (section (identifier)
+    (attribute (identifier) (string))
+    (property (path)
+      (dictionary
+        (pair (string) (true))))))
+
+=====================================
+Constructor Property
+=====================================
+
+[id a=1.0]
+a = Constructor( 1 )
+
+---
+
+(resource
+  (section
+    (identifier)
+    (attribute (identifier) (float))
+    (property (path)
+      (constructor (identifier)
+        (arguments (integer))))))
+
+=====================================
+Constructor Generic Type Arguments
+=====================================
+
+[id]
+b = Constructor[TypeArg1]()
+c = Constructor[TypeArg1, TypeArgC(1)]("value")
+
+---
+
+(resource
+  (section (identifier)
+    (property (path)
+      (constructor
+        (identifier)
+        (identifier)
+        (arguments)))
+    (property (path)
+      (constructor
+        (identifier)
+        (identifier)
+        (constructor
+          (identifier)
+          (arguments (integer)))
+        (arguments (string))))))
+
+=====================================
+Underscore Property
+=====================================
+
+[id]
+__dict__ = {
+"a": true
+}
+
+---
+
+(resource
+  (section (identifier)
+    (property (path)
+      (dictionary
+        (pair (string) (true))))))
+
+
+=====================================
+Object Constructor Property
+=====================================
+
+[id]
+testObject = Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":79,"unicode":0,"echo":false,"script":null)
+
+---
+
+(resource
+  (section
+    (identifier)
+    (property
+      (path)
+      (constructor
+        (identifier)
+        (arguments
+          (identifier)
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (string))
+          (pair
+            (string)
+            (integer))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (integer))
+          (pair
+            (string)
+            (integer))
+          (pair
+            (string)
+            (false))
+          (pair
+            (string)
+            (null)))))))

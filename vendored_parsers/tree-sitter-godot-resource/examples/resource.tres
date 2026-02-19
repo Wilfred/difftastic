@@ -1,0 +1,4 @@
+[node type="Node"]
+s = "hello
+\"My World\" world"
+other = "Okay"
