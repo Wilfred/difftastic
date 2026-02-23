@@ -410,12 +410,18 @@ fn visible_content_max_display_width(
 
     for (lhs_i, lhs_line) in lhs_src.lines().enumerate() {
         if lhs_displayed_lines.contains(&lhs_i) {
-            lhs_content_max_width = max(lhs_content_max_width, width_respecting_tabs(lhs_line, tab_width));
+            lhs_content_max_width = max(
+                lhs_content_max_width,
+                width_respecting_tabs(lhs_line, tab_width),
+            );
         }
     }
     for (rhs_i, rhs_line) in rhs_src.lines().enumerate() {
         if rhs_displayed_lines.contains(&rhs_i) {
-            rhs_content_max_width = max(rhs_content_max_width, width_respecting_tabs(rhs_line, tab_width));
+            rhs_content_max_width = max(
+                rhs_content_max_width,
+                width_respecting_tabs(rhs_line, tab_width),
+            );
         }
     }
 
