@@ -29,7 +29,7 @@ sample_files/change_outer_1.el sample_files/change_outer_2.el
 1c5611ec618ce8f1ea8623057bffd544  -
 
 sample_files/chinese_1.po sample_files/chinese_2.po
-582b2c28cca7a60b7c6b0410dfa436bc  -
+eac26d58f1266d339d60608656a6eb8b  -
 
 sample_files/clojure_1.clj sample_files/clojure_2.clj
 9b88515ca9daf5d3cf4de7c61915fc10  -
@@ -56,7 +56,7 @@ sample_files/dart_1.dart sample_files/dart_2.dart
 2cacc19ded574d97416eed1a3da513e6  -
 
 sample_files/devicetree_1.dts sample_files/devicetree_2.dts
-5df7a12108979e8c2a590dea6d1a980a  -
+36a87e82032c54d0d1a630f895ea6f1b  -
 
 sample_files/elisp_1.el sample_files/elisp_2.el
 3e8c8abcb65a5141a2fb54bae4a9ca06  -
@@ -83,7 +83,7 @@ sample_files/hack_1.php sample_files/hack_2.php
 c2bb0aa7d7b07d6ced79f6a5363e878b  -
 
 sample_files/hare_1.ha sample_files/hare_2.ha
-0d217ee7419997d498114afc9fe3f587  -
+e344b3fa7bc35fd4a0f3c7cecab39447  -
 
 sample_files/haskell_1.hs sample_files/haskell_2.hs
 3cace65f14319c339fcbd30e8e9ebdcc  -
@@ -272,7 +272,7 @@ sample_files/syntax_error_1.js sample_files/syntax_error_2.js
 ce571e3438427e83f11a4f4264e1ae30  -
 
 sample_files/tab_1.c sample_files/tab_2.c
-86ed6289ea7b540cba250b451b5f32d2  -
+fd896b8e53b183f0d1d5cfeb6a1dfab4  -
 
 sample_files/tab_1.txt sample_files/tab_2.txt
 10e9a853917dc9d92d2867e3453269b2  -
@@ -284,7 +284,7 @@ sample_files/text_1.txt sample_files/text_2.txt
 ceb707a51501ca63ade198e7ebf92659  -
 
 sample_files/todomvc_1.gleam sample_files/todomvc_2.gleam
-6b3b8c9f1e813617819b97144cc5cc4a  -
+725bb793f219e13cee199f18ffaed872  -
 
 sample_files/toml_1.toml sample_files/toml_2.toml
 e1002ceba14d973fcc8abc23619e65b0  -
@@ -305,13 +305,13 @@ sample_files/verilog_1.sv sample_files/verilog_2.sv
 0fbb9bd8ff99b8ee852741860d2c25d0  -
 
 sample_files/vhdl_1.vhd sample_files/vhdl_2.vhd
-469b9002774d26aa68345592c87ff188  -
+c20f2f2b351f0de01b784f32e242b802  -
 
 sample_files/whitespace_1.tsx sample_files/whitespace_2.tsx
 789689b170b80ef280a322b3a6c7363b  -
 
 sample_files/windows1251_1.txt sample_files/windows1251_2.txt
-9e29aa0daf8beaa679d488260e2e4465  -
+3f648c2b6fc626022e3e591fbfd7ec81  -
 
 sample_files/xml_1.xml sample_files/xml_2.xml
 38600945878fdea4b06c5da026e1fb78  -
