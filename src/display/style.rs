@@ -1,6 +1,7 @@
 //! Apply colours and styling to strings.
 
 use std::cmp::{max, min};
+use std::path::Path;
 
 use line_numbers::{LineNumber, SingleLineSpan};
 use owo_colors::{OwoColorize, Style};
@@ -12,6 +13,12 @@ use crate::lines::{byte_len, split_on_newlines};
 use crate::options::DisplayOptions;
 use crate::parse::syntax::{AtomKind, MatchKind, MatchedPos, StringKind, TokenKind};
 use crate::summary::FileFormat;
+
+// OSC 8 hyperlink escape sequences
+// See: https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
+const OSC_8_START: &str = "\x1b]8;;";
+const OSC_8_ST: &str = "\x1b\\";
+const OSC_8_END: &str = "\x1b]8;;\x1b\\";
 
 #[derive(Clone, Copy, Debug)]
 pub(crate) enum BackgroundColor {
@@ -536,8 +543,22 @@ pub(crate) fn apply_line_number_color(
     }
 }
 
+fn make_path_hyperlink(display_path: &str, line_number: Option<LineNumber>) -> String {
+    let Ok(canonical_path) = Path::new(display_path).canonicalize() else {
+        return display_path.to_owned();
+    };
+
+    let mut url = format!("file://{}", canonical_path.display());
+    if let Some(line_num) = line_number {
+        url.push_str(&format!("#{}", line_num.0 + 1));
+    }
+
+    format!("{OSC_8_START}{url}{OSC_8_ST}{display_path}{OSC_8_END}")
+}
+
 pub(crate) fn header(
     display_path: &str,
+    first_line_number: Option<LineNumber>,
     extra_info: Option<&String>,
     hunk_num: usize,
     hunk_total: usize,
@@ -550,8 +571,14 @@ pub(crate) fn header(
         format!("{}/{} --- ", hunk_num, hunk_total)
     };
 
+    let display_path_with_link = if display_options.use_color {
+        make_path_hyperlink(display_path, first_line_number)
+    } else {
+        display_path.to_owned()
+    };
+
     let display_path_pretty = apply_header_color(
-        display_path,
+        &display_path_with_link,
         display_options.use_color,
         display_options.background_color,
         hunk_num,

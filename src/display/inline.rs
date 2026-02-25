@@ -65,10 +65,18 @@ pub(crate) fn print(
     let opposite_to_rhs = opposite_positions(rhs_mps);
 
     for (i, hunk) in hunks.iter().enumerate() {
+        let first_line = hunk
+            .novel_lhs
+            .iter()
+            .min()
+            .or_else(|| hunk.novel_rhs.iter().min())
+            .copied();
+
         println!(
             "{}",
             style::header(
                 display_path,
+                first_line,
                 extra_info.as_ref(),
                 i + 1,
                 hunks.len(),

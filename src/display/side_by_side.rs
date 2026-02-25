@@ -90,6 +90,7 @@ fn display_single_column(
     let mut header_line = String::new();
     header_line.push_str(&style::header(
         display_path,
+        Some(0.into()),
         old_path,
         1,
         1,
@@ -598,10 +599,18 @@ pub(crate) fn print(
     );
 
     for (i, hunk) in hunks.iter().enumerate() {
+        let first_line = hunk
+            .novel_rhs
+            .iter()
+            .min()
+            .or_else(|| hunk.novel_lhs.iter().min())
+            .copied();
+
         println!(
             "{}",
             style::header(
                 display_path,
+                first_line,
                 old_path,
                 i + 1,
                 hunks.len(),

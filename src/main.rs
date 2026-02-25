@@ -884,6 +884,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         "{}",
                         display::style::header(
                             &summary.display_path,
+                            None,
                             summary.extra_info.as_ref(),
                             1,
                             1,
@@ -911,6 +912,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     "{}",
                     display::style::header(
                         &summary.display_path,
+                        None,
                         summary.extra_info.as_ref(),
                         1,
                         1,
@@ -966,6 +968,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     "{}",
                     display::style::header(
                         &summary.display_path,
+                        None,
                         summary.extra_info.as_ref(),
                         1,
                         1,
@@ -1014,6 +1017,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 "{}",
                 display::style::header(
                     &summary.display_path,
+                    None,
                     summary.extra_info.as_ref(),
                     1,
                     1,
