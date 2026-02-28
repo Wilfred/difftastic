@@ -203,9 +203,11 @@ impl SourceDimensions {
         // Instead, cap the display width based on the maximum length
         // of visible lines within the file.
         //
-        // The content widths are computed using display width that
-        // accounts for tab expansion, so this is a reasonable
-        // approximation of the actual rendered width.
+        // This naively assumes that byte length is the same as
+        // display length, which is generally OK because byte length
+        // will tend to be larger than the display length. Tab
+        // characters are an exception, where display width exceeds
+        // byte length, so we account for tab expansion explicitly.
         let width_without_truncation = lhs_line_nums_width
             + content_max_width
             + SPACER.len()
