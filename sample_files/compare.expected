@@ -82,6 +82,9 @@ f6c90edd5c4fb81b793f3b7c9b367845  -
 sample_files/fortran_1.f90 sample_files/fortran_2.f90
 b5fae2c0a3e0755ca8182df1f728400b  -
 
+sample_files/graphql_1.graphql sample_files/graphql_2.graphql
+9c1dec7e44efb985aec88e015dfc23a9  -
+
 sample_files/hack_1.php sample_files/hack_2.php
 c2bb0aa7d7b07d6ced79f6a5363e878b  -
 

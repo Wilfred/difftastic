@@ -1,0 +1,64 @@
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  role: Role
+  posts: [Post!]!
+  avatar: String
+}
+
+enum Role {
+  ADMIN
+  MODERATOR
+  USER
+  GUEST
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  role: Role = USER
+  avatar: String
+}
+
+union SearchResult = User | Post | Comment
+
+interface Node {
+  id: ID!
+  createdAt: DateTime
+}
+
+query GetUser($id: ID!, $includeEmail: Boolean = true) {
+  user(id: $id) {
+    id
+    name
+    email @include(if: $includeEmail)
+    ...UserFields
+  }
+}
+
+fragment UserFields on User {
+  role
+  avatar
+  posts {
+    title
+    body
+  }
+}
+
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    id
+    name
+    avatar
+  }
+}
+
+directive @cacheControl(maxAge: Int, scope: CacheScope) on FIELD_DEFINITION | OBJECT
+
+scalar DateTime
+
+"""
+Custom JSON scalar type for arbitrary JSON data.
+"""
+scalar JSON
