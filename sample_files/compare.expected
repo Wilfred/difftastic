@@ -211,6 +211,9 @@ de04f7fdb7af7bd70ca62f1868504f11  -
 sample_files/perl_1.pl sample_files/perl_2.pl
 2cd2638b2b6d07248911f1f2e5ad1b25  -
 
+sample_files/php_inline_1.php sample_files/php_inline_2.php
+25e05b2f21d105fa494bbffdabec62b5  -
+
 sample_files/prefer_outer_1.el sample_files/prefer_outer_2.el
 991038c9988cccc2c824652e33f772a2  -
 

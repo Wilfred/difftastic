@@ -110,7 +110,7 @@ pub(crate) fn print(
             }
         }
 
-        for (lhs_line, _) in &hunk_lines {
+        for (lhs_line, rhs_line) in &hunk_lines {
             if let Some(lhs_line) = lhs_line {
                 print!(
                     "{}   {}",
@@ -123,8 +123,6 @@ pub(crate) fn print(
                     lhs_colored_lines[lhs_line.as_usize()]
                 );
             }
-        }
-        for (_, rhs_line) in &hunk_lines {
             if let Some(rhs_line) = rhs_line {
                 print!(
                     "   {}{}",

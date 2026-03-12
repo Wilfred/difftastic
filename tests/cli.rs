@@ -50,6 +50,45 @@ fn inline() {
 }
 
 #[test]
+fn inline_novel_lines_ordered() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=inline")
+        .arg("--color=never")
+        .arg("sample_files/php_inline_1.php")
+        .arg("sample_files/php_inline_2.php");
+
+    let result = cmd.output().expect("failed to execute");
+    let stdout = String::from_utf8_lossy(&result.stdout);
+    let lines: Vec<&str> = stdout.lines().collect();
+
+    // The deleted line "int ...$ids," should appear right before its
+    // replacement "array $recipients,", not before the added use/docblock lines.
+    let deleted_idx = lines
+        .iter()
+        .position(|l| l.contains("int ...$ids,"))
+        .expect("should contain deleted line");
+    let replacement_idx = lines
+        .iter()
+        .position(|l| l.contains("array $recipients,"))
+        .expect("should contain replacement line");
+    let use_idx = lines
+        .iter()
+        .position(|l| l.contains("use App\\Model\\Recipient;"))
+        .expect("should contain added use line");
+
+    assert!(
+        deleted_idx > use_idx,
+        "Deleted line (index {deleted_idx}) should appear after the added use import (index {use_idx})"
+    );
+    assert_eq!(
+        deleted_idx + 1,
+        replacement_idx,
+        "Deleted line (index {deleted_idx}) should appear immediately before its replacement (index {replacement_idx})"
+    );
+}
+
+#[test]
 fn binary_changed() {
     let mut cmd = get_base_command();
 
