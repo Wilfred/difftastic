@@ -1,0 +1,9735 @@
+[
+  {
+    "type": "acronym_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\newacronym",
+            "named": false
+          }
+        ]
+      },
+      "long": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      },
+      "short": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "acronym_reference",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\ACRfull",
+            "named": false
+          },
+          {
+            "type": "\\ACRfullpl",
+            "named": false
+          },
+          {
+            "type": "\\ACRlong",
+            "named": false
+          },
+          {
+            "type": "\\ACRlongpl",
+            "named": false
+          },
+          {
+            "type": "\\ACRshort",
+            "named": false
+          },
+          {
+            "type": "\\ACRshortpl",
+            "named": false
+          },
+          {
+            "type": "\\Ac",
+            "named": false
+          },
+          {
+            "type": "\\Acf",
+            "named": false
+          },
+          {
+            "type": "\\Acfp",
+            "named": false
+          },
+          {
+            "type": "\\Acl",
+            "named": false
+          },
+          {
+            "type": "\\Aclp",
+            "named": false
+          },
+          {
+            "type": "\\Acrfull",
+            "named": false
+          },
+          {
+            "type": "\\Acrfullpl",
+            "named": false
+          },
+          {
+            "type": "\\Acrlong",
+            "named": false
+          },
+          {
+            "type": "\\Acrlongpl",
+            "named": false
+          },
+          {
+            "type": "\\Acrshort",
+            "named": false
+          },
+          {
+            "type": "\\Acrshortpl",
+            "named": false
+          },
+          {
+            "type": "\\Acs",
+            "named": false
+          },
+          {
+            "type": "\\Acsp",
+            "named": false
+          },
+          {
+            "type": "\\Glsentryfullpl",
+            "named": false
+          },
+          {
+            "type": "\\Glsentrylong",
+            "named": false
+          },
+          {
+            "type": "\\Glsentrylongpl",
+            "named": false
+          },
+          {
+            "type": "\\Glsentryshort",
+            "named": false
+          },
+          {
+            "type": "\\Glsentryshortpl",
+            "named": false
+          },
+          {
+            "type": "\\ac",
+            "named": false
+          },
+          {
+            "type": "\\acf",
+            "named": false
+          },
+          {
+            "type": "\\acfp",
+            "named": false
+          },
+          {
+            "type": "\\acl",
+            "named": false
+          },
+          {
+            "type": "\\aclp",
+            "named": false
+          },
+          {
+            "type": "\\acp",
+            "named": false
+          },
+          {
+            "type": "\\acrfull",
+            "named": false
+          },
+          {
+            "type": "\\acrfullpl",
+            "named": false
+          },
+          {
+            "type": "\\acrlong",
+            "named": false
+          },
+          {
+            "type": "\\acrlongpl",
+            "named": false
+          },
+          {
+            "type": "\\acrshort",
+            "named": false
+          },
+          {
+            "type": "\\acrshortpl",
+            "named": false
+          },
+          {
+            "type": "\\acs",
+            "named": false
+          },
+          {
+            "type": "\\acsp",
+            "named": false
+          },
+          {
+            "type": "\\glsentryfullpl",
+            "named": false
+          },
+          {
+            "type": "\\glsentrylong",
+            "named": false
+          },
+          {
+            "type": "\\glsentrylongpl",
+            "named": false
+          },
+          {
+            "type": "\\glsentryshort",
+            "named": false
+          },
+          {
+            "type": "\\glsentryshortpl",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "asy_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "asydef_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "author",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "author_declaration",
+    "named": true,
+    "fields": {
+      "authors": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_author_list",
+            "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\author",
+            "named": false
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "begin",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\begin",
+            "named": false
+          }
+        ]
+      },
+      "language": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          },
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "biblatex_include",
+    "named": true,
+    "fields": {
+      "glob": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_glob_pattern",
+            "named": true
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "bibstyle_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\bibliographystyle",
+            "named": false
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "bibtex_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\bibliography",
+            "named": false
+          }
+        ]
+      },
+      "paths": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path_list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "block_comment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\iffalse",
+            "named": false
+          }
+        ]
+      },
+      "comment": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "comment",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "\\fi",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "brack_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "brack_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "brack_group_argc",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argc",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "brack_group_key_value",
+    "named": true,
+    "fields": {
+      "pair": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "key_value_pair",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "brack_group_text",
+    "named": true,
+    "fields": {
+      "text": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "caption",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\caption",
+            "named": false
+          }
+        ]
+      },
+      "long": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "short": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "chapter",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\addchap",
+            "named": false
+          },
+          {
+            "type": "\\addchap*",
+            "named": false
+          },
+          {
+            "type": "\\chapter",
+            "named": false
+          },
+          {
+            "type": "\\chapter*",
+            "named": false
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "citation",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\Autocite",
+            "named": false
+          },
+          {
+            "type": "\\Autocite*",
+            "named": false
+          },
+          {
+            "type": "\\Avolcite",
+            "named": false
+          },
+          {
+            "type": "\\Cite",
+            "named": false
+          },
+          {
+            "type": "\\Citeauthor",
+            "named": false
+          },
+          {
+            "type": "\\Citeauthor*",
+            "named": false
+          },
+          {
+            "type": "\\Notecite",
+            "named": false
+          },
+          {
+            "type": "\\Parencite",
+            "named": false
+          },
+          {
+            "type": "\\Pnotecite",
+            "named": false
+          },
+          {
+            "type": "\\Pvolcite",
+            "named": false
+          },
+          {
+            "type": "\\Smartcite",
+            "named": false
+          },
+          {
+            "type": "\\Svolcite",
+            "named": false
+          },
+          {
+            "type": "\\Textcite",
+            "named": false
+          },
+          {
+            "type": "\\Tvolcite",
+            "named": false
+          },
+          {
+            "type": "\\Volcite",
+            "named": false
+          },
+          {
+            "type": "\\autocite",
+            "named": false
+          },
+          {
+            "type": "\\autocite*",
+            "named": false
+          },
+          {
+            "type": "\\avolcite",
+            "named": false
+          },
+          {
+            "type": "\\cite",
+            "named": false
+          },
+          {
+            "type": "\\cite*",
+            "named": false
+          },
+          {
+            "type": "\\citeA",
+            "named": false
+          },
+          {
+            "type": "\\citeR",
+            "named": false
+          },
+          {
+            "type": "\\citeS",
+            "named": false
+          },
+          {
+            "type": "\\citealp",
+            "named": false
+          },
+          {
+            "type": "\\citealt",
+            "named": false
+          },
+          {
+            "type": "\\citeauthor",
+            "named": false
+          },
+          {
+            "type": "\\citeauthor*",
+            "named": false
+          },
+          {
+            "type": "\\citedate",
+            "named": false
+          },
+          {
+            "type": "\\citedate*",
+            "named": false
+          },
+          {
+            "type": "\\citep",
+            "named": false
+          },
+          {
+            "type": "\\citep*",
+            "named": false
+          },
+          {
+            "type": "\\citet",
+            "named": false
+          },
+          {
+            "type": "\\citet*",
+            "named": false
+          },
+          {
+            "type": "\\citetext",
+            "named": false
+          },
+          {
+            "type": "\\citetitle",
+            "named": false
+          },
+          {
+            "type": "\\citetitle*",
+            "named": false
+          },
+          {
+            "type": "\\citeurl",
+            "named": false
+          },
+          {
+            "type": "\\citeyear",
+            "named": false
+          },
+          {
+            "type": "\\citeyear*",
+            "named": false
+          },
+          {
+            "type": "\\citeyearR",
+            "named": false
+          },
+          {
+            "type": "\\citeyearpar",
+            "named": false
+          },
+          {
+            "type": "\\fnotecite",
+            "named": false
+          },
+          {
+            "type": "\\footcite",
+            "named": false
+          },
+          {
+            "type": "\\footcitetext",
+            "named": false
+          },
+          {
+            "type": "\\footfullcite",
+            "named": false
+          },
+          {
+            "type": "\\ftvolcite",
+            "named": false
+          },
+          {
+            "type": "\\fullcite",
+            "named": false
+          },
+          {
+            "type": "\\fvolcite",
+            "named": false
+          },
+          {
+            "type": "\\nocite",
+            "named": false
+          },
+          {
+            "type": "\\notecite",
+            "named": false
+          },
+          {
+            "type": "\\parencite",
+            "named": false
+          },
+          {
+            "type": "\\parencite*",
+            "named": false
+          },
+          {
+            "type": "\\pnotecite",
+            "named": false
+          },
+          {
+            "type": "\\pvolcite",
+            "named": false
+          },
+          {
+            "type": "\\smartcite",
+            "named": false
+          },
+          {
+            "type": "\\supercite",
+            "named": false
+          },
+          {
+            "type": "\\svolcite",
+            "named": false
+          },
+          {
+            "type": "\\textcite",
+            "named": false
+          },
+          {
+            "type": "\\tvolcite",
+            "named": false
+          },
+          {
+            "type": "\\volcite",
+            "named": false
+          }
+        ]
+      },
+      "keys": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text_list",
+            "named": true
+          }
+        ]
+      },
+      "postnote": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      },
+      "prenote": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "class_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\documentclass",
+            "named": false
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "color_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\definecolor",
+            "named": false
+          }
+        ]
+      },
+      "model": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "brack_group_text",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "color_reference",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\color",
+            "named": false
+          },
+          {
+            "type": "\\colorbox",
+            "named": false
+          },
+          {
+            "type": "\\mathcolor",
+            "named": false
+          },
+          {
+            "type": "\\pagecolor",
+            "named": false
+          },
+          {
+            "type": "\\textcolor",
+            "named": false
+          }
+        ]
+      },
+      "model": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_text",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "color_set_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\definecolorset",
+            "named": false
+          }
+        ]
+      },
+      "head": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "model": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text_list",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "tail": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "ty": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "comment_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "comment": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "comment",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "curly_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "curly_group_author_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "author",
+          "named": true
+        },
+        {
+          "type": "command_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "curly_group_command_name",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "curly_group_glob_pattern",
+    "named": true,
+    "fields": {
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "glob_pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "curly_group_impl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "curly_group_key_value",
+    "named": true,
+    "fields": {
+      "pair": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "key_value_pair",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "curly_group_path",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "curly_group_path_list",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "curly_group_spec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "curly_group_text",
+    "named": true,
+    "fields": {
+      "text": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "curly_group_text_list",
+    "named": true,
+    "fields": {
+      "text": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "curly_group_uri",
+    "named": true,
+    "fields": {
+      "uri": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "uri",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "displayed_equation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "end",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\end",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "enum_item",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\item",
+            "named": false
+          },
+          {
+            "type": "\\item*",
+            "named": false
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_text",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "environment_definition",
+    "named": true,
+    "fields": {
+      "argc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_argc",
+            "named": true
+          }
+        ]
+      },
+      "begin": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_impl",
+            "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\DeclareDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\DeclareEnvironmentCopy",
+            "named": false
+          },
+          {
+            "type": "\\NewDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\NewEnvironmentCopy",
+            "named": false
+          },
+          {
+            "type": "\\ProvideDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\RenewDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\RenewEnvironmentCopy",
+            "named": false
+          },
+          {
+            "type": "\\newenvironment",
+            "named": false
+          },
+          {
+            "type": "\\renewenvironment",
+            "named": false
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_impl",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_spec",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "generic_command",
+    "named": true,
+    "fields": {
+      "arg": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "generic_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "glob_pattern",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "glossary_entry_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\newglossaryentry",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_key_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "glossary_entry_reference",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\GLS",
+            "named": false
+          },
+          {
+            "type": "\\GLSdesc",
+            "named": false
+          },
+          {
+            "type": "\\GLSfirst",
+            "named": false
+          },
+          {
+            "type": "\\GLSfirstplural",
+            "named": false
+          },
+          {
+            "type": "\\GLSname",
+            "named": false
+          },
+          {
+            "type": "\\GLSpl",
+            "named": false
+          },
+          {
+            "type": "\\GLSplural",
+            "named": false
+          },
+          {
+            "type": "\\GLStext",
+            "named": false
+          },
+          {
+            "type": "\\GLSuseri",
+            "named": false
+          },
+          {
+            "type": "\\GLSuserii",
+            "named": false
+          },
+          {
+            "type": "\\GLSuseriii",
+            "named": false
+          },
+          {
+            "type": "\\GLSuseriv",
+            "named": false
+          },
+          {
+            "type": "\\GLSuserv",
+            "named": false
+          },
+          {
+            "type": "\\GLSuservi",
+            "named": false
+          },
+          {
+            "type": "\\Gls",
+            "named": false
+          },
+          {
+            "type": "\\Glsdesc",
+            "named": false
+          },
+          {
+            "type": "\\Glsfirst",
+            "named": false
+          },
+          {
+            "type": "\\Glsfirstplural",
+            "named": false
+          },
+          {
+            "type": "\\Glsname",
+            "named": false
+          },
+          {
+            "type": "\\Glspl",
+            "named": false
+          },
+          {
+            "type": "\\Glsplural",
+            "named": false
+          },
+          {
+            "type": "\\Glssymbol",
+            "named": false
+          },
+          {
+            "type": "\\Glstext",
+            "named": false
+          },
+          {
+            "type": "\\Glsuseri",
+            "named": false
+          },
+          {
+            "type": "\\Glsuserii",
+            "named": false
+          },
+          {
+            "type": "\\Glsuseriii",
+            "named": false
+          },
+          {
+            "type": "\\Glsuseriv",
+            "named": false
+          },
+          {
+            "type": "\\Glsuserv",
+            "named": false
+          },
+          {
+            "type": "\\Glsuservi",
+            "named": false
+          },
+          {
+            "type": "\\gls",
+            "named": false
+          },
+          {
+            "type": "\\glsdesc",
+            "named": false
+          },
+          {
+            "type": "\\glsdisp",
+            "named": false
+          },
+          {
+            "type": "\\glsfirst",
+            "named": false
+          },
+          {
+            "type": "\\glsfirstplural",
+            "named": false
+          },
+          {
+            "type": "\\glslink",
+            "named": false
+          },
+          {
+            "type": "\\glsname",
+            "named": false
+          },
+          {
+            "type": "\\glspl",
+            "named": false
+          },
+          {
+            "type": "\\glsplural",
+            "named": false
+          },
+          {
+            "type": "\\glssymbol",
+            "named": false
+          },
+          {
+            "type": "\\glstext",
+            "named": false
+          },
+          {
+            "type": "\\glsuseri",
+            "named": false
+          },
+          {
+            "type": "\\glsuserii",
+            "named": false
+          },
+          {
+            "type": "\\glsuseriii",
+            "named": false
+          },
+          {
+            "type": "\\glsuseriv",
+            "named": false
+          },
+          {
+            "type": "\\glsuserv",
+            "named": false
+          },
+          {
+            "type": "\\glsuservi",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "graphics_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\includegraphics",
+            "named": false
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "hyperlink",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\href",
+            "named": false
+          },
+          {
+            "type": "\\url",
+            "named": false
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "uri": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_uri",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "import_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\import",
+            "named": false
+          },
+          {
+            "type": "\\includefrom",
+            "named": false
+          },
+          {
+            "type": "\\inputfrom",
+            "named": false
+          },
+          {
+            "type": "\\subimport",
+            "named": false
+          },
+          {
+            "type": "\\subimportfrom",
+            "named": false
+          },
+          {
+            "type": "\\subincludefrom",
+            "named": false
+          }
+        ]
+      },
+      "directory": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path",
+            "named": true
+          }
+        ]
+      },
+      "file": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "inkscape_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\includeinkscape",
+            "named": false
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "inline_formula",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "key_value_pair",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "label_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\label",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "label_number",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\newlabel",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "number": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "label_reference",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\Cpageref",
+            "named": false
+          },
+          {
+            "type": "\\Cref",
+            "named": false
+          },
+          {
+            "type": "\\Cref*",
+            "named": false
+          },
+          {
+            "type": "\\Vref",
+            "named": false
+          },
+          {
+            "type": "\\autopageref",
+            "named": false
+          },
+          {
+            "type": "\\autopageref*",
+            "named": false
+          },
+          {
+            "type": "\\autoref",
+            "named": false
+          },
+          {
+            "type": "\\autoref*",
+            "named": false
+          },
+          {
+            "type": "\\cpageref",
+            "named": false
+          },
+          {
+            "type": "\\cref",
+            "named": false
+          },
+          {
+            "type": "\\cref*",
+            "named": false
+          },
+          {
+            "type": "\\eqref",
+            "named": false
+          },
+          {
+            "type": "\\labelcpageref",
+            "named": false
+          },
+          {
+            "type": "\\labelcpageref*",
+            "named": false
+          },
+          {
+            "type": "\\labelcref",
+            "named": false
+          },
+          {
+            "type": "\\labelcref*",
+            "named": false
+          },
+          {
+            "type": "\\lcnamecref",
+            "named": false
+          },
+          {
+            "type": "\\lcnamecrefs",
+            "named": false
+          },
+          {
+            "type": "\\nameCref",
+            "named": false
+          },
+          {
+            "type": "\\nameCrefs",
+            "named": false
+          },
+          {
+            "type": "\\namecref",
+            "named": false
+          },
+          {
+            "type": "\\namecrefs",
+            "named": false
+          },
+          {
+            "type": "\\pageref",
+            "named": false
+          },
+          {
+            "type": "\\pageref*",
+            "named": false
+          },
+          {
+            "type": "\\ref",
+            "named": false
+          },
+          {
+            "type": "\\vref",
+            "named": false
+          }
+        ]
+      },
+      "names": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text_list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "label_reference_range",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\Cpagerefrange",
+            "named": false
+          },
+          {
+            "type": "\\Crefrange",
+            "named": false
+          },
+          {
+            "type": "\\Crefrange*",
+            "named": false
+          },
+          {
+            "type": "\\cpagerefrange",
+            "named": false
+          },
+          {
+            "type": "\\crefrange",
+            "named": false
+          },
+          {
+            "type": "\\crefrange*",
+            "named": false
+          }
+        ]
+      },
+      "from": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "to": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "latex_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\include",
+            "named": false
+          },
+          {
+            "type": "\\input",
+            "named": false
+          },
+          {
+            "type": "\\subfile",
+            "named": false
+          },
+          {
+            "type": "\\subfileinclude",
+            "named": false
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "let_command_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\glet",
+            "named": false
+          },
+          {
+            "type": "\\let",
+            "named": false
+          }
+        ]
+      },
+      "declaration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          }
+        ]
+      },
+      "implementation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "listing_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "luacode_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "math_delimiter",
+    "named": true,
+    "fields": {
+      "left_command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\Biggl",
+            "named": false
+          },
+          {
+            "type": "\\Bigl",
+            "named": false
+          },
+          {
+            "type": "\\biggl",
+            "named": false
+          },
+          {
+            "type": "\\bigl",
+            "named": false
+          },
+          {
+            "type": "\\left",
+            "named": false
+          }
+        ]
+      },
+      "left_delimiter": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "[",
+            "named": false
+          },
+          {
+            "type": "]",
+            "named": false
+          },
+          {
+            "type": "command_name",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          },
+          {
+            "type": "|",
+            "named": false
+          }
+        ]
+      },
+      "right_command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\Biggr",
+            "named": false
+          },
+          {
+            "type": "\\Bigr",
+            "named": false
+          },
+          {
+            "type": "\\biggr",
+            "named": false
+          },
+          {
+            "type": "\\bigr",
+            "named": false
+          },
+          {
+            "type": "\\right",
+            "named": false
+          }
+        ]
+      },
+      "right_delimiter": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "[",
+            "named": false
+          },
+          {
+            "type": "]",
+            "named": false
+          },
+          {
+            "type": "command_name",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          },
+          {
+            "type": "|",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "math_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "minted_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "new_command_definition",
+    "named": true,
+    "fields": {
+      "argc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_argc",
+            "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\DeclareCommandCopy",
+            "named": false
+          },
+          {
+            "type": "\\DeclareDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\DeclareExpandableDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\DeclareMathOperator",
+            "named": false
+          },
+          {
+            "type": "\\DeclareMathOperator*",
+            "named": false
+          },
+          {
+            "type": "\\DeclareRobustCommand",
+            "named": false
+          },
+          {
+            "type": "\\DeclareRobustCommand*",
+            "named": false
+          },
+          {
+            "type": "\\NewCommandCopy",
+            "named": false
+          },
+          {
+            "type": "\\NewDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\NewExpandableDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\ProvideDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\ProvideExpandableDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\RenewCommandCopy",
+            "named": false
+          },
+          {
+            "type": "\\RenewDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\RenewExpandableDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\newcommand",
+            "named": false
+          },
+          {
+            "type": "\\newcommand*",
+            "named": false
+          },
+          {
+            "type": "\\providecommand",
+            "named": false
+          },
+          {
+            "type": "\\providecommand*",
+            "named": false
+          },
+          {
+            "type": "\\renewcommand",
+            "named": false
+          },
+          {
+            "type": "\\renewcommand*",
+            "named": false
+          }
+        ]
+      },
+      "declaration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          },
+          {
+            "type": "curly_group_command_name",
+            "named": true
+          }
+        ]
+      },
+      "default": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      },
+      "implementation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          },
+          {
+            "type": "curly_group_command_name",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_spec",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "old_command_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\def",
+            "named": false
+          },
+          {
+            "type": "\\edef",
+            "named": false
+          },
+          {
+            "type": "\\gdef",
+            "named": false
+          },
+          {
+            "type": "\\xdef",
+            "named": false
+          }
+        ]
+      },
+      "declaration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "operator",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "package_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\RequirePackage",
+            "named": false
+          },
+          {
+            "type": "\\usepackage",
+            "named": false
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      },
+      "paths": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path_list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "paired_delimiter_definition",
+    "named": true,
+    "fields": {
+      "argc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_argc",
+            "named": true
+          }
+        ]
+      },
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\DeclarePairedDelimiter",
+            "named": false
+          },
+          {
+            "type": "\\DeclarePairedDelimiterX",
+            "named": false
+          }
+        ]
+      },
+      "declaration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_command_name",
+            "named": true
+          }
+        ]
+      },
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          },
+          {
+            "type": "curly_group_impl",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          },
+          {
+            "type": "curly_group_impl",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "paragraph",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\paragraph",
+            "named": false
+          },
+          {
+            "type": "\\paragraph*",
+            "named": false
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "part",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\addpart",
+            "named": false
+          },
+          {
+            "type": "\\addpart*",
+            "named": false
+          },
+          {
+            "type": "\\part",
+            "named": false
+          },
+          {
+            "type": "\\part*",
+            "named": false
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pycode_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "sageblock_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "sagesilent_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "section",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\addsec",
+            "named": false
+          },
+          {
+            "type": "\\addsec*",
+            "named": false
+          },
+          {
+            "type": "\\section",
+            "named": false
+          },
+          {
+            "type": "\\section*",
+            "named": false
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subparagraph",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\subparagraph",
+            "named": false
+          },
+          {
+            "type": "\\subparagraph*",
+            "named": false
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subscript",
+    "named": true,
+    "fields": {
+      "subscript": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          },
+          {
+            "type": "curly_group",
+            "named": true
+          },
+          {
+            "type": "letter",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "subsection",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\subsection",
+            "named": false
+          },
+          {
+            "type": "\\subsection*",
+            "named": false
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subsubsection",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\subsubsection",
+            "named": false
+          },
+          {
+            "type": "\\subsubsection*",
+            "named": false
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "generic_environment",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "math_environment",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "superscript",
+    "named": true,
+    "fields": {
+      "superscript": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          },
+          {
+            "type": "curly_group",
+            "named": true
+          },
+          {
+            "type": "letter",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "svg_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\includesvg",
+            "named": false
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "text",
+    "named": true,
+    "fields": {
+      "word": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
+            "named": true
+          },
+          {
+            "type": "author_declaration",
+            "named": true
+          },
+          {
+            "type": "biblatex_include",
+            "named": true
+          },
+          {
+            "type": "bibstyle_include",
+            "named": true
+          },
+          {
+            "type": "bibtex_include",
+            "named": true
+          },
+          {
+            "type": "block_comment",
+            "named": true
+          },
+          {
+            "type": "caption",
+            "named": true
+          },
+          {
+            "type": "citation",
+            "named": true
+          },
+          {
+            "type": "class_include",
+            "named": true
+          },
+          {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
+            "type": "delimiter",
+            "named": true
+          },
+          {
+            "type": "environment_definition",
+            "named": true
+          },
+          {
+            "type": "generic_command",
+            "named": true
+          },
+          {
+            "type": "glossary_entry_definition",
+            "named": true
+          },
+          {
+            "type": "glossary_entry_reference",
+            "named": true
+          },
+          {
+            "type": "graphics_include",
+            "named": true
+          },
+          {
+            "type": "hyperlink",
+            "named": true
+          },
+          {
+            "type": "import_include",
+            "named": true
+          },
+          {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
+            "type": "label_definition",
+            "named": true
+          },
+          {
+            "type": "label_number",
+            "named": true
+          },
+          {
+            "type": "label_reference",
+            "named": true
+          },
+          {
+            "type": "label_reference_range",
+            "named": true
+          },
+          {
+            "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "let_command_definition",
+            "named": true
+          },
+          {
+            "type": "new_command_definition",
+            "named": true
+          },
+          {
+            "type": "old_command_definition",
+            "named": true
+          },
+          {
+            "type": "operator",
+            "named": true
+          },
+          {
+            "type": "package_include",
+            "named": true
+          },
+          {
+            "type": "paired_delimiter_definition",
+            "named": true
+          },
+          {
+            "type": "placeholder",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "superscript",
+            "named": true
+          },
+          {
+            "type": "svg_include",
+            "named": true
+          },
+          {
+            "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "tikz_library_import",
+            "named": true
+          },
+          {
+            "type": "title_declaration",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "text_mode",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\intertext",
+            "named": false
+          },
+          {
+            "type": "\\shortintertext",
+            "named": false
+          },
+          {
+            "type": "\\text",
+            "named": false
+          }
+        ]
+      },
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "theorem_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\declaretheorem",
+            "named": false
+          },
+          {
+            "type": "\\declaretheorem*",
+            "named": false
+          },
+          {
+            "type": "\\newtheorem",
+            "named": false
+          },
+          {
+            "type": "\\newtheorem*",
+            "named": false
+          }
+        ]
+      },
+      "counter": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_text",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text_list",
+            "named": true
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_key_value",
+            "named": true
+          }
+        ]
+      },
+      "title": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "tikz_library_import",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\usepgflibrary",
+            "named": false
+          },
+          {
+            "type": "\\usetikzlibrary",
+            "named": false
+          }
+        ]
+      },
+      "paths": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path_list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "title_declaration",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\title",
+            "named": false
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "brack_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "verbatim_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      },
+      "verbatim": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "comment",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "verbatim_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\VerbatimInput",
+            "named": false
+          },
+          {
+            "type": "\\verbatiminput",
+            "named": false
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "$",
+    "named": false
+  },
+  {
+    "type": "$$",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\(",
+    "named": false
+  },
+  {
+    "type": "\\)",
+    "named": false
+  },
+  {
+    "type": "\\ACRfull",
+    "named": false
+  },
+  {
+    "type": "\\ACRfullpl",
+    "named": false
+  },
+  {
+    "type": "\\ACRlong",
+    "named": false
+  },
+  {
+    "type": "\\ACRlongpl",
+    "named": false
+  },
+  {
+    "type": "\\ACRshort",
+    "named": false
+  },
+  {
+    "type": "\\ACRshortpl",
+    "named": false
+  },
+  {
+    "type": "\\Ac",
+    "named": false
+  },
+  {
+    "type": "\\Acf",
+    "named": false
+  },
+  {
+    "type": "\\Acfp",
+    "named": false
+  },
+  {
+    "type": "\\Acl",
+    "named": false
+  },
+  {
+    "type": "\\Aclp",
+    "named": false
+  },
+  {
+    "type": "\\Acrfull",
+    "named": false
+  },
+  {
+    "type": "\\Acrfullpl",
+    "named": false
+  },
+  {
+    "type": "\\Acrlong",
+    "named": false
+  },
+  {
+    "type": "\\Acrlongpl",
+    "named": false
+  },
+  {
+    "type": "\\Acrshort",
+    "named": false
+  },
+  {
+    "type": "\\Acrshortpl",
+    "named": false
+  },
+  {
+    "type": "\\Acs",
+    "named": false
+  },
+  {
+    "type": "\\Acsp",
+    "named": false
+  },
+  {
+    "type": "\\Autocite",
+    "named": false
+  },
+  {
+    "type": "\\Autocite*",
+    "named": false
+  },
+  {
+    "type": "\\Avolcite",
+    "named": false
+  },
+  {
+    "type": "\\Biggl",
+    "named": false
+  },
+  {
+    "type": "\\Biggr",
+    "named": false
+  },
+  {
+    "type": "\\Bigl",
+    "named": false
+  },
+  {
+    "type": "\\Bigr",
+    "named": false
+  },
+  {
+    "type": "\\Cite",
+    "named": false
+  },
+  {
+    "type": "\\Citeauthor",
+    "named": false
+  },
+  {
+    "type": "\\Citeauthor*",
+    "named": false
+  },
+  {
+    "type": "\\Cpageref",
+    "named": false
+  },
+  {
+    "type": "\\Cpagerefrange",
+    "named": false
+  },
+  {
+    "type": "\\Cref",
+    "named": false
+  },
+  {
+    "type": "\\Cref*",
+    "named": false
+  },
+  {
+    "type": "\\Crefrange",
+    "named": false
+  },
+  {
+    "type": "\\Crefrange*",
+    "named": false
+  },
+  {
+    "type": "\\DeclareCommandCopy",
+    "named": false
+  },
+  {
+    "type": "\\DeclareDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\DeclareDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\DeclareEnvironmentCopy",
+    "named": false
+  },
+  {
+    "type": "\\DeclareExpandableDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\DeclareMathOperator",
+    "named": false
+  },
+  {
+    "type": "\\DeclareMathOperator*",
+    "named": false
+  },
+  {
+    "type": "\\DeclarePairedDelimiter",
+    "named": false
+  },
+  {
+    "type": "\\DeclarePairedDelimiterX",
+    "named": false
+  },
+  {
+    "type": "\\DeclareRobustCommand",
+    "named": false
+  },
+  {
+    "type": "\\DeclareRobustCommand*",
+    "named": false
+  },
+  {
+    "type": "\\GLS",
+    "named": false
+  },
+  {
+    "type": "\\GLSdesc",
+    "named": false
+  },
+  {
+    "type": "\\GLSfirst",
+    "named": false
+  },
+  {
+    "type": "\\GLSfirstplural",
+    "named": false
+  },
+  {
+    "type": "\\GLSname",
+    "named": false
+  },
+  {
+    "type": "\\GLSpl",
+    "named": false
+  },
+  {
+    "type": "\\GLSplural",
+    "named": false
+  },
+  {
+    "type": "\\GLStext",
+    "named": false
+  },
+  {
+    "type": "\\GLSuseri",
+    "named": false
+  },
+  {
+    "type": "\\GLSuserii",
+    "named": false
+  },
+  {
+    "type": "\\GLSuseriii",
+    "named": false
+  },
+  {
+    "type": "\\GLSuseriv",
+    "named": false
+  },
+  {
+    "type": "\\GLSuserv",
+    "named": false
+  },
+  {
+    "type": "\\GLSuservi",
+    "named": false
+  },
+  {
+    "type": "\\Gls",
+    "named": false
+  },
+  {
+    "type": "\\Glsdesc",
+    "named": false
+  },
+  {
+    "type": "\\Glsentryfullpl",
+    "named": false
+  },
+  {
+    "type": "\\Glsentrylong",
+    "named": false
+  },
+  {
+    "type": "\\Glsentrylongpl",
+    "named": false
+  },
+  {
+    "type": "\\Glsentryshort",
+    "named": false
+  },
+  {
+    "type": "\\Glsentryshortpl",
+    "named": false
+  },
+  {
+    "type": "\\Glsfirst",
+    "named": false
+  },
+  {
+    "type": "\\Glsfirstplural",
+    "named": false
+  },
+  {
+    "type": "\\Glsname",
+    "named": false
+  },
+  {
+    "type": "\\Glspl",
+    "named": false
+  },
+  {
+    "type": "\\Glsplural",
+    "named": false
+  },
+  {
+    "type": "\\Glssymbol",
+    "named": false
+  },
+  {
+    "type": "\\Glstext",
+    "named": false
+  },
+  {
+    "type": "\\Glsuseri",
+    "named": false
+  },
+  {
+    "type": "\\Glsuserii",
+    "named": false
+  },
+  {
+    "type": "\\Glsuseriii",
+    "named": false
+  },
+  {
+    "type": "\\Glsuseriv",
+    "named": false
+  },
+  {
+    "type": "\\Glsuserv",
+    "named": false
+  },
+  {
+    "type": "\\Glsuservi",
+    "named": false
+  },
+  {
+    "type": "\\NewCommandCopy",
+    "named": false
+  },
+  {
+    "type": "\\NewDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\NewDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\NewEnvironmentCopy",
+    "named": false
+  },
+  {
+    "type": "\\NewExpandableDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\Notecite",
+    "named": false
+  },
+  {
+    "type": "\\Parencite",
+    "named": false
+  },
+  {
+    "type": "\\Pnotecite",
+    "named": false
+  },
+  {
+    "type": "\\ProvideDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\ProvideDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\ProvideExpandableDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\Pvolcite",
+    "named": false
+  },
+  {
+    "type": "\\RenewCommandCopy",
+    "named": false
+  },
+  {
+    "type": "\\RenewDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\RenewDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\RenewEnvironmentCopy",
+    "named": false
+  },
+  {
+    "type": "\\RenewExpandableDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\RequirePackage",
+    "named": false
+  },
+  {
+    "type": "\\Smartcite",
+    "named": false
+  },
+  {
+    "type": "\\Svolcite",
+    "named": false
+  },
+  {
+    "type": "\\Textcite",
+    "named": false
+  },
+  {
+    "type": "\\Tvolcite",
+    "named": false
+  },
+  {
+    "type": "\\VerbatimInput",
+    "named": false
+  },
+  {
+    "type": "\\Volcite",
+    "named": false
+  },
+  {
+    "type": "\\Vref",
+    "named": false
+  },
+  {
+    "type": "\\[",
+    "named": false
+  },
+  {
+    "type": "\\]",
+    "named": false
+  },
+  {
+    "type": "\\ac",
+    "named": false
+  },
+  {
+    "type": "\\acf",
+    "named": false
+  },
+  {
+    "type": "\\acfp",
+    "named": false
+  },
+  {
+    "type": "\\acl",
+    "named": false
+  },
+  {
+    "type": "\\aclp",
+    "named": false
+  },
+  {
+    "type": "\\acp",
+    "named": false
+  },
+  {
+    "type": "\\acrfull",
+    "named": false
+  },
+  {
+    "type": "\\acrfullpl",
+    "named": false
+  },
+  {
+    "type": "\\acrlong",
+    "named": false
+  },
+  {
+    "type": "\\acrlongpl",
+    "named": false
+  },
+  {
+    "type": "\\acrshort",
+    "named": false
+  },
+  {
+    "type": "\\acrshortpl",
+    "named": false
+  },
+  {
+    "type": "\\acs",
+    "named": false
+  },
+  {
+    "type": "\\acsp",
+    "named": false
+  },
+  {
+    "type": "\\addbibresource",
+    "named": false
+  },
+  {
+    "type": "\\addchap",
+    "named": false
+  },
+  {
+    "type": "\\addchap*",
+    "named": false
+  },
+  {
+    "type": "\\addpart",
+    "named": false
+  },
+  {
+    "type": "\\addpart*",
+    "named": false
+  },
+  {
+    "type": "\\addsec",
+    "named": false
+  },
+  {
+    "type": "\\addsec*",
+    "named": false
+  },
+  {
+    "type": "\\author",
+    "named": false
+  },
+  {
+    "type": "\\autocite",
+    "named": false
+  },
+  {
+    "type": "\\autocite*",
+    "named": false
+  },
+  {
+    "type": "\\autopageref",
+    "named": false
+  },
+  {
+    "type": "\\autopageref*",
+    "named": false
+  },
+  {
+    "type": "\\autoref",
+    "named": false
+  },
+  {
+    "type": "\\autoref*",
+    "named": false
+  },
+  {
+    "type": "\\avolcite",
+    "named": false
+  },
+  {
+    "type": "\\begin",
+    "named": false
+  },
+  {
+    "type": "\\bibliography",
+    "named": false
+  },
+  {
+    "type": "\\bibliographystyle",
+    "named": false
+  },
+  {
+    "type": "\\biggl",
+    "named": false
+  },
+  {
+    "type": "\\biggr",
+    "named": false
+  },
+  {
+    "type": "\\bigl",
+    "named": false
+  },
+  {
+    "type": "\\bigr",
+    "named": false
+  },
+  {
+    "type": "\\caption",
+    "named": false
+  },
+  {
+    "type": "\\chapter",
+    "named": false
+  },
+  {
+    "type": "\\chapter*",
+    "named": false
+  },
+  {
+    "type": "\\cite",
+    "named": false
+  },
+  {
+    "type": "\\cite*",
+    "named": false
+  },
+  {
+    "type": "\\citeA",
+    "named": false
+  },
+  {
+    "type": "\\citeR",
+    "named": false
+  },
+  {
+    "type": "\\citeS",
+    "named": false
+  },
+  {
+    "type": "\\citealp",
+    "named": false
+  },
+  {
+    "type": "\\citealt",
+    "named": false
+  },
+  {
+    "type": "\\citeauthor",
+    "named": false
+  },
+  {
+    "type": "\\citeauthor*",
+    "named": false
+  },
+  {
+    "type": "\\citedate",
+    "named": false
+  },
+  {
+    "type": "\\citedate*",
+    "named": false
+  },
+  {
+    "type": "\\citep",
+    "named": false
+  },
+  {
+    "type": "\\citep*",
+    "named": false
+  },
+  {
+    "type": "\\citet",
+    "named": false
+  },
+  {
+    "type": "\\citet*",
+    "named": false
+  },
+  {
+    "type": "\\citetext",
+    "named": false
+  },
+  {
+    "type": "\\citetitle",
+    "named": false
+  },
+  {
+    "type": "\\citetitle*",
+    "named": false
+  },
+  {
+    "type": "\\citeurl",
+    "named": false
+  },
+  {
+    "type": "\\citeyear",
+    "named": false
+  },
+  {
+    "type": "\\citeyear*",
+    "named": false
+  },
+  {
+    "type": "\\citeyearR",
+    "named": false
+  },
+  {
+    "type": "\\citeyearpar",
+    "named": false
+  },
+  {
+    "type": "\\color",
+    "named": false
+  },
+  {
+    "type": "\\colorbox",
+    "named": false
+  },
+  {
+    "type": "\\cpageref",
+    "named": false
+  },
+  {
+    "type": "\\cpagerefrange",
+    "named": false
+  },
+  {
+    "type": "\\cref",
+    "named": false
+  },
+  {
+    "type": "\\cref*",
+    "named": false
+  },
+  {
+    "type": "\\crefrange",
+    "named": false
+  },
+  {
+    "type": "\\crefrange*",
+    "named": false
+  },
+  {
+    "type": "\\declaretheorem",
+    "named": false
+  },
+  {
+    "type": "\\declaretheorem*",
+    "named": false
+  },
+  {
+    "type": "\\def",
+    "named": false
+  },
+  {
+    "type": "\\definecolor",
+    "named": false
+  },
+  {
+    "type": "\\definecolorset",
+    "named": false
+  },
+  {
+    "type": "\\documentclass",
+    "named": false
+  },
+  {
+    "type": "\\edef",
+    "named": false
+  },
+  {
+    "type": "\\end",
+    "named": false
+  },
+  {
+    "type": "\\eqref",
+    "named": false
+  },
+  {
+    "type": "\\fi",
+    "named": false
+  },
+  {
+    "type": "\\fnotecite",
+    "named": false
+  },
+  {
+    "type": "\\footcite",
+    "named": false
+  },
+  {
+    "type": "\\footcitetext",
+    "named": false
+  },
+  {
+    "type": "\\footfullcite",
+    "named": false
+  },
+  {
+    "type": "\\ftvolcite",
+    "named": false
+  },
+  {
+    "type": "\\fullcite",
+    "named": false
+  },
+  {
+    "type": "\\fvolcite",
+    "named": false
+  },
+  {
+    "type": "\\gdef",
+    "named": false
+  },
+  {
+    "type": "\\glet",
+    "named": false
+  },
+  {
+    "type": "\\gls",
+    "named": false
+  },
+  {
+    "type": "\\glsdesc",
+    "named": false
+  },
+  {
+    "type": "\\glsdisp",
+    "named": false
+  },
+  {
+    "type": "\\glsentryfullpl",
+    "named": false
+  },
+  {
+    "type": "\\glsentrylong",
+    "named": false
+  },
+  {
+    "type": "\\glsentrylongpl",
+    "named": false
+  },
+  {
+    "type": "\\glsentryshort",
+    "named": false
+  },
+  {
+    "type": "\\glsentryshortpl",
+    "named": false
+  },
+  {
+    "type": "\\glsfirst",
+    "named": false
+  },
+  {
+    "type": "\\glsfirstplural",
+    "named": false
+  },
+  {
+    "type": "\\glslink",
+    "named": false
+  },
+  {
+    "type": "\\glsname",
+    "named": false
+  },
+  {
+    "type": "\\glspl",
+    "named": false
+  },
+  {
+    "type": "\\glsplural",
+    "named": false
+  },
+  {
+    "type": "\\glssymbol",
+    "named": false
+  },
+  {
+    "type": "\\glstext",
+    "named": false
+  },
+  {
+    "type": "\\glsuseri",
+    "named": false
+  },
+  {
+    "type": "\\glsuserii",
+    "named": false
+  },
+  {
+    "type": "\\glsuseriii",
+    "named": false
+  },
+  {
+    "type": "\\glsuseriv",
+    "named": false
+  },
+  {
+    "type": "\\glsuserv",
+    "named": false
+  },
+  {
+    "type": "\\glsuservi",
+    "named": false
+  },
+  {
+    "type": "\\href",
+    "named": false
+  },
+  {
+    "type": "\\iffalse",
+    "named": false
+  },
+  {
+    "type": "\\import",
+    "named": false
+  },
+  {
+    "type": "\\include",
+    "named": false
+  },
+  {
+    "type": "\\includefrom",
+    "named": false
+  },
+  {
+    "type": "\\includegraphics",
+    "named": false
+  },
+  {
+    "type": "\\includeinkscape",
+    "named": false
+  },
+  {
+    "type": "\\includesvg",
+    "named": false
+  },
+  {
+    "type": "\\input",
+    "named": false
+  },
+  {
+    "type": "\\inputfrom",
+    "named": false
+  },
+  {
+    "type": "\\intertext",
+    "named": false
+  },
+  {
+    "type": "\\item",
+    "named": false
+  },
+  {
+    "type": "\\item*",
+    "named": false
+  },
+  {
+    "type": "\\label",
+    "named": false
+  },
+  {
+    "type": "\\labelcpageref",
+    "named": false
+  },
+  {
+    "type": "\\labelcpageref*",
+    "named": false
+  },
+  {
+    "type": "\\labelcref",
+    "named": false
+  },
+  {
+    "type": "\\labelcref*",
+    "named": false
+  },
+  {
+    "type": "\\lcnamecref",
+    "named": false
+  },
+  {
+    "type": "\\lcnamecrefs",
+    "named": false
+  },
+  {
+    "type": "\\left",
+    "named": false
+  },
+  {
+    "type": "\\let",
+    "named": false
+  },
+  {
+    "type": "\\mathcolor",
+    "named": false
+  },
+  {
+    "type": "\\nameCref",
+    "named": false
+  },
+  {
+    "type": "\\nameCrefs",
+    "named": false
+  },
+  {
+    "type": "\\namecref",
+    "named": false
+  },
+  {
+    "type": "\\namecrefs",
+    "named": false
+  },
+  {
+    "type": "\\newacronym",
+    "named": false
+  },
+  {
+    "type": "\\newcommand",
+    "named": false
+  },
+  {
+    "type": "\\newcommand*",
+    "named": false
+  },
+  {
+    "type": "\\newenvironment",
+    "named": false
+  },
+  {
+    "type": "\\newglossaryentry",
+    "named": false
+  },
+  {
+    "type": "\\newlabel",
+    "named": false
+  },
+  {
+    "type": "\\newtheorem",
+    "named": false
+  },
+  {
+    "type": "\\newtheorem*",
+    "named": false
+  },
+  {
+    "type": "\\nocite",
+    "named": false
+  },
+  {
+    "type": "\\notecite",
+    "named": false
+  },
+  {
+    "type": "\\pagecolor",
+    "named": false
+  },
+  {
+    "type": "\\pageref",
+    "named": false
+  },
+  {
+    "type": "\\pageref*",
+    "named": false
+  },
+  {
+    "type": "\\paragraph",
+    "named": false
+  },
+  {
+    "type": "\\paragraph*",
+    "named": false
+  },
+  {
+    "type": "\\parencite",
+    "named": false
+  },
+  {
+    "type": "\\parencite*",
+    "named": false
+  },
+  {
+    "type": "\\part",
+    "named": false
+  },
+  {
+    "type": "\\part*",
+    "named": false
+  },
+  {
+    "type": "\\pnotecite",
+    "named": false
+  },
+  {
+    "type": "\\providecommand",
+    "named": false
+  },
+  {
+    "type": "\\providecommand*",
+    "named": false
+  },
+  {
+    "type": "\\pvolcite",
+    "named": false
+  },
+  {
+    "type": "\\ref",
+    "named": false
+  },
+  {
+    "type": "\\renewcommand",
+    "named": false
+  },
+  {
+    "type": "\\renewcommand*",
+    "named": false
+  },
+  {
+    "type": "\\renewenvironment",
+    "named": false
+  },
+  {
+    "type": "\\right",
+    "named": false
+  },
+  {
+    "type": "\\section",
+    "named": false
+  },
+  {
+    "type": "\\section*",
+    "named": false
+  },
+  {
+    "type": "\\shortintertext",
+    "named": false
+  },
+  {
+    "type": "\\smartcite",
+    "named": false
+  },
+  {
+    "type": "\\subfile",
+    "named": false
+  },
+  {
+    "type": "\\subfileinclude",
+    "named": false
+  },
+  {
+    "type": "\\subimport",
+    "named": false
+  },
+  {
+    "type": "\\subimportfrom",
+    "named": false
+  },
+  {
+    "type": "\\subincludefrom",
+    "named": false
+  },
+  {
+    "type": "\\subparagraph",
+    "named": false
+  },
+  {
+    "type": "\\subparagraph*",
+    "named": false
+  },
+  {
+    "type": "\\subsection",
+    "named": false
+  },
+  {
+    "type": "\\subsection*",
+    "named": false
+  },
+  {
+    "type": "\\subsubsection",
+    "named": false
+  },
+  {
+    "type": "\\subsubsection*",
+    "named": false
+  },
+  {
+    "type": "\\supercite",
+    "named": false
+  },
+  {
+    "type": "\\svolcite",
+    "named": false
+  },
+  {
+    "type": "\\text",
+    "named": false
+  },
+  {
+    "type": "\\textcite",
+    "named": false
+  },
+  {
+    "type": "\\textcolor",
+    "named": false
+  },
+  {
+    "type": "\\title",
+    "named": false
+  },
+  {
+    "type": "\\tvolcite",
+    "named": false
+  },
+  {
+    "type": "\\url",
+    "named": false
+  },
+  {
+    "type": "\\usepackage",
+    "named": false
+  },
+  {
+    "type": "\\usepgflibrary",
+    "named": false
+  },
+  {
+    "type": "\\usetikzlibrary",
+    "named": false
+  },
+  {
+    "type": "\\verbatiminput",
+    "named": false
+  },
+  {
+    "type": "\\volcite",
+    "named": false
+  },
+  {
+    "type": "\\vref",
+    "named": false
+  },
+  {
+    "type": "\\xdef",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "_",
+    "named": false
+  },
+  {
+    "type": "argc",
+    "named": true
+  },
+  {
+    "type": "command_name",
+    "named": true
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "delimiter",
+    "named": true
+  },
+  {
+    "type": "letter",
+    "named": true
+  },
+  {
+    "type": "line_comment",
+    "named": true
+  },
+  {
+    "type": "path",
+    "named": true
+  },
+  {
+    "type": "placeholder",
+    "named": true
+  },
+  {
+    "type": "source_code",
+    "named": true
+  },
+  {
+    "type": "uri",
+    "named": true
+  },
+  {
+    "type": "word",
+    "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]
