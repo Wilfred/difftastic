@@ -11,6 +11,7 @@ use crate::options::DisplayOptions;
 use crate::parse::syntax::MatchedPos;
 use crate::summary::FileFormat;
 
+#[allow(dead_code)]
 pub(crate) fn print(
     lhs_src: &str,
     rhs_src: &str,
@@ -22,6 +23,33 @@ pub(crate) fn print(
     extra_info: &Option<String>,
     file_format: &FileFormat,
 ) {
+    print!(
+        "{}",
+        render(
+            lhs_src,
+            rhs_src,
+            display_options,
+            lhs_mps,
+            rhs_mps,
+            hunks,
+            display_path,
+            extra_info,
+            file_format,
+        )
+    );
+}
+
+pub(crate) fn render(
+    lhs_src: &str,
+    rhs_src: &str,
+    display_options: &DisplayOptions,
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+    hunks: &[Hunk],
+    display_path: &str,
+    extra_info: &Option<String>,
+    file_format: &FileFormat,
+) -> String {
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
             apply_colors(
@@ -63,10 +91,11 @@ pub(crate) fn print(
 
     let opposite_to_lhs = opposite_positions(lhs_mps);
     let opposite_to_rhs = opposite_positions(rhs_mps);
+    let mut output = String::new();
 
     for (i, hunk) in hunks.iter().enumerate() {
-        println!(
-            "{}",
+        output.push_str(&format!(
+            "{}\n",
             style::header(
                 display_path,
                 extra_info.as_ref(),
@@ -75,7 +104,7 @@ pub(crate) fn print(
                 file_format,
                 display_options
             )
-        );
+        ));
 
         let hunk_lines = hunk.lines.clone();
 
@@ -97,7 +126,7 @@ pub(crate) fn print(
 
         for (lhs_line, _) in before_lines {
             if let Some(lhs_line) = lhs_line {
-                print!(
+                output.push_str(&format!(
                     "{}   {}",
                     apply_line_number_color(
                         &format_line_num(lhs_line),
@@ -106,13 +135,13 @@ pub(crate) fn print(
                         display_options,
                     ),
                     lhs_colored_lines[lhs_line.as_usize()]
-                );
+                ));
             }
         }
 
         for (lhs_line, _) in &hunk_lines {
             if let Some(lhs_line) = lhs_line {
-                print!(
+                output.push_str(&format!(
                     "{}   {}",
                     apply_line_number_color(
                         &format_line_num(*lhs_line),
@@ -121,12 +150,12 @@ pub(crate) fn print(
                         display_options,
                     ),
                     lhs_colored_lines[lhs_line.as_usize()]
-                );
+                ));
             }
         }
         for (_, rhs_line) in &hunk_lines {
             if let Some(rhs_line) = rhs_line {
-                print!(
+                output.push_str(&format!(
                     "   {}{}",
                     apply_line_number_color(
                         &format_line_num(*rhs_line),
@@ -135,13 +164,13 @@ pub(crate) fn print(
                         display_options,
                     ),
                     rhs_colored_lines[rhs_line.as_usize()]
-                );
+                ));
             }
         }
 
         for (_, rhs_line) in &after_lines {
             if let Some(rhs_line) = rhs_line {
-                print!(
+                output.push_str(&format!(
                     "   {}{}",
                     apply_line_number_color(
                         &format_line_num(*rhs_line),
@@ -150,9 +179,11 @@ pub(crate) fn print(
                         display_options,
                     ),
                     rhs_colored_lines[rhs_line.as_usize()]
-                );
+                ));
             }
         }
-        println!();
+        output.push('\n');
     }
+
+    output
 }

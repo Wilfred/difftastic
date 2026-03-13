@@ -680,7 +680,7 @@ mod tests {
     use super::*;
     use crate::parse::guess_language;
     use crate::parse::tree_sitter_parser::{from_language, parse};
-    use crate::syntax::{init_all_info, AtomKind};
+    use crate::parse::syntax::{init_all_info, AtomKind};
 
     /// Test that we slide at the start if the unchanged node is
     /// closer than the trailing novel node.

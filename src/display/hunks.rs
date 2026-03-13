@@ -690,7 +690,7 @@ mod tests {
 
     use super::*;
     use crate::hash::DftHashMap;
-    use crate::syntax::{MatchKind, TokenKind};
+    use crate::parse::syntax::{MatchKind, TokenKind};
 
     #[test]
     fn test_sorted_novel_positions_simple() {

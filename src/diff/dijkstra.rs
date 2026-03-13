@@ -241,7 +241,7 @@ mod tests {
     use crate::diff::changes::ChangeKind;
     use crate::diff::graph::Edge::*;
     use crate::options::DEFAULT_GRAPH_LIMIT;
-    use crate::syntax::{init_all_info, AtomKind};
+    use crate::parse::syntax::{init_all_info, AtomKind};
 
     fn pos_helper(line: u32) -> Vec<SingleLineSpan> {
         vec![SingleLineSpan {

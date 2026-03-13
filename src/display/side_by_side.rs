@@ -421,6 +421,7 @@ fn visible_content_max_len_in_bytes(
     (lhs_content_max_width, rhs_content_max_width)
 }
 
+#[allow(dead_code)]
 pub(crate) fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
@@ -432,6 +433,33 @@ pub(crate) fn print(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) {
+    print!(
+        "{}",
+        render(
+            hunks,
+            display_options,
+            display_path,
+            old_path,
+            file_format,
+            lhs_src,
+            rhs_src,
+            lhs_mps,
+            rhs_mps,
+        )
+    );
+}
+
+pub(crate) fn render(
+    hunks: &[Hunk],
+    display_options: &DisplayOptions,
+    display_path: &str,
+    old_path: Option<&String>,
+    file_format: &FileFormat,
+    lhs_src: &str,
+    rhs_src: &str,
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+) -> String {
     let (lhs_content_max_width, rhs_content_max_width) = visible_content_max_len_in_bytes(
         lhs_src,
         rhs_src,
@@ -479,6 +507,7 @@ pub(crate) fn print(
         .iter()
         .map(|l| replace_tabs(l, display_options.tab_width))
         .collect();
+    let mut output = String::new();
 
     if lhs_src.is_empty()
         && !matches!(
@@ -494,10 +523,10 @@ pub(crate) fn print(
             Side::Right,
             display_options,
         ) {
-            print!("{}", line);
+            output.push_str(&line);
         }
-        println!();
-        return;
+        output.push('\n');
+        return output;
     }
     if rhs_src.is_empty()
         && !matches!(
@@ -513,10 +542,10 @@ pub(crate) fn print(
             Side::Left,
             display_options,
         ) {
-            print!("{}", line);
+            output.push_str(&line);
         }
-        println!();
-        return;
+        output.push('\n');
+        return output;
     }
 
     // TODO: this is largely duplicating the `apply_colors` logic.
@@ -598,8 +627,8 @@ pub(crate) fn print(
     );
 
     for (i, hunk) in hunks.iter().enumerate() {
-        println!(
-            "{}",
+        output.push_str(&format!(
+            "{}\n",
             style::header(
                 display_path,
                 old_path,
@@ -608,7 +637,7 @@ pub(crate) fn print(
                 file_format,
                 display_options
             )
-        );
+        ));
 
         let (start_i, end_i) = matched_lines_indexes_for_hunk(
             matched_lines_to_print,
@@ -661,19 +690,22 @@ pub(crate) fn print(
                     Some(rhs_line_num) => {
                         let rhs_line = &rhs_colored_lines[rhs_line_num.as_usize()];
                         if same_lines {
-                            print!("{}{}", display_rhs_line_num, rhs_line);
+                            output.push_str(&format!("{}{}", display_rhs_line_num, rhs_line));
                         } else {
-                            print!(
+                            output.push_str(&format!(
                                 "{}{}{}",
                                 display_lhs_line_num, display_rhs_line_num, rhs_line
-                            );
+                            ));
                         }
                     }
                     None => {
                         // We didn't have any changed RHS lines in the
                         // hunk, but we had some contextual lines that
                         // only occurred on the LHS (e.g. extra newlines).
-                        println!("{}{}", display_lhs_line_num, display_rhs_line_num);
+                        output.push_str(&format!(
+                            "{}{}\n",
+                            display_lhs_line_num, display_rhs_line_num
+                        ));
                     }
                 }
             } else if no_rhs_changes && !show_both {
@@ -681,16 +713,19 @@ pub(crate) fn print(
                     Some(lhs_line_num) => {
                         let lhs_line = &lhs_colored_lines[lhs_line_num.as_usize()];
                         if same_lines {
-                            print!("{}{}", display_lhs_line_num, lhs_line);
+                            output.push_str(&format!("{}{}", display_lhs_line_num, lhs_line));
                         } else {
-                            print!(
+                            output.push_str(&format!(
                                 "{}{}{}",
                                 display_lhs_line_num, display_rhs_line_num, lhs_line
-                            );
+                            ));
                         }
                     }
                     None => {
-                        println!("{}{}", display_lhs_line_num, display_rhs_line_num);
+                        output.push_str(&format!(
+                            "{}{}\n",
+                            display_lhs_line_num, display_rhs_line_num
+                        ));
                     }
                 }
             } else {
@@ -765,7 +800,10 @@ pub(crate) fn print(
                         s
                     };
 
-                    println!("{}{}{}{}{}", lhs_num, lhs_line, SPACER, rhs_num, rhs_line);
+                    output.push_str(&format!(
+                        "{}{}{}{}{}\n",
+                        lhs_num, lhs_line, SPACER, rhs_num, rhs_line
+                    ));
                 }
             }
 
@@ -776,8 +814,10 @@ pub(crate) fn print(
                 prev_rhs_line_num = *rhs_line_num;
             }
         }
-        println!();
+        output.push('\n');
     }
+
+    output
 }
 
 #[cfg(test)]
@@ -787,7 +827,7 @@ mod tests {
     use super::*;
     use crate::options::DEFAULT_TERMINAL_WIDTH;
     use crate::parse::guess_language::Language;
-    use crate::syntax::{AtomKind, MatchKind, TokenKind};
+    use crate::parse::syntax::{AtomKind, MatchKind, TokenKind};
 
     #[test]
     fn test_width_calculations() {

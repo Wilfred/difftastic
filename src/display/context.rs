@@ -734,7 +734,7 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
-    use crate::syntax::TokenKind;
+    use crate::parse::syntax::TokenKind;
 
     #[test]
     fn test_calculate_before_context() {
