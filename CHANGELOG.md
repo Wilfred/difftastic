@@ -7,7 +7,8 @@ external diff died` when there was an unmerged path.
 
 ### Parsing
 
-Updated C, Lua, Perl, Python, Scala, Swift and YAML parsers.
+Updated Bash, C, Go, Lua, Nix, Perl, Python, Rust, Scala, Swift and
+YAML parsers.
 
 Fixed an issue with parsing raw string literals in Rust.
 

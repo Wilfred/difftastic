@@ -1038,9 +1038,9 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-bash"
-version = "0.23.3"
+version = "0.25.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "329a4d48623ac337d42b1df84e81a1c9dbb2946907c102ca72db158c1964a52e"
+checksum = "9e5ec769279cc91b561d3df0d8a5deb26b0ad40d183127f409494d6d8fc53062"
 dependencies = [
  "cc",
  "tree-sitter-language",
@@ -1248,9 +1248,9 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-javascript"
-version = "0.23.1"
+version = "0.25.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bf40bf599e0416c16c125c3cec10ee5ddc7d1bb8b0c60fa5c4de249ad34dc1b1"
+checksum = "68204f2abc0627a90bdf06e605f5c470aa26fdcb2081ea553a04bdad756693f5"
 dependencies = [
  "cc",
  "tree-sitter-language",
@@ -1284,9 +1284,9 @@ checksum = "4ae62f7eae5eb549c71b76658648b72cc6111f2d87d24a1e31fa907f4943e3ce"
 
 [[package]]
 name = "tree-sitter-lua"
-version = "0.4.1"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ea992f4164d83f371ef1239ae178c4d4596c296c09055e9a48bb02a2760403af"
+checksum = "8daaf5f4235188a58603c39760d5fa5d4b920d36a299c934adddae757f32a10c"
 dependencies = [
  "cc",
  "tree-sitter-language",
@@ -1314,9 +1314,9 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-nix"
-version = "0.0.2"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a8d4f8705d377d63242a075331d2d8c1dcc9828fd74aa13d7145185b3d9c004"
+checksum = "4952a9733f3a98f6683a0ccd1035d84ab7a52f7e84eeed58548d86765ad92de3"
 dependencies = [
  "cc",
  "tree-sitter-language",
@@ -1435,9 +1435,9 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-rust-orchard"
-version = "0.13.0"
+version = "0.16.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "42e06f00ca89feba4d7455e95b61b9019a979a380527297fab0c461e2e13c264"
+checksum = "95a5233c54dfe23d774a73b2fbbdb7d7a6802e0d257ba6b238cd493422cd78fc"
 dependencies = [
  "cc",
  "tree-sitter-language",
