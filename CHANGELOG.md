@@ -28,6 +28,8 @@ arguments.
 Fixed an issue with inline display where it didn't always respect the
 value of --context.
 
+Fixed an issue with side-by-side rendering when files contain spaces.
+
 ## 0.67 (released 16 November 2025)
 
 ### Parsing
