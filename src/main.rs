@@ -389,6 +389,9 @@ fn main() {
             };
             std::process::exit(exit_code);
         }
+        Mode::GitHasUnmergedFile { display_path } => {
+            println!("Unmerged path: {display_path}");
+        }
     };
 }
 

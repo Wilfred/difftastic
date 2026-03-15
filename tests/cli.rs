@@ -280,3 +280,14 @@ fn walk_hidden_items() {
             .and(predicate::str::contains("after"));
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn git_unmerged_files() {
+    let mut cmd = get_base_command();
+
+    cmd.args(["sample_files/simple_1.js"]);
+    cmd.env("GIT_EXEC_PATH", "/usr/lib/git-core");
+
+    let predicate_fn = predicate::str::contains("Unmerged path");
+    cmd.assert().stdout(predicate_fn);
+}

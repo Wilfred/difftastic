@@ -1,5 +1,10 @@
 ## 0.68 (unreleased)
 
+### Git Support
+
+Fixed an issue where git with difftastic would terminate with `fatal:
+external diff died` when there was an unmerged path.
+
 ### Parsing
 
 Updated C, Lua, Perl and Swift parsers.

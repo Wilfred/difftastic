@@ -542,6 +542,9 @@ pub(crate) enum Mode {
         /// The path that we show to the user.
         display_path: String,
     },
+    GitHasUnmergedFile {
+        display_path: String,
+    },
     ListLanguages {
         use_color: bool,
         language_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)>,
@@ -867,6 +870,22 @@ pub(crate) fn parse_args() -> Mode {
         .unwrap_or_default()
         .collect::<Vec<_>>();
     info!("CLI arguments: {:?}", args);
+
+    // When there's a single path that hasn't been merged, git invokes
+    // the external diff tool with a only single argument. There's
+    // nothing to diff against.
+    //
+    // In this case, we just inform the user that there's an unmerged
+    // file, matching the builtin git-diff behaviour.
+    if args.len() == 1
+        && (env::var_os("GIT_EXEC_PATH").is_some()
+            || env::var_os("GIT_CONFIG_PARAMETERS").is_some()
+            || env::var_os("GIT_DIFF_PATH_TOTAL").is_some())
+    {
+        return Mode::GitHasUnmergedFile {
+            display_path: args[0].to_string_lossy().to_string(),
+        };
+    }
 
     // Print git environment variables so we can see the additional
     // variable set when git invokes us.
