@@ -1,4 +1,10 @@
-## 0.68 (unreleased)
+## 0.69 (unreleased)
+
+### Parsing
+
+Improved string interpolation handling in Scala.
+
+## 0.68 (released 16th March 2026)
 
 ### Git Support
 
