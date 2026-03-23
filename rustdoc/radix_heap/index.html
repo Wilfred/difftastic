@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="radix-heap"><title>radix_heap - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="radix_heap" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../static.files/storage-4c98445ec4002617.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../radix_heap/index.html">radix_heap</a><span class="version">0.4.2</span></h2></div><div class="sidebar-elems"><ul class="block">
+            <li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></section></div></nav><div class="sidebar-resizer"></div>
+    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../radix_heap/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">radix_heap</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/radix_heap/lib.rs.html#1-823">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="radix-heap"><a class="doc-anchor" href="#radix-heap">§</a>radix-heap</h2>
+<p>Fast monotone priority queues.</p>
+<p>A monotone priority queue is a priority queue that requires the extracted elements follow a
+monotonic sequence. This means that, for a max-radix-heap, you cannot insert an element into a
+radix heap that is larger than the last extracted element.</p>
+<p>The key of the last extracted element is called the “top” key of the radix heap. Thus any value
+pushed onto the heap must be less than or equal to the top key.</p>
+<p>In return for this restriction, the radix heap provides two major benefits:</p>
+<ul>
+<li>
+<p>Inserts are <code>O(1)</code> and popping an element is amortized <code>O(log m)</code> where <code>m</code> is the difference
+between a popped key and the top key at the time the element was inserted.</p>
+<p>Note that this is independent of the number of elements in the radix heap. This means that for
+workloads where this difference is bounded by a constant, the radix heap has O(1) pop.</p>
+</li>
+<li>
+<p>It is trivial to implement first-in-last-out order for equal keys in a radix heap. When
+implementing pathfinding, this corresponds to “tie-breaking” which can significantly improve
+performance. This is also possible to implement with a binary heap, but comes for free with a
+radix heap.</p>
+</li>
+<li>
+<p>A radix heap has generally better cache coherence than a binary heap.</p>
+</li>
+</ul>
+<h2 id="performance"><a class="doc-anchor" href="#performance">§</a>Performance</h2>
+<p>Here is a summary of the benchmarks from running them on my machine:</p>
+<div class="example-wrap"><pre class="language-text"><code>astar_radix             time:   [2.6594 us 2.6622 us 2.6651 us]
+astar_binary            time:   [5.3698 us 5.3762 us 5.3827 us]
+pushpop_radix           time:   [97.601 us 97.784 us 97.987 us]
+pushpop_binary          time:   [507.28 us 507.44 us 507.60 us]
+</code></pre></div>
+<p><code>astar</code> is a benchmark using a map from the
+<a href="https://movingai.com/benchmarks/grids.html">2D Pathfinding Banchmarks</a>.</p>
+<p><code>pushpop</code> is a more heap-focused benchmark where values are repeatedly pushed and popped off a heap.</p>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">extern crate </span>radix_heap;
+<span class="kw">let </span><span class="kw-2">mut </span>heap = radix_heap::RadixHeapMap::new();
+
+heap.push(<span class="number">7</span>, <span class="string">'a'</span>);
+heap.push(<span class="number">2</span>, <span class="string">'b'</span>);
+heap.push(<span class="number">9</span>, <span class="string">'c'</span>);
+
+<span class="macro">assert!</span>(heap.top() == <span class="prelude-val">None</span>);
+<span class="macro">assert!</span>(heap.pop() == <span class="prelude-val">Some</span>((<span class="number">9</span>, <span class="string">'c'</span>)));
+<span class="macro">assert!</span>(heap.top() == <span class="prelude-val">Some</span>(<span class="number">9</span>));
+<span class="macro">assert!</span>(heap.pop() == <span class="prelude-val">Some</span>((<span class="number">7</span>, <span class="string">'a'</span>)));
+<span class="macro">assert!</span>(heap.top() == <span class="prelude-val">Some</span>(<span class="number">7</span>));
+<span class="macro">assert!</span>(heap.pop() == <span class="prelude-val">Some</span>((<span class="number">2</span>, <span class="string">'b'</span>)));
+<span class="macro">assert!</span>(heap.top() == <span class="prelude-val">Some</span>(<span class="number">2</span>));
+<span class="macro">assert!</span>(heap.pop() == <span class="prelude-val">None</span>);</code></pre></div>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.IntoIter.html" title="struct radix_heap::IntoIter">IntoIter</a></div><div class="desc docblock-short">An owning iterator over key-value pairs in a RadixHeapMap.</div></li><li><div class="item-name"><a class="struct" href="struct.Iter.html" title="struct radix_heap::Iter">Iter</a></div><div class="desc docblock-short">An iterator over key-value pairs in a RadixHeapMap.</div></li><li><div class="item-name"><a class="struct" href="struct.Keys.html" title="struct radix_heap::Keys">Keys</a></div><div class="desc docblock-short">An iterator over keys in a RadixHeapMap.</div></li><li><div class="item-name"><a class="struct" href="struct.RadixHeapMap.html" title="struct radix_heap::RadixHeapMap">RadixHeapMap</a></div><div class="desc docblock-short">A montone priority queue implemented using a radix heap.</div></li><li><div class="item-name"><a class="struct" href="struct.Values.html" title="struct radix_heap::Values">Values</a></div><div class="desc docblock-short">An iterator over values in a RadixHeapMap.</div></li></ul><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.Radix.html" title="trait radix_heap::Radix">Radix</a></div><div class="desc docblock-short">A number that can be compared using radix distance</div></li></ul></section></div></main></body></html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A module to read events."><title>crossterm::event - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="crossterm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../crossterm/index.html">crossterm</a><span class="version">0.28.1</span></h2></div><h2 class="location"><a href="#">Module event</a></h2><div class="sidebar-elems"><section><ul class="block"><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#functions">Functions</a></li></ul></section><h2><a href="../index.html">In crate crossterm</a></h2></div></nav><div class="sidebar-resizer"></div>
+    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../crossterm/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../index.html">crossterm</a>::<wbr><a class="mod" href="#">event</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/crossterm/event.rs.html#1-1327">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A module to read events.</p>
+<h2 id="event"><a class="doc-anchor" href="#event">§</a>Event</h2>
+<p>The <code>event</code> module provides the functionality to read keyboard, mouse and terminal resize events.</p>
+<ul>
+<li>
+<p>The <a href="fn.read.html"><code>read</code></a> function returns an <a href="enum.Event.html"><code>Event</code></a> immediately
+(if available) or blocks until an <a href="enum.Event.html"><code>Event</code></a> is available.</p>
+</li>
+<li>
+<p>The <a href="fn.poll.html"><code>poll</code></a> function allows you to check if there is or isn’t an <a href="enum.Event.html"><code>Event</code></a> available
+within the given period of time. In other words - if subsequent call to the <a href="fn.read.html"><code>read</code></a>
+function will block or not.</p>
+</li>
+</ul>
+<p>It’s <strong>not allowed</strong> to call these functions from different threads or combine them with the
+<a href="struct.EventStream.html"><code>EventStream</code></a>. You’re allowed to either:</p>
+<ul>
+<li>use the <a href="fn.read.html"><code>read</code></a> &amp; <a href="fn.poll.html"><code>poll</code></a> functions on any, but same, thread</li>
+<li>or the <a href="struct.EventStream.html"><code>EventStream</code></a>.</li>
+</ul>
+<p><strong>Make sure to enable <a href="../terminal/index.html#raw-mode">raw mode</a> in order for keyboard events to work properly</strong></p>
+<h3 id="mouse-and-focus-events"><a class="doc-anchor" href="#mouse-and-focus-events">§</a>Mouse and Focus Events</h3>
+<p>Mouse and focus events are not enabled by default. You have to enable them with the
+<a href="struct.EnableMouseCapture.html"><code>EnableMouseCapture</code></a> / <a href="struct.EnableFocusChange.html"><code>EnableFocusChange</code></a> command.
+See <a href="../index.html#command-api">Command API</a> for more information.</p>
+<h3 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h3>
+<p>Blocking read:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#![cfg(feature = <span class="string">"bracketed-paste"</span>)]
+</span><span class="kw">use </span>crossterm::{
+    event::{
+        read, DisableBracketedPaste, DisableFocusChange, DisableMouseCapture, EnableBracketedPaste,
+        EnableFocusChange, EnableMouseCapture, Event,
+    },
+    execute,
+};
+
+<span class="kw">fn </span>print_events() -&gt; std::io::Result&lt;()&gt; {
+    <span class="macro">execute!</span>(
+         std::io::stdout(),
+         EnableBracketedPaste,
+         EnableFocusChange,
+         EnableMouseCapture
+    )<span class="question-mark">?</span>;
+    <span class="kw">loop </span>{
+        <span class="comment">// `read()` blocks until an `Event` is available
+        </span><span class="kw">match </span>read()<span class="question-mark">? </span>{
+            Event::FocusGained =&gt; <span class="macro">println!</span>(<span class="string">"FocusGained"</span>),
+            Event::FocusLost =&gt; <span class="macro">println!</span>(<span class="string">"FocusLost"</span>),
+            Event::Key(event) =&gt; <span class="macro">println!</span>(<span class="string">"{:?}"</span>, event),
+            Event::Mouse(event) =&gt; <span class="macro">println!</span>(<span class="string">"{:?}"</span>, event),
+            <span class="attr">#[cfg(feature = <span class="string">"bracketed-paste"</span>)]
+            </span>Event::Paste(data) =&gt; <span class="macro">println!</span>(<span class="string">"{:?}"</span>, data),
+            Event::Resize(width, height) =&gt; <span class="macro">println!</span>(<span class="string">"New size {}x{}"</span>, width, height),
+        }
+    }
+    <span class="macro">execute!</span>(
+        std::io::stdout(),
+        DisableBracketedPaste,
+        DisableFocusChange,
+        DisableMouseCapture
+    )<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div>
+<p>Non-blocking read:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#![cfg(feature = <span class="string">"bracketed-paste"</span>)]
+</span><span class="kw">use </span>std::{time::Duration, io};
+
+<span class="kw">use </span>crossterm::{
+    event::{
+        poll, read, DisableBracketedPaste, DisableFocusChange, DisableMouseCapture,
+        EnableBracketedPaste, EnableFocusChange, EnableMouseCapture, Event,
+    },
+    execute,
+};
+
+<span class="kw">fn </span>print_events() -&gt; io::Result&lt;()&gt; {
+    <span class="macro">execute!</span>(
+         std::io::stdout(),
+         EnableBracketedPaste,
+         EnableFocusChange,
+         EnableMouseCapture
+    )<span class="question-mark">?</span>;
+    <span class="kw">loop </span>{
+        <span class="comment">// `poll()` waits for an `Event` for a given time period
+        </span><span class="kw">if </span>poll(Duration::from_millis(<span class="number">500</span>))<span class="question-mark">? </span>{
+            <span class="comment">// It's guaranteed that the `read()` won't block when the `poll()`
+            // function returns `true`
+            </span><span class="kw">match </span>read()<span class="question-mark">? </span>{
+                Event::FocusGained =&gt; <span class="macro">println!</span>(<span class="string">"FocusGained"</span>),
+                Event::FocusLost =&gt; <span class="macro">println!</span>(<span class="string">"FocusLost"</span>),
+                Event::Key(event) =&gt; <span class="macro">println!</span>(<span class="string">"{:?}"</span>, event),
+                Event::Mouse(event) =&gt; <span class="macro">println!</span>(<span class="string">"{:?}"</span>, event),
+                <span class="attr">#[cfg(feature = <span class="string">"bracketed-paste"</span>)]
+                </span>Event::Paste(data) =&gt; <span class="macro">println!</span>(<span class="string">"Pasted {:?}"</span>, data),
+                Event::Resize(width, height) =&gt; <span class="macro">println!</span>(<span class="string">"New size {}x{}"</span>, width, height),
+            }
+        } <span class="kw">else </span>{
+            <span class="comment">// Timeout expired and no `Event` is available
+        </span>}
+    }
+    <span class="macro">execute!</span>(
+        std::io::stdout(),
+        DisableBracketedPaste,
+        DisableFocusChange,
+        DisableMouseCapture
+    )<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div>
+<p>Check the <a href="https://github.com/crossterm-rs/crossterm/tree/master/examples">examples</a> folder for more of
+them (<code>event-*</code>).</p>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.DisableBracketedPaste.html" title="struct crossterm::event::DisableBracketedPaste">DisableBracketedPaste</a></div><div class="desc docblock-short">A command that disables bracketed paste mode.</div></li><li><div class="item-name"><a class="struct" href="struct.DisableFocusChange.html" title="struct crossterm::event::DisableFocusChange">DisableFocusChange</a></div><div class="desc docblock-short">A command that disables focus event emission.</div></li><li><div class="item-name"><a class="struct" href="struct.DisableMouseCapture.html" title="struct crossterm::event::DisableMouseCapture">DisableMouseCapture</a></div><div class="desc docblock-short">A command that disables mouse event capturing.</div></li><li><div class="item-name"><a class="struct" href="struct.EnableBracketedPaste.html" title="struct crossterm::event::EnableBracketedPaste">EnableBracketedPaste</a></div><div class="desc docblock-short">A command that enables <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed paste mode</a>.</div></li><li><div class="item-name"><a class="struct" href="struct.EnableFocusChange.html" title="struct crossterm::event::EnableFocusChange">EnableFocusChange</a></div><div class="desc docblock-short">A command that enables focus event emission.</div></li><li><div class="item-name"><a class="struct" href="struct.EnableMouseCapture.html" title="struct crossterm::event::EnableMouseCapture">EnableMouseCapture</a></div><div class="desc docblock-short">A command that enables mouse event capturing.</div></li><li><div class="item-name"><a class="struct" href="struct.KeyEvent.html" title="struct crossterm::event::KeyEvent">KeyEvent</a></div><div class="desc docblock-short">Represents a key event.</div></li><li><div class="item-name"><a class="struct" href="struct.KeyEventState.html" title="struct crossterm::event::KeyEventState">KeyEventState</a></div><div class="desc docblock-short">Represents extra state about the key event.</div></li><li><div class="item-name"><a class="struct" href="struct.KeyModifiers.html" title="struct crossterm::event::KeyModifiers">KeyModifiers</a></div><div class="desc docblock-short">Represents key modifiers (shift, control, alt, etc.).</div></li><li><div class="item-name"><a class="struct" href="struct.KeyboardEnhancementFlags.html" title="struct crossterm::event::KeyboardEnhancementFlags">KeyboardEnhancementFlags</a></div><div class="desc docblock-short">Represents special flags that tell compatible terminals to add extra information to keyboard events.</div></li><li><div class="item-name"><a class="struct" href="struct.MouseEvent.html" title="struct crossterm::event::MouseEvent">MouseEvent</a></div><div class="desc docblock-short">Represents a mouse event.</div></li><li><div class="item-name"><a class="struct" href="struct.PopKeyboardEnhancementFlags.html" title="struct crossterm::event::PopKeyboardEnhancementFlags">PopKeyboardEnhancementFlags</a></div><div class="desc docblock-short">A command that disables extra kinds of keyboard events.</div></li><li><div class="item-name"><a class="struct" href="struct.PushKeyboardEnhancementFlags.html" title="struct crossterm::event::PushKeyboardEnhancementFlags">PushKeyboardEnhancementFlags</a></div><div class="desc docblock-short">A command that enables the <a href="https://sw.kovidgoyal.net/kitty/keyboard-protocol/">kitty keyboard protocol</a>, which adds extra information to keyboard events and removes ambiguity for modifier keys.</div></li></ul><h2 id="enums" class="section-header">Enums<a href="#enums" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="enum" href="enum.Event.html" title="enum crossterm::event::Event">Event</a></div><div class="desc docblock-short">Represents an event.</div></li><li><div class="item-name"><a class="enum" href="enum.KeyCode.html" title="enum crossterm::event::KeyCode">KeyCode</a></div><div class="desc docblock-short">Represents a key.</div></li><li><div class="item-name"><a class="enum" href="enum.KeyEventKind.html" title="enum crossterm::event::KeyEventKind">KeyEventKind</a></div><div class="desc docblock-short">Represents a keyboard event kind.</div></li><li><div class="item-name"><a class="enum" href="enum.MediaKeyCode.html" title="enum crossterm::event::MediaKeyCode">MediaKeyCode</a></div><div class="desc docblock-short">Represents a media key (as part of <a href="enum.KeyCode.html#variant.Media" title="variant crossterm::event::KeyCode::Media"><code>KeyCode::Media</code></a>).</div></li><li><div class="item-name"><a class="enum" href="enum.ModifierKeyCode.html" title="enum crossterm::event::ModifierKeyCode">ModifierKeyCode</a></div><div class="desc docblock-short">Represents a modifier key (as part of <a href="enum.KeyCode.html#variant.Modifier" title="variant crossterm::event::KeyCode::Modifier"><code>KeyCode::Modifier</code></a>).</div></li><li><div class="item-name"><a class="enum" href="enum.MouseButton.html" title="enum crossterm::event::MouseButton">MouseButton</a></div><div class="desc docblock-short">Represents a mouse button.</div></li><li><div class="item-name"><a class="enum" href="enum.MouseEventKind.html" title="enum crossterm::event::MouseEventKind">MouseEventKind</a></div><div class="desc docblock-short">A mouse event kind.</div></li></ul><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="fn" href="fn.poll.html" title="fn crossterm::event::poll">poll</a></div><div class="desc docblock-short">Checks if there is an <a href="enum.Event.html"><code>Event</code></a> available.</div></li><li><div class="item-name"><a class="fn" href="fn.read.html" title="fn crossterm::event::read">read</a></div><div class="desc docblock-short">Reads a single <a href="enum.Event.html"><code>Event</code></a>.</div></li></ul></section></div></main></body></html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Crate `walkdir` provides an efficient and cross platform implementation of recursive directory traversal. Several options are exposed to control iteration, such as whether to follow symbolic links (default off), limit the maximum number of simultaneous open file descriptors and the ability to efficiently skip descending into directories."><title>walkdir - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="walkdir" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../static.files/storage-4c98445ec4002617.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../walkdir/index.html">walkdir</a><span class="version">2.5.0</span></h2></div><div class="sidebar-elems"><ul class="block">
+            <li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li><li><a href="#types">Type Aliases</a></li></ul></section></div></nav><div class="sidebar-resizer"></div>
+    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../walkdir/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">walkdir</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/walkdir/lib.rs.html#1-1194">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Crate <code>walkdir</code> provides an efficient and cross platform implementation
+of recursive directory traversal. Several options are exposed to control
+iteration, such as whether to follow symbolic links (default off), limit the
+maximum number of simultaneous open file descriptors and the ability to
+efficiently skip descending into directories.</p>
+<p>To use this crate, add <code>walkdir</code> as a dependency to your project’s
+<code>Cargo.toml</code>:</p>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+walkdir = &quot;2&quot;
+</code></pre></div><h2 id="from-the-top"><a class="doc-anchor" href="#from-the-top">§</a>From the top</h2>
+<p>The <a href="struct.WalkDir.html"><code>WalkDir</code></a> type builds iterators. The <a href="struct.DirEntry.html"><code>DirEntry</code></a> type describes values
+yielded by the iterator. Finally, the <a href="struct.Error.html"><code>Error</code></a> type is a small wrapper around
+<a href="https://doc.rust-lang.org/stable/std/io/struct.Error.html"><code>std::io::Error</code></a> with additional information, such as if a loop was detected
+while following symbolic links (not enabled by default).</p>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<p>The following code recursively iterates over the directory given and prints
+the path for each entry:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>walkdir::WalkDir;
+
+<span class="kw">for </span>entry <span class="kw">in </span>WalkDir::new(<span class="string">"foo"</span>) {
+    <span class="macro">println!</span>(<span class="string">"{}"</span>, entry<span class="question-mark">?</span>.path().display());
+}</code></pre></div>
+<p>Or, if you’d like to iterate over all entries and ignore any errors that
+may arise, use <a href="https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html#method.filter_map"><code>filter_map</code></a>. (e.g., This code below will silently skip
+directories that the owner of the running process does not have permission to
+access.)</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>walkdir::WalkDir;
+
+<span class="kw">for </span>entry <span class="kw">in </span>WalkDir::new(<span class="string">"foo"</span>).into_iter().filter_map(|e| e.ok()) {
+    <span class="macro">println!</span>(<span class="string">"{}"</span>, entry.path().display());
+}</code></pre></div>
+<h2 id="example-follow-symbolic-links"><a class="doc-anchor" href="#example-follow-symbolic-links">§</a>Example: follow symbolic links</h2>
+<p>The same code as above, except <a href="struct.WalkDir.html#method.follow_links"><code>follow_links</code></a> is enabled:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>walkdir::WalkDir;
+
+<span class="kw">for </span>entry <span class="kw">in </span>WalkDir::new(<span class="string">"foo"</span>).follow_links(<span class="bool-val">true</span>) {
+    <span class="macro">println!</span>(<span class="string">"{}"</span>, entry<span class="question-mark">?</span>.path().display());
+}</code></pre></div>
+<h2 id="example-skip-hidden-files-and-directories-on-unix"><a class="doc-anchor" href="#example-skip-hidden-files-and-directories-on-unix">§</a>Example: skip hidden files and directories on unix</h2>
+<p>This uses the <a href="struct.IntoIter.html#method.filter_entry"><code>filter_entry</code></a> iterator adapter to avoid yielding hidden files
+and directories efficiently (i.e. without recursing into hidden directories):</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>walkdir::{DirEntry, WalkDir};
+
+<span class="kw">fn </span>is_hidden(entry: <span class="kw-2">&amp;</span>DirEntry) -&gt; bool {
+    entry.file_name()
+         .to_str()
+         .map(|s| s.starts_with(<span class="string">"."</span>))
+         .unwrap_or(<span class="bool-val">false</span>)
+}
+
+<span class="kw">let </span>walker = WalkDir::new(<span class="string">"foo"</span>).into_iter();
+<span class="kw">for </span>entry <span class="kw">in </span>walker.filter_entry(|e| !is_hidden(e)) {
+    <span class="macro">println!</span>(<span class="string">"{}"</span>, entry<span class="question-mark">?</span>.path().display());
+}</code></pre></div>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.DirEntry.html" title="struct walkdir::DirEntry">DirEntry</a></div><div class="desc docblock-short">A directory entry.</div></li><li><div class="item-name"><a class="struct" href="struct.Error.html" title="struct walkdir::Error">Error</a></div><div class="desc docblock-short">An error produced by recursively walking a directory.</div></li><li><div class="item-name"><a class="struct" href="struct.FilterEntry.html" title="struct walkdir::FilterEntry">FilterEntry</a></div><div class="desc docblock-short">A recursive directory iterator that skips entries.</div></li><li><div class="item-name"><a class="struct" href="struct.IntoIter.html" title="struct walkdir::IntoIter">IntoIter</a></div><div class="desc docblock-short">An iterator for recursively descending into a directory.</div></li><li><div class="item-name"><a class="struct" href="struct.WalkDir.html" title="struct walkdir::WalkDir">WalkDir</a></div><div class="desc docblock-short">A builder to create an iterator for recursively walking a directory.</div></li></ul><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.DirEntryExt.html" title="trait walkdir::DirEntryExt">DirEntryExt</a></div><div class="desc docblock-short">Unix-specific extension methods for <code>walkdir::DirEntry</code></div></li></ul><h2 id="types" class="section-header">Type Aliases<a href="#types" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="type" href="type.Result.html" title="type walkdir::Result">Result</a></div><div class="desc docblock-short">A result type for walkdir operations.</div></li></ul></section></div></main></body></html>
