@@ -308,7 +308,7 @@ When multiple overrides are specified, the first matching override wins."))
             Arg::new("override-binary").long("override-binary")
                 .value_name("GLOB")
                 .action(ArgAction::Append)
-                .help(concat!("Treat file names matching this glob as binary files, overriding normal binary detection. For example:
+                .help(concat!("Always treat file names matching this glob as binary files, ignoring the default heuristics for binary detection. For example:
 
 $ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' old.gz new.gz
 
