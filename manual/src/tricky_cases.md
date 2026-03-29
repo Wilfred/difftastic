@@ -167,6 +167,54 @@ language-agnostic way is difficult, so difftastic has a small list of
 punctuation characters that always get lower priority than other
 atoms.
 
+## Insignificant Punctuation
+
+In some cases, reformatting code can change the trailing punctuation
+without changing the meaning of the code. We don't want to show a diff
+in this case.
+
+```
+# Before
+foo(x, y)
+
+# After (semantically identical)
+foo(
+  x,
+  y,
+)
+```
+
+This is language-specific. For example, a trailing comma can change the meaning
+of code in Python.
+
+```
+# Before (the value 1)
+(1)
+
+# After (a tuple)
+(1,)
+```
+
+Desired result: <code>(1<span style="background-color: PaleGreen; color: #000">,</span>)</code>
+
+However, we can't simply discard this punctuation before diffing.
+
+```
+# Before
+[2,]
+
+# After
+[2,3,]
+```
+
+Possible result: <code>[2<span style="background-color: PaleGreen; color: #000">,3</span>,]</code>
+
+Desired result: <code>[2,<span style="background-color: PaleGreen; color: #000">3,</span>]</code>
+
+If the diffing logic effectively sees `[2]` and `[2,3]` because we've
+discarded the punctuation, we don't get the desired result here.
+
+
 ## Sliders (Flat)
 
 Sliders are a common problem in text based diffs, where lines are

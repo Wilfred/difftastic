@@ -1,11 +1,9 @@
 //! A graph representation for computing tree diffs.
 
-use std::{
-    cell::{Cell, RefCell},
-    cmp::min,
-    fmt,
-    hash::{Hash, Hasher},
-};
+use std::cell::{Cell, RefCell};
+use std::cmp::min;
+use std::fmt;
+use std::hash::{Hash, Hasher};
 
 use bumpalo::Bump;
 use hashbrown::hash_map::RawEntryMut;
@@ -13,14 +11,10 @@ use smallvec::{smallvec, SmallVec};
 use strsim::normalized_levenshtein;
 
 use self::Edge::*;
-use crate::{
-    diff::{
-        changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
-        stack::Stack,
-    },
-    hash::DftHashMap,
-    parse::syntax::{AtomKind, Syntax, SyntaxId},
-};
+use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
+use crate::diff::stack::Stack;
+use crate::hash::DftHashMap;
+use crate::parse::syntax::{AtomKind, Syntax, SyntaxId};
 
 /// A vertex in a directed acyclic graph that represents a diff.
 ///

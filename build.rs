@@ -6,7 +6,8 @@
 // body for readability.
 #![allow(clippy::if_same_then_else)]
 
-use std::{path::PathBuf, process::Command};
+use std::path::PathBuf;
+use std::process::Command;
 
 use rayon::prelude::*;
 use version_check as rustc;
@@ -100,11 +101,6 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-latex",
             src_dir: "vendored_parsers/tree-sitter-latex-src",
-            extra_files: vec!["scanner.c"],
-        },
-        TreeSitterParser {
-            name: "tree-sitter-perl",
-            src_dir: "vendored_parsers/tree-sitter-perl-src",
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {

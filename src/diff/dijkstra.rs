@@ -1,17 +1,16 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env};
+use std::cmp::Reverse;
+use std::env;
 
 use bumpalo::Bump;
 use radix_heap::RadixHeapMap;
 
-use crate::{
-    diff::changes::ChangeMap,
-    diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
-    hash::DftHashMap,
-    parse::syntax::Syntax,
-};
+use crate::diff::changes::ChangeMap;
+use crate::diff::graph::{populate_change_map, set_neighbours, Edge, Vertex};
+use crate::hash::DftHashMap;
+use crate::parse::syntax::Syntax;
 
 #[derive(Debug)]
 pub(crate) struct ExceededGraphLimit {}
@@ -239,12 +238,10 @@ mod tests {
     use typed_arena::Arena;
 
     use super::*;
-    use crate::{
-        diff::changes::ChangeKind,
-        diff::graph::Edge::*,
-        options::DEFAULT_GRAPH_LIMIT,
-        syntax::{init_all_info, AtomKind},
-    };
+    use crate::diff::changes::ChangeKind;
+    use crate::diff::graph::Edge::*;
+    use crate::options::DEFAULT_GRAPH_LIMIT;
+    use crate::syntax::{init_all_info, AtomKind};
 
     fn pos_helper(line: u32) -> Vec<SingleLineSpan> {
         vec![SingleLineSpan {

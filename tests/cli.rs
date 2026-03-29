@@ -17,7 +17,7 @@ fn find_runner() -> Option<String> {
 // cross-compiled binaries.
 fn get_base_command() -> Command {
     let mut cmd;
-    let path = assert_cmd::cargo::cargo_bin("difft");
+    let path = assert_cmd::cargo_bin!("difft");
     if let Some(runner) = find_runner() {
         let mut runner = runner.split_whitespace();
         cmd = Command::new(runner.next().unwrap());
@@ -278,5 +278,16 @@ fn walk_hidden_items() {
             .and(predicate::str::contains(".hidden.txt"))
             .and(predicate::str::contains("before"))
             .and(predicate::str::contains("after"));
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn git_unmerged_files() {
+    let mut cmd = get_base_command();
+
+    cmd.args(["sample_files/simple_1.js"]);
+    cmd.env("GIT_EXEC_PATH", "/usr/lib/git-core");
+
+    let predicate_fn = predicate::str::contains("Unmerged path");
     cmd.assert().stdout(predicate_fn);
 }

@@ -1,22 +1,18 @@
 //! CLI option parsing.
 
-use std::{
-    env,
-    ffi::{OsStr, OsString},
-    fmt::Display,
-    path::{Path, PathBuf},
-};
+use std::env;
+use std::ffi::{OsStr, OsString};
+use std::fmt::Display;
+use std::path::{Path, PathBuf};
 
 use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
 use crossterm::tty::IsTty;
 use owo_colors::OwoColorize as _;
 
-use crate::{
-    display::style::{print_error, BackgroundColor},
-    exit_codes::EXIT_BAD_ARGUMENTS,
-    parse::guess_language::{language_override_from_name, LanguageOverride},
-    version::VERSION,
-};
+use crate::display::style::{print_error, BackgroundColor};
+use crate::exit_codes::EXIT_BAD_ARGUMENTS;
+use crate::parse::guess_language::{language_override_from_name, LanguageOverride};
+use crate::version::VERSION;
 
 pub(crate) const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 // Chosen experimentally: this is sufficiently many for all the sample
@@ -312,7 +308,7 @@ When multiple overrides are specified, the first matching override wins."))
             Arg::new("override-binary").long("override-binary")
                 .value_name("GLOB")
                 .action(ArgAction::Append)
-                .help(concat!("Treat file names matching this glob as binary files, overriding normal binary detection. For example:
+                .help(concat!("Always treat file names matching this glob as binary files, ignoring the default heuristics for binary detection. For example:
 
 $ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' old.gz new.gz
 
@@ -544,6 +540,9 @@ pub(crate) enum Mode {
         binary_overrides: Vec<glob::Pattern>,
         path: FileArgument,
         /// The path that we show to the user.
+        display_path: String,
+    },
+    GitHasUnmergedFile {
         display_path: String,
     },
     ListLanguages {
@@ -872,6 +871,22 @@ pub(crate) fn parse_args() -> Mode {
         .collect::<Vec<_>>();
     info!("CLI arguments: {:?}", args);
 
+    // When there's a single path that hasn't been merged, git invokes
+    // the external diff tool with a only single argument. There's
+    // nothing to diff against.
+    //
+    // In this case, we just inform the user that there's an unmerged
+    // file, matching the builtin git-diff behaviour.
+    if args.len() == 1
+        && (env::var_os("GIT_EXEC_PATH").is_some()
+            || env::var_os("GIT_CONFIG_PARAMETERS").is_some()
+            || env::var_os("GIT_DIFF_PATH_TOTAL").is_some())
+    {
+        return Mode::GitHasUnmergedFile {
+            display_path: args[0].to_string_lossy().to_string(),
+        };
+    }
+
     // Print git environment variables so we can see the additional
     // variable set when git invokes us.
     for (env_var, value) in env::vars() {
@@ -901,7 +916,7 @@ pub(crate) fn parse_args() -> Mode {
             )
         }
         [display_path, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode] => {
-            // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
+            // 7 arguments, per https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
             (
                 display_path.to_string_lossy().to_string(),
                 FileArgument::from_path_argument(lhs_tmp_file),
@@ -957,17 +972,29 @@ pub(crate) fn parse_args() -> Mode {
         }
         _ => {
             if !args.is_empty() {
+                let formatted_args = args
+                    .iter()
+                    .map(|arg| arg.to_string_lossy())
+                    .collect::<Vec<_>>();
+
+                let bin_name = if let Some(first_arg) = std::env::args_os().next() {
+                    first_arg.to_string_lossy().to_string()
+                } else {
+                    env!("CARGO_BIN_NAME").to_owned()
+                };
+
                 print_error(
                     &format!(
-                        "Difftastic does not support being called with {} argument{}.\n",
+                        "Difftastic does not support being called with {} argument{}.\n\nYou can pass 2 arguments, or arguments in the form used by GIT_EXTERNAL_DIFF (7 or 9 arguments). See --help for more details. \n\nFor reference, difftastic was invoked as `{} {}`.\n",
                         args.len(),
-                        if args.len() == 1 { "" } else { "s" }
+                        if args.len() == 1 { "" } else { "s" },
+                        bin_name,
+                        formatted_args.join(" "),
                     ),
                     use_color,
                 );
             }
-            eprintln!("USAGE:\n\n    {}\n", USAGE);
-            eprintln!("For more information try --help");
+
             std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     };

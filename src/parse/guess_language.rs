@@ -8,7 +8,8 @@
 //! Difftastic does not reuse languages.yml directly. Linguist has a
 //! larger set of language detection strategies.
 
-use std::{borrow::Borrow, path::Path};
+use std::borrow::Borrow;
+use std::path::Path;
 
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -36,6 +37,7 @@ pub(crate) enum Language {
     EmacsLisp,
     Erlang,
     FSharp,
+    Fortran,
     Gleam,
     Go,
     Hack,
@@ -137,6 +139,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         EmacsLisp => "Emacs Lisp",
         Erlang => "Erlang",
         FSharp => "F#",
+        Fortran => "Fortran",
         Gleam => "Gleam",
         Go => "Go",
         Hack => "Hack",
@@ -280,6 +283,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "rebar.lock",
         ],
         FSharp => &["*.fs", "*.fsx", "*.fsi"],
+        Fortran => &["*.f", "*.for", "*.f90", "*.F", "*.FOR", "*.F90"],
         Gleam => &["*.gleam"],
         Go => &["*.go"],
         Hack => &["*.hack", "*.hck", "*.hhi"],
@@ -538,6 +542,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "elvish" => Elvish,
             "emacs-lisp" => EmacsLisp,
             "fsharp" => FSharp,
+            "fortran" => Fortran,
             "gleam" => Gleam,
             "go" => Go,
             "haskell" => Haskell,

@@ -463,11 +463,9 @@ mod tests {
     use typed_arena::Arena;
 
     use super::*;
-    use crate::{
-        parse::guess_language,
-        parse::tree_sitter_parser::{from_language, parse},
-        syntax::init_all_info,
-    };
+    use crate::parse::guess_language;
+    use crate::parse::tree_sitter_parser::{from_language, parse};
+    use crate::syntax::init_all_info;
 
     #[test]
     fn test_shrink_unchanged_at_start() {

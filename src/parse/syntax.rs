@@ -2,22 +2,21 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
-use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
+use std::cell::Cell;
+use std::hash::Hash;
+use std::num::NonZeroU32;
+use std::{env, fmt};
 
-use line_numbers::LinePositions;
-use line_numbers::SingleLineSpan;
+use line_numbers::{LinePositions, SingleLineSpan};
 use typed_arena::Arena;
 
 use self::Syntax::*;
-use crate::lines::split_on_newlines;
+use crate::diff::changes::ChangeKind::*;
+use crate::diff::changes::{ChangeKind, ChangeMap};
+use crate::diff::lcs_diff;
+use crate::hash::DftHashMap;
+use crate::lines::{is_all_whitespace, split_on_newlines};
 use crate::words::split_words_and_numbers;
-use crate::{
-    diff::changes::ChangeKind,
-    diff::changes::{ChangeKind::*, ChangeMap},
-    diff::lcs_diff,
-    hash::DftHashMap,
-    lines::is_all_whitespace,
-};
 
 /// A Debug implementation that does not recurse into the
 /// corresponding node mentioned for Unchanged. Otherwise we will

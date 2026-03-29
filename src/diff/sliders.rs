@@ -35,11 +35,10 @@
 
 use line_numbers::SingleLineSpan;
 
-use crate::{
-    diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
-    parse::guess_language,
-    parse::syntax::Syntax::{self, *},
-};
+use crate::diff::changes::ChangeKind::*;
+use crate::diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeMap};
+use crate::parse::guess_language;
+use crate::parse::syntax::Syntax::{self, *};
 
 pub(crate) fn fix_all_sliders<'a>(
     language: guess_language::Language,
@@ -679,11 +678,9 @@ mod tests {
     use typed_arena::Arena;
 
     use super::*;
-    use crate::{
-        parse::guess_language,
-        parse::tree_sitter_parser::{from_language, parse},
-        syntax::{init_all_info, AtomKind},
-    };
+    use crate::parse::guess_language;
+    use crate::parse::tree_sitter_parser::{from_language, parse};
+    use crate::syntax::{init_all_info, AtomKind};
 
     /// Test that we slide at the start if the unchanged node is
     /// closer than the trailing novel node.

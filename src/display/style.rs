@@ -2,21 +2,16 @@
 
 use std::cmp::{max, min};
 
-use line_numbers::LineNumber;
-use line_numbers::SingleLineSpan;
+use line_numbers::{LineNumber, SingleLineSpan};
 use owo_colors::{OwoColorize, Style};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
-use crate::lines::split_on_newlines;
-use crate::parse::syntax::StringKind;
-use crate::{
-    constants::Side,
-    hash::DftHashMap,
-    lines::byte_len,
-    options::DisplayOptions,
-    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
-    summary::FileFormat,
-};
+use crate::constants::Side;
+use crate::hash::DftHashMap;
+use crate::lines::{byte_len, split_on_newlines};
+use crate::options::DisplayOptions;
+use crate::parse::syntax::{AtomKind, MatchKind, MatchedPos, StringKind, TokenKind};
+use crate::summary::FileFormat;
 
 #[derive(Clone, Copy, Debug)]
 pub(crate) enum BackgroundColor {
@@ -66,7 +61,7 @@ fn substring_by_byte_replace_tabs(s: &str, start: usize, end: usize, tab_width: 
     s.replace('\t', &" ".repeat(tab_width))
 }
 
-fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
+pub(crate) fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
     let display_width = s.width();
 
     // .width() on tabs returns 0, whereas we want to model them as
