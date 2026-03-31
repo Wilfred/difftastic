@@ -110,6 +110,31 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Al => {
+            let language_fn = tree_sitter_al::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: [
+                    "string_literal",
+                    "integer",
+                    "decimal",
+                    "boolean",
+                    "date_literal",
+                    "time_literal",
+                    "datetime_literal",
+                    "biginteger_literal",
+                    "identifier",
+                    "quoted_identifier",
+                ]
+                .into_iter()
+                .collect(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
+                highlight_query: ts::Query::new(&language, tree_sitter_al::HIGHLIGHTS_QUERY)
+                    .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Apex => {
             let language_fn = tree_sitter_sfapex::apex::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
