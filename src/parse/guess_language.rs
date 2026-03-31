@@ -20,6 +20,7 @@ use strum::{EnumIter, IntoEnumIterator};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter)]
 pub(crate) enum Language {
     Ada,
+    Al,
     Apex,
     Bash,
     C,
@@ -122,6 +123,7 @@ pub(crate) fn language_override_from_name(name: &str) -> Option<LanguageOverride
 pub(crate) fn language_name(language: Language) -> &'static str {
     match language {
         Ada => "Ada",
+        Al => "AL",
         Apex => "Apex",
         Bash => "Bash",
         C => "C",
@@ -198,6 +200,7 @@ use crate::lines::split_on_newlines;
 pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
     let glob_strs: &'static [&'static str] = match language {
         Ada => &["*.ada", "*.adb", "*.ads"],
+        Al => &["*.al"],
         Bash => &[
             "*.bash",
             "*.bats",

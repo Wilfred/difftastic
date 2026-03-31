@@ -7,6 +7,9 @@ sample_files/ada_1.adb sample_files/ada_2.adb
 sample_files/added_line_1.txt sample_files/added_line_2.txt
 8a1587e6b5fc53f2ec2ac665a5d00372  -
 
+sample_files/al_1.al sample_files/al_2.al
+b67012a6fe866337a9b9eaea4afa86a5  -
+
 sample_files/align_footer_1.txt sample_files/align_footer_2.txt
 49b8e5156047150594abbab22c402efa  -
 
