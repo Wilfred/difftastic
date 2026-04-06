@@ -146,9 +146,6 @@ cc = "1.2.13"
 rayon = "1.7.0"
 version_check = "0.9.4"
 
-[profile.release]
-lto = "thin"
-
 [[bin]]
 name = "difft"
 path = "src/main.rs"

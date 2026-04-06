@@ -23,7 +23,7 @@ pub(crate) const DEFAULT_PARSE_ERROR_LIMIT: usize = 0;
 
 pub(crate) const DEFAULT_TAB_WIDTH: usize = 4;
 
-pub(crate) const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
+pub(crate) const USAGE: &str = "difft [OPTIONS] OLD-PATH NEW-PATH";
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) enum ColorOutput {
@@ -87,7 +87,7 @@ impl Default for DiffOptions {
 }
 
 fn app() -> clap::Command {
-    let bin_name = env!("CARGO_BIN_NAME");
+    let bin_name = "difft";
 
     let mut after_help = String::new();
     after_help
@@ -287,13 +287,13 @@ json: Output the results as a machine-readable JSON array with an element per fi
                 .action(ArgAction::Append)
                 .help(concat!("Associate this glob pattern with this language, overriding normal language detection. For example:
 
-$ ", env!("CARGO_BIN_NAME"), " --override='*.c:C++' old.c new.c
+$ difft --override='*.c:C++' old.c new.c
 
 See --list-languages for the list of language names. Language names are matched case insensitively. Overrides may also specify the language \"text\" to treat a file as plain text.
 
 This argument may be given more than once. For example:
 
-$ ", env!("CARGO_BIN_NAME"), " --override='CustomFile:json' --override='*.c:text' old.c new.c
+$ difft --override='CustomFile:json' --override='*.c:text' old.c new.c
 
 To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_1 up to DFT_OVERRIDE_9.
 
@@ -310,11 +310,11 @@ When multiple overrides are specified, the first matching override wins."))
                 .action(ArgAction::Append)
                 .help(concat!("Always treat file names matching this glob as binary files, ignoring the default heuristics for binary detection. For example:
 
-$ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' old.gz new.gz
+$ difft --override-binary='*.gz' old.gz new.gz
 
 This argument may be given more than once. For example:
 
-$ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' --override-binary='foo.pickle' old.gz new.gz
+$ difft --override-binary='*.gz' --override-binary='foo.pickle' old.gz new.gz
 
 To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_BINARY_1 up to DFT_OVERRIDE_BINARY_9.
 
@@ -980,7 +980,7 @@ pub(crate) fn parse_args() -> Mode {
                 let bin_name = if let Some(first_arg) = std::env::args_os().next() {
                     first_arg.to_string_lossy().to_string()
                 } else {
-                    env!("CARGO_BIN_NAME").to_owned()
+                    "difft".to_owned()
                 };
 
                 print_error(
