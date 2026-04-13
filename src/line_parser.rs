@@ -4,11 +4,9 @@ use lazy_static::lazy_static;
 use line_numbers::{LinePositions, SingleLineSpan};
 use regex::Regex;
 
+use crate::diff::lcs_diff;
+use crate::parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind};
 use crate::words::split_words;
-use crate::{
-    diff::lcs_diff,
-    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
-};
 
 const MAX_WORDS_IN_LINE: usize = 1000;
 

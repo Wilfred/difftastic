@@ -1,10 +1,41 @@
-## 0.68 (unreleased)
+## 0.69 (unreleased)
 
 ### Parsing
 
-Updated C and Lua parsers.
+Improved string interpolation handling in Scala.
+
+## 0.68 (released 16th March 2026)
+
+### Git Support
+
+Fixed an issue where git with difftastic would terminate with `fatal:
+external diff died` when there was an unmerged path.
+
+### Parsing
+
+Updated Bash, C, Go, Lua, Nix, Perl, Python, Rust, Scala, Swift and
+YAML parsers.
 
 Fixed an issue with parsing raw string literals in Rust.
+
+### Build
+
+Difftastic now requires Rust 1.77 or later to build.
+
+Difftastic no longer uses jemalloc on any Windows builds. Previously
+jemalloc was only disabled for MSVC.
+
+### Command Line Interface
+
+Improved error reporting when invoked with an invalid number of
+arguments.
+
+### Display
+
+Fixed an issue with inline display where it didn't always respect the
+value of --context.
+
+Fixed an issue with side-by-side rendering when files contain tabs.
 
 ## 0.67 (released 16 November 2025)
 

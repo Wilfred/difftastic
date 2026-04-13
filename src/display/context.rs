@@ -4,10 +4,8 @@ use std::cmp::Ordering;
 
 use line_numbers::LineNumber;
 
-use crate::{
-    hash::{DftHashMap, DftHashSet},
-    parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
-};
+use crate::hash::{DftHashMap, DftHashSet};
+use crate::parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos};
 
 pub(crate) fn all_matched_lines_filled(
     lhs_mps: &[MatchedPos],

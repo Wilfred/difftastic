@@ -7,15 +7,11 @@ const MAX_DISTANCE: u32 = 4;
 
 use line_numbers::LineNumber;
 
-use crate::{
-    constants::Side,
-    display::{
-        context::{add_context, opposite_positions},
-        side_by_side::lines_with_novel,
-    },
-    hash::{DftHashMap, DftHashSet},
-    parse::syntax::{zip_pad_shorter, MatchKind, MatchedPos},
-};
+use crate::constants::Side;
+use crate::display::context::{add_context, opposite_positions};
+use crate::display::side_by_side::lines_with_novel;
+use crate::hash::{DftHashMap, DftHashSet};
+use crate::parse::syntax::{zip_pad_shorter, MatchKind, MatchedPos};
 
 /// A hunk represents a series of modified lines that are displayed
 /// together.
@@ -703,11 +699,9 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
-    use crate::{
-        display::test_util::{novel, unchanged},
-        hash::DftHashMap,
-        syntax::{MatchKind, TokenKind},
-    };
+    use crate::display::test_util::{novel, unchanged};
+    use crate::hash::DftHashMap;
+    use crate::syntax::{MatchKind, TokenKind};
 
     #[test]
     fn test_sorted_novel_positions_simple() {

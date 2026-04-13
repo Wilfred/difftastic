@@ -2,13 +2,9 @@
 
 use std::fmt::Display;
 
-use crate::{
-    display::hunks::Hunk,
-    parse::{
-        guess_language::{self, language_name},
-        syntax::MatchedPos,
-    },
-};
+use crate::display::hunks::Hunk;
+use crate::parse::guess_language::{self, language_name};
+use crate::parse::syntax::MatchedPos;
 
 #[derive(Debug, PartialEq, Eq)]
 pub(crate) enum FileContent {

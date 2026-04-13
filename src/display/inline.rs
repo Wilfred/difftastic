@@ -1,17 +1,15 @@
 //! Inline, or "unified" diff display.
 
-use crate::{
-    constants::Side,
-    display::{
-        context::{calculate_after_context, calculate_before_context, opposite_positions},
-        hunks::Hunk,
-        style::{self, apply_colors, apply_line_number_color},
-    },
-    lines::{format_line_num, split_on_newlines, MaxLine},
-    options::DisplayOptions,
-    parse::syntax::MatchedPos,
-    summary::FileFormat,
+use crate::constants::Side;
+use crate::display::context::{
+    calculate_after_context, calculate_before_context, opposite_positions,
 };
+use crate::display::hunks::Hunk;
+use crate::display::style::{self, apply_colors, apply_line_number_color};
+use crate::lines::{format_line_num, split_on_newlines, MaxLine};
+use crate::options::DisplayOptions;
+use crate::parse::syntax::MatchedPos;
+use crate::summary::FileFormat;
 
 pub(crate) fn print(
     lhs_src: &str,
@@ -81,8 +79,12 @@ pub(crate) fn print(
 
         let hunk_lines = hunk.lines.clone();
 
-        let before_lines =
-            calculate_before_context(&hunk_lines, &opposite_to_lhs, &opposite_to_rhs, 3);
+        let before_lines = calculate_before_context(
+            &hunk_lines,
+            &opposite_to_lhs,
+            &opposite_to_rhs,
+            display_options.num_context_lines as usize,
+        );
         let after_lines = calculate_after_context(
             &[&before_lines[..], &hunk_lines[..]].concat(),
             &opposite_to_lhs,

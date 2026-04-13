@@ -1,0 +1,2 @@
+# https://rust-lang.github.io/rustfmt/?version=v1.8.0&search=#imports_granularity
+imports_granularity = "module"

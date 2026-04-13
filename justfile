@@ -37,3 +37,21 @@ rel_notes:
 # Regenerate the man page difft.1 from diff.1.md.
 man:
     pandoc --standalone --to man difft.1.md -o difft.1
+
+# Run perf stat on baseline test files and save results.
+perf:
+    #!/bin/bash
+    set -e
+
+    cargo build --release
+
+    TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')
+    OUTFILE="perf_baseline_${TIMESTAMP}.txt"
+
+    echo '$ perf stat ./target/release/difft sample_files/typing_1.ml sample_files/typing_2.ml >/dev/null' >> "$OUTFILE"
+    perf stat ./target/release/difft sample_files/typing_1.ml sample_files/typing_2.ml >/dev/null 2>> "$OUTFILE"
+
+    echo '$ perf stat ./target/release/difft sample_files/slow_1.rs sample_files/slow_2.rs >/dev/null' >> "$OUTFILE"
+    perf stat ./target/release/difft sample_files/slow_1.rs sample_files/slow_2.rs >/dev/null 2>> "$OUTFILE"
+
+    echo "Results written to $OUTFILE"

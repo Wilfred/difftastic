@@ -1,11 +1,9 @@
 //! File reading utilities.
 
+use std::fs;
+use std::io::ErrorKind::*;
 use std::io::Read;
-use std::{
-    fs,
-    io::ErrorKind::*,
-    path::{Path, PathBuf},
-};
+use std::path::{Path, PathBuf};
 
 use ignore::WalkBuilder;
 

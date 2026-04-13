@@ -2,29 +2,24 @@
 
 use std::cmp::{max, min};
 
-use line_numbers::LineNumber;
-use line_numbers::SingleLineSpan;
+use line_numbers::{LineNumber, SingleLineSpan};
 use owo_colors::{OwoColorize, Style};
 
-use crate::{
-    constants::Side,
-    display::{
-        context::all_matched_lines_filled,
-        hunks::{matched_lines_indexes_for_hunk, Hunk},
-        style::{
-            self, apply_colors, apply_line_number_color, color_positions, novel_style,
-            replace_tabs, split_and_apply, BackgroundColor,
-        },
-    },
-    hash::{DftHashMap, DftHashSet},
-    lines::{format_line_num, split_on_newlines},
-    options::{DisplayMode, DisplayOptions},
-    parse::syntax::{zip_pad_shorter, MatchedPos},
-    summary::FileFormat,
+use crate::constants::Side;
+use crate::display::context::all_matched_lines_filled;
+use crate::display::hunks::{matched_lines_indexes_for_hunk, Hunk};
+use crate::display::style::{
+    self, apply_colors, apply_line_number_color, color_positions, novel_style, replace_tabs,
+    split_and_apply, width_respecting_tabs, BackgroundColor,
 };
+use crate::hash::{DftHashMap, DftHashSet};
+use crate::lines::{format_line_num, split_on_newlines};
+use crate::options::{DisplayMode, DisplayOptions};
+use crate::parse::syntax::{zip_pad_shorter, MatchedPos};
+use crate::summary::FileFormat;
 
-/// The single space shown between LHS and RHS columns.
-const SPACER: &str = " ";
+/// The space shown between LHS and RHS columns.
+const SPACER: &str = "  ";
 
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
     format!(
@@ -166,9 +161,12 @@ fn display_line_nums(
 // Sizes used when displaying a hunk.
 #[derive(Debug)]
 struct SourceDimensions {
-    /// The number of characters used to display source lines. Any
+    /// The number of characters used to display LHS source lines. Any
     /// line that exceeds this length will be wrapped.
-    content_display_width: usize,
+    lhs_content_display_width: usize,
+    /// The number of characters used to display RHS source lines. Any
+    /// line that exceeds this length will be wrapped.
+    rhs_content_display_width: usize,
     /// The number of characters required to display line numbers on
     /// the LHS.
     lhs_line_nums_width: usize,
@@ -186,10 +184,13 @@ impl SourceDimensions {
         rhs_max_line_visible: LineNumber,
         lhs_max_line_in_file: LineNumber,
         rhs_max_line_in_file: LineNumber,
-        content_max_width: usize,
+        lhs_content_max_width: usize,
+        rhs_content_max_width: usize,
     ) -> Self {
         let lhs_line_nums_width = format_line_num(lhs_max_line_visible).len();
         let rhs_line_nums_width = format_line_num(rhs_max_line_visible).len();
+
+        let content_max_width = max(lhs_content_max_width, rhs_content_max_width);
 
         // If the file lines are extremely short, treat them as if
         // they have a line of 25 characters.
@@ -204,7 +205,9 @@ impl SourceDimensions {
         //
         // This naively assumes that byte length is the same as
         // display length, which is generally OK because byte length
-        // will tend to be larger than the display length.
+        // will tend to be larger than the display length. Tab
+        // characters are an exception, where display width exceeds
+        // byte length, so we account for tab expansion explicitly.
         let width_without_truncation = lhs_line_nums_width
             + content_max_width
             + SPACER.len()
@@ -241,7 +244,8 @@ impl SourceDimensions {
         let content_width = min(lhs_content_width, rhs_content_width);
 
         Self {
-            content_display_width: content_width,
+            lhs_content_display_width: content_width,
+            rhs_content_display_width: content_width,
             lhs_line_nums_width,
             rhs_line_nums_width,
             lhs_max_line_in_file,
@@ -337,13 +341,14 @@ fn highlight_as_novel(
 }
 
 /// Find the longest line in `lhs_src` and `rhs_src` that will be
-/// displayed.
-fn displayed_content_max_len_in_bytes(
+/// displayed. Return the length of that line for both LHS and RHS.
+fn visible_content_max_display_width(
     lhs_src: &str,
     rhs_src: &str,
     hunks: &[Hunk],
     num_context_lines: u32,
-) -> usize {
+    tab_width: usize,
+) -> (usize, usize) {
     let mut lhs_displayed_lines: DftHashSet<usize> = DftHashSet::default();
     let mut rhs_displayed_lines: DftHashSet<usize> = DftHashSet::default();
 
@@ -402,20 +407,27 @@ fn displayed_content_max_len_in_bytes(
         }
     }
 
-    let mut content_max_width: usize = 0;
+    let mut lhs_content_max_width: usize = 0;
+    let mut rhs_content_max_width: usize = 0;
 
     for (lhs_i, lhs_line) in lhs_src.lines().enumerate() {
         if lhs_displayed_lines.contains(&lhs_i) {
-            content_max_width = max(content_max_width, lhs_line.len());
+            lhs_content_max_width = max(
+                lhs_content_max_width,
+                width_respecting_tabs(lhs_line, tab_width),
+            );
         }
     }
     for (rhs_i, rhs_line) in rhs_src.lines().enumerate() {
         if rhs_displayed_lines.contains(&rhs_i) {
-            content_max_width = max(content_max_width, rhs_line.len());
+            rhs_content_max_width = max(
+                rhs_content_max_width,
+                width_respecting_tabs(rhs_line, tab_width),
+            );
         }
     }
 
-    content_max_width
+    (lhs_content_max_width, rhs_content_max_width)
 }
 
 pub(crate) fn print(
@@ -429,11 +441,12 @@ pub(crate) fn print(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) {
-    let content_max_width = displayed_content_max_len_in_bytes(
+    let (lhs_content_max_width, rhs_content_max_width) = visible_content_max_display_width(
         lhs_src,
         rhs_src,
         hunks,
         display_options.num_context_lines,
+        display_options.tab_width,
     );
 
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
@@ -590,7 +603,8 @@ pub(crate) fn print(
         rhs_max_visible_line,
         lhs_max_line_in_file,
         rhs_max_line_in_file,
-        content_max_width,
+        lhs_content_max_width,
+        rhs_content_max_width,
     );
 
     for (i, hunk) in hunks.iter().enumerate() {
@@ -692,17 +706,17 @@ pub(crate) fn print(
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
                         lhs_lines[lhs_line_num.as_usize()],
-                        source_dims.content_display_width,
+                        source_dims.lhs_content_display_width,
                         display_options.tab_width,
                         lhs_highlights.get(lhs_line_num).unwrap_or(&vec![]),
                         Side::Left,
                     ),
-                    None => vec![" ".repeat(source_dims.content_display_width)],
+                    None => vec![" ".repeat(source_dims.lhs_content_display_width)],
                 };
                 let rhs_line = match rhs_line_num {
                     Some(rhs_line_num) => split_and_apply(
                         rhs_lines[rhs_line_num.as_usize()],
-                        source_dims.content_display_width,
+                        source_dims.rhs_content_display_width,
                         display_options.tab_width,
                         rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
                         Side::Right,
@@ -714,8 +728,8 @@ pub(crate) fn print(
                     .into_iter()
                     .enumerate()
                 {
-                    let lhs_line =
-                        lhs_line.unwrap_or_else(|| " ".repeat(source_dims.content_display_width));
+                    let lhs_line = lhs_line
+                        .unwrap_or_else(|| " ".repeat(source_dims.lhs_content_display_width));
                     let rhs_line = rhs_line.unwrap_or_else(|| "".into());
                     let lhs_num: String = if i == 0 {
                         display_lhs_line_num.clone()
@@ -780,15 +794,11 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
-    use crate::{
-        display::{
-            hunks::matched_pos_to_hunks,
-            test_util::{novel, unchanged},
-        },
-        options::DEFAULT_TERMINAL_WIDTH,
-        parse::guess_language::Language,
-        syntax::{AtomKind, MatchKind, TokenKind},
-    };
+    use crate::display::hunks::matched_pos_to_hunks;
+    use crate::display::test_util::{novel, unchanged};
+    use crate::options::DEFAULT_TERMINAL_WIDTH;
+    use crate::parse::guess_language::Language;
+    use crate::syntax::{AtomKind, MatchKind, TokenKind};
 
     #[test]
     fn test_width_calculations() {
@@ -798,6 +808,7 @@ mod tests {
             10.into(),
             1.into(),
             10.into(),
+            9999,
             9999,
         );
 
@@ -814,6 +825,7 @@ mod tests {
             1.into(),
             1.into(),
             9999,
+            9999,
         );
 
         assert_eq!(
@@ -828,7 +840,8 @@ mod tests {
 
     #[test]
     fn test_format_missing_line_num_at_end() {
-        let source_dims = SourceDimensions::new(80, 1.into(), 1.into(), 1.into(), 1.into(), 9999);
+        let source_dims =
+            SourceDimensions::new(80, 1.into(), 1.into(), 1.into(), 1.into(), 9999, 9999);
 
         assert_eq!(
             format_missing_line_num(1.into(), &source_dims, Side::Left, false, true),

@@ -49,7 +49,8 @@ so you can use difftastic more easily.
 
 ```ini
 [alias]
-    # Difftastic aliases, so `git dlog` is `git log` with difftastic and so on.
+    # Difftastic aliases, so `git dlog -p` is `git log -p`
+    # with difftastic and likewise for the other subcommands.
     dlog = -c diff.external=difft log --ext-diff
     dshow = -c diff.external=difft show --ext-diff
     ddiff = -c diff.external=difft diff
