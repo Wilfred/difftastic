@@ -1,9 +1,0 @@
-// SYNTAX TEST "source.soql" "simple testcase"
-   SELECT Id, Name FROM Account
-// ^^^^^^ keyword
-// ^^^^^^ keyword
-//        ^^ property
-//          ^ punctuation
-//            ^^^^ property
-//                 ^^^^ keyword
-//                      ^^^^^^^ type

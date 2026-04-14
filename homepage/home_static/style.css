@@ -69,7 +69,8 @@ a {
 }
 
 .github-logo {
-  padding-right: 5px;
+  margin-right: 5px;
+  pointer-events: none;
 }
 
 .card-set .card {

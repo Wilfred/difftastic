@@ -4,6 +4,9 @@
 //! manual](http://difftastic.wilfred.me.uk/).
 //!
 
+// I frequently develop difftastic on a newer rustc than the MSRV, so
+// these two aren't relevant.
+#![allow(renamed_and_removed_lints)]
 // This tends to trigger on larger tuples of simple types, and naming
 // them would probably be worse for readability.
 #![allow(clippy::type_complexity)]
@@ -19,9 +22,17 @@
 // implementation does not consider the mutable fields, so it is still
 // correct.
 #![allow(clippy::mutable_key_type)]
+// manual_unwrap_or_default was added in Rust 1.79, so earlier versions of
+// clippy complain about allowing it.
+#![allow(unknown_lints)]
 // It's sometimes more readable to explicitly create a vec than to use
 // the Default trait.
 #![allow(clippy::manual_unwrap_or_default)]
+// I find the explicit arithmetic clearer sometimes.
+#![allow(clippy::implicit_saturating_sub)]
+// It's helpful being super explicit about byte length versus Unicode
+// character point length sometimes.
+#![allow(clippy::needless_as_bytes)]
 // .to_owned() is more explicit on string references.
 #![warn(clippy::str_to_string)]
 // .to_string() on a String is clearer as .clone().
@@ -50,51 +61,65 @@ extern crate log;
 
 use display::style::print_warning;
 use log::info;
-use mimalloc::MiMalloc;
-use options::FilePermissions;
-use options::USAGE;
+use options::{FilePermissions, USAGE};
 
-use crate::conflicts::apply_conflict_markers;
-use crate::conflicts::START_LHS_MARKER;
+use crate::conflicts::{apply_conflict_markers, START_LHS_MARKER};
 use crate::diff::changes::ChangeMap;
 use crate::diff::dijkstra::ExceededGraphLimit;
 use crate::diff::{dijkstra, unchanged};
 use crate::display::context::opposite_positions;
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
-use crate::exit_codes::EXIT_BAD_ARGUMENTS;
-use crate::exit_codes::{EXIT_FOUND_CHANGES, EXIT_SUCCESS};
+use crate::display::style::print_error;
+use crate::exit_codes::{EXIT_BAD_ARGUMENTS, EXIT_FOUND_CHANGES, EXIT_SUCCESS};
 use crate::files::{
     guess_content, read_file_or_die, read_files_or_die, read_or_die, relative_paths_in_either,
     ProbableFileKind,
 };
-use crate::parse::guess_language::language_globs;
-use crate::parse::guess_language::{guess, language_name, Language, LanguageOverride};
+use crate::parse::guess_language::{
+    guess, language_globs, language_name, Language, LanguageOverride,
+};
 use crate::parse::syntax;
 
 /// The global allocator used by difftastic.
 ///
-/// Diffing allocates a large amount of memory, and `MiMalloc` performs
-/// better.
+/// Diffing allocates a large amount of memory, and both Jemalloc and
+/// MiMalloc perform better than the system allocator.
+///
+/// Some versions of MiMalloc (specifically libmimalloc-sys greater
+/// than 0.1.24) handle very large, mostly unused allocations
+/// badly. This makes large line-oriented diffs very slow, as
+/// discussed in #297.
+///
+/// MiMalloc is generally faster than Jemalloc, but older versions of
+/// MiMalloc don't compile on GCC 15+, so use Jemalloc for now. See
+/// #805.
+///
+/// For reference, Jemalloc uses 10-20% more time (although up to 33%
+/// more instructions) when testing on sample files.
+#[cfg(not(any(windows, target_os = "illumos", target_os = "freebsd")))]
+use tikv_jemallocator::Jemalloc;
+
+#[cfg(not(any(windows, target_os = "illumos", target_os = "freebsd")))]
 #[global_allocator]
-static GLOBAL: MiMalloc = MiMalloc;
+static GLOBAL: Jemalloc = Jemalloc;
 
 use std::path::Path;
 use std::{env, thread};
 
-use humansize::{format_size, BINARY};
+use humansize::{format_size, FormatSizeOptions, BINARY};
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
 use strum::IntoEnumIterator;
 use typed_arena::Arena;
 
 use crate::diff::sliders::fix_all_sliders;
+use crate::dijkstra::mark_syntax;
+use crate::lines::MaxLine;
 use crate::options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
+use crate::parse::syntax::init_all_info;
+use crate::parse::tree_sitter_parser as tsp;
 use crate::summary::{DiffResult, FileContent, FileFormat};
 use crate::syntax::init_next_prev;
-use crate::{
-    dijkstra::mark_syntax, lines::MaxLine, parse::syntax::init_all_info,
-    parse::tree_sitter_parser as tsp,
-};
 
 extern crate pretty_env_logger;
 
@@ -224,6 +249,7 @@ fn main() {
             display_options,
             set_exit_code,
             language_overrides,
+            binary_overrides,
         } => {
             let diff_result = diff_conflicts_file(
                 &display_path,
@@ -231,6 +257,7 @@ fn main() {
                 &display_options,
                 &diff_options,
                 &language_overrides,
+                &binary_overrides,
             );
 
             print_diff_result(&display_options, &diff_result);
@@ -247,6 +274,7 @@ fn main() {
             display_options,
             set_exit_code,
             language_overrides,
+            binary_overrides,
             lhs_path,
             rhs_path,
             lhs_permissions,
@@ -282,6 +310,7 @@ fn main() {
                         &display_options,
                         &diff_options,
                         &language_overrides,
+                        &binary_overrides,
                     );
 
                     if matches!(display_options.display_mode, DisplayMode::Json) {
@@ -336,6 +365,7 @@ fn main() {
                         &diff_options,
                         false,
                         &language_overrides,
+                        &binary_overrides,
                     );
                     if diff_result.has_reportable_change() {
                         encountered_changes = true;
@@ -359,6 +389,9 @@ fn main() {
             };
             std::process::exit(exit_code);
         }
+        Mode::GitHasUnmergedFile { display_path } => {
+            println!("Unmerged path: {display_path}");
+        }
     };
 }
 
@@ -374,10 +407,20 @@ fn diff_file(
     diff_options: &DiffOptions,
     missing_as_empty: bool,
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
+    binary_overrides: &[glob::Pattern],
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
-    let (mut lhs_src, mut rhs_src) = match (guess_content(&lhs_bytes), guess_content(&rhs_bytes)) {
+
+    let (mut lhs_src, mut rhs_src) = match (
+        guess_content(&lhs_bytes, lhs_path, binary_overrides),
+        guess_content(&rhs_bytes, rhs_path, binary_overrides),
+    ) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
+            let has_byte_changes = if lhs_bytes == rhs_bytes {
+                None
+            } else {
+                Some((lhs_bytes.len(), rhs_bytes.len()))
+            };
             return DiffResult {
                 extra_info: renamed,
                 display_path: display_path.to_owned(),
@@ -387,7 +430,7 @@ fn diff_file(
                 lhs_positions: vec![],
                 rhs_positions: vec![],
                 hunks: vec![],
-                has_byte_changes: lhs_bytes != rhs_bytes,
+                has_byte_changes,
                 has_syntactic_changes: false,
             };
         }
@@ -452,12 +495,16 @@ fn diff_conflicts_file(
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
+    binary_overrides: &[glob::Pattern],
 ) -> DiffResult {
     let bytes = read_file_or_die(path);
-    let mut src = match guess_content(&bytes) {
+    let mut src = match guess_content(&bytes, path, binary_overrides) {
         ProbableFileKind::Text(src) => src,
         ProbableFileKind::Binary => {
-            eprintln!("error: Expected a text file with conflict markers, got a binary file.");
+            print_error(
+                "Expected a text file with conflict markers, got a binary file.",
+                display_options.use_color,
+            );
             std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     };
@@ -469,15 +516,22 @@ fn diff_conflicts_file(
     let conflict_files = match apply_conflict_markers(&src) {
         Ok(cf) => cf,
         Err(msg) => {
-            eprintln!("error: {}", msg);
+            print_error(&msg, display_options.use_color);
             std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     };
 
     if conflict_files.num_conflicts == 0 {
-        eprintln!(
-            "error: Difftastic requires two paths, or a single file with conflict markers {}.\n",
-            START_LHS_MARKER,
+        print_error(
+            &format!(
+                "Difftastic requires two paths, or a single file with conflict markers {}.\n",
+                if display_options.use_color {
+                    START_LHS_MARKER.bold().to_string()
+                } else {
+                    START_LHS_MARKER.to_owned()
+                }
+            ),
+            display_options.use_color,
         );
 
         eprintln!("USAGE:\n\n    {}\n", USAGE);
@@ -519,7 +573,11 @@ fn check_only_text(
     lhs_src: &str,
     rhs_src: &str,
 ) -> DiffResult {
-    let has_changes = lhs_src != rhs_src;
+    let has_byte_changes = if lhs_src == rhs_src {
+        None
+    } else {
+        Some((lhs_src.as_bytes().len(), rhs_src.as_bytes().len()))
+    };
 
     DiffResult {
         display_path: display_path.to_owned(),
@@ -530,8 +588,8 @@ fn check_only_text(
         lhs_positions: vec![],
         rhs_positions: vec![],
         hunks: vec![],
-        has_byte_changes: has_changes,
-        has_syntactic_changes: has_changes,
+        has_byte_changes,
+        has_syntactic_changes: lhs_src != rhs_src,
     }
 }
 
@@ -571,7 +629,7 @@ fn diff_file_content(
             lhs_positions: vec![],
             rhs_positions: vec![],
             hunks: vec![],
-            has_byte_changes: false,
+            has_byte_changes: None,
             has_syntactic_changes: false,
         };
     }
@@ -603,6 +661,13 @@ fn diff_file_content(
                         Ok((lhs, rhs)) => {
                             if diff_options.check_only {
                                 let has_syntactic_changes = lhs != rhs;
+
+                                let has_byte_changes = if lhs_src == rhs_src {
+                                    None
+                                } else {
+                                    Some((lhs_src.as_bytes().len(), rhs_src.as_bytes().len()))
+                                };
+
                                 return DiffResult {
                                     extra_info,
                                     display_path: display_path.to_owned(),
@@ -612,7 +677,7 @@ fn diff_file_content(
                                     lhs_positions: vec![],
                                     rhs_positions: vec![],
                                     hunks: vec![],
-                                    has_byte_changes: true,
+                                    has_byte_changes,
                                     has_syntactic_changes,
                                 };
                             }
@@ -705,10 +770,11 @@ fn diff_file_content(
                     }
                 }
                 Err(tsp::ExceededByteLimit(num_bytes)) => {
+                    let format_options = FormatSizeOptions::from(BINARY).decimal_places(1);
                     let file_format = FileFormat::TextFallback {
                         reason: format!(
                             "{} exceeded DFT_BYTE_LIMIT",
-                            &format_size(num_bytes, BINARY)
+                            &format_size(num_bytes, format_options)
                         ),
                     };
 
@@ -744,6 +810,12 @@ fn diff_file_content(
     );
     let has_syntactic_changes = !hunks.is_empty();
 
+    let has_byte_changes = if lhs_src == rhs_src {
+        None
+    } else {
+        Some((lhs_src.as_bytes().len(), rhs_src.as_bytes().len()))
+    };
+
     DiffResult {
         extra_info,
         display_path: display_path.to_owned(),
@@ -753,7 +825,7 @@ fn diff_file_content(
         lhs_positions,
         rhs_positions,
         hunks,
-        has_byte_changes: true,
+        has_byte_changes,
         has_syntactic_changes,
     }
 }
@@ -770,10 +842,12 @@ fn diff_directories<'a>(
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
+    binary_overrides: &[glob::Pattern],
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
     let diff_options = diff_options.clone();
     let display_options = display_options.clone();
     let overrides: Vec<_> = overrides.into();
+    let binary_overrides: Vec<_> = binary_overrides.into();
 
     // We greedily list all files in the directory, and then diff them
     // in parallel. This is assuming that diffing is slower than
@@ -797,6 +871,7 @@ fn diff_directories<'a>(
             &diff_options,
             true,
             &overrides,
+            &binary_overrides,
         )
     })
 }
@@ -889,7 +964,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             }
         }
         (FileContent::Binary, FileContent::Binary) => {
-            if display_options.print_unchanged || summary.has_byte_changes {
+            if display_options.print_unchanged || summary.has_byte_changes.is_some() {
                 println!(
                     "{}",
                     display::style::header(
@@ -901,10 +976,37 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         display_options
                     )
                 );
-                if summary.has_byte_changes {
-                    println!("Binary contents changed.\n");
-                } else {
-                    println!("No changes.\n");
+
+                match summary.has_byte_changes {
+                    Some((lhs_len, rhs_len)) => {
+                        let format_options = FormatSizeOptions::from(BINARY).decimal_places(1);
+
+                        if lhs_len == 0 {
+                            // Strictly speaking this is wrong:
+                            // previously we may have had an empty but
+                            // existent file. In that case, it's a
+                            // file modification instead of a file
+                            // creation.
+                            //
+                            // TODO: Fix this pedantic case.
+                            println!(
+                                "Binary file added ({}).\n",
+                                &format_size(rhs_len, format_options),
+                            )
+                        } else if rhs_len == 0 {
+                            println!(
+                                "Binary file removed ({}).\n",
+                                &format_size(lhs_len, format_options),
+                            )
+                        } else {
+                            println!(
+                                "Binary file modified (old: {}, new: {}).\n",
+                                &format_size(lhs_len, format_options),
+                                &format_size(rhs_len, format_options),
+                            )
+                        }
+                    }
+                    None => println!("No changes.\n"),
                 }
             }
         }

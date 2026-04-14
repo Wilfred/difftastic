@@ -2,7 +2,7 @@
 
 ## 从二进制安装
 
-Difftastic 将预先编译好的二进制文件 [提供到 GitHub realeases](https://github.com/Wilfred/difftastic/releases) 。[更新日志](https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md) 描述了每个发行版的变更。
+Difftastic 将预先编译好的二进制文件 [提供到 GitHub releases](https://github.com/Wilfred/difftastic/releases) 。[更新日志](https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md) 描述了每个发行版的变更。
 
 在以下平台上也可以使用软件包。
 

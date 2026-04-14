@@ -24,11 +24,11 @@ impl<'b, T> Stack<'b, T> {
         self.head.map(|n| &n.val)
     }
 
-    pub(crate) fn pop(&self) -> Option<Stack<'b, T>> {
+    pub(crate) fn pop(&self) -> Option<Self> {
         self.head.map(|n| Self { head: n.next })
     }
 
-    pub(crate) fn push(&self, v: T, alloc: &'b Bump) -> Stack<'b, T> {
+    pub(crate) fn push(&self, v: T, alloc: &'b Bump) -> Self {
         Self {
             head: Some(alloc.alloc(Node {
                 val: v,
@@ -39,13 +39,7 @@ impl<'b, T> Stack<'b, T> {
 
     // O(n)
     pub(crate) fn size(&self) -> usize {
-        let mut count = 0;
-        let mut node = &self.head;
-        while let Some(next) = node {
-            count += 1;
-            node = &next.next;
-        }
-        count
+        std::iter::successors(self.head, |&n| n.next).count()
     }
 
     pub(crate) fn is_empty(&self) -> bool {

@@ -8,7 +8,8 @@
 //! Difftastic does not reuse languages.yml directly. Linguist has a
 //! larger set of language detection strategies.
 
-use std::{borrow::Borrow, path::Path};
+use std::borrow::Borrow;
+use std::path::Path;
 
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -36,6 +37,7 @@ pub(crate) enum Language {
     EmacsLisp,
     Erlang,
     FSharp,
+    Fortran,
     Gleam,
     Go,
     Hack,
@@ -61,6 +63,7 @@ pub(crate) enum Language {
     Pascal,
     Perl,
     Php,
+    Proto,
     Python,
     Qml,
     R,
@@ -77,15 +80,22 @@ pub(crate) enum Language {
     Toml,
     TypeScript,
     TypeScriptTsx,
+    Verilog,
     Vhdl,
     Xml,
     Yaml,
     Zig,
 }
 
+/// Users can explicitly request to treat a certain file glob pattern
+/// as a specific languages, rather than using the normal language
+/// detection logic.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub(crate) enum LanguageOverride {
+    /// Treat the file as this language regardless of what language
+    /// detection thinks.
     Language(Language),
+    /// Treat this file as plain text.
     PlainText,
 }
 
@@ -129,6 +139,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         EmacsLisp => "Emacs Lisp",
         Erlang => "Erlang",
         FSharp => "F#",
+        Fortran => "Fortran",
         Gleam => "Gleam",
         Go => "Go",
         Hack => "Hack",
@@ -154,6 +165,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Pascal => "Pascal",
         Perl => "Perl",
         Php => "PHP",
+        Proto => "Proto",
         Python => "Python",
         Qml => "QML",
         R => "R",
@@ -170,6 +182,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Toml => "TOML",
         TypeScript => "TypeScript",
         TypeScriptTsx => "TypeScript TSX",
+        Verilog => "Verilog",
         Vhdl => "VHDL",
         Xml => "XML",
         Yaml => "YAML",
@@ -270,6 +283,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "rebar.lock",
         ],
         FSharp => &["*.fs", "*.fsx", "*.fsi"],
+        Fortran => &["*.f", "*.for", "*.f90", "*.F", "*.FOR", "*.F90"],
         Gleam => &["*.gleam"],
         Go => &["*.go"],
         Hack => &["*.hack", "*.hck", "*.hhi"],
@@ -287,6 +301,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "*.gltf",
             "*.har",
             "*.ice",
+            "*.ipynb",
             "*.JSON-tmLanguage",
             "*.jsonl",
             "*.mcmeta",
@@ -345,6 +360,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         Php => &[
             "*.php", "*.phtml", "*.php3", "*.php4", "*.php5", "*.php7", "*.phps",
         ],
+        Proto => &["*.proto"],
         Python => &["*.py", "*.py3", "*.pyi", "*.bzl", "TARGETS", "BUCK", "DEPS"],
         Qml => &["*.qml"],
         R => &["*.R", "*.r", "*.rd", "*.rsx", ".Rprofile", "expr-dist"],
@@ -376,6 +392,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         ],
         TypeScript => &["*.ts"],
         TypeScriptTsx => &["*.tsx"],
+        Verilog => &["*.v", "*.sv", "*.vh"],
         Vhdl => &["*.vhdl", "*.vhd"],
         Xml => &[
             "*.ant",
@@ -401,7 +418,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             ".cproject",
             ".project",
         ],
-        Yaml => &["*.yaml", "*.yml"],
+        Yaml => &["*.yaml", "*.yml", "yarn.lock", "CITATION.cff"],
         Zig => &["*.zig"],
     };
 
@@ -512,53 +529,52 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             (Some(cap), _) | (_, Some(cap)) => cap[1].into(),
             _ => "".into(),
         };
-        let lang = match mode_name.to_ascii_lowercase().trim() {
-            "ada" => Some(Ada),
-            "c" => Some(C),
-            "clojure" => Some(Clojure),
-            "csharp" => Some(CSharp),
-            "css" => Some(Css),
-            "dart" => Some(Dart),
-            "c++" => Some(CPlusPlus),
-            "elixir" => Some(Elixir),
-            "elm" => Some(Elm),
-            "elvish" => Some(Elvish),
-            "emacs-lisp" => Some(EmacsLisp),
-            "fsharp" => Some(FSharp),
-            "gleam" => Some(Gleam),
-            "go" => Some(Go),
-            "haskell" => Some(Haskell),
-            "hcl" => Some(Hcl),
-            "html" => Some(Html),
-            "janet" => Some(Janet),
-            "java" => Some(Java),
-            "js" | "js2" => Some(JavaScript),
-            "lisp" => Some(CommonLisp),
-            "nxml" => Some(Xml),
-            "objc" => Some(ObjC),
-            "perl" => Some(Perl),
-            "python" => Some(Python),
-            "racket" => Some(Racket),
-            "rjsx" => Some(JavascriptJsx),
-            "ruby" => Some(Ruby),
-            "rust" => Some(Rust),
-            "scala" => Some(Scala),
-            "scss" => Some(Scss),
-            "sh" => Some(Bash),
-            "solidity" => Some(Solidity),
-            "sql" => Some(Sql),
-            "swift" => Some(Swift),
-            "toml" => Some(Toml),
-            "tuareg" => Some(OCaml),
-            "typescript" => Some(TypeScript),
-            "vhdl" => Some(Vhdl),
-            "yaml" => Some(Yaml),
-            "zig" => Some(Zig),
-            _ => None,
-        };
-        if lang.is_some() {
-            return lang;
-        }
+        return Some(match mode_name.to_ascii_lowercase().trim() {
+            "ada" => Ada,
+            "c" => C,
+            "clojure" => Clojure,
+            "csharp" => CSharp,
+            "css" => Css,
+            "dart" => Dart,
+            "c++" => CPlusPlus,
+            "elixir" => Elixir,
+            "elm" => Elm,
+            "elvish" => Elvish,
+            "emacs-lisp" => EmacsLisp,
+            "fsharp" => FSharp,
+            "fortran" => Fortran,
+            "gleam" => Gleam,
+            "go" => Go,
+            "haskell" => Haskell,
+            "hcl" => Hcl,
+            "html" => Html,
+            "janet" => Janet,
+            "java" => Java,
+            "js" | "js2" => JavaScript,
+            "lisp" => CommonLisp,
+            "nxml" => Xml,
+            "objc" => ObjC,
+            "perl" => Perl,
+            "python" => Python,
+            "racket" => Racket,
+            "rjsx" => JavascriptJsx,
+            "ruby" => Ruby,
+            "rust" => Rust,
+            "scala" => Scala,
+            "scss" => Scss,
+            "sh" => Bash,
+            "solidity" => Solidity,
+            "sql" => Sql,
+            "swift" => Swift,
+            "toml" => Toml,
+            "tuareg" => OCaml,
+            "typescript" => TypeScript,
+            "verilog" => Verilog,
+            "vhdl" => Vhdl,
+            "yaml" => Yaml,
+            "zig" => Zig,
+            _ => continue,
+        });
     }
 
     None

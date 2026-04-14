@@ -54,7 +54,7 @@ Difftastic 根据文件的扩展名、文件名和第一行的内容猜测文件
 ```bash
 $ difft --override=GLOB:NAME FIRST-FILE SECOND-FILE
 
-$ difft --override=*.h:c sample_files/preprocesor_1.h sample_files/preprocesor_2.h
+$ difft --override=*.h:c sample_files/preprocessor_1.h sample_files/preprocessor_2.h
 ```
 
 ## 选项

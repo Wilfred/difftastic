@@ -16,6 +16,10 @@ the hunk.
 **LHS**: Left-hand side. Difftastic compares two items, and LHS refers
 to the first item. See also 'RHS'.
 
+**Line-oriented**: A traditional diff that compares which lines have
+been added or removed, unlike difftastic. For example, GNU diff or the
+diffs displayed on GitHub.
+
 **List**: A list is an item in difftastic's syntax tree structure that
 has an open delimiter, children, and a close delimiter. It represents
 things like expressions and function definitions. See also 'atom'.

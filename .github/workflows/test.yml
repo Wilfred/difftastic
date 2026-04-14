@@ -1,6 +1,6 @@
 on: [push, pull_request]
 
-name: Continuous integration
+name: Test
 
 jobs:
   build:
@@ -11,27 +11,27 @@ jobs:
       matrix:
         job:
           # Operating systems available: https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
-          - { target: x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
-          # mac-latest (currently mac-14) is an ARM device, so use macos-13 to get Intel.
-          - { target: x86_64-apple-darwin, os: macos-13 }
+          - { target: x86_64-unknown-linux-gnu, os: ubuntu-22.04 }
           - { target: x86_64-pc-windows-msvc, os: windows-latest }
+          - { target: aarch64-pc-windows-msvc, os: windows-11-arm }
 
-          - { target: aarch64-unknown-linux-gnu, os: ubuntu-20.04, use-cross: true }
+          - { target: aarch64-unknown-linux-gnu, os: ubuntu-22.04, use-cross: true }
 
           # mac-14 is an M1 ARM device.
           - { target: aarch64-apple-darwin, os: macos-14 }
+          - { target: x86_64-apple-darwin, os: macos-14, use-cross: true }
 
-          - { target: x86_64-unknown-linux-musl, os: ubuntu-20.04, use-cross: true }
+          - { target: x86_64-unknown-linux-musl, os: ubuntu-22.04, use-cross: true }
     env:
       BUILD_CMD: cargo
-      SUBCOMMAND: test
 
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v4
+      # v4.2.2
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
     - name: Install Rust toolchain
-      uses: dtolnay/rust-toolchain@1.74.1
+      uses: dtolnay/rust-toolchain@1.77.0
       with:
         targets: ${{ matrix.job.target }}
 
@@ -48,31 +48,34 @@ jobs:
 
     - name: Test
       shell: bash
-      run: $BUILD_CMD $SUBCOMMAND --target ${{ matrix.job.target }}
+      run: $BUILD_CMD test --target ${{ matrix.job.target }}
 
   test_mime_db:
     name: Test with MIME database
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.74.1
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: dtolnay/rust-toolchain@1.77.0
       # This runs tests that rely on the MIME database being present.
       - run: cargo test -- --ignored
 
   test_linux_latest_stable:
     name: Test Linux (latest stable Rust)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo +stable test
 
   regression_test:
     name: Output Regression Test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.74.1
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: dtolnay/rust-toolchain@1.77.0
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
@@ -80,25 +83,43 @@ jobs:
 
   package:
     name: Check Linux Packaging
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.74.1
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: dtolnay/rust-toolchain@1.77.0
       - run: cargo package --allow-dirty
 
   fmt:
     name: Rustfmt
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.74.1
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: dtolnay/rust-toolchain@1.77.0
       - run: cargo fmt --all -- --check
 
   actionlint:
     name: Actionlint
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: raven-actions/actionlint@v2
         with:
           shellcheck: false
+
+  typo-check:
+    name: Typo Check
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    env:
+      FORCE_COLOR: 1
+      TYPOS_VERSION: v1.38.1
+    steps:
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Download typos
+        run: curl -LsSf https://github.com/crate-ci/typos/releases/download/$TYPOS_VERSION/typos-$TYPOS_VERSION-x86_64-unknown-linux-musl.tar.gz | tar zxf - -C ${CARGO_HOME:-~/.cargo}/bin
+      - name: Check for typos
+        run: typos

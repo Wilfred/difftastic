@@ -1,18 +1,15 @@
 use std::collections::BTreeMap;
 
 use line_numbers::LineNumber;
-use serde::{ser::SerializeStruct, Serialize, Serializer};
+use serde::ser::SerializeStruct;
+use serde::{Serialize, Serializer};
 
-use crate::{
-    display::{
-        context::{all_matched_lines_filled, opposite_positions},
-        hunks::{matched_lines_indexes_for_hunk, matched_pos_to_hunks, merge_adjacent},
-        side_by_side::lines_with_novel,
-    },
-    lines::MaxLine,
-    parse::syntax::{self, MatchedPos, StringKind},
-    summary::{DiffResult, FileContent, FileFormat},
-};
+use crate::display::context::{all_matched_lines_filled, opposite_positions};
+use crate::display::hunks::{matched_lines_indexes_for_hunk, matched_pos_to_hunks, merge_adjacent};
+use crate::display::side_by_side::lines_with_novel;
+use crate::lines::MaxLine;
+use crate::parse::syntax::{self, MatchedPos, StringKind};
+use crate::summary::{DiffResult, FileContent, FileFormat};
 
 #[derive(Debug, Serialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
@@ -27,6 +24,7 @@ enum Status {
 struct File<'f> {
     language: &'f FileFormat,
     path: &'f str,
+    aligned_lines: Vec<(Option<u32>, Option<u32>)>,
     chunks: Vec<Vec<Line<'f>>>,
     status: Status,
 }
@@ -35,20 +33,23 @@ impl<'f> File<'f> {
     fn with_sections(
         language: &'f FileFormat,
         path: &'f str,
+        aligned_lines: Vec<(Option<u32>, Option<u32>)>,
         chunks: Vec<Vec<Line<'f>>>,
-    ) -> File<'f> {
+    ) -> Self {
         File {
             language,
             path,
+            aligned_lines,
             chunks,
             status: Status::Changed,
         }
     }
 
-    fn with_status(language: &'f FileFormat, path: &'f str, status: Status) -> File<'f> {
+    fn with_status(language: &'f FileFormat, path: &'f str, status: Status) -> Self {
         File {
             language,
             path,
+            aligned_lines: Vec::new(),
             chunks: Vec::new(),
             status,
         }
@@ -108,6 +109,13 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                     &lhs_lines,
                     &rhs_lines,
                 );
+
+                // Convert alignment to serializable format (Option<u32>, Option<u32>)
+                let aligned_lines: Vec<(Option<u32>, Option<u32>)> = matched_lines
+                    .iter()
+                    .map(|(lhs, rhs)| (lhs.map(|l| l.0), rhs.map(|l| l.0)))
+                    .collect();
+
                 let mut matched_lines = &matched_lines[..];
 
                 let mut chunks = Vec::with_capacity(hunks.len());
@@ -153,10 +161,15 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                     chunks.push(lines.into_values().collect());
                 }
 
-                File::with_sections(&summary.file_format, &summary.display_path, chunks)
+                File::with_sections(
+                    &summary.file_format,
+                    &summary.display_path,
+                    aligned_lines,
+                    chunks,
+                )
             }
             (FileContent::Binary, FileContent::Binary) => {
-                let status = if summary.has_byte_changes {
+                let status = if summary.has_byte_changes.is_some() {
                     Status::Changed
                 } else {
                     Status::Unchanged
@@ -175,14 +188,20 @@ impl Serialize for File<'_> {
     where
         S: Serializer,
     {
-        // equivalent to #[serde(skip_serializing_if = "Vec::is_empty")]
-        let mut file = if self.chunks.is_empty() {
-            serializer.serialize_struct("File", 3)?
-        } else {
-            let mut file = serializer.serialize_struct("File", 4)?;
+        // Count fields: language, path, status are always present (3)
+        // + aligned_lines if not empty (1)
+        // + chunks if not empty (1)
+        let field_count =
+            3 + (!self.aligned_lines.is_empty()) as usize + (!self.chunks.is_empty()) as usize;
+
+        let mut file = serializer.serialize_struct("File", field_count)?;
+
+        if !self.aligned_lines.is_empty() {
+            file.serialize_field("aligned_lines", &self.aligned_lines)?;
+        }
+        if !self.chunks.is_empty() {
             file.serialize_field("chunks", &self.chunks)?;
-            file
-        };
+        }
 
         file.serialize_field("language", &format!("{}", self.language))?;
         file.serialize_field("path", &self.path)?;
@@ -201,7 +220,7 @@ struct Line<'l> {
 }
 
 impl<'l> Line<'l> {
-    fn new(lhs_number: Option<u32>, rhs_number: Option<u32>) -> Line<'l> {
+    fn new(lhs_number: Option<u32>, rhs_number: Option<u32>) -> Self {
         Line {
             lhs: lhs_number.map(Side::new),
             rhs: rhs_number.map(Side::new),
@@ -216,7 +235,7 @@ struct Side<'s> {
 }
 
 impl<'s> Side<'s> {
-    fn new(line_number: u32) -> Side<'s> {
+    fn new(line_number: u32) -> Self {
         Side {
             line_number,
             changes: Vec::new(),
@@ -259,15 +278,15 @@ impl Highlight {
         };
 
         match highlight {
-            TokenKind::Delimiter => Highlight::Delimiter,
+            TokenKind::Delimiter => Self::Delimiter,
             TokenKind::Atom(atom) => match atom {
-                AtomKind::String(StringKind::StringLiteral) => Highlight::String,
-                AtomKind::String(StringKind::Text) => Highlight::Normal,
-                AtomKind::Keyword => Highlight::Keyword,
-                AtomKind::Comment => Highlight::Comment,
-                AtomKind::Type => Highlight::Type,
-                AtomKind::Normal => Highlight::Normal,
-                AtomKind::TreeSitterError => Highlight::TreeSitterError,
+                AtomKind::String(StringKind::StringLiteral) => Self::String,
+                AtomKind::String(StringKind::Text) => Self::Normal,
+                AtomKind::Keyword => Self::Keyword,
+                AtomKind::Comment => Self::Comment,
+                AtomKind::Type => Self::Type,
+                AtomKind::Normal => Self::Normal,
+                AtomKind::TreeSitterError => Self::TreeSitterError,
             },
         }
     }

@@ -132,11 +132,6 @@
     "fields": {}
   },
   {
-    "type": "auto_res_mark",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "char_lit",
     "named": true,
     "fields": {}
@@ -2923,6 +2918,7 @@
   {
     "type": "source",
     "named": true,
+    "root": true,
     "fields": {
       "open": {
         "multiple": true,
@@ -4525,10 +4521,6 @@
     "named": false
   },
   {
-    "type": "##",
-    "named": false
-  },
-  {
     "type": "#'",
     "named": false
   },
@@ -4546,10 +4538,6 @@
   },
   {
     "type": "#0a",
-    "named": false
-  },
-  {
-    "type": "#=",
     "named": false
   },
   {
@@ -4662,14 +4650,6 @@
   },
   {
     "type": "V",
-    "named": false
-  },
-  {
-    "type": "[",
-    "named": false
-  },
-  {
-    "type": "]",
     "named": false
   },
   {

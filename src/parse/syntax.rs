@@ -2,22 +2,21 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
-use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
+use std::cell::Cell;
+use std::hash::Hash;
+use std::num::NonZeroU32;
+use std::{env, fmt};
 
-use line_numbers::LinePositions;
-use line_numbers::SingleLineSpan;
+use line_numbers::{LinePositions, SingleLineSpan};
 use typed_arena::Arena;
 
 use self::Syntax::*;
-use crate::lines::split_on_newlines;
+use crate::diff::changes::ChangeKind::*;
+use crate::diff::changes::{ChangeKind, ChangeMap};
+use crate::diff::lcs_diff;
+use crate::hash::DftHashMap;
+use crate::lines::{is_all_whitespace, split_on_newlines};
 use crate::words::split_words_and_numbers;
-use crate::{
-    diff::changes::ChangeKind,
-    diff::changes::{ChangeKind::*, ChangeMap},
-    diff::lcs_diff,
-    hash::DftHashMap,
-    lines::is_all_whitespace,
-};
 
 /// A Debug implementation that does not recurse into the
 /// corresponding node mentioned for Unchanged. Otherwise we will
@@ -48,6 +47,8 @@ impl fmt::Debug for ChangeKind<'_> {
 
 pub(crate) type SyntaxId = NonZeroU32;
 
+pub(crate) type ContentId = u32;
+
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub(crate) struct SyntaxInfo<'a> {
     /// The previous node with the same parent as this one.
@@ -69,7 +70,7 @@ pub(crate) struct SyntaxInfo<'a> {
     /// diff, or nodes at different positions.
     ///
     /// Values are sequential, not hashes. Collisions never occur.
-    content_id: Cell<u32>,
+    content_id: Cell<ContentId>,
     /// Is this the only node with this content? Ignores nodes on the
     /// other side.
     content_is_unique: Cell<bool>,
@@ -194,13 +195,13 @@ impl<'a> fmt::Debug for Syntax<'a> {
 
 impl<'a> Syntax<'a> {
     pub(crate) fn new_list(
-        arena: &'a Arena<Syntax<'a>>,
+        arena: &'a Arena<Self>,
         open_content: &str,
         open_position: Vec<SingleLineSpan>,
-        children: Vec<&'a Syntax<'a>>,
+        children: Vec<&'a Self>,
         close_content: &str,
         close_position: Vec<SingleLineSpan>,
-    ) -> &'a Syntax<'a> {
+    ) -> &'a Self {
         // Skip empty atoms: they aren't displayed, so there's no
         // point making our syntax tree bigger. These occur when we're
         // parsing incomplete or malformed programs.
@@ -247,11 +248,11 @@ impl<'a> Syntax<'a> {
     }
 
     pub(crate) fn new_atom(
-        arena: &'a Arena<Syntax<'a>>,
+        arena: &'a Arena<Self>,
         mut position: Vec<SingleLineSpan>,
         mut content: String,
         kind: AtomKind,
-    ) -> &'a Syntax<'a> {
+    ) -> &'a Self {
         // If a parser hasn't cleaned up \r on CRLF files with
         // comments, discard it.
         if content.ends_with('\r') {
@@ -281,11 +282,11 @@ impl<'a> Syntax<'a> {
         }
     }
 
-    pub(crate) fn parent(&self) -> Option<&'a Syntax<'a>> {
+    pub(crate) fn parent(&self) -> Option<&'a Self> {
         self.info().parent.get()
     }
 
-    pub(crate) fn next_sibling(&self) -> Option<&'a Syntax<'a>> {
+    pub(crate) fn next_sibling(&self) -> Option<&'a Self> {
         self.info().next_sibling.get()
     }
 
@@ -298,7 +299,7 @@ impl<'a> Syntax<'a> {
     /// A content ID of this syntax node. Two nodes have the same
     /// content ID if they have the same content, regardless of
     /// position.
-    pub(crate) fn content_id(&self) -> u32 {
+    pub(crate) fn content_id(&self) -> ContentId {
         self.info().content_id.get()
     }
 
@@ -507,7 +508,7 @@ fn set_unique_id(nodes: &[&Syntax], next_id: &mut SyntaxId) {
 }
 
 /// Assumes that `set_content_id` has already run.
-fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut DftHashMap<u32, usize>) {
+fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut DftHashMap<ContentId, usize>) {
     for node in nodes {
         *counts.entry(node.content_id()).or_insert(0) += 1;
         if let List { children, .. } = node {
@@ -516,7 +517,7 @@ fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut DftHashMap<u32
     }
 }
 
-fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &DftHashMap<u32, usize>) {
+fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &DftHashMap<ContentId, usize>) {
     for node in nodes {
         let count = counts
             .get(&node.content_id())
@@ -612,6 +613,9 @@ pub(crate) enum StringKind {
 
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
 pub(crate) enum AtomKind {
+    /// The kind of this atom when we don't know anything else about
+    /// it. This is typically a variable, e.g. `foo`, or a literal
+    /// `123`. Note that string literals have a separate kind.
     Normal,
     // TODO: We should either have a AtomWithWords(HighlightKind) or a
     // separate String, Text and Comment kind.
@@ -676,9 +680,7 @@ impl MatchKind {
     pub(crate) fn is_novel(&self) -> bool {
         matches!(
             self,
-            MatchKind::Novel { .. }
-                | MatchKind::NovelWord { .. }
-                | MatchKind::UnchangedPartOfNovelItem { .. }
+            Self::Novel { .. } | Self::NovelWord { .. } | Self::UnchangedPartOfNovelItem { .. }
         )
     }
 }
@@ -689,8 +691,8 @@ pub(crate) struct MatchedPos {
     pub(crate) pos: SingleLineSpan,
 }
 
-/// Given the text `content` from a comment or strings, split it into
-/// MatchedPos values for the novel and unchanged words.
+/// Given the text `content` from a comment or string, split it into
+/// `MatchedPos` values for the novel and unchanged words.
 ///
 /// If there is negligible text in common with `opposite_content`,
 /// treat the whole `content` as a single novel region.

@@ -4,7 +4,7 @@ description = "A structural diff that understands syntax."
 repository = "https://github.com/wilfred/difftastic"
 homepage = "http://difftastic.wilfred.me.uk/"
 license = "MIT"
-version = "0.64.0"
+version = "0.69.0"
 authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 keywords = ["diff", "syntax"]
 categories = ["development-tools", "command-line-utilities", "parser-implementations"]
@@ -12,10 +12,13 @@ edition = "2021"
 # Goal: support at least 12 months of Rust versions, and be
 # conservative about upgrades to help packagers.
 #
-# For reference, Debian stable is on 1.63 (see
+# https://releases.rs/ is a useful website to see when different Rust
+# versions were released.
+#
+# For reference, Debian stable is on 1.85 (see
 # https://tracker.debian.org/pkg/rustc) but Debian doesn't currently
 # package difftastic. Other distros are somewhat newer.
-rust-version = "1.74.1"
+rust-version = "1.77.0"
 include = [
         "/build.rs",
         "/src/",
@@ -38,26 +41,21 @@ regex = "1.10.4"
 clap = { version = "4.0.0", features = ["cargo", "env", "wrap_help", "string"] }
 typed-arena = "2.0.2"
 rustc-hash = "2.0.0"
-strsim = "0.10.0"
+strsim = "0.11.0"
 lazy_static = "1.4.0"
-tree-sitter = "0.24.0"
 libc = "0.2.108"
 log = "0.4.14"
 pretty_env_logger = "0.5.0"
 
-mimalloc = { version = "0.1.28", default-features = false }
-# Pin libmimalloc-sys due to 0.1.25 producing a huge slowdown in very
-# large textual files, as discussed in #297.
-libmimalloc-sys = "=0.1.24"
 radix-heap = "0.4.2"
 # ignore does not declare a MSRV, but it's part of ripgrep, which has
 # a slightly more aggressive MSRV than difftastic. Constrain ignore to
 # a known-good max version.
 ignore = ">= 0.4, < 0.4.24"
-owo-colors = "3.5.0"
+owo-colors = "4.2.3"
 wu-diff = "0.1.2"
 rayon = "1.7.0"
-tree_magic_mini = "3.1.5"
+tree_magic_mini = "3.1.6"
 
 bumpalo = "3.16.0"
 unicode-width = "0.1.9"
@@ -70,53 +68,81 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 line-numbers = "0.3.0"
 smallvec = "1.13.2"
-tree-sitter-language = "0.1.3"
 streaming-iterator = "0.1.9"
+encoding_rs = "0.8.35"
+
+# tree-sitter itself.
+tree-sitter = "~0.26.3"
+tree-sitter-language = "0.1.3"
+
+# tree-sitter parsers that are available on crates.io.
+tree-sitter-ada = "0.1.0"
+tree-sitter-bash = "0.25.1"
+tree-sitter-c = "0.24"
+tree-sitter-c-sharp = "0.23.1"
+tree-sitter-clojure-orchard = "0.2.0"
+tree-sitter-cmake = "0.7.1"
+tree-sitter-cpp = "0.23.4"
+tree-sitter-css = "0.23.1"
+tree-sitter-dart-orchard = "0.2.1"
+tree-sitter-devicetree = "0.14.1"
+tree-sitter-elisp = "1.6.1"
+tree-sitter-elixir = "0.3.4"
+tree-sitter-elm = "5.8.0"
+tree-sitter-erlang = "0.13.0"
+tree-sitter-fsharp = "0.1.0"
+tree-sitter-fortran = "0.5.1"
+tree-sitter-gleam = "1.0.0"
+tree-sitter-go = "0.25.0"
 tree-sitter-haskell = "0.23.1"
-tree-sitter-ruby = "0.23.1"
-tree-sitter-scala = "0.23.3"
+tree-sitter-hcl = "1.1.0"
+tree-sitter-html = "0.23.2"
+tree-sitter-java = "0.23.4"
+tree-sitter-javascript = "0.25.0"
+tree-sitter-json = "0.24.8"
+tree-sitter-julia = "0.23.1"
+tree-sitter-lua = "0.5"
+tree-sitter-make = "1.1.1"
+tree-sitter-newick = "1.1.0"
+tree-sitter-nix = "0.3.0"
 tree-sitter-objc = "3.0.2"
 tree-sitter-ocaml = "0.23.2"
-tree-sitter-c-sharp = "0.23.1"
-tree-sitter-python = "0.23.5"
-tree-sitter-cpp = "0.23.4"
-tree-sitter-c = "0.23.4"
-tree-sitter-javascript = "0.23.1"
-tree-sitter-typescript = "0.23.2"
-tree-sitter-java = "0.23.4"
-tree-sitter-julia = "0.23.1"
-tree-sitter-go = "0.23.4"
-tree-sitter-bash = "0.23.3"
-tree-sitter-php = "0.23.11"
-tree-sitter-json = "0.24.8"
-tree-sitter-html = "0.23.2"
-tree-sitter-css = "0.23.1"
-tree-sitter-toml-ng = "0.7.0"
-tree-sitter-lua = "0.2.0"
-tree-sitter-xml = "0.7.0"
-tree-sitter-make = "1.1.1"
-tree-sitter-yaml = "0.7.0"
-encoding_rs = "0.8.35"
-tree-sitter-rust = "0.23.2"
-tree-sitter-elixir = "0.3.4"
-tree-sitter-nix = "0.0.2"
 tree-sitter-pascal = "0.10.0"
-tree-sitter-swift = "0.7.0"
-tree-sitter-fsharp = "0.1.0"
-tree-sitter-erlang = "0.13.0"
+tree-sitter-perl = "1.1.2"
+tree-sitter-php = "0.23.11"
+tree-sitter-proto = "0.2.0"
+tree-sitter-python = "0.23.5"
+tree-sitter-qmljs = "0.3.0"
+tree-sitter-r = "1.2.0"
+tree-sitter-racket = "0.24.7"
+tree-sitter-ruby = "0.23.1"
+tree-sitter-rust-orchard = "0.16.2"
+tree-sitter-scala = "0.23.3"
+tree-sitter-scheme = "0.24.7"
+tree-sitter-sequel = "0.3.11"
+tree-sitter-sfapex = "2.4.0"
+tree-sitter-solidity = "1.2.13"
+tree-sitter-swift = "0.7.1"
+tree-sitter-toml-ng = "0.7.0"
+tree-sitter-typescript = "0.23.2"
+tree-sitter-verilog = "1.0.3"
+tree-sitter-xml = "0.7.0"
+tree-sitter-yaml = "0.7.0"
+tree-sitter-zig = "1.1.2"
+
+[target.'cfg(not(any(windows, target_os = "illumos", target_os = "freebsd")))'.dependencies]
+tikv-jemallocator = "0.6"
 
 [dev-dependencies]
-# assert_cmd 2.0.10 requires predicates 3.
-# TODO: update.
-assert_cmd = ">= 2, < 2.0.9"
-predicates = "2.1.0"
+assert_cmd = "2.0.17"
+predicates = "3.1.3"
 
 pretty_assertions = "1.3.0"
 
 [build-dependencies]
 # TODO: enable parallel mode once MSRV hits 1.61, see discussion in
 # https://github.com/rust-lang/cc-rs/pull/849
-cc = "1.1.30"
+cc = "1.2.13"
 rayon = "1.7.0"
 version_check = "0.9.4"
 
@@ -126,5 +152,15 @@ lto = "thin"
 [[bin]]
 name = "difft"
 path = "src/main.rs"
+
+[package.metadata.deb]
+depends = "$auto"
+section = "utility"
+priority = "optional"
+assets = [
+	"$auto",
+	[ "difft.1", "usr/share/man/man1/", "644" ],
+	[ "CHANGELOG.md", "usr/share/doc/difftastic/", "644" ],
+]
 
 [features]

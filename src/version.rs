@@ -28,11 +28,26 @@ impl fmt::Display for VersionInfo {
             writeln!(f, "Toolchain: {}", rustc_version)?;
         }
 
+        // Users running difftastic in containers sometimes have
+        // issues with permissions reading from /tmp, which is where
+        // git writes temporary files. Display whether the environment
+        // looks like a container.
+        let container_env = if std::env::var("container").is_ok() {
+            " (probably Flatpak)"
+        } else if std::env::var("APPIMAGE").is_ok() {
+            " AppImage"
+        } else if std::env::var("SNAP").is_ok() {
+            " Snap"
+        } else {
+            ""
+        };
+
         writeln!(
             f,
-            "System:    {} {}",
+            "System:    {} {}{}",
             std::env::consts::OS,
-            std::env::consts::ARCH
+            std::env::consts::ARCH,
+            container_env
         )
     }
 }

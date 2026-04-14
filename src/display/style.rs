@@ -2,21 +2,16 @@
 
 use std::cmp::{max, min};
 
-use line_numbers::LineNumber;
-use line_numbers::SingleLineSpan;
+use line_numbers::{LineNumber, SingleLineSpan};
 use owo_colors::{OwoColorize, Style};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
-use crate::lines::split_on_newlines;
-use crate::parse::syntax::StringKind;
-use crate::{
-    constants::Side,
-    hash::DftHashMap,
-    lines::byte_len,
-    options::DisplayOptions,
-    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
-    summary::FileFormat,
-};
+use crate::constants::Side;
+use crate::hash::DftHashMap;
+use crate::lines::{byte_len, split_on_newlines};
+use crate::options::DisplayOptions;
+use crate::parse::syntax::{AtomKind, MatchKind, MatchedPos, StringKind, TokenKind};
+use crate::summary::FileFormat;
 
 #[derive(Clone, Copy, Debug)]
 pub(crate) enum BackgroundColor {
@@ -26,7 +21,7 @@ pub(crate) enum BackgroundColor {
 
 impl BackgroundColor {
     pub(crate) fn is_dark(self) -> bool {
-        matches!(self, BackgroundColor::Dark)
+        matches!(self, Self::Dark)
     }
 }
 
@@ -66,7 +61,7 @@ fn substring_by_byte_replace_tabs(s: &str, start: usize, end: usize, tab_width: 
     s.replace('\t', &" ".repeat(tab_width))
 }
 
-fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
+pub(crate) fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
     let display_width = s.width();
 
     // .width() on tabs returns 0, whereas we want to model them as
@@ -324,17 +319,59 @@ pub(crate) fn novel_style(style: Style, side: Side, background: BackgroundColor)
     }
 }
 
+/// Merge spans where the end of one span matches the start of the
+/// next span.
+///
+/// This reduces the number of ANSI character codes in the
+/// output. This is negligible for performance, but makes regression
+/// testing easier for difftastic.
+///
+/// The file compare.expected contains hashes of the output, so it
+/// considers `<green>ab</green>` to be distinct from
+/// `<green>a</green><green>b</green>`. Merging the spans normalises
+/// the output to `<green>ab</green>`.
+fn merge_adjacent(items: &[(SingleLineSpan, Style)]) -> Vec<(SingleLineSpan, Style)> {
+    let mut merged: Vec<(SingleLineSpan, Style)> = vec![];
+    let mut prev_item: Option<(SingleLineSpan, Style)> = None;
+
+    for (span, style) in items.iter().copied() {
+        match prev_item.take() {
+            Some((mut prev_span, prev_style)) => {
+                if prev_style == style
+                    && prev_span.line == span.line
+                    && prev_span.end_col == span.start_col
+                {
+                    prev_span.end_col = span.end_col;
+                    prev_item = Some((prev_span, style));
+                } else {
+                    merged.push((prev_span, prev_style));
+                    prev_item = Some((span, style));
+                }
+            }
+            None => {
+                prev_item = Some((span, style));
+            }
+        }
+    }
+
+    if let Some(last_item) = prev_item {
+        merged.push(last_item);
+    }
+
+    merged
+}
+
 pub(crate) fn color_positions(
     side: Side,
     background: BackgroundColor,
     syntax_highlight: bool,
     file_format: &FileFormat,
-    positions: &[MatchedPos],
+    mps: &[MatchedPos],
 ) -> Vec<(SingleLineSpan, Style)> {
     let mut styles = vec![];
-    for pos in positions {
+    for mp in mps {
         let mut style = Style::new();
-        match pos.kind {
+        match mp.kind {
             MatchKind::UnchangedToken { highlight, .. } | MatchKind::Ignored { highlight } => {
                 if syntax_highlight {
                     if let TokenKind::Atom(atom_kind) = highlight {
@@ -400,9 +437,10 @@ pub(crate) fn color_positions(
                 }
             }
         };
-        styles.push((pos.pos, style));
+        styles.push((mp.pos, style));
     }
-    styles
+
+    merge_adjacent(&styles)
 }
 
 pub(crate) fn apply_colors(
@@ -411,9 +449,9 @@ pub(crate) fn apply_colors(
     syntax_highlight: bool,
     file_format: &FileFormat,
     background: BackgroundColor,
-    positions: &[MatchedPos],
+    mps: &[MatchedPos],
 ) -> Vec<String> {
-    let styles = color_positions(side, background, syntax_highlight, file_format, positions);
+    let styles = color_positions(side, background, syntax_highlight, file_format, mps);
     let lines = split_on_newlines(s).collect::<Vec<_>>();
     style_lines(&lines, &styles)
 }
@@ -455,6 +493,19 @@ pub(crate) fn print_warning(s: &str, display_options: &DisplayOptions) {
 
     eprint!("{}", prefix);
     eprint!("{}\n\n", s);
+}
+
+/// Style `s` as an error and write to stderr.
+pub(crate) fn print_error(s: &str, use_color: bool) {
+    // TODO: this is inconsistent with print_warning regarding
+    // arguments and trailing whitespace.
+    let prefix = if use_color {
+        "error: ".red().bold().to_string()
+    } else {
+        "error: ".to_owned()
+    };
+
+    eprintln!("{}{}", prefix, s);
 }
 
 pub(crate) fn apply_line_number_color(

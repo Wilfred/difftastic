@@ -1,0 +1,16 @@
+[files]
+extend-exclude = [
+  "vendored_parsers/", "sample_files/",
+  "homepage/home_static/demo.cast", "homepage/home_static/*.min.js",
+  "homepage/home_img",
+  "demo_files/",
+  "difft.1",
+]
+
+[default.extend-words]
+ba = "ba"
+edn = "edn"
+mak = "mak"
+ND = "ND"
+
+diffstatic = "difftastic"

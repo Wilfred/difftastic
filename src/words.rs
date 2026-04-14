@@ -12,7 +12,7 @@ pub(crate) fn split_words(s: &str) -> Vec<&str> {
     for (idx, c) in s.char_indices() {
         match word_start {
             Some(start) => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
+                if c.is_alphanumeric() || c == '_' {
                     // Just carry on in this word.
                 } else {
                     // Push the previous word, then this non-word character.
@@ -22,7 +22,7 @@ pub(crate) fn split_words(s: &str) -> Vec<&str> {
                 }
             }
             None => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
+                if c.is_alphanumeric() || c == '_' {
                     word_start = Some(idx);
                 } else {
                     words.push(&s[idx..idx + c.len_utf8()]);
@@ -40,7 +40,7 @@ pub(crate) fn split_words(s: &str) -> Vec<&str> {
 /// Split `s` into a vec of things that look like words and individual
 /// non-word characters.
 ///
-/// "foo..bar23" -> vec!["foo", ".", ".", "bar23"]
+/// "foo..bar23" -> vec!["foo", ".", ".", "bar", "23"]
 pub(crate) fn split_words_and_numbers(s: &str) -> Vec<&str> {
     let mut words = vec![];
     let mut word_start: Option<(usize, char)> = None;
@@ -51,7 +51,7 @@ pub(crate) fn split_words_and_numbers(s: &str) -> Vec<&str> {
                     // Word character, add to the current word if it's
                     // not a number.
                     if c.is_ascii_digit() == start_c.is_ascii_digit() {
-                        // Just carry on in this word.
+                        // Just carry on in this word/number.
                     } else {
                         // Finish previous word, start a new one.
                         words.push(&s[start..idx]);
@@ -65,7 +65,7 @@ pub(crate) fn split_words_and_numbers(s: &str) -> Vec<&str> {
                 }
             }
             None => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
+                if c.is_alphanumeric() || c == '_' {
                     word_start = Some((idx, c));
                 } else {
                     words.push(&s[idx..idx + c.len_utf8()]);

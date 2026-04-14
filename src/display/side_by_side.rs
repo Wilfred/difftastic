@@ -2,28 +2,24 @@
 
 use std::cmp::{max, min};
 
-use line_numbers::LineNumber;
-use line_numbers::SingleLineSpan;
+use line_numbers::{LineNumber, SingleLineSpan};
 use owo_colors::{OwoColorize, Style};
 
-use crate::{
-    constants::Side,
-    display::{
-        context::all_matched_lines_filled,
-        hunks::{matched_lines_indexes_for_hunk, Hunk},
-        style::{
-            self, apply_colors, apply_line_number_color, color_positions, novel_style,
-            replace_tabs, split_and_apply, BackgroundColor,
-        },
-    },
-    hash::{DftHashMap, DftHashSet},
-    lines::{format_line_num, split_on_newlines},
-    options::{DisplayMode, DisplayOptions},
-    parse::syntax::{zip_pad_shorter, MatchedPos},
-    summary::FileFormat,
+use crate::constants::Side;
+use crate::display::context::all_matched_lines_filled;
+use crate::display::hunks::{matched_lines_indexes_for_hunk, Hunk};
+use crate::display::style::{
+    self, apply_colors, apply_line_number_color, color_positions, novel_style, replace_tabs,
+    split_and_apply, width_respecting_tabs, BackgroundColor,
 };
+use crate::hash::{DftHashMap, DftHashSet};
+use crate::lines::{format_line_num, split_on_newlines};
+use crate::options::{DisplayMode, DisplayOptions};
+use crate::parse::syntax::{zip_pad_shorter, MatchedPos};
+use crate::summary::FileFormat;
 
-const SPACER: &str = " ";
+/// The space shown between LHS and RHS columns.
+const SPACER: &str = "  ";
 
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
     format!(
@@ -37,6 +33,7 @@ fn format_missing_line_num(
     prev_num: LineNumber,
     source_dims: &SourceDimensions,
     side: Side,
+    is_continuation: bool,
     use_color: bool,
 ) -> String {
     let column_width = match side {
@@ -45,8 +42,8 @@ fn format_missing_line_num(
     };
 
     let after_end = match side {
-        Side::Left => prev_num >= source_dims.lhs_max_line,
-        Side::Right => prev_num >= source_dims.rhs_max_line,
+        Side::Left => prev_num >= source_dims.lhs_max_line_in_file,
+        Side::Right => prev_num >= source_dims.rhs_max_line_in_file,
     };
 
     let mut style = Style::new();
@@ -54,10 +51,23 @@ fn format_missing_line_num(
         style = style.dimmed();
     }
 
+    let c = if is_continuation {
+        // Always show dots when this line is too long so we had to
+        // split it over several lines when displaying.
+        "."
+    } else if after_end {
+        // The file on this side has fewer lines, and we've already
+        // shown the last ones.
+        " "
+    } else {
+        // There are more lines in this file.
+        "."
+    };
+
     let num_digits = prev_num.display().len();
     format!(
         "{:>width$} ",
-        (if after_end { " " } else { "." }).repeat(num_digits),
+        c.repeat(num_digits),
         width = column_width - 1
     )
     .style(style)
@@ -127,6 +137,7 @@ fn display_line_nums(
             prev_lhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
             Side::Left,
+            false,
             display_options.use_color,
         ),
     };
@@ -139,6 +150,7 @@ fn display_line_nums(
             prev_rhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
             Side::Right,
+            false,
             display_options.use_color,
         ),
     };
@@ -149,41 +161,36 @@ fn display_line_nums(
 // Sizes used when displaying a hunk.
 #[derive(Debug)]
 struct SourceDimensions {
-    /// The number of characters used to display source lines. Any
+    /// The number of characters used to display LHS source lines. Any
     /// line that exceeds this length will be wrapped.
-    content_display_width: usize,
+    lhs_content_display_width: usize,
+    /// The number of characters used to display RHS source lines. Any
+    /// line that exceeds this length will be wrapped.
+    rhs_content_display_width: usize,
     /// The number of characters required to display line numbers on
     /// the LHS.
     lhs_line_nums_width: usize,
     /// The number of characters required to display line numbers on
     /// the RHS.
     rhs_line_nums_width: usize,
-    /// The highest line number in the LHS source.
-    lhs_max_line: LineNumber,
-    /// The highest line number in the RHS source.
-    rhs_max_line: LineNumber,
+    lhs_max_line_in_file: LineNumber,
+    rhs_max_line_in_file: LineNumber,
 }
 
 impl SourceDimensions {
     fn new(
         terminal_width: usize,
-        line_nums: &[(Option<LineNumber>, Option<LineNumber>)],
-        content_max_width: usize,
+        lhs_max_line_visible: LineNumber,
+        rhs_max_line_visible: LineNumber,
+        lhs_max_line_in_file: LineNumber,
+        rhs_max_line_in_file: LineNumber,
+        lhs_content_max_width: usize,
+        rhs_content_max_width: usize,
     ) -> Self {
-        let mut lhs_max_line: LineNumber = 1.into();
-        let mut rhs_max_line: LineNumber = 1.into();
+        let lhs_line_nums_width = format_line_num(lhs_max_line_visible).len();
+        let rhs_line_nums_width = format_line_num(rhs_max_line_visible).len();
 
-        for (lhs_line_num, rhs_line_num) in line_nums {
-            if let Some(lhs_line_num) = lhs_line_num {
-                lhs_max_line = max(lhs_max_line, *lhs_line_num);
-            }
-            if let Some(rhs_line_num) = rhs_line_num {
-                rhs_max_line = max(rhs_max_line, *rhs_line_num);
-            }
-        }
-
-        let lhs_line_nums_width = format_line_num(lhs_max_line).len();
-        let rhs_line_nums_width = format_line_num(rhs_max_line).len();
+        let content_max_width = max(lhs_content_max_width, rhs_content_max_width);
 
         // If the file lines are extremely short, treat them as if
         // they have a line of 25 characters.
@@ -194,15 +201,19 @@ impl SourceDimensions {
         // between LHS and RHS.
         //
         // Instead, cap the display width based on the maximum length
-        // of lines within the file.
+        // of visible lines within the file.
         //
-        // This is a crude heuristic because it ignores which lines of
-        // the file actually get displayed, so we can still end up
-        // with some superfluous space. It also naively assumes that
-        // byte length is the same display length, which is generally
-        // OK because byte length will tend to be larger than the
-        // display length.
-        let display_width = min(terminal_width, (content_max_width + 4) * 2 + SPACER.len());
+        // This naively assumes that byte length is the same as
+        // display length, which is generally OK because byte length
+        // will tend to be larger than the display length. Tab
+        // characters are an exception, where display width exceeds
+        // byte length, so we account for tab expansion explicitly.
+        let width_without_truncation = lhs_line_nums_width
+            + content_max_width
+            + SPACER.len()
+            + rhs_line_nums_width
+            + content_max_width;
+        let display_width = min(terminal_width, width_without_truncation);
 
         assert!(
             display_width > SPACER.len(),
@@ -233,11 +244,12 @@ impl SourceDimensions {
         let content_width = min(lhs_content_width, rhs_content_width);
 
         Self {
-            content_display_width: content_width,
+            lhs_content_display_width: content_width,
+            rhs_content_display_width: content_width,
             lhs_line_nums_width,
             rhs_line_nums_width,
-            lhs_max_line,
-            rhs_max_line,
+            lhs_max_line_in_file,
+            rhs_max_line_in_file,
         }
     }
 }
@@ -328,6 +340,96 @@ fn highlight_as_novel(
     false
 }
 
+/// Find the longest line in `lhs_src` and `rhs_src` that will be
+/// displayed. Return the length of that line for both LHS and RHS.
+fn visible_content_max_display_width(
+    lhs_src: &str,
+    rhs_src: &str,
+    hunks: &[Hunk],
+    num_context_lines: u32,
+    tab_width: usize,
+) -> (usize, usize) {
+    let mut lhs_displayed_lines: DftHashSet<usize> = DftHashSet::default();
+    let mut rhs_displayed_lines: DftHashSet<usize> = DftHashSet::default();
+
+    for hunk in hunks {
+        let mut min_lhs_line: Option<LineNumber> = None;
+        let mut max_lhs_line: Option<LineNumber> = None;
+        let mut min_rhs_line: Option<LineNumber> = None;
+        let mut max_rhs_line: Option<LineNumber> = None;
+
+        for (lhs_line, rhs_line) in &hunk.lines {
+            if let Some(lhs_line) = lhs_line {
+                if let Some(current_min) = min_lhs_line {
+                    min_lhs_line = Some(min(current_min, *lhs_line));
+                } else {
+                    min_lhs_line = Some(*lhs_line);
+                }
+
+                if let Some(current_max) = max_lhs_line {
+                    max_lhs_line = Some(max(current_max, *lhs_line));
+                } else {
+                    max_lhs_line = Some(*lhs_line);
+                }
+            }
+
+            if let Some(rhs_line) = rhs_line {
+                if let Some(current_min) = min_rhs_line {
+                    min_rhs_line = Some(min(current_min, *rhs_line));
+                } else {
+                    min_rhs_line = Some(*rhs_line);
+                }
+
+                if let Some(current_max) = max_rhs_line {
+                    max_rhs_line = Some(max(current_max, *rhs_line));
+                } else {
+                    max_rhs_line = Some(*rhs_line);
+                }
+            }
+
+            if let (Some(min_lhs_line), Some(max_lhs_line)) = (min_lhs_line, max_lhs_line) {
+                let min_lhs_plus_padding =
+                    max(0, min_lhs_line.0 as isize - num_context_lines as isize) as usize;
+                let max_lhs_plus_padding = max_lhs_line.0 as usize + num_context_lines as usize;
+                for lhs_line_num in min_lhs_plus_padding..=max_lhs_plus_padding {
+                    lhs_displayed_lines.insert(lhs_line_num);
+                }
+            }
+
+            if let (Some(min_rhs_line), Some(max_rhs_line)) = (min_rhs_line, max_rhs_line) {
+                let min_rhs_plus_padding =
+                    max(0, min_rhs_line.0 as isize - num_context_lines as isize) as usize;
+                let max_rhs_plus_padding = max_rhs_line.0 as usize + num_context_lines as usize;
+                for rhs_line_num in min_rhs_plus_padding..=max_rhs_plus_padding {
+                    rhs_displayed_lines.insert(rhs_line_num);
+                }
+            }
+        }
+    }
+
+    let mut lhs_content_max_width: usize = 0;
+    let mut rhs_content_max_width: usize = 0;
+
+    for (lhs_i, lhs_line) in lhs_src.lines().enumerate() {
+        if lhs_displayed_lines.contains(&lhs_i) {
+            lhs_content_max_width = max(
+                lhs_content_max_width,
+                width_respecting_tabs(lhs_line, tab_width),
+            );
+        }
+    }
+    for (rhs_i, rhs_line) in rhs_src.lines().enumerate() {
+        if rhs_displayed_lines.contains(&rhs_i) {
+            rhs_content_max_width = max(
+                rhs_content_max_width,
+                width_respecting_tabs(rhs_line, tab_width),
+            );
+        }
+    }
+
+    (lhs_content_max_width, rhs_content_max_width)
+}
+
 pub(crate) fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
@@ -339,13 +441,13 @@ pub(crate) fn print(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) {
-    let mut content_max_width: usize = 0;
-    for line in lhs_src.lines() {
-        content_max_width = max(content_max_width, line.len());
-    }
-    for line in rhs_src.lines() {
-        content_max_width = max(content_max_width, line.len());
-    }
+    let (lhs_content_max_width, rhs_content_max_width) = visible_content_max_display_width(
+        lhs_src,
+        rhs_src,
+        hunks,
+        display_options.num_context_lines,
+        display_options.tab_width,
+    );
 
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
@@ -458,6 +560,53 @@ pub(crate) fn print(
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
     let mut matched_lines_to_print = &matched_lines[..];
 
+    let mut lhs_max_visible_line = 1.into();
+    let mut rhs_max_visible_line = 1.into();
+
+    if let Some(hunk) = hunks.last() {
+        let (start_i, end_i) = matched_lines_indexes_for_hunk(
+            matched_lines_to_print,
+            hunk,
+            display_options.num_context_lines as usize,
+        );
+        let aligned_lines = &matched_lines_to_print[start_i..end_i];
+
+        for (lhs_line_num, rhs_line_num) in aligned_lines.iter().rev() {
+            if let Some(lhs_line_num) = *lhs_line_num {
+                lhs_max_visible_line = max(lhs_max_visible_line, lhs_line_num);
+            }
+            if let Some(rhs_line_num) = *rhs_line_num {
+                rhs_max_visible_line = max(rhs_max_visible_line, rhs_line_num);
+            }
+
+            if lhs_max_visible_line > 1.into() && rhs_max_visible_line > 1.into() {
+                break;
+            }
+        }
+    }
+
+    let lhs_max_line_in_file = LineNumber(lhs_lines.len().saturating_sub(1) as u32);
+    let rhs_max_line_in_file = LineNumber(rhs_lines.len().saturating_sub(1) as u32);
+
+    lhs_max_visible_line = LineNumber(min(
+        lhs_max_visible_line.0 + display_options.num_context_lines,
+        lhs_max_line_in_file.0,
+    ));
+    rhs_max_visible_line = LineNumber(min(
+        rhs_max_visible_line.0 + display_options.num_context_lines,
+        rhs_max_line_in_file.0,
+    ));
+
+    let source_dims = SourceDimensions::new(
+        display_options.terminal_width,
+        lhs_max_visible_line,
+        rhs_max_visible_line,
+        lhs_max_line_in_file,
+        rhs_max_line_in_file,
+        lhs_content_max_width,
+        rhs_content_max_width,
+    );
+
     for (i, hunk) in hunks.iter().enumerate() {
         println!(
             "{}",
@@ -488,11 +637,6 @@ pub(crate) fn print(
         let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let source_dims = SourceDimensions::new(
-            display_options.terminal_width,
-            aligned_lines,
-            content_max_width,
-        );
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
                 *lhs_line_num,
@@ -563,17 +707,17 @@ pub(crate) fn print(
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
                         lhs_lines[lhs_line_num.as_usize()],
-                        source_dims.content_display_width,
+                        source_dims.lhs_content_display_width,
                         display_options.tab_width,
                         lhs_highlights.get(lhs_line_num).unwrap_or(&vec![]),
                         Side::Left,
                     ),
-                    None => vec![" ".repeat(source_dims.content_display_width)],
+                    None => vec![" ".repeat(source_dims.lhs_content_display_width)],
                 };
                 let rhs_line = match rhs_line_num {
                     Some(rhs_line_num) => split_and_apply(
                         rhs_lines[rhs_line_num.as_usize()],
-                        source_dims.content_display_width,
+                        source_dims.rhs_content_display_width,
                         display_options.tab_width,
                         rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
                         Side::Right,
@@ -585,8 +729,8 @@ pub(crate) fn print(
                     .into_iter()
                     .enumerate()
                 {
-                    let lhs_line =
-                        lhs_line.unwrap_or_else(|| " ".repeat(source_dims.content_display_width));
+                    let lhs_line = lhs_line
+                        .unwrap_or_else(|| " ".repeat(source_dims.lhs_content_display_width));
                     let rhs_line = rhs_line.unwrap_or_else(|| "".into());
                     let lhs_num: String = if i == 0 {
                         display_lhs_line_num.clone()
@@ -596,6 +740,7 @@ pub(crate) fn print(
                                 .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
                             Side::Left,
+                            true,
                             display_options.use_color,
                         );
                         if let Some(line_num) = lhs_line_num {
@@ -616,6 +761,7 @@ pub(crate) fn print(
                                 .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
                             Side::Right,
+                            true,
                             display_options.use_color,
                         );
                         if let Some(line_num) = rhs_line_num {
@@ -649,16 +795,21 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
-    use crate::{
-        options::DEFAULT_TERMINAL_WIDTH,
-        parse::guess_language::Language,
-        syntax::{AtomKind, MatchKind, TokenKind},
-    };
+    use crate::options::DEFAULT_TERMINAL_WIDTH;
+    use crate::parse::guess_language::Language;
+    use crate::syntax::{AtomKind, MatchKind, TokenKind};
 
     #[test]
     fn test_width_calculations() {
-        let line_nums = [(Some(1.into()), Some(10.into()))];
-        let source_dims = SourceDimensions::new(DEFAULT_TERMINAL_WIDTH, &line_nums, 9999);
+        let source_dims = SourceDimensions::new(
+            DEFAULT_TERMINAL_WIDTH,
+            1.into(),
+            10.into(),
+            1.into(),
+            10.into(),
+            9999,
+            9999,
+        );
 
         assert_eq!(source_dims.lhs_line_nums_width, 2);
         assert_eq!(source_dims.rhs_line_nums_width, 3);
@@ -668,40 +819,35 @@ mod tests {
     fn test_format_missing_line_num() {
         let source_dims = SourceDimensions::new(
             DEFAULT_TERMINAL_WIDTH,
-            &[
-                (Some(0.into()), Some(0.into())),
-                (Some(1.into()), Some(1.into())),
-            ],
+            1.into(),
+            1.into(),
+            1.into(),
+            1.into(),
+            9999,
             9999,
         );
 
         assert_eq!(
-            format_missing_line_num(0.into(), &source_dims, Side::Left, true),
+            format_missing_line_num(0.into(), &source_dims, Side::Left, false, true),
             ". ".dimmed().to_string()
         );
         assert_eq!(
-            format_missing_line_num(0.into(), &source_dims, Side::Left, false),
+            format_missing_line_num(0.into(), &source_dims, Side::Left, false, false),
             ". ".to_owned()
         );
     }
 
     #[test]
     fn test_format_missing_line_num_at_end() {
-        let source_dims = SourceDimensions::new(
-            80,
-            &[
-                (Some(0.into()), Some(0.into())),
-                (Some(1.into()), Some(1.into())),
-            ],
-            9999,
-        );
+        let source_dims =
+            SourceDimensions::new(80, 1.into(), 1.into(), 1.into(), 1.into(), 9999, 9999);
 
         assert_eq!(
-            format_missing_line_num(1.into(), &source_dims, Side::Left, true),
+            format_missing_line_num(1.into(), &source_dims, Side::Left, false, true),
             "  ".dimmed().to_string()
         );
         assert_eq!(
-            format_missing_line_num(1.into(), &source_dims, Side::Left, false),
+            format_missing_line_num(1.into(), &source_dims, Side::Left, false, false),
             "  ".to_owned()
         );
     }

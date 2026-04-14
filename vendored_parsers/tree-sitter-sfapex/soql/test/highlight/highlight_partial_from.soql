@@ -1,9 +1,0 @@
-// SYNTAX TEST "source.soql" "highlight partial FROM testcase"
-
-SELECT Id, Name FROM
-/// <- keyword
-///    ^ property
-///      ^ punctuation
-///        ^^^^ property
-///             ^^^^ keyword
-

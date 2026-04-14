@@ -1,0 +1,41 @@
+{
+  "grammars": [
+    {
+      "name": "commonlisp",
+      "camelcase": "CommonLisp",
+      "scope": "source.cl",
+      "path": ".",
+      "file-types": [
+        "cl",
+        "lisp"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "tags": [
+        "queries/tags.scm"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "0.4.1",
+    "license": "MIT",
+    "description": "Common Lisp grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Stephan Seitz"
+      }
+    ],
+    "links": {
+      "repository": "git://github.com/tree-sitter-grammars/tree-sitter-commonlisp.git"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": false
+  }
+}

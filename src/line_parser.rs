@@ -4,11 +4,9 @@ use lazy_static::lazy_static;
 use line_numbers::{LinePositions, SingleLineSpan};
 use regex::Regex;
 
+use crate::diff::lcs_diff;
+use crate::parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind};
 use crate::words::split_words;
-use crate::{
-    diff::lcs_diff,
-    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
-};
 
 const MAX_WORDS_IN_LINE: usize = 1000;
 
@@ -107,8 +105,9 @@ fn line_len_in_bytes(line: &str) -> usize {
     }
 }
 
-/// Build a vec of MatchedPos, performing a textual diff. Match up
-/// unchanged lines, and match up unchanged words within novel lines.
+/// Build a vec of MatchedPos, performing a line-oriented diff. Match
+/// up unchanged lines, and match up unchanged words within novel
+/// lines.
 ///
 /// The resulting vec only has novel items from the LHS. Callers
 /// should do `change_positions(rhs_src, lhs_src)` to obtain

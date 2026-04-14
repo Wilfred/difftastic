@@ -7,15 +7,11 @@ const MAX_DISTANCE: u32 = 4;
 
 use line_numbers::LineNumber;
 
-use crate::{
-    constants::Side,
-    display::{
-        context::{add_context, opposite_positions},
-        side_by_side::lines_with_novel,
-    },
-    hash::{DftHashMap, DftHashSet},
-    parse::syntax::{zip_pad_shorter, MatchKind, MatchedPos},
-};
+use crate::constants::Side;
+use crate::display::context::{add_context, opposite_positions};
+use crate::display::side_by_side::lines_with_novel;
+use crate::hash::{DftHashMap, DftHashSet};
+use crate::parse::syntax::{zip_pad_shorter, MatchKind, MatchedPos};
 
 /// A hunk represents a series of modified lines that are displayed
 /// together.
@@ -66,7 +62,7 @@ impl Hunk {
             ));
         }
 
-        Hunk {
+        Self {
             novel_lhs: self.novel_lhs.union(&other.novel_lhs).copied().collect(),
             novel_rhs: self.novel_rhs.union(&other.novel_rhs).copied().collect(),
             lines: deduped_lines,
@@ -130,6 +126,11 @@ fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     relevant
 }
 
+/// If any hunks are sufficiently close that they have overlapping
+/// lines, merge them.
+///
+/// For example, given a hunk from lines 8-10 and a hunk from lines
+/// 12-15 with 5 context lines, combine the two hunks.
 pub(crate) fn merge_adjacent(
     hunks: &[Hunk],
     opposite_to_lhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
@@ -623,6 +624,9 @@ fn either_side_equal(
     false
 }
 
+/// Given a set of matched lines between the LHS and RHS, return the
+/// start and end indexes in `matched_lines` that should be displayed
+/// for `hunk`.
 pub(crate) fn matched_lines_indexes_for_hunk(
     matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
     hunk: &Hunk,
@@ -685,10 +689,8 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
-    use crate::{
-        hash::DftHashMap,
-        syntax::{MatchKind, TokenKind},
-    };
+    use crate::hash::DftHashMap;
+    use crate::syntax::{MatchKind, TokenKind};
 
     #[test]
     fn test_sorted_novel_positions_simple() {

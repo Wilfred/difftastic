@@ -1,3 +1,0 @@
-Checks: '*, -modernize-use-trailing-return-type, -llvmlibc-*'
-HeaderFilterRegex: ''
-

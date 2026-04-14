@@ -49,7 +49,6 @@ From the start vertex, we have two options:
 +---------------------+  +---------------------+
 ```
 
-
 Choosing "novel atom R" to vertex 2 will turn out to be the best
 choice. From vertex 2, we can see three routes to the end vertex.
 

@@ -16,6 +16,7 @@ set -e
 
 echo "==> Building difftastic"
 cargo build --release
+difft_bin=$(cargo metadata --format-version 1 | jq -r '.target_directory')/release/difft
 
 # Set language so we expand globs in a consistent order regardless of
 # locale (e.g. on GitHub actions).
@@ -28,7 +29,7 @@ for before_f in sample_files/*_1.*; do
     after_f=${before_f/_1/_2}
     echo "$before_f $after_f"
 
-    difft_out=$(DFT_WIDTH=180 ./target/release/difft --color=always "$before_f" "$after_f" | md5sum)
+    difft_out=$(DFT_WIDTH=180 $difft_bin --color=always "$before_f" "$after_f" | md5sum)
     echo "$difft_out"
     echo
 done | tee sample_files/compare.result

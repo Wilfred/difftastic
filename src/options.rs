@@ -1,21 +1,18 @@
 //! CLI option parsing.
 
-use std::{
-    env,
-    ffi::{OsStr, OsString},
-    fmt::Display,
-    path::{Path, PathBuf},
-};
+use std::env;
+use std::ffi::{OsStr, OsString};
+use std::fmt::Display;
+use std::path::{Path, PathBuf};
 
 use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
 use crossterm::tty::IsTty;
+use owo_colors::OwoColorize as _;
 
-use crate::{
-    display::style::BackgroundColor,
-    exit_codes::EXIT_BAD_ARGUMENTS,
-    parse::guess_language::{language_override_from_name, LanguageOverride},
-    version::VERSION,
-};
+use crate::display::style::{print_error, BackgroundColor};
+use crate::exit_codes::EXIT_BAD_ARGUMENTS;
+use crate::parse::guess_language::{language_override_from_name, LanguageOverride};
+use crate::version::VERSION;
 
 pub(crate) const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 // Chosen experimentally: this is sufficiently many for all the sample
@@ -90,28 +87,64 @@ impl Default for DiffOptions {
 }
 
 fn app() -> clap::Command {
+    let bin_name = env!("CARGO_BIN_NAME");
+
+    let mut after_help = String::new();
+    after_help
+        .push_str("You can compare two files with difftastic by specifying them as arguments.\n\n");
+    after_help.push_str(&format!("$ {} old.js new.js", bin_name).bold().to_string());
+
+    after_help.push_str("\n\nYou can also use directories as arguments. Difftastic will walk both directories and compare files with matching names.\n\n");
+    after_help.push_str(&format!("$ {} old/ new/", bin_name).bold().to_string());
+
+    after_help.push_str("\n\nIf you have a file with conflict markers, you can pass it as a single argument. Difftastic will diff the two conflicting file states.\n\n");
+    after_help.push_str(
+        &format!("$ {} file_with_conflicts.js", bin_name)
+            .bold()
+            .to_string(),
+    );
+
+    // For some reason clap will hard wrap these invocations weirdly
+    // (with extra blank lines) if we use bold. Since these are
+    // showing CLI formats rather than concrete values, compromise by
+    // not using bold.
+    after_help.push_str("\n\nDifftastic can also be invoked with 7 or 9 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n");
+    after_help.push_str(&format!(
+        "$ {} DISPLAY-PATH OLD-FILE OLD-HEX OLD-MODE NEW-FILE NEW-HEX NEW-MODE",
+        bin_name
+    ));
+
+    after_help.push('\n');
+    after_help.push_str(&format!(
+        "$ {} OLD-NAME OLD-FILE OLD-HEX OLD-MODE NEW-FILE NEW-HEX NEW-MODE NEW-NAME METADATA",
+        bin_name
+    ));
+
+    after_help.push_str("\n\nSee the full manual at ");
+    if std::io::stdout().is_tty() {
+        // Make the link to the manual clickable in terminals that
+        // support OSC 8, the ANSI escape code for hyperlinks.
+        //
+        // https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
+        // https://github.com/Alhadis/OSC8-Adoption
+        //
+        // There isn't any way of detecting whether the terminal
+        // supports OSC 8 specifically, but we can limit usage to when
+        // there's a TTY. This is similar to how we detect whether to
+        // use colour.
+        after_help.push_str("\x1b]8;;https://difftastic.wilfred.me.uk/\x1b\\https://difftastic.wilfred.me.uk/\x1b]8;;\x1b\\");
+    } else {
+        after_help.push_str("https://difftastic.wilfred.me.uk/");
+    }
+    after_help.push('.');
+
     Command::new("Difftastic")
         .override_usage(USAGE)
         .version(env!("CARGO_PKG_VERSION"))
         .long_version(VERSION.as_str())
         .about(crate_description!())
         .author(crate_authors!())
-        .after_long_help(concat!(
-            "You can compare two files with difftastic by specifying them as arguments.\n\n",
-            "$ ",
-            env!("CARGO_BIN_NAME"),
-            " old.js new.js\n\n",
-            "You can also use directories as arguments. Difftastic will walk both directories and compare files with matching names.\n\n",
-            "$ ",
-            env!("CARGO_BIN_NAME"),
-            " old/ new/\n\n",
-            "If you have a file with conflict markers, you can pass it as a single argument. Difftastic will diff the two conflicting file states.\n\n",
-            "$ ",
-            env!("CARGO_BIN_NAME"),
-            " file_with_conflicts.js\n\n",
-            "Difftastic can also be invoked with 7 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n",
-            "See the full manual at: https://difftastic.wilfred.me.uk/")
-        )
+        .after_long_help(after_help)
         .arg(
             Arg::new("dump-syntax")
                 .long("dump-syntax")
@@ -228,7 +261,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
                 .value_parser(["on", "off"])
                 .default_value("on")
                 .action(ArgAction::Set)
-                .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or mutiline text (e.g. in HTML) to differ if the two input files have different line endings.")
+                .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or multiline text (e.g. in HTML) to differ if the two input files have different line endings.")
         )
         .arg(
             Arg::new("check-only").long("check-only")
@@ -246,7 +279,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
             Arg::new("skip-unchanged").long("skip-unchanged")
                 .action(ArgAction::SetTrue)
                 .env("DFT_SKIP_UNCHANGED")
-                .help("Don't display anything if a file is unchanged.")
+                .help("Don't display anything if a file is unchanged. This is useful when comparing directories of files.")
         )
         .arg(
             Arg::new("override").long("override")
@@ -272,15 +305,34 @@ When multiple overrides are specified, the first matching override wins."))
                 .env("DFT_OVERRIDE")
         )
         .arg(
+            Arg::new("override-binary").long("override-binary")
+                .value_name("GLOB")
+                .action(ArgAction::Append)
+                .help(concat!("Always treat file names matching this glob as binary files, ignoring the default heuristics for binary detection. For example:
+
+$ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' old.gz new.gz
+
+This argument may be given more than once. For example:
+
+$ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' --override-binary='foo.pickle' old.gz new.gz
+
+To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_BINARY_1 up to DFT_OVERRIDE_BINARY_9.
+
+$ export DFT_OVERRIDE_BINARY='*.gz'
+$ export DFT_OVERRIDE_BINARY_1='*.bz2'
+$ export DFT_OVERRIDE_BINARY_2='foo.pickle'"))
+                .env("DFT_OVERRIDE_BINARY")
+        )
+        .arg(
             Arg::new("list-languages").long("list-languages")
                 .action(ArgAction::SetTrue)
-                .help("Print all the languages supported by difftastic, along with their extensions.")
+                .help("Print all the languages supported by difftastic, along with their recognised extensions.")
         )
         .arg(
             Arg::new("byte-limit").long("byte-limit")
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
-                .help("Use a text diff if either input file exceeds this size.")
+                .help("Use a line-oriented diff if either input file exceeds this size.")
                 .default_value(format!("{}", DEFAULT_BYTE_LIMIT))
                 .env("DFT_BYTE_LIMIT")
                 .value_parser(clap::value_parser!(usize))
@@ -289,7 +341,9 @@ When multiple overrides are specified, the first matching override wins."))
         .arg(
             Arg::new("graph-limit").long("graph-limit")
                 .value_name("LIMIT")
-                .help("Use a text diff if the structural graph exceed this number of nodes in memory.")
+                .help("Use a line-oriented diff if the internal graph exceeds this number of vertices. This limit controls the worst case runtime and memory usage for difftastic.
+
+Higher values will allow difftastic to perform a structural diff in more cases. Higher values will also increase the time before difftastic gives up on structural diffing, and increase peak memory usage.")
                 .default_value(format!("{}", DEFAULT_GRAPH_LIMIT))
                 .action(ArgAction::Set)
                 .env("DFT_GRAPH_LIMIT")
@@ -300,7 +354,7 @@ When multiple overrides are specified, the first matching override wins."))
             Arg::new("parse-error-limit").long("parse-error-limit")
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
-                .help("Use a text diff if the number of parse errors exceeds this value.")
+                .help("Use a line-oriented diff if the number of parse errors exceeds this value.")
                 .default_value(format!("{}", DEFAULT_PARSE_ERROR_LIMIT))
                 .env("DFT_PARSE_ERROR_LIMIT")
                 .value_parser(clap::value_parser!(usize))
@@ -340,7 +394,7 @@ pub(crate) enum FileArgument {
 impl FileArgument {
     pub(crate) fn permissions(&self) -> Option<FilePermissions> {
         match self {
-            FileArgument::NamedPath(path) => {
+            Self::NamedPath(path) => {
                 // When used with `git difftool`, the first argument
                 // is a temporary file that always has the same
                 // permissions. That doesn't mean the file permissions
@@ -352,8 +406,8 @@ impl FileArgument {
                 let metadata = std::fs::metadata(path).ok()?;
                 Some(metadata.permissions().into())
             }
-            FileArgument::Stdin => None,
-            FileArgument::DevNull => None,
+            Self::Stdin => None,
+            Self::DevNull => None,
         }
     }
 }
@@ -426,11 +480,11 @@ impl FileArgument {
     /// argument.
     pub(crate) fn from_cli_argument(arg: &OsStr) -> Self {
         if arg == "/dev/null" {
-            FileArgument::DevNull
+            Self::DevNull
         } else if arg == "-" {
-            FileArgument::Stdin
+            Self::Stdin
         } else {
-            FileArgument::NamedPath(PathBuf::from(arg))
+            Self::NamedPath(PathBuf::from(arg))
         }
     }
 
@@ -439,9 +493,9 @@ impl FileArgument {
     pub(crate) fn from_path_argument(arg: &OsStr) -> Self {
         // For new and deleted files, Git passes `/dev/null` as the reference file.
         if arg == "/dev/null" {
-            FileArgument::DevNull
+            Self::DevNull
         } else {
-            FileArgument::NamedPath(PathBuf::from(arg))
+            Self::NamedPath(PathBuf::from(arg))
         }
     }
 }
@@ -449,11 +503,11 @@ impl FileArgument {
 impl Display for FileArgument {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            FileArgument::NamedPath(path) => {
+            Self::NamedPath(path) => {
                 write!(f, "{}", relative_to_current(path).display())
             }
-            FileArgument::Stdin => write!(f, "(stdin)"),
-            FileArgument::DevNull => write!(f, "/dev/null"),
+            Self::Stdin => write!(f, "(stdin)"),
+            Self::DevNull => write!(f, "/dev/null"),
         }
     }
 }
@@ -464,6 +518,7 @@ pub(crate) enum Mode {
         display_options: DisplayOptions,
         set_exit_code: bool,
         language_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)>,
+        binary_overrides: Vec<glob::Pattern>,
         /// The path where we can read the LHS file. This is often a
         /// temporary file generated by source control.
         lhs_path: FileArgument,
@@ -482,8 +537,12 @@ pub(crate) enum Mode {
         display_options: DisplayOptions,
         set_exit_code: bool,
         language_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)>,
+        binary_overrides: Vec<glob::Pattern>,
         path: FileArgument,
         /// The path that we show to the user.
+        display_path: String,
+    },
+    GitHasUnmergedFile {
         display_path: String,
     },
     ListLanguages {
@@ -627,6 +686,30 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
     combined_overrides
 }
 
+fn parse_binary_overrides_or_die(glob_strs: &[String]) -> Vec<glob::Pattern> {
+    let mut overrides: Vec<glob::Pattern> = vec![];
+    let mut invalid_syntax = false;
+
+    for glob_str in glob_strs {
+        match glob::Pattern::new(glob_str) {
+            Ok(pattern) => {
+                overrides.push(pattern);
+            }
+            Err(e) => {
+                eprintln!("Invalid glob syntax '{}'", glob_str);
+                eprintln!("Glob parsing error: {}", e.msg);
+                invalid_syntax = true;
+            }
+        }
+    }
+
+    if invalid_syntax {
+        std::process::exit(EXIT_BAD_ARGUMENTS);
+    }
+
+    overrides
+}
+
 /// Parse CLI arguments passed to the binary.
 pub(crate) fn parse_args() -> Mode {
     let matches = app().get_matches();
@@ -646,6 +729,18 @@ pub(crate) fn parse_args() -> Mode {
     let use_color = should_use_color(color_output);
 
     let ignore_comments = matches.get_flag("ignore-comments");
+
+    let mut raw_binary_overrides: Vec<String> = vec![];
+    if let Some(binary_overrides) = matches.get_many("override-binary") {
+        raw_binary_overrides = binary_overrides.cloned().collect();
+    }
+    for i in 1..=9 {
+        if let Ok(value) = env::var(format!("DFT_OVERRIDE_BINARY_{}", i)) {
+            raw_binary_overrides.push(value);
+        }
+    }
+
+    let binary_overrides = parse_binary_overrides_or_die(&raw_binary_overrides);
 
     let mut raw_overrides: Vec<String> = vec![];
     if let Some(overrides) = matches.get_many("override") {
@@ -776,6 +871,22 @@ pub(crate) fn parse_args() -> Mode {
         .collect::<Vec<_>>();
     info!("CLI arguments: {:?}", args);
 
+    // When there's a single path that hasn't been merged, git invokes
+    // the external diff tool with a only single argument. There's
+    // nothing to diff against.
+    //
+    // In this case, we just inform the user that there's an unmerged
+    // file, matching the builtin git-diff behaviour.
+    if args.len() == 1
+        && (env::var_os("GIT_EXEC_PATH").is_some()
+            || env::var_os("GIT_CONFIG_PARAMETERS").is_some()
+            || env::var_os("GIT_DIFF_PATH_TOTAL").is_some())
+    {
+        return Mode::GitHasUnmergedFile {
+            display_path: args[0].to_string_lossy().to_string(),
+        };
+    }
+
     // Print git environment variables so we can see the additional
     // variable set when git invokes us.
     for (env_var, value) in env::vars() {
@@ -784,7 +895,6 @@ pub(crate) fn parse_args() -> Mode {
         }
     }
 
-    // TODO: document these different ways of calling difftastic.
     let (display_path, lhs_path, rhs_path, lhs_permissions, rhs_permissions, renamed) = match &args
         [..]
     {
@@ -806,7 +916,7 @@ pub(crate) fn parse_args() -> Mode {
             )
         }
         [display_path, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode] => {
-            // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
+            // 7 arguments, per https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
             (
                 display_path.to_string_lossy().to_string(),
                 FileArgument::from_path_argument(lhs_tmp_file),
@@ -857,18 +967,34 @@ pub(crate) fn parse_args() -> Mode {
                 display_options,
                 set_exit_code,
                 language_overrides,
+                binary_overrides,
             };
         }
         _ => {
             if !args.is_empty() {
-                eprintln!(
-                    "error: Difftastic does not support being called with {} argument{}.\n",
-                    args.len(),
-                    if args.len() == 1 { "" } else { "s" }
+                let formatted_args = args
+                    .iter()
+                    .map(|arg| arg.to_string_lossy())
+                    .collect::<Vec<_>>();
+
+                let bin_name = if let Some(first_arg) = std::env::args_os().next() {
+                    first_arg.to_string_lossy().to_string()
+                } else {
+                    env!("CARGO_BIN_NAME").to_owned()
+                };
+
+                print_error(
+                    &format!(
+                        "Difftastic does not support being called with {} argument{}.\n\nYou can pass 2 arguments, or arguments in the form used by GIT_EXTERNAL_DIFF (7 or 9 arguments). See --help for more details. \n\nFor reference, difftastic was invoked as `{} {}`.\n",
+                        args.len(),
+                        if args.len() == 1 { "" } else { "s" },
+                        bin_name,
+                        formatted_args.join(" "),
+                    ),
+                    use_color,
                 );
             }
-            eprintln!("USAGE:\n\n    {}\n", USAGE);
-            eprintln!("For more information try --help");
+
             std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     };
@@ -890,6 +1016,7 @@ pub(crate) fn parse_args() -> Mode {
         display_options,
         set_exit_code,
         language_overrides,
+        binary_overrides,
         lhs_path,
         rhs_path,
         lhs_permissions,
@@ -927,14 +1054,16 @@ fn detect_terminal_width() -> usize {
 pub(crate) fn should_use_color(color_output: ColorOutput) -> bool {
     match color_output {
         ColorOutput::Always => true,
-        ColorOutput::Auto => {
-            // Always enable colour if stdout is a TTY or if the git pager is active.
-            // TODO: consider following the env parsing logic in git_config_bool
-            // in config.c.
-            std::io::stdout().is_tty() || env::var("GIT_PAGER_IN_USE").is_ok()
-        }
+        ColorOutput::Auto => detect_color_support(),
         ColorOutput::Never => false,
     }
+}
+
+/// Always enable colour if stdout is a TTY or if the git pager is active.
+fn detect_color_support() -> bool {
+    // TODO: consider following the env parsing logic in git_config_bool
+    // in config.c.
+    std::io::stdout().is_tty() || env::var("GIT_PAGER_IN_USE").is_ok()
 }
 
 #[cfg(test)]

@@ -19,7 +19,7 @@ pub fn main() {
   string.concat(["Listening on localhost:", int.to_string(port), " ✨"])
   |> log.info
 
-  assert Ok(_) = elli.become(web, on_port: port)
+  let assert Ok(_) = elli.become(web, on_port: port)
 }
 
 pub fn start_database_connection_pool() -> pgo.Connection {

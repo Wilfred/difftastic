@@ -1,12 +1,13 @@
 //! Data types that track the change state for syntax nodes.
 
-use crate::{
-    hash::DftHashMap,
-    parse::syntax::{Syntax, SyntaxId},
-};
+use crate::hash::DftHashMap;
+use crate::parse::syntax::{Syntax, SyntaxId};
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub(crate) enum ChangeKind<'a> {
+    /// This node is shallowly unchanged. For lists, this means that
+    /// the delimiters match, but there may still be some differences
+    /// in the children between LHS and RHS.
     Unchanged(&'a Syntax<'a>),
     ReplacedComment(&'a Syntax<'a>, &'a Syntax<'a>),
     ReplacedString(&'a Syntax<'a>, &'a Syntax<'a>),

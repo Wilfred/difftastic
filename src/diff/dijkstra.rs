@@ -1,39 +1,38 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env};
+use std::cmp::Reverse;
+use std::env;
 
 use bumpalo::Bump;
 use radix_heap::RadixHeapMap;
 
-use crate::{
-    diff::changes::ChangeMap,
-    diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
-    hash::DftHashMap,
-    parse::syntax::Syntax,
-};
+use crate::diff::changes::ChangeMap;
+use crate::diff::graph::{populate_change_map, set_neighbours, Edge, Vertex};
+use crate::hash::DftHashMap;
+use crate::parse::syntax::Syntax;
 
 #[derive(Debug)]
 pub(crate) struct ExceededGraphLimit {}
 
 /// Return the shortest route from `start` to the end vertex.
-fn shortest_vertex_path<'s, 'b>(
-    start: &'b Vertex<'s, 'b>,
-    vertex_arena: &'b Bump,
+fn shortest_vertex_path<'s, 'v>(
+    start: &'v Vertex<'s, 'v>,
+    vertex_arena: &'v Bump,
     size_hint: usize,
     graph_limit: usize,
-) -> Result<Vec<&'b Vertex<'s, 'b>>, ExceededGraphLimit> {
+) -> Result<Vec<&'v Vertex<'s, 'v>>, ExceededGraphLimit> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, &'b Vertex<'s, 'b>> = RadixHeapMap::new();
+    let mut heap: RadixHeapMap<Reverse<_>, &'v Vertex<'s, 'v>> = RadixHeapMap::new();
 
     heap.push(Reverse(0), start);
 
     let mut seen = DftHashMap::default();
     seen.reserve(size_hint);
 
-    let end: &'b Vertex<'s, 'b> = loop {
+    let end: &'v Vertex<'s, 'v> = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
                 if current.is_end() {
@@ -77,7 +76,7 @@ fn shortest_vertex_path<'s, 'b>(
     );
 
     let mut current = Some((0, end));
-    let mut vertex_route: Vec<&'b Vertex<'s, 'b>> = vec![];
+    let mut vertex_route: Vec<&'v Vertex<'s, 'v>> = vec![];
     while let Some((_, node)) = current {
         vertex_route.push(node);
         current = node.predecessor.get();
@@ -87,9 +86,9 @@ fn shortest_vertex_path<'s, 'b>(
     Ok(vertex_route)
 }
 
-fn shortest_path_with_edges<'s, 'b>(
-    route: &[&'b Vertex<'s, 'b>],
-) -> Vec<(Edge, &'b Vertex<'s, 'b>)> {
+fn shortest_path_with_edges<'s, 'v>(
+    route: &[&'v Vertex<'s, 'v>],
+) -> Vec<(Edge, &'v Vertex<'s, 'v>)> {
     let mut prev = route.first().expect("Expected non-empty route");
 
     let mut cost = 0;
@@ -111,18 +110,18 @@ fn shortest_path_with_edges<'s, 'b>(
 ///
 /// The vec returned does not return the very last vertex. This is
 /// necessary because a route of N vertices only has N-1 edges.
-fn shortest_path<'s, 'b>(
-    start: Vertex<'s, 'b>,
-    vertex_arena: &'b Bump,
+fn shortest_path<'s, 'v>(
+    start: Vertex<'s, 'v>,
+    vertex_arena: &'v Bump,
     size_hint: usize,
     graph_limit: usize,
-) -> Result<Vec<(Edge, &'b Vertex<'s, 'b>)>, ExceededGraphLimit> {
-    let start: &'b Vertex<'s, 'b> = vertex_arena.alloc(start);
+) -> Result<Vec<(Edge, &'v Vertex<'s, 'v>)>, ExceededGraphLimit> {
+    let start: &'v Vertex<'s, 'v> = vertex_arena.alloc(start);
     let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
     Ok(shortest_path_with_edges(&vertex_path))
 }
 
-fn edge_between<'s, 'b>(before: &Vertex<'s, 'b>, after: &Vertex<'s, 'b>) -> Edge {
+fn edge_between<'s, 'v>(before: &Vertex<'s, 'v>, after: &Vertex<'s, 'v>) -> Edge {
     assert_ne!(before, after);
 
     let mut shortest_edge: Option<Edge> = None;
@@ -156,33 +155,20 @@ fn edge_between<'s, 'b>(before: &Vertex<'s, 'b>, after: &Vertex<'s, 'b>) -> Edge
 
 /// What is the total number of AST nodes?
 fn node_count(root: Option<&Syntax>) -> u32 {
-    let mut node = root;
-    let mut count = 0;
-    while let Some(current_node) = node {
-        let current_count = match current_node {
-            Syntax::List {
-                num_descendants, ..
-            } => *num_descendants,
-            Syntax::Atom { .. } => 1,
-        };
-        count += current_count;
+    let iter = std::iter::successors(root, |node| node.next_sibling());
 
-        node = current_node.next_sibling();
-    }
-
-    count
+    iter.map(|node| match node {
+        Syntax::List {
+            num_descendants, ..
+        } => *num_descendants,
+        Syntax::Atom { .. } => 1,
+    })
+    .sum::<u32>()
 }
 
 /// How many top-level AST nodes do we have?
 fn tree_count(root: Option<&Syntax>) -> u32 {
-    let mut node = root;
-    let mut count = 0;
-    while let Some(current_node) = node {
-        count += 1;
-        node = current_node.next_sibling();
-    }
-
-    count
+    std::iter::successors(root, |node| node.next_sibling()).count() as _
 }
 
 pub(crate) fn mark_syntax<'a>(
@@ -252,12 +238,10 @@ mod tests {
     use typed_arena::Arena;
 
     use super::*;
-    use crate::{
-        diff::changes::ChangeKind,
-        diff::graph::Edge::*,
-        options::DEFAULT_GRAPH_LIMIT,
-        syntax::{init_all_info, AtomKind},
-    };
+    use crate::diff::changes::ChangeKind;
+    use crate::diff::graph::Edge::*;
+    use crate::options::DEFAULT_GRAPH_LIMIT;
+    use crate::syntax::{init_all_info, AtomKind};
 
     fn pos_helper(line: u32) -> Vec<SingleLineSpan> {
         vec![SingleLineSpan {

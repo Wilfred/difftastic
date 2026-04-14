@@ -10,59 +10,43 @@ parsers](https://tree-sitter.github.io/tree-sitter/#available-parsers).
 
 ## Add the source code
 
-Once you've found a parser, add it as a git subtree to
-`vendored_parsers/`. We'll use
-[tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json) as
-an example.
-
+Ideally, the parser should be available as a Rust crate on crates.io.
+If that's the case, add it to `Cargo.toml` in the alphabetically sorted list
+of parser dependencies. For instance:
 ```
-$ git subtree add --prefix=vendored_parsers/tree-sitter-json https://github.com/tree-sitter/tree-sitter-json.git master
+tree-sitter-json = "0.24.8"
 ```
-
-## Configure the build
-
-Cargo does not allow packages to include subdirectories that contain a
-`Cargo.toml`. Add a symlink to the `src/` parser subdirectory.
-
-```
-$ cd vendored_parsers
-$ ln -s tree-sitter-json/src tree-sitter-json-src
-```
-
-You can now add the parser to build by including the directory in
-`build.rs`. 
-
-```
-TreeSitterParser {
-    name: "tree-sitter-json",
-    src_dir: "vendored_parsers/tree-sitter-json-src",
-    extra_files: vec![],
-},
-```
-
-If your parser includes custom C or C++ files for lexing (e.g. a
-`scanner.cc`), add them to `extra_files`.
+Otherwise, it is possible to [vendor the parser in difftastic's source code](./parser_vendoring.md),
+but this should only be used as a last resort.
 
 ## Configure parsing
 
 Add an entry to `tree_sitter_parser.rs` for your language.
 
-```
+```rust
 Json => {
-    let language = unsafe { tree_sitter_json() };
+    let language_fn = tree_sitter_json::LANGUAGE;
+    let language = tree_sitter::Language::new(language_fn);
+
     TreeSitterConfig {
         language,
         atom_nodes: vec!["string"].into_iter().collect(),
         delimiter_tokens: vec![("{", "}"), ("[", "]")],
-        highlight_query: ts::Query::new(
-            language,
-            include_str!("../../vendored_parsers/highlights/json.scm"),
-        )
-        .unwrap(),
+        highlight_query: ts::Query::new(language, tree_sitter_json::HIGHLIGHTS_QUERY)
+            .unwrap(),
         sub_languages: vec![],
     }
 }
 ```
+
+If the Rust crate does not include a `HIGHLIGHTS_QUERY`, then you need to include 
+it from a file instead, with
+```
+include_str!("../../vendored_parsers/highlights/json.scm")
+```
+Many parser repositories include a highlights query in the repository without
+exposing it in the Rust crate. In that case you can include it as
+`vendored_parsers/highlights/json.scm` in the repository.
 
 `atom_nodes` is a list of tree-sitter node names that should be
 treated as atoms even though the nodes have children. This is common

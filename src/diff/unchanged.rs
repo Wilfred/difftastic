@@ -6,7 +6,7 @@ use std::hash::Hash;
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::diff::lcs_diff;
 use crate::hash::DftHashSet;
-use crate::parse::syntax::Syntax;
+use crate::parse::syntax::{ContentId, Syntax};
 
 const TINY_TREE_THRESHOLD: u32 = 10;
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
@@ -123,7 +123,7 @@ fn split_unchanged_singleton_list<'a>(
     res
 }
 
-fn find_unique_content_ids(node: &Syntax, unique_ids: &mut DftHashSet<u32>) {
+fn find_unique_content_ids(node: &Syntax, unique_ids: &mut DftHashSet<ContentId>) {
     if node.content_is_unique() {
         unique_ids.insert(node.content_id());
     }
@@ -463,11 +463,9 @@ mod tests {
     use typed_arena::Arena;
 
     use super::*;
-    use crate::{
-        parse::guess_language,
-        parse::tree_sitter_parser::{from_language, parse},
-        syntax::init_all_info,
-    };
+    use crate::parse::guess_language;
+    use crate::parse::tree_sitter_parser::{from_language, parse};
+    use crate::syntax::init_all_info;
 
     #[test]
     fn test_shrink_unchanged_at_start() {
