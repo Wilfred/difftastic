@@ -16,6 +16,9 @@ sample_files/all_changed_1.js sample_files/all_changed_2.js
 sample_files/apex_1.cls sample_files/apex_2.cls
 8e477350907734ac4d5201752523dff3  -
 
+sample_files/asm_1.s sample_files/asm_2.s
+869f6057e259526eaf913e9505f3d473  -
+
 sample_files/b2_math_1.h sample_files/b2_math_2.h
 2d8f9619e0c39d04b1a6ecbe14696b38  -
 

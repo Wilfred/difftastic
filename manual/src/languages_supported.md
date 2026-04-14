@@ -10,6 +10,7 @@ with `difft --list-languages`.
 |-----------------|---------------------------------------------------------------------------------------------------|
 | Ada             | [briot/tree-sitter-ada](https://github.com/briot/tree-sitter-ada)                                 |
 | Apex            | [aheber/tree-sitter-sfapex](https://github.com/aheber/tree-sitter-sfapex)                         |
+| Assembly        | [RubixDev/tree-sitter-asm](https://github.com/RubixDev/tree-sitter-asm)                   |
 | Bash            | [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash)                   |
 | C               | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c)                         |
 | C++             | [tree-sitter/tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp)                     |

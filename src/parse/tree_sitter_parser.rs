@@ -136,6 +136,19 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Asm => {
+            let language_fn = tree_sitter_asm::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: vec!["string"].into_iter().collect(),
+                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
+                highlight_query: ts::Query::new(&language, tree_sitter_asm::HIGHLIGHTS_QUERY)
+                    .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Bash => {
             let language_fn = tree_sitter_bash::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
