@@ -588,7 +588,7 @@ fn matched_novel_lines(
                 };
                 if should_append {
                     lines.push((
-                        next_opposite(self_line, &opposite_to_rhs, highest_rhs),
+                        next_opposite(self_line, &opposite_to_rhs, highest_lhs),
                         Some(self_line),
                     ));
                     highest_rhs = Some(self_line);
