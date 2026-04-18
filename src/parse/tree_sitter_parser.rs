@@ -808,32 +808,25 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Perl => {
-            let language_fn = tree_sitter_perl::LANGUAGE;
+            let language_fn = ts_parser_perl::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: [
-                    "string_single_quoted",
-                    "string_double_quoted",
-                    "comments",
-                    "command_qx_quoted",
-                    "pattern_matcher_m",
-                    "regex_pattern_qr",
-                    "transliteration_tr_or_y",
-                    "substitution_pattern_s",
-                    "scalar_variable",
-                    "array_variable",
-                    "hash_variable",
-                    "hash_access_variable",
+                    "scalar",
+                    "container_variable",
+                    "match_regexp",
+                    "quoted_regexp",
+                    "substitution_regexp",
+                    "string_literal",
+                    "interpolated_string_literal",
+                    "heredoc_content",
                 ]
                 .into_iter()
                 .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/perl.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, ts_parser_perl::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }

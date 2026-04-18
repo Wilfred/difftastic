@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Improved parsing for Perl.
+
 Improved string interpolation handling in Scala.
 
 ## 0.68 (released 16th March 2026)
