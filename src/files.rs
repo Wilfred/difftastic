@@ -135,7 +135,18 @@ pub(crate) enum ProbableFileKind {
     Binary,
 }
 
-/// Do these bytes look like a binary (non-textual) format?
+/// Do these bytes look like a text or a binary format? If it's text,
+/// decode it.
+///
+/// This is based on heuristics: we look for well-known binary format
+/// headers and then try decoding in several different text encodings.
+///
+/// git-diff itself has a smaller set of heuristics, looking at
+/// whether the bytes are ASCII or a superset of ASCII (UTF-8,
+/// ISO-8851-1) unless working-tree-encoding is configured with
+/// .gitattributes.
+///
+/// <https://git-scm.com/docs/gitattributes#_working_tree_encoding>
 pub(crate) fn guess_content(
     bytes: &[u8],
     path: &FileArgument,
