@@ -1040,7 +1040,8 @@ dependencies = [
 [[package]]
 name = "tree-sitter-asm"
 version = "0.24.0"
-source = "git+https://github.com/RubixDev/tree-sitter-asm?branch=main#839741fef4dab5128952334624905c82b40c7133"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "743a0377253cd5505841e61ba1093a04b3a949b2b751752ff956040dda14f1bc"
 dependencies = [
  "cc",
  "tree-sitter-language",
