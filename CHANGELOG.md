@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Added support for Assembly.
+
 Improved parsing for Perl.
 
 Improved string interpolation handling in Scala.
