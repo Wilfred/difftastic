@@ -108,7 +108,6 @@ tree-sitter-nix = "0.3.0"
 tree-sitter-objc = "3.0.2"
 tree-sitter-ocaml = "0.23.2"
 tree-sitter-pascal = "0.10.0"
-tree-sitter-perl = "1.1.2"
 tree-sitter-php = "0.23.11"
 tree-sitter-proto = "0.2.0"
 tree-sitter-python = "0.23.5"
@@ -129,7 +128,9 @@ tree-sitter-verilog = "1.0.3"
 tree-sitter-xml = "0.7.0"
 tree-sitter-yaml = "0.7.0"
 tree-sitter-zig = "1.1.2"
+ts-parser-perl = "1.0.1"
 tree-sitter-asm = "0.24.0"
+
 
 [target.'cfg(not(any(windows, target_os = "illumos", target_os = "freebsd")))'.dependencies]
 tikv-jemallocator = "0.6"

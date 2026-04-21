@@ -309,7 +309,6 @@ dependencies = [
  "tree-sitter-objc",
  "tree-sitter-ocaml",
  "tree-sitter-pascal",
- "tree-sitter-perl",
  "tree-sitter-php",
  "tree-sitter-proto",
  "tree-sitter-python",
@@ -331,6 +330,7 @@ dependencies = [
  "tree-sitter-yaml",
  "tree-sitter-zig",
  "tree_magic_mini",
+ "ts-parser-perl",
  "typed-arena",
  "unicode-width",
  "version_check",
@@ -1363,17 +1363,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tree-sitter-perl"
-version = "1.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e79d4ae71b42e595c24c354b59905ade8162bd400ebc53ab916ea8aec54da92d"
-dependencies = [
- "cc",
- "tree-sitter",
- "tree-sitter-language",
-]
-
-[[package]]
 name = "tree-sitter-php"
 version = "0.23.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1584,6 +1573,16 @@ dependencies = [
  "nom",
  "once_cell",
  "petgraph",
+]
+
+[[package]]
+name = "ts-parser-perl"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "414cb3e098cb9be31093f9e2ec3485877444ea70ebd5ac19df46753dbd712cfd"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
 ]
 
 [[package]]
