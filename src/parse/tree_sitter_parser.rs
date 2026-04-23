@@ -1075,23 +1075,12 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
-        TypeScriptTsx => {
-            let language_fn = tree_sitter_typescript::LANGUAGE_TSX;
-            let language = tree_sitter::Language::new(language_fn);
-
-            let mut highlight_query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();
-            highlight_query.push_str(tree_sitter_typescript::HIGHLIGHTS_QUERY);
-
-            TreeSitterConfig {
-                language: language.clone(),
-                atom_nodes: ["string", "template_string"].into_iter().collect(),
-                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
-                highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
-                sub_languages: vec![],
-            }
-        }
-        TypeScript => {
-            let language_fn = tree_sitter_typescript::LANGUAGE_TYPESCRIPT;
+        TypeScript | TypeScriptTsx => {
+            let language_fn = if language == TypeScript {
+                tree_sitter_typescript::LANGUAGE_TYPESCRIPT
+            } else {
+                tree_sitter_typescript::LANGUAGE_TSX
+            };
             let language = tree_sitter::Language::new(language_fn);
 
             let mut highlight_query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();

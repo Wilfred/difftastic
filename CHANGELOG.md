@@ -4,9 +4,9 @@
 
 Added support for Assembly.
 
-Improved parsing for Perl.
+Substantially improved parsing for Perl.
 
-Improved string interpolation handling in Scala.
+Improved parsing for Scala and TypeScript.
 
 ### File Detection
 
