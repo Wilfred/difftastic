@@ -68,7 +68,6 @@ pub(crate) struct TreeSitterConfig {
 }
 
 extern "C" {
-    fn tree_sitter_commonlisp() -> ts::Language;
     fn tree_sitter_elvish() -> ts::Language;
     fn tree_sitter_hare() -> ts::Language;
     fn tree_sitter_hack() -> ts::Language;
@@ -226,7 +225,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         CommonLisp => {
-            let language = unsafe { tree_sitter_commonlisp() };
+            let language_fn = tree_sitter_commonlisp::LANGUAGE_COMMONLISP;
+            let language = tree_sitter::Language::new(language_fn);
 
             TreeSitterConfig {
                 language: language.clone(),
