@@ -606,7 +606,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "template_string", "regex"].into_iter().collect(),
+                atom_nodes: ["string", "regex"].into_iter().collect(),
                 delimiter_tokens: vec![
                     ("[", "]"),
                     ("(", ")"),
@@ -1084,7 +1084,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "template_string"].into_iter().collect(),
+                atom_nodes: ["string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
@@ -1099,9 +1099,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "template_string", "regex", "predefined_type"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: ["string", "regex", "predefined_type"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
@@ -1847,7 +1845,7 @@ fn atom_from_cursor<'a>(
         AtomKind::Comment
     } else if highlights.keyword_ids.contains(&node.id()) {
         AtomKind::Keyword
-    } else if highlights.string_ids.contains(&node.id()) {
+    } else if node.kind() == "string_fragment" || highlights.string_ids.contains(&node.id()) {
         AtomKind::String(StringKind::StringLiteral)
     } else if highlights.type_ids.contains(&node.id()) {
         AtomKind::Type
