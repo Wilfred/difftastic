@@ -6,7 +6,8 @@ Added support for Assembly.
 
 Substantially improved parsing for Perl.
 
-Improved parsing for Scala and TypeScript.
+Improved parsing for Clojure, CSS, Dart, Erlang, F#, OCaml, Python,
+Rust, Scala and TypeScript.
 
 ### File Detection
 
