@@ -8,6 +8,11 @@ Improved parsing for Perl.
 
 Improved string interpolation handling in Scala.
 
+### File Detection
+
+Difftastic now considers `.gitattributes` when deciding if a file is
+binary, recognising both the `-text` and `binary` attributes.
+
 ## 0.68 (released 16th March 2026)
 
 ### Git Support
