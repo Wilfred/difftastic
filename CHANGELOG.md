@@ -14,6 +14,10 @@ Rust, Scala, TypeScript and VHDL.
 Difftastic now considers `.gitattributes` when deciding if a file is
 binary, recognising both the `-text` and `binary` attributes.
 
+### Build
+
+Difftastic now requires Rust 1.85 or later to build.
+
 ## 0.68 (released 16th March 2026)
 
 ### Git Support
@@ -30,7 +34,7 @@ Fixed an issue with parsing raw string literals in Rust.
 
 ### Build
 
-Difftastic now requires Rust 1.77 or later to build.
+Difftastic now requires Rust 1.85 or later to build.
 
 Difftastic no longer uses jemalloc on any Windows builds. Previously
 jemalloc was only disabled for MSVC.
