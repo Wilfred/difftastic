@@ -131,6 +131,7 @@ tree-sitter-zig = "1.1.2"
 ts-parser-perl = "1.0.1"
 tree-sitter-asm = "0.24.0"
 tree-sitter-commonlisp = "0.4.1"
+tree-sitter-vhdl = "1.4.0"
 
 
 [target.'cfg(not(any(windows, target_os = "illumos", target_os = "freebsd")))'.dependencies]

@@ -1,9 +1,0 @@
-====================
-Minimal
-====================
-type t;
----
-
-(design_file
-  (incomplete_type_declaration
-    (identifier)))
