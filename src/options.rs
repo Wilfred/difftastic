@@ -6,6 +6,7 @@ use std::fmt::Display;
 use std::path::{Path, PathBuf};
 
 use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
+use clap_complete::{generate, Shell};
 use crossterm::tty::IsTty;
 use owo_colors::OwoColorize as _;
 
@@ -361,6 +362,12 @@ Higher values will allow difftastic to perform a structural diff in more cases. 
                 .required(false),
         )
         .arg(
+            Arg::new("completion").long("completion")
+                 .value_name("SHELL")
+                 .value_parser(clap::value_parser!(Shell))
+                 .help("Generate completion for a given shell")
+        )
+        .arg(
             Arg::new("paths")
                 .value_name("PATHS")
                 .action(ArgAction::Append)
@@ -713,6 +720,12 @@ fn parse_binary_overrides_or_die(glob_strs: &[String]) -> Vec<glob::Pattern> {
 /// Parse CLI arguments passed to the binary.
 pub(crate) fn parse_args() -> Mode {
     let matches = app().get_matches();
+
+    if let Some(shell) = matches.get_one::<Shell>("completion") {
+        generate(*shell, &mut app(), "difft", &mut std::io::stdout());
+        // TODO: What should the exit code be? Should it be defined in src/exit_codes.rs
+        std::process::exit(0);
+    }
 
     let color_output = match matches
         .get_one::<String>("color")
