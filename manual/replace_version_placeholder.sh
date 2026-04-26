@@ -2,4 +2,4 @@
 
 DFT_VERSION=$(cargo read-manifest | jq -r .version)
 
-jq .[1] | jq '.sections[0].Chapter.content |= sub("DFT_VERSION_HERE"; "'$DFT_VERSION'")'
+jq --arg version "$DFT_VERSION" '.[1] | walk(if type == "string" then gsub("DFT_VERSION_HERE"; $version) else . end)'
