@@ -14,3 +14,7 @@ mak = "mak"
 ND = "ND"
 
 diffstatic = "difftastic"
+
+# The algorithm was created by Eugene Myers, so the correct phrasing
+# is Myers' algorithm.
+myer = "myers"
