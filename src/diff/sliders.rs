@@ -71,13 +71,13 @@ fn drop_ignored_punctuation<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut Chang
             }
             Atom { kind, .. } => {
                 if matches!(kind, AtomKind::CanIgnore) && is_last && !has_novel {
-                    change_map.insert(node, IgnoredPunctuation);
-
                     // Preserve the invariant that Unchanged nodes should exist on both
                     // sides, so fix up the other side.
                     if let Some(Unchanged(opposite)) = change_map.get(node) {
                         change_map.insert(opposite, IgnoredPunctuation);
                     }
+
+                    change_map.insert(node, IgnoredPunctuation);
                 }
             }
         }
