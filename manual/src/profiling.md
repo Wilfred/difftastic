@@ -15,7 +15,7 @@ lead to huge memory consumption.
 $ /usr/bin/time -v ./target/release/difft sample_files/slow_1.rs sample_files/slow_2.rs
 ```
 
-If timing measurement are noisy, Linux's `perf` tool will report
+If timing measurements are noisy, Linux's `perf` tool will report
 instructions executed, which is more stable.
 
 ```
