@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_fsharp", 0, "This crate provides Fsharp language support for the …\nThe content of the [<code>node-types.json</code>][] file for this …\nThe tree-sitter <code>LanguageFn</code> for this fsharp grammar.\nThe content of the [<code>node-types.json</code>][] file for the …")
