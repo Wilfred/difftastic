@@ -61,6 +61,12 @@ sample_files/dart_1.dart sample_files/dart_2.dart
 sample_files/devicetree_1.dts sample_files/devicetree_2.dts
 36a87e82032c54d0d1a630f895ea6f1b  -
 
+sample_files/displaypanic_a_1.txt sample_files/displaypanic_a_2.txt
+b47d2673b92658262af7b4c7acb26111  -
+
+sample_files/displaypanic_b_1.nix sample_files/displaypanic_b_2.nix
+1e136addca1f98ee271ee9703c0232c6  -
+
 sample_files/elisp_1.el sample_files/elisp_2.el
 3e8c8abcb65a5141a2fb54bae4a9ca06  -
 
