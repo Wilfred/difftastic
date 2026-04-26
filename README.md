@@ -12,7 +12,7 @@ their syntax.
 
 **For installation instructions, see
 [Installation](https://difftastic.wilfred.me.uk/installation.html) in
-[the manual](http://difftastic.wilfred.me.uk/).**
+[the manual](https://difftastic.wilfred.me.uk/).**
 
 ## Examples
 
@@ -35,7 +35,7 @@ actually changed.
 ![Screenshot of difftastic and git](img/git.png)
 
 ^ Difftastic is compatible with git (see [the configuration
-instructions](http://difftastic.wilfred.me.uk/git.html)), as well as
+instructions](https://difftastic.wilfred.me.uk/git.html)), as well as
 many other version control systems.
 
 ## Languages Supported

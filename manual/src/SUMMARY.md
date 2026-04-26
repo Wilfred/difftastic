@@ -20,4 +20,5 @@
   - [Profiling](./profiling.md)
 - [Glossary](./glossary.md)
 - [Alternative Projects](./alternative_projects.md)
+  - [Line Diffing](./line_diffing.md)
   - [Tree Diffing](./tree_diffing.md)

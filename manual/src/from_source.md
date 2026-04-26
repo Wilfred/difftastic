@@ -1,15 +1,15 @@
 # Installing From Source
 
-### Build Requirements
+## Build Requirements
 
 Difftastic is written in Rust, so you will need Rust installed. I
 recommend [rustup](https://rustup.rs/) to install Rust. Difftastic
-requires Rust version 1.75 or later.
+requires Rust version 1.85 or later.
 
 You will also need a C++ compiler that supports C++14. If you're using
 GCC, you need at least version 8.
 
-### Build
+## Build
 
 You can download and build [difftastic on
 crates.io](https://crates.io/crates/difftastic) with Cargo (which is

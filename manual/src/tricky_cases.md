@@ -162,7 +162,7 @@ unchanged, either the `bar` or the `,`. (We can't consider both to be
 unchanged as they're reordered.)
 
 We want to consider `bar` to be unchanged, as it's a more important
-atom than the `,` punctuation atom. Doing this is in a
+atom than the `,` punctuation atom. Doing this in a
 language-agnostic way is difficult, so difftastic has a small list of
 punctuation characters that always get lower priority than other
 atoms.
@@ -221,7 +221,7 @@ Sliders are a common problem in text based diffs, where lines are
 matched in a confusing way.
 
 They typically look like this. The diff has to arbitrarily choose a
-line containing delimiter, and it chooses the wrong one.
+line containing a delimiter, and it chooses the wrong one.
 
 ```
 + }
@@ -519,7 +519,7 @@ this occurs, the file header reports the error count.
 
 ```
 $ difft sample_files/syntax_error_1.js sample_files/syntax_error_2.js
-sample_files/syntax_error_after.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
+sample_files/syntax_error_2.js --- Text (2 JavaScript parse errors, exceeded DFT_PARSE_ERROR_LIMIT)
 ...
 ```
 

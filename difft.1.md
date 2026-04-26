@@ -71,7 +71,8 @@ OPTIONS
 
 **\-\-graph-limit** _LIMIT_
 
-: Use a line-oriented diff if the structural graph exceed this number of nodes in memory.
+: Use a line-oriented diff if the internal graph exceeds this number of vertices. This limit
+  controls the worst case runtime and memory usage for difftastic.
 
 **-h, \-\-help**
 
@@ -83,7 +84,7 @@ OPTIONS
 
 **\-\-list-languages**
 
-: Print the all the languages supported by difftastic, along with their extensions.
+: Print all the languages supported by difftastic, along with their recognised extensions.
 
 **\-\-override** _GLOB:NAME_
 
@@ -149,6 +150,11 @@ DEBUG OPTIONS
 **\-\-dump-syntax** _PATH_
 
 : Parse a single file with tree-sitter and display the difftastic syntax tree.
+
+**\-\-dump-syntax-dot** _PATH_
+
+: Parse a single file with tree-sitter and display the difftastic syntax tree, as a DOT
+  graph.
 
 **\-\-dump-ts** _PATH_
 

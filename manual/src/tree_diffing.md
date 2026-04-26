@@ -8,9 +8,7 @@ capable, and has an excellent description of the design.
 If you're interested in a summary of the academic literature, [this
 blog
 post](http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html)
-(and its [accompanying
-paper](http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html)
--- mirrored under a CC BY-NC license) are great resources.
+is a great resource.
 
 ## json-diff (2012)
 
