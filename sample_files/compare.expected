@@ -61,6 +61,9 @@ sample_files/dart_1.dart sample_files/dart_2.dart
 sample_files/devicetree_1.dts sample_files/devicetree_2.dts
 36a87e82032c54d0d1a630f895ea6f1b  -
 
+sample_files/dm_1.dm sample_files/dm_2.dm
+a0f987faa65006daaae7b30d16e24955  -
+
 sample_files/elisp_1.el sample_files/elisp_2.el
 3e8c8abcb65a5141a2fb54bae4a9ca06  -
 
