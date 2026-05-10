@@ -417,8 +417,8 @@ fn diff_file(
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
 
     let (mut lhs_src, mut rhs_src) = match (
-        guess_content(&lhs_bytes, lhs_path, binary_overrides),
-        guess_content(&rhs_bytes, rhs_path, binary_overrides),
+        guess_content(&lhs_bytes, display_path, binary_overrides),
+        guess_content(&rhs_bytes, display_path, binary_overrides),
         check_diff_attr(Path::new(display_path)),
     ) {
         (ProbableFileKind::Binary, _, _)
@@ -506,7 +506,7 @@ fn diff_conflicts_file(
     binary_overrides: &[glob::Pattern],
 ) -> DiffResult {
     let bytes = read_file_or_die(path);
-    let mut src = match guess_content(&bytes, path, binary_overrides) {
+    let mut src = match guess_content(&bytes, display_path, binary_overrides) {
         ProbableFileKind::Text(src) => src,
         ProbableFileKind::Binary => {
             print_error(
