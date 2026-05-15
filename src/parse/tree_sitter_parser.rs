@@ -339,18 +339,34 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: [
-                    "shell_command", "json_string_array", "json_string", "double_quoted_string",
-                    "single_quoted_string", "unquoted_string", "env_pair", "image_name", "image_tag",
+                    "shell_command",
+                    "json_string_array",
+                    "json_string",
+                    "double_quoted_string",
+                    "single_quoted_string",
+                    "unquoted_string",
+                    "env_pair",
+                    "image_name",
+                    "image_tag",
                     "image_digest",
-                ].into_iter().collect(),
+                ]
+                .into_iter()
+                .collect(),
                 delimiter_tokens: vec![
-                    ("[", "]"), ("{", "}"), ("(", ")"), ("\"", "\""), ("<<", ">>")
+                    ("[", "]"),
+                    ("{", "}"),
+                    ("(", ")"),
+                    ("\"", "\""),
+                    ("<<", ">>"),
                 ],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(
-                    &language, tree_sitter_containerfile::HIGHLIGHTS_QUERY).unwrap(),
-                sub_languages: vec![] }
-
+                    &language,
+                    tree_sitter_containerfile::HIGHLIGHTS_QUERY,
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
         }
         Elixir => {
             let language_fn = tree_sitter_elixir::LANGUAGE;
