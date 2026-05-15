@@ -283,6 +283,7 @@ dependencies = [
  "tree-sitter-clojure-orchard",
  "tree-sitter-cmake",
  "tree-sitter-commonlisp",
+ "tree-sitter-containerfile",
  "tree-sitter-cpp",
  "tree-sitter-css",
  "tree-sitter-dart-orchard",
@@ -1104,6 +1105,16 @@ name = "tree-sitter-commonlisp"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "36c662ae95eee8c5ada519d4fe87261c5fbcc3ffaac4b10c03d460154cd6a9b2"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-containerfile"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1555ef425ecf06d7f65d58b3f9d3db3bb7fbd4ad135b4e7e40f194b0859ea16f"
 dependencies = [
  "cc",
  "tree-sitter-language",
