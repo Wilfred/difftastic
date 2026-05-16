@@ -624,6 +624,9 @@ pub(crate) enum AtomKind {
     /// it. This is typically a variable, e.g. `foo`, or a literal
     /// `123`. Note that string literals have a separate kind.
     Normal,
+    /// A marker inserted by indentation-aware parsers when a node
+    /// starts on a new line but not at column 0.
+    Indent,
     // TODO: We should either have a AtomWithWords(HighlightKind) or a
     // separate String, Text and Comment kind.
     String(StringKind),

@@ -7,6 +7,7 @@ use serde::{Serialize, Serializer};
 use crate::display::context::{all_matched_lines_filled, opposite_positions};
 use crate::display::hunks::{matched_lines_indexes_for_hunk, matched_pos_to_hunks, merge_adjacent};
 use crate::display::side_by_side::lines_with_novel;
+
 use crate::lines::MaxLine;
 use crate::parse::syntax::{self, MatchedPos, StringKind};
 use crate::summary::{DiffResult, FileContent, FileFormat};
@@ -285,7 +286,7 @@ impl Highlight {
                 AtomKind::Keyword => Self::Keyword,
                 AtomKind::Comment => Self::Comment,
                 AtomKind::Type => Self::Type,
-                AtomKind::Normal => Self::Normal,
+                AtomKind::Normal | AtomKind::Indent => Self::Normal,
                 AtomKind::CanIgnore => Self::Normal,
                 AtomKind::TreeSitterError => Self::TreeSitterError,
             },

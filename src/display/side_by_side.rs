@@ -3,14 +3,14 @@
 use std::cmp::{max, min};
 
 use line_numbers::{LineNumber, SingleLineSpan};
-use owo_colors::{OwoColorize, Style};
+use owo_colors::OwoColorize;
 
 use crate::constants::Side;
 use crate::display::context::all_matched_lines_filled;
 use crate::display::hunks::{matched_lines_indexes_for_hunk, Hunk};
 use crate::display::style::{
     self, apply_colors, apply_line_number_color, color_positions, novel_style, replace_tabs,
-    split_and_apply, width_respecting_tabs, BackgroundColor,
+    split_and_apply, width_respecting_tabs, BackgroundColor, DftStyle,
 };
 use crate::hash::{DftHashMap, DftHashSet};
 use crate::lines::{format_line_num, split_on_newlines};
@@ -46,7 +46,7 @@ fn format_missing_line_num(
         Side::Right => prev_num >= source_dims.rhs_max_line_in_file,
     };
 
-    let mut style = Style::new();
+    let mut style = DftStyle::new();
     if use_color {
         style = style.dimmed();
     }
@@ -70,7 +70,7 @@ fn format_missing_line_num(
         c.repeat(num_digits),
         width = column_width - 1
     )
-    .style(style)
+    .style(style.into_owo_style())
     .to_string()
 }
 
@@ -99,16 +99,16 @@ fn display_single_column(
     header_line.push('\n');
     formatted_lines.push(header_line);
 
-    let mut style = Style::new();
+    let mut style = DftStyle::new();
     if display_options.use_color {
-        style = novel_style(Style::new(), side, display_options.background_color);
+        style = novel_style(DftStyle::new(), side, display_options.background_color);
     }
 
     for (i, line) in src_lines.iter().enumerate() {
         let mut formatted_line = String::with_capacity(line.len());
         formatted_line.push_str(
             &format_line_num_padded((i as u32).into(), column_width)
-                .style(style)
+                .style(style.into_owo_style())
                 .to_string(),
         );
         formatted_line.push_str(line);
@@ -281,8 +281,8 @@ fn highlight_positions(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> (
-    DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
-    DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
+    DftHashMap<LineNumber, Vec<(SingleLineSpan, DftStyle)>>,
+    DftHashMap<LineNumber, Vec<(SingleLineSpan, DftStyle)>>,
 ) {
     let lhs_positions = color_positions(
         Side::Left,
@@ -292,7 +292,7 @@ fn highlight_positions(
         lhs_mps,
     );
     // Preallocate the hashmap assuming the average line will have 2 items on it.
-    let mut lhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
+    let mut lhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, DftStyle)>> =
         DftHashMap::default();
     for (span, style) in lhs_positions {
         let styles = lhs_styles.entry(span.line).or_insert_with(Vec::new);
@@ -306,7 +306,7 @@ fn highlight_positions(
         file_format,
         rhs_mps,
     );
-    let mut rhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
+    let mut rhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, DftStyle)>> =
         DftHashMap::default();
     for (span, style) in rhs_positions {
         let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
