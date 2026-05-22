@@ -47,6 +47,7 @@ mod diff;
 mod display;
 mod exit_codes;
 mod files;
+mod gitattributes;
 mod hash;
 mod line_parser;
 mod lines;
@@ -75,6 +76,7 @@ use crate::files::{
     guess_content, read_file_or_die, read_files_or_die, read_or_die, relative_paths_in_either,
     ProbableFileKind,
 };
+use crate::gitattributes::{check_diff_attr, DiffAttribute};
 use crate::parse::guess_language::{
     guess, language_globs, language_name, Language, LanguageOverride,
 };
@@ -337,6 +339,9 @@ fn main() {
                         thread::scope(|s| {
                             let (send, recv) = std::sync::mpsc::sync_channel(1);
 
+                            // I don't see a nice way of fixing this, and difftastic is regularly benchmarked
+                            // for performance issues and this hasn't been a problem.
+                            #[allow(clippy::result_large_err)]
                             s.spawn(move || {
                                 diff_iter
                                     .try_for_each_with(send, |s, diff_result| s.send(diff_result))
@@ -414,8 +419,11 @@ fn diff_file(
     let (mut lhs_src, mut rhs_src) = match (
         guess_content(&lhs_bytes, lhs_path, binary_overrides),
         guess_content(&rhs_bytes, rhs_path, binary_overrides),
+        check_diff_attr(Path::new(display_path)),
     ) {
-        (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
+        (ProbableFileKind::Binary, _, _)
+        | (_, ProbableFileKind::Binary, _)
+        | (_, _, Some(DiffAttribute::AssumeBinary)) => {
             let has_byte_changes = if lhs_bytes == rhs_bytes {
                 None
             } else {
@@ -434,7 +442,7 @@ fn diff_file(
                 has_syntactic_changes: false,
             };
         }
-        (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
+        (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src), _) => (lhs_src, rhs_src),
     };
 
     if diff_options.strip_cr {

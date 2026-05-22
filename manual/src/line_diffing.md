@@ -26,7 +26,7 @@ algorithm](http://fabiensanglard.net/git_code_review/diff.php).
 
 ## Patience Diff
 
-Myer's diff has a problem with sliders:
+Myers' diff has a problem with sliders:
 
 ```diff
  if (!$smtp_server) {
@@ -87,12 +87,12 @@ of the patience algorithm](https://github.com/git/git/commit/85551232b56e763ecfc
 $ git diff --histogram --no-index sample_files/css_1.css sample_files/css_2.css
 ```
 
-### prettydiff
+## prettydiff
 
 [prettydiff](https://github.com/romankoblov/prettydiff) does really
 well out of the box with the sample files here. It implements LCS on words.
 
-### diff-so-fancy
+## diff-so-fancy
 
 [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) consumes
 normal `diff` output, so it's line based. It also performs word

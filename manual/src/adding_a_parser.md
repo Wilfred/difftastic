@@ -54,8 +54,8 @@ for things like string literals or interpolated strings, where the
 node might have children for the opening and closing quote.
 
 If you don't set `atom_nodes`, you may notice added/removed content
-shown in white. This is usually a sign that child node should have its
-parent treated as an atom.
+shown in white. This is usually a sign that a child node should have
+its parent treated as an atom.
 
 `delimiter_tokens` are delimiters that difftastic stores on
 the enclosing list node. This allows difftastic to distinguish
@@ -80,7 +80,7 @@ language. Insert a match arm like:
 Json => "json",
 ```
 
-There may also file names or shebangs associated with your language; configure those
+There may also be file names or shebangs associated with your language; configure those
 by adapting the `language_globs`, `from_emacs_mode_header` and `from_shebang` functions
 in that file.
 [GitHub's linguist definitions](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)

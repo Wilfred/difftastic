@@ -1,2 +1,4 @@
+# Ignore the following directories when showing which languages
+# difftastic is implemented in on GitHub.
 sample_files/** linguist-vendored
 vendored_parsers/** linguist-vendored

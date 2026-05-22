@@ -39,7 +39,7 @@ Difftastic depends on
 [tree_magic_mini](https://docs.rs/tree_magic_mini/latest/tree_magic_mini/),
 which accesses the MIME database on the current system. The MIME
 database is used to recognise file types, so difftastic does not try
-to compoare binary files as text.
+to compare binary files as text.
 
 This means that the difftastic package should depend on a MIME
 database package, if available.
@@ -82,7 +82,7 @@ directly.
 
 ```
 $ export CURRENTVERSION="7.8.9"
-$ sed -i "s/DFT_VERSION_HERE/$CURRENTVERSION/g" -i src/introduction.md
+$ sed -i "s/DFT_VERSION_HERE/$CURRENTVERSION/g" src/introduction.md
 ```
 
 ## Testing

@@ -1,8 +1,34 @@
-## 0.69 (unreleased)
+## 0.70 (unreleased)
+
+## 0.69 (released 30th April 2026)
+
+## Diffing
+
+Difftastic now understands when trailing punctuation isn't
+significant, so `foo(1,)` and `foo(1)` are treated as "no syntactic
+changes". This is supported for Go, Java, JavaScript, Python, Rust,
+Swift and TypeScript.
 
 ### Parsing
 
-Improved string interpolation handling in Scala.
+Added support for Assembly.
+
+Substantially improved parsing for Perl.
+
+Improved parsing for Clojure, Common Lisp, CSS, Dart, Erlang, F#, OCaml, Python,
+Rust, Scala, TypeScript and VHDL.
+
+Removed support for Hack, as the upstream parser is no longer
+maintained. `.php` files starting with `<?hh` are now treated as text.
+
+### File Detection
+
+Difftastic now considers `.gitattributes` when deciding if a file is
+binary, recognising both the `-text` and `binary` attributes.
+
+### Build
+
+Difftastic now requires Rust 1.85 or later to build.
 
 ## 0.68 (released 16th March 2026)
 
@@ -20,7 +46,7 @@ Fixed an issue with parsing raw string literals in Rust.
 
 ### Build
 
-Difftastic now requires Rust 1.77 or later to build.
+Difftastic now requires Rust 1.85 or later to build.
 
 Difftastic no longer uses jemalloc on any Windows builds. Previously
 jemalloc was only disabled for MSVC.

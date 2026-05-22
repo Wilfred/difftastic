@@ -1,3 +1,0 @@
-(script
-  (throw_statement
-    (integer)))

@@ -16,6 +16,9 @@ sample_files/all_changed_1.js sample_files/all_changed_2.js
 sample_files/apex_1.cls sample_files/apex_2.cls
 8e477350907734ac4d5201752523dff3  -
 
+sample_files/asm_1.s sample_files/asm_2.s
+869f6057e259526eaf913e9505f3d473  -
+
 sample_files/b2_math_1.h sample_files/b2_math_2.h
 2d8f9619e0c39d04b1a6ecbe14696b38  -
 
@@ -83,13 +86,13 @@ sample_files/erlang_1.erl sample_files/erlang_2.erl
 77c259baf4751716db4da1503088e742  -
 
 sample_files/f_sharp_1.fs sample_files/f_sharp_2.fs
-f6c90edd5c4fb81b793f3b7c9b367845  -
+63defe290bfc6754b51457a6c374838b  -
 
 sample_files/fortran_1.f90 sample_files/fortran_2.f90
 b5fae2c0a3e0755ca8182df1f728400b  -
 
 sample_files/hack_1.php sample_files/hack_2.php
-c2bb0aa7d7b07d6ced79f6a5363e878b  -
+fd23895fca3cb3e70b5ffd364f8c30fe  -
 
 sample_files/hare_1.ha sample_files/hare_2.ha
 e344b3fa7bc35fd4a0f3c7cecab39447  -
@@ -215,7 +218,7 @@ sample_files/pascal_1.pascal sample_files/pascal_2.pascal
 de04f7fdb7af7bd70ca62f1868504f11  -
 
 sample_files/perl_1.pl sample_files/perl_2.pl
-2cd2638b2b6d07248911f1f2e5ad1b25  -
+c840d4e116ff2d963c111239ae2bc895  -
 
 sample_files/prefer_outer_1.el sample_files/prefer_outer_2.el
 991038c9988cccc2c824652e33f772a2  -
@@ -298,6 +301,9 @@ sample_files/todomvc_1.gleam sample_files/todomvc_2.gleam
 sample_files/toml_1.toml sample_files/toml_2.toml
 e1002ceba14d973fcc8abc23619e65b0  -
 
+sample_files/trailing_commas_1.js sample_files/trailing_commas_2.js
+9ca72e199466c75f85d00f4d521e85ff  -
+
 sample_files/trailling_newline_1.yaml sample_files/trailling_newline_2.yaml
 763e6f9720a1f4e448d547c361f22c68  -
 
@@ -314,7 +320,7 @@ sample_files/verilog_1.sv sample_files/verilog_2.sv
 0fbb9bd8ff99b8ee852741860d2c25d0  -
 
 sample_files/vhdl_1.vhd sample_files/vhdl_2.vhd
-c20f2f2b351f0de01b784f32e242b802  -
+267dcc013be29dd84728870fadfe9504  -
 
 sample_files/whitespace_1.tsx sample_files/whitespace_2.tsx
 789689b170b80ef280a322b3a6c7363b  -

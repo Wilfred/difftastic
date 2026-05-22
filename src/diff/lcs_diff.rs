@@ -97,7 +97,7 @@ pub(crate) fn slice_by_hash<'a, T: Eq + Hash>(
 
 /// Compute the linear diff between `lhs` and `rhs`. If there are
 /// items that only occur on a single side, mark them as novel without
-/// processing them with Myer's diff.
+/// processing them with Myers' diff.
 ///
 /// This is substantially faster than `slice`, when `lhs` and `rhs`
 /// have few items in common.

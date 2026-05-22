@@ -162,12 +162,12 @@ unchanged, either the `bar` or the `,`. (We can't consider both to be
 unchanged as they're reordered.)
 
 We want to consider `bar` to be unchanged, as it's a more important
-atom than the `,` punctuation atom. Doing this is in a
+atom than the `,` punctuation atom. Doing this in a
 language-agnostic way is difficult, so difftastic has a small list of
 punctuation characters that always get lower priority than other
 atoms.
 
-## Insignificant Punctuation
+## Autoformatter Punctuation
 
 In some cases, reformatting code can change the trailing punctuation
 without changing the meaning of the code. We don't want to show a diff
@@ -214,6 +214,9 @@ Desired result: <code>[2,<span style="background-color: PaleGreen; color: #000">
 If the diffing logic effectively sees `[2]` and `[2,3]` because we've
 discarded the punctuation, we don't get the desired result here.
 
+**Difftastic**: Difftastic solves this problem by considering trailing
+punctuation during diffing, and then post-processing known syntactic
+elements that aren't significant.
 
 ## Sliders (Flat)
 
@@ -221,7 +224,7 @@ Sliders are a common problem in text based diffs, where lines are
 matched in a confusing way.
 
 They typically look like this. The diff has to arbitrarily choose a
-line containing delimiter, and it chooses the wrong one.
+line containing a delimiter, and it chooses the wrong one.
 
 ```
 + }
@@ -397,28 +400,6 @@ It's tempting to split strings on spaces and diff that, but users
 still want to know when whitespace changes inside strings. `" "` and
 `"  "` are not the same.
 
-## Autoformatter Punctuation
-
-```
-// Before
-foo("looooong", "also looooong");
-
-// After
-foo(
-  "looooong",
-  "novel",
-  "also looooong",
-);
-```
-
-Autoformatters (e.g. [prettier](https://prettier.io/)) will sometimes
-add or remove punctuation when formatting. Commas and parentheses are
-the most common.
-
-Syntactic diffing can ignore whitespace changes, but it has to assume
-punctuation is meaningful. This can lead to punctuation changes being
-highlighted, which may be quite far from the relevant content change.
-
 ## Unordered Data Types
 
 ```
@@ -519,7 +500,7 @@ this occurs, the file header reports the error count.
 
 ```
 $ difft sample_files/syntax_error_1.js sample_files/syntax_error_2.js
-sample_files/syntax_error_after.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
+sample_files/syntax_error_2.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
 ...
 ```
 

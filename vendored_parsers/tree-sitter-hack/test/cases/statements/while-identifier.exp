@@ -1,8 +1,0 @@
-(script
-  (while_statement
-    condition: (parenthesized_expression
-      (binary_expression
-        left: (qualified_identifier
-          (identifier))
-        right: (integer)))
-    body: (compound_statement)))
