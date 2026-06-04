@@ -135,7 +135,7 @@ tree-sitter-vhdl = "1.4.0"
 
 
 [target.'cfg(not(any(windows, target_os = "illumos", target_os = "freebsd")))'.dependencies]
-tikv-jemallocator = "0.6"
+tikv-jemallocator = "0.7"
 
 [dev-dependencies]
 assert_cmd = "2.0.17"
