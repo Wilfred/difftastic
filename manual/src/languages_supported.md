@@ -25,6 +25,7 @@ with `difft --list-languages`.
 | Elvish          | [ckafi/tree-sitter-elvish](https://github.com/ckafi/tree-sitter-elvish)                           |
 | Erlang          | [WhatsApp/tree-sitter-erlang](https://github.com/WhatsApp/tree-sitter-erlang)                     |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                         |
+| Fish            | [ram02z/tree-sitter-fish](https://github.com/ram02z/tree-sitter-fish)                             |
 | F#              | [ionide/tree-sitter-fsharp](https://github.com/ionide/tree-sitter-fsharp)                         |
 | Fortran         | [stadelmanma/tree-sitter-fortran](https://github.com/stadelmanma/tree-sitter-fortran)             |
 | Gleam           | [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)                   |
@@ -75,4 +76,3 @@ with `difft --list-languages`.
 | TOML     | [tree-sitter-grammars/tree-sitter-toml](https://github.com/tree-sitter-grammars/tree-sitter-toml) |
 | XML      | [tree-sitter-grammars/tree-sitter-xml](https://github.com/tree-sitter-grammars/tree-sitter-xml)   |
 | YAML     | [tree-sitter-grammars/tree-sitter-yaml](https://github.com/tree-sitter-grammars/tree-sitter-yaml) |
-

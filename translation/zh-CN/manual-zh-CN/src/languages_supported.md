@@ -20,6 +20,7 @@
 | Elvish          | [ckafi/tree-sitter-elvish](https://github.com/ckafi/tree-sitter-elvish)                                                                                        |
 | Erlang          | [WhatsApp/tree-sitter-erlang](https://github.com/WhatsApp/tree-sitter-erlang)                                                                                  |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                                                                                      |
+| Fish            | [ram02z/tree-sitter-fish](https://github.com/ram02z/tree-sitter-fish)                                                                                          |
 | Gleam           | [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)                                                                                |
 | Go              | [tree-sitter/tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)                                                                                    |
 | Hare            | [ecmma/tree-sitter-hare](https://git.sr.ht/~ecmma/tree-sitter-hare)                                                                                            |

@@ -428,6 +428,22 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Fish => {
+            let language = tree_sitter_fish::language();
+            let highlight_query =
+                ts::Query::new(&language, tree_sitter_fish::HIGHLIGHTS_QUERY).unwrap();
+
+            TreeSitterConfig {
+                language,
+                atom_nodes: ["single_quote_string", "double_quote_string"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
+                ignore_trailing_tokens: vec![],
+                highlight_query,
+                sub_languages: vec![],
+            }
+        }
         FSharp => {
             let language_fn = tree_sitter_fsharp::LANGUAGE_FSHARP;
             let language = tree_sitter::Language::new(language_fn);
