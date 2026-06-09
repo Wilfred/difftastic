@@ -71,7 +71,7 @@ sample_files/elixir_1.ex sample_files/elixir_2.ex
 5ab1a845f7cb3ca6db1fdef7bc4a042f  -
 
 sample_files/elm_1.elm sample_files/elm_2.elm
-8a67269f2dd2e4913f885b3b6e6d6a07  -
+384f1695fb6c512c9510e9eae47b82fc  -
 
 sample_files/elvish_1.elv sample_files/elvish_2.elv
 93af1d46752d57db84011ca7482ae842  -
@@ -80,7 +80,7 @@ sample_files/erlang_1.erl sample_files/erlang_2.erl
 77c259baf4751716db4da1503088e742  -
 
 sample_files/f_sharp_1.fs sample_files/f_sharp_2.fs
-63defe290bfc6754b51457a6c374838b  -
+eb2a87f6e7d0cd4a545c3a6860eee448  -
 
 sample_files/fortran_1.f90 sample_files/fortran_2.f90
 b5fae2c0a3e0755ca8182df1f728400b  -
@@ -119,7 +119,16 @@ sample_files/identical_1.scala sample_files/identical_2.scala
 15c5a789e644348cb7e0de051ff4b63e  -
 
 sample_files/if_1.py sample_files/if_2.py
-afcc7b60dd5c267ae183a496e0af511b  -
+224c74aaee642194766600a680cd48a0  -
+
+sample_files/if_multiline_1.py sample_files/if_multiline_2.py
+f135f2c5b6b7a12668c8859e888d19b6  -
+
+sample_files/if_nested_1.py sample_files/if_nested_2.py
+37bc29631193efba13845783688f9c7f  -
+
+sample_files/indented_string_1.py sample_files/indented_string_2.py
+044539323b209aa31042ebee5de034d8  -
 
 sample_files/insert_blank_1.txt sample_files/insert_blank_2.txt
 a5fd75afcc99aa7b2b285f1f9ced8607  -
@@ -326,7 +335,7 @@ sample_files/xml_1.xml sample_files/xml_2.xml
 38600945878fdea4b06c5da026e1fb78  -
 
 sample_files/yaml_1.yaml sample_files/yaml_2.yaml
-3a4a35bf75297de64796eafb1feb4f97  -
+77efbb4ab9adfec62f8d5187f3ca2737  -
 
 sample_files/zig_1.zig sample_files/zig_2.zig
 ee5a604e604d310066deeff30e28f9d7  -

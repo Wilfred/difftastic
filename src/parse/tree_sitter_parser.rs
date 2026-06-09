@@ -1,6 +1,6 @@
 //! Load and configure parsers written with tree-sitter.
 
-use line_numbers::LinePositions;
+use line_numbers::{LinePositions, SingleLineSpan};
 use streaming_iterator::StreamingIterator as _;
 use tree_sitter as ts;
 use typed_arena::Arena;
@@ -77,6 +77,10 @@ pub(crate) struct TreeSitterConfig {
 
     /// Sub-languages in use, if any.
     sub_languages: Vec<TreeSitterSubLanguage>,
+
+    /// Should difftastic insert synthetic indentation atoms when a
+    /// node starts on a new line?
+    indent_aware: bool,
 }
 
 extern "C" {
@@ -118,6 +122,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Apex => {
@@ -145,6 +150,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Asm => {
@@ -159,6 +165,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_asm::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Bash => {
@@ -175,6 +182,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_bash::HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         C => {
@@ -187,6 +195,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_c::HIGHLIGHT_QUERY).unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         CPlusPlus => {
@@ -205,6 +214,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Clojure => {
@@ -224,6 +234,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         CMake => {
@@ -240,6 +251,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         CommonLisp => {
@@ -253,6 +265,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, "").unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         CSharp => {
@@ -276,6 +289,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Css => {
@@ -297,6 +311,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_css::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Dart => {
@@ -313,6 +328,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         DeviceTree => {
@@ -331,6 +347,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Elixir => {
@@ -347,6 +364,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_elixir::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Elm => {
@@ -361,6 +379,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_elm::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: true,
             }
         }
         Elvish => {
@@ -376,6 +395,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         EmacsLisp => {
@@ -395,6 +415,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Erlang => {
@@ -409,6 +430,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_erlang::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         FSharp => {
@@ -424,6 +446,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .unwrap(),
 
                 sub_languages: vec![],
+                indent_aware: true,
             }
         }
         Fortran => {
@@ -440,6 +463,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Gleam => {
@@ -453,6 +477,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_gleam::HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Go => {
@@ -471,6 +496,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_go::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Hare => {
@@ -486,6 +512,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Haskell => {
@@ -508,6 +535,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_haskell::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: true,
             }
         }
         Hcl => {
@@ -531,6 +559,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Html => {
@@ -566,6 +595,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                         parse_as: JavaScript,
                     },
                 ],
+                indent_aware: false,
             }
         }
         Janet => {
@@ -590,6 +620,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Java => {
@@ -620,6 +651,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_java::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         JavaScript | JavascriptJsx => {
@@ -647,6 +679,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_javascript::HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Json => {
@@ -661,6 +694,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_json::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Julia => {
@@ -685,6 +719,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Kotlin => {
@@ -713,6 +748,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         LaTeX => {
@@ -728,6 +764,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Lua => {
@@ -744,6 +781,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_lua::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Make => {
@@ -762,6 +800,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                         .unwrap(),
                     parse_as: Bash,
                 }],
+                indent_aware: false,
             }
         }
         Newick => {
@@ -779,6 +818,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Nix => {
@@ -795,6 +835,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_nix::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         ObjC => {
@@ -815,6 +856,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_objc::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         OCaml => {
@@ -828,6 +870,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_ocaml::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         OCamlInterface => {
@@ -841,6 +884,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 // TODO: why doesn't tree_sitter_ocaml::HIGHLIGHTS_QUERY work here?
                 highlight_query: ts::Query::new(&language, "").unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Pascal => {
@@ -858,6 +902,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Perl => {
@@ -882,6 +927,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .unwrap(),
                 ignore_trailing_tokens: vec![],
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Php => {
@@ -896,6 +942,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_php::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Proto => {
@@ -912,6 +959,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Python => {
@@ -933,6 +981,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_python::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: true,
             }
         }
         Qml => {
@@ -950,6 +999,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         R => {
@@ -963,6 +1013,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_r::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Racket => {
@@ -978,6 +1029,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_racket::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Ruby => {
@@ -999,6 +1051,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_ruby::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Rust => {
@@ -1027,11 +1080,17 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Scala => {
             let language_fn = tree_sitter_scala::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
+            let indent_aware = language
+                .metadata()
+                .map(|meta| meta.major_version >= 3)
+                .unwrap_or(true);
+
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: [
@@ -1046,6 +1105,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_scala::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: indent_aware,
             }
         }
         Scheme => {
@@ -1059,6 +1119,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_scheme::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Scss => {
@@ -1076,6 +1137,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Smali => {
@@ -1091,6 +1153,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: Vec::new(),
+                indent_aware: false,
             }
         }
         Solidity => {
@@ -1106,6 +1169,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_solidity::HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Sql => {
@@ -1119,6 +1183,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_sequel::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Swift => {
@@ -1137,6 +1202,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_swift::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Toml => {
@@ -1151,6 +1217,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_toml_ng::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         TypeScript | TypeScriptTsx => {
@@ -1178,6 +1245,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Xml => {
@@ -1195,6 +1263,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_xml::XML_HIGHLIGHT_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Yaml => {
@@ -1216,6 +1285,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_yaml::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: true,
             }
         }
         Verilog => {
@@ -1232,6 +1302,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Vhdl => {
@@ -1246,6 +1317,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_vhdl::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
         Zig => {
@@ -1262,6 +1334,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_zig::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
+                indent_aware: false,
             }
         }
     }
@@ -1552,6 +1625,7 @@ pub(crate) fn to_syntax<'a>(
     // each top level syntax item.
     cursor.goto_first_child();
 
+    let mut last_line = None;
     let nodes = all_syntaxes_from_cursor(
         arena,
         src,
@@ -1562,6 +1636,7 @@ pub(crate) fn to_syntax<'a>(
         &highlights,
         &subtrees,
         ignore_comments,
+        &mut last_line,
     );
     (nodes, error_count)
 }
@@ -1648,6 +1723,7 @@ fn all_syntaxes_from_cursor<'a>(
     highlights: &HighlightedNodeIds,
     subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
     ignore_comments: bool,
+    last_line: &mut Option<u32>,
 ) -> Vec<&'a Syntax<'a>> {
     let mut nodes: Vec<&Syntax> = vec![];
 
@@ -1662,6 +1738,7 @@ fn all_syntaxes_from_cursor<'a>(
             highlights,
             subtrees,
             ignore_comments,
+            last_line,
         ));
 
         if !cursor.goto_next_sibling() {
@@ -1672,8 +1749,8 @@ fn all_syntaxes_from_cursor<'a>(
     nodes
 }
 
-/// Convert the tree-sitter node at `cursor` to a difftastic syntax
-/// node.
+/// Convert the tree-sitter node at `cursor` to one or more
+/// difftastic syntax nodes.
 fn syntax_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
@@ -1684,7 +1761,8 @@ fn syntax_from_cursor<'a>(
     highlights: &HighlightedNodeIds,
     subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
     ignore_comments: bool,
-) -> Option<&'a Syntax<'a>> {
+    last_line: &mut Option<u32>,
+) -> Vec<&'a Syntax<'a>> {
     let node = cursor.node();
 
     // See if we should go into a sub-document instead (e.g. embedded JavaScript in HTML).
@@ -1700,6 +1778,7 @@ fn syntax_from_cursor<'a>(
             subhighlights,
             &DftHashMap::default(),
             ignore_comments,
+            last_line,
         );
     }
 
@@ -1713,14 +1792,32 @@ fn syntax_from_cursor<'a>(
         //
         // Also, if this node is highlighted as a comment, treat it as
         // an atom unconditionally.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
+        atom_from_cursor(
+            arena,
+            src,
+            nl_pos,
+            cursor,
+            config,
+            highlights,
+            ignore_comments,
+            last_line,
+        )
     } else if highlights.keyword_ids.contains(&node.id()) && node.child_count() == 1 {
         // If this list has a single child, and the list itself (not
         // the child) is marked as a keyword, treat it as an atom with
         // keyword highlighting.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
+        atom_from_cursor(
+            arena,
+            src,
+            nl_pos,
+            cursor,
+            config,
+            highlights,
+            ignore_comments,
+            last_line,
+        )
     } else if node.child_count() > 0 {
-        Some(list_from_cursor(
+        vec![list_from_cursor(
             arena,
             src,
             nl_pos,
@@ -1730,9 +1827,19 @@ fn syntax_from_cursor<'a>(
             highlights,
             subtrees,
             ignore_comments,
-        ))
+            last_line,
+        )]
     } else {
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
+        atom_from_cursor(
+            arena,
+            src,
+            nl_pos,
+            cursor,
+            config,
+            highlights,
+            ignore_comments,
+            last_line,
+        )
     }
 }
 
@@ -1770,6 +1877,7 @@ fn list_from_cursor<'a>(
     highlights: &HighlightedNodeIds,
     subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
     ignore_comments: bool,
+    last_line: &mut Option<u32>,
 ) -> &'a Syntax<'a> {
     let root_node = cursor.node();
 
@@ -1824,10 +1932,17 @@ fn list_from_cursor<'a>(
                 highlights,
                 subtrees,
                 ignore_comments,
+                last_line,
             ));
         } else if node_i == i {
             inner_open_content = &src[node.start_byte()..node.end_byte()];
             inner_open_position = nl_pos.from_region(node.start_byte(), node.end_byte());
+            before_delim.extend(indent_nodes_before_position(
+                arena,
+                config,
+                &inner_open_position,
+                last_line,
+            ));
         } else if node_i < j {
             between_delim.extend(syntax_from_cursor(
                 arena,
@@ -1839,10 +1954,17 @@ fn list_from_cursor<'a>(
                 highlights,
                 subtrees,
                 ignore_comments,
+                last_line,
             ));
         } else if node_i == j {
             inner_close_content = &src[node.start_byte()..node.end_byte()];
             inner_close_position = nl_pos.from_region(node.start_byte(), node.end_byte());
+            between_delim.extend(indent_nodes_before_position(
+                arena,
+                config,
+                &inner_close_position,
+                last_line,
+            ));
         } else if node_i > j {
             after_delim.extend(syntax_from_cursor(
                 arena,
@@ -1854,6 +1976,7 @@ fn list_from_cursor<'a>(
                 highlights,
                 subtrees,
                 ignore_comments,
+                last_line,
             ));
         }
 
@@ -1912,15 +2035,46 @@ fn list_from_cursor<'a>(
     }
 }
 
-/// Convert the tree-sitter node at `cursor` to a difftastic atom.
+fn indent_nodes_before_position<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    config: &TreeSitterConfig,
+    position: &[SingleLineSpan],
+    last_line: &mut Option<u32>,
+) -> Vec<&'a Syntax<'a>> {
+    let start_line = position.first().map(|line_pos| line_pos.line.0);
+    let mut nodes = vec![];
+    if config.indent_aware && start_line.is_some() && start_line != *last_line {
+        *last_line = position.last().map(|line_pos| line_pos.line.0);
+        let start_col = position.first().unwrap().start_col;
+        if start_col != 0 {
+            let indent_position = vec![SingleLineSpan {
+                line: start_line.unwrap().into(),
+                start_col: 0,
+                end_col: start_col,
+            }];
+            nodes.push(Syntax::new_atom(
+                arena,
+                indent_position,
+                "·".repeat(start_col.try_into().unwrap()),
+                AtomKind::Indent,
+            ));
+        }
+    }
+
+    nodes
+}
+
+/// Convert the tree-sitter node at `cursor` to zero or more difftastic atoms.
 fn atom_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
     nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
+    config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
     ignore_comments: bool,
-) -> Option<&'a Syntax<'a>> {
+    last_line: &mut Option<u32>,
+) -> Vec<&'a Syntax<'a>> {
     let node = cursor.node();
     let position = nl_pos.from_region(node.start_byte(), node.end_byte());
     let mut content = &src[node.start_byte()..node.end_byte()];
@@ -1930,7 +2084,7 @@ fn atom_from_cursor<'a>(
     // not visible, but leads us to highlight unchanged lines that
     // happen to have preceding newline node.
     if node.kind() == "\n" {
-        return None;
+        return vec![];
     }
 
     // JSX trims whitespace at the beginning and end of text nodes.
@@ -1954,7 +2108,7 @@ fn atom_from_cursor<'a>(
         // highlighting.
 
         if ignore_comments {
-            return None;
+            return vec![];
         }
 
         AtomKind::Comment
@@ -1970,12 +2124,16 @@ fn atom_from_cursor<'a>(
         AtomKind::Normal
     };
 
-    Some(Syntax::new_atom(
+    let mut nodes = indent_nodes_before_position(arena, config, &position, last_line);
+
+    nodes.push(Syntax::new_atom(
         arena,
         position,
         content.to_owned(),
         highlight,
-    ))
+    ));
+
+    nodes
 }
 
 #[cfg(test)]
@@ -2025,6 +2183,54 @@ mod tests {
                 panic!("Top level isn't a list");
             }
         };
+    }
+
+    fn collect_indent_atoms(node: &Syntax<'_>, contents: &mut Vec<String>) {
+        match node {
+            Syntax::List { children, .. } => {
+                for child in children {
+                    collect_indent_atoms(child, contents);
+                }
+            }
+            Syntax::Atom { content, kind, .. } => {
+                if *kind == AtomKind::Indent {
+                    contents.push(content.clone());
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_parse_python_indent_atoms() {
+        let arena = Arena::new();
+        let config = from_language(guess::Language::Python);
+        assert!(config.indent_aware);
+
+        let res = parse(&arena, "if foo:\n    bar\n    baz\n", &config, false);
+
+        let mut contents = vec![];
+        for node in &res {
+            collect_indent_atoms(node, &mut contents);
+        }
+
+        assert_eq!(contents, vec!["····".to_owned(), "····".to_owned()]);
+    }
+
+    #[test]
+    fn test_parse_python_with_delimiters() {
+        // TODO: It would be even better if no indent would be generated
+        // for this case. That would require a more complicated language
+        // specific logic.
+        let arena = Arena::new();
+        let config = from_language(guess::Language::Python);
+        let res = parse(&arena, "x = (\n    a\n) + b\n", &config, false);
+
+        let mut contents = vec![];
+        for node in &res {
+            collect_indent_atoms(node, &mut contents);
+        }
+
+        assert_eq!(contents, vec!["····".to_owned()]);
     }
 
     /// Ensure that we don't crash when loading any of the

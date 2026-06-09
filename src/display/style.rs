@@ -1,6 +1,8 @@
 //! Apply colours and styling to strings.
 
+use std::borrow::Cow;
 use std::cmp::{max, min};
+use std::env;
 
 use line_numbers::{LineNumber, SingleLineSpan};
 use owo_colors::{OwoColorize, Style};
@@ -24,6 +26,69 @@ impl BackgroundColor {
         matches!(self, Self::Dark)
     }
 }
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub(crate) struct DftStyle {
+    style: Style,
+    replace_whitespace: bool,
+}
+
+impl DftStyle {
+    pub(crate) fn new() -> Self {
+        Self {
+            style: Style::new(),
+            replace_whitespace: false,
+        }
+    }
+
+    fn with_style(self, style: Style) -> Self {
+        Self { style, ..self }
+    }
+
+    fn with_replace_whitespace(self, replace_whitespace: bool) -> Self {
+        Self {
+            replace_whitespace,
+            ..self
+        }
+    }
+
+    pub(crate) fn into_owo_style(self) -> Style {
+        self.style
+    }
+}
+
+/// Pass through calls to underlying Style
+macro_rules! dft_style_methods {
+    ($($name:ident),+ $(,)?) => {
+        impl DftStyle {
+            $(
+                pub(crate) fn $name(self) -> Self {
+                    self.with_style(self.style.$name())
+                }
+            )+
+        }
+    };
+}
+
+dft_style_methods!(
+    red,
+    green,
+    magenta,
+    bright_red,
+    bright_green,
+    bright_blue,
+    bright_magenta,
+    on_bright_red,
+    on_bright_green,
+    on_red,
+    on_green,
+    italic,
+    bold,
+    blue,
+    purple,
+    underline,
+    dimmed,
+);
 
 /// Find the largest byte offset in `s` that gives the longest
 /// starting substring whose display width does not exceed `width`.
@@ -128,6 +193,24 @@ pub(crate) fn replace_tabs(src: &str, tab_width: usize) -> String {
     src.replace('\t', &tab_as_spaces)
 }
 
+fn replace_styled_whitespace(s: &str) -> Cow<'_, str> {
+    Cow::Owned(
+        s.chars()
+            .map(|ch| if ch.is_whitespace() { '·' } else { ch })
+            .collect(),
+    )
+}
+
+fn apply_dft_style(s: &str, style: DftStyle) -> String {
+    let s = if style.replace_whitespace {
+        replace_styled_whitespace(s)
+    } else {
+        Cow::Borrowed(s)
+    };
+
+    s.as_ref().style(style.into_owo_style()).to_string()
+}
+
 /// Split `line` (from the source code) into multiple lines of
 /// `max_len` (i.e. word wrapping), and apply `styles` to each part
 /// according to its original position in `line`.
@@ -135,7 +218,7 @@ pub(crate) fn split_and_apply(
     line: &str,
     max_len: usize,
     tab_width: usize,
-    styles: &[(SingleLineSpan, Style)],
+    styles: &[(SingleLineSpan, DftStyle)],
     side: Side,
 ) -> Vec<String> {
     assert!(
@@ -201,7 +284,7 @@ pub(crate) fn split_and_apply(
                     min(byte_len(line_part), end_col - part_start),
                     tab_width,
                 );
-                res.push_str(&span_s.style(*style).to_string());
+                res.push_str(&apply_dft_style(&span_s, *style));
             }
             prev_style_end = end_col;
         }
@@ -236,7 +319,7 @@ pub(crate) fn split_and_apply(
 
 /// Return a copy of `line` with styles applied to all the spans
 /// specified.
-fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
+fn apply_line(line: &str, styles: &[(SingleLineSpan, DftStyle)]) -> String {
     let line_bytes = byte_len(line);
     let mut styled_line = String::with_capacity(line.len());
     let mut i = 0;
@@ -257,7 +340,7 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 
         // Apply style to the substring in this span.
         let span_s = substring_by_byte(line, start_col, min(line_bytes, end_col));
-        styled_line.push_str(&span_s.style(*style).to_string());
+        styled_line.push_str(&apply_dft_style(span_s, *style));
         i = end_col;
     }
 
@@ -270,8 +353,8 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 }
 
 fn group_by_line(
-    ranges: &[(SingleLineSpan, Style)],
-) -> DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> {
+    ranges: &[(SingleLineSpan, DftStyle)],
+) -> DftHashMap<LineNumber, Vec<(SingleLineSpan, DftStyle)>> {
     let mut ranges_by_line: DftHashMap<_, Vec<_>> = DftHashMap::default();
     for range in ranges {
         if let Some(matching_ranges) = ranges_by_line.get_mut(&range.0.line) {
@@ -284,11 +367,11 @@ fn group_by_line(
     ranges_by_line
 }
 
-/// Apply the `Style`s to the spans specified. Return a vec of the
+/// Apply the `DftStyle`s to the spans specified. Return a vec of the
 /// styled strings, including trailing newlines.
 ///
 /// Tolerant against lines in `s` being shorter than the spans.
-fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String> {
+fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, DftStyle)]) -> Vec<String> {
     let mut ranges_by_line = group_by_line(styles);
 
     let mut styled_lines = Vec::with_capacity(lines.len());
@@ -305,7 +388,7 @@ fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String
     styled_lines
 }
 
-pub(crate) fn novel_style(style: Style, side: Side, background: BackgroundColor) -> Style {
+pub(crate) fn novel_style(style: DftStyle, side: Side, background: BackgroundColor) -> DftStyle {
     if background.is_dark() {
         match side {
             Side::Left => style.bright_red(),
@@ -315,6 +398,20 @@ pub(crate) fn novel_style(style: Style, side: Side, background: BackgroundColor)
         match side {
             Side::Left => style.red(),
             Side::Right => style.green(),
+        }
+    }
+}
+
+fn novel_background_style(style: DftStyle, side: Side, background: BackgroundColor) -> DftStyle {
+    if background.is_dark() {
+        match side {
+            Side::Left => style.on_bright_red(),
+            Side::Right => style.on_bright_green(),
+        }
+    } else {
+        match side {
+            Side::Left => style.on_red(),
+            Side::Right => style.on_green(),
         }
     }
 }
@@ -330,14 +427,15 @@ pub(crate) fn novel_style(style: Style, side: Side, background: BackgroundColor)
 /// considers `<green>ab</green>` to be distinct from
 /// `<green>a</green><green>b</green>`. Merging the spans normalises
 /// the output to `<green>ab</green>`.
-fn merge_adjacent(items: &[(SingleLineSpan, Style)]) -> Vec<(SingleLineSpan, Style)> {
-    let mut merged: Vec<(SingleLineSpan, Style)> = vec![];
-    let mut prev_item: Option<(SingleLineSpan, Style)> = None;
+fn merge_adjacent(items: &[(SingleLineSpan, DftStyle)]) -> Vec<(SingleLineSpan, DftStyle)> {
+    let mut merged: Vec<(SingleLineSpan, DftStyle)> = vec![];
+    let mut prev_item: Option<(SingleLineSpan, DftStyle)> = None;
 
     for (span, style) in items.iter().copied() {
         match prev_item.take() {
             Some((mut prev_span, prev_style)) => {
-                if prev_style == style
+                if prev_style.style == style.style
+                    && prev_style.replace_whitespace == style.replace_whitespace
                     && prev_span.line == span.line
                     && prev_span.end_col == span.start_col
                 {
@@ -367,10 +465,11 @@ pub(crate) fn color_positions(
     syntax_highlight: bool,
     file_format: &FileFormat,
     mps: &[MatchedPos],
-) -> Vec<(SingleLineSpan, Style)> {
+) -> Vec<(SingleLineSpan, DftStyle)> {
     let mut styles = vec![];
+    let highlight_indents_with_background = env::var("DFT_WHITESPACE") == Ok("bg".to_string());
     for mp in mps {
-        let mut style = Style::new();
+        let mut style = DftStyle::new();
         match mp.kind {
             MatchKind::UnchangedToken { highlight, .. } | MatchKind::Ignored { highlight } => {
                 if syntax_highlight {
@@ -396,13 +495,24 @@ pub(crate) fn color_positions(
                                 style = style.bold();
                             }
                             AtomKind::TreeSitterError => style = style.purple(),
-                            AtomKind::Normal | AtomKind::CanIgnore => {}
+                            AtomKind::Normal | AtomKind::Indent | AtomKind::CanIgnore => {}
                         }
                     }
                 }
             }
             MatchKind::Novel { highlight, .. } => {
-                style = novel_style(style, side, background);
+                let is_indent = matches!(highlight, TokenKind::Atom(AtomKind::Indent));
+                style = if is_indent && highlight_indents_with_background {
+                    novel_background_style(style, side, background)
+                } else {
+                    let style = novel_style(style, side, background);
+                    if is_indent {
+                        style.with_replace_whitespace(true)
+                    } else {
+                        style
+                    }
+                };
+
                 if syntax_highlight
                     && matches!(
                         highlight,
@@ -515,7 +625,7 @@ pub(crate) fn apply_line_number_color(
     display_options: &DisplayOptions,
 ) -> String {
     if display_options.use_color {
-        let mut style = Style::new();
+        let mut style = DftStyle::new();
 
         // The goal here is to choose a style for line numbers that is
         // visually distinct from content.
@@ -530,7 +640,7 @@ pub(crate) fn apply_line_number_color(
             style = style.dimmed()
         }
 
-        s.style(style).to_string()
+        s.style(style.into_owo_style()).to_string()
     } else {
         s.to_owned()
     }
@@ -637,7 +747,7 @@ mod tests {
                     start_col: 0,
                     end_col: 3,
                 },
-                Style::new(),
+                DftStyle::new(),
             )],
             Side::Left,
         );
@@ -656,7 +766,7 @@ mod tests {
                     start_col: 0,
                     end_col: 3,
                 },
-                Style::new(),
+                DftStyle::new(),
             )],
             Side::Left,
         );
@@ -676,7 +786,7 @@ mod tests {
                         start_col: 0,
                         end_col: 2,
                     },
-                    Style::new(),
+                    DftStyle::new(),
                 ),
                 (
                     SingleLineSpan {
@@ -684,7 +794,7 @@ mod tests {
                         start_col: 4,
                         end_col: 6,
                     },
-                    Style::new(),
+                    DftStyle::new(),
                 ),
             ],
             Side::Left,
@@ -704,7 +814,7 @@ mod tests {
                     start_col: 0,
                     end_col: 3,
                 },
-                Style::new(),
+                DftStyle::new(),
             )],
             Side::Left,
         );

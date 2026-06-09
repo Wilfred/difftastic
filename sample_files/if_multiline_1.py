@@ -1,0 +1,3 @@
+if x:
+    foo
+    bar
