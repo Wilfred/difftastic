@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_scala", 0, "This crate provides Scala language support for the …\nThe syntax highlighting query for this language.\nThe tree-sitter <code>LanguageFn</code> for this grammar.\nThe local-variable syntax highlighting query for this …\nThe content of the <code>node-types.json</code> file for this grammar.")

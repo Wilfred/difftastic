@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_commonlisp", 0, "This crate provides commonlisp language support for the …\nThe tree-sitter <code>LanguageFn</code> for CommonLisp.\nThe content of the <code>node-types.json</code> file for this grammar.")

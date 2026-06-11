@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Edge","EnteredDelimiter"],"fn":["allocate_if_new","can_pop_either_parent","looks_like_punctuation","pop_all_parents","populate_change_map","push_both_delimiters","push_lhs_delimiter","push_rhs_delimiter","set_neighbours","try_pop_both","try_pop_lhs","try_pop_rhs"],"struct":["Vertex"]};

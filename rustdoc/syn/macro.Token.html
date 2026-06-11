@@ -1,0 +1,142 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A type-macro that expands to the name of the Rust type representation of a given token."><title>Token in syn - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="syn" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../static.files/storage-59e33391.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../syn/index.html">syn</a><span class="version">2.0.106</span></h2></div><div class="sidebar-elems"><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="index.html">syn</a></span><h1>Macro <span class="macro">Token</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/syn/token.rs.html#871-972">Source</a> </span></div><pre class="rust item-decl"><code>macro_rules! Token {
+    [abstract] =&gt; { ... };
+    [as] =&gt; { ... };
+    [async] =&gt; { ... };
+    [auto] =&gt; { ... };
+    [await] =&gt; { ... };
+    [become] =&gt; { ... };
+    [box] =&gt; { ... };
+    [break] =&gt; { ... };
+    [const] =&gt; { ... };
+    [continue] =&gt; { ... };
+    [crate] =&gt; { ... };
+    [default] =&gt; { ... };
+    [do] =&gt; { ... };
+    [dyn] =&gt; { ... };
+    [else] =&gt; { ... };
+    [enum] =&gt; { ... };
+    [extern] =&gt; { ... };
+    [final] =&gt; { ... };
+    [fn] =&gt; { ... };
+    [for] =&gt; { ... };
+    [if] =&gt; { ... };
+    [impl] =&gt; { ... };
+    [in] =&gt; { ... };
+    [let] =&gt; { ... };
+    [loop] =&gt; { ... };
+    [macro] =&gt; { ... };
+    [match] =&gt; { ... };
+    [mod] =&gt; { ... };
+    [move] =&gt; { ... };
+    [mut] =&gt; { ... };
+    [override] =&gt; { ... };
+    [priv] =&gt; { ... };
+    [pub] =&gt; { ... };
+    [raw] =&gt; { ... };
+    [ref] =&gt; { ... };
+    [return] =&gt; { ... };
+    [Self] =&gt; { ... };
+    [self] =&gt; { ... };
+    [static] =&gt; { ... };
+    [struct] =&gt; { ... };
+    [super] =&gt; { ... };
+    [trait] =&gt; { ... };
+    [try] =&gt; { ... };
+    [type] =&gt; { ... };
+    [typeof] =&gt; { ... };
+    [union] =&gt; { ... };
+    [unsafe] =&gt; { ... };
+    [unsized] =&gt; { ... };
+    [use] =&gt; { ... };
+    [virtual] =&gt; { ... };
+    [where] =&gt; { ... };
+    [while] =&gt; { ... };
+    [yield] =&gt; { ... };
+    [&amp;] =&gt; { ... };
+    [&amp;&amp;] =&gt; { ... };
+    [&amp;=] =&gt; { ... };
+    [@] =&gt; { ... };
+    [^] =&gt; { ... };
+    [^=] =&gt; { ... };
+    [:] =&gt; { ... };
+    [,] =&gt; { ... };
+    [$] =&gt; { ... };
+    [.] =&gt; { ... };
+    [..] =&gt; { ... };
+    [...] =&gt; { ... };
+    [..=] =&gt; { ... };
+    [=] =&gt; { ... };
+    [==] =&gt; { ... };
+    [=&gt;] =&gt; { ... };
+    [&gt;=] =&gt; { ... };
+    [&gt;] =&gt; { ... };
+    [&lt;-] =&gt; { ... };
+    [&lt;=] =&gt; { ... };
+    [&lt;] =&gt; { ... };
+    [-] =&gt; { ... };
+    [-=] =&gt; { ... };
+    [!=] =&gt; { ... };
+    [!] =&gt; { ... };
+    [|] =&gt; { ... };
+    [|=] =&gt; { ... };
+    [||] =&gt; { ... };
+    [::] =&gt; { ... };
+    [%] =&gt; { ... };
+    [%=] =&gt; { ... };
+    [+] =&gt; { ... };
+    [+=] =&gt; { ... };
+    [#] =&gt; { ... };
+    [?] =&gt; { ... };
+    [-&gt;] =&gt; { ... };
+    [;] =&gt; { ... };
+    [&lt;&lt;] =&gt; { ... };
+    [&lt;&lt;=] =&gt; { ... };
+    [&gt;&gt;] =&gt; { ... };
+    [&gt;&gt;=] =&gt; { ... };
+    [/] =&gt; { ... };
+    [/=] =&gt; { ... };
+    [*] =&gt; { ... };
+    [*=] =&gt; { ... };
+    [~] =&gt; { ... };
+    [_] =&gt; { ... };
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A type-macro that expands to the name of the Rust type representation of a
+given token.</p>
+<p>As a type, <code>Token!</code> is commonly used in the type of struct fields, the type
+of a <code>let</code> statement, or in turbofish for a <code>parse</code> function.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>syn::{Ident, Token};
+<span class="kw">use </span>syn::parse::{Parse, ParseStream, <span class="prelude-ty">Result</span>};
+
+<span class="comment">// `struct Foo;`
+</span><span class="kw">pub struct </span>UnitStruct {
+    struct_token: <span class="macro">Token!</span>[<span class="kw">struct</span>],
+    ident: Ident,
+    semi_token: <span class="macro">Token!</span>[;],
+}
+
+<span class="kw">impl </span>Parse <span class="kw">for </span>UnitStruct {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>struct_token: <span class="macro">Token!</span>[<span class="kw">struct</span>] = input.parse()<span class="question-mark">?</span>;
+        <span class="kw">let </span>ident: Ident = input.parse()<span class="question-mark">?</span>;
+        <span class="kw">let </span>semi_token = input.parse::&lt;<span class="macro">Token!</span>[;]&gt;()<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(UnitStruct { struct_token, ident, semi_token })
+    }
+}</code></pre></div>
+<p>As an expression, <code>Token!</code> is used for peeking tokens or instantiating
+tokens from a span.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>make_unit_struct(name: Ident) -&gt; UnitStruct {
+    <span class="kw">let </span>span = name.span();
+    UnitStruct {
+        struct_token: <span class="macro">Token!</span>[<span class="kw">struct</span>](span),
+        ident: name,
+        semi_token: <span class="macro">Token!</span>[;](span),
+    }
+}
+
+<span class="kw">if </span>input.peek(<span class="macro">Token!</span>[<span class="kw">struct</span>]) {
+    <span class="kw">let </span>unit_struct: UnitStruct = input.parse()<span class="question-mark">?</span>;
+    <span class="comment">/* ... */
+</span>}</code></pre></div>
+<p>See the <a href="token/index.html" title="mod syn::token">token module</a> documentation for details and examples.</p>
+</div></details></section></div></main></body></html>

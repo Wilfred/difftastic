@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_zig", 0, "This crate provides Zig language support for the …\nThe syntax highlighting query for this language.\nThe injection query for this language.\nThe tree-sitter <code>LanguageFn</code> for this grammar.\nThe content of the <code>node-types.json</code> file for this grammar.")

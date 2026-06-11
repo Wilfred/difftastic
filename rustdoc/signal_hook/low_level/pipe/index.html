@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Module with the self-pipe pattern."><title>signal_hook::low_level::pipe - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="signal_hook" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../signal_hook/index.html">signal_<wbr>hook</a><span class="version">0.3.17</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module pipe</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#correct-order-of-handling" title="Correct order of handling">Correct order of handling</a></li><li><a href="#write-collating" title="Write collating">Write collating</a></li><li><a href="#examples" title="Examples">Examples</a></li></ul><h3><a href="#functions">Module Items</a></h3><ul class="block"><li><a href="#functions" title="Functions">Functions</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="../index.html">In signal_<wbr>hook::<wbr>low_<wbr>level</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="../../index.html">signal_hook</a>::<wbr><a href="../index.html">low_level</a></span><h1>Module <span>pipe</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/signal_hook/low_level/pipe.rs.html#1-265">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Module with the self-pipe pattern.</p>
+<p>One of the common patterns around signals is to have a pipe with both ends in the same program.
+Whenever there’s a signal, the signal handler writes one byte of garbage data to the write end,
+unless the pipe’s already full. The application then can handle the read end.</p>
+<p>This has two advantages. First, the real signal action moves outside of the signal handler
+where there are a lot less restrictions. Second, it fits nicely in all kinds of asynchronous
+loops and has less chance of race conditions.</p>
+<p>This module offers premade functions for the write end (and doesn’t insist that it must be a
+pipe ‒ anything that can be written to is fine ‒ sockets too, therefore <code>UnixStream::pair</code> is a
+good candidate).</p>
+<p>If you want to integrate with some asynchronous library, plugging streams from <code>mio-uds</code> or
+<code>tokio-uds</code> libraries should work.</p>
+<p>If it looks too low-level for your needs, the <a href="../../iterator/index.html" title="mod signal_hook::iterator"><code>iterator</code></a> module contains some
+higher-lever interface that also uses a self-pipe pattern under the hood.</p>
+<h2 id="correct-order-of-handling"><a class="doc-anchor" href="#correct-order-of-handling">§</a>Correct order of handling</h2>
+<p>A care needs to be taken to avoid race conditions, especially when handling the same signal in
+a loop. Specifically, another signal might come when the action for the previous signal is
+being taken. The correct order is first to clear the content of the pipe (read some/all data
+from it) and then take the action. This way a spurious wakeup can happen (the pipe could wake
+up even when no signal came after the signal was taken, because ‒ it arrived between cleaning
+the pipe and taking the action). Note that some OS primitives (eg. <code>select</code>) suffer from
+spurious wakeups themselves (they can claim a FD is readable when it is not true) and blocking
+<code>read</code> might return prematurely (with eg. <code>EINTR</code>).</p>
+<p>The reverse order of first taking the action and then clearing the pipe might lose signals,
+which is usually worse.</p>
+<p>This is not a problem with blocking on reading from the pipe (because both the blocking and
+cleaning is the same action), but in case of asynchronous handling it matters.</p>
+<p>If you want to combine setting some flags with a self-pipe pattern, the flag needs to be set
+first, then the pipe written. On the read end, first the pipe needs to be cleaned, then the
+flag and then the action taken. This is what the <a href="../../iterator/struct.SignalsInfo.html" title="struct signal_hook::iterator::SignalsInfo"><code>SignalsInfo</code></a>
+structure does internally.</p>
+<h2 id="write-collating"><a class="doc-anchor" href="#write-collating">§</a>Write collating</h2>
+<p>While unlikely if handled correctly, it is possible the write end is full when a signal comes.
+In such case the signal handler simply does nothing. If the write end is full, the read end is
+readable and therefore will wake up. On the other hand, blocking in the signal handler would
+definitely be a bad idea.</p>
+<p>However, this also means the number of bytes read from the end might be lower than the number
+of signals that arrived. This should not generally be a problem, since the OS already collates
+signals of the same kind together.</p>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2>
+<p>This example waits for at last one <code>SIGUSR1</code> signal to come before continuing (and
+terminating). It sends the signal to itself, so it correctly terminates.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io::{Error, Read};
+<span class="kw">use </span>std::os::unix::net::UnixStream;
+
+<span class="kw">use </span>signal_hook::consts::SIGUSR1;
+<span class="kw">use </span>signal_hook::low_level::{pipe, raise};
+
+<span class="kw">fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+    <span class="kw">let </span>(<span class="kw-2">mut </span>read, write) = UnixStream::pair()<span class="question-mark">?</span>;
+    pipe::register(SIGUSR1, write)<span class="question-mark">?</span>;
+    <span class="comment">// This will write into the pipe write end through the signal handler
+    </span>raise(SIGUSR1).unwrap();
+    <span class="kw">let </span><span class="kw-2">mut </span>buff = [<span class="number">0</span>];
+    read.read_exact(<span class="kw-2">&amp;mut </span>buff)<span class="question-mark">?</span>;
+    <span class="macro">println!</span>(<span class="string">"Happily terminating"</span>);
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div>
+</div></details><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="fn" href="fn.register.html" title="fn signal_hook::low_level::pipe::register">register</a></div><div class="desc docblock-short">Registers a write to a self-pipe whenever there’s the signal.</div></li><li><div class="item-name"><a class="fn" href="fn.register_raw.html" title="fn signal_hook::low_level::pipe::register_raw">register_<wbr>raw</a></div><div class="desc docblock-short">Registers a write to a self-pipe whenever there’s the signal.</div></li></ul></section></div></main></body></html>
