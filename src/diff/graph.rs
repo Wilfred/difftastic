@@ -500,7 +500,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
     }
 
     // There are only seven pushes in this function, so that's sufficient.
-    let mut neighbours: Vec<(Edge, &Vertex)> = Vec::with_capacity(7);
+    let mut neighbours: SmallVec<[(Edge, &Vertex); 7]> = SmallVec::new();
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
