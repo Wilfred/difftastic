@@ -1,5 +1,5 @@
-//! Implements Dijkstra's algorithm for shortest path, to find an
-//! optimal and readable diff between two ASTs.
+//! Implements A* search for shortest path, to find an optimal and
+//! readable diff between two ASTs.
 
 use std::cmp::Reverse;
 use std::env;
@@ -8,33 +8,161 @@ use bumpalo::Bump;
 use radix_heap::RadixHeapMap;
 
 use crate::diff::changes::ChangeMap;
-use crate::diff::graph::{populate_change_map, set_neighbours, Edge, Vertex};
+use crate::diff::graph::{
+    populate_change_map, set_neighbours, Edge, Vertex, NOVEL_EDGE_COST,
+};
 use crate::hash::DftHashMap;
-use crate::parse::syntax::Syntax;
+use crate::parse::syntax::{Syntax, SyntaxId};
 
 #[derive(Debug)]
 pub(crate) struct ExceededGraphLimit {}
+
+/// The number of atoms and list delimiters in part of a syntax tree.
+#[derive(Debug, Clone, Copy)]
+struct RemainingCounts {
+    /// (atoms, lists) from this node (inclusive) to the end of the
+    /// file, in document order.
+    from_here: (u32, u32),
+    /// (atoms, lists) after this node's subtree, in document order.
+    after_subtree: (u32, u32),
+}
+
+/// Precomputed node counts for the A* heuristic.
+struct Heuristic {
+    counts: DftHashMap<SyntaxId, RemainingCounts>,
+}
+
+/// Store the counts for `node` and everything in its subtree, where
+/// `after` is the counts for everything after `node`'s subtree in
+/// document order. Returns the counts from `node` inclusive.
+fn set_counts(
+    node: &Syntax,
+    after: (u32, u32),
+    counts: &mut DftHashMap<SyntaxId, RemainingCounts>,
+) -> (u32, u32) {
+    let mut from_here = after;
+    match node {
+        Syntax::List { children, .. } => {
+            for child in children.iter().rev() {
+                from_here = set_counts(child, from_here, counts);
+            }
+            from_here.1 += 1;
+        }
+        Syntax::Atom { .. } => {
+            from_here.0 += 1;
+        }
+    }
+
+    counts.insert(
+        node.id(),
+        RemainingCounts {
+            from_here,
+            after_subtree: after,
+        },
+    );
+    from_here
+}
+
+impl Heuristic {
+    fn new<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
+        let mut counts = DftHashMap::default();
+
+        for root in [lhs_syntax, rhs_syntax] {
+            let top_level: Vec<&Syntax> =
+                std::iter::successors(root, |node| node.next_sibling()).collect();
+
+            let mut after = (0, 0);
+            for node in top_level.iter().rev() {
+                after = set_counts(node, after, &mut counts);
+            }
+        }
+
+        Self { counts }
+    }
+
+    /// The (atoms, lists) still to be consumed on one side of the
+    /// diff, where `syntax` is the next unmatched node on that side
+    /// and `unpopped_delimiter` is the deepest entered-but-not-exited
+    /// delimiter on that side.
+    fn side_remaining(
+        &self,
+        syntax: Option<&Syntax>,
+        unpopped_delimiter: Option<&Syntax>,
+    ) -> (u32, u32) {
+        if let Some(node) = syntax {
+            self.counts[&node.id()].from_here
+        } else if let Some(delimiter) = unpopped_delimiter {
+            self.counts[&delimiter.id()].after_subtree
+        } else {
+            (0, 0)
+        }
+    }
+
+    /// A lower bound on the cost of the route from `v` to the end
+    /// vertex.
+    ///
+    /// Every edge consumes the same number of atoms (and the same
+    /// number of list delimiters) on both sides, except the novel
+    /// edges: NovelAtomLHS/NovelAtomRHS change the difference in
+    /// remaining atom counts by exactly one, and
+    /// EnterNovelDelimiterLHS/EnterNovelDelimiterRHS change the
+    /// difference in remaining delimiter counts by exactly one. Both
+    /// differences are zero at the end vertex, so any route from `v`
+    /// to the end contains at least one novel edge (each costing
+    /// NOVEL_EDGE_COST) per unit of difference.
+    ///
+    /// Since each edge changes this estimate by no more than its own
+    /// cost, the heuristic is consistent: the f-values popped from
+    /// the priority queue never decrease (which RadixHeapMap
+    /// requires), and the first route found to the end vertex is
+    /// optimal.
+    fn estimate(&self, v: &Vertex) -> u32 {
+        let (lhs_atoms, lhs_delims) = self.side_remaining(
+            v.lhs_syntax,
+            if v.lhs_syntax.is_none() {
+                v.lhs_unpopped_delimiter()
+            } else {
+                None
+            },
+        );
+        let (rhs_atoms, rhs_delims) = self.side_remaining(
+            v.rhs_syntax,
+            if v.rhs_syntax.is_none() {
+                v.rhs_unpopped_delimiter()
+            } else {
+                None
+            },
+        );
+
+        NOVEL_EDGE_COST * (lhs_atoms.abs_diff(rhs_atoms) + lhs_delims.abs_diff(rhs_delims))
+    }
+}
 
 /// Return the shortest route from `start` to the end vertex.
 fn shortest_vertex_path<'s, 'v>(
     start: &'v Vertex<'s, 'v>,
     vertex_arena: &'v Bump,
+    heuristic: &Heuristic,
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<&'v Vertex<'s, 'v>>, ExceededGraphLimit> {
-    // We want to visit nodes with the shortest distance first, but
-    // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
-    // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, &'v Vertex<'s, 'v>> = RadixHeapMap::new();
+    // We want to visit nodes with the smallest estimated total route
+    // cost first, but RadixHeapMap is a max-heap. Ensure nodes are
+    // wrapped with Reverse to flip comparisons.
+    //
+    // The heap keys are the A* f-values (distance from the start
+    // plus the heuristic estimate to the end), and we store the
+    // distance from the start alongside each vertex.
+    let mut heap: RadixHeapMap<Reverse<_>, (u32, &'v Vertex<'s, 'v>)> = RadixHeapMap::new();
 
-    heap.push(Reverse(0), start);
+    heap.push(Reverse(heuristic.estimate(start)), (0, start));
 
     let mut seen = DftHashMap::default();
     seen.reserve(size_hint);
 
     let end: &'v Vertex<'s, 'v> = loop {
         match heap.pop() {
-            Some((Reverse(distance), current)) => {
+            Some((Reverse(_), (distance, current))) => {
                 if current.is_end() {
                     break current;
                 }
@@ -51,7 +179,10 @@ fn shortest_vertex_path<'s, 'v>(
 
                     if found_shorter_route {
                         next.predecessor.replace(Some((distance_to_next, current)));
-                        heap.push(Reverse(distance_to_next), next);
+                        heap.push(
+                            Reverse(distance_to_next + heuristic.estimate(next)),
+                            (distance_to_next, next),
+                        );
                     }
                 }
 
@@ -116,8 +247,10 @@ fn shortest_path<'s, 'v>(
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<(Edge, &'v Vertex<'s, 'v>)>, ExceededGraphLimit> {
+    let heuristic = Heuristic::new(start.lhs_syntax, start.rhs_syntax);
+
     let start: &'v Vertex<'s, 'v> = vertex_arena.alloc(start);
-    let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
+    let vertex_path = shortest_vertex_path(start, vertex_arena, &heuristic, size_hint, graph_limit)?;
     Ok(shortest_path_with_edges(&vertex_path))
 }
 

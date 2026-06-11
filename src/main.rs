@@ -66,8 +66,8 @@ use options::{FilePermissions, USAGE};
 
 use crate::conflicts::{apply_conflict_markers, START_LHS_MARKER};
 use crate::diff::changes::ChangeMap;
-use crate::diff::dijkstra::ExceededGraphLimit;
-use crate::diff::{dijkstra, unchanged};
+use crate::diff::astar::ExceededGraphLimit;
+use crate::diff::{astar, unchanged};
 use crate::display::context::opposite_positions;
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
 use crate::display::style::print_error;
@@ -115,7 +115,7 @@ use strum::IntoEnumIterator;
 use typed_arena::Arena;
 
 use crate::diff::sliders::fix_all_sliders;
-use crate::dijkstra::mark_syntax;
+use crate::astar::mark_syntax;
 use crate::lines::MaxLine;
 use crate::options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
 use crate::parse::syntax::init_all_info;
