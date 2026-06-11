@@ -1,5 +1,7 @@
 //! Load and configure parsers written with tree-sitter.
 
+use std::sync::{LazyLock, Mutex};
+
 use line_numbers::LinePositions;
 use streaming_iterator::StreamingIterator as _;
 use tree_sitter as ts;
@@ -98,7 +100,23 @@ const OCAML_ATOM_NODES: [&str; 6] = [
     "attribute_id",
 ];
 
-pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
+pub(crate) fn from_language(language: guess::Language) -> &'static TreeSitterConfig {
+    // Constructing a tree sitter query is relatively expensive: it
+    // can take tens of milliseconds.
+    //
+    // This is a problem when diffing many files in the same
+    // directory, so ensure we only construct the TreeSitterConfig
+    // once per language rather than once per file.
+    static CONFIG_CACHE: LazyLock<Mutex<DftHashMap<guess::Language, &'static TreeSitterConfig>>> =
+        LazyLock::new(|| Mutex::new(DftHashMap::default()));
+
+    let mut cache = CONFIG_CACHE.lock().unwrap();
+    cache
+        .entry(language)
+        .or_insert_with(|| Box::leak(Box::new(build_config(language))))
+}
+
+fn build_config(language: guess::Language) -> TreeSitterConfig {
     use guess::Language::*;
     match language {
         Ada => {
@@ -1283,7 +1301,14 @@ pub(crate) fn parse_subtrees(
     src: &str,
     config: &TreeSitterConfig,
     tree: &tree_sitter::Tree,
-) -> DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)> {
+) -> DftHashMap<
+    usize,
+    (
+        tree_sitter::Tree,
+        &'static TreeSitterConfig,
+        HighlightedNodeIds,
+    ),
+> {
     let mut subtrees = DftHashMap::default();
 
     for language in &config.sub_languages {
@@ -1307,7 +1332,7 @@ pub(crate) fn parse_subtrees(
                 .expect("Incompatible tree-sitter version");
 
             let tree = parser.parse(src, None).unwrap();
-            let sub_highlights = tree_highlights(&tree, src, &subconfig);
+            let sub_highlights = tree_highlights(&tree, src, subconfig);
 
             subtrees.insert(node.id(), (tree, subconfig, sub_highlights));
         }
@@ -1628,7 +1653,14 @@ fn all_syntaxes_from_cursor<'a>(
     error_count: &mut usize,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    subtrees: &DftHashMap<
+        usize,
+        (
+            tree_sitter::Tree,
+            &'static TreeSitterConfig,
+            HighlightedNodeIds,
+        ),
+    >,
     ignore_comments: bool,
 ) -> Vec<&'a Syntax<'a>> {
     let mut nodes: Vec<&Syntax> = vec![];
@@ -1664,7 +1696,14 @@ fn syntax_from_cursor<'a>(
     error_count: &mut usize,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    subtrees: &DftHashMap<
+        usize,
+        (
+            tree_sitter::Tree,
+            &'static TreeSitterConfig,
+            HighlightedNodeIds,
+        ),
+    >,
     ignore_comments: bool,
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
@@ -1750,7 +1789,14 @@ fn list_from_cursor<'a>(
     error_count: &mut usize,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    subtrees: &DftHashMap<
+        usize,
+        (
+            tree_sitter::Tree,
+            &'static TreeSitterConfig,
+            HighlightedNodeIds,
+        ),
+    >,
     ignore_comments: bool,
 ) -> &'a Syntax<'a> {
     let root_node = cursor.node();
@@ -1971,14 +2017,14 @@ mod tests {
     fn test_parse() {
         let arena = Arena::new();
         let css_config = from_language(guess::Language::Css);
-        parse(&arena, ".foo {}", &css_config, false);
+        parse(&arena, ".foo {}", css_config, false);
     }
 
     #[test]
     fn test_parse_empty_file() {
         let arena = Arena::new();
         let config = from_language(guess::Language::EmacsLisp);
-        let res = parse(&arena, "", &config, false);
+        let res = parse(&arena, "", config, false);
 
         let expected: Vec<&Syntax> = vec![];
         assert_eq!(res, expected);
@@ -1990,7 +2036,7 @@ mod tests {
     fn test_subtrees() {
         let arena = Arena::new();
         let config = from_language(guess::Language::Html);
-        let res = parse(&arena, "<style>.a { color: red; }</style>", &config, false);
+        let res = parse(&arena, "<style>.a { color: red; }</style>", config, false);
 
         match res[0] {
             Syntax::List { children, .. } => {

@@ -157,7 +157,7 @@ fn main() {
             match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
-                    let tree = tsp::to_tree(&src, &ts_lang);
+                    let tree = tsp::to_tree(&src, ts_lang);
                     tsp::print_tree(&src, &tree);
                 }
                 None => {
@@ -179,7 +179,7 @@ fn main() {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
                     let arena = Arena::new();
-                    let ast = tsp::parse(&arena, &src, &ts_lang, ignore_comments);
+                    let ast = tsp::parse(&arena, &src, ts_lang, ignore_comments);
                     init_all_info(&ast, &[]);
                     println!("{:#?}", ast);
                 }
@@ -202,7 +202,7 @@ fn main() {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
                     let arena = Arena::new();
-                    let ast = tsp::parse(&arena, &src, &ts_lang, ignore_comments);
+                    let ast = tsp::parse(&arena, &src, ts_lang, ignore_comments);
                     init_all_info(&ast, &[]);
                     syntax::print_as_dot(&ast);
                 }
@@ -655,7 +655,7 @@ fn diff_file_content(
         }
         Some((language, lang_config)) => {
             let arena = Arena::new();
-            match tsp::to_tree_with_limit(diff_options, &lang_config, lhs_src, rhs_src) {
+            match tsp::to_tree_with_limit(diff_options, lang_config, lhs_src, rhs_src) {
                 Ok((lhs_tree, rhs_tree)) => {
                     match tsp::to_syntax_with_limit(
                         lhs_src,
@@ -663,7 +663,7 @@ fn diff_file_content(
                         &lhs_tree,
                         &rhs_tree,
                         &arena,
-                        &lang_config,
+                        lang_config,
                         diff_options,
                     ) {
                         Ok((lhs, rhs)) => {
@@ -736,11 +736,11 @@ fn diff_file_content(
 
                                 if diff_options.ignore_comments {
                                     let lhs_comments =
-                                        tsp::comment_positions(&lhs_tree, lhs_src, &lang_config);
+                                        tsp::comment_positions(&lhs_tree, lhs_src, lang_config);
                                     lhs_positions.extend(lhs_comments);
 
                                     let rhs_comments =
-                                        tsp::comment_positions(&rhs_tree, rhs_src, &lang_config);
+                                        tsp::comment_positions(&rhs_tree, rhs_src, lang_config);
                                     rhs_positions.extend(rhs_comments);
                                 }
 

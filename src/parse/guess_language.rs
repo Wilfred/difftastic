@@ -17,7 +17,7 @@ use strum::{EnumIter, IntoEnumIterator};
 
 /// Languages supported by difftastic. Each language here has a
 /// corresponding tree-sitter parser.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EnumIter)]
 pub(crate) enum Language {
     Ada,
     Apex,
