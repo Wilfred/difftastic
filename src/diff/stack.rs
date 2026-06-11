@@ -10,10 +10,39 @@ struct Node<'b, T> {
 ///
 /// This is similar to `Stack` from the rpds crate, but it's faster
 /// and uses less memory.
-#[derive(Debug, Clone, Default, PartialEq, Eq)]
+#[derive(Debug, Clone, Default)]
 pub(crate) struct Stack<'b, T> {
     head: Option<&'b Node<'b, T>>,
 }
+
+impl<T: PartialEq> PartialEq for Stack<'_, T> {
+    fn eq(&self, other: &Self) -> bool {
+        let mut lhs = self.head;
+        let mut rhs = other.head;
+        loop {
+            match (lhs, rhs) {
+                (None, None) => return true,
+                (Some(lhs_node), Some(rhs_node)) => {
+                    // Optimisation: in a persistent stack, we often
+                    // end up with shared tails. If both tails are the
+                    // same pointer, it's definitely equal.
+                    if std::ptr::eq(lhs_node, rhs_node) {
+                        return true;
+                    }
+
+                    if lhs_node.val != rhs_node.val {
+                        return false;
+                    }
+                    lhs = lhs_node.next;
+                    rhs = rhs_node.next;
+                }
+                _ => return false,
+            }
+        }
+    }
+}
+
+impl<T: Eq> Eq for Stack<'_, T> {}
 
 impl<'b, T> Stack<'b, T> {
     pub(crate) fn new() -> Self {
