@@ -86,7 +86,6 @@ extern "C" {
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
     fn tree_sitter_smali() -> ts::Language;
-    fn tree_sitter_scss() -> ts::Language;
 }
 
 // TODO: begin/end and object/end.
@@ -1058,23 +1057,6 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_scheme::HIGHLIGHTS_QUERY)
                     .unwrap(),
-                sub_languages: vec![],
-            }
-        }
-        Scss => {
-            let language = unsafe { tree_sitter_scss() };
-            TreeSitterConfig {
-                language: language.clone(),
-                atom_nodes: ["integer_value", "float_value", "color_value"]
-                    .into_iter()
-                    .collect(),
-                delimiter_tokens: vec![("{", "}"), ("(", ")")],
-                ignore_trailing_tokens: vec![],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/scss.scm"),
-                )
-                .unwrap(),
                 sub_languages: vec![],
             }
         }

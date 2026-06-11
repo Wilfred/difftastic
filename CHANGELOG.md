@@ -1,5 +1,9 @@
 ## 0.70 (unreleased)
 
+### Parsing
+
+Removed support for SCSS (upstream parser is no longer maintained).
+
 ## 0.69 (released 30th April 2026)
 
 ## Diffing
