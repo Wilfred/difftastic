@@ -782,7 +782,7 @@ fn diff_file_content(
                     let file_format = FileFormat::TextFallback {
                         reason: format!(
                             "{} exceeded DFT_BYTE_LIMIT",
-                            &format_size(num_bytes, format_options)
+                            format_size(num_bytes, format_options)
                         ),
                     };
 
@@ -999,18 +999,18 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                             // TODO: Fix this pedantic case.
                             println!(
                                 "Binary file added ({}).\n",
-                                &format_size(rhs_len, format_options),
+                                format_size(rhs_len, format_options),
                             )
                         } else if rhs_len == 0 {
                             println!(
                                 "Binary file removed ({}).\n",
-                                &format_size(lhs_len, format_options),
+                                format_size(lhs_len, format_options),
                             )
                         } else {
                             println!(
                                 "Binary file modified (old: {}, new: {}).\n",
-                                &format_size(lhs_len, format_options),
-                                &format_size(rhs_len, format_options),
+                                format_size(lhs_len, format_options),
+                                format_size(rhs_len, format_options),
                             )
                         }
                     }

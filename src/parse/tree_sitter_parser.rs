@@ -1847,16 +1847,14 @@ fn list_from_cursor<'a>(
     cursor.goto_parent();
 
     if should_ignore_last_child(config, &root_node, &between_delim) {
-        if let Some(last_child) = between_delim.pop() {
-            if let Syntax::Atom {
-                position, content, ..
-            } = last_child
-            {
-                let position = position.clone();
-                let new_last_child =
-                    Syntax::new_atom(arena, position, content.clone(), AtomKind::CanIgnore);
-                between_delim.push(new_last_child);
-            }
+        if let Some(Syntax::Atom {
+            position, content, ..
+        }) = between_delim.pop()
+        {
+            let position = position.clone();
+            let new_last_child =
+                Syntax::new_atom(arena, position, content.clone(), AtomKind::CanIgnore);
+            between_delim.push(new_last_child);
         }
     }
 
