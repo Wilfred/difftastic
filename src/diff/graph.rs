@@ -50,7 +50,11 @@ use crate::parse::syntax::{AtomKind, Syntax, SyntaxId};
 #[derive(Debug, Clone)]
 pub(crate) struct Vertex<'s, 'v> {
     pub(crate) neighbours: RefCell<Option<&'v [(Edge, &'v Vertex<'s, 'v>)]>>,
-    pub(crate) predecessor: Cell<Option<(u32, &'v Vertex<'s, 'v>)>>,
+    pub(crate) predecessor: Cell<Option<&'v Vertex<'s, 'v>>>,
+    /// The shortest distance found so far from the start vertex to
+    /// this vertex. The initial value is `u32::MAX`, meaning we
+    /// haven't visited this vertex yet.
+    pub(crate) shortest_distance: Cell<u32>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
     pub(crate) lhs_syntax: Option<&'s Syntax<'s>>,
@@ -270,6 +274,7 @@ impl<'s, 'v> Vertex<'s, 'v> {
         Vertex {
             neighbours: RefCell::new(None),
             predecessor: Cell::new(None),
+            shortest_distance: Cell::new(u32::MAX),
             lhs_syntax,
             rhs_syntax,
             parents,
@@ -529,6 +534,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                     Vertex {
                         neighbours: RefCell::new(None),
                         predecessor: Cell::new(None),
+                        shortest_distance: Cell::new(u32::MAX),
                         lhs_syntax,
                         rhs_syntax,
                         parents,
@@ -586,6 +592,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            shortest_distance: Cell::new(u32::MAX),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -638,6 +645,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            shortest_distance: Cell::new(u32::MAX),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -672,6 +680,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            shortest_distance: Cell::new(u32::MAX),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -705,6 +714,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            shortest_distance: Cell::new(u32::MAX),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -739,6 +749,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            shortest_distance: Cell::new(u32::MAX),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -771,6 +782,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            shortest_distance: Cell::new(u32::MAX),
                             lhs_syntax,
                             rhs_syntax,
                             parents,

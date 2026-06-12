@@ -44,13 +44,9 @@ fn shortest_vertex_path<'s, 'v>(
                     let (edge, next) = neighbour;
                     let distance_to_next = distance + edge.cost();
 
-                    let found_shorter_route = match next.predecessor.get() {
-                        Some((prev_shortest, _)) => distance_to_next < prev_shortest,
-                        None => true,
-                    };
-
-                    if found_shorter_route {
-                        next.predecessor.replace(Some((distance_to_next, current)));
+                    if distance_to_next < next.shortest_distance.get() {
+                        next.shortest_distance.set(distance_to_next);
+                        next.predecessor.set(Some(current));
                         heap.push(Reverse(distance_to_next), next);
                     }
                 }
@@ -75,9 +71,9 @@ fn shortest_vertex_path<'s, 'v>(
         heap.len(),
     );
 
-    let mut current = Some((0, end));
+    let mut current = Some(end);
     let mut vertex_route: Vec<&'v Vertex<'s, 'v>> = vec![];
-    while let Some((_, node)) = current {
+    while let Some(node) = current {
         vertex_route.push(node);
         current = node.predecessor.get();
     }
