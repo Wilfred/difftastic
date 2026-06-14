@@ -472,6 +472,19 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Glsl => {
+            let language_fn = tree_sitter_glsl::LANGUAGE_GLSL;
+            let language = tree_sitter::Language::new(language_fn);
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: ["string_literal", "char_literal"].into_iter().collect(),
+                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
+                ignore_trailing_tokens: vec![],
+                highlight_query: ts::Query::new(&language, tree_sitter_glsl::HIGHLIGHTS_QUERY)
+                    .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Go => {
             let language_fn = tree_sitter_go::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);

@@ -294,6 +294,7 @@ dependencies = [
  "tree-sitter-fortran",
  "tree-sitter-fsharp",
  "tree-sitter-gleam",
+ "tree-sitter-glsl",
  "tree-sitter-go",
  "tree-sitter-haskell",
  "tree-sitter-hcl",
@@ -1214,6 +1215,16 @@ name = "tree-sitter-gleam"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f0175c53793bda5d444360dd5add25463d18d66afb7f521d6791e2fc61bf2fb3"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-glsl"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "df0ee57cbf4c2b35d3a7f17a01bf33c0ef2e85987cb85e516ac8c6904c4e62ac"
 dependencies = [
  "cc",
  "tree-sitter-language",
