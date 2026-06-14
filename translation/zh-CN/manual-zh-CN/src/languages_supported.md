@@ -21,6 +21,7 @@
 | Erlang          | [WhatsApp/tree-sitter-erlang](https://github.com/WhatsApp/tree-sitter-erlang)                                                                                  |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                                                                                      |
 | Gleam           | [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)                                                                                |
+| Glsl            | [tree-sitter-grammars/tree-sitter-glsl](https://github.com/tree-sitter-grammars/tree-sitter-glsl)                                                              |
 | Go              | [tree-sitter/tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)                                                                                    |
 | Hare            | [ecmma/tree-sitter-hare](https://git.sr.ht/~ecmma/tree-sitter-hare)                                                                                            |
 | Haskell         | [tree-sitter/tree-sitter-haskell](https://github.com/tree-sitter/tree-sitter-haskell)                                                                          |
