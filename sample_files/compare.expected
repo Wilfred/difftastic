@@ -241,6 +241,30 @@ sample_files/scala_1.scala sample_files/scala_2.scala
 sample_files/scheme_1.scm sample_files/scheme_2.scm
 53c43d0dd0aea0f3e49385cc6d520963  -
 
+sample_files/show_function_c_1.c sample_files/show_function_c_2.c
+585b22d3c30f1b61f418c76d40e89bb0  -
+
+sample_files/show_function_delete_1.rs sample_files/show_function_delete_2.rs
+255702f8aa4de69e9bb957fcce8075d5  -
+
+sample_files/show_function_nested_oneline_1.rs sample_files/show_function_nested_oneline_2.rs
+4dd191cb37e5f39fd68c0bd5b6c328bc  -
+
+sample_files/show_function_new_inner_1.rs sample_files/show_function_new_inner_2.rs
+f323149ed6f9c723b204eb2c4e43a2a6  -
+
+sample_files/show_function_php_1.php sample_files/show_function_php_2.php
+382c74efc754f56d920219e1f34f4659  -
+
+sample_files/show_function_python_1.py sample_files/show_function_python_2.py
+a0d9bafad62e3eed083a2d09db459ab9  -
+
+sample_files/show_function_rename_1.rs sample_files/show_function_rename_2.rs
+52d5445f67620344984cdba60a27e0c6  -
+
+sample_files/show_function_rust_1.rs sample_files/show_function_rust_2.rs
+2e352b86a763770581ede4c3d07c81bc  -
+
 sample_files/simple_1.js sample_files/simple_2.js
 f73ae56c0467bac101bb5f7a435f89f3  -
 

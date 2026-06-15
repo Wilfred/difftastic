@@ -2,9 +2,16 @@
 
 use std::fmt::Display;
 
+use line_numbers::LineNumber;
+
 use crate::display::hunks::Hunk;
 use crate::parse::guess_language::{self, language_name};
 use crate::parse::syntax::MatchedPos;
+
+/// The `(start line, end line)` spans of the function and method
+/// definitions in a file. Used by `--show-function` to display the
+/// function enclosing each change.
+pub(crate) type FunctionSpans = Vec<(LineNumber, LineNumber)>;
 
 #[derive(Debug, PartialEq, Eq)]
 pub(crate) enum FileContent {
@@ -45,6 +52,11 @@ pub(crate) struct DiffResult {
 
     pub(crate) lhs_positions: Vec<MatchedPos>,
     pub(crate) rhs_positions: Vec<MatchedPos>,
+
+    /// The function/method definition spans in each file. Empty unless
+    /// `--show-function` is enabled.
+    pub(crate) lhs_fn_spans: FunctionSpans,
+    pub(crate) rhs_fn_spans: FunctionSpans,
 
     /// If the two files do not have exactly the same bytes, the
     /// number of bytes in each file.

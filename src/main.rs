@@ -120,7 +120,7 @@ use crate::lines::MaxLine;
 use crate::options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
 use crate::parse::syntax::init_all_info;
 use crate::parse::tree_sitter_parser as tsp;
-use crate::summary::{DiffResult, FileContent, FileFormat};
+use crate::summary::{DiffResult, FileContent, FileFormat, FunctionSpans};
 use crate::syntax::init_next_prev;
 
 extern crate pretty_env_logger;
@@ -437,6 +437,8 @@ fn diff_file(
                 rhs_src: FileContent::Binary,
                 lhs_positions: vec![],
                 rhs_positions: vec![],
+                lhs_fn_spans: vec![],
+                rhs_fn_spans: vec![],
                 hunks: vec![],
                 has_byte_changes,
                 has_syntactic_changes: false,
@@ -595,6 +597,8 @@ fn check_only_text(
         rhs_src: FileContent::Text(rhs_src.into()),
         lhs_positions: vec![],
         rhs_positions: vec![],
+        lhs_fn_spans: vec![],
+        rhs_fn_spans: vec![],
         hunks: vec![],
         has_byte_changes,
         has_syntactic_changes: lhs_src != rhs_src,
@@ -636,11 +640,18 @@ fn diff_file_content(
             rhs_src: FileContent::Text("".into()),
             lhs_positions: vec![],
             rhs_positions: vec![],
+            lhs_fn_spans: vec![],
+            rhs_fn_spans: vec![],
             hunks: vec![],
             has_byte_changes: None,
             has_syntactic_changes: false,
         };
     }
+
+    // Populated below (only when --show-function is set and we have a
+    // tree-sitter parse) and carried into the DiffResult.
+    let mut lhs_fn_spans: FunctionSpans = Vec::new();
+    let mut rhs_fn_spans: FunctionSpans = Vec::new();
 
     let (file_format, lhs_positions, rhs_positions) = match lang_config {
         None => {
@@ -684,6 +695,8 @@ fn diff_file_content(
                                     rhs_src: FileContent::Text(rhs_src.to_owned()),
                                     lhs_positions: vec![],
                                     rhs_positions: vec![],
+                                    lhs_fn_spans: vec![],
+                                    rhs_fn_spans: vec![],
                                     hunks: vec![],
                                     has_byte_changes,
                                     has_syntactic_changes,
@@ -742,6 +755,11 @@ fn diff_file_content(
                                     let rhs_comments =
                                         tsp::comment_positions(&rhs_tree, rhs_src, lang_config);
                                     rhs_positions.extend(rhs_comments);
+                                }
+
+                                if display_options.show_function.is_some() {
+                                    lhs_fn_spans = tsp::function_spans(&lhs_tree);
+                                    rhs_fn_spans = tsp::function_spans(&rhs_tree);
                                 }
 
                                 (
@@ -832,6 +850,8 @@ fn diff_file_content(
         rhs_src: FileContent::Text(rhs_src.to_owned()),
         lhs_positions,
         rhs_positions,
+        lhs_fn_spans,
+        rhs_fn_spans,
         hunks,
         has_byte_changes,
         has_syntactic_changes,
@@ -953,6 +973,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.display_path,
                         &summary.extra_info,
                         &summary.file_format,
+                        &summary.lhs_fn_spans,
                     );
                 }
                 DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
@@ -966,6 +987,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         rhs_src,
                         &summary.lhs_positions,
                         &summary.rhs_positions,
+                        &summary.lhs_fn_spans,
+                        &summary.rhs_fn_spans,
                     );
                 }
                 DisplayMode::Json => unreachable!(),

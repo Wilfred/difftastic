@@ -2,7 +2,7 @@
 
 use std::sync::{LazyLock, Mutex};
 
-use line_numbers::LinePositions;
+use line_numbers::{LineNumber, LinePositions};
 use streaming_iterator::StreamingIterator as _;
 use tree_sitter as ts;
 use typed_arena::Arena;
@@ -1465,6 +1465,69 @@ fn print_cursor(src: &str, cursor: &mut ts::TreeCursor, depth: usize) {
 
         if !cursor.goto_next_sibling() {
             break;
+        }
+    }
+}
+
+/// Is this tree-sitter node a function or method definition?
+///
+/// This is a best-effort list of node kinds covering the most common
+/// languages. Languages whose grammars use other node names simply
+/// won't show function context with `--show-function`.
+fn is_function_node_kind(kind: &str) -> bool {
+    matches!(
+        kind,
+        // Rust
+        "function_item"
+        // C, C++, Python, PHP, Bash, Julia, Lua, R, GLSL
+        | "function_definition"
+        // Go, JavaScript, Swift, Kotlin, Zig, Lua, OCaml
+        | "function_declaration"
+        // JavaScript, TypeScript
+        | "method_definition"
+        // Go, Java, C#, PHP, Kotlin
+        | "method_declaration"
+        // Java, C#
+        | "constructor_declaration"
+        // Ruby
+        | "method"
+        | "singleton_method"
+        // C#
+        | "local_function_statement"
+        // Perl
+        | "subroutine_declaration_statement"
+        // Haskell
+        | "function"
+    )
+}
+
+/// Return the `(start line, end line)` spans of every function and
+/// method definition in `tree`, including nested ones. Used by
+/// `--show-function` to display the function enclosing each change.
+pub(crate) fn function_spans(tree: &tree_sitter::Tree) -> Vec<(LineNumber, LineNumber)> {
+    let mut spans = vec![];
+    let mut cursor = tree.walk();
+
+    // Iterative pre-order traversal of the whole tree.
+    loop {
+        let node = cursor.node();
+        if is_function_node_kind(node.kind()) {
+            spans.push((
+                LineNumber(node.start_position().row as u32),
+                LineNumber(node.end_position().row as u32),
+            ));
+        }
+
+        if cursor.goto_first_child() {
+            continue;
+        }
+        loop {
+            if cursor.goto_next_sibling() {
+                break;
+            }
+            if !cursor.goto_parent() {
+                return spans;
+            }
         }
     }
 }

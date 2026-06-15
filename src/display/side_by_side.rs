@@ -7,7 +7,7 @@ use owo_colors::{OwoColorize, Style};
 
 use crate::constants::Side;
 use crate::display::context::all_matched_lines_filled;
-use crate::display::hunks::{matched_lines_indexes_for_hunk, Hunk};
+use crate::display::hunks::{enclosing_function_line, matched_lines_indexes_for_hunk, Hunk};
 use crate::display::style::{
     self, apply_colors, apply_line_number_color, color_positions, novel_style, replace_tabs,
     split_and_apply, width_respecting_tabs, BackgroundColor,
@@ -334,15 +334,32 @@ fn highlight_as_novel(
 
 /// Find the longest line in `lhs_src` and `rhs_src` that will be
 /// displayed. Return the length of that line for both LHS and RHS.
+///
+/// `lhs_fn_spans`/`rhs_fn_spans` are the function spans used by
+/// `--show-function`; they're empty when the feature is disabled. We
+/// account for the enclosing-function definition lines here so the
+/// column is wide enough and the signature doesn't wrap.
 fn visible_content_max_display_width(
     lhs_src: &str,
     rhs_src: &str,
     hunks: &[Hunk],
     num_context_lines: u32,
     tab_width: usize,
+    lhs_fn_spans: &[(LineNumber, LineNumber)],
+    rhs_fn_spans: &[(LineNumber, LineNumber)],
 ) -> (usize, usize) {
     let mut lhs_displayed_lines: DftHashSet<usize> = DftHashSet::default();
     let mut rhs_displayed_lines: DftHashSet<usize> = DftHashSet::default();
+
+    for hunk in hunks {
+        let (lhs_def, rhs_def) = enclosing_function_line(hunk, lhs_fn_spans, rhs_fn_spans);
+        if let Some(lhs_def) = lhs_def {
+            lhs_displayed_lines.insert(lhs_def.0 as usize);
+        }
+        if let Some(rhs_def) = rhs_def {
+            rhs_displayed_lines.insert(rhs_def.0 as usize);
+        }
+    }
 
     for hunk in hunks {
         let mut min_lhs_line: Option<LineNumber> = None;
@@ -422,6 +439,45 @@ fn visible_content_max_display_width(
     (lhs_content_max_width, rhs_content_max_width)
 }
 
+/// The extra context row to show for `--show-function`.
+fn function_context_row(
+    hunk: &Hunk,
+    lhs_fn_spans: &[(LineNumber, LineNumber)],
+    rhs_fn_spans: &[(LineNumber, LineNumber)],
+    matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    first_displayed: Option<&(Option<LineNumber>, Option<LineNumber>)>,
+) -> Option<(Option<LineNumber>, Option<LineNumber>)> {
+    let (lhs_def, rhs_def) = enclosing_function_line(hunk, lhs_fn_spans, rhs_fn_spans);
+    if lhs_def.is_none() && rhs_def.is_none() {
+        return None;
+    }
+
+    // Find the aligned row for the definition line so the definition shows
+    // correctly in both columns even when only one side has new content.
+    let def_row = *matched_lines.iter().find(|(lhs, rhs)| {
+        (lhs_def.is_some() && *lhs == lhs_def) || (rhs_def.is_some() && *rhs == rhs_def)
+    })?;
+
+    let (first_lhs, first_rhs) = match first_displayed {
+        Some((lhs, rhs)) => (*lhs, *rhs),
+        None => (None, None),
+    };
+
+    // Only show the definition if it sits strictly above the context
+    // already displayed (otherwise it's already visible).
+    let above = |def: Option<LineNumber>, first: Option<LineNumber>| match (def, first) {
+        (Some(def), Some(first)) => def < first,
+        (Some(_), None) => true,
+        _ => false,
+    };
+
+    if above(def_row.0, first_lhs) || above(def_row.1, first_rhs) {
+        Some(def_row)
+    } else {
+        None
+    }
+}
+
 pub(crate) fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
@@ -432,6 +488,8 @@ pub(crate) fn print(
     rhs_src: &str,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
+    lhs_fn_spans: &[(LineNumber, LineNumber)],
+    rhs_fn_spans: &[(LineNumber, LineNumber)],
 ) {
     let (lhs_content_max_width, rhs_content_max_width) = visible_content_max_display_width(
         lhs_src,
@@ -439,6 +497,8 @@ pub(crate) fn print(
         hunks,
         display_options.num_context_lines,
         display_options.tab_width,
+        lhs_fn_spans,
+        rhs_fn_spans,
     );
 
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
@@ -629,7 +689,19 @@ pub(crate) fn print(
         let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        for (lhs_line_num, rhs_line_num) in aligned_lines {
+        let fn_context_row = if display_options.show_function.is_some() {
+            function_context_row(
+                hunk,
+                lhs_fn_spans,
+                rhs_fn_spans,
+                &matched_lines,
+                aligned_lines.first(),
+            )
+        } else {
+            None
+        };
+
+        for (lhs_line_num, rhs_line_num) in fn_context_row.iter().chain(aligned_lines) {
             let lhs_line_novel = highlight_as_novel(
                 *lhs_line_num,
                 &lhs_lines,
@@ -912,6 +984,8 @@ mod tests {
             "bar",
             &lhs_mps,
             &rhs_mps,
+            &[],
+            &[],
         );
     }
 }

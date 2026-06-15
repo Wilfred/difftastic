@@ -32,6 +32,29 @@ pub(crate) enum ColorOutput {
     Never,
 }
 
+/// How `--show-function` should display the function enclosing each
+/// change. Currently only one mode exists; this is an enum so we can
+/// add more in future (e.g. showing the whole function, like `git diff
+/// -W`).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum ShowFunction {
+    /// Show just the definition line of the enclosing function.
+    Default,
+}
+
+impl ShowFunction {
+    /// clap value parser for `--show-function` and `DFT_SHOW_FUNCTION`.
+    /// Accepts the mode name `default`, plus the truthy aliases
+    /// `1`/`true`/`yes`/`on` so that `DFT_SHOW_FUNCTION=1` enables the
+    /// feature. Any other value is rejected.
+    fn parse_arg(s: &str) -> Result<Self, String> {
+        match s.trim().to_ascii_lowercase().as_str() {
+            "default" | "1" | "true" | "yes" | "on" => Ok(ShowFunction::Default),
+            other => Err(format!("invalid mode {other:?} (expected `default`)")),
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub(crate) struct DisplayOptions {
     pub(crate) background_color: BackgroundColor,
@@ -43,6 +66,7 @@ pub(crate) struct DisplayOptions {
     pub(crate) num_context_lines: u32,
     pub(crate) syntax_highlight: bool,
     pub(crate) sort_paths: bool,
+    pub(crate) show_function: Option<ShowFunction>,
 }
 
 pub(crate) const DEFAULT_TERMINAL_WIDTH: usize = 80;
@@ -59,6 +83,7 @@ impl Default for DisplayOptions {
             num_context_lines: 3,
             syntax_highlight: true,
             sort_paths: false,
+            show_function: None,
         }
     }
 }
@@ -182,6 +207,27 @@ fn app() -> clap::Command {
                 .env("DFT_CONTEXT")
                 .value_parser(clap::value_parser!(u32))
                 .required(false),
+        )
+        .arg(
+            Arg::new("show-function")
+                .long("show-function")
+                .short('p')
+                .value_name("MODE")
+                .num_args(0..=1)
+                // Allow plain `-p` to work, otherwise `difft -p old new` would
+                // read `old` as the mode for `-p`.
+                .require_equals(true)
+                .default_missing_value("default")
+                .value_parser(ShowFunction::parse_arg)
+                .env("DFT_SHOW_FUNCTION")
+                .help("Show the definition line of the function enclosing each change, similar to `git diff --function-context`.\n\nAccepts an optional mode, e.g. --show-function=default; currently only `default` is supported, but more modes may be added in future. Setting DFT_SHOW_FUNCTION=1 (or =default) enables it too.")
+        )
+        .arg(
+            Arg::new("no-show-function")
+                .long("no-show-function")
+                .short('P')
+                .action(ArgAction::SetTrue)
+                .help("Disable --show-function. Takes precedence, so it can be used to override DFT_SHOW_FUNCTION.")
         )
         .arg(
             Arg::new("width")
@@ -848,6 +894,13 @@ pub(crate) fn parse_args() -> Mode {
         .get_one("context")
         .expect("Always present as we've given clap a default");
 
+    // Allow -P/--no-show-function to win over env variable DFT_SHOW_FUNCTION
+    let show_function = if matches.get_flag("no-show-function") {
+        None
+    } else {
+        matches.get_one::<ShowFunction>("show-function").copied()
+    };
+
     let print_unchanged = !matches.get_flag("skip-unchanged");
 
     let set_exit_code = matches.get_flag("exit-code");
@@ -956,6 +1009,7 @@ pub(crate) fn parse_args() -> Mode {
                 num_context_lines,
                 syntax_highlight,
                 sort_paths,
+                show_function,
             };
 
             let display_path = path.to_string_lossy().to_string();
@@ -1009,6 +1063,7 @@ pub(crate) fn parse_args() -> Mode {
         num_context_lines,
         syntax_highlight,
         sort_paths,
+        show_function,
     };
 
     Mode::Diff {
