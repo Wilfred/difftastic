@@ -291,3 +291,174 @@ fn git_unmerged_files() {
     let predicate_fn = predicate::str::contains("Unmerged path");
     cmd.assert().stdout(predicate_fn);
 }
+
+/// Assert that `--show-function` pulls in the definition of
+/// `function_name` as context, and that it is *not* shown without the
+/// flag (i.e. the definition is far enough away that only
+/// `--show-function` surfaces it).
+fn assert_function_context(old: &str, new: &str, function_name: &str) {
+    // Without --show-function, the distant definition is not displayed.
+    let mut cmd = get_base_command();
+    cmd.arg("--color=never").arg(old).arg(new);
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains(function_name).not());
+
+    // With --show-function, the enclosing definition is displayed.
+    let mut cmd = get_base_command();
+    cmd.arg("--color=never")
+        .arg("--show-function")
+        .arg(old)
+        .arg(new);
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains(function_name));
+}
+
+/// Assert that `--show-function` does not show `function_name`, e.g.
+/// because the change is not inside any function.
+fn assert_no_function_context(old: &str, new: &str, function_name: &str) {
+    let mut cmd = get_base_command();
+    cmd.arg("--color=never")
+        .arg("--show-function")
+        .arg(old)
+        .arg(new);
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains(function_name).not());
+}
+
+#[test]
+fn show_function_rust() {
+    assert_function_context(
+        "sample_files/show_function_rust_1.rs",
+        "sample_files/show_function_rust_2.rs",
+        "enclosing_function",
+    );
+}
+
+#[test]
+fn show_function_rust_top_level() {
+    assert_no_function_context(
+        "sample_files/show_function_rust_1.rs",
+        "sample_files/show_function_rust_toplevel.rs",
+        "enclosing_function",
+    );
+}
+
+#[test]
+fn show_function_c() {
+    assert_function_context(
+        "sample_files/show_function_c_1.c",
+        "sample_files/show_function_c_2.c",
+        "enclosing_function",
+    );
+}
+
+#[test]
+fn show_function_c_top_level() {
+    assert_no_function_context(
+        "sample_files/show_function_c_1.c",
+        "sample_files/show_function_c_toplevel.c",
+        "enclosing_function",
+    );
+}
+
+#[test]
+fn show_function_python() {
+    assert_function_context(
+        "sample_files/show_function_python_1.py",
+        "sample_files/show_function_python_2.py",
+        "enclosing_function",
+    );
+}
+
+#[test]
+fn show_function_python_top_level() {
+    assert_no_function_context(
+        "sample_files/show_function_python_1.py",
+        "sample_files/show_function_python_toplevel.py",
+        "enclosing_function",
+    );
+}
+
+#[test]
+fn show_function_php() {
+    assert_function_context(
+        "sample_files/show_function_php_1.php",
+        "sample_files/show_function_php_2.php",
+        "enclosing_function",
+    );
+}
+
+#[test]
+fn show_function_php_top_level() {
+    assert_no_function_context(
+        "sample_files/show_function_php_1.php",
+        "sample_files/show_function_php_toplevel.php",
+        "enclosing_function",
+    );
+}
+
+#[test]
+fn show_function_new_inner_shows_top_level() {
+    // Adding a new inner function should surface the top-level
+    // function's definition, not the new inner one.
+    assert_function_context(
+        "sample_files/show_function_new_inner_1.rs",
+        "sample_files/show_function_new_inner_2.rs",
+        "outer_function",
+    );
+}
+
+#[test]
+fn show_function_renamed() {
+    // Renaming an inner function surfaces the enclosing function.
+    assert_function_context(
+        "sample_files/show_function_rename_1.rs",
+        "sample_files/show_function_rename_2.rs",
+        "top_function",
+    );
+}
+
+#[test]
+fn show_function_deleted() {
+    // Deleting an inner function surfaces the enclosing function.
+    assert_function_context(
+        "sample_files/show_function_delete_1.rs",
+        "sample_files/show_function_delete_2.rs",
+        "top_function",
+    );
+}
+
+#[test]
+fn show_function_nested_single_line() {
+    // Two functions are defined on the same line. --show-function should
+    // surface that single shared definition line (sane output, no panic)
+    // when a change happens inside their body. We use a wide terminal so
+    // the long definition line isn't wrapped, keeping the assertion
+    // robust.
+    let old = "sample_files/show_function_nested_oneline_1.rs";
+    let new = "sample_files/show_function_nested_oneline_2.rs";
+
+    let mut cmd = get_base_command();
+    cmd.arg("--color=never")
+        .arg("--width=200")
+        .arg("--show-function")
+        .arg(old)
+        .arg(new);
+    cmd.assert().success().stdout(predicate::str::contains(
+        "fn outer_oneline() { fn inner_oneline() {",
+    ));
+
+    // Without --show-function, the shared definition line is too far from
+    // the change to be displayed.
+    let mut cmd = get_base_command();
+    cmd.arg("--color=never")
+        .arg("--width=200")
+        .arg(old)
+        .arg(new);
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains("outer_oneline").not());
+}

@@ -58,7 +58,8 @@ not support binary crates today](https://github.com/rust-lang/docs.rs/issues/238
 $ cargo test
 ```
 
-There are also several files in `sample_files/` that you can use.
+There are also several files in `sample_files/` that you can use. Use
+`./sample_files/compare_all.sh` to run across all samples and compare them.
 
 The best way to test difftastic is to look at history from a real
 project. Set `GIT_EXTERNAL_DIFF` to point to your current build.

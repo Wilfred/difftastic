@@ -8,6 +8,15 @@ Improved diffing performance, particularly when diffing directories.
 
 Removed support for SCSS (upstream parser is no longer maintained).
 
+### Command Line Interface
+
+Added `-p, --show-function` (`-p`), which displays the definition line of the
+function enclosing each change, similar to `git diff --function-context`. Can
+be disabled if set by an environment variable with `-p, --no-show-function`. It
+accepts an optional mode (currently only `default`, e.g.
+`--show-function=default`) to allow for more display modes in future. See issue
+#666.
+
 ## 0.69 (released 30th April 2026)
 
 ## Diffing

@@ -1,10 +1,12 @@
 //! Inline, or "unified" diff display.
 
+use line_numbers::LineNumber;
+
 use crate::constants::Side;
 use crate::display::context::{
     calculate_after_context, calculate_before_context, opposite_positions,
 };
-use crate::display::hunks::Hunk;
+use crate::display::hunks::{enclosing_function_def, Hunk};
 use crate::display::style::{self, apply_colors, apply_line_number_color};
 use crate::lines::{format_line_num, format_line_num_padded, split_on_newlines, MaxLine};
 use crate::options::DisplayOptions;
@@ -21,6 +23,7 @@ pub(crate) fn print(
     display_path: &str,
     extra_info: &Option<String>,
     file_format: &FileFormat,
+    lhs_fn_spans: &[(LineNumber, LineNumber)],
 ) {
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
@@ -83,12 +86,41 @@ pub(crate) fn print(
 
         let hunk_lines = hunk.lines.clone();
 
-        let before_lines = calculate_before_context(
+        let mut before_lines = calculate_before_context(
             &hunk_lines,
             &opposite_to_lhs,
             &opposite_to_rhs,
             display_options.num_context_lines as usize,
         );
+
+        // With --show-functions, add the definition line of the enclosing
+        // function as extra before-context if it is not already displayed.
+        if display_options.show_function.is_some() {
+            // Anchor on the LHS line at/closest-above the change. For a
+            // pure addition there are no novel LHS lines, so fall back
+            // to the last LHS context line (immediately above the
+            // insertion point, still inside the enclosing function).
+            let anchor_lhs = hunk
+                .novel_lhs
+                .iter()
+                .min()
+                .copied()
+                .or_else(|| before_lines.iter().rev().find_map(|(lhs, _)| *lhs))
+                .or_else(|| hunk_lines.iter().find_map(|(lhs, _)| *lhs));
+
+            if let Some(def) =
+                anchor_lhs.and_then(|line| enclosing_function_def(line, lhs_fn_spans))
+            {
+                let first_lhs = before_lines
+                    .iter()
+                    .find_map(|(lhs, _)| *lhs)
+                    .or_else(|| hunk_lines.iter().find_map(|(lhs, _)| *lhs));
+                let above = first_lhs.is_none_or(|first| def < first);
+                if above {
+                    before_lines.insert(0, (Some(def), None));
+                }
+            }
+        }
         let after_lines = calculate_after_context(
             &[&before_lines[..], &hunk_lines[..]].concat(),
             &opposite_to_lhs,

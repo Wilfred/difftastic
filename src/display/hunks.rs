@@ -681,6 +681,52 @@ pub(crate) fn matched_lines_indexes_for_hunk(
     (start_i, end_i)
 }
 
+/// The line that defines the function enclosing `line`, i.e. the first line of
+/// that function's definition, if any.
+///
+/// Only considers functions preceding `line` so the result is always a
+/// contextual line rather than part of the change itself.
+///
+/// When a change adds a new inner function, e.g. `line` is part of that inner
+/// function's definition, we skip it and return the enclosing function instead.
+/// To find the innermost nested function we compare the `start` line numbers
+/// because a nested function always begins on a later line than the function
+/// that encloses it.
+pub(crate) fn enclosing_function_def(
+    line: LineNumber,
+    spans: &[(LineNumber, LineNumber)],
+) -> Option<LineNumber> {
+    spans
+        .iter()
+        .filter(|(start, end)| *start < line && line <= *end)
+        .max_by_key(|(start, _)| start.0)
+        .map(|(start, _)| *start)
+}
+
+/// For the change described by `hunk`, find the definition line of the
+/// function enclosing it on each side. Used by `--show-function`. If the change
+/// isn't inside any known functions returns `(None, None)`.
+pub(crate) fn enclosing_function_line(
+    hunk: &Hunk,
+    lhs_fn_spans: &[(LineNumber, LineNumber)],
+    rhs_fn_spans: &[(LineNumber, LineNumber)],
+) -> (Option<LineNumber>, Option<LineNumber>) {
+    let lhs_def = hunk
+        .novel_lhs
+        .iter()
+        .min()
+        .copied()
+        .and_then(|line| enclosing_function_def(line, lhs_fn_spans));
+    let rhs_def = hunk
+        .novel_rhs
+        .iter()
+        .min()
+        .copied()
+        .and_then(|line| enclosing_function_def(line, rhs_fn_spans));
+
+    (lhs_def, rhs_def)
+}
+
 #[cfg(test)]
 mod tests {
     use std::iter::FromIterator;
@@ -691,6 +737,62 @@ mod tests {
     use super::*;
     use crate::hash::DftHashMap;
     use crate::syntax::{MatchKind, TokenKind};
+
+    #[test]
+    fn test_enclosing_function_def_body_change() {
+        // A change inside a function body returns the function's
+        // definition line.
+        let spans = [(LineNumber(2), LineNumber(8))];
+        assert_eq!(
+            enclosing_function_def(LineNumber(5), &spans),
+            Some(LineNumber(2))
+        );
+    }
+
+    #[test]
+    fn test_enclosing_function_def_top_level() {
+        // A change outside any function has no enclosing definition.
+        let spans = [(LineNumber(2), LineNumber(8))];
+        assert_eq!(enclosing_function_def(LineNumber(0), &spans), None);
+    }
+
+    #[test]
+    fn test_enclosing_function_def_nested_returns_innermost() {
+        // outer spans 1..=10, inner spans 4..=7. A change at line 5 is
+        // inside the inner function.
+        let spans = [
+            (LineNumber(1), LineNumber(10)),
+            (LineNumber(4), LineNumber(7)),
+        ];
+        assert_eq!(
+            enclosing_function_def(LineNumber(5), &spans),
+            Some(LineNumber(4))
+        );
+    }
+
+    #[test]
+    fn test_enclosing_function_def_new_inner_returns_outer() {
+        // A newly-added inner function: the change starts on the inner
+        // function's own definition line (4). We skip it (its
+        // definition *is* the change) and return the enclosing outer
+        // function (line 1).
+        let spans = [
+            (LineNumber(1), LineNumber(10)),
+            (LineNumber(4), LineNumber(7)),
+        ];
+        assert_eq!(
+            enclosing_function_def(LineNumber(4), &spans),
+            Some(LineNumber(1))
+        );
+    }
+
+    #[test]
+    fn test_enclosing_function_def_change_on_top_level_def() {
+        // A change on a top-level function's own definition line
+        // (e.g. renaming or deleting it) has no enclosing function.
+        let spans = [(LineNumber(2), LineNumber(8))];
+        assert_eq!(enclosing_function_def(LineNumber(2), &spans), None);
+    }
 
     #[test]
     fn test_sorted_novel_positions_simple() {
