@@ -178,6 +178,7 @@ fn app() -> clap::Command {
         .arg(
             Arg::new("context")
                 .long("context")
+                .short('c')
                                 .value_name("LINES")
                 .action(ArgAction::Set)
                 .long_help("The number of contextual lines to show around changed lines.")
