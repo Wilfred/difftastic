@@ -8,6 +8,10 @@ Improved diffing performance, particularly when diffing directories.
 
 Removed support for SCSS (upstream parser is no longer maintained).
 
+### Command Line Interface
+
+`--context` can now be set with the short flag `-c`.
+
 ## 0.69 (released 30th April 2026)
 
 ## Diffing
