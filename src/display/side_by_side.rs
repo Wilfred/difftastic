@@ -66,6 +66,14 @@ fn format_missing_line_num(
     .to_string()
 }
 
+/// Whether `lines` (as produced by `split_on_newlines`) ends in a
+/// trailing empty line. `split_on_newlines` yields such a line when the
+/// source ends in a newline; it's an artifact of the terminating newline
+/// rather than a real line, so display code drops it. See #966.
+fn has_trailing_blank_line(lines: &[&str]) -> bool {
+    lines.len() > 1 && lines.last() == Some(&"")
+}
+
 /// Display `src` in a single column (e.g. a file removal or addition).
 fn display_single_column(
     display_path: &str,
@@ -473,11 +481,11 @@ pub(crate) fn print(
 
     // Style positions are relative to the source code offsets. Now
     // that we've applied styling, we can replace tabs.
-    let lhs_colored_lines: Vec<_> = lhs_colored_lines
+    let mut lhs_colored_lines: Vec<_> = lhs_colored_lines
         .iter()
         .map(|l| replace_tabs(l, display_options.tab_width))
         .collect();
-    let rhs_colored_lines: Vec<_> = rhs_colored_lines
+    let mut rhs_colored_lines: Vec<_> = rhs_colored_lines
         .iter()
         .map(|l| replace_tabs(l, display_options.tab_width))
         .collect();
@@ -488,6 +496,14 @@ pub(crate) fn print(
             DisplayMode::SideBySideShowBoth
         )
     {
+        // The RHS file is shown in a single column. Drop the trailing
+        // blank line from a terminating newline so we don't render a
+        // phantom blank line after the file's last line (the two-column
+        // path below does the same for `rhs_lines`). See #966.
+        let rhs_lines: Vec<&str> = split_on_newlines(rhs_src).collect();
+        if has_trailing_blank_line(&rhs_lines) {
+            rhs_colored_lines.pop();
+        }
         for line in display_single_column(
             display_path,
             old_path,
@@ -507,6 +523,12 @@ pub(crate) fn print(
             DisplayMode::SideBySideShowBoth
         )
     {
+        // The LHS file is shown in a single column. See the comment above
+        // and #966.
+        let lhs_lines: Vec<&str> = split_on_newlines(lhs_src).collect();
+        if has_trailing_blank_line(&lhs_lines) {
+            lhs_colored_lines.pop();
+        }
         for line in display_single_column(
             display_path,
             old_path,
@@ -542,10 +564,10 @@ pub(crate) fn print(
     let mut lhs_lines = split_on_newlines(lhs_src).collect::<Vec<_>>();
     let mut rhs_lines = split_on_newlines(rhs_src).collect::<Vec<_>>();
 
-    if lhs_lines.last() == Some(&"") && lhs_lines.len() > 1 {
+    if has_trailing_blank_line(&lhs_lines) {
         lhs_lines.pop();
     }
-    if rhs_lines.last() == Some(&"") && rhs_lines.len() > 1 {
+    if has_trailing_blank_line(&rhs_lines) {
         rhs_lines.pop();
     }
 
@@ -842,6 +864,21 @@ mod tests {
             format_missing_line_num(1.into(), &source_dims, Side::Left, false, false),
             "  ".to_owned()
         );
+    }
+
+    #[test]
+    fn test_has_trailing_blank_line() {
+        let split = |s| split_on_newlines(s).collect::<Vec<_>>();
+        // A terminating newline produces a trailing empty line.
+        assert!(has_trailing_blank_line(&split("foo\nbar\n")));
+        assert!(has_trailing_blank_line(&split("foo\n\nbar\n")));
+        // A genuine blank line plus the terminating newline still counts
+        // (one trailing empty line is dropped, the real blank is kept).
+        assert!(has_trailing_blank_line(&split("foo\n\n")));
+        // No terminating newline: the last line is real, not blank.
+        assert!(!has_trailing_blank_line(&split("foo\nbar")));
+        assert!(!has_trailing_blank_line(&split("foo")));
+        assert!(!has_trailing_blank_line(&split("")));
     }
 
     #[test]

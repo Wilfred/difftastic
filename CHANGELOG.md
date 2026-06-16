@@ -8,6 +8,12 @@ Improved diffing performance, particularly when diffing directories.
 
 Removed support for SCSS (upstream parser is no longer maintained).
 
+### Display
+
+Fixed an extra blank line being shown at the end of files that end in a
+newline when displayed in a single column (e.g. file additions and
+removals).
+
 ## 0.69 (released 30th April 2026)
 
 ## Diffing
