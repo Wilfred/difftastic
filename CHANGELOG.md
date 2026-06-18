@@ -8,6 +8,12 @@ Improved diffing performance, particularly when diffing directories.
 
 Removed support for SCSS (upstream parser is no longer maintained).
 
+### Display
+
+Fixed an inconsistent choice of file path label when diffing two paths
+that share no common suffix: the label no longer depends on whether the
+files have an extension.
+
 ## 0.69 (released 30th April 2026)
 
 ## Diffing
