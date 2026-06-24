@@ -4,6 +4,9 @@
 
 Improved diffing performance, particularly when diffing directories.
 
+Fixed a crash when line reordering left a hunk with no novel lines
+(#995).
+
 ### Parsing
 
 Removed support for SCSS (upstream parser is no longer maintained).
