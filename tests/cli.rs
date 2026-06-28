@@ -50,6 +50,37 @@ fn inline() {
 }
 
 #[test]
+fn html() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=html")
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
+
+    let predicate_fn = predicate::str::starts_with("<!DOCTYPE html>")
+        .and(predicate::str::contains("<table class=\"dft-diff\">"))
+        .and(predicate::str::contains("simple_2.js"))
+        .and(predicate::str::ends_with("</html>\n"));
+    cmd.assert().success().stdout(predicate_fn);
+}
+
+#[test]
+fn html_directory() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=html")
+        .arg("sample_files/dir_1")
+        .arg("sample_files/dir_2");
+
+    // A single self-contained document should be emitted, even when
+    // diffing a directory of files.
+    let predicate_fn = predicate::str::starts_with("<!DOCTYPE html>")
+        .and(predicate::str::contains("only_in_1.c"))
+        .and(predicate::str::contains("only_in_2.rs"));
+    cmd.assert().success().stdout(predicate_fn);
+}
+
+#[test]
 fn binary_changed() {
     let mut cmd = get_base_command();
 

@@ -206,7 +206,7 @@ fn app() -> clap::Command {
         )
         .arg(
             Arg::new("display").long("display")
-                .value_parser(["side-by-side", "side-by-side-show-both", "inline", "json"])
+                .value_parser(["side-by-side", "side-by-side-show-both", "inline", "json", "html"])
                 .default_value("side-by-side")
                 .value_name("MODE")
                 .action(ArgAction::Set)
@@ -219,7 +219,9 @@ side-by-side-show-both: The same as side-by-side, but always uses two columns.
 
 inline: A single column display, closer to traditional diff display.
 
-json: Output the results as a machine-readable JSON array with an element per file.")
+json: Output the results as a machine-readable JSON array with an element per file.
+
+html: Output a self-contained HTML document with a side-by-side view that can be opened in a browser.")
         )
         .arg(
             Arg::new("color").long("color")
@@ -382,6 +384,7 @@ pub(crate) enum DisplayMode {
     SideBySide,
     SideBySideShowBoth,
     Json,
+    Html,
 }
 
 #[derive(Eq, PartialEq, Debug)]
@@ -806,6 +809,7 @@ pub(crate) fn parse_args() -> Mode {
 
             DisplayMode::Json
         }
+        "html" => DisplayMode::Html,
         _ => {
             unreachable!("clap has already validated display")
         }

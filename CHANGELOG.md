@@ -1,5 +1,11 @@
 ## 0.70 (unreleased)
 
+### Display
+
+Added a new HTML display mode, `--display html` (or
+`DFT_DISPLAY=html`). This emits a single self-contained HTML document
+with a side-by-side view that can be opened directly in a browser.
+
 ### Diffing
 
 Improved diffing performance, particularly when diffing directories.

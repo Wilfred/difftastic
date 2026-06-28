@@ -262,7 +262,11 @@ fn main() {
                 &binary_overrides,
             );
 
-            print_diff_result(&display_options, &diff_result);
+            match display_options.display_mode {
+                DisplayMode::Json => display::json::print(&diff_result),
+                DisplayMode::Html => display::html::print(&diff_result, &display_options),
+                _ => print_diff_result(&display_options, &diff_result),
+            }
 
             let exit_code = if set_exit_code && diff_result.has_reportable_change() {
                 EXIT_FOUND_CHANGES
@@ -321,6 +325,18 @@ fn main() {
                             .iter()
                             .any(|diff_result| diff_result.has_reportable_change());
                         display::json::print_directory(results, display_options.print_unchanged);
+                    } else if matches!(display_options.display_mode, DisplayMode::Html) {
+                        // HTML output is a single self-contained
+                        // document, so we collect every result before
+                        // emitting anything.
+                        let mut results: Vec<_> = diff_iter.collect();
+                        encountered_changes = results
+                            .iter()
+                            .any(|diff_result| diff_result.has_reportable_change());
+                        if display_options.sort_paths {
+                            results.sort_unstable_by(|a, b| a.display_path.cmp(&b.display_path));
+                        }
+                        display::html::print_directory(results, &display_options);
                     } else if display_options.sort_paths {
                         let mut result: Vec<DiffResult> = diff_iter.collect();
                         result.sort_unstable_by(|a, b| a.display_path.cmp(&b.display_path));
@@ -383,6 +399,7 @@ fn main() {
                             print_diff_result(&display_options, &diff_result);
                         }
                         DisplayMode::Json => display::json::print(&diff_result),
+                        DisplayMode::Html => display::html::print(&diff_result, &display_options),
                     }
                 }
             }
@@ -968,7 +985,9 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.rhs_positions,
                     );
                 }
-                DisplayMode::Json => unreachable!(),
+                // JSON and HTML are whole-document formats that are
+                // printed via their own functions, never here.
+                DisplayMode::Json | DisplayMode::Html => unreachable!(),
             }
         }
         (FileContent::Binary, FileContent::Binary) => {

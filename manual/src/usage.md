@@ -81,6 +81,33 @@ OPTIONS:
 ...
 ```
 
+## Output Formats
+
+Difftastic supports several display modes, selected with `--display`
+(or the `DFT_DISPLAY` environment variable).
+
+* `side-by-side` (the default): two columns, with line numbers aligned
+  according to unchanged content.
+* `side-by-side-show-both`: the same, but always uses two columns.
+* `inline`: a single column, closer to a traditional diff.
+* `html`: a self-contained HTML document with a side-by-side view.
+* `json`: machine-readable JSON (requires `DFT_UNSTABLE=yes`).
+
+### HTML Output
+
+```bash
+$ difft --display html sample_files/simple_1.js sample_files/simple_2.js > diff.html
+```
+
+The HTML output is a single, self-contained document with all styling
+embedded, so it can be opened directly in a browser or shared as a
+file. Changed files are shown in a two-column view, with changed
+regions highlighted inline. When diffing directories, every file is
+included in the one document.
+
+The colour scheme follows the `--background` option, so use
+`--background light` for a light theme.
+
 ## Exit Codes
 
 2: Difftastic was given invalid arguments. This includes invalid usage

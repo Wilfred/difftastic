@@ -1,4 +1,5 @@
 pub(crate) mod context;
+pub(crate) mod html;
 pub(crate) mod hunks;
 pub(crate) mod inline;
 pub(crate) mod json;
