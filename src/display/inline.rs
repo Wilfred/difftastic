@@ -1,9 +1,12 @@
 //! Inline, or "unified" diff display.
 
+use line_numbers::LineNumber;
+
 use crate::constants::Side;
 use crate::display::context::{
     calculate_after_context, calculate_before_context, opposite_positions,
 };
+use crate::display::diff_line_metadata::{row_is_novel, DiffLineMetadata};
 use crate::display::hunks::Hunk;
 use crate::display::style::{self, apply_colors, apply_line_number_color};
 use crate::lines::{format_line_num, format_line_num_padded, split_on_newlines, MaxLine};
@@ -64,6 +67,10 @@ pub(crate) fn print(
     let opposite_to_lhs = opposite_positions(lhs_mps);
     let opposite_to_rhs = opposite_positions(rhs_mps);
 
+    let metadata = DiffLineMetadata::from_env(display_path);
+    let lhs_lines: Vec<&str> = split_on_newlines(lhs_src).collect();
+    let rhs_lines: Vec<&str> = split_on_newlines(rhs_src).collect();
+
     // Calculate the maximum line number width for alignment
     let lhs_line_nums_width = format_line_num(lhs_src.max_line()).len();
     let rhs_line_nums_width = format_line_num(rhs_src.max_line()).len();
@@ -99,8 +106,31 @@ pub(crate) fn print(
             display_options.num_context_lines as usize,
         );
 
-        for (lhs_line, _) in before_lines {
+        // Inline mode groups all old-side content (before-context, then
+        // deletions) before all new-side content (additions, then
+        // after-context). The metadata rides each line: the old-side passes
+        // emit the left-column record, the new-side passes the right-column
+        // one, so a host can still reconstruct each line's identity despite the
+        // grouping. `prev_rhs` carries the most recent new-file line through the
+        // old-side passes, to place a pure deletion (which has no new line of
+        // its own) at the following new-file position.
+        let mut prev_rhs: Option<LineNumber> = None;
+
+        for (lhs_line, rhs_line) in before_lines {
             if let Some(lhs_line) = lhs_line {
+                if let Some(metadata) = &metadata {
+                    // An old line with no new-side counterpart is a deletion in
+                    // patch space even when this display files it under context
+                    // (a deleted blank line, or a line consumed by a join). An
+                    // aligned context row stays `c` even if its sides' contents
+                    // differ (a whitespace-only change): only one side of it is
+                    // ever rendered here, so a `d` would hand the host a
+                    // deletion whose addition it can never show.
+                    print!(
+                        "{}",
+                        metadata.left_cell(Some(lhs_line), rhs_line, rhs_line.is_none(), prev_rhs,)
+                    );
+                }
                 print!(
                     "{}   {}",
                     apply_line_number_color(
@@ -112,10 +142,31 @@ pub(crate) fn print(
                     lhs_colored_lines[lhs_line.as_usize()]
                 );
             }
+            if let Some(rhs_line) = rhs_line {
+                prev_rhs = Some(rhs_line);
+            }
         }
 
-        for (lhs_line, _) in &hunk_lines {
+        for (lhs_line, rhs_line) in &hunk_lines {
             if let Some(lhs_line) = lhs_line {
+                if let Some(metadata) = &metadata {
+                    // The line type is the row's patch-space type (contents
+                    // compared -- see row_is_novel), not the token novelty the
+                    // display colors by: a line changed only by added tokens
+                    // has no novel old-side tokens, yet its old line is still
+                    // the deletion half of the modification. A genuinely
+                    // identical line that falls inside the hunk still compares
+                    // equal and is tagged c.
+                    print!(
+                        "{}",
+                        metadata.left_cell(
+                            Some(*lhs_line),
+                            *rhs_line,
+                            row_is_novel(Some(*lhs_line), *rhs_line, &lhs_lines, &rhs_lines),
+                            prev_rhs,
+                        )
+                    );
+                }
                 print!(
                     "{}   {}",
                     apply_line_number_color(
@@ -127,9 +178,21 @@ pub(crate) fn print(
                     lhs_colored_lines[lhs_line.as_usize()]
                 );
             }
-        }
-        for (_, rhs_line) in &hunk_lines {
             if let Some(rhs_line) = rhs_line {
+                prev_rhs = Some(*rhs_line);
+            }
+        }
+        for (lhs_line, rhs_line) in &hunk_lines {
+            if let Some(rhs_line) = rhs_line {
+                if let Some(metadata) = &metadata {
+                    print!(
+                        "{}",
+                        metadata.right_cell(
+                            Some(*rhs_line),
+                            row_is_novel(*lhs_line, Some(*rhs_line), &lhs_lines, &rhs_lines),
+                        )
+                    );
+                }
                 print!(
                     "   {}{}",
                     apply_line_number_color(
@@ -143,8 +206,18 @@ pub(crate) fn print(
             }
         }
 
-        for (_, rhs_line) in &after_lines {
+        for (lhs_line, rhs_line) in &after_lines {
             if let Some(rhs_line) = rhs_line {
+                if let Some(metadata) = &metadata {
+                    // Mirror of the before-context pass: a new line with no
+                    // old-side counterpart is an addition even when filed under
+                    // context; an aligned context row stays `c` regardless of
+                    // content.
+                    print!(
+                        "{}",
+                        metadata.right_cell(Some(*rhs_line), lhs_line.is_none())
+                    );
+                }
                 print!(
                     "   {}{}",
                     apply_line_number_color(
