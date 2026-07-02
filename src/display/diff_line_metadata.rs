@@ -47,6 +47,19 @@ pub(crate) fn negotiated_version() -> Option<u32> {
     *VERSION.get_or_init(|| pick_version(&std::env::var("OSC1717").ok()?))
 }
 
+/// The handshake record: a version-only OSC 1717 (no further fields) that a
+/// conforming pager emits once, as its first output, to announce it speaks the
+/// protocol (see the spec, §4.4). It lets a host probe difftastic on an empty diff
+/// — which emits no per-line records — and tell "speaks the protocol" apart from
+/// "unsupported pager". Empty when no host negotiated a version.
+pub(crate) fn handshake() -> String {
+    negotiated_version().map_or(String::new(), handshake_for_version)
+}
+
+fn handshake_for_version(version: u32) -> String {
+    format!("{OSC};{version}{ST}")
+}
+
 /// The highest version in the host's advertised list (e.g. "V1" or "V1,V2")
 /// that this build also understands, or `None` if the lists are disjoint.
 fn pick_version(advertised: &str) -> Option<u32> {
@@ -189,6 +202,13 @@ mod tests {
         assert_eq!(pick_version("V2,V3"), None); // disjoint with what we emit
         assert_eq!(pick_version(""), None);
         assert_eq!(pick_version("garbage"), None);
+    }
+
+    #[test]
+    fn test_handshake_is_version_only() {
+        // The handshake carries only the version (no further fields), so a host tells
+        // it apart from a per-line record by field count.
+        assert_eq!(handshake_for_version(1), "\x1b]1717;1\x1b\\");
     }
 
     #[test]
