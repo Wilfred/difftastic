@@ -223,11 +223,13 @@ pub(crate) fn mark_syntax<'a>(
     let lhs_node_count = node_count(lhs_syntax) as usize;
     let rhs_node_count = node_count(rhs_syntax) as usize;
     info!(
-        "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
+        "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel), LHS first: {}, RHS first: {}",
         lhs_node_count,
         tree_count(lhs_syntax),
         rhs_node_count,
         tree_count(rhs_syntax),
+        lhs_syntax.map_or_else(|| "None".into(), Syntax::dbg_content),
+        rhs_syntax.map_or_else(|| "None".into(), Syntax::dbg_content),
     );
 
     // When there are a large number of changes, we end up building a
