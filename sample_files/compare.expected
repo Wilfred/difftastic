@@ -53,7 +53,7 @@ sample_files/contiguous_1.js sample_files/contiguous_2.js
 7ac6081dee02e3529a88defca194bc00  -
 
 sample_files/css_1.css sample_files/css_2.css
-43a2bbc8dc2f4b4733ecb5a888d10dfc  -
+6d53cbb5dc5d66adfad2d8d67c883178  -
 
 sample_files/dart_1.dart sample_files/dart_2.dart
 2cacc19ded574d97416eed1a3da513e6  -
@@ -266,7 +266,7 @@ sample_files/string_subwords_1.el sample_files/string_subwords_2.el
 25c9e7cc72bf1a0ed2211762ad3bd7bc  -
 
 sample_files/strings_1.el sample_files/strings_2.el
-4d39b32b53a056e1e770b8e5ab04790c  -
+aa10260bc3084507431b636d2f0f2eae  -
 
 sample_files/swift_1.swift sample_files/swift_2.swift
 3a90686a3e172ae19a5fd7cef2f1b944  -
