@@ -69,8 +69,8 @@ fn heuristic_estimate(v: &Vertex) -> u32 {
     let rhs = side_remaining(v.rhs_syntax, || v.rhs_unpopped_delimiter());
 
     NOVEL_EDGE_COST
-        * (lhs.content_is_globally_unique
-            + rhs.content_is_globally_unique
+        * (lhs.forced_novel
+            + rhs.forced_novel
             + lhs.atoms.abs_diff(rhs.atoms)
             + lhs.delimiters.abs_diff(rhs.delimiters))
 }

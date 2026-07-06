@@ -54,15 +54,66 @@ pub(crate) type ContentId = u32;
 /// A* diffing heuristic.
 #[derive(Debug, Clone, Copy, Default)]
 pub(crate) struct RemainingCounts {
-    /// Nodes that cannot be matched with any node on the other side
-    /// of the diff, because their content only occurs on this
-    /// side. Each of these forces a novel edge on any diff route.
-    pub(crate) content_is_globally_unique: u32,
+    /// Nodes classified as [`HeuristicNodeClass::ForcedNovel`].
+    /// Each of these forces a novel edge on any diff route.
+    pub(crate) forced_novel: u32,
     /// Atoms that may be matchable with an atom on the other side.
     pub(crate) atoms: u32,
     /// List delimiters that may be matchable with a list on the
     /// other side.
     pub(crate) delimiters: u32,
+}
+
+/// How one syntax node contributes to the A* diffing heuristic.
+#[derive(Debug, Clone, Copy)]
+enum HeuristicNodeClass {
+    /// Do not count this atom at all.
+    ///
+    /// This is *not* the same as the atom's own kind being
+    /// `AtomKind::CanIgnore`. `CanIgnore` only marks trailing
+    /// punctuation (e.g. a trailing comma), and `set_content_id`
+    /// disregards those atoms when building list content IDs. This
+    /// means two lists such as `[a,]` and `[a]` share a content ID and
+    /// can be consumed by a single `UnchangedNode` edge, even though
+    /// that edge swallows different numbers of punctuation atoms.
+    ///
+    /// Counting the swallowed comma would make the heuristic price
+    /// that transition above its true cost, so we exclude every atom
+    /// whose content ever appears as `CanIgnore`. This keeps the
+    /// remaining counts a function of content, not of an individual
+    /// atom's local kind, which is required for equal content IDs to
+    /// have equal heuristic counts.
+    ExcludedFromCounts,
+    /// Count this node as requiring a novel edge.
+    ///
+    /// The node's content cannot be paired with any node on the other
+    /// side by the graph's non-novel edges. For atoms, this means the
+    /// exact content does not occur on both sides and the atom is not
+    /// conservatively treated as replaceable comment/string content.
+    /// For lists, this means the same delimiter pair does not occur
+    /// on both sides. Any complete route must therefore consume this
+    /// node with one novel edge.
+    ForcedNovel,
+    /// Count this atom as potentially pairable with an atom on the
+    /// other side.
+    ///
+    /// The heuristic does not try to prove that a particular pairing
+    /// will happen. It only tracks how many non-forced atoms remain on
+    /// each side, because unchanged/replacement atom edges consume one
+    /// atom from each side while novel atom edges consume one atom from
+    /// exactly one side. The absolute difference between the two atom
+    /// counts is therefore a lower bound on remaining novel atom
+    /// edges.
+    MatchableAtom,
+    /// Count this list delimiter as potentially pairable with a list
+    /// delimiter on the other side.
+    ///
+    /// Entering an unchanged delimiter consumes one list delimiter
+    /// from each side, while entering a novel delimiter consumes one
+    /// delimiter from exactly one side. As with atoms, the absolute
+    /// difference between the remaining delimiter counts is a lower
+    /// bound on the novel delimiter edges still needed.
+    MatchableDelimiter,
 }
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
@@ -100,34 +151,11 @@ pub(crate) struct SyntaxInfo<'a> {
     /// `parent`, which is set for the whole file, whereas these
     /// counts are scoped to the current diff section.
     num_remaining_after_subtree: Cell<RemainingCounts>,
-    /// Does this node's content occur on only one side of the diff,
-    /// so that no node on the other side can ever be matched with it?
-    /// If so, it can only be consumed by a novel edge. This must be a
-    /// function of the node's content, so that two nodes with equal
-    /// content IDs have subtrees with equal [`RemainingCounts`].
-    content_is_globally_unique: Cell<bool>,
-    /// Is this atom excluded from [`RemainingCounts`] entirely?
+    /// Classification used to precompute [`RemainingCounts`].
     ///
-    /// This is *not* the same as the atom's own kind being
-    /// `AtomKind::CanIgnore`. `CanIgnore` only marks trailing
-    /// punctuation (e.g. a trailing comma), and `set_content_id`
-    /// disregards those atoms, so a list `[a,]` and a list `[a]`
-    /// share a content ID. The two are therefore matched by a single
-    /// `UnchangedNode` edge that consumes both subtrees at once,
-    /// swallowing the extra comma (which `insert_deep_unchanged`
-    /// later marks as `IgnoredPunctuation` in a fixup). That edge
-    /// costs less than `NOVEL_EDGE_COST`, so if the swallowed comma
-    /// were counted the heuristic would price this transition above
-    /// its true cost: it would overestimate, breaking the
-    /// consistency that the A* search relies on.
-    ///
-    /// The counts must therefore be a function of content, not of the
-    /// individual atom's kind: we exclude *every* atom whose content
-    /// ever occurs as `CanIgnore`. The same content can appear as a
-    /// `Normal` atom elsewhere, and content IDs disregard the kind, so
-    /// counting `Normal` commas but not `CanIgnore` ones would make
-    /// the two sides' atom counts asymmetric in the same way.
-    is_ignorable: Cell<bool>,
+    /// This is set once per file pair in `init_info`, then
+    /// `init_next_prev` accumulates it over the current diff section.
+    heuristic_class: Cell<Option<HeuristicNodeClass>>,
     /// A number that uniquely identifies this syntax node.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
@@ -152,8 +180,7 @@ impl<'a> SyntaxInfo<'a> {
             num_after: Cell::new(0),
             num_remaining_from_here: Cell::new(RemainingCounts::default()),
             num_remaining_after_subtree: Cell::new(RemainingCounts::default()),
-            content_is_globally_unique: Cell::new(false),
-            is_ignorable: Cell::new(false),
+            heuristic_class: Cell::new(None),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
             content_is_unique_to_side: Cell::new(false),
@@ -509,12 +536,12 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
         &mut atom_presence,
         &mut delimiter_presence,
     );
-    set_heuristic_flags(lhs_roots, &atom_presence, &delimiter_presence);
-    set_heuristic_flags(rhs_roots, &atom_presence, &delimiter_presence);
+    set_heuristic_classes(lhs_roots, &atom_presence, &delimiter_presence);
+    set_heuristic_classes(rhs_roots, &atom_presence, &delimiter_presence);
 }
 
-/// Where does each content occur? Used to decide whether every node
-/// is forced-novel or ignorable.
+/// Where does each content occur? Used to classify nodes for the
+/// heuristic.
 #[derive(Debug, Clone, Copy, Default)]
 struct ContentPresence {
     on_lhs: bool,
@@ -524,7 +551,7 @@ struct ContentPresence {
     /// regardless of content.
     ever_string: bool,
     /// Does this content ever occur with `AtomKind::CanIgnore`?
-    ever_ignorable: bool,
+    ever_can_ignore: bool,
 }
 
 /// Record which sides every atom content and list delimiter pair
@@ -554,7 +581,7 @@ fn find_content_presence<'a>(
                     presence.ever_string = true;
                 }
                 if *kind == AtomKind::CanIgnore {
-                    presence.ever_ignorable = true;
+                    presence.ever_can_ignore = true;
                 }
                 presence
             }
@@ -568,7 +595,7 @@ fn find_content_presence<'a>(
     }
 }
 
-fn set_heuristic_flags(
+fn set_heuristic_classes(
     nodes: &[&Syntax],
     atom_presence: &DftHashMap<ContentId, ContentPresence>,
     delimiter_presence: &DftHashMap<(&str, &str), ContentPresence>,
@@ -581,18 +608,21 @@ fn set_heuristic_flags(
                 children,
                 ..
             } => {
-                set_heuristic_flags(children, atom_presence, delimiter_presence);
+                set_heuristic_classes(children, atom_presence, delimiter_presence);
 
                 // A list can only be matched with a list on the other
                 // side that has the same delimiters.
                 let presence = delimiter_presence[&(open_content.as_str(), close_content.as_str())];
                 let matchable = presence.on_lhs && presence.on_rhs;
-                node.info().content_is_globally_unique.set(!matchable);
+                let class = if matchable {
+                    HeuristicNodeClass::MatchableDelimiter
+                } else {
+                    HeuristicNodeClass::ForcedNovel
+                };
+                node.info().heuristic_class.set(Some(class));
             }
             Atom { kind, .. } => {
                 let presence = atom_presence[&node.content_id()];
-
-                node.info().is_ignorable.set(presence.ever_ignorable);
 
                 // Comments can be matched with any comment on the
                 // other side, and strings with any string, so only
@@ -601,7 +631,14 @@ fn set_heuristic_flags(
                 let matchable = *kind == AtomKind::Comment
                     || presence.ever_string
                     || (presence.on_lhs && presence.on_rhs);
-                node.info().content_is_globally_unique.set(!matchable);
+                let class = if presence.ever_can_ignore {
+                    HeuristicNodeClass::ExcludedFromCounts
+                } else if matchable {
+                    HeuristicNodeClass::MatchableAtom
+                } else {
+                    HeuristicNodeClass::ForcedNovel
+                };
+                node.info().heuristic_class.set(Some(class));
             }
         }
     }
@@ -687,23 +724,20 @@ fn set_num_remaining_node(node: &Syntax, after: RemainingCounts) -> RemainingCou
             for child in children.iter().rev() {
                 from_here = set_num_remaining_node(child, from_here);
             }
-            // Only atoms can be ignorable, so a list is either
-            // globally unique or a matchable delimiter.
-            if node.info().content_is_globally_unique.get() {
-                from_here.content_is_globally_unique += 1;
-            } else {
-                from_here.delimiters += 1;
-            }
         }
-        Atom { .. } => {
-            if node.info().is_ignorable.get() {
-                // Not counted at all.
-            } else if node.info().content_is_globally_unique.get() {
-                from_here.content_is_globally_unique += 1;
-            } else {
-                from_here.atoms += 1;
-            }
-        }
+        Atom { .. } => {}
+    }
+
+    let class = node
+        .info()
+        .heuristic_class
+        .get()
+        .expect("Heuristic class should be set before remaining counts");
+    match class {
+        HeuristicNodeClass::ExcludedFromCounts => {}
+        HeuristicNodeClass::ForcedNovel => from_here.forced_novel += 1,
+        HeuristicNodeClass::MatchableAtom => from_here.atoms += 1,
+        HeuristicNodeClass::MatchableDelimiter => from_here.delimiters += 1,
     }
 
     node.info().num_remaining_from_here.set(from_here);
