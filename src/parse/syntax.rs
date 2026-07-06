@@ -50,6 +50,21 @@ pub(crate) type SyntaxId = NonZeroU32;
 
 pub(crate) type ContentId = u32;
 
+/// The number of syntax nodes in part of a file, categorised for the
+/// A* diffing heuristic.
+#[derive(Debug, Clone, Copy, Default)]
+pub(crate) struct RemainingCounts {
+    /// Nodes that cannot be matched with any node on the other side
+    /// of the diff, because their content only occurs on this
+    /// side. Each of these forces a novel edge on any diff route.
+    pub(crate) content_is_globally_unique: u32,
+    /// Atoms that may be matchable with an atom on the other side.
+    pub(crate) atoms: u32,
+    /// List delimiters that may be matchable with a list on the
+    /// other side.
+    pub(crate) delimiters: u32,
+}
+
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub(crate) struct SyntaxInfo<'a> {
     /// The previous node with the same parent as this one.
@@ -64,6 +79,55 @@ pub(crate) struct SyntaxInfo<'a> {
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
     pub(crate) num_after: Cell<usize>,
+    /// The nodes from this node inclusive to the end of the root
+    /// slice most recently passed to `init_next_prev`, in document
+    /// order. Since we diff sub-sections of the file separately,
+    /// this may be less than the count to the end of the file.
+    ///
+    /// Used as a lower bound in the A* diffing heuristic. The
+    /// heuristic requires counts that are scoped to the same node
+    /// slice as `next_sibling`: the diff graph for a section ends
+    /// when that section's nodes are exhausted, so counting to the
+    /// end of the file would overestimate.
+    num_remaining_from_here: Cell<RemainingCounts>,
+    /// The nodes strictly after this node's subtree, to the end of
+    /// the root slice most recently passed to `init_next_prev`, in
+    /// document order.
+    ///
+    /// Used by the A* diffing heuristic when one side has been fully
+    /// consumed but a delimiter is still open. This is stored rather
+    /// than derived at lookup time: deriving it would mean walking
+    /// `parent`, which is set for the whole file, whereas these
+    /// counts are scoped to the current diff section.
+    num_remaining_after_subtree: Cell<RemainingCounts>,
+    /// Does this node's content occur on only one side of the diff,
+    /// so that no node on the other side can ever be matched with it?
+    /// If so, it can only be consumed by a novel edge. This must be a
+    /// function of the node's content, so that two nodes with equal
+    /// content IDs have subtrees with equal [`RemainingCounts`].
+    content_is_globally_unique: Cell<bool>,
+    /// Is this atom excluded from [`RemainingCounts`] entirely?
+    ///
+    /// This is *not* the same as the atom's own kind being
+    /// `AtomKind::CanIgnore`. `CanIgnore` only marks trailing
+    /// punctuation (e.g. a trailing comma), and `set_content_id`
+    /// disregards those atoms, so a list `[a,]` and a list `[a]`
+    /// share a content ID. The two are therefore matched by a single
+    /// `UnchangedNode` edge that consumes both subtrees at once,
+    /// swallowing the extra comma (which `insert_deep_unchanged`
+    /// later marks as `IgnoredPunctuation` in a fixup). That edge
+    /// costs less than `NOVEL_EDGE_COST`, so if the swallowed comma
+    /// were counted the heuristic would price this transition above
+    /// its true cost: it would overestimate, breaking the
+    /// consistency that the A* search relies on.
+    ///
+    /// The counts must therefore be a function of content, not of the
+    /// individual atom's kind: we exclude *every* atom whose content
+    /// ever occurs as `CanIgnore`. The same content can appear as a
+    /// `Normal` atom elsewhere, and content IDs disregard the kind, so
+    /// counting `Normal` commas but not `CanIgnore` ones would make
+    /// the two sides' atom counts asymmetric in the same way.
+    is_ignorable: Cell<bool>,
     /// A number that uniquely identifies this syntax node.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
@@ -86,6 +150,10 @@ impl<'a> SyntaxInfo<'a> {
             parent: Cell::new(None),
             num_ancestors: Cell::new(0),
             num_after: Cell::new(0),
+            num_remaining_from_here: Cell::new(RemainingCounts::default()),
+            num_remaining_after_subtree: Cell::new(RemainingCounts::default()),
+            content_is_globally_unique: Cell::new(false),
+            is_ignorable: Cell::new(false),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
             content_is_unique_to_side: Cell::new(false),
@@ -291,6 +359,18 @@ impl<'a> Syntax<'a> {
         self.info().next_sibling.get()
     }
 
+    /// The nodes from this node inclusive to the end of this node's
+    /// side, in document order.
+    pub(crate) fn num_remaining_from_here(&self) -> RemainingCounts {
+        self.info().num_remaining_from_here.get()
+    }
+
+    /// The nodes strictly after this node's subtree, to the end of
+    /// this node's side, in document order.
+    pub(crate) fn num_remaining_after_subtree(&self) -> RemainingCounts {
+        self.info().num_remaining_after_subtree.get()
+    }
+
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
     pub(crate) fn id(&self) -> SyntaxId {
@@ -419,6 +499,112 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
 
     set_content_is_unique(lhs_roots);
     set_content_is_unique(rhs_roots);
+
+    let mut atom_presence = DftHashMap::default();
+    let mut delimiter_presence = DftHashMap::default();
+    find_content_presence(lhs_roots, true, &mut atom_presence, &mut delimiter_presence);
+    find_content_presence(
+        rhs_roots,
+        false,
+        &mut atom_presence,
+        &mut delimiter_presence,
+    );
+    set_heuristic_flags(lhs_roots, &atom_presence, &delimiter_presence);
+    set_heuristic_flags(rhs_roots, &atom_presence, &delimiter_presence);
+}
+
+/// Where does each content occur? Used to decide whether every node
+/// is forced-novel or ignorable.
+#[derive(Debug, Clone, Copy, Default)]
+struct ContentPresence {
+    on_lhs: bool,
+    on_rhs: bool,
+    /// Does this content ever occur with a string kind? Strings can
+    /// be matched with other strings by a replacement edge,
+    /// regardless of content.
+    ever_string: bool,
+    /// Does this content ever occur with `AtomKind::CanIgnore`?
+    ever_ignorable: bool,
+}
+
+/// Record which sides every atom content and list delimiter pair
+/// occurs on. Assumes that `set_content_id` has already run.
+fn find_content_presence<'a>(
+    nodes: &[&'a Syntax<'a>],
+    is_lhs: bool,
+    atom_presence: &mut DftHashMap<ContentId, ContentPresence>,
+    delimiter_presence: &mut DftHashMap<(&'a str, &'a str), ContentPresence>,
+) {
+    for node in nodes {
+        let presence = match node {
+            List {
+                open_content,
+                close_content,
+                children,
+                ..
+            } => {
+                find_content_presence(children, is_lhs, atom_presence, delimiter_presence);
+                delimiter_presence
+                    .entry((open_content.as_str(), close_content.as_str()))
+                    .or_default()
+            }
+            Atom { kind, .. } => {
+                let presence = atom_presence.entry(node.content_id()).or_default();
+                if matches!(kind, AtomKind::String(_)) {
+                    presence.ever_string = true;
+                }
+                if *kind == AtomKind::CanIgnore {
+                    presence.ever_ignorable = true;
+                }
+                presence
+            }
+        };
+
+        if is_lhs {
+            presence.on_lhs = true;
+        } else {
+            presence.on_rhs = true;
+        }
+    }
+}
+
+fn set_heuristic_flags(
+    nodes: &[&Syntax],
+    atom_presence: &DftHashMap<ContentId, ContentPresence>,
+    delimiter_presence: &DftHashMap<(&str, &str), ContentPresence>,
+) {
+    for node in nodes {
+        match node {
+            List {
+                open_content,
+                close_content,
+                children,
+                ..
+            } => {
+                set_heuristic_flags(children, atom_presence, delimiter_presence);
+
+                // A list can only be matched with a list on the other
+                // side that has the same delimiters.
+                let presence = delimiter_presence[&(open_content.as_str(), close_content.as_str())];
+                let matchable = presence.on_lhs && presence.on_rhs;
+                node.info().content_is_globally_unique.set(!matchable);
+            }
+            Atom { kind, .. } => {
+                let presence = atom_presence[&node.content_id()];
+
+                node.info().is_ignorable.set(presence.ever_ignorable);
+
+                // Comments can be matched with any comment on the
+                // other side, and strings with any string, so only
+                // consider exact content occurrences for the other
+                // kinds of atom.
+                let matchable = *kind == AtomKind::Comment
+                    || presence.ever_string
+                    || (presence.on_lhs && presence.on_rhs);
+                node.info().content_is_globally_unique.set(!matchable);
+            }
+        }
+    }
 }
 
 type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
@@ -488,10 +674,55 @@ fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
         }
     }
 }
+/// Set `num_remaining_from_here` and `num_remaining_after_subtree`
+/// for `node` and all its descendants, where `after` is the counts
+/// after `node`'s subtree in document order. Returns the counts from
+/// `node` inclusive.
+fn set_num_remaining_node(node: &Syntax, after: RemainingCounts) -> RemainingCounts {
+    let mut from_here = after;
+    match node {
+        List { children, .. } => {
+            // Process children in reverse so we accumulate the counts
+            // following each one, in document order.
+            for child in children.iter().rev() {
+                from_here = set_num_remaining_node(child, from_here);
+            }
+            // Only atoms can be ignorable, so a list is either
+            // globally unique or a matchable delimiter.
+            if node.info().content_is_globally_unique.get() {
+                from_here.content_is_globally_unique += 1;
+            } else {
+                from_here.delimiters += 1;
+            }
+        }
+        Atom { .. } => {
+            if node.info().is_ignorable.get() {
+                // Not counted at all.
+            } else if node.info().content_is_globally_unique.get() {
+                from_here.content_is_globally_unique += 1;
+            } else {
+                from_here.atoms += 1;
+            }
+        }
+    }
+
+    node.info().num_remaining_from_here.set(from_here);
+    node.info().num_remaining_after_subtree.set(after);
+    from_here
+}
+
+fn set_num_remaining(roots: &[&Syntax]) {
+    let mut after = RemainingCounts::default();
+    for node in roots.iter().rev() {
+        after = set_num_remaining_node(node, after);
+    }
+}
+
 pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_sibling(roots);
     set_next_sibling(roots);
     set_prev(roots, None);
+    set_num_remaining(roots);
 }
 
 /// Set all the `SyntaxInfo` values for all the `roots` on a single
