@@ -66,8 +66,7 @@ use options::{FilePermissions, USAGE};
 
 use crate::conflicts::{apply_conflict_markers, START_LHS_MARKER};
 use crate::constants::Side;
-use crate::diff::changes::{insert_deep_novel, ChangeMap};
-use crate::diff::shortest_path::ExceededGraphLimit;
+use crate::diff::changes::ChangeMap;
 use crate::diff::{shortest_path, unchanged};
 use crate::display::context::opposite_positions;
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
@@ -701,30 +700,12 @@ fn diff_file_content(
                                 init_next_prev(&lhs_section_nodes);
                                 init_next_prev(&rhs_section_nodes);
 
-                                match mark_syntax(
+                                mark_syntax(
                                     lhs_section_nodes.first().copied(),
                                     rhs_section_nodes.first().copied(),
                                     &mut change_map,
                                     diff_options.graph_limit,
-                                ) {
-                                    Ok(()) => {}
-                                    Err(ExceededGraphLimit {}) => {
-                                        // Give up on this section and
-                                        // mark it as wholly changed,
-                                        // but keep the proper diff
-                                        // result for all the other
-                                        // sections in this file.
-                                        info!(
-                                            "Section exceeded DFT_GRAPH_LIMIT, marking it as novel."
-                                        );
-                                        for node in &lhs_section_nodes {
-                                            insert_deep_novel(node, &mut change_map);
-                                        }
-                                        for node in &rhs_section_nodes {
-                                            insert_deep_novel(node, &mut change_map);
-                                        }
-                                    }
-                                }
+                                );
                             }
 
                             fix_all_sliders(language, &lhs, &mut change_map);
