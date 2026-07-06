@@ -5,7 +5,7 @@ use std::hash::Hash;
 
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::diff::lcs_diff;
-use crate::hash::DftHashSet;
+use crate::hash::{DftHashMap, DftHashSet};
 use crate::parse::syntax::{ContentId, Syntax};
 
 const TINY_TREE_THRESHOLD: u32 = 10;
@@ -16,6 +16,12 @@ const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 /// we don't affect diff quality on sections that the main diff
 /// algorithm can already handle.
 const OVERSIZED_SECTION_MIN_GRAPH_SIZE: u64 = 1_000_000;
+/// A list smaller than this only needs to share one unique subtree
+/// with another list to be paired up with it.
+const SIMILAR_LIST_MIN_DESCENDANTS: u32 = 20;
+/// Number of shared unique subtrees required to consider two big
+/// lists similar enough to pair up.
+const SIMILAR_MIN_COMMON_UNIQUE: usize = 2;
 
 /// Look for syntax nodes that are obviously the same, and set
 /// [`ChangeKind`] on them.
@@ -114,6 +120,16 @@ fn section_size(nodes: &[&Syntax]) -> u64 {
 
 /// Try to further decompose a section that would produce a very
 /// large graph in the main diff algorithm.
+///
+/// Unlike [`split_unchanged_toplevel`], which can only split at
+/// nodes that are exactly equal on both sides, this pairs up lists
+/// that are merely similar (i.e. they share unique subtrees), then
+/// recursively splits inside each pair.
+///
+/// This helps when a file has widespread small changes, such as a
+/// mechanical rename that touches every function: no top-level node
+/// is exactly unchanged, but each function on the LHS can be paired
+/// with its slightly-changed counterpart on the RHS.
 fn split_possibly_changed_section<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
@@ -136,7 +152,202 @@ fn split_possibly_changed_section<'a>(
         return split_unchanged(&lhs_children, &rhs_children, change_map);
     }
 
+    if let Some(pairs) = find_similar_pairs(lhs_nodes, rhs_nodes) {
+        let mut res: Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
+
+        let mut lhs_i = 0;
+        let mut rhs_i = 0;
+        for (pair_lhs_i, pair_rhs_i) in pairs {
+            if lhs_i < pair_lhs_i || rhs_i < pair_rhs_i {
+                // The nodes between pairs form their own, strictly
+                // smaller section, which we can try to split again.
+                res.extend(split_possibly_changed_section(
+                    &lhs_nodes[lhs_i..pair_lhs_i],
+                    &rhs_nodes[rhs_i..pair_rhs_i],
+                    size_threshold,
+                    change_map,
+                ));
+            }
+
+            res.extend(split_possibly_changed_section(
+                &lhs_nodes[pair_lhs_i..pair_lhs_i + 1],
+                &rhs_nodes[pair_rhs_i..pair_rhs_i + 1],
+                size_threshold,
+                change_map,
+            ));
+
+            lhs_i = pair_lhs_i + 1;
+            rhs_i = pair_rhs_i + 1;
+        }
+
+        if lhs_i < lhs_nodes.len() || rhs_i < rhs_nodes.len() {
+            res.extend(split_possibly_changed_section(
+                &lhs_nodes[lhs_i..],
+                &rhs_nodes[rhs_i..],
+                size_threshold,
+                change_map,
+            ));
+        }
+
+        return res;
+    }
+
     vec![(lhs_nodes.to_vec(), rhs_nodes.to_vec())]
+}
+
+/// Find pairs of lists in `lhs_nodes` and `rhs_nodes` that are
+/// similar to each other, i.e. share unique subtrees.
+///
+/// Since a shared unique subtree occurs in exactly one list on each
+/// side, it identifies a pairing directly, so this runs in roughly
+/// linear time: no pairwise comparison is needed.
+///
+/// Pairs are in order (no crossing).
+fn find_similar_pairs(
+    lhs_nodes: &[&Syntax],
+    rhs_nodes: &[&Syntax],
+) -> Option<Vec<(usize, usize)>> {
+    // Guard against a single list being paired with itself
+    // repeatedly: pairing only makes progress if there is more than
+    // one node on either side.
+    if lhs_nodes.len() <= 1 && rhs_nodes.len() <= 1 {
+        return None;
+    }
+
+    // Map every unique content ID inside an RHS list to the index of
+    // that list. IDs are unique per side, so each ID occurs inside at
+    // most one RHS list.
+    let mut rhs_idx_by_id: DftHashMap<ContentId, usize> = DftHashMap::default();
+    for (j, node) in rhs_nodes.iter().enumerate() {
+        if matches!(node, Syntax::List { .. }) {
+            for id in find_all_unique_content_ids(node) {
+                rhs_idx_by_id.insert(id, j);
+            }
+        }
+    }
+    if rhs_idx_by_id.is_empty() {
+        return None;
+    }
+
+    // For each LHS list, find the RHS list that it shares the most
+    // unique subtrees with.
+    let mut candidates: Vec<(usize, usize, usize)> = vec![];
+    for (i, node) in lhs_nodes.iter().enumerate() {
+        if !matches!(node, Syntax::List { .. }) {
+            continue;
+        }
+
+        let mut votes: DftHashMap<usize, usize> = DftHashMap::default();
+        for id in find_all_unique_content_ids(node) {
+            if let Some(&j) = rhs_idx_by_id.get(&id) {
+                *votes.entry(j).or_insert(0) += 1;
+            }
+        }
+
+        let mut best: Option<(usize, usize)> = None;
+        let mut ambiguous = false;
+        for (&j, &vote_count) in votes.iter() {
+            match best {
+                Some((_, best_count)) => {
+                    if vote_count > best_count {
+                        best = Some((j, vote_count));
+                        ambiguous = false;
+                    } else if vote_count == best_count {
+                        ambiguous = true;
+                    }
+                }
+                None => {
+                    best = Some((j, vote_count));
+                }
+            }
+        }
+
+        if let (Some((j, vote_count)), false) = (best, ambiguous) {
+            // Small lists (e.g. a single key-value pair) only contain
+            // one unique subtree, which is still good evidence. For
+            // bigger lists, require more shared content, so we don't
+            // pair up substantial nodes that have little in common.
+            let min_descendants = std::cmp::min(
+                node_num_descendants(lhs_nodes[i]),
+                node_num_descendants(rhs_nodes[j]),
+            );
+            let required_votes = if min_descendants < SIMILAR_LIST_MIN_DESCENDANTS {
+                1
+            } else {
+                SIMILAR_MIN_COMMON_UNIQUE
+            };
+
+            if vote_count >= required_votes {
+                candidates.push((i, j, vote_count));
+            }
+        }
+    }
+
+    // Multiple LHS lists may prefer the same RHS list. Keep the one
+    // with the most votes.
+    candidates.sort_by_key(|(_, _, vote_count)| std::cmp::Reverse(*vote_count));
+    let mut rhs_claimed = DftHashSet::default();
+    let mut pairs: Vec<(usize, usize)> = vec![];
+    for (i, j, _) in candidates {
+        if rhs_claimed.insert(j) {
+            pairs.push((i, j));
+        }
+    }
+    pairs.sort_unstable();
+
+    // Only keep pairs that are in order on both sides, by finding the
+    // longest increasing subsequence of RHS indexes.
+    let pairs = longest_increasing_subsequence(&pairs);
+
+    if pairs.is_empty() {
+        return None;
+    }
+    Some(pairs)
+}
+
+fn node_num_descendants(node: &Syntax) -> u32 {
+    match node {
+        Syntax::List {
+            num_descendants, ..
+        } => *num_descendants,
+        Syntax::Atom { .. } => 0,
+    }
+}
+
+/// Given pairs sorted by their first item, return the longest
+/// subsequence whose second items are also increasing.
+fn longest_increasing_subsequence(pairs: &[(usize, usize)]) -> Vec<(usize, usize)> {
+    if pairs.is_empty() {
+        return vec![];
+    }
+
+    // tails[k] is the index into `pairs` of the smallest possible
+    // last element of an increasing subsequence of length k+1.
+    let mut tails: Vec<usize> = vec![];
+    let mut prev: Vec<Option<usize>> = vec![None; pairs.len()];
+
+    for (idx, (_, j)) in pairs.iter().enumerate() {
+        let pos = tails.partition_point(|&tail_idx| pairs[tail_idx].1 < *j);
+        prev[idx] = if pos > 0 {
+            Some(tails[pos - 1])
+        } else {
+            None
+        };
+        if pos == tails.len() {
+            tails.push(idx);
+        } else {
+            tails[pos] = idx;
+        }
+    }
+
+    let mut res = vec![];
+    let mut current = tails.last().copied();
+    while let Some(idx) = current {
+        res.push(pairs[idx]);
+        current = prev[idx];
+    }
+    res.reverse();
+    res
 }
 
 fn split_unchanged_singleton_list<'a>(
@@ -994,6 +1205,44 @@ mod tests {
         let mut change_map = ChangeMap::default();
         let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
         assert_eq!(res.len(), 1);
+    }
+
+    #[test]
+    fn test_find_similar_pairs() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        // Each list is big enough to be considered for pairing, and
+        // shares at least two unique subtrees with its (slightly
+        // changed) counterpart on the other side.
+        let lhs_src = "(fn-a unique-a1 unique-a2 old-1 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 x14 x15 x16)
+                       (fn-b unique-b1 unique-b2 old-2 y1 y2 y3 y4 y5 y6 y7 y8 y9 y10 y11 y12 y13 y14 y15 y16)";
+        let rhs_src = "(fn-a unique-a1 unique-a2 new-1 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 x14 x15 x16)
+                       (fn-b unique-b1 unique-b2 new-2 y1 y2 y3 y4 y5 y6 y7 y8 y9 y10 y11 y12 y13 y14 y15 y16)";
+
+        let lhs_nodes = parse(&arena, lhs_src, config, false);
+        let rhs_nodes = parse(&arena, rhs_src, config, false);
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let pairs = find_similar_pairs(&lhs_nodes, &rhs_nodes);
+        assert_eq!(pairs, Some(vec![(0, 0), (1, 1)]));
+    }
+
+    #[test]
+    fn test_find_similar_pairs_with_insertion() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs_src = "(fn-a unique-a1 unique-a2 old-1 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 x14 x15 x16)";
+        let rhs_src = "(fn-new n1 n2 n3 n4 n5 n6 n7 n8 n9 n10 n11 n12 n13 n14 n15 n16 n17 n18 n19)
+                       (fn-a unique-a1 unique-a2 new-1 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 x14 x15 x16)";
+
+        let lhs_nodes = parse(&arena, lhs_src, config, false);
+        let rhs_nodes = parse(&arena, rhs_src, config, false);
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let pairs = find_similar_pairs(&lhs_nodes, &rhs_nodes);
+        assert_eq!(pairs, Some(vec![(0, 1)]));
     }
 
     #[test]
