@@ -210,19 +210,50 @@ the 35-pair hit corpus:
 
 ¹ 32 unique file pairs from the 35 hits.
 
+Per-file timings (best of 2, warm) make the attribution concrete.
+`typing.ml` and `slow.rs` never hit the graph limit — they show the
+pairing heuristic also speeds up ordinary large diffs:
+
+| file | baseline | +anchors | +descent | +pairing | +unwrap | final |
+|---|---|---|---|---|---|---|
+| helloworld.c (rename) | 4314ms | 257ms | 262ms | 259ms | 257ms | 264ms |
+| locale_zh-CN.json | 3833ms | 38ms | 38ms | 36ms | 36ms | 37ms |
+| web.go | 5996ms | 6634ms | 6712ms | 450ms | 463ms | 465ms |
+| modus-themes.el | 7481ms | 7458ms | 7003ms | 517ms | 547ms | 563ms |
+| master_report.json | 7784ms | 8383ms | 4552ms | 36ms | 35ms | 35ms |
+| slow_1.rs (no limit hit) | 1333ms | 1471ms | 1480ms | 204ms | 201ms | 197ms |
+| typing_1.ml (no limit hit) | 834ms | 845ms | 884ms | 556ms | 557ms | 565ms |
+
+And at repo level, redict's 200 commits (2,333 file diffs):
+
+| binary | hits | total time |
+|---|---|---|
+| baseline | 9 | 207s |
+| + patience anchors | 2 | 162s |
+| + descent + pairing | 0 | 132s |
+| final (all heuristics) | 0 | 130s |
+
 Notable:
 
 - **Similarity pairing is the workhorse**: descent + pairing without
-  the anchors heuristic still fixes all 32 pairs. Pairing is where
-  both the fixes and most of the 3× speedup come from.
+  the anchors heuristic still fixes all 32 pairs, and pairing is the
+  step where web.go, modus-themes.el and master_report.json collapse
+  from seconds to milliseconds. It even speeds up files that never
+  hit the limit (slow_1.rs 1.3s → 0.2s with identical output),
+  because sections in the 1M–3M vertex range get decomposed instead
+  of searched.
 - **Forced descent fixes nothing by itself** (0/32 alone, and adds
   nothing on top of anchors), but it is the *enabler*: pairing without
   a way to descend into a paired 1v1 list can't reach nested changes,
   so the two heuristics are only useful together.
-- **Patience anchors fix a meaningful subset alone** (11/32, mostly
-  the record-file and rename cases) and carry the two sample-file
-  quality improvements (strings.el, css.css), which pairing does not
-  affect. Their speed contribution overlaps with pairing's.
+- **Patience anchors fix a meaningful subset alone** (11/32: the
+  record-file and comment-anchored rename cases, e.g. helloworld.c
+  4.3s → 0.26s and the locale JSON 3.8s → 38ms) and carry the two
+  sample-file quality improvements (strings.el, css.css), which
+  pairing does not affect.
+- **The safety heuristics are free at the default limit**: unwrap and
+  best-so-far change no timing outside their trigger conditions
+  (130s vs 132s repo time is noise).
 
 ## 7. The remaining ideas, implemented and compared
 
