@@ -71,7 +71,7 @@ OPTIONS
 
 **\-\-graph-limit** _LIMIT_
 
-: Consider a section as wholly changed if its structural graph exceeds this number of nodes in memory.
+: Stop searching for a minimal diff in a section when its structural graph exceeds this number of nodes in memory, and use the best diff found so far.
 
 **-h, \-\-help**
 

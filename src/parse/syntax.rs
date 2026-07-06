@@ -77,6 +77,7 @@ pub(crate) struct SyntaxInfo<'a> {
     parent: Cell<Option<&'a Syntax<'a>>>,
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
+    pub(crate) num_after: Cell<usize>,
     /// A number that uniquely identifies this syntax node.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
@@ -98,6 +99,7 @@ impl<'a> SyntaxInfo<'a> {
             prev: Cell::new(None),
             parent: Cell::new(None),
             num_ancestors: Cell::new(0),
+            num_after: Cell::new(0),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
             content_is_unique_to_side: Cell::new(false),
@@ -496,6 +498,16 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>)
     }
 }
 
+fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
+    for (i, node) in nodes.iter().enumerate() {
+        let num_after = parent_num_after + nodes.len() - 1 - i;
+        node.info().num_after.set(num_after);
+
+        if let List { children, .. } = node {
+            set_num_after(children, num_after);
+        }
+    }
+}
 pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_sibling(roots);
     set_next_sibling(roots);
@@ -507,6 +519,7 @@ pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
 fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
+    set_num_after(roots, 0);
     set_unique_id(roots, next_id);
 }
 
