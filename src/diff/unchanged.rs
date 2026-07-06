@@ -11,6 +11,12 @@ use crate::parse::syntax::{ContentId, Syntax};
 const TINY_TREE_THRESHOLD: u32 = 10;
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
+/// Only attempt to decompose a possibly-changed section further when
+/// the graph size would otherwise be at least this big. This ensures
+/// we don't affect diff quality on sections that the main diff
+/// algorithm can already handle.
+const OVERSIZED_SECTION_MIN_GRAPH_SIZE: u64 = 1_000_000;
+
 /// Look for syntax nodes that are obviously the same, and set
 /// [`ChangeKind`] on them.
 ///
@@ -80,12 +86,57 @@ fn split_unchanged<'a>(
                 }
             }
             ChangeState::PossiblyChanged => {
-                res.push((lhs_section_nodes, rhs_section_nodes));
+                res.extend(split_possibly_changed_section(
+                    &lhs_section_nodes,
+                    &rhs_section_nodes,
+                    size_threshold,
+                    change_map,
+                ));
             }
         }
     }
 
     res
+}
+
+/// How many nodes are in this section, in total?
+fn section_size(nodes: &[&Syntax]) -> u64 {
+    nodes
+        .iter()
+        .map(|node| match node {
+            Syntax::List {
+                num_descendants, ..
+            } => u64::from(*num_descendants) + 1,
+            Syntax::Atom { .. } => 1,
+        })
+        .sum()
+}
+
+/// Try to further decompose a section that would produce a very
+/// large graph in the main diff algorithm.
+fn split_possibly_changed_section<'a>(
+    lhs_nodes: &[&'a Syntax<'a>],
+    rhs_nodes: &[&'a Syntax<'a>],
+    size_threshold: u32,
+    change_map: &mut ChangeMap<'a>,
+) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    // Only intervene when the graph would be dangerously big:
+    // decomposing a section can produce slightly worse diffs, so we
+    // don't want it in the common case.
+    if section_size(lhs_nodes) * section_size(rhs_nodes) < OVERSIZED_SECTION_MIN_GRAPH_SIZE {
+        return vec![(lhs_nodes.to_vec(), rhs_nodes.to_vec())];
+    }
+
+    // A single list on both sides with the same delimiters: mark the
+    // delimiters as unchanged and split the children.
+    if let Some((lhs_children, rhs_children)) = as_singleton_list_children(lhs_nodes, rhs_nodes) {
+        change_map.insert(lhs_nodes[0], ChangeKind::Unchanged(rhs_nodes[0]));
+        change_map.insert(rhs_nodes[0], ChangeKind::Unchanged(lhs_nodes[0]));
+
+        return split_unchanged(&lhs_children, &rhs_children, change_map);
+    }
+
+    vec![(lhs_nodes.to_vec(), rhs_nodes.to_vec())]
 }
 
 fn split_unchanged_singleton_list<'a>(
