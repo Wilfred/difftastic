@@ -66,7 +66,7 @@ use options::{FilePermissions, USAGE};
 
 use crate::conflicts::{apply_conflict_markers, START_LHS_MARKER};
 use crate::constants::Side;
-use crate::diff::changes::ChangeMap;
+use crate::diff::changes::{insert_deep_novel, ChangeMap};
 use crate::diff::shortest_path::ExceededGraphLimit;
 use crate::diff::{shortest_path, unchanged};
 use crate::display::context::opposite_positions;
@@ -697,8 +697,6 @@ fn diff_file_content(
                                 unchanged::mark_unchanged(&lhs, &rhs, &mut change_map)
                             };
 
-                            let mut exceeded_graph_limit = false;
-
                             for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
                                 init_next_prev(&lhs_section_nodes);
                                 init_next_prev(&rhs_section_nodes);
@@ -711,45 +709,45 @@ fn diff_file_content(
                                 ) {
                                     Ok(()) => {}
                                     Err(ExceededGraphLimit {}) => {
-                                        exceeded_graph_limit = true;
-                                        break;
+                                        // Give up on this section and
+                                        // mark it as wholly changed,
+                                        // but keep the proper diff
+                                        // result for all the other
+                                        // sections in this file.
+                                        info!(
+                                            "Section exceeded DFT_GRAPH_LIMIT, marking it as novel."
+                                        );
+                                        for node in &lhs_section_nodes {
+                                            insert_deep_novel(node, &mut change_map);
+                                        }
+                                        for node in &rhs_section_nodes {
+                                            insert_deep_novel(node, &mut change_map);
+                                        }
                                     }
                                 }
                             }
 
-                            if exceeded_graph_limit {
-                                let (lhs_positions, rhs_positions) =
-                                    line_parser::change_positions(lhs_src, rhs_src);
-                                (
-                                    FileFormat::TextFallback {
-                                        reason: "exceeded DFT_GRAPH_LIMIT".into(),
-                                    },
-                                    lhs_positions,
-                                    rhs_positions,
-                                )
-                            } else {
-                                fix_all_sliders(language, &lhs, &mut change_map);
-                                fix_all_sliders(language, &rhs, &mut change_map);
+                            fix_all_sliders(language, &lhs, &mut change_map);
+                            fix_all_sliders(language, &rhs, &mut change_map);
 
-                                let mut lhs_positions = syntax::change_positions(&lhs, &change_map);
-                                let mut rhs_positions = syntax::change_positions(&rhs, &change_map);
+                            let mut lhs_positions = syntax::change_positions(&lhs, &change_map);
+                            let mut rhs_positions = syntax::change_positions(&rhs, &change_map);
 
-                                if diff_options.ignore_comments {
-                                    let lhs_comments =
-                                        tsp::comment_positions(&lhs_tree, lhs_src, lang_config);
-                                    lhs_positions.extend(lhs_comments);
+                            if diff_options.ignore_comments {
+                                let lhs_comments =
+                                    tsp::comment_positions(&lhs_tree, lhs_src, lang_config);
+                                lhs_positions.extend(lhs_comments);
 
-                                    let rhs_comments =
-                                        tsp::comment_positions(&rhs_tree, rhs_src, lang_config);
-                                    rhs_positions.extend(rhs_comments);
-                                }
-
-                                (
-                                    FileFormat::SupportedLanguage(language),
-                                    lhs_positions,
-                                    rhs_positions,
-                                )
+                                let rhs_comments =
+                                    tsp::comment_positions(&rhs_tree, rhs_src, lang_config);
+                                rhs_positions.extend(rhs_comments);
                             }
+
+                            (
+                                FileFormat::SupportedLanguage(language),
+                                lhs_positions,
+                                rhs_positions,
+                            )
                         }
                         Err(tsp::ExceededParseErrorLimit {
                             error_count,

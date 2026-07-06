@@ -71,7 +71,7 @@ OPTIONS
 
 **\-\-graph-limit** _LIMIT_
 
-: Use a line-oriented diff if the structural graph exceed this number of nodes in memory.
+: Consider a section as wholly changed if its structural graph exceeds this number of nodes in memory.
 
 **-h, \-\-help**
 
