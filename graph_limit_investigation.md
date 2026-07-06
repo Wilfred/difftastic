@@ -1,0 +1,221 @@
+# Investigation: where difftastic hits DFT_GRAPH_LIMIT, and how to shrink the ASTs it diffs
+
+## 1. Methodology
+
+I ran `difft` (0.70.0, current main) as `GIT_EXTERNAL_DIFF` over the most
+recent ~200 non-merge commits of a language-diverse set of OSS projects,
+logging every file-level diff and saving any file pair whose output fell
+back to `Text (exceeded DFT_GRAPH_LIMIT)`:
+
+| repo | language(s) | file diffs | graph-limit hits |
+|---|---|---|---|
+| redict (Redis fork) | C | 2333 | 9 |
+| forgejo (Gitea fork) | Go | 1322 | 8 |
+| veloren | Rust | 1229 | 9 |
+| gitlab-foss | Ruby, JS, Go, JSON | 16295 | 8 |
+| emacs | C, Elisp | 371 | 1 |
+| mesa | C, C++ | 454 | 0 |
+| pmbootstrap | Python | 507 | 0 |
+
+35 hits over ~22,500 file diffs (~0.15% of files, but clustered: when one
+commit renames something project-wide, *every* touched file falls back at
+once, which is exactly when a structural diff would be most appreciated).
+
+## 2. What the failing inputs look like
+
+With `DFT_LOG=info`, every failure is a *section* (what remains after
+`unchanged::mark_unchanged` trimming) of roughly 1.5k–35k nodes per side.
+A Dijkstra vertex is essentially a `(lhs node, rhs node)` pair (times a
+small constant for the pop-either flag and parenthesis nestings), so a
+section with L×R ≳ 3M explodes. ~1700 nodes per side is enough — that's a
+~200-line file if the edits are spread out.
+
+Failure categories, with the trimming gap that causes each:
+
+1. **Mechanical renames touching every top-level node** (all 9 redict
+   files: the Redis→Redict rename). No function is *exactly* unchanged, so
+   `split_unchanged_toplevel` (LCS over equal `content_id`s) finds no split
+   points, and `split_mostly_unchanged_toplevel` stops at the first changed
+   atom because it only peels *whole lists* from the *ends*. Result: one
+   2714×2714 section for a 591-line C file.
+
+2. **Files of many tiny records with edits sprinkled throughout**
+   (forgejo `locale_zh-CN.json`, 1725 top-level entries; gitlab-foss
+   `master_report.json`, thousands of `"test path": runtime` entries where
+   most *values* change). The unchanged entries *are* matched by the LCS,
+   but each is below `TINY_TREE_THRESHOLD` (10 descendants), so none is
+   used as a split point and the whole object is a single 3451×3491
+   section. The threshold exists so a stray matched comma can't split
+   unrelated regions, but it also rejects thousands of trustworthy anchors.
+
+3. **One giant list with widespread internal changes** (forgejo
+   `routers/web/web.go` — `registerRoutes`, 1500 lines of nested `m.Group`
+   closures; emacs `modus-themes.el` — a `defconst` holding a quoted list
+   of thousands of face specs). The singleton-list descent
+   (`split_unchanged_singleton_list`) gives up at the first nesting level
+   whose children produce no LCS splits, and the whole 15924×14639 subtree
+   goes to the graph.
+
+4. **Several large changed siblings** (veloren animation code, forgejo
+   test files: 3–15 changed functions per side, none exactly equal). There
+   is no mechanism to pair "the same function, slightly changed" — that
+   pairing only happens implicitly inside the graph search itself, which is
+   exactly what's too big to run.
+
+5. **Code wrapped in a new block and edited** (veloren `basic.rs`: 34 LHS
+   siblings vs 1 RHS list after code moved into a new `match` arm).
+   Nesting-depth changes defeat all sibling-level trimming.
+
+## 3. How GNU diff and git handle the same problem
+
+Line-based diffs hit the identical wall (Myers is O(ND), and D is huge for
+renames), and deploy a stack of input-shrinking tricks. Most have a direct
+difftastic analogue — two don't, and those two are the interesting ones:
+
+| GNU diff / git xdiff | difftastic analogue |
+|---|---|
+| `find_identical_ends` (io.c): strip common prefix/suffix before diffing, keeping `horizon_lines` of context | `shrink_unchanged_at_ends` ✅ |
+| hash lines into equivalence classes; never compare text again | `content_id` ✅ |
+| `shift_boundaries` (analyze.c) / git's indent heuristic: normalise hunk boundaries post-hoc | `fix_all_sliders` ✅ |
+| patience diff (git xpatience.c): anchor on lines **unique in both files**, split, recurse | ⚠️ partial: LCS anchors must be non-tiny; uniqueness ignored |
+| histogram diff (git xhistogram.c): like patience but anchors may occur up to 64 times, preferring the rarest | ❌ |
+| `discard_confusing_lines` (analyze.c): lines with no match on the other side are provisionally discarded *before* the LCS runs ("Mark to be discarded each line that matches no line of the other file"), with un-discard passes to keep context | ❌ novel subtrees still enlarge the graph |
+| `too_expensive` heuristic (gnulib diffseq.h): when the cost exceeds ~O(√N), "give up and report halfway between our best results so far" — split at the best diagonal seen and recurse on both halves. Output degrades gracefully; GNU diff never falls back wholesale | ❌ difftastic aborts the **whole file** to a text diff, discarding sections it already diffed successfully |
+
+The tree-diff literature lands in the same place: GumTree's top-down phase
+matches identical subtrees (≈ `content_id` LCS) and its bottom-up phase
+pairs *similar* containers by how many of their descendants were already
+matched — which is the missing piece for categories 1, 3, 4 and 5.
+
+## 4. Prototyped changes (branch `claude/difftastic-graph-limit-r5irm0`)
+
+All in `src/diff/unchanged.rs`, extending the existing
+start/end-trimming pipeline rather than touching the graph search.
+
+### 4a. Patience anchors: unique tiny nodes are trustworthy split points
+
+`split_unchanged_toplevel` now keeps a matched node as a split point even
+below `TINY_TREE_THRESHOLD` if its content occurs exactly once on each side
+(`content_is_unique` is already precomputed on every node). Atoms must be
+≥3 bytes, so punctuation that happens to be unique in a small file can't
+become an anchor — the pathology `TINY_TREE_THRESHOLD` protects against,
+caught by `sample_files/comma_and_comment_1.js`.
+
+This alone fixed 12 of the 26 initially-captured cases (category 2 files,
+and most redict files via unique unchanged comments between the renamed
+functions).
+
+### 4b. Similarity pairing + forced descent for oversized sections
+
+When a possibly-changed section could still produce a graph of ≥1M
+(`section_size(lhs) × section_size(rhs)`), `split_possibly_changed_section`
+tries, in order:
+
+1. **Singleton descent** — a 1v1 section of same-delimiter lists marks the
+   delimiters unchanged and recurses into the children. (The existing
+   `shrink_unchanged_delimiters` only descends when end-trimming already
+   made progress, which the category-3 files never achieve.)
+2. **Similar-list pairing** — pair sibling lists that share unique
+   subtrees. Because a both-sides-unique subtree occurs in exactly one
+   list per side, each one directly *votes* for a pairing, GumTree-style:
+   index unique content IDs per RHS list, walk each LHS list once, tally
+   votes, resolve conflicts by vote count, and keep the longest increasing
+   subsequence so pairs never cross. Roughly linear time, so it works both
+   for 20 large functions (category 1/4) and for 2000 tiny JSON records
+   (category 2). Small lists need 1 vote; lists ≥20 descendants need 2.
+   Then recurse into each pair and into the gaps between pairs.
+3. **Unwrap** — a section with a single list on one side (category 5)
+   marks that list's delimiters novel and diffs its children against the
+   other side's nodes.
+
+The ≥1M gate means none of this runs on sections the graph search already
+handles, so ordinary diff output is untouched (verified empirically, §5).
+
+### 4c. Diagnostics
+
+The `mark_syntax` info log now includes the first node (content + line
+number) of each section, which is how the failing regions above were
+identified. Worth keeping for future investigations.
+
+## 5. Results
+
+**All 35 captured failing file pairs now produce structural diffs** (the
+last two holdouts, veloren's ~60%-rewrite `basic.rs`/`multi.rs`, were fixed
+by the voting version of pairing). Full-corpus re-runs:
+
+| repo | hits before → after | total wall time |
+|---|---|---|
+| redict | 9 → 0 | 207s → 129s |
+| forgejo | 8 → 0 | 158s → 74s |
+| veloren | 9 → 2¹ | 196s → 135s |
+| emacs | 1 → 0 | 40s → 42s |
+| mesa | 0 → 0 | 41s → 44s |
+| pmbootstrap | 0 → 0 | 19s → 17s |
+| gitlab-foss | 8 → (8/8 pairs fixed in isolation)² | — |
+
+¹ re-run predates the voting version of pairing; the two remaining pairs
+pass with the final code.
+² full re-run skipped (the baseline run alone took ~35 minutes); all 8
+captured pairs pass with the final binary.
+
+Pathological files get much faster because the search no longer burns 3M
+vertices (~1 GiB of arena) before giving up:
+
+| file | before | after |
+|---|---|---|
+| master_report.json (gitlab-foss) | 7.4s → text fallback | 34ms, structural |
+| locale_zh-CN.json (forgejo) | 3.3s → text fallback | 33ms, structural |
+| helloworld.c (redict rename) | 4.1s → text fallback | 235ms, structural |
+| web.go (forgejo) | 4.8s → text fallback | 444ms, structural |
+| modus-themes.el (emacs) | 5.9s → text fallback | 484ms, structural |
+| sample_files/slow_1.rs | 1.5s | 195ms, identical output |
+
+One trade-off: veloren's `basic.rs`/`multi.rs` (heavy rewrites) now spend
+10–19s producing a real structural diff where they previously spent ~5s
+and fell back to a text diff. If that's undesirable, pairing could mark
+low-vote pairs' unmatched content novel instead of graph-diffing it.
+
+Verification:
+
+- `cargo test`: 147 tests pass (124 lib + 23 CLI), including 4 new unit
+  tests for the anchor and pairing logic.
+- A differential run of baseline vs patched binaries over 40 commits × 4
+  repos (605 file diffs) shows exactly 2 outputs changed — both files
+  where the baseline had fallen back with `exceeded DFT_GRAPH_LIMIT`.
+  Every previously-working diff is byte-identical.
+- `sample_files/compare_all.sh` shows exactly two output changes, both
+  arguably improvements:
+  - `strings.el` (a list of strings was re-sorted): previously paired
+    positionally, showing `"noreturn"` edited into `"bool"`; now identical
+    strings match across the reorder.
+  - `css.css` (two rules swapped, one edited): previously showed `.foo1`
+    renamed to `.bar`; now `.bar` is recognised as unchanged and `.foo1`
+    as moved.
+
+## 6. Further ideas (not implemented)
+
+- **Per-section fallback.** `main.rs` abandons the whole file when *any*
+  section exceeds the limit, throwing away sections already diffed
+  correctly. Falling back per-section (mark that section novel, or
+  line-diff just that span) is the cheap version of GNU diff's graceful
+  degradation and removes the worst-case cliff entirely.
+- **Best-so-far splitting**, the direct `too_expensive` analogue: when
+  Dijkstra hits the limit, commit to the visited vertex that consumed the
+  most input for the least cost, and restart the search from there.
+  Bounded memory, no fallback, smoothly degrading quality.
+- **Discarding obviously-novel subtrees** (`discard_confusing_lines`
+  analogue): a subtree sharing no content with the other side must be
+  novel; marking it before the search shrinks insertion-heavy sections
+  without any pairing at all.
+- **Histogram-style anchors**: extend 4a from "unique on both sides" to
+  "equally rare on both sides", preferring the rarest match as the anchor.
+
+## Appendix: reproduction
+
+```
+# corpus run, per repo
+GIT_EXTERNAL_DIFF=<wrapper calling difft and grepping for the fallback> \
+  git log --ext-diff --no-merges -p -200
+# inspect one failure
+DFT_LOG=info difft old.c new.c 2>&1 >/dev/null | grep -B1 'Reached graph'
+```
