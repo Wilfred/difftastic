@@ -124,9 +124,14 @@ tries, in order:
    for 20 large functions (category 1/4) and for 2000 tiny JSON records
    (category 2). Small lists need 1 vote; lists ≥20 descendants need 2.
    Then recurse into each pair and into the gaps between pairs.
-3. **Unwrap** — a section with a single list on one side (category 5)
-   marks that list's delimiters novel and diffs its children against the
-   other side's nodes.
+
+A third step was tried and later dropped (see §7c): *unwrapping* a
+section with a single list on one side (category 5) by marking that
+list's delimiters novel and diffing its children against the other
+side's nodes. It mattered when pairing used a coarser similarity test,
+but with vote-based pairing it fixed nothing further and its timing
+contribution was noise, so it didn't justify its speculative
+delimiter marking.
 
 The ≥1M gate means none of this runs on sections the graph search already
 handles, so ordinary diff output is untouched (verified empirically, §5).
@@ -251,22 +256,28 @@ Notable:
   4.3s → 0.26s and the locale JSON 3.8s → 38ms) and carry the two
   sample-file quality improvements (strings.el, css.css), which
   pairing does not affect.
-- **The safety heuristics are free at the default limit**: unwrap and
-  best-so-far change no timing outside their trigger conditions
-  (130s vs 132s repo time is noise).
+- **The safety heuristics are free at the default limit**: best-so-far
+  changes no timing outside its trigger condition (130s vs 132s repo
+  time is noise).
+- **Unwrap added nothing once vote-based pairing landed**: zero
+  additional fixes, timing within noise. It was dropped from the final
+  patch series on complexity grounds.
 
 ## 7. The remaining ideas, implemented and compared
 
 Each idea from the earlier draft of this report was implemented and
-measured; three were kept as separate commits and one was rejected.
+measured. Two were kept; two were implemented, measured, and dropped —
+each heuristic increases implementation complexity and makes
+difftastic's behaviour around performance cliffs harder to reason
+about, so a measured win on the corpus was the bar for keeping one.
 
-### 7a. Per-section fallback (kept)
+### 7a. Per-section fallback (kept, then superseded by 7b)
 
 `main.rs` previously abandoned the whole file when *any* section
-exceeded the limit. Now only the failing section is marked wholly
-changed and the rest of the file keeps its structural diff. The
-"exceeded DFT_GRAPH_LIMIT" text fallback no longer exists; the limit
-is a per-section work bound.
+exceeded the limit. Now only the failing section degrades and the
+rest of the file keeps its structural diff. The "exceeded
+DFT_GRAPH_LIMIT" text fallback no longer exists; the limit is a
+per-section work bound.
 
 ### 7b. Best-so-far routes (kept, supersedes 7a's marking)
 
@@ -285,17 +296,27 @@ decomposition already handles the easy cases — this is the safety net
 for what remains. At the default limit, output is byte-identical on
 all 32 corpus pairs and the sample suite.
 
-### 7c. Discarding wholly-novel nodes (kept, conservative)
+### 7c. Discarding wholly-novel nodes (dropped)
 
 The `discard_confusing_lines` analogue: in an oversized section, a
 node whose subtree shares no content ID at all with the other side is
 marked novel upfront and dropped. On real code it never fires (any
-shared keyword keeps a node), and it changed nothing on the 32-pair
-corpus. It earns its place as a backstop for wholesale content
-replacement: replacing a 1,200-entry data file drops from 2.3s of
-graph search to 51ms.
+shared keyword like `return` keeps a node), and it changed nothing on
+the 32-pair corpus. Its one demonstrated win — replacing a
+1,200-entry data file wholesale drops from 2.3s of graph search to
+51ms — is bounded by 7b anyway: worst case the search burns the graph
+limit once and still degrades gracefully. 81 lines of maintenance
+(and a subtle interaction with `ReplacedComment` word-diffing of
+large comments) wasn't worth a case the safety net already covers, so
+it was dropped from the final patch series.
 
-### 7d. Histogram-style rare anchors (rejected)
+Similarly, the *unwrap* step from §4b was dropped: it fixed the two
+hard veloren rewrites when pairing used a coarser O(k·m) similarity
+test, but once vote-based pairing landed it contributed zero fixes
+and noise-level timing, while speculatively marking delimiters novel
+— the most surprising behaviour of the decomposition trio.
+
+### 7d. Histogram-style rare anchors (rejected before committing)
 
 Extending the anchor rule from "unique on both sides" to "occurs ≤4
 times on each side" was implemented (plumbing a `content_count`
