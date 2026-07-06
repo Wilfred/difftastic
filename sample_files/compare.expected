@@ -179,7 +179,7 @@ sample_files/multiline_string_eof_1.yml sample_files/multiline_string_eof_2.yml
 4d80f5907b7f360999ec51a70818fd97  -
 
 sample_files/nest_1.rs sample_files/nest_2.rs
-9d808755cff9af64cdc861bbef966cb4  -
+eec2c49b4c5af9eb96ab8d0b0819c6e5  -
 
 sample_files/nested_slider_1.el sample_files/nested_slider_2.el
 2a4e41f16b7ce9cb6692ef72754b9076  -
@@ -191,7 +191,7 @@ sample_files/nesting_1.el sample_files/nesting_2.el
 bbbb35cea6d1de31ff40db1f51ebf9c0  -
 
 sample_files/newick_1.nwk sample_files/newick_2.nwk
-e3e7336d993c7ac8c3140d64f057c248  -
+67604d933bf6169d9e2099c7a4551a96  -
 
 sample_files/nix_1.nix sample_files/nix_2.nix
 5f591ced7633a07f13cdda9766110715  -
@@ -239,7 +239,7 @@ sample_files/ruby_1.rb sample_files/ruby_2.rb
 a0a7121421e3d57acadc08519275dcce  -
 
 sample_files/scala_1.scala sample_files/scala_2.scala
-2304bea82a6dae573964afdaeb47f845  -
+4004ef2bcb57f88ac84d1443c4747ffb  -
 
 sample_files/scheme_1.scm sample_files/scheme_2.scm
 53c43d0dd0aea0f3e49385cc6d520963  -
@@ -257,7 +257,7 @@ sample_files/slider_at_end_1.json sample_files/slider_at_end_2.json
 6c994cd99226f6584f74f531bb27d54f  -
 
 sample_files/slow_1.rs sample_files/slow_2.rs
-302a9e9ae2af1ecc800d906ea67c74dd  -
+bdace10782989ca7919a316c1f49a891  -
 
 sample_files/small_1.js sample_files/small_2.js
 86b1132b6c17fcc2cbec65b1c248baa9  -

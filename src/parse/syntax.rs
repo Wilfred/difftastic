@@ -64,6 +64,28 @@ pub(crate) struct SyntaxInfo<'a> {
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
     pub(crate) num_after: Cell<usize>,
+    /// The number of list delimiters from this node inclusive to the
+    /// end of the root slice most recently passed to
+    /// `init_next_prev`, in document order. Since we diff
+    /// sub-sections of the file separately, this may be less than
+    /// the count to the end of the file.
+    ///
+    /// Used as a lower bound in the A* diffing heuristic. The
+    /// heuristic requires counts that are scoped to the same node
+    /// slice as `next_sibling`: the diff graph for a section ends
+    /// when that section's nodes are exhausted, so counting to the
+    /// end of the file would overestimate.
+    num_delimiters_from_here: Cell<u32>,
+    /// The number of list delimiters strictly after this node's
+    /// subtree, to the end of the root slice most recently passed to
+    /// `init_next_prev`, in document order.
+    ///
+    /// Used by the A* diffing heuristic when one side has been fully
+    /// consumed but a delimiter is still open. This is stored rather
+    /// than derived at lookup time: deriving it would mean walking
+    /// `parent`, which is set for the whole file, whereas these
+    /// counts are scoped to the current diff section.
+    num_delimiters_after_subtree: Cell<u32>,
     /// A number that uniquely identifies this syntax node.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
@@ -86,6 +108,8 @@ impl<'a> SyntaxInfo<'a> {
             parent: Cell::new(None),
             num_ancestors: Cell::new(0),
             num_after: Cell::new(0),
+            num_delimiters_from_here: Cell::new(0),
+            num_delimiters_after_subtree: Cell::new(0),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
             content_is_unique_to_side: Cell::new(false),
@@ -291,6 +315,18 @@ impl<'a> Syntax<'a> {
         self.info().next_sibling.get()
     }
 
+    /// The number of list delimiters from this node inclusive to the
+    /// end of this node's side, in document order.
+    pub(crate) fn num_delimiters_from_here(&self) -> u32 {
+        self.info().num_delimiters_from_here.get()
+    }
+
+    /// The number of list delimiters strictly after this node's
+    /// subtree, to the end of this node's side, in document order.
+    pub(crate) fn num_delimiters_after_subtree(&self) -> u32 {
+        self.info().num_delimiters_after_subtree.get()
+    }
+
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
     pub(crate) fn id(&self) -> SyntaxId {
@@ -488,10 +524,38 @@ fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
         }
     }
 }
+/// Set `num_delimiters_from_here` and `num_delimiters_after_subtree`
+/// for `node` and all its descendants, where `after` is the number
+/// of list delimiters after `node`'s subtree in document
+/// order. Returns the number of delimiters from `node` inclusive.
+fn set_num_delimiters_node(node: &Syntax, after: u32) -> u32 {
+    let mut from_here = after;
+    if let List { children, .. } = node {
+        // Process children in reverse so we accumulate the counts
+        // following each one, in document order.
+        for child in children.iter().rev() {
+            from_here = set_num_delimiters_node(child, from_here);
+        }
+        from_here += 1;
+    }
+
+    node.info().num_delimiters_from_here.set(from_here);
+    node.info().num_delimiters_after_subtree.set(after);
+    from_here
+}
+
+fn set_num_delimiters(roots: &[&Syntax]) {
+    let mut after = 0;
+    for node in roots.iter().rev() {
+        after = set_num_delimiters_node(node, after);
+    }
+}
+
 pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_sibling(roots);
     set_next_sibling(roots);
     set_prev(roots, None);
+    set_num_delimiters(roots);
 }
 
 /// Set all the `SyntaxInfo` values for all the `roots` on a single

@@ -262,6 +262,39 @@ impl<'s, 'v> Vertex<'s, 'v> {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
 
+    /// The deepest LHS delimiter that we've entered but not yet
+    /// exited. When `lhs_syntax` is None, LHS traversal will resume
+    /// after this delimiter's subtree.
+    pub(crate) fn lhs_unpopped_delimiter(&self) -> Option<&'s Syntax<'s>> {
+        self.unpopped_delimiter(true)
+    }
+
+    /// The deepest RHS delimiter that we've entered but not yet
+    /// exited. When `rhs_syntax` is None, RHS traversal will resume
+    /// after this delimiter's subtree.
+    pub(crate) fn rhs_unpopped_delimiter(&self) -> Option<&'s Syntax<'s>> {
+        self.unpopped_delimiter(false)
+    }
+
+    fn unpopped_delimiter(&self, on_lhs: bool) -> Option<&'s Syntax<'s>> {
+        let mut entered = self.parents.clone();
+        loop {
+            match entered.peek() {
+                Some(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim))) => {
+                    return Some(if on_lhs { lhs_delim } else { rhs_delim });
+                }
+                Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
+                    let delims = if on_lhs { lhs_delims } else { rhs_delims };
+                    if let Some(delim) = delims.peek() {
+                        return Some(delim);
+                    }
+                }
+                None => return None,
+            }
+            entered = entered.pop().unwrap();
+        }
+    }
+
     pub(crate) fn new(
         lhs_syntax: Option<&'s Syntax<'s>>,
         rhs_syntax: Option<&'s Syntax<'s>>,
@@ -312,6 +345,11 @@ pub(crate) enum Edge {
     EnterNovelDelimiterRHS {},
 }
 
+/// The cost of marking a single syntax node as novel. This is used
+/// by both [`Edge::cost`] and the A* heuristic, which relies on every
+/// novel edge having exactly this cost.
+pub(crate) const NOVEL_EDGE_COST: u32 = 300;
+
 impl Edge {
     pub(crate) fn cost(self) -> u32 {
         match self {
@@ -347,8 +385,8 @@ impl Edge {
             EnterUnchangedDelimiter { depth_difference } => 100 + min(40, depth_difference),
 
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS {} | NovelAtomRHS {} => 300,
-            EnterNovelDelimiterLHS { .. } | EnterNovelDelimiterRHS { .. } => 300,
+            NovelAtomLHS {} | NovelAtomRHS {} => NOVEL_EDGE_COST,
+            EnterNovelDelimiterLHS { .. } | EnterNovelDelimiterRHS { .. } => NOVEL_EDGE_COST,
             // Replacing a comment is better than treating it as
             // novel. However, since ReplacedComment is an alternative
             // to NovelAtomLHS and NovelAtomRHS, we need to be
