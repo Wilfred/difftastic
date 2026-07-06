@@ -341,9 +341,9 @@ $ export DFT_OVERRIDE_BINARY_2='foo.pickle'"))
         .arg(
             Arg::new("graph-limit").long("graph-limit")
                 .value_name("LIMIT")
-                .help("Use a line-oriented diff if the internal graph exceeds this number of vertices. This limit controls the worst case runtime and memory usage for difftastic.
+                .help("Consider a section as wholly changed if its internal graph exceeds this number of vertices. This limit controls the worst case runtime and memory usage for difftastic.
 
-Higher values will allow difftastic to perform a structural diff in more cases. Higher values will also increase the time before difftastic gives up on structural diffing, and increase peak memory usage.")
+Higher values will allow difftastic to perform a detailed structural diff in more cases. Higher values will also increase the time before difftastic gives up on a section, and increase peak memory usage.")
                 .default_value(format!("{}", DEFAULT_GRAPH_LIMIT))
                 .action(ArgAction::Set)
                 .env("DFT_GRAPH_LIMIT")
