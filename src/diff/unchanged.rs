@@ -286,7 +286,24 @@ fn split_unchanged_toplevel<'a>(
                     Syntax::Atom { .. } => true,
                 };
 
-                if tiny_node {
+                // A tiny node is still a trustworthy split point if
+                // its content only occurs once on each side, similar
+                // to unique lines in patience diff. There's no risk
+                // of matching an unrelated comma or delimiter,
+                // because the content is unique.
+                //
+                // Require atoms to have a reasonable length: in small
+                // files, punctuation can happen to be unique, but it
+                // makes a poor split point.
+                let substantial_node = match lhs_node {
+                    Syntax::List { .. } => true,
+                    Syntax::Atom { content, .. } => content.len() >= 3,
+                };
+                let unique_anchor = substantial_node
+                    && lhs_node.content_is_unique()
+                    && rhs_node.content_is_unique();
+
+                if tiny_node && !unique_anchor {
                     lhs_nodes_with_changes.push(lhs_node);
                     rhs_nodes_with_changes.push(rhs_node);
                 } else {
@@ -793,6 +810,51 @@ mod tests {
 
         let split = split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes);
         assert_eq!(split.len(), 2);
+    }
+
+    #[test]
+    fn test_split_at_tiny_unique_anchor() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        // The list (unique-1 unique-2) is unchanged and unique on
+        // both sides, but smaller than TINY_TREE_THRESHOLD. It should
+        // still be used as a split point, because there's no risk of
+        // matching an unrelated node.
+        let lhs_nodes = parse(&arena, "novel-lhs (unique-1 unique-2) novel-lhs-2", config, false);
+        let rhs_nodes = parse(&arena, "novel-rhs (unique-1 unique-2) novel-rhs-2", config, false);
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let mut change_map = ChangeMap::default();
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
+        assert_eq!(
+            res,
+            vec![
+                (vec![lhs_nodes[0]], vec![rhs_nodes[0]]),
+                (vec![lhs_nodes[2]], vec![rhs_nodes[2]])
+            ]
+        );
+
+        assert_eq!(
+            change_map.get(lhs_nodes[1]),
+            Some(ChangeKind::Unchanged(rhs_nodes[1]))
+        );
+    }
+
+    #[test]
+    fn test_no_split_at_non_unique_tiny_node() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        // (repeated) occurs twice on the LHS, so it is not a
+        // trustworthy split point.
+        let lhs_nodes = parse(&arena, "(repeated) novel-lhs (repeated) novel-lhs-2", config, false);
+        let rhs_nodes = parse(&arena, "novel-rhs (repeated) novel-rhs-2", config, false);
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let mut change_map = ChangeMap::default();
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
+        assert_eq!(res.len(), 1);
     }
 
     #[test]
