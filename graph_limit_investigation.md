@@ -192,23 +192,107 @@ Verification:
     renamed to `.bar`; now `.bar` is recognised as unchanged and `.foo1`
     as moved.
 
-## 6. Further ideas (not implemented)
+## 6. Per-heuristic attribution
 
-- **Per-section fallback.** `main.rs` abandons the whole file when *any*
-  section exceeds the limit, throwing away sections already diffed
-  correctly. Falling back per-section (mark that section novel, or
-  line-diff just that span) is the cheap version of GNU diff's graceful
-  degradation and removes the worst-case cliff entirely.
-- **Best-so-far splitting**, the direct `too_expensive` analogue: when
-  Dijkstra hits the limit, commit to the visited vertex that consumed the
-  most input for the least cost, and restart the search from there.
-  Bounded memory, no fallback, smoothly degrading quality.
-- **Discarding obviously-novel subtrees** (`discard_confusing_lines`
-  analogue): a subtree sharing no content with the other side must be
-  novel; marking it before the search shrinks insertion-heavy sections
-  without any pairing at all.
-- **Histogram-style anchors**: extend 4a from "unique on both sides" to
-  "equally rare on both sides", preferring the rarest match as the anchor.
+Measured by building a binary at each commit in the stack (plus two
+variants with individual heuristics cherry-picked out) and re-running
+the 35-pair hit corpus:
+
+| binary | fixed | corpus time |
+|---|---|---|
+| baseline | 0/32¹ | 166.0s |
+| + patience anchors | 11/32 | 132.5s |
+| + forced descent | 11/32 | 135.4s |
+| + similarity pairing | 32/32 | 55.3s |
+| + unwrap | 32/32 | 52.1s |
+| descent alone (no anchors, no pairing) | 0/32 | 153.4s |
+| descent + pairing (no anchors) | 32/32 | 54.4s |
+
+¹ 32 unique file pairs from the 35 hits.
+
+Notable:
+
+- **Similarity pairing is the workhorse**: descent + pairing without
+  the anchors heuristic still fixes all 32 pairs. Pairing is where
+  both the fixes and most of the 3× speedup come from.
+- **Forced descent fixes nothing by itself** (0/32 alone, and adds
+  nothing on top of anchors), but it is the *enabler*: pairing without
+  a way to descend into a paired 1v1 list can't reach nested changes,
+  so the two heuristics are only useful together.
+- **Patience anchors fix a meaningful subset alone** (11/32, mostly
+  the record-file and rename cases) and carry the two sample-file
+  quality improvements (strings.el, css.css), which pairing does not
+  affect. Their speed contribution overlaps with pairing's.
+
+## 7. The remaining ideas, implemented and compared
+
+Each idea from the earlier draft of this report was implemented and
+measured; three were kept as separate commits and one was rejected.
+
+### 7a. Per-section fallback (kept)
+
+`main.rs` previously abandoned the whole file when *any* section
+exceeded the limit. Now only the failing section is marked wholly
+changed and the rest of the file keeps its structural diff. The
+"exceeded DFT_GRAPH_LIMIT" text fallback no longer exists; the limit
+is a per-section work bound.
+
+### 7b. Best-so-far routes (kept, supersedes 7a's marking)
+
+The direct `too_expensive` analogue: when Dijkstra exceeds the limit,
+keep the route to the visited vertex that consumed the most input at
+the lowest cost (`num_after` gives remaining input for free), and mark
+only the remainder of the section novel. `mark_syntax` can no longer
+fail, and the `ExceededGraphLimit` plumbing is gone.
+
+Measured with a reduced `--graph-limit` to force degradation, the
+partial route consistently recovers more matched content than marking
+the whole section novel (e.g. 10,594 vs 10,664 changed spans on a
+heavily-rewritten file at `--graph-limit 100000`; 2,016 vs 2,091 on a
+renamed C file at 2,000). The margin is modest because the section
+decomposition already handles the easy cases — this is the safety net
+for what remains. At the default limit, output is byte-identical on
+all 32 corpus pairs and the sample suite.
+
+### 7c. Discarding wholly-novel nodes (kept, conservative)
+
+The `discard_confusing_lines` analogue: in an oversized section, a
+node whose subtree shares no content ID at all with the other side is
+marked novel upfront and dropped. On real code it never fires (any
+shared keyword keeps a node), and it changed nothing on the 32-pair
+corpus. It earns its place as a backstop for wholesale content
+replacement: replacing a 1,200-entry data file drops from 2.3s of
+graph search to 51ms.
+
+### 7d. Histogram-style rare anchors (rejected)
+
+Extending the anchor rule from "unique on both sides" to "occurs ≤4
+times on each side" was implemented (plumbing a `content_count`
+through `SyntaxInfo`) and measured:
+
+- fixes nothing further (everything already passes),
+- breaks the ambiguity guard: with `(repeated)` twice on one side and
+  once on the other, the LCS picks an arbitrary occurrence to anchor,
+  which is exactly what patience diff's uniqueness requirement avoids,
+- regresses two sample outputs, e.g. in `elm_1.elm` a rare anchor
+  forces an alignment that turns a clean `y : Int` → `x : Int`
+  word-level rename into whole novel lines.
+
+The uniqueness requirement is doing real work; rarity is not a
+substitute. Not committed.
+
+## 8. Further ideas (not implemented)
+
+- **Restart-from-best**: 7b keeps the best partial route and marks the
+  rest novel; the full GNU diff analogue would *restart* the search
+  from the best vertex, repeatedly, chaining partial routes until the
+  input is consumed. Bounded work per restart, and the tail of the
+  section gets a real diff instead of novel marks. Requires carrying
+  the vertex's delimiter stack into a fresh search, which is invasive
+  but mechanical.
+- **Line-diff fallback within a section**: instead of marking a failed
+  section novel, run the line-oriented diff on just that section's
+  span for finer-grained output.
 
 ## Appendix: reproduction
 
