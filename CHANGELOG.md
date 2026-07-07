@@ -4,6 +4,15 @@
 
 Improved diffing performance, particularly when diffing directories.
 
+### Display
+
+Fixed an issue where structural changes without any novel tokens were
+not displayed at all, and difftastic incorrectly reported "No
+syntactic changes". This affected indentation changes in languages
+with significant whitespace, such as Python and F#. Difftastic now
+marks the token that introduces the changed structure, such as the
+`if` of an if statement whose block has changed.
+
 ### Parsing
 
 Improved support for TOML.

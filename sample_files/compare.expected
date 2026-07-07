@@ -223,6 +223,9 @@ sample_files/prefer_outer_1.el sample_files/prefer_outer_2.el
 sample_files/preprocessor_1.h sample_files/preprocessor_2.h
 d94f452bbf7cb3accc8d538fdd7ab5e4  -
 
+sample_files/python_dedent_1.py sample_files/python_dedent_2.py
+f3bd67fbece5f778850d360c9f2cc00c  -
+
 sample_files/qml_1.qml sample_files/qml_2.qml
 ec69003436e7780633b6224861c3cccf  -
 
@@ -257,7 +260,7 @@ sample_files/slider_at_end_1.json sample_files/slider_at_end_2.json
 6c994cd99226f6584f74f531bb27d54f  -
 
 sample_files/slow_1.rs sample_files/slow_2.rs
-302a9e9ae2af1ecc800d906ea67c74dd  -
+4444806ff92d78f2a31eaccfea799cf2  -
 
 sample_files/small_1.js sample_files/small_2.js
 86b1132b6c17fcc2cbec65b1c248baa9  -

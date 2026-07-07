@@ -361,6 +361,39 @@ fn merge_adjacent(items: &[(SingleLineSpan, Style)]) -> Vec<(SingleLineSpan, Sty
     merged
 }
 
+/// Clip any spans that overlap a previous span, keeping the earlier
+/// span. `split_and_apply` and `apply_line` assume that spans never
+/// overlap, and will duplicate text if they do.
+///
+/// Overlapping spans occur when a novel position was added for a
+/// list with invisible delimiters (see `change_positions`), which
+/// covers the same text as the first token inside the list.
+fn clip_overlapping(items: &[(SingleLineSpan, Style)]) -> Vec<(SingleLineSpan, Style)> {
+    let mut clipped: Vec<(SingleLineSpan, Style)> = vec![];
+    let mut prev_line: Option<LineNumber> = None;
+    let mut prev_end_col = 0;
+
+    for (mut span, style) in items.iter().copied() {
+        if prev_line == Some(span.line) {
+            if span.start_col < prev_end_col {
+                if span.end_col <= prev_end_col {
+                    // Entirely covered by the previous span, drop it.
+                    continue;
+                }
+                span.start_col = prev_end_col;
+            }
+            prev_end_col = max(prev_end_col, span.end_col);
+        } else {
+            prev_line = Some(span.line);
+            prev_end_col = span.end_col;
+        }
+
+        clipped.push((span, style));
+    }
+
+    clipped
+}
+
 pub(crate) fn color_positions(
     side: Side,
     background: BackgroundColor,
@@ -440,7 +473,7 @@ pub(crate) fn color_positions(
         styles.push((mp.pos, style));
     }
 
-    merge_adjacent(&styles)
+    merge_adjacent(&clip_overlapping(&styles))
 }
 
 pub(crate) fn apply_colors(

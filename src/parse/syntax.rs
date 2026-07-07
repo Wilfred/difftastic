@@ -996,6 +996,86 @@ pub(crate) fn change_positions<'a>(
     positions
 }
 
+/// The span of the atom that `node` starts with, if any. This is the
+/// token that introduces the structure, such as the `if` of an if
+/// statement.
+fn leading_atom_span<'a>(node: &'a Syntax<'a>) -> Option<SingleLineSpan> {
+    if let List { children, .. } = node {
+        if let Some(Atom { position, .. }) = children.first() {
+            return position.iter().find(|s| s.start_col != s.end_col).copied();
+        }
+    }
+
+    None
+}
+
+/// Find the first visible (nonzero-width) span in `nodes`.
+fn first_visible_span<'a>(nodes: &[&'a Syntax<'a>]) -> Option<SingleLineSpan> {
+    for node in nodes {
+        match node {
+            List {
+                open_position,
+                children,
+                close_position,
+                ..
+            } => {
+                if let Some(span) = open_position.iter().find(|s| s.start_col != s.end_col) {
+                    return Some(*span);
+                }
+                if let Some(span) = first_visible_span(children) {
+                    return Some(span);
+                }
+                if let Some(span) = close_position.iter().find(|s| s.start_col != s.end_col) {
+                    return Some(*span);
+                }
+            }
+            Atom { position, .. } => {
+                if let Some(span) = position.iter().find(|s| s.start_col != s.end_col) {
+                    return Some(*span);
+                }
+            }
+        }
+    }
+
+    None
+}
+
+/// Does `node` or any of its descendants have a change that will be
+/// visibly highlighted? A novel list with invisible (zero-width)
+/// delimiters is a change, but it isn't displayed itself.
+fn any_visible_change<'a>(node: &'a Syntax<'a>, change_map: &ChangeMap<'a>) -> bool {
+    match change_map.get(node) {
+        Some(ChangeKind::ReplacedComment(..) | ChangeKind::ReplacedString(..)) => {
+            return true;
+        }
+        Some(ChangeKind::Novel) => match node {
+            Atom { .. } => {
+                return true;
+            }
+            List {
+                open_position,
+                close_position,
+                ..
+            } => {
+                if open_position.iter().any(|s| s.start_col != s.end_col)
+                    || close_position.iter().any(|s| s.start_col != s.end_col)
+                {
+                    return true;
+                }
+            }
+        },
+        _ => {}
+    }
+
+    if let List { children, .. } = node {
+        children
+            .iter()
+            .any(|child| any_visible_change(child, change_map))
+    } else {
+        false
+    }
+}
+
 fn change_positions_<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
@@ -1018,12 +1098,58 @@ fn change_positions_<'a>(
                 close_position,
                 ..
             } => {
-                positions.extend(MatchedPos::new(
-                    change,
-                    TokenKind::Delimiter,
-                    open_position,
-                    false,
-                ));
+                let open_mps = MatchedPos::new(change, TokenKind::Delimiter, open_position, false);
+
+                // A novel list with invisible delimiters, such as a
+                // Python block (where nesting is shown by
+                // indentation, not brackets), produces no novel
+                // MatchedPos values of its own. If nothing else
+                // displays this change, mark the first visible token
+                // inside as novel, so the change is still displayed.
+                //
+                // See https://github.com/Wilfred/difftastic/issues/587
+                if open_mps.is_empty()
+                    && matches!(change, ChangeKind::Novel)
+                    && !any_visible_change(node, change_map)
+                {
+                    // If the parent list is also novel, its
+                    // delimiters are highlighted (or it applies this
+                    // same logic itself), so this change is already
+                    // shown. Likewise if an adjacent sibling
+                    // contains a visible change, such as the novel
+                    // tokens that wrapped this node.
+                    let parent_is_novel = matches!(
+                        node.parent().map(|p| change_map.get(p)),
+                        Some(Some(ChangeKind::Novel))
+                    );
+                    let neighbour_is_visible =
+                        [node.info().previous_sibling.get(), node.next_sibling()]
+                            .iter()
+                            .flatten()
+                            .any(|sibling| any_visible_change(sibling, change_map));
+
+                    if !parent_is_novel && !neighbour_is_visible {
+                        // Prefer the token that introduces this
+                        // structure: its own leading token, or the
+                        // parent's (e.g. the `if` of a Python
+                        // block). Otherwise use the first visible
+                        // token inside.
+                        let anchor = leading_atom_span(node)
+                            .or_else(|| node.parent().and_then(leading_atom_span))
+                            .or_else(|| first_visible_span(children));
+
+                        if let Some(span) = anchor {
+                            positions.push(MatchedPos {
+                                kind: MatchKind::Novel {
+                                    highlight: TokenKind::Delimiter,
+                                },
+                                pos: span,
+                            });
+                        }
+                    }
+                }
+
+                positions.extend(open_mps);
 
                 change_positions_(children, change_map, positions, seen_unchanged);
 
