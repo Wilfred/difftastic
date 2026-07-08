@@ -105,6 +105,19 @@ This alone fixed 12 of the 26 initially-captured cases (category 2 files,
 and most redict files via unique unchanged comments between the renamed
 functions).
 
+One subtlety: a small unique node that *moved past* a big sibling must
+not steal the alignment from it. The LCS maximises match count, so a
+tiny node that hopped over exactly one big matched sibling ties with
+it, and if the tie breaks toward the tiny node, anchoring there forces
+the big sibling to display as removed-and-re-added (reproduced
+empirically with a crafted elisp file). The splitting therefore runs
+in two passes: big nodes match first and claim the alignment; tiny
+unique anchors are only considered within the gaps between big
+matches, where a moved node's old and new positions land in different
+gaps and it is simply treated as changed — the same output the graph
+search produces. Corpus results and sample outputs are unaffected by
+the second pass.
+
 ### 4b. Similarity pairing + forced descent for oversized sections
 
 When a possibly-changed section could still produce a graph of ≥1M
