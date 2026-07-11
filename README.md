@@ -186,6 +186,12 @@ post](https://www.wilfred.me.uk/blog/2022/09/06/difftastic-the-fantastic-diff/)
 describes the design, and there is also an [internals section in the
 manual](https://difftastic.wilfred.me.uk/diffing.html).
 
+## Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) and the
+[contributing guide](https://difftastic.wilfred.me.uk/contributing.html)
+in the manual to get started.
+
 ## Translation
 
 + [Chinese](./translation/zh-CN/README-zh-CN.md)
