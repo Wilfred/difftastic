@@ -121,7 +121,7 @@ use crate::parse::syntax::init_all_info;
 use crate::parse::tree_sitter_parser as tsp;
 use crate::shortest_path::mark_syntax;
 use crate::summary::{DiffResult, FileContent, FileFormat};
-use crate::syntax::init_next_prev;
+use crate::syntax::set_next_sibling;
 
 extern crate pretty_env_logger;
 
@@ -700,8 +700,8 @@ fn diff_file_content(
                             let mut exceeded_graph_limit = false;
 
                             for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
-                                init_next_prev(&lhs_section_nodes);
-                                init_next_prev(&rhs_section_nodes);
+                                set_next_sibling(&lhs_section_nodes);
+                                set_next_sibling(&rhs_section_nodes);
 
                                 match mark_syntax(
                                     lhs_section_nodes.first().copied(),

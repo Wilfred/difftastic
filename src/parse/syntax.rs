@@ -52,18 +52,12 @@ pub(crate) type ContentId = u32;
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub(crate) struct SyntaxInfo<'a> {
-    /// The previous node with the same parent as this one.
-    previous_sibling: Cell<Option<&'a Syntax<'a>>>,
     /// The next node with the same parent as this one.
     next_sibling: Cell<Option<&'a Syntax<'a>>>,
-    /// The syntax node that occurs before this one, in a depth-first
-    /// tree traversal.
-    prev: Cell<Option<&'a Syntax<'a>>>,
     /// The parent syntax node, if present.
     parent: Cell<Option<&'a Syntax<'a>>>,
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
-    pub(crate) num_after: Cell<usize>,
     /// A number that uniquely identifies this syntax node.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
@@ -80,12 +74,9 @@ pub(crate) struct SyntaxInfo<'a> {
 impl<'a> SyntaxInfo<'a> {
     pub(crate) fn new() -> Self {
         Self {
-            previous_sibling: Cell::new(None),
             next_sibling: Cell::new(None),
-            prev: Cell::new(None),
             parent: Cell::new(None),
             num_ancestors: Cell::new(0),
-            num_after: Cell::new(0),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
             content_is_unique_to_side: Cell::new(false),
@@ -367,8 +358,8 @@ pub(crate) fn comment_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<SingleLineS
 /// Initialise all the fields in `SyntaxInfo`.
 pub(crate) fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     init_info(lhs_roots, rhs_roots);
-    init_next_prev(lhs_roots);
-    init_next_prev(rhs_roots);
+    set_next_sibling(lhs_roots);
+    set_next_sibling(rhs_roots);
 }
 
 pub(crate) fn print_as_dot<'a>(roots: &[&'a Syntax<'a>]) {
@@ -478,28 +469,11 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>)
     }
 }
 
-fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
-    for (i, node) in nodes.iter().enumerate() {
-        let num_after = parent_num_after + nodes.len() - 1 - i;
-        node.info().num_after.set(num_after);
-
-        if let List { children, .. } = node {
-            set_num_after(children, num_after);
-        }
-    }
-}
-pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
-    set_prev_sibling(roots);
-    set_next_sibling(roots);
-    set_prev(roots, None);
-}
-
 /// Set all the `SyntaxInfo` values for all the `roots` on a single
 /// side (LHS or RHS).
 fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
-    set_num_after(roots, 0);
     set_unique_id(roots, next_id);
 }
 
@@ -543,39 +517,13 @@ fn set_content_is_unique(nodes: &[&Syntax]) {
     set_content_is_unique_from_counts(nodes, &counts);
 }
 
-fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
-    let mut prev = None;
-
-    for node in nodes {
-        node.info().previous_sibling.set(prev);
-        prev = Some(node);
-
-        if let List { children, .. } = node {
-            set_prev_sibling(children);
-        }
-    }
-}
-
-fn set_next_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
+pub(crate) fn set_next_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
     for (i, node) in nodes.iter().enumerate() {
         let sibling = nodes.get(i + 1).copied();
         node.info().next_sibling.set(sibling);
 
         if let List { children, .. } = node {
             set_next_sibling(children);
-        }
-    }
-}
-
-/// For every syntax node in the tree, mark the previous node
-/// according to a preorder traversal.
-fn set_prev<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
-    for (i, node) in nodes.iter().enumerate() {
-        let node_prev = if i == 0 { parent } else { Some(nodes[i - 1]) };
-
-        node.info().prev.set(node_prev);
-        if let List { children, .. } = node {
-            set_prev(children, Some(node));
         }
     }
 }
