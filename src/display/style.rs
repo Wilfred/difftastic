@@ -81,7 +81,7 @@ pub(crate) fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
 /// desired width.
 ///
 /// ```
-/// split_string_by_width("fooba", 3) // vec![("foo", 0), ("ba", 1)]
+/// split_string_by_width("fooba", 3, TAB_WIDTH) // vec![("foo", 0), ("ba", 1)]
 /// ```
 fn split_string_by_width(s: &str, max_width: usize, tab_width: usize) -> Vec<(&str, usize)> {
     let mut parts: Vec<(&str, usize)> = vec![];

@@ -171,8 +171,9 @@ fn count_common_unique(lhs: &Syntax, rhs: &Syntax) -> usize {
     count_unique_subtrees(lhs, &rhs_unique_ids)
 }
 
-/// Return true if both nodes are lists with same delimiters and have
-/// the same start and end children.
+/// Return true if both nodes are lists that share at least
+/// `MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN` unique subtrees, regardless
+/// of whether their delimiters match.
 fn is_mostly_unchanged_list(lhs: &Syntax, rhs: &Syntax) -> bool {
     match (lhs, rhs) {
         (Syntax::List { .. }, Syntax::List { .. }) => {

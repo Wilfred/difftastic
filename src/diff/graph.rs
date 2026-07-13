@@ -293,7 +293,7 @@ impl<'s, 'v> Vertex<'s, 'v> {
 /// at least a NovelFoo edge. Depending on the syntax nodes of the
 /// current [`Vertex`], other edges may also be available.
 ///
-/// See [`set_neighbours`] for all the edges available for a given `Vertex`.
+/// See [`compute_neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub(crate) enum Edge {
     UnchangedNode {
@@ -567,7 +567,6 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                 let lhs_next = lhs_children.first().copied();
                 let rhs_next = rhs_children.first().copied();
 
-                // TODO: be consistent between parents_next and next_parents.
                 let parents_next = push_both_delimiters(&v.parents, lhs_syntax, rhs_syntax, alloc);
 
                 let depth_difference = (lhs_syntax.num_ancestors() as i32
