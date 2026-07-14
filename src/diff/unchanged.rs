@@ -519,8 +519,7 @@ fn is_tiny_node(node: &Syntax, size_threshold: u32) -> bool {
 ///
 /// This runs in two passes: first only consider matches between
 /// nodes that exceed the size threshold, then split the sections in
-/// between at tiny matched nodes whose content is unique (like
-/// unique lines in patience diff).
+/// between at runs of tiny matched nodes.
 ///
 /// Considering big nodes first means a tiny unique node that has
 /// moved past a big sibling can never steal the alignment from it:
@@ -533,6 +532,97 @@ fn split_unchanged_toplevel<'a>(
     size_threshold: u32,
 ) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     split_unchanged_toplevel_pass(lhs_nodes, rhs_nodes, size_threshold, false)
+}
+
+fn flush_pass_section<'a>(
+    section_lhs_nodes: &mut Vec<&'a Syntax<'a>>,
+    section_rhs_nodes: &mut Vec<&'a Syntax<'a>>,
+    res: &mut Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)>,
+    size_threshold: u32,
+    match_tiny_nodes: bool,
+) {
+    if section_lhs_nodes.is_empty() && section_rhs_nodes.is_empty() {
+        return;
+    }
+    if match_tiny_nodes {
+        res.extend(split_unchanged_singleton_list(
+            section_lhs_nodes,
+            section_rhs_nodes,
+            size_threshold,
+        ));
+    } else {
+        // The section between two big matched nodes may still
+        // contain runs of tiny matched nodes that are good split
+        // points.
+        res.extend(split_unchanged_toplevel_pass(
+            section_lhs_nodes,
+            section_rhs_nodes,
+            size_threshold,
+            true,
+        ));
+    }
+    section_lhs_nodes.clear();
+    section_rhs_nodes.clear();
+}
+
+/// A run of consecutive matched nodes has ended: decide whether it's
+/// a trustworthy split point.
+///
+/// If we split at any matched node, difftastic can find e.g. a
+/// single unchanged comma in a huge expression, which produces worse
+/// diffs. Instead, require the run of consecutive matches to be
+/// collectively bigger than the size threshold: a single big matched
+/// node qualifies, but so does a long run of small matched nodes,
+/// which matters in files made of many small records. A run
+/// containing a node whose content is unique on both sides also
+/// qualifies, like unique lines in patience diff: a unique match
+/// can't be a stray comma.
+///
+/// Runs that don't qualify stay in the current section, so the main
+/// diff algorithm can still consider them together with their
+/// neighbours.
+fn resolve_matched_run<'a>(
+    run_lhs_nodes: &mut Vec<&'a Syntax<'a>>,
+    run_rhs_nodes: &mut Vec<&'a Syntax<'a>>,
+    run_has_unique_anchor: &mut bool,
+    section_lhs_nodes: &mut Vec<&'a Syntax<'a>>,
+    section_rhs_nodes: &mut Vec<&'a Syntax<'a>>,
+    res: &mut Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)>,
+    size_threshold: u32,
+    match_tiny_nodes: bool,
+) {
+    if run_lhs_nodes.is_empty() {
+        return;
+    }
+
+    let run_size: u64 = run_lhs_nodes
+        .iter()
+        .map(|node| match node {
+            Syntax::List {
+                num_descendants, ..
+            } => u64::from(*num_descendants),
+            Syntax::Atom { .. } => 1,
+        })
+        .sum();
+
+    if *run_has_unique_anchor || run_size >= u64::from(size_threshold) {
+        flush_pass_section(
+            section_lhs_nodes,
+            section_rhs_nodes,
+            res,
+            size_threshold,
+            match_tiny_nodes,
+        );
+        res.push((
+            ChangeState::UnchangedNode,
+            std::mem::take(run_lhs_nodes),
+            std::mem::take(run_rhs_nodes),
+        ));
+    } else {
+        section_lhs_nodes.append(run_lhs_nodes);
+        section_rhs_nodes.append(run_rhs_nodes);
+    }
+    *run_has_unique_anchor = false;
 }
 
 fn split_unchanged_toplevel_pass<'a>(
@@ -563,37 +653,11 @@ fn split_unchanged_toplevel_pass<'a>(
         .collect::<Vec<_>>();
 
     let mut res: Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
-    let mut lhs_nodes_with_changes: Vec<&'a Syntax<'a>> = vec![];
-    let mut rhs_nodes_with_changes: Vec<&'a Syntax<'a>> = vec![];
-    let flush_section = |lhs_nodes_with_changes: &mut Vec<&'a Syntax<'a>>,
-                         rhs_nodes_with_changes: &mut Vec<&'a Syntax<'a>>,
-                         res: &mut Vec<(
-        ChangeState,
-        Vec<&'a Syntax<'a>>,
-        Vec<&'a Syntax<'a>>,
-    )>| {
-        if lhs_nodes_with_changes.is_empty() && rhs_nodes_with_changes.is_empty() {
-            return;
-        }
-        if match_tiny_nodes {
-            res.extend(split_unchanged_singleton_list(
-                lhs_nodes_with_changes,
-                rhs_nodes_with_changes,
-                size_threshold,
-            ));
-        } else {
-            // The section between two big matched nodes may still
-            // contain tiny unique nodes that are good split points.
-            res.extend(split_unchanged_toplevel_pass(
-                lhs_nodes_with_changes,
-                rhs_nodes_with_changes,
-                size_threshold,
-                true,
-            ));
-        }
-        lhs_nodes_with_changes.clear();
-        rhs_nodes_with_changes.clear();
-    };
+    let mut section_lhs_nodes: Vec<&'a Syntax<'a>> = vec![];
+    let mut section_rhs_nodes: Vec<&'a Syntax<'a>> = vec![];
+    let mut run_lhs_nodes: Vec<&'a Syntax<'a>> = vec![];
+    let mut run_rhs_nodes: Vec<&'a Syntax<'a>> = vec![];
+    let mut run_has_unique_anchor = false;
 
     for diff_res in lcs_diff::slice(&lhs_node_ids, &rhs_node_ids) {
         match diff_res {
@@ -601,22 +665,6 @@ fn split_unchanged_toplevel_pass<'a>(
                 let lhs_node = lhs.1;
                 let rhs_node = rhs.1;
 
-                // If we've matched a node but it's very small, don't
-                // mark it as unchanged. We're interested in marking
-                // large nodes as unchanged for performance, but small
-                // nodes are fine.
-                //
-                // If we don't do this, difftastic can find e.g. a
-                // single unchanged comma in a huge expression, which
-                // produces worse diffs.
-                let tiny_node = is_tiny_node(lhs_node, size_threshold);
-
-                // A tiny node is still a trustworthy split point if
-                // its content only occurs once on each side, similar
-                // to unique lines in patience diff. There's no risk
-                // of matching an unrelated comma or delimiter,
-                // because the content is unique.
-                //
                 // Require atoms to have a reasonable length: in small
                 // files, punctuation can happen to be unique, but it
                 // makes a poor split point.
@@ -624,35 +672,61 @@ fn split_unchanged_toplevel_pass<'a>(
                     Syntax::List { .. } => true,
                     Syntax::Atom { content, .. } => content.len() >= 3,
                 };
-                let unique_anchor = substantial_node
+                if substantial_node
                     && lhs_node.content_is_unique()
-                    && rhs_node.content_is_unique();
-
-                if tiny_node && !unique_anchor {
-                    lhs_nodes_with_changes.push(lhs_node);
-                    rhs_nodes_with_changes.push(rhs_node);
-                } else {
-                    flush_section(
-                        &mut lhs_nodes_with_changes,
-                        &mut rhs_nodes_with_changes,
-                        &mut res,
-                    );
-                    res.push((ChangeState::UnchangedNode, vec![lhs_node], vec![rhs_node]));
+                    && rhs_node.content_is_unique()
+                {
+                    run_has_unique_anchor = true;
                 }
+
+                run_lhs_nodes.push(lhs_node);
+                run_rhs_nodes.push(rhs_node);
             }
             lcs_diff::DiffResult::Left(lhs) => {
-                lhs_nodes_with_changes.push(lhs.1);
+                resolve_matched_run(
+                    &mut run_lhs_nodes,
+                    &mut run_rhs_nodes,
+                    &mut run_has_unique_anchor,
+                    &mut section_lhs_nodes,
+                    &mut section_rhs_nodes,
+                    &mut res,
+                    size_threshold,
+                    match_tiny_nodes,
+                );
+                section_lhs_nodes.push(lhs.1);
             }
             lcs_diff::DiffResult::Right(rhs) => {
-                rhs_nodes_with_changes.push(rhs.1);
+                resolve_matched_run(
+                    &mut run_lhs_nodes,
+                    &mut run_rhs_nodes,
+                    &mut run_has_unique_anchor,
+                    &mut section_lhs_nodes,
+                    &mut section_rhs_nodes,
+                    &mut res,
+                    size_threshold,
+                    match_tiny_nodes,
+                );
+                section_rhs_nodes.push(rhs.1);
             }
         }
     }
 
-    flush_section(
-        &mut lhs_nodes_with_changes,
-        &mut rhs_nodes_with_changes,
+    resolve_matched_run(
+        &mut run_lhs_nodes,
+        &mut run_rhs_nodes,
+        &mut run_has_unique_anchor,
+        &mut section_lhs_nodes,
+        &mut section_rhs_nodes,
         &mut res,
+        size_threshold,
+        match_tiny_nodes,
+    );
+    flush_pass_section(
+        &mut section_lhs_nodes,
+        &mut section_rhs_nodes,
+        &mut res,
+        size_threshold,
+        match_tiny_nodes,
     );
 
     res
@@ -1188,6 +1262,41 @@ mod tests {
         assert_eq!(
             change_map.get(lhs_nodes[0]),
             Some(ChangeKind::Unchanged(rhs_nodes[1]))
+        );
+    }
+
+    #[test]
+    fn test_split_at_run_of_tiny_matches() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        // No node is unique ((r a) repeats on both sides) and every
+        // node is tiny, but the runs of consecutive matches are
+        // collectively big enough to be trustworthy split points.
+        let lhs_nodes = parse(
+            &arena,
+            "(r a) (r a) (r a) (r a) (r a) (r a) (changed-old x) (r a) (r a) (r a) (r a) (r a) (r a)",
+            config,
+            false,
+        );
+        let rhs_nodes = parse(
+            &arena,
+            "(r a) (r a) (r a) (r a) (r a) (r a) (changed-new y) (r a) (r a) (r a) (r a) (r a) (r a)",
+            config,
+            false,
+        );
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let mut change_map = ChangeMap::default();
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
+
+        assert_eq!(
+            res,
+            vec![(vec![lhs_nodes[6]], vec![rhs_nodes[6]])]
+        );
+        assert_eq!(
+            change_map.get(lhs_nodes[0]),
+            Some(ChangeKind::Unchanged(rhs_nodes[0]))
         );
     }
 
