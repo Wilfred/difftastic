@@ -1,0 +1,319 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index 522452e..9b2abae 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -17,6 +17,12 @@ version = "0.2.16"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "0942ffc6dcaadf03badf6e6a2d0228460359d5e34b57ccdc720b7382dfbd5ec5"
+ 
++[[package]]
++name = "allocator-api2"
++version = "0.4.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "c880a97d28a3681c0267bd29cff89621202715b065127cd445fa0f0fe0aa2880"
++
+ [[package]]
+ name = "anstream"
+ version = "0.6.15"
+@@ -100,6 +106,15 @@ version = "2.5.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "cf4b9d6a944f767f8e5e0db018570623c85f3d925ac718db4e06d0187adb21c1"
+ 
++[[package]]
++name = "blink-alloc"
++version = "0.4.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "ce4c15bad517bc0fb4a44523adf470e2c3eb3a365769327acdba849948ea3705"
++dependencies = [
++ "allocator-api2 0.4.0",
++]
++
+ [[package]]
+ name = "bstr"
+ version = "1.9.1"
+@@ -234,6 +249,7 @@ name = "difftastic"
+ version = "0.70.0"
+ dependencies = [
+  "assert_cmd",
++ "blink-alloc",
+  "bumpalo",
+  "cc",
+  "clap",
+@@ -445,7 +461,7 @@ version = "0.17.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
+ dependencies = [
+- "allocator-api2",
++ "allocator-api2 0.2.16",
+  "equivalent",
+  "foldhash 0.2.0",
+ ]
+diff --git a/Cargo.toml b/Cargo.toml
+index d184274..9059b07 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -133,6 +133,7 @@ tree-sitter-xml = "0.7.0"
+ tree-sitter-yaml = "0.7.0"
+ tree-sitter-zig = "1.1.2"
+ ts-parser-perl = "1.0.1"
++blink-alloc = "0.4.0"
+ 
+ 
+ [target.'cfg(not(any(windows, target_os = "illumos", target_os = "freebsd")))'.dependencies]
+diff --git a/src/diff/graph.rs b/src/diff/graph.rs
+index 93e179b..1895648 100644
+--- a/src/diff/graph.rs
++++ b/src/diff/graph.rs
+@@ -5,7 +5,7 @@ use std::cmp::min;
+ use std::fmt;
+ use std::hash::{Hash, Hasher};
+ 
+-use bumpalo::Bump;
++use blink_alloc::Blink;
+ use hashbrown::hash_map::RawEntryMut;
+ use smallvec::{smallvec, SmallVec};
+ use strsim::normalized_levenshtein;
+@@ -157,7 +157,7 @@ fn push_both_delimiters<'s, 'v>(
+     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+     lhs_delim: &'s Syntax<'s>,
+     rhs_delim: &'s Syntax<'s>,
+-    alloc: &'v Bump,
++    alloc: &'v Blink,
+ ) -> Stack<'v, EnteredDelimiter<'s, 'v>> {
+     entered.push(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)), alloc)
+ }
+@@ -183,7 +183,7 @@ fn try_pop_both<'s, 'v>(
+ 
+ fn try_pop_lhs<'s, 'v>(
+     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+-    alloc: &'v Bump,
++    alloc: &'v Blink,
+ ) -> Option<(&'s Syntax<'s>, Stack<'v, EnteredDelimiter<'s, 'v>>)> {
+     match entered.peek() {
+         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match lhs_delims.peek() {
+@@ -208,7 +208,7 @@ fn try_pop_lhs<'s, 'v>(
+ 
+ fn try_pop_rhs<'s, 'v>(
+     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+-    alloc: &'v Bump,
++    alloc: &'v Blink,
+ ) -> Option<(&'s Syntax<'s>, Stack<'v, EnteredDelimiter<'s, 'v>>)> {
+     match entered.peek() {
+         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match rhs_delims.peek() {
+@@ -234,7 +234,7 @@ fn try_pop_rhs<'s, 'v>(
+ fn push_lhs_delimiter<'s, 'v>(
+     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+     delimiter: &'s Syntax<'s>,
+-    alloc: &'v Bump,
++    alloc: &'v Blink,
+ ) -> Stack<'v, EnteredDelimiter<'s, 'v>> {
+     match entered.peek() {
+         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
+@@ -251,7 +251,7 @@ fn push_lhs_delimiter<'s, 'v>(
+ fn push_rhs_delimiter<'s, 'v>(
+     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+     delimiter: &'s Syntax<'s>,
+-    alloc: &'v Bump,
++    alloc: &'v Blink,
+ ) -> Stack<'v, EnteredDelimiter<'s, 'v>> {
+     match entered.peek() {
+         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
+@@ -370,7 +370,7 @@ impl Edge {
+ 
+ fn allocate_if_new<'s, 'v>(
+     v: Vertex<'s, 'v>,
+-    alloc: &'v Bump,
++    alloc: &'v Blink,
+     seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+ ) -> &'v Vertex<'s, 'v> {
+     // We use the entry API so that we only need to do a single lookup
+@@ -397,12 +397,12 @@ fn allocate_if_new<'s, 'v>(
+ 
+             // We haven't reached the graph node limit yet, allocate a
+             // new one.
+-            let allocated = alloc.alloc(v);
++            let allocated = &*alloc.put_no_drop(v);
+             existing.push(allocated);
+             allocated
+         }
+         RawEntryMut::Vacant(vacant) => {
+-            let allocated = alloc.alloc(v);
++            let allocated = &*alloc.put_no_drop(v);
+ 
+             // We know that this vec will never have more than 2
+             // nodes, and this code is very hot, so use a smallvec.
+@@ -436,7 +436,7 @@ fn pop_all_parents<'s, 'v>(
+     lhs_parent_id: Option<SyntaxId>,
+     rhs_parent_id: Option<SyntaxId>,
+     parents: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+-    alloc: &'v Bump,
++    alloc: &'v Blink,
+ ) -> (
+     Option<&'s Syntax<'s>>,
+     Option<&'s Syntax<'s>>,
+@@ -502,7 +502,7 @@ fn pop_all_parents<'s, 'v>(
+ /// performance.
+ pub(crate) fn compute_neighbours<'s, 'v>(
+     v: &Vertex<'s, 'v>,
+-    alloc: &'v Bump,
++    alloc: &'v Blink,
+     seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+ ) -> &'v [(Edge, &'v Vertex<'s, 'v>)] {
+     // There are only seven pushes in this function, so that's sufficient.
+@@ -795,7 +795,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
+         "Must always find some next steps if node is not the end"
+     );
+ 
+-    alloc.alloc_slice_copy(neighbours.as_slice())
++    &*alloc.copy_slice(neighbours.as_slice())
+ }
+ 
+ pub(crate) fn populate_change_map<'s, 'v>(
+diff --git a/src/diff/shortest_path.rs b/src/diff/shortest_path.rs
+index 7559810..de0fda2 100644
+--- a/src/diff/shortest_path.rs
++++ b/src/diff/shortest_path.rs
+@@ -44,7 +44,7 @@
+ use std::cmp::Reverse;
+ use std::env;
+ 
+-use bumpalo::Bump;
++use blink_alloc::Blink;
+ use radix_heap::RadixHeapMap;
+ 
+ use crate::diff::changes::ChangeMap;
+@@ -58,7 +58,7 @@ pub(crate) struct ExceededGraphLimit {}
+ /// Return the shortest route from `start` to the end vertex.
+ fn shortest_vertex_path<'s, 'v>(
+     start: &'v Vertex<'s, 'v>,
+-    vertex_arena: &'v Bump,
++    vertex_arena: &'v Blink,
+     size_hint: usize,
+     graph_limit: usize,
+ ) -> Result<Vec<&'v Vertex<'s, 'v>>, ExceededGraphLimit> {
+@@ -101,7 +101,7 @@ fn shortest_vertex_path<'s, 'v>(
+                 if seen.len() > graph_limit {
+                     info!(
+                         "Reached graph limit, arena consumed {}",
+-                        humansize::format_size(vertex_arena.allocated_bytes(), humansize::BINARY),
++                        humansize::format_size(0usize, humansize::BINARY),
+                     );
+                     return Err(ExceededGraphLimit {});
+                 }
+@@ -114,7 +114,7 @@ fn shortest_vertex_path<'s, 'v>(
+         "Saw {} vertices (a Vertex is {} bytes), arena consumed {}, with {} vertices left on heap.",
+         seen.len(),
+         std::mem::size_of::<Vertex>(),
+-        humansize::format_size(vertex_arena.allocated_bytes(), humansize::BINARY),
++        humansize::format_size(0usize, humansize::BINARY),
+         heap.len(),
+     );
+ 
+@@ -155,11 +155,11 @@ fn shortest_path_with_edges<'s, 'v>(
+ /// necessary because a route of N vertices only has N-1 edges.
+ fn shortest_path<'s, 'v>(
+     start: Vertex<'s, 'v>,
+-    vertex_arena: &'v Bump,
++    vertex_arena: &'v Blink,
+     size_hint: usize,
+     graph_limit: usize,
+ ) -> Result<Vec<(Edge, &'v Vertex<'s, 'v>)>, ExceededGraphLimit> {
+-    let start: &'v Vertex<'s, 'v> = vertex_arena.alloc(start);
++    let start: &'v Vertex<'s, 'v> = &*vertex_arena.put_no_drop(start);
+     let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
+     Ok(shortest_path_with_edges(&vertex_path))
+ }
+@@ -242,7 +242,7 @@ pub(crate) fn mark_syntax<'a>(
+     let size_hint = std::cmp::min(lhs_node_count * rhs_node_count, graph_limit);
+ 
+     let start = Vertex::new(lhs_syntax, rhs_syntax);
+-    let vertex_arena = Bump::new();
++    let vertex_arena = Blink::new();
+ 
+     let route = shortest_path(start, &vertex_arena, size_hint, graph_limit)?;
+ 
+@@ -304,7 +304,7 @@ mod tests {
+         init_all_info(&[lhs], &[rhs]);
+ 
+         let start = Vertex::new(Some(lhs), Some(rhs));
+-        let vertex_arena = Bump::new();
++        let vertex_arena = Blink::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -346,7 +346,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = Blink::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -388,7 +388,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = Blink::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -434,7 +434,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = Blink::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -475,7 +475,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = Blink::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -507,7 +507,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = Blink::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -547,7 +547,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = Blink::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+diff --git a/src/diff/stack.rs b/src/diff/stack.rs
+index 337716f..48dfb0a 100644
+--- a/src/diff/stack.rs
++++ b/src/diff/stack.rs
+@@ -1,4 +1,4 @@
+-use bumpalo::Bump;
++use blink_alloc::Blink;
+ 
+ #[derive(Debug, Clone, Default, PartialEq, Eq)]
+ struct Node<'b, T> {
+@@ -57,9 +57,9 @@ impl<'b, T> Stack<'b, T> {
+         self.head.map(|n| Self { head: n.next })
+     }
+ 
+-    pub(crate) fn push(&self, v: T, alloc: &'b Bump) -> Self {
++    pub(crate) fn push(&self, v: T, alloc: &'b Blink) -> Self {
+         Self {
+-            head: Some(alloc.alloc(Node {
++            head: Some(alloc.put_no_drop(Node {
+                 val: v,
+                 next: self.head,
+             })),

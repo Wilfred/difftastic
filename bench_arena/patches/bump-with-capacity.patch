@@ -1,0 +1,13 @@
+diff --git a/src/diff/shortest_path.rs b/src/diff/shortest_path.rs
+index 7559810..273075e 100644
+--- a/src/diff/shortest_path.rs
++++ b/src/diff/shortest_path.rs
+@@ -242,7 +242,7 @@ pub(crate) fn mark_syntax<'a>(
+     let size_hint = std::cmp::min(lhs_node_count * rhs_node_count, graph_limit);
+ 
+     let start = Vertex::new(lhs_syntax, rhs_syntax);
+-    let vertex_arena = Bump::new();
++    let vertex_arena = Bump::with_capacity(size_hint.saturating_mul(std::mem::size_of::<Vertex>()));
+ 
+     let route = shortest_path(start, &vertex_arena, size_hint, graph_limit)?;
+ 

@@ -1,0 +1,29 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index 522452e..3f8b878 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -113,9 +113,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "bumpalo"
+-version = "3.16.0"
++version = "3.19.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "79296716171880943b8470b5f8d03aa55eb2e645a4874bdbb28adb49162e012c"
++checksum = "46c5e41b57b8bba42a04676d81cb89e9ee8e859a1a66f80a5a72e1cb76b34d43"
+ 
+ [[package]]
+ name = "cc"
+diff --git a/src/diff/shortest_path.rs b/src/diff/shortest_path.rs
+index 7559810..273075e 100644
+--- a/src/diff/shortest_path.rs
++++ b/src/diff/shortest_path.rs
+@@ -242,7 +242,7 @@ pub(crate) fn mark_syntax<'a>(
+     let size_hint = std::cmp::min(lhs_node_count * rhs_node_count, graph_limit);
+ 
+     let start = Vertex::new(lhs_syntax, rhs_syntax);
+-    let vertex_arena = Bump::new();
++    let vertex_arena = Bump::with_capacity(size_hint.saturating_mul(std::mem::size_of::<Vertex>()));
+ 
+     let route = shortest_path(start, &vertex_arena, size_hint, graph_limit)?;
+ 

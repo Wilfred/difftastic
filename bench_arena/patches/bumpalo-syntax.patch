@@ -1,0 +1,156 @@
+diff --git a/src/main.rs b/src/main.rs
+index 232b55d..92cdd3d 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -112,7 +112,7 @@ use humansize::{format_size, FormatSizeOptions, BINARY};
+ use owo_colors::OwoColorize;
+ use rayon::prelude::*;
+ use strum::IntoEnumIterator;
+-use typed_arena::Arena;
++use bumpalo::Bump;
+ 
+ use crate::diff::sliders::fix_all_sliders;
+ use crate::lines::MaxLine;
+@@ -178,7 +178,7 @@ fn main() {
+             match language {
+                 Some(lang) => {
+                     let ts_lang = tsp::from_language(lang);
+-                    let arena = Arena::new();
++                    let arena = Bump::new();
+                     let ast = tsp::parse(&arena, &src, ts_lang, ignore_comments);
+                     init_all_info(&ast, &[]);
+                     println!("{:#?}", ast);
+@@ -201,7 +201,7 @@ fn main() {
+             match language {
+                 Some(lang) => {
+                     let ts_lang = tsp::from_language(lang);
+-                    let arena = Arena::new();
++                    let arena = Bump::new();
+                     let ast = tsp::parse(&arena, &src, ts_lang, ignore_comments);
+                     init_all_info(&ast, &[]);
+                     syntax::print_as_dot(&ast);
+@@ -654,7 +654,7 @@ fn diff_file_content(
+             (file_format, lhs_positions, rhs_positions)
+         }
+         Some((language, lang_config)) => {
+-            let arena = Arena::new();
++            let arena = Bump::new();
+             match tsp::to_tree_with_limit(diff_options, lang_config, lhs_src, rhs_src) {
+                 Ok((lhs_tree, rhs_tree)) => {
+                     match tsp::to_syntax_with_limit(
+diff --git a/src/parse/syntax.rs b/src/parse/syntax.rs
+index 3d35150..8acd4a4 100644
+--- a/src/parse/syntax.rs
++++ b/src/parse/syntax.rs
+@@ -8,7 +8,7 @@ use std::num::NonZeroU32;
+ use std::{env, fmt};
+ 
+ use line_numbers::{LinePositions, SingleLineSpan};
+-use typed_arena::Arena;
++use bumpalo::Bump;
+ 
+ use self::Syntax::*;
+ use crate::diff::changes::ChangeKind::*;
+@@ -216,7 +216,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
+ 
+ impl<'a> Syntax<'a> {
+     pub(crate) fn new_list(
+-        arena: &'a Arena<Self>,
++        arena: &'a Bump,
+         open_content: &str,
+         open_position: Vec<SingleLineSpan>,
+         children: Vec<&'a Self>,
+@@ -269,7 +269,7 @@ impl<'a> Syntax<'a> {
+     }
+ 
+     pub(crate) fn new_atom(
+-        arena: &'a Arena<Self>,
++        arena: &'a Bump,
+         mut position: Vec<SingleLineSpan>,
+         mut content: String,
+         kind: AtomKind,
+diff --git a/src/parse/tree_sitter_parser.rs b/src/parse/tree_sitter_parser.rs
+index d5433b1..9919c6a 100644
+--- a/src/parse/tree_sitter_parser.rs
++++ b/src/parse/tree_sitter_parser.rs
+@@ -5,7 +5,7 @@ use std::sync::{LazyLock, Mutex};
+ use line_numbers::LinePositions;
+ use streaming_iterator::StreamingIterator as _;
+ use tree_sitter as ts;
+-use typed_arena::Arena;
++use bumpalo::Bump;
+ 
+ use super::syntax::{self, MatchedPos, StringKind};
+ use crate::hash::{DftHashMap, DftHashSet};
+@@ -1496,7 +1496,7 @@ pub(crate) fn comment_positions(
+     src: &str,
+     config: &TreeSitterConfig,
+ ) -> Vec<MatchedPos> {
+-    let arena = Arena::new();
++    let arena = Bump::new();
+     let ignore_comments = false;
+ 
+     let (nodes, _err_count) = to_syntax(tree, src, &arena, config, ignore_comments);
+@@ -1521,7 +1521,7 @@ pub(crate) fn to_syntax_with_limit<'a>(
+     rhs_src: &str,
+     lhs_tree: &tree_sitter::Tree,
+     rhs_tree: &tree_sitter::Tree,
+-    arena: &'a Arena<Syntax<'a>>,
++    arena: &'a Bump,
+     config: &TreeSitterConfig,
+     diff_options: &DiffOptions,
+ ) -> Result<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>), ExceededParseErrorLimit> {
+@@ -1552,7 +1552,7 @@ pub(crate) fn to_syntax_with_limit<'a>(
+ pub(crate) fn to_syntax<'a>(
+     tree: &tree_sitter::Tree,
+     src: &str,
+-    arena: &'a Arena<Syntax<'a>>,
++    arena: &'a Bump,
+     config: &TreeSitterConfig,
+     ignore_comments: bool,
+ ) -> (Vec<&'a Syntax<'a>>, usize) {
+@@ -1597,7 +1597,7 @@ pub(crate) fn to_syntax<'a>(
+ 
+ /// Parse `src` with tree-sitter and convert to difftastic Syntax.
+ pub(crate) fn parse<'a>(
+-    arena: &'a Arena<Syntax<'a>>,
++    arena: &'a Bump,
+     src: &str,
+     config: &TreeSitterConfig,
+     ignore_comments: bool,
+@@ -1668,7 +1668,7 @@ pub(crate) struct HighlightedNodeIds {
+ ///
+ /// `cursor` should be pointing at the first tree-sitter node in a level.
+ fn all_syntaxes_from_cursor<'a>(
+-    arena: &'a Arena<Syntax<'a>>,
++    arena: &'a Bump,
+     src: &str,
+     nl_pos: &LinePositions,
+     cursor: &mut ts::TreeCursor,
+@@ -1711,7 +1711,7 @@ fn all_syntaxes_from_cursor<'a>(
+ /// Convert the tree-sitter node at `cursor` to a difftastic syntax
+ /// node.
+ fn syntax_from_cursor<'a>(
+-    arena: &'a Arena<Syntax<'a>>,
++    arena: &'a Bump,
+     src: &str,
+     nl_pos: &LinePositions,
+     cursor: &mut ts::TreeCursor,
+@@ -1804,7 +1804,7 @@ fn can_ignore_last_child(
+ /// Convert the tree-sitter node at `cursor` to a difftastic list
+ /// node.
+ fn list_from_cursor<'a>(
+-    arena: &'a Arena<Syntax<'a>>,
++    arena: &'a Bump,
+     src: &str,
+     nl_pos: &LinePositions,
+     cursor: &mut ts::TreeCursor,
+@@ -1964,7 +1964,7 @@ fn list_from_cursor<'a>(
+ 
+ /// Convert the tree-sitter node at `cursor` to a difftastic atom.
+ fn atom_from_cursor<'a>(
+-    arena: &'a Arena<Syntax<'a>>,
++    arena: &'a Bump,
+     src: &str,
+     nl_pos: &LinePositions,
+     cursor: &mut ts::TreeCursor,

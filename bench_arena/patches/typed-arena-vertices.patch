@@ -1,0 +1,341 @@
+diff --git a/src/diff/graph.rs b/src/diff/graph.rs
+index 93e179b..fed5a3c 100644
+--- a/src/diff/graph.rs
++++ b/src/diff/graph.rs
+@@ -5,14 +5,14 @@ use std::cmp::min;
+ use std::fmt;
+ use std::hash::{Hash, Hasher};
+ 
+-use bumpalo::Bump;
++use typed_arena::Arena;
+ use hashbrown::hash_map::RawEntryMut;
+ use smallvec::{smallvec, SmallVec};
+ use strsim::normalized_levenshtein;
+ 
+ use self::Edge::*;
+ use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
+-use crate::diff::stack::Stack;
++use crate::diff::stack::{NodeArena, Stack};
+ use crate::hash::DftHashMap;
+ use crate::parse::syntax::{AtomKind, Syntax, SyntaxId};
+ 
+@@ -119,9 +119,33 @@ impl Hash for Vertex<'_, '_> {
+     }
+ }
+ 
++/// Arenas for all the graph data structures: vertices, neighbour
++/// lists, and the persistent stack nodes.
++pub(crate) struct VertexArenas<'s, 'v> {
++    pub(crate) vertices: Arena<Vertex<'s, 'v>>,
++    pub(crate) neighbour_lists: Arena<(Edge, &'v Vertex<'s, 'v>)>,
++    pub(crate) delim_stack_nodes: NodeArena<'v, EnteredDelimiter<'s, 'v>>,
++    pub(crate) syntax_stack_nodes: NodeArena<'v, &'s Syntax<'s>>,
++}
++
++impl VertexArenas<'_, '_> {
++    pub(crate) fn new() -> Self {
++        Self {
++            vertices: Arena::new(),
++            neighbour_lists: Arena::new(),
++            delim_stack_nodes: Arena::new(),
++            syntax_stack_nodes: Arena::new(),
++        }
++    }
++
++    pub(crate) fn allocated_bytes(&self) -> usize {
++        self.vertices.len() * std::mem::size_of::<Vertex>()
++    }
++}
++
+ /// Tracks entering syntax List nodes.
+ #[derive(Clone, PartialEq)]
+-enum EnteredDelimiter<'s, 'v> {
++pub(crate) enum EnteredDelimiter<'s, 'v> {
+     /// If we've entered the LHS or RHS separately, we can pop either
+     /// side independently.
+     ///
+@@ -157,9 +181,9 @@ fn push_both_delimiters<'s, 'v>(
+     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+     lhs_delim: &'s Syntax<'s>,
+     rhs_delim: &'s Syntax<'s>,
+-    alloc: &'v Bump,
++    alloc: &'v VertexArenas<'s, 'v>,
+ ) -> Stack<'v, EnteredDelimiter<'s, 'v>> {
+-    entered.push(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)), alloc)
++    entered.push(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)), &alloc.delim_stack_nodes)
+ }
+ 
+ fn can_pop_either_parent(entered: &Stack<EnteredDelimiter>) -> bool {
+@@ -183,7 +207,7 @@ fn try_pop_both<'s, 'v>(
+ 
+ fn try_pop_lhs<'s, 'v>(
+     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+-    alloc: &'v Bump,
++    alloc: &'v VertexArenas<'s, 'v>,
+ ) -> Option<(&'s Syntax<'s>, Stack<'v, EnteredDelimiter<'s, 'v>>)> {
+     match entered.peek() {
+         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match lhs_delims.peek() {
+@@ -194,7 +218,7 @@ fn try_pop_lhs<'s, 'v>(
+                 if !new_lhs_delims.is_empty() || !rhs_delims.is_empty() {
+                     entered = entered.push(
+                         EnteredDelimiter::PopEither((new_lhs_delims, rhs_delims.clone())),
+-                        alloc,
++                        &alloc.delim_stack_nodes,
+                     );
+                 }
+ 
+@@ -208,7 +232,7 @@ fn try_pop_lhs<'s, 'v>(
+ 
+ fn try_pop_rhs<'s, 'v>(
+     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+-    alloc: &'v Bump,
++    alloc: &'v VertexArenas<'s, 'v>,
+ ) -> Option<(&'s Syntax<'s>, Stack<'v, EnteredDelimiter<'s, 'v>>)> {
+     match entered.peek() {
+         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match rhs_delims.peek() {
+@@ -219,7 +243,7 @@ fn try_pop_rhs<'s, 'v>(
+                 if !lhs_delims.is_empty() || !new_rhs_delims.is_empty() {
+                     entered = entered.push(
+                         EnteredDelimiter::PopEither((lhs_delims.clone(), new_rhs_delims)),
+-                        alloc,
++                        &alloc.delim_stack_nodes,
+                     );
+                 }
+ 
+@@ -234,16 +258,16 @@ fn try_pop_rhs<'s, 'v>(
+ fn push_lhs_delimiter<'s, 'v>(
+     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+     delimiter: &'s Syntax<'s>,
+-    alloc: &'v Bump,
++    alloc: &'v VertexArenas<'s, 'v>,
+ ) -> Stack<'v, EnteredDelimiter<'s, 'v>> {
+     match entered.peek() {
+         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
+-            EnteredDelimiter::PopEither((lhs_delims.push(delimiter, alloc), rhs_delims.clone())),
+-            alloc,
++            EnteredDelimiter::PopEither((lhs_delims.push(delimiter, &alloc.syntax_stack_nodes), rhs_delims.clone())),
++            &alloc.delim_stack_nodes,
+         ),
+         _ => entered.push(
+-            EnteredDelimiter::PopEither((Stack::new().push(delimiter, alloc), Stack::new())),
+-            alloc,
++            EnteredDelimiter::PopEither((Stack::new().push(delimiter, &alloc.syntax_stack_nodes), Stack::new())),
++            &alloc.delim_stack_nodes,
+         ),
+     }
+ }
+@@ -251,16 +275,16 @@ fn push_lhs_delimiter<'s, 'v>(
+ fn push_rhs_delimiter<'s, 'v>(
+     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+     delimiter: &'s Syntax<'s>,
+-    alloc: &'v Bump,
++    alloc: &'v VertexArenas<'s, 'v>,
+ ) -> Stack<'v, EnteredDelimiter<'s, 'v>> {
+     match entered.peek() {
+         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
+-            EnteredDelimiter::PopEither((lhs_delims.clone(), rhs_delims.push(delimiter, alloc))),
+-            alloc,
++            EnteredDelimiter::PopEither((lhs_delims.clone(), rhs_delims.push(delimiter, &alloc.syntax_stack_nodes))),
++            &alloc.delim_stack_nodes,
+         ),
+         _ => entered.push(
+-            EnteredDelimiter::PopEither((Stack::new(), Stack::new().push(delimiter, alloc))),
+-            alloc,
++            EnteredDelimiter::PopEither((Stack::new(), Stack::new().push(delimiter, &alloc.syntax_stack_nodes))),
++            &alloc.delim_stack_nodes,
+         ),
+     }
+ }
+@@ -370,7 +394,7 @@ impl Edge {
+ 
+ fn allocate_if_new<'s, 'v>(
+     v: Vertex<'s, 'v>,
+-    alloc: &'v Bump,
++    alloc: &'v VertexArenas<'s, 'v>,
+     seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+ ) -> &'v Vertex<'s, 'v> {
+     // We use the entry API so that we only need to do a single lookup
+@@ -397,12 +421,12 @@ fn allocate_if_new<'s, 'v>(
+ 
+             // We haven't reached the graph node limit yet, allocate a
+             // new one.
+-            let allocated = alloc.alloc(v);
++            let allocated = &*alloc.vertices.alloc(v);
+             existing.push(allocated);
+             allocated
+         }
+         RawEntryMut::Vacant(vacant) => {
+-            let allocated = alloc.alloc(v);
++            let allocated = &*alloc.vertices.alloc(v);
+ 
+             // We know that this vec will never have more than 2
+             // nodes, and this code is very hot, so use a smallvec.
+@@ -436,7 +460,7 @@ fn pop_all_parents<'s, 'v>(
+     lhs_parent_id: Option<SyntaxId>,
+     rhs_parent_id: Option<SyntaxId>,
+     parents: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+-    alloc: &'v Bump,
++    alloc: &'v VertexArenas<'s, 'v>,
+ ) -> (
+     Option<&'s Syntax<'s>>,
+     Option<&'s Syntax<'s>>,
+@@ -502,7 +526,7 @@ fn pop_all_parents<'s, 'v>(
+ /// performance.
+ pub(crate) fn compute_neighbours<'s, 'v>(
+     v: &Vertex<'s, 'v>,
+-    alloc: &'v Bump,
++    alloc: &'v VertexArenas<'s, 'v>,
+     seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+ ) -> &'v [(Edge, &'v Vertex<'s, 'v>)] {
+     // There are only seven pushes in this function, so that's sufficient.
+@@ -795,7 +819,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
+         "Must always find some next steps if node is not the end"
+     );
+ 
+-    alloc.alloc_slice_copy(neighbours.as_slice())
++    &*alloc.neighbour_lists.alloc_extend(neighbours.iter().copied())
+ }
+ 
+ pub(crate) fn populate_change_map<'s, 'v>(
+diff --git a/src/diff/shortest_path.rs b/src/diff/shortest_path.rs
+index 7559810..95591a6 100644
+--- a/src/diff/shortest_path.rs
++++ b/src/diff/shortest_path.rs
+@@ -44,11 +44,10 @@
+ use std::cmp::Reverse;
+ use std::env;
+ 
+-use bumpalo::Bump;
+ use radix_heap::RadixHeapMap;
+ 
+ use crate::diff::changes::ChangeMap;
+-use crate::diff::graph::{compute_neighbours, populate_change_map, Edge, Vertex};
++use crate::diff::graph::{compute_neighbours, populate_change_map, Edge, Vertex, VertexArenas};
+ use crate::hash::DftHashMap;
+ use crate::parse::syntax::Syntax;
+ 
+@@ -58,7 +57,7 @@ pub(crate) struct ExceededGraphLimit {}
+ /// Return the shortest route from `start` to the end vertex.
+ fn shortest_vertex_path<'s, 'v>(
+     start: &'v Vertex<'s, 'v>,
+-    vertex_arena: &'v Bump,
++    vertex_arena: &'v VertexArenas<'s, 'v>,
+     size_hint: usize,
+     graph_limit: usize,
+ ) -> Result<Vec<&'v Vertex<'s, 'v>>, ExceededGraphLimit> {
+@@ -155,11 +154,11 @@ fn shortest_path_with_edges<'s, 'v>(
+ /// necessary because a route of N vertices only has N-1 edges.
+ fn shortest_path<'s, 'v>(
+     start: Vertex<'s, 'v>,
+-    vertex_arena: &'v Bump,
++    vertex_arena: &'v VertexArenas<'s, 'v>,
+     size_hint: usize,
+     graph_limit: usize,
+ ) -> Result<Vec<(Edge, &'v Vertex<'s, 'v>)>, ExceededGraphLimit> {
+-    let start: &'v Vertex<'s, 'v> = vertex_arena.alloc(start);
++    let start: &'v Vertex<'s, 'v> = &*vertex_arena.vertices.alloc(start);
+     let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
+     Ok(shortest_path_with_edges(&vertex_path))
+ }
+@@ -242,7 +241,7 @@ pub(crate) fn mark_syntax<'a>(
+     let size_hint = std::cmp::min(lhs_node_count * rhs_node_count, graph_limit);
+ 
+     let start = Vertex::new(lhs_syntax, rhs_syntax);
+-    let vertex_arena = Bump::new();
++    let vertex_arena = VertexArenas::new();
+ 
+     let route = shortest_path(start, &vertex_arena, size_hint, graph_limit)?;
+ 
+@@ -304,7 +303,7 @@ mod tests {
+         init_all_info(&[lhs], &[rhs]);
+ 
+         let start = Vertex::new(Some(lhs), Some(rhs));
+-        let vertex_arena = Bump::new();
++        let vertex_arena = VertexArenas::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -346,7 +345,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = VertexArenas::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -388,7 +387,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = VertexArenas::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -434,7 +433,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = VertexArenas::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -475,7 +474,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = VertexArenas::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -507,7 +506,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = VertexArenas::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+@@ -547,7 +546,7 @@ mod tests {
+         init_all_info(&lhs, &rhs);
+ 
+         let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
+-        let vertex_arena = Bump::new();
++        let vertex_arena = VertexArenas::new();
+         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+ 
+         let actions = route.iter().map(|(action, _)| *action).collect::<Vec<_>>();
+diff --git a/src/diff/stack.rs b/src/diff/stack.rs
+index 337716f..e767b39 100644
+--- a/src/diff/stack.rs
++++ b/src/diff/stack.rs
+@@ -1,11 +1,14 @@
+-use bumpalo::Bump;
++use typed_arena::Arena;
+ 
+ #[derive(Debug, Clone, Default, PartialEq, Eq)]
+-struct Node<'b, T> {
++pub(crate) struct Node<'b, T> {
+     val: T,
+     next: Option<&'b Node<'b, T>>,
+ }
+ 
++/// Arena that stack nodes are allocated in.
++pub(crate) type NodeArena<'b, T> = Arena<Node<'b, T>>;
++
+ /// A persistent stack.
+ ///
+ /// This is similar to `Stack` from the rpds crate, but it's faster
+@@ -57,7 +60,7 @@ impl<'b, T> Stack<'b, T> {
+         self.head.map(|n| Self { head: n.next })
+     }
+ 
+-    pub(crate) fn push(&self, v: T, alloc: &'b Bump) -> Self {
++    pub(crate) fn push(&self, v: T, alloc: &'b NodeArena<'b, T>) -> Self {
+         Self {
+             head: Some(alloc.alloc(Node {
+                 val: v,

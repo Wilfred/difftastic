@@ -1,0 +1,3 @@
+bins/
+results/callgrind.*
+results/valgrind.*

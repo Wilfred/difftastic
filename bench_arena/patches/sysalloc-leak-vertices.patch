@@ -1,0 +1,58 @@
+diff --git a/src/diff/graph.rs b/src/diff/graph.rs
+index 93e179b..e1c78f1 100644
+--- a/src/diff/graph.rs
++++ b/src/diff/graph.rs
+@@ -397,12 +397,12 @@ fn allocate_if_new<'s, 'v>(
+ 
+             // We haven't reached the graph node limit yet, allocate a
+             // new one.
+-            let allocated = alloc.alloc(v);
++            let allocated = &*Box::leak(Box::new(v));
+             existing.push(allocated);
+             allocated
+         }
+         RawEntryMut::Vacant(vacant) => {
+-            let allocated = alloc.alloc(v);
++            let allocated = &*Box::leak(Box::new(v));
+ 
+             // We know that this vec will never have more than 2
+             // nodes, and this code is very hot, so use a smallvec.
+@@ -795,7 +795,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
+         "Must always find some next steps if node is not the end"
+     );
+ 
+-    alloc.alloc_slice_copy(neighbours.as_slice())
++    &*neighbours.as_slice().to_vec().leak()
+ }
+ 
+ pub(crate) fn populate_change_map<'s, 'v>(
+diff --git a/src/diff/shortest_path.rs b/src/diff/shortest_path.rs
+index 7559810..a11354a 100644
+--- a/src/diff/shortest_path.rs
++++ b/src/diff/shortest_path.rs
+@@ -159,7 +159,7 @@ fn shortest_path<'s, 'v>(
+     size_hint: usize,
+     graph_limit: usize,
+ ) -> Result<Vec<(Edge, &'v Vertex<'s, 'v>)>, ExceededGraphLimit> {
+-    let start: &'v Vertex<'s, 'v> = vertex_arena.alloc(start);
++    let start: &'v Vertex<'s, 'v> = &*Box::leak(Box::new(start));
+     let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
+     Ok(shortest_path_with_edges(&vertex_path))
+ }
+diff --git a/src/diff/stack.rs b/src/diff/stack.rs
+index 337716f..1aa8b99 100644
+--- a/src/diff/stack.rs
++++ b/src/diff/stack.rs
+@@ -59,10 +59,10 @@ impl<'b, T> Stack<'b, T> {
+ 
+     pub(crate) fn push(&self, v: T, alloc: &'b Bump) -> Self {
+         Self {
+-            head: Some(alloc.alloc(Node {
++            head: Some(&*Box::leak(Box::new(Node {
+                 val: v,
+                 next: self.head,
+-            })),
++            }))),
+         }
+     }
+ 
