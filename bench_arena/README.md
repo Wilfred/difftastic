@@ -109,6 +109,58 @@ either way).
    atom — likely worth more than 1.1%, but it is a much larger
    refactor. Recorded as future work.
 
+## Round 2: beyond allocators
+
+After the arena work, profiles showed the biggest remaining costs were
+not allocation at all:
+
+1. **Tree-sitter highlight query construction** (`Query::new` →
+   `ts_query__perform_analysis`): a fixed cost per language per
+   invocation, 433M instructions for Rust — 65% of the entire run on a
+   small diff (`nest`), and ~18% even on `slow`. difftastic only reads
+   four capture groups from highlight queries (comment/keyword-ish/
+   string/type buckets in `tree_highlights`), but compiles the stock
+   highlights queries, which are dominated by patterns it never reads
+   (@function, @variable, @punctuation, ...).
+
+   **Change (`filtered-highlight-query.patch`)**: filter the query
+   text to top-level patterns containing at least one used capture
+   before `Query::new`. Since tree-sitter query patterns match
+   independently and difftastic only unions matches of used capture
+   names, dropping never-read patterns cannot change results.
+   Validated by byte-identical `--color always` output across all 111
+   sample pairs, plus the `test_configs_valid` test which compiles
+   the filtered query for every supported language.
+
+2. **Stale heap entries in Dijkstra** (`shortest_vertex_path`,
+   rejected): when a vertex's distance improves it is pushed again,
+   the old entry stays in the heap, and a stale pop re-relaxes all
+   neighbours. Skipping stale pops with a distance comparison is the
+   textbook fix — but it *lost* here (+0.8% on `slow`): distance
+   improvements after the first push are rare in difftastic's graphs,
+   so the extra per-pop compare costs more than the skipped
+   re-relaxations save. Kept as a patch, not applied.
+
+### Round 2 results
+
+Measured against the round-1 committed state (`combined-cap-3.19`,
+i.e. pre-sized arena + bumpalo 3.19):
+
+| variant | slow | typing | nest | modules |
+|---|---|---|---|---|
+| round-1 state | 2444.2 | 3290.3 | 670.4 | 2309.5 |
+| + filtered highlight query | 2268.1 (−7.2%) | 3073.7 (−6.6%) | 493.1 (−26.4%) | 2123.3 (−8.1%) |
+| + stale-pop skip (rejected) | 2287.1 (+0.8%) | 3077.1 (+0.1%) | 493.5 (+0.1%) | 2123.7 (+0.0%) |
+
+Native wall-clock on `nest` (small diff): ~78ms → ~68ms from the
+query filtering alone.
+
+After both changes, `ts_query__perform_analysis` is still the largest
+single cost on small diffs (222M instructions, 45% of `nest`): the
+keyword patterns that difftastic genuinely uses still have to be
+analysed, and tree-sitter has no way to cache compiled queries across
+invocations. Further cuts there need upstream tree-sitter changes.
+
 ## Reproducing
 
 ```

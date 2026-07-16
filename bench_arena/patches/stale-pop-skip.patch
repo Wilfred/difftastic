@@ -1,0 +1,26 @@
+Rejected experiment: skip stale Dijkstra heap entries. Measured
++0.8% instructions on the slow pair (distance improvements after
+first push are rare, so the per-pop compare costs more than the
+skipped re-relaxations save).
+
+diff --git a/src/diff/shortest_path.rs b/src/diff/shortest_path.rs
+--- a/src/diff/shortest_path.rs
++++ b/src/diff/shortest_path.rs
+@@ -76,6 +76,17 @@ fn shortest_vertex_path<'s, 'v>(
+             Some((Reverse(distance), current)) => {
+                 if current.is_end() {
+                     break current;
+                 }
+
++                // If we've already found a shorter route to this
++                // vertex, we've already visited it via that route,
++                // so this heap entry is stale. Relaxing its
++                // neighbours again cannot improve any distance, so
++                // skip it.
++                if let Some((best_distance, _)) = current.predecessor.get() {
++                    if distance > best_distance {
++                        continue;
++                    }
++                }
++
+                 let neighbours = *current
