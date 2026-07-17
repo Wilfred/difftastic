@@ -222,6 +222,62 @@ The remaining large-file lever on the *parsed* side is moving
 `Syntax` string/position storage into the syntax arena
 (the bumpalo-collections refactor from round 1's finding #4).
 
+## Round 4: replacing the Wu diff library
+
+With the text path fast, the question was whether the wu-diff
+algorithm itself (vendored in round 3) is the right linear-diff
+engine. Candidates evaluated as drop-in engines for
+`slice_unique_by_hash` (the text-diff hot path, which feeds
+pre-interned u32 tokens): **imara-diff 0.2** (gitoxide's engine;
+Histogram and Myers) and **similar 3.1** (Myers).
+
+huge_cpp (22 MiB text pair), callgrind instructions:
+
+| engine | instructions | vs wu |
+|---|---|---|
+| wu (vendored, round-3 state) | 13.79G | — |
+| imara-diff Myers | 13.83G | +0.3% |
+| similar Myers | 13.94G | +1.1% |
+| imara-diff Histogram | 15.09G | +9.4% |
+
+Native wall clock is noise-level identical (2.9-3.1s) for all four.
+Histogram's token-occurrence bookkeeping doesn't pay off here:
+difftastic's unique-line prefilter already removes the tokens
+histogram would use as anchors, and what remains is a
+small-edit-distance diff, which is Wu's and Myers' best case.
+
+**The deciding test was adversarial input**: two 50K-line files with
+identical lines in reversed order (edit distance ≈ N, the worst case
+for O(NP)/O(ND) algorithms):
+
+| engine | result |
+|---|---|
+| wu (even with round-3 linear storage) | **OOM-killed** after 70s (route storage is inherently O(N·P) ≈ 20 GiB here) |
+| imara-diff Myers | 16s, bounded |
+| imara-diff Histogram | 16s, bounded |
+| similar Myers | 31s, bounded |
+
+imara-diff's Myers applies the same effort-bounding heuristics git
+uses, trading minimality for a hard cost ceiling; wu-diff has no such
+bound, so a hostile (or just heavily-reordered) text pair kills the
+process.
+
+Output divergence from wu across all 111 sample pairs: imara
+Histogram 1 pair, imara Myers and similar Myers 2 pairs (huge_cpp
+plus, for the Myers engines, colour-only word-alignment differences
+on hare) — all equally-valid alternative alignments.
+
+**Adopted: imara-diff (Myers) for `slice_unique_by_hash`.**
+Performance parity on real inputs, bounded on adversarial ones,
+actively maintained, and difftastic's dense u32 interning feeds its
+`Token` type with no re-interning. The vendored wu-diff remains for
+the two small-input callers (`slice` for unchanged-node detection,
+`slice_by_hash` for comment word diffs): `slice` diffs values that
+are `PartialEq` but not `Hash`, so migrating it means reworking
+`unchanged.rs`, and alignment changes there affect structural diff
+decisions — recorded as possible follow-up work. Engine patches for
+all four variants are in `patches/`.
+
 ## Reproducing
 
 ```

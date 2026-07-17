@@ -159,45 +159,57 @@ pub(crate) fn slice_unique_by_hash<'a, T: Eq + Clone + Hash>(
     let mut lhs_i = 0;
     let mut rhs_i = 0;
 
-    for item in wu_diff::diff(&lhs_core, &rhs_core) {
-        match item {
-            wu_diff::DiffResult::Removed(r) => {
-                let id = lhs_core[r.old_index.unwrap()];
-                while lhs_i < lhs.len() && lhs_ids[lhs_i] != id {
-                    res.push(DiffResult::Left(&lhs[lhs_i]));
-                    lhs_i += 1;
-                }
+    let before: Vec<imara_diff::Token> =
+        lhs_core.iter().map(|&id| imara_diff::Token(id)).collect();
+    let after: Vec<imara_diff::Token> =
+        rhs_core.iter().map(|&id| imara_diff::Token(id)).collect();
+    let mut diff = imara_diff::Diff::default();
+    diff.compute_with(
+        imara_diff::Algorithm::Myers,
+        &before,
+        &after,
+        in_lhs.len() as u32,
+    );
 
+    let mut core_i = 0;
+    let mut core_j = 0;
+    while core_i < lhs_core.len() || core_j < rhs_core.len() {
+        if core_i < lhs_core.len() && diff.is_removed(core_i as u32) {
+            let id = lhs_core[core_i];
+            while lhs_i < lhs.len() && lhs_ids[lhs_i] != id {
                 res.push(DiffResult::Left(&lhs[lhs_i]));
                 lhs_i += 1;
             }
-            wu_diff::DiffResult::Common(c) => {
-                let lhs_id = lhs_core[c.old_index.unwrap()];
-                let rhs_id = rhs_core[c.new_index.unwrap()];
-
-                while lhs_i < lhs.len() && lhs_ids[lhs_i] != lhs_id {
-                    res.push(DiffResult::Left(&lhs[lhs_i]));
-                    lhs_i += 1;
-                }
-                while rhs_i < rhs.len() && rhs_ids[rhs_i] != rhs_id {
-                    res.push(DiffResult::Right(&rhs[rhs_i]));
-                    rhs_i += 1;
-                }
-
-                res.push(DiffResult::Both(&lhs[lhs_i], &rhs[rhs_i]));
-                lhs_i += 1;
-                rhs_i += 1;
-            }
-            wu_diff::DiffResult::Added(a) => {
-                let id = rhs_core[a.new_index.unwrap()];
-                while rhs_i < rhs.len() && rhs_ids[rhs_i] != id {
-                    res.push(DiffResult::Right(&rhs[rhs_i]));
-                    rhs_i += 1;
-                }
-
+            res.push(DiffResult::Left(&lhs[lhs_i]));
+            lhs_i += 1;
+            core_i += 1;
+        } else if core_j < rhs_core.len() && diff.is_added(core_j as u32) {
+            let id = rhs_core[core_j];
+            while rhs_i < rhs.len() && rhs_ids[rhs_i] != id {
                 res.push(DiffResult::Right(&rhs[rhs_i]));
                 rhs_i += 1;
             }
+            res.push(DiffResult::Right(&rhs[rhs_i]));
+            rhs_i += 1;
+            core_j += 1;
+        } else {
+            let lhs_id = lhs_core[core_i];
+            let rhs_id = rhs_core[core_j];
+
+            while lhs_i < lhs.len() && lhs_ids[lhs_i] != lhs_id {
+                res.push(DiffResult::Left(&lhs[lhs_i]));
+                lhs_i += 1;
+            }
+            while rhs_i < rhs.len() && rhs_ids[rhs_i] != rhs_id {
+                res.push(DiffResult::Right(&rhs[rhs_i]));
+                rhs_i += 1;
+            }
+
+            res.push(DiffResult::Both(&lhs[lhs_i], &rhs[rhs_i]));
+            lhs_i += 1;
+            rhs_i += 1;
+            core_i += 1;
+            core_j += 1;
         }
     }
 
