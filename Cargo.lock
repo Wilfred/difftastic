@@ -287,7 +287,7 @@ dependencies = [
  "tree-sitter-haskell",
  "tree-sitter-hcl",
  "tree-sitter-html",
- "tree-sitter-java",
+ "tree-sitter-java-orchard",
  "tree-sitter-javascript",
  "tree-sitter-json",
  "tree-sitter-julia",
@@ -1263,10 +1263,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "tree-sitter-java"
-version = "0.23.4"
+name = "tree-sitter-java-orchard"
+version = "0.5.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6f9b24494d5f386acb2c086e0541c1b145692e0e012101ddb8257737b83c2803"
+checksum = "660a7a7660bab0969c9f46faa2274fad4cad48c087ab66d8697d4f94d80f19b7"
 dependencies = [
  "cc",
  "tree-sitter-language",

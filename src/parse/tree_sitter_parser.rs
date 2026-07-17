@@ -626,7 +626,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Java => {
-            let language_fn = tree_sitter_java::LANGUAGE;
+            let language_fn = tree_sitter_java_orchard::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
@@ -650,8 +650,11 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 // There aren't many places where Java allows trailing commas.
                 ignore_trailing_tokens: vec![("enum_body", ","), ("array_initializer", ",")],
-                highlight_query: ts::Query::new(&language, tree_sitter_java::HIGHLIGHTS_QUERY)
-                    .unwrap(),
+                highlight_query: ts::Query::new(
+                    &language,
+                    tree_sitter_java_orchard::HIGHLIGHTS_QUERY,
+                )
+                .unwrap(),
                 sub_languages: vec![],
             }
         }
