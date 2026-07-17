@@ -8,7 +8,8 @@
 
 use std::hash::Hash;
 
-use crate::hash::{DftHashMap, DftHashSet};
+use crate::diff::wu_diff;
+use crate::hash::DftHashMap;
 
 #[derive(Debug, PartialEq)]
 pub(crate) enum DiffResult<T> {
@@ -108,71 +109,93 @@ pub(crate) fn slice_unique_by_hash<'a, T: Eq + Clone + Hash>(
     lhs: &'a [T],
     rhs: &'a [T],
 ) -> Vec<DiffResult<&'a T>> {
-    let mut lhs_set = DftHashSet::default();
-    for item in lhs {
-        lhs_set.insert(item);
-    }
-    let mut rhs_set = DftHashSet::default();
-    for item in rhs {
-        rhs_set.insert(item);
+    // Assign each distinct value a dense numeric ID, so every item is
+    // hashed exactly once. All the subsequent work (uniqueness
+    // filtering, the diff itself, and re-interleaving) happens on
+    // u32s, which is much cheaper than repeatedly hashing and
+    // comparing large strings.
+    let mut value_ids: DftHashMap<&T, u32> = DftHashMap::default();
+    let mut in_lhs: Vec<bool> = vec![];
+    let mut in_rhs: Vec<bool> = vec![];
+
+    let mut lhs_ids: Vec<u32> = Vec::with_capacity(lhs.len());
+    for value in lhs {
+        let next_id = in_lhs.len() as u32;
+        let id = *value_ids.entry(value).or_insert_with(|| {
+            in_lhs.push(false);
+            in_rhs.push(false);
+            next_id
+        });
+        in_lhs[id as usize] = true;
+        lhs_ids.push(id);
     }
 
-    let lhs_without_unique: Vec<&'a T> = lhs.iter().filter(|n| rhs_set.contains(n)).collect();
-    let rhs_without_unique: Vec<&'a T> = rhs.iter().filter(|n| lhs_set.contains(n)).collect();
+    let mut rhs_ids: Vec<u32> = Vec::with_capacity(rhs.len());
+    for value in rhs {
+        let next_id = in_lhs.len() as u32;
+        let id = *value_ids.entry(value).or_insert_with(|| {
+            in_lhs.push(false);
+            in_rhs.push(false);
+            next_id
+        });
+        in_rhs[id as usize] = true;
+        rhs_ids.push(id);
+    }
+
+    // Items that only occur on a single side are novel, and don't
+    // need to be considered by the diff algorithm itself.
+    let lhs_core: Vec<u32> = lhs_ids
+        .iter()
+        .copied()
+        .filter(|id| in_rhs[*id as usize])
+        .collect();
+    let rhs_core: Vec<u32> = rhs_ids
+        .iter()
+        .copied()
+        .filter(|id| in_lhs[*id as usize])
+        .collect();
 
     let mut res: Vec<DiffResult<&'a T>> = Vec::with_capacity(lhs.len());
     let mut lhs_i = 0;
     let mut rhs_i = 0;
 
-    for item in slice_by_hash(&lhs_without_unique, &rhs_without_unique) {
+    for item in wu_diff::diff(&lhs_core, &rhs_core) {
         match item {
-            DiffResult::Left(lhs_item) => {
-                while lhs_i < lhs.len() {
-                    if &lhs[lhs_i] != *lhs_item {
-                        res.push(DiffResult::Left(&lhs[lhs_i]));
-                        lhs_i += 1;
-                    } else {
-                        break;
-                    }
+            wu_diff::DiffResult::Removed(r) => {
+                let id = lhs_core[r.old_index.unwrap()];
+                while lhs_i < lhs.len() && lhs_ids[lhs_i] != id {
+                    res.push(DiffResult::Left(&lhs[lhs_i]));
+                    lhs_i += 1;
                 }
 
-                res.push(DiffResult::Left(*lhs_item));
+                res.push(DiffResult::Left(&lhs[lhs_i]));
                 lhs_i += 1;
             }
-            DiffResult::Both(lhs_item, rhs_item) => {
-                while lhs_i < lhs.len() {
-                    if &lhs[lhs_i] != *lhs_item {
-                        res.push(DiffResult::Left(&lhs[lhs_i]));
-                        lhs_i += 1;
-                    } else {
-                        break;
-                    }
+            wu_diff::DiffResult::Common(c) => {
+                let lhs_id = lhs_core[c.old_index.unwrap()];
+                let rhs_id = rhs_core[c.new_index.unwrap()];
+
+                while lhs_i < lhs.len() && lhs_ids[lhs_i] != lhs_id {
+                    res.push(DiffResult::Left(&lhs[lhs_i]));
+                    lhs_i += 1;
+                }
+                while rhs_i < rhs.len() && rhs_ids[rhs_i] != rhs_id {
+                    res.push(DiffResult::Right(&rhs[rhs_i]));
+                    rhs_i += 1;
                 }
 
-                while rhs_i < rhs.len() {
-                    if &rhs[rhs_i] != *rhs_item {
-                        res.push(DiffResult::Right(&rhs[rhs_i]));
-                        rhs_i += 1;
-                    } else {
-                        break;
-                    }
-                }
-
-                res.push(DiffResult::Both(*lhs_item, *rhs_item));
+                res.push(DiffResult::Both(&lhs[lhs_i], &rhs[rhs_i]));
                 lhs_i += 1;
                 rhs_i += 1;
             }
-            DiffResult::Right(rhs_item) => {
-                while rhs_i < rhs.len() {
-                    if &rhs[rhs_i] != *rhs_item {
-                        res.push(DiffResult::Right(&rhs[rhs_i]));
-                        rhs_i += 1;
-                    } else {
-                        break;
-                    }
+            wu_diff::DiffResult::Added(a) => {
+                let id = rhs_core[a.new_index.unwrap()];
+                while rhs_i < rhs.len() && rhs_ids[rhs_i] != id {
+                    res.push(DiffResult::Right(&rhs[rhs_i]));
+                    rhs_i += 1;
                 }
 
-                res.push(DiffResult::Right(*rhs_item));
+                res.push(DiffResult::Right(&rhs[rhs_i]));
                 rhs_i += 1;
             }
         }

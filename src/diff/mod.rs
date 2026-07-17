@@ -5,3 +5,4 @@ pub(crate) mod shortest_path;
 pub(crate) mod sliders;
 mod stack;
 pub(crate) mod unchanged;
+mod wu_diff;

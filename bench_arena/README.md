@@ -161,6 +161,67 @@ keyword patterns that difftastic genuinely uses still have to be
 analysed, and tree-sitter has no way to cache compiled queries across
 invocations. Further cuts there need upstream tree-sitter changes.
 
+## Round 3: large files (the text-diff path)
+
+Files over `--byte-limit` (1 MiB default) take the text-diff path
+(`line_parser.rs`), and the stress test for that is
+`huge_cpp_1/2.cpp`: 22 MiB, 590K lines per side. Profiling it exposed
+four issues, all fixed with byte-identical output (validated on all
+111 sample pairs plus huge_cpp itself, with colours):
+
+1. **The whole line diff ran twice.** `change_positions(lhs, rhs)`
+   and `change_positions(rhs, lhs)` each recomputed line splitting,
+   line hashing, the wu-diff and the word-level diffs from scratch.
+   Replaced with `change_positions_both`, which walks the diff once
+   and emits both sides' `MatchedPos` vecs. (Within any valid diff
+   stream, items carrying an RHS index appear in RHS-index order, so
+   the mirrored second pass was recomputing the same information.)
+
+2. **`wu-diff` allocates two `M*N`-element arrays** (`routes`,
+   `diff_types`) where M and N are the deduplicated novel-line counts.
+   That's quadratic address space — several GiB on huge_cpp (which is
+   why it aborted under valgrind in round 1), and a genuine OOM for
+   pairs with ~100K+ novel lines each. The algorithm writes these
+   arrays strictly sequentially, so difftastic now vendors a copy
+   (`src/diff/wu_diff.rs`, MIT, from wu-diff 0.1.2) using growable
+   vectors: identical values at identical indexes, identical output,
+   linear memory.
+
+3. **Line splitting used a regex** to find newlines.
+   `str::split_inclusive('\n')` does the same thing without regex
+   machinery (54M instructions of regex search + 35M of memchr on
+   huge_cpp).
+
+4. **Every line was hashed ~3 times** in `slice_unique_by_hash`
+   (uniqueness sets, contains-filter, then interning again in
+   `slice_by_hash`), and the re-interleaving loop compared full
+   strings. Now lines are interned once into dense u32 IDs and
+   everything downstream (uniqueness filter, wu-diff, re-interleave)
+   works on integers.
+
+### Round 3 results
+
+huge_cpp (text path, best-of-4 warm wall clock, plus callgrind now
+that the vendored wu-diff makes it measurable):
+
+| state | wall clock | instructions |
+|---|---|---|
+| round-2 state | 3.59s | aborts under valgrind |
+| + split_inclusive + vendored wu-diff | 3.61s | 17.02G |
+| + single-pass both sides + intern-once | 2.92s | 13.79G (−19%) |
+
+Structural-diff inputs (slow/typing/nest/modules) are unaffected
+(all within 0.02% of round 2). Getting there needed one extra fix:
+the new code shifted thin-LTO inlining decisions and `Stack::eq`
+stopped being inlined into the hot `allocate_if_new` path, costing
+1.9% on `slow` — an explicit `#[inline]` hint pins it. A reminder
+that with thin LTO, unrelated code changes can silently deoptimise
+hot paths, and deterministic instruction counting catches it.
+
+The remaining large-file lever on the *parsed* side is moving
+`Syntax` string/position storage into the syntax arena
+(the bumpalo-collections refactor from round 1's finding #4).
+
 ## Reproducing
 
 ```

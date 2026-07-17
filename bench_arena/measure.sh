@@ -13,14 +13,18 @@ BIN="${2:-$ROOT/target/release/difft}"
 OUT_DIR="$ROOT/bench_arena/results"
 mkdir -p "$OUT_DIR"
 
-# huge_cpp is excluded: wu_diff makes an allocation there that fails
-# under valgrind's brk limits when jemalloc is the global allocator.
-PAIRS="
+# Note: huge_cpp (the 22 MiB text-diff stress test) only works under
+# valgrind for binaries that include the vendored wu_diff (round 3):
+# the upstream wu-diff crate allocates an M*N route table whose
+# multi-GiB virtual allocation fails under valgrind. Pass it
+# explicitly as $3 if measuring it, e.g.
+#   bench_arena/measure.sh <variant> <binary> huge_cpp:cpp
+PAIRS="${3:-
 slow:rs
 typing:ml
 nest:rs
 modules:ml
-"
+}"
 
 RESULT_FILE="$OUT_DIR/$VARIANT.txt"
 : > "$RESULT_FILE"

@@ -16,6 +16,11 @@ pub(crate) struct Stack<'b, T> {
 }
 
 impl<T: PartialEq> PartialEq for Stack<'_, T> {
+    // This is called from the hot vertex deduplication path in
+    // `allocate_if_new`. Without the hint, small unrelated code
+    // changes elsewhere in the crate have caused thin-LTO to stop
+    // inlining it, costing ~2% on graph-heavy diffs.
+    #[inline]
     fn eq(&self, other: &Self) -> bool {
         let mut lhs = self.head;
         let mut rhs = other.head;
