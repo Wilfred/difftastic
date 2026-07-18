@@ -251,6 +251,16 @@ fn split_unchanged_toplevel<'a>(
     rhs_nodes: &[&'a Syntax<'a>],
     size_threshold: u32,
 ) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    let mut lhs_total_descendants = 0;
+    for node in lhs_nodes {
+        match node {
+            Syntax::List {
+                num_descendants, ..
+            } => lhs_total_descendants += num_descendants + 1,
+            Syntax::Atom { .. } => lhs_total_descendants += 1,
+        }
+    }
+
     let lhs_node_ids = lhs_nodes
         .iter()
         .map(|n| EqOnFirstItem(n.content_id(), *n))
