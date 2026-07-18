@@ -248,6 +248,7 @@ dependencies = [
  "libc",
  "line-numbers",
  "log",
+ "memchr",
  "owo-colors",
  "predicates",
  "pretty_assertions",

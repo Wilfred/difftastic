@@ -278,6 +278,47 @@ are `PartialEq` but not `Hash`, so migrating it means reworking
 decisions — recorded as possible follow-up work. Engine patches for
 all four variants are in `patches/`.
 
+## Round 5: isolating the three text-path fixes
+
+Round 3 landed three text-path fixes as one change. Re-measuring each
+one **individually** against a common base (round-2 state + the
+vendored wu-diff, which is what makes huge_cpp measurable under
+callgrind, + the `Stack::eq` inline hint) separates their
+contributions. huge_cpp, callgrind instructions:
+
+| variant | size of fix | instructions | vs base | wall clock (best of 3) |
+|---|---|---|---|---|
+| iso base | — | 16.98G | — | 3.47s |
+| only single-pass both sides | ~260 diff lines, API change (4 call sites) | 14.17G | **−16.5%** | 2.97s |
+| only intern-once `slice_unique_by_hash` | ~150 diff lines, one function | 16.16G | **−4.8%** | 3.41s |
+| only regex → `split_inclusive` | ~40 diff lines | 17.01G | **+0.18%** | 3.64s |
+
+Findings:
+
+1. **The run-twice fix dominates** (−16.5% alone) but is the least
+   "small" of the three: it changes the `change_positions` API and
+   all four `main.rs` call sites. The intern-once rewrite is a
+   genuinely small, self-contained fix (one function, no API change)
+   for −4.8%.
+
+2. **The regex → `split_inclusive` swap was a small *pessimization*,
+   not a win.** The regex crate compiles the literal `"\n"` pattern
+   down to a memchr scan, which is faster than
+   `str::split_inclusive`'s `CharSearcher` on 22 MiB of text. Bundled
+   into round 3, this was masked by the two real wins. The correct
+   small fix is to split with `memchr` directly (already in the
+   dependency tree via imara-diff): 13.67G (−1.2%) vs the committed
+   state (imara-myers, 13.83G). Applied as the `memchr-split` change.
+
+3. The individual gains overlap rather than add: −16.5% − 4.8%
+   ≈ −21% naively, but the measured combined effect is −18.8% —
+   halving the line diff also halves what interning once can save.
+
+A lead for future work spotted in the iso-base profile: on huge_cpp,
+`display::hunks::matched_lines_indexes_for_hunk` is the single
+largest cost (19.4% of the whole run) — the display layer, not
+diffing itself.
+
 ## Reproducing
 
 ```

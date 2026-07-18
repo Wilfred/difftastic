@@ -9,7 +9,18 @@ use crate::words::split_words;
 const MAX_WORDS_IN_LINE: usize = 1000;
 
 fn split_lines_keep_newline(s: &str) -> Vec<&str> {
-    s.split_inclusive('\n').collect()
+    // Splitting with memchr is measurably faster than
+    // str::split_inclusive on large files.
+    let mut lines = vec![];
+    let mut offset = 0;
+    for nl_pos in memchr::memchr_iter(b'\n', s.as_bytes()) {
+        lines.push(&s[offset..nl_pos + 1]);
+        offset = nl_pos + 1;
+    }
+    if offset < s.len() {
+        lines.push(&s[offset..]);
+    }
+    lines
 }
 
 #[derive(Debug)]
