@@ -81,15 +81,18 @@ fn display_single_column(
 
     let mut formatted_lines = Vec::with_capacity(src_lines.len());
 
-    let mut header_line = String::new();
-    header_line.push_str(&style::header(
-        display_path,
-        old_path,
-        1,
-        1,
-        file_format,
-        display_options,
-    ));
+    let banner = style::header(display_path, old_path, 1, 1, file_format, display_options);
+    let mut header_line = match metadata {
+        // A whole-file add/delete is a single hunk, so its banner carries the
+        // file's `f` and the hunk's `h`. A deleted file has no new-file
+        // content, so its hunk sits at new-line 0 (as for its deletion
+        // records); an added file's first new line is 1.
+        Some(metadata) => {
+            let new_line = if side == Side::Right { 1 } else { 0 };
+            metadata.header_banner(true, new_line, &banner)
+        }
+        None => banner,
+    };
     header_line.push('\n');
     formatted_lines.push(header_line);
 
@@ -426,6 +429,21 @@ fn visible_content_max_display_width(
     (lhs_content_max_width, rhs_content_max_width)
 }
 
+/// The new-file line a hunk's header banner points at: the first new-file
+/// (RHS) line shown in the hunk (spec §5.2). A hunk with no new-file lines at
+/// all (a pure deletion with no surrounding new context) falls back to the
+/// position the next new line would occupy, mirroring the deletion convention
+/// in `left_cell`.
+fn hunk_first_new_line(
+    aligned_lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    prev_rhs: Option<LineNumber>,
+) -> usize {
+    aligned_lines
+        .iter()
+        .find_map(|(_, rhs)| rhs.map(|n| n.as_usize() + 1))
+        .unwrap_or_else(|| prev_rhs.map_or(1, |n| n.as_usize() + 2))
+}
+
 pub(crate) fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
@@ -608,18 +626,6 @@ pub(crate) fn print(
     );
 
     for (i, hunk) in hunks.iter().enumerate() {
-        println!(
-            "{}",
-            style::header(
-                display_path,
-                old_path,
-                i + 1,
-                hunks.len(),
-                file_format,
-                display_options
-            )
-        );
-
         let (start_i, end_i) = matched_lines_indexes_for_hunk(
             matched_lines_to_print,
             hunk,
@@ -632,6 +638,25 @@ pub(crate) fn print(
         // iterations, and this function is hot on large textual
         // diffs.
         matched_lines_to_print = &matched_lines_to_print[start_i..];
+
+        let banner = style::header(
+            display_path,
+            old_path,
+            i + 1,
+            hunks.len(),
+            file_format,
+            display_options,
+        );
+        match &metadata {
+            // The banner announces both the file and this hunk: every banner
+            // carries the hunk's `h` (with the hunk's first new-file line), and
+            // the first hunk's banner additionally carries the file's `f`.
+            Some(metadata) => {
+                let new_line = hunk_first_new_line(aligned_lines, prev_rhs_line_num);
+                println!("{}", metadata.header_banner(i == 0, new_line, &banner));
+            }
+            None => println!("{}", banner),
+        }
 
         let no_lhs_changes = hunk.novel_lhs.is_empty();
         let no_rhs_changes = hunk.novel_rhs.is_empty();

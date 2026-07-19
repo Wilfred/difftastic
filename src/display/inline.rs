@@ -76,18 +76,6 @@ pub(crate) fn print(
     let rhs_line_nums_width = format_line_num(rhs_src.max_line()).len();
 
     for (i, hunk) in hunks.iter().enumerate() {
-        println!(
-            "{}",
-            style::header(
-                display_path,
-                extra_info.as_ref(),
-                i + 1,
-                hunks.len(),
-                file_format,
-                display_options
-            )
-        );
-
         let hunk_lines = hunk.lines.clone();
 
         let before_lines = calculate_before_context(
@@ -105,6 +93,30 @@ pub(crate) fn print(
             rhs_src.max_line(),
             display_options.num_context_lines as usize,
         );
+
+        let banner = style::header(
+            display_path,
+            extra_info.as_ref(),
+            i + 1,
+            hunks.len(),
+            file_format,
+            display_options,
+        );
+        match &metadata {
+            // The banner announces both the file and this hunk: every banner
+            // carries the hunk's `h` (with the hunk's first new-file line), and
+            // the first hunk's banner additionally carries the file's `f`.
+            Some(metadata) => {
+                let new_line = before_lines
+                    .iter()
+                    .chain(hunk_lines.iter())
+                    .chain(after_lines.iter())
+                    .find_map(|(_, rhs)| rhs.map(|n| n.as_usize() + 1))
+                    .unwrap_or(1);
+                println!("{}", metadata.header_banner(i == 0, new_line, &banner));
+            }
+            None => println!("{}", banner),
+        }
 
         // Inline mode groups all old-side content (before-context, then
         // deletions) before all new-side content (additions, then
