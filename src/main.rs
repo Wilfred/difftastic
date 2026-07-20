@@ -649,8 +649,7 @@ fn diff_file_content(
                 return check_only_text(&file_format, display_path, extra_info, lhs_src, rhs_src);
             }
 
-            let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-            let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+            let (lhs_positions, rhs_positions) = line_parser::change_positions(lhs_src, rhs_src);
             (file_format, lhs_positions, rhs_positions)
         }
         Some((language, lang_config)) => {
@@ -718,8 +717,8 @@ fn diff_file_content(
                             }
 
                             if exceeded_graph_limit {
-                                let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-                                let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+                                let (lhs_positions, rhs_positions) =
+                                    line_parser::change_positions(lhs_src, rhs_src);
                                 (
                                     FileFormat::TextFallback {
                                         reason: "exceeded DFT_GRAPH_LIMIT".into(),
@@ -771,8 +770,8 @@ fn diff_file_content(
                                 );
                             }
 
-                            let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-                            let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+                            let (lhs_positions, rhs_positions) =
+                                line_parser::change_positions(lhs_src, rhs_src);
                             (file_format, lhs_positions, rhs_positions)
                         }
                     }
@@ -796,8 +795,8 @@ fn diff_file_content(
                         );
                     }
 
-                    let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-                    let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+                    let (lhs_positions, rhs_positions) =
+                        line_parser::change_positions(lhs_src, rhs_src);
                     (file_format, lhs_positions, rhs_positions)
                 }
             }
