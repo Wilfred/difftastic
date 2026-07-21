@@ -243,6 +243,7 @@ dependencies = [
  "hashbrown 0.17.1",
  "humansize",
  "ignore",
+ "imara-diff",
  "lazy_static",
  "libc",
  "line-numbers",
@@ -325,7 +326,6 @@ dependencies = [
  "typed-arena",
  "unicode-width",
  "version_check",
- "wu-diff",
 ]
 
 [[package]]
@@ -491,6 +491,16 @@ dependencies = [
  "same-file",
  "walkdir",
  "winapi-util",
+]
+
+[[package]]
+name = "imara-diff"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2f01d462f766df78ab820dd06f5eb700233c51f0f4c2e846520eaf4ba6aa5c5c"
+dependencies = [
+ "hashbrown 0.15.5",
+ "memchr",
 ]
 
 [[package]]
@@ -1833,12 +1843,6 @@ name = "windows_x86_64_msvc"
 version = "0.52.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
-
-[[package]]
-name = "wu-diff"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8e3e6735fcde06432870db8dc9d7e3ab1b93727c14eaef329969426299f28893"
 
 [[package]]
 name = "yansi"
