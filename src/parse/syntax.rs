@@ -764,7 +764,7 @@ fn split_atom_words(
     let lhs_parts = split_words_and_numbers(lhs_content);
     let rhs_parts = split_words_and_numbers(rhs_content);
 
-    let word_diffs = lcs_diff::slice_by_hash(&lhs_parts, &rhs_parts);
+    let word_diffs = lcs_diff::slice(&lhs_parts, &rhs_parts);
 
     if !has_common_words(&word_diffs) {
         let novel_side = |side_pos: &[SingleLineSpan]| {

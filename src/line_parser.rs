@@ -79,7 +79,7 @@ fn changed_parts<'a>(
     let opposite_src_lines = split_lines_keep_newline(opposite_src);
 
     let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
-    for diff_res in lcs_diff::slice_unique_by_hash(&src_lines, &opposite_src_lines) {
+    for diff_res in lcs_diff::slice(&src_lines, &opposite_src_lines) {
         match diff_res {
             lcs_diff::DiffResult::Left(line) => {
                 res.push((TextChangeKind::Novel, vec![line], vec![]));
@@ -190,7 +190,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
                     continue;
                 }
 
-                for diff_res in lcs_diff::slice_unique_by_hash(&lhs_words, &rhs_words) {
+                for diff_res in lcs_diff::slice(&lhs_words, &rhs_words) {
                     match diff_res {
                         lcs_diff::DiffResult::Left(lhs_word) => {
                             let lhs_pos =
