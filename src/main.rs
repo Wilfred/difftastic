@@ -379,6 +379,7 @@ fn main() {
 
                     match display_options.display_mode {
                         DisplayMode::Inline
+                        | DisplayMode::InlineInterleaved
                         | DisplayMode::SideBySide
                         | DisplayMode::SideBySideShowBoth => {
                             print_diff_result(&display_options, &diff_result);
@@ -963,6 +964,19 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             match display_options.display_mode {
                 DisplayMode::Inline => {
                     display::inline::print(
+                        lhs_src,
+                        rhs_src,
+                        display_options,
+                        &summary.lhs_positions,
+                        &summary.rhs_positions,
+                        hunks,
+                        &summary.display_path,
+                        &summary.extra_info,
+                        &summary.file_format,
+                    );
+                }
+                DisplayMode::InlineInterleaved => {
+                    display::inline::print_interleaved(
                         lhs_src,
                         rhs_src,
                         display_options,

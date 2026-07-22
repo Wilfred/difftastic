@@ -210,7 +210,13 @@ fn app() -> clap::Command {
         )
         .arg(
             Arg::new("display").long("display")
-                .value_parser(["side-by-side", "side-by-side-show-both", "inline", "json"])
+                .value_parser([
+                    "side-by-side",
+                    "side-by-side-show-both",
+                    "inline",
+                    "inline-interleaved",
+                    "json",
+                ])
                 .default_value("side-by-side")
                 .value_name("MODE")
                 .action(ArgAction::Set)
@@ -222,6 +228,8 @@ side-by-side: Display the before file and the after file in two separate columns
 side-by-side-show-both: The same as side-by-side, but always uses two columns.
 
 inline: A single column display, closer to traditional diff display.
+
+inline-interleaved: A single column display where each group of changed lines is shown as its old lines followed by its new lines, and unchanged lines are shown once.
 
 json: Output the results as a machine-readable JSON array with an element per file.")
         )
@@ -385,6 +393,7 @@ A value of 0 means that any parse error will make difftastic use a line-oriented
 #[derive(Debug, Copy, Clone)]
 pub(crate) enum DisplayMode {
     Inline,
+    InlineInterleaved,
     SideBySide,
     SideBySideShowBoth,
     Json,
@@ -809,6 +818,7 @@ pub(crate) fn parse_args() -> Mode {
         "side-by-side" => DisplayMode::SideBySide,
         "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
         "inline" => DisplayMode::Inline,
+        "inline-interleaved" => DisplayMode::InlineInterleaved,
         "json" => {
             if env::var("DFT_UNSTABLE").is_err() {
                 eprintln!("JSON output is an unstable feature and its format may change in future. To enable JSON output, set the environment variable DFT_UNSTABLE=yes.");
