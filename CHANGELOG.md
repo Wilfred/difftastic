@@ -1,5 +1,10 @@
 ## 0.72 (unreleased)
 
+### Display
+
+Fixed an issue with inline display where unchanged lines between two
+nearby changes were not shown.
+
 ## 0.71 (released 18th September 2026)
 
 ### Diffing
