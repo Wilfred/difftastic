@@ -1,0 +1,8 @@
+[user]
+	name = Alice Smith
+	email = alice@example.com
+[core]
+	editor = emacs
+
+[url "ssh://git@github.com"]
+	insteadOf = https://github.com/

@@ -50,6 +50,19 @@ fn inline() {
 }
 
 #[test]
+fn inline_unchanged_lines_between_changes() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=inline")
+        .arg("sample_files/cli_tests/gitconfig_1.gitconfig")
+        .arg("sample_files/cli_tests/gitconfig_2.gitconfig");
+
+    let url_lines = predicate::str::is_match(r#"(?m)^\s*7\s+\[url "ssh://git@github\.com"\]$"#).unwrap().count(2);
+    let blank_lines = predicate::str::is_match(r"(?m)^\s*6\s*$").unwrap().count(2);
+    cmd.assert().stdout(url_lines.and(blank_lines));
+}
+
+#[test]
 fn binary_changed() {
     let mut cmd = get_base_command();
 
