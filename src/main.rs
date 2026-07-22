@@ -379,7 +379,7 @@ fn main() {
 
                     match display_options.display_mode {
                         DisplayMode::Inline
-                        | DisplayMode::InlineInterleaved
+                        | DisplayMode::InlineUnified
                         | DisplayMode::SideBySide
                         | DisplayMode::SideBySideShowBoth => {
                             print_diff_result(&display_options, &diff_result);
@@ -975,8 +975,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.file_format,
                     );
                 }
-                DisplayMode::InlineInterleaved => {
-                    display::inline::print_interleaved(
+                DisplayMode::InlineUnified => {
+                    display::inline::print_unified(
                         lhs_src,
                         rhs_src,
                         display_options,

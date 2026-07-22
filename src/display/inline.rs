@@ -228,7 +228,7 @@ fn print_groups(
     rhs_group.clear();
 }
 
-pub(crate) fn print_interleaved(
+pub(crate) fn print_unified(
     lhs_src: &str,
     rhs_src: &str,
     display_options: &DisplayOptions,
