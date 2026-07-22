@@ -1,59 +1,15 @@
 //! Inline, or "unified" diff display.
 
-use line_numbers::LineNumber;
-
 use crate::constants::Side;
 use crate::display::context::{
     calculate_after_context, calculate_before_context, opposite_positions,
 };
-use crate::display::hunks::Hunk;
+use crate::display::hunks::{extract_lines, Hunk};
 use crate::display::style::{self, apply_colors, apply_line_number_color};
 use crate::lines::{format_line_num, format_line_num_padded, split_on_newlines, MaxLine};
 use crate::options::DisplayOptions;
 use crate::parse::syntax::MatchedPos;
 use crate::summary::FileFormat;
-
-/// Expand `hunk.lines` to include any unchanged lines that fall between
-/// changed lines on the same side.
-fn fill_in_hunk_gaps(
-    lines: &[(Option<LineNumber>, Option<LineNumber>)],
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut filled = Vec::with_capacity(lines.len());
-
-    let mut prev_lhs: Option<LineNumber> = None;
-    let mut prev_rhs: Option<LineNumber> = None;
-
-    for (lhs_line, rhs_line) in lines {
-        let lhs_gap: Vec<LineNumber> = match (prev_lhs, *lhs_line) {
-            (Some(prev), Some(curr)) if prev.0 + 1 < curr.0 => {
-                (prev.0 + 1..curr.0).map(LineNumber::from).collect()
-            }
-            _ => vec![],
-        };
-        let rhs_gap: Vec<LineNumber> = match (prev_rhs, *rhs_line) {
-            (Some(prev), Some(curr)) if prev.0 + 1 < curr.0 => {
-                (prev.0 + 1..curr.0).map(LineNumber::from).collect()
-            }
-            _ => vec![],
-        };
-
-        let pair_count = lhs_gap.len().max(rhs_gap.len());
-        for i in 0..pair_count {
-            filled.push((lhs_gap.get(i).copied(), rhs_gap.get(i).copied()));
-        }
-
-        filled.push((*lhs_line, *rhs_line));
-
-        if lhs_line.is_some() {
-            prev_lhs = *lhs_line;
-        }
-        if rhs_line.is_some() {
-            prev_rhs = *rhs_line;
-        }
-    }
-
-    filled
-}
 
 pub(crate) fn print(
     lhs_src: &str,
@@ -125,7 +81,7 @@ pub(crate) fn print(
             )
         );
 
-        let hunk_lines = fill_in_hunk_gaps(&hunk.lines);
+        let hunk_lines = extract_lines(hunk);
 
         let before_lines = calculate_before_context(
             &hunk_lines,
