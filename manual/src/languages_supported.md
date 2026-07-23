@@ -22,7 +22,7 @@ with `difft --list-languages`.
 | Device Tree     | [joelspadin/tree-sitter-devicetree](https://github.com/joelspadin/tree-sitter-devicetree)         |
 | Elixir          | [elixir-lang/tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir)               |
 | Elm             | [elm-tooling/tree-sitter-elm](https://github.com/elm-tooling/tree-sitter-elm)                     |
-| Elvish          | [ckafi/tree-sitter-elvish](https://github.com/ckafi/tree-sitter-elvish)                           |
+| Elvish          | [elves/tree-sitter-elvish](https://github.com/elves/tree-sitter-elvish)                           |
 | Erlang          | [WhatsApp/tree-sitter-erlang](https://github.com/WhatsApp/tree-sitter-erlang)                     |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                         |
 | Fish            | [ram02z/tree-sitter-fish](https://github.com/ram02z/tree-sitter-fish)                             |
@@ -33,14 +33,14 @@ with `difft --list-languages`.
 | Hare            | [ecmma/tree-sitter-hare](https://git.sr.ht/~ecmma/tree-sitter-hare)                               |
 | Haskell         | [tree-sitter/tree-sitter-haskell](https://github.com/tree-sitter/tree-sitter-haskell)             |
 | Janet           | [sogaiu/tree-sitter-janet-simple](https://github.com/sogaiu/tree-sitter-janet-simple)             |
-| Java            | [tree-sitter/tree-sitter-java](https://github.com/tree-sitter/tree-sitter-java)                   |
+| Java            | [grammar-orchard/tree-sitter-java-orchard](https://codeberg.org/grammar-orchard/tree-sitter-java-orchard) |
 | JavaScript, JSX | [tree-sitter/tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript)       |
 | Julia           | [tree-sitter/tree-sitter-julia](https://github.com/tree-sitter/tree-sitter-julia)                 |
 | Kotlin          | [fwcd/tree-sitter-kotlin](https://github.com/fwcd/tree-sitter-kotlin)                             |
 | Lua             | [tree-sitter-grammars/tree-sitter-lua](https://github.com/tree-sitter-grammars/tree-sitter-lua)   |
 | Make            | [tree-sitter-grammars/tree-sitter-make](https://github.com/tree-sitter-grammars/tree-sitter-make) |
 | Nix             | [nix-community/tree-sitter-nix](https://github.com/nix-community/tree-sitter-nix)                 |
-| Objective-C     | [amaanq/tree-sitter-objc](https://github.com/amaanq/tree-sitter-objc)                             |
+| Objective-C     | [tree-sitter-grammars/tree-sitter-objc](https://github.com/tree-sitter-grammars/tree-sitter-objc) |
 | OCaml           | [tree-sitter/tree-sitter-ocaml](https://github.com/tree-sitter/tree-sitter-ocaml)                 |
 | Pascal          | [Isopod/tree-sitter-pascal](https://github.com/Isopod/tree-sitter-pascal)                         |
 | Perl            | [tree-sitter-perl/tree-sitter-perl](https://github.com/tree-sitter-perl/tree-sitter-perl)         |
@@ -53,13 +53,13 @@ with `difft --list-languages`.
 | Rust            | [grammar-orchard/tree-sitter-rust-orchard](https://codeberg.org/grammar-orchard/tree-sitter-rust-orchard) |
 | Scala           | [tree-sitter/tree-sitter-scala](https://github.com/tree-sitter/tree-sitter-scala)                 |
 | Scheme          | [6cdh/tree-sitter-scheme](https://github.com/6cdh/tree-sitter-scheme)                             |
-| Smali           | [amaanq/tree-sitter-smali](https://github.com/amaanq/tree-sitter-smali)                           |
+| Smali           | [tree-sitter-grammars/tree-sitter-smali](https://github.com/tree-sitter-grammars/tree-sitter-smali) |
 | Solidity        | [JoranHonig/tree-sitter-solidity](https://github.com/JoranHonig/tree-sitter-solidity)             |
 | SQL             | [derekstride/tree-sitter-sql](https://github.com/derekstride/tree-sitter-sql)                     |
 | Swift           | [alex-pinkus/tree-sitter-swift](https://github.com/alex-pinkus/tree-sitter-swift)                 |
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)       |
 | Verilog         | [tree-sitter/tree-sitter-verilog](https://github.com/tree-sitter/tree-sitter-verilog)             |
-| VHDL            | [JLeemaster/tree-sitter-vhdl](https://github.com/JLeemaster/tree-sitter-vhdl)                     |
+| VHDL            | [jpt13653903/tree-sitter-vhdl](https://github.com/jpt13653903/tree-sitter-vhdl)                   |
 | Zig             | [tree-sitter-grammars/tree-sitter-zig](https://github.com/tree-sitter-grammars/tree-sitter-zig)   |
 
 ## Structured Text Formats
