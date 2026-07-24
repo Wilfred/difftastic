@@ -448,7 +448,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string_literal"].into_iter().collect(),
+                atom_nodes: ["string_literal", "number_literal"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("(/", "/)"), ("[", "]")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_fortran::HIGHLIGHTS_QUERY)
