@@ -451,11 +451,8 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 atom_nodes: ["string_literal"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("(/", "/)"), ("[", "]")],
                 ignore_trailing_tokens: vec![],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/fortran.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_fortran::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
