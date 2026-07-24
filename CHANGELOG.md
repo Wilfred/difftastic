@@ -8,7 +8,8 @@ Improved diffing performance, particularly when diffing directories.
 
 Improved support for Java and TOML.
 
-Removed support for SCSS (upstream parser is no longer maintained).
+Removed support for Elvish and SCSS (upstream parsers are no longer
+maintained).
 
 ## 0.69 (released 30th April 2026)
 

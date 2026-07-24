@@ -82,7 +82,6 @@ pub(crate) struct TreeSitterConfig {
 }
 
 extern "C" {
-    fn tree_sitter_elvish() -> ts::Language;
     fn tree_sitter_hare() -> ts::Language;
     fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
@@ -377,21 +376,6 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_elm::HIGHLIGHTS_QUERY)
                     .unwrap(),
-                sub_languages: vec![],
-            }
-        }
-        Elvish => {
-            let language = unsafe { tree_sitter_elvish() };
-            TreeSitterConfig {
-                language: language.clone(),
-                atom_nodes: [].into_iter().collect(),
-                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|")],
-                ignore_trailing_tokens: vec![],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/elvish.scm"),
-                )
-                .unwrap(),
                 sub_languages: vec![],
             }
         }

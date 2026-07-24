@@ -22,7 +22,6 @@ with `difft --list-languages`.
 | Device Tree     | [joelspadin/tree-sitter-devicetree](https://github.com/joelspadin/tree-sitter-devicetree)         |
 | Elixir          | [elixir-lang/tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir)               |
 | Elm             | [elm-tooling/tree-sitter-elm](https://github.com/elm-tooling/tree-sitter-elm)                     |
-| Elvish          | [ckafi/tree-sitter-elvish](https://github.com/ckafi/tree-sitter-elvish)                           |
 | Erlang          | [WhatsApp/tree-sitter-erlang](https://github.com/WhatsApp/tree-sitter-erlang)                     |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                         |
 | Fish            | [ram02z/tree-sitter-fish](https://github.com/ram02z/tree-sitter-fish)                             |
