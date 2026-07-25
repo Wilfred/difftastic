@@ -68,7 +68,7 @@ use crate::conflicts::{apply_conflict_markers, START_LHS_MARKER};
 use crate::constants::Side;
 use crate::diff::changes::ChangeMap;
 use crate::diff::shortest_path::ExceededGraphLimit;
-use crate::diff::{shortest_path, unchanged};
+use crate::diff::{reparent, shortest_path, unchanged};
 use crate::display::context::opposite_positions;
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
 use crate::display::style::print_error;
@@ -730,6 +730,8 @@ fn diff_file_content(
                             } else {
                                 fix_all_sliders(language, &lhs, &mut change_map);
                                 fix_all_sliders(language, &rhs, &mut change_map);
+
+                                reparent::mark_reparented(&lhs, &rhs, &mut change_map);
 
                                 let mut lhs_positions = syntax::change_positions(&lhs, &change_map);
                                 let mut rhs_positions = syntax::change_positions(&rhs, &change_map);

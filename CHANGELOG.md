@@ -1,5 +1,13 @@
 ## 0.71 (unreleased)
 
+### Diffing
+
+Fixed an issue where changing how code is nested would report "no
+syntactic changes" if it didn't change any tokens. This most commonly
+occurred when indenting or dedenting a block in a whitespace-sensitive
+language, such as Python. Re-nested code is now shown as removed and
+added.
+
 ### Parsing
 
 Improved C++, Dockerfile, Haskell, JavaScript, Rust, Scala and
