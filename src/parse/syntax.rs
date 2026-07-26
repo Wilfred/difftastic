@@ -769,7 +769,23 @@ fn split_atom_words(
     let lhs_parts = split_words_and_numbers(lhs_content);
     let rhs_parts = split_words_and_numbers(rhs_content);
 
-    let word_diffs = lcs_diff::slice(&lhs_parts, &rhs_parts);
+    // Only diff the words, not the whitespace. Whitespace occurs
+    // between almost all words, so if the diff considered it, it
+    // could choose to pair up whitespace rather than equal words,
+    // and highlighting would depend on which equally good diff the
+    // algorithm happened to pick.
+    let lhs_words: Vec<&str> = lhs_parts
+        .iter()
+        .copied()
+        .filter(|word| !is_all_whitespace(word))
+        .collect();
+    let rhs_words: Vec<&str> = rhs_parts
+        .iter()
+        .copied()
+        .filter(|word| !is_all_whitespace(word))
+        .collect();
+
+    let word_diffs = lcs_diff::slice(&lhs_words, &rhs_words);
 
     if !has_common_words(&word_diffs) {
         let novel_side = |side_pos: &[SingleLineSpan]| {
@@ -789,8 +805,26 @@ fn split_atom_words(
     let lhs_newlines = LinePositions::from(lhs_content);
     let rhs_newlines = LinePositions::from(rhs_content);
 
+    // The byte offset of the word we're up to on each side,
+    // alongside the index of the next unconsidered token (word or
+    // whitespace) on each side.
     let mut lhs_offset = 0;
     let mut rhs_offset = 0;
+    let mut lhs_part_i = 0;
+    let mut rhs_part_i = 0;
+
+    // Advance to the next non-whitespace token, then past it,
+    // returning the byte offset where that token started.
+    fn advance_past_word(parts: &[&str], part_i: &mut usize, offset: &mut usize) -> usize {
+        while is_all_whitespace(parts[*part_i]) {
+            *offset += parts[*part_i].len();
+            *part_i += 1;
+        }
+        let word_offset = *offset;
+        *offset += parts[*part_i].len();
+        *part_i += 1;
+        word_offset
+    }
 
     let mut lhs_mps = vec![];
     let mut rhs_mps = vec![];
@@ -798,33 +832,35 @@ fn split_atom_words(
         match diff_res {
             lcs_diff::DiffResult::Left(word) => {
                 // This word is novel to the LHS.
-                if !is_all_whitespace(word) {
-                    lhs_mps.push(MatchedPos {
-                        kind: MatchKind::NovelWord {
-                            highlight: TokenKind::Atom(kind),
-                        },
-                        pos: lhs_newlines.from_region_relative_to(
-                            // TODO: don't assume a single line atom.
-                            lhs_pos[0],
-                            lhs_offset,
-                            lhs_offset + word.len(),
-                        )[0],
-                    });
-                }
-                lhs_offset += word.len();
+                let word_offset = advance_past_word(&lhs_parts, &mut lhs_part_i, &mut lhs_offset);
+                lhs_mps.push(MatchedPos {
+                    kind: MatchKind::NovelWord {
+                        highlight: TokenKind::Atom(kind),
+                    },
+                    pos: lhs_newlines.from_region_relative_to(
+                        // TODO: don't assume a single line atom.
+                        lhs_pos[0],
+                        word_offset,
+                        word_offset + word.len(),
+                    )[0],
+                });
             }
             lcs_diff::DiffResult::Both(word, opposite_word) => {
                 // This word is present on both sides.
+                let word_offset = advance_past_word(&lhs_parts, &mut lhs_part_i, &mut lhs_offset);
+                let opposite_word_offset =
+                    advance_past_word(&rhs_parts, &mut rhs_part_i, &mut rhs_offset);
+
                 // TODO: don't assume this atom is on a single line.
                 let word_pos = lhs_newlines.from_region_relative_to(
                     lhs_pos[0],
-                    lhs_offset,
-                    lhs_offset + word.len(),
+                    word_offset,
+                    word_offset + word.len(),
                 );
                 let opposite_word_pos = rhs_newlines.from_region_relative_to(
                     rhs_pos[0],
-                    rhs_offset,
-                    rhs_offset + opposite_word.len(),
+                    opposite_word_offset,
+                    opposite_word_offset + opposite_word.len(),
                 );
 
                 lhs_mps.push(MatchedPos {
@@ -843,25 +879,22 @@ fn split_atom_words(
                     },
                     pos: opposite_word_pos[0],
                 });
-                lhs_offset += word.len();
-                rhs_offset += opposite_word.len();
             }
             lcs_diff::DiffResult::Right(opposite_word) => {
                 // This word is novel to the RHS.
-                if !is_all_whitespace(opposite_word) {
-                    rhs_mps.push(MatchedPos {
-                        kind: MatchKind::NovelWord {
-                            highlight: TokenKind::Atom(kind),
-                        },
-                        pos: rhs_newlines.from_region_relative_to(
-                            // TODO: don't assume a single line atom.
-                            rhs_pos[0],
-                            rhs_offset,
-                            rhs_offset + opposite_word.len(),
-                        )[0],
-                    });
-                }
-                rhs_offset += opposite_word.len();
+                let opposite_word_offset =
+                    advance_past_word(&rhs_parts, &mut rhs_part_i, &mut rhs_offset);
+                rhs_mps.push(MatchedPos {
+                    kind: MatchKind::NovelWord {
+                        highlight: TokenKind::Atom(kind),
+                    },
+                    pos: rhs_newlines.from_region_relative_to(
+                        // TODO: don't assume a single line atom.
+                        rhs_pos[0],
+                        opposite_word_offset,
+                        opposite_word_offset + opposite_word.len(),
+                    )[0],
+                });
             }
         }
     }
@@ -871,16 +904,16 @@ fn split_atom_words(
 
 /// Are there sufficient common words that we should only highlight
 /// individual changed words?
+///
+/// `word_diffs` should not include whitespace.
 fn has_common_words(word_diffs: &Vec<lcs_diff::DiffResult<&&str>>) -> bool {
     let mut novel_count = 0;
     let mut unchanged_count = 0;
 
     for word_diff in word_diffs {
         match word_diff {
-            lcs_diff::DiffResult::Both(word, _) => {
-                if **word != " " {
-                    unchanged_count += 1;
-                }
+            lcs_diff::DiffResult::Both(_, _) => {
+                unchanged_count += 1;
             }
             _ => {
                 novel_count += 1;
@@ -1350,8 +1383,8 @@ mod tests {
             &opposite_pos,
             AtomKind::Comment,
         );
-        // All words and whitespace on the opposite side are unchanged.
-        assert_eq!(opposite_res.len(), 5);
+        // All three words on the opposite side are unchanged.
+        assert_eq!(opposite_res.len(), 3);
         assert!(opposite_res
             .iter()
             .all(|mp| matches!(mp.kind, MatchKind::UnchangedPartOfNovelItem { .. })));
@@ -1383,26 +1416,6 @@ mod tests {
                         highlight: TokenKind::Atom(AtomKind::Comment),
                         self_pos: SingleLineSpan {
                             line: 0.into(),
-                            start_col: 3,
-                            end_col: 4
-                        },
-                        opposite_pos: vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 3,
-                            end_col: 4
-                        }]
-                    },
-                    pos: SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 3,
-                        end_col: 4
-                    }
-                },
-                MatchedPos {
-                    kind: MatchKind::UnchangedPartOfNovelItem {
-                        highlight: TokenKind::Atom(AtomKind::Comment),
-                        self_pos: SingleLineSpan {
-                            line: 0.into(),
                             start_col: 4,
                             end_col: 7
                         },
@@ -1416,26 +1429,6 @@ mod tests {
                         line: 0.into(),
                         start_col: 4,
                         end_col: 7
-                    }
-                },
-                MatchedPos {
-                    kind: MatchKind::UnchangedPartOfNovelItem {
-                        highlight: TokenKind::Atom(AtomKind::Comment),
-                        self_pos: SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 7,
-                            end_col: 8
-                        },
-                        opposite_pos: vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 7,
-                            end_col: 8
-                        }]
-                    },
-                    pos: SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 7,
-                        end_col: 8
                     }
                 },
                 MatchedPos {
