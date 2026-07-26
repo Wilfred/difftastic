@@ -11,6 +11,7 @@ use line_numbers::{LinePositions, SingleLineSpan};
 use typed_arena::Arena;
 
 use self::Syntax::*;
+use crate::constants::Side;
 use crate::diff::changes::ChangeKind::*;
 use crate::diff::changes::{ChangeKind, ChangeMap};
 use crate::diff::lcs_diff;
@@ -89,6 +90,8 @@ pub(crate) struct SyntaxInfo<'a> {
     /// Is this the only node with this content? Ignores nodes on the
     /// other side.
     content_is_unique_to_side: Cell<bool>,
+    /// Which side of the diff this node belongs to.
+    side: Cell<Side>,
 }
 
 impl<'a> SyntaxInfo<'a> {
@@ -102,6 +105,7 @@ impl<'a> SyntaxInfo<'a> {
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
             content_is_unique_to_side: Cell::new(false),
+            side: Cell::new(Side::Left),
         }
     }
 }
@@ -312,6 +316,11 @@ impl<'a> Syntax<'a> {
 
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
+    /// Which side of the diff this node belongs to.
+    pub(crate) fn side(&self) -> Side {
+        self.info().side.get()
+    }
+
     pub(crate) fn id(&self) -> SyntaxId {
         self.info().unique_id.get()
     }
@@ -429,8 +438,8 @@ fn print_as_dot_<'a>(nodes: &[&'a Syntax<'a>]) {
 
 fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     let mut id = NonZeroU32::new(1).unwrap();
-    init_info_on_side(lhs_roots, &mut id);
-    init_info_on_side(rhs_roots, &mut id);
+    init_info_on_side(lhs_roots, &mut id, Side::Left);
+    init_info_on_side(rhs_roots, &mut id, Side::Right);
 
     let mut existing = DftHashMap::default();
     set_content_id(lhs_roots, &mut existing);
@@ -505,10 +514,20 @@ pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
 
 /// Set all the `SyntaxInfo` values for all the `roots` on a single
 /// side (LHS or RHS).
-fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
+fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId, side: Side) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
     set_unique_id(roots, next_id);
+    set_side(roots, side);
+}
+
+fn set_side(nodes: &[&Syntax], side: Side) {
+    for node in nodes {
+        node.info().side.set(side);
+        if let List { children, .. } = node {
+            set_side(children, side);
+        }
+    }
 }
 
 fn set_unique_id(nodes: &[&Syntax], next_id: &mut SyntaxId) {
