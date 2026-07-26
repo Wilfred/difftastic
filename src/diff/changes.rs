@@ -27,6 +27,17 @@ pub(crate) struct ChangeMap<'a> {
 
 impl<'a> ChangeMap<'a> {
     pub(crate) fn insert(&mut self, node: &'a Syntax<'a>, ck: ChangeKind<'a>) {
+        // A change that refers to another node should always pair
+        // nodes from opposite sides of the diff.
+        match ck {
+            ChangeKind::Unchanged(opposite)
+            | ChangeKind::ReplacedComment(_, opposite)
+            | ChangeKind::ReplacedString(_, opposite) => {
+                debug_assert_ne!(node.side(), opposite.side());
+            }
+            ChangeKind::IgnoredPunctuation | ChangeKind::Novel => {}
+        }
+
         self.changes.insert(node.id(), ck);
     }
 

@@ -26,13 +26,19 @@ impl fmt::Debug for ChangeKind<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
             Unchanged(node) => format!("Unchanged(ID: {})", node.id()),
-            ReplacedComment(lhs_node, rhs_node) | ReplacedString(lhs_node, rhs_node) => {
+            ReplacedComment(this, opposite) | ReplacedString(this, opposite) => {
                 let change_kind = if let ReplacedComment(_, _) = self {
                     "ReplacedComment"
                 } else {
                     "ReplacedString"
                 };
 
+                // The tuple is (this node, node on the opposite
+                // side), so order the IDs by side.
+                let (lhs_node, rhs_node) = match this.side() {
+                    Side::Left => (this, opposite),
+                    Side::Right => (opposite, this),
+                };
                 format!(
                     "{}(lhs ID: {}, rhs ID: {})",
                     change_kind,
