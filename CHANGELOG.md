@@ -4,6 +4,11 @@
 
 Improved diffing performance, particularly when diffing directories.
 
+### Display
+
+Fixed a crash ("Hunk lines should be present in matched lines") when a
+hunk ended up containing no changed lines at all.
+
 ### Parsing
 
 Improved support for Emacs Lisp, Java and TOML.

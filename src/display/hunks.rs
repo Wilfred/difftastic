@@ -312,6 +312,17 @@ fn lines_to_hunks(
     for line in enforce_increasing(lines) {
         let (lhs_line, rhs_line) = line;
 
+        // `enforce_increasing` may have discarded the novel line
+        // number of a pair, leaving only the unchanged line on the
+        // opposite side. Such a pair isn't part of any hunk, and
+        // including it would produce a hunk with no novel lines at
+        // all.
+        let is_novel = lhs_line.is_some_and(|l| all_lhs_novel.contains(&l))
+            || rhs_line.is_some_and(|l| all_rhs_novel.contains(&l));
+        if !is_novel {
+            continue;
+        }
+
         if current_hunk_lines.is_empty() || lines_are_close(max_lhs_line, max_rhs_line, line) {
             current_hunk_lines.push(line);
         } else {
@@ -787,6 +798,46 @@ mod tests {
         ];
 
         let hunks = matched_pos_to_hunks(&lhs_mps, &rhs_mps);
+        assert_eq!(hunks.len(), 1);
+        assert_eq!(hunks[0].lines, vec![(Some(0.into()), Some(0.into()))]);
+    }
+
+    #[test]
+    fn test_lines_to_hunks_ignores_lines_without_novel_content() {
+        let unchanged_pos = SingleLineSpan {
+            line: 9.into(),
+            start_col: 1,
+            end_col: 2,
+        };
+        let mps = [
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Delimiter,
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 1,
+                    end_col: 2,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::UnchangedToken {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: vec![unchanged_pos],
+                    opposite_pos: vec![unchanged_pos],
+                },
+                pos: unchanged_pos,
+            },
+        ];
+
+        // `enforce_increasing` discards the RHS line number in the
+        // second pair, leaving an LHS line that has no novel content.
+        let lines = [
+            (Some(0.into()), Some(0.into())),
+            (Some(9.into()), Some(0.into())),
+        ];
+
+        let hunks = lines_to_hunks(&lines, &mps, &mps);
         assert_eq!(hunks.len(), 1);
         assert_eq!(hunks[0].lines, vec![(Some(0.into()), Some(0.into()))]);
     }
