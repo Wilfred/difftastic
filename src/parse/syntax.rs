@@ -740,96 +740,127 @@ pub(crate) struct MatchedPos {
     pub(crate) pos: SingleLineSpan,
 }
 
-/// Given the text `content` from a comment or string, split it into
+/// Given the text `lhs_content` from a comment or string atom that
+/// was replaced by an atom with `rhs_content`, split both sides into
 /// `MatchedPos` values for the novel and unchanged words.
 ///
-/// If there is negligible text in common with `opposite_content`,
-/// treat the whole `content` as a single novel region.
+/// Both sides are derived from a single word diff, so they always
+/// agree on which words are unchanged.
+///
+/// If there is negligible text in common, treat each side as a
+/// single novel region.
 fn split_atom_words(
-    content: &str,
-    pos: &[SingleLineSpan],
-    opposite_content: &str,
-    opposite_pos: &[SingleLineSpan],
+    lhs_content: &str,
+    lhs_pos: &[SingleLineSpan],
+    rhs_content: &str,
+    rhs_pos: &[SingleLineSpan],
     kind: AtomKind,
-) -> Vec<MatchedPos> {
+) -> (Vec<MatchedPos>, Vec<MatchedPos>) {
     debug_assert!(kind == AtomKind::Comment || matches!(kind, AtomKind::String(_)));
 
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
-    let content_parts = split_words_and_numbers(content);
-    let other_parts = split_words_and_numbers(opposite_content);
+    let lhs_parts = split_words_and_numbers(lhs_content);
+    let rhs_parts = split_words_and_numbers(rhs_content);
 
-    let word_diffs = lcs_diff::slice_by_hash(&content_parts, &other_parts);
+    let word_diffs = lcs_diff::slice_by_hash(&lhs_parts, &rhs_parts);
 
     if !has_common_words(&word_diffs) {
-        return pos
-            .iter()
-            .map(|line| MatchedPos {
-                kind: MatchKind::Novel {
-                    highlight: TokenKind::Atom(kind),
-                },
-                pos: *line,
-            })
-            .collect();
+        let novel_side = |side_pos: &[SingleLineSpan]| {
+            side_pos
+                .iter()
+                .map(|line| MatchedPos {
+                    kind: MatchKind::Novel {
+                        highlight: TokenKind::Atom(kind),
+                    },
+                    pos: *line,
+                })
+                .collect()
+        };
+        return (novel_side(lhs_pos), novel_side(rhs_pos));
     }
 
-    let content_newlines = LinePositions::from(content);
-    let opposite_content_newlines = LinePositions::from(opposite_content);
+    let lhs_newlines = LinePositions::from(lhs_content);
+    let rhs_newlines = LinePositions::from(rhs_content);
 
-    let mut offset = 0;
-    let mut opposite_offset = 0;
+    let mut lhs_offset = 0;
+    let mut rhs_offset = 0;
 
-    let mut mps = vec![];
+    let mut lhs_mps = vec![];
+    let mut rhs_mps = vec![];
     for diff_res in word_diffs {
         match diff_res {
             lcs_diff::DiffResult::Left(word) => {
-                // This word is novel to this side.
+                // This word is novel to the LHS.
                 if !is_all_whitespace(word) {
-                    mps.push(MatchedPos {
+                    lhs_mps.push(MatchedPos {
                         kind: MatchKind::NovelWord {
                             highlight: TokenKind::Atom(kind),
                         },
-                        pos: content_newlines.from_region_relative_to(
+                        pos: lhs_newlines.from_region_relative_to(
                             // TODO: don't assume a single line atom.
-                            pos[0],
-                            offset,
-                            offset + word.len(),
+                            lhs_pos[0],
+                            lhs_offset,
+                            lhs_offset + word.len(),
                         )[0],
                     });
                 }
-                offset += word.len();
+                lhs_offset += word.len();
             }
             lcs_diff::DiffResult::Both(word, opposite_word) => {
                 // This word is present on both sides.
                 // TODO: don't assume this atom is on a single line.
-                let word_pos =
-                    content_newlines.from_region_relative_to(pos[0], offset, offset + word.len())
-                        [0];
-                let opposite_word_pos = opposite_content_newlines.from_region_relative_to(
-                    opposite_pos[0],
-                    opposite_offset,
-                    opposite_offset + opposite_word.len(),
+                let word_pos = lhs_newlines.from_region_relative_to(
+                    lhs_pos[0],
+                    lhs_offset,
+                    lhs_offset + word.len(),
+                );
+                let opposite_word_pos = rhs_newlines.from_region_relative_to(
+                    rhs_pos[0],
+                    rhs_offset,
+                    rhs_offset + opposite_word.len(),
                 );
 
-                mps.push(MatchedPos {
+                lhs_mps.push(MatchedPos {
                     kind: MatchKind::UnchangedPartOfNovelItem {
                         highlight: TokenKind::Atom(kind),
-                        self_pos: word_pos,
-                        opposite_pos: opposite_word_pos,
+                        self_pos: word_pos[0],
+                        opposite_pos: opposite_word_pos.clone(),
                     },
-                    pos: word_pos,
+                    pos: word_pos[0],
                 });
-                offset += word.len();
-                opposite_offset += opposite_word.len();
+                rhs_mps.push(MatchedPos {
+                    kind: MatchKind::UnchangedPartOfNovelItem {
+                        highlight: TokenKind::Atom(kind),
+                        self_pos: opposite_word_pos[0],
+                        opposite_pos: word_pos,
+                    },
+                    pos: opposite_word_pos[0],
+                });
+                lhs_offset += word.len();
+                rhs_offset += opposite_word.len();
             }
             lcs_diff::DiffResult::Right(opposite_word) => {
-                // Only exists on other side, nothing to do on this side.
-                opposite_offset += opposite_word.len();
+                // This word is novel to the RHS.
+                if !is_all_whitespace(opposite_word) {
+                    rhs_mps.push(MatchedPos {
+                        kind: MatchKind::NovelWord {
+                            highlight: TokenKind::Atom(kind),
+                        },
+                        pos: rhs_newlines.from_region_relative_to(
+                            // TODO: don't assume a single line atom.
+                            rhs_pos[0],
+                            rhs_offset,
+                            rhs_offset + opposite_word.len(),
+                        )[0],
+                    });
+                }
+                rhs_offset += opposite_word.len();
             }
         }
     }
 
-    mps
+    (lhs_mps, rhs_mps)
 }
 
 /// Are there sufficient common words that we should only highlight
@@ -914,7 +945,22 @@ impl MatchedPos {
                     AtomKind::Comment
                 };
 
-                split_atom_words(this_content, &pos, opposite_content, opposite_pos, kind)
+                // Diff the words with the LHS as the first argument
+                // regardless of which side we're walking, so that
+                // both sides are derived from the same diff.
+                let opposite_pos = filter_empty_ends(opposite_pos);
+                let (lhs_mps, rhs_mps) = match this.side() {
+                    Side::Left => {
+                        split_atom_words(this_content, &pos, opposite_content, &opposite_pos, kind)
+                    }
+                    Side::Right => {
+                        split_atom_words(opposite_content, &opposite_pos, this_content, &pos, kind)
+                    }
+                };
+                match this.side() {
+                    Side::Left => lhs_mps,
+                    Side::Right => rhs_mps,
+                }
             }
             Unchanged(opposite) => {
                 let opposite_pos = match opposite {
@@ -1291,13 +1337,18 @@ mod tests {
             end_col: 11,
         }];
 
-        let res = split_atom_words(
+        let (res, opposite_res) = split_atom_words(
             content,
             &pos,
             opposite_content,
             &opposite_pos,
             AtomKind::Comment,
         );
+        // All words and whitespace on the opposite side are unchanged.
+        assert_eq!(opposite_res.len(), 5);
+        assert!(opposite_res
+            .iter()
+            .all(|mp| matches!(mp.kind, MatchKind::UnchangedPartOfNovelItem { .. })));
         assert_eq!(
             res,
             vec![
