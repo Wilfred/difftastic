@@ -1495,7 +1495,10 @@ pub(crate) fn comment_positions(
 }
 
 #[derive(Debug)]
-pub(crate) struct ExceededParseErrorLimit(pub(crate) usize);
+pub(crate) struct ExceededParseErrorLimit {
+    /// The total number of parse errors found across both inputs.
+    pub(crate) error_count: usize,
+}
 
 pub(crate) fn to_syntax_with_limit<'a>(
     lhs_src: &str,
@@ -1524,7 +1527,7 @@ pub(crate) fn to_syntax_with_limit<'a>(
 
     let error_count = lhs_error_count + rhs_error_count;
     if error_count > diff_options.parse_error_limit {
-        return Err(ExceededParseErrorLimit(error_count));
+        return Err(ExceededParseErrorLimit { error_count });
     }
 
     Ok((lhs_nodes, rhs_nodes))
