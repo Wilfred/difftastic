@@ -1144,9 +1144,9 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-elisp"
-version = "1.6.1"
+version = "1.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e2e9a6ab3cebf24ca41cdc1f985549b9b33f7ef25c19ac7d18e53a4ee24da09"
+checksum = "5d68ec866ff7af14f1514f11b0eba7aa837adf2ad1837fa9b30c360461bff481"
 dependencies = [
  "cc",
  "tree-sitter-language",
