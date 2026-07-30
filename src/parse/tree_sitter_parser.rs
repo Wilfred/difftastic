@@ -1480,7 +1480,7 @@ pub(crate) fn comment_positions(
     let arena = Arena::new();
     let ignore_comments = false;
 
-    let (nodes, _err_count) = to_syntax(tree, src, &arena, config, ignore_comments);
+    let (nodes, _errors) = to_syntax(tree, src, &arena, config, ignore_comments);
     let positions = syntax::comment_positions(&nodes);
 
     positions
@@ -1500,6 +1500,20 @@ pub(crate) struct ExceededParseErrorLimit {
     pub(crate) error_count: usize,
 }
 
+/// Parse error information accumulated while walking a tree-sitter AST.
+#[derive(Debug, Default, Clone, Copy)]
+pub(crate) struct ParseErrors {
+    /// The number of error nodes seen.
+    count: usize,
+}
+
+impl ParseErrors {
+    /// Record that an error node was seen.
+    fn record(&mut self) {
+        self.count += 1;
+    }
+}
+
 pub(crate) fn to_syntax_with_limit<'a>(
     lhs_src: &str,
     rhs_src: &str,
@@ -1509,14 +1523,14 @@ pub(crate) fn to_syntax_with_limit<'a>(
     config: &TreeSitterConfig,
     diff_options: &DiffOptions,
 ) -> Result<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>), ExceededParseErrorLimit> {
-    let (lhs_nodes, lhs_error_count) = to_syntax(
+    let (lhs_nodes, lhs_errors) = to_syntax(
         lhs_tree,
         lhs_src,
         arena,
         config,
         diff_options.ignore_comments,
     );
-    let (rhs_nodes, rhs_error_count) = to_syntax(
+    let (rhs_nodes, rhs_errors) = to_syntax(
         rhs_tree,
         rhs_src,
         arena,
@@ -1525,7 +1539,7 @@ pub(crate) fn to_syntax_with_limit<'a>(
     );
     syntax::init_all_info(&lhs_nodes, &rhs_nodes);
 
-    let error_count = lhs_error_count + rhs_error_count;
+    let error_count = lhs_errors.count + rhs_errors.count;
     if error_count > diff_options.parse_error_limit {
         return Err(ExceededParseErrorLimit { error_count });
     }
@@ -1539,12 +1553,12 @@ pub(crate) fn to_syntax<'a>(
     arena: &'a Arena<Syntax<'a>>,
     config: &TreeSitterConfig,
     ignore_comments: bool,
-) -> (Vec<&'a Syntax<'a>>, usize) {
+) -> (Vec<&'a Syntax<'a>>, ParseErrors) {
     // Don't return anything on an empty input. Most parsers return a
     // zero-width top-level AST node on empty files, which is
     // confusing and not useful for diffing.
     if src.trim().is_empty() {
-        return (vec![], 0);
+        return (vec![], ParseErrors::default());
     }
 
     let highlights = tree_highlights(tree, src, config);
@@ -1556,9 +1570,9 @@ pub(crate) fn to_syntax<'a>(
     let nl_pos = LinePositions::from(src);
     let mut cursor = tree.walk();
 
-    let mut error_count: usize = 0;
+    let mut errors = ParseErrors::default();
     if cursor.node().is_error() {
-        error_count += 1;
+        errors.record();
     }
 
     // The tree always has a single root, whereas we want nodes for
@@ -1570,13 +1584,13 @@ pub(crate) fn to_syntax<'a>(
         src,
         &nl_pos,
         &mut cursor,
-        &mut error_count,
+        &mut errors,
         config,
         &highlights,
         &subtrees,
         ignore_comments,
     );
-    (nodes, error_count)
+    (nodes, errors)
 }
 
 /// Parse `src` with tree-sitter and convert to difftastic Syntax.
@@ -1587,7 +1601,7 @@ pub(crate) fn parse<'a>(
     ignore_comments: bool,
 ) -> Vec<&'a Syntax<'a>> {
     let tree = to_tree(src, config);
-    let (nodes, _err_count) = to_syntax(&tree, src, arena, config, ignore_comments);
+    let (nodes, _errors) = to_syntax(&tree, src, arena, config, ignore_comments);
     nodes
 }
 
@@ -1656,7 +1670,7 @@ fn all_syntaxes_from_cursor<'a>(
     src: &str,
     nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
-    error_count: &mut usize,
+    errors: &mut ParseErrors,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
     subtrees: &DftHashMap<
@@ -1677,7 +1691,7 @@ fn all_syntaxes_from_cursor<'a>(
             src,
             nl_pos,
             cursor,
-            error_count,
+            errors,
             config,
             highlights,
             subtrees,
@@ -1699,7 +1713,7 @@ fn syntax_from_cursor<'a>(
     src: &str,
     nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
-    error_count: &mut usize,
+    errors: &mut ParseErrors,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
     subtrees: &DftHashMap<
@@ -1722,7 +1736,7 @@ fn syntax_from_cursor<'a>(
             src,
             nl_pos,
             &mut sub_cursor,
-            error_count,
+            errors,
             subconfig,
             subhighlights,
             &DftHashMap::default(),
@@ -1731,7 +1745,7 @@ fn syntax_from_cursor<'a>(
     }
 
     if node.is_error() {
-        *error_count += 1;
+        errors.record();
     }
 
     if config.atom_nodes.contains(node.kind()) || highlights.comment_ids.contains(&node.id()) {
@@ -1752,7 +1766,7 @@ fn syntax_from_cursor<'a>(
             src,
             nl_pos,
             cursor,
-            error_count,
+            errors,
             config,
             highlights,
             subtrees,
@@ -1792,7 +1806,7 @@ fn list_from_cursor<'a>(
     src: &str,
     nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
-    error_count: &mut usize,
+    errors: &mut ParseErrors,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
     subtrees: &DftHashMap<
@@ -1855,7 +1869,7 @@ fn list_from_cursor<'a>(
                 src,
                 nl_pos,
                 cursor,
-                error_count,
+                errors,
                 config,
                 highlights,
                 subtrees,
@@ -1870,7 +1884,7 @@ fn list_from_cursor<'a>(
                 src,
                 nl_pos,
                 cursor,
-                error_count,
+                errors,
                 config,
                 highlights,
                 subtrees,
@@ -1885,7 +1899,7 @@ fn list_from_cursor<'a>(
                 src,
                 nl_pos,
                 cursor,
-                error_count,
+                errors,
                 config,
                 highlights,
                 subtrees,
