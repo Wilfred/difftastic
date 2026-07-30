@@ -89,7 +89,7 @@ sample_files/hack_1.php sample_files/hack_2.php
 fd23895fca3cb3e70b5ffd364f8c30fe  -
 
 sample_files/hare_1.ha sample_files/hare_2.ha
-e344b3fa7bc35fd4a0f3c7cecab39447  -
+5cffeeeafecc45689c2f43cad6c169e5  -
 
 sample_files/haskell_1.hs sample_files/haskell_2.hs
 3cace65f14319c339fcbd30e8e9ebdcc  -
@@ -155,7 +155,7 @@ sample_files/lua_1.lua sample_files/lua_2.lua
 11693bb34168541f2ac9f4154d246038  -
 
 sample_files/makefile_1.mk sample_files/makefile_2.mk
-87e3b196d26ca6de861e546ee582d929  -
+8c5cc39b6dab819fcc0f472698e21b35  -
 
 sample_files/many_newlines_1.txt sample_files/many_newlines_2.txt
 52ca05855e520876479e6f608c5e7831  -
@@ -272,7 +272,7 @@ sample_files/swift_1.swift sample_files/swift_2.swift
 3a90686a3e172ae19a5fd7cef2f1b944  -
 
 sample_files/syntax_error_1.js sample_files/syntax_error_2.js
-ce571e3438427e83f11a4f4264e1ae30  -
+32c72c64f399bbd26fdffbfed1066789  -
 
 sample_files/tab_1.c sample_files/tab_2.c
 fd896b8e53b183f0d1d5cfeb6a1dfab4  -

@@ -2,12 +2,13 @@
 
 use std::sync::{LazyLock, Mutex};
 
-use line_numbers::LinePositions;
+use line_numbers::{LineNumber, LinePositions};
 use streaming_iterator::StreamingIterator as _;
 use tree_sitter as ts;
 use typed_arena::Arena;
 
 use super::syntax::{self, MatchedPos, StringKind};
+use crate::constants::Side;
 use crate::hash::{DftHashMap, DftHashSet};
 use crate::options::DiffOptions;
 use crate::parse::guess_language as guess;
@@ -1498,6 +1499,10 @@ pub(crate) fn comment_positions(
 pub(crate) struct ExceededParseErrorLimit {
     /// The total number of parse errors found across both inputs.
     pub(crate) error_count: usize,
+    /// The line, zero-indexed column, and side of the first parse
+    /// error, if any. The right-hand side is preferred when both sides
+    /// have errors.
+    pub(crate) first_error_pos: Option<(LineNumber, usize, Side)>,
 }
 
 /// Parse error information accumulated while walking a tree-sitter AST.
@@ -1505,12 +1510,19 @@ pub(crate) struct ExceededParseErrorLimit {
 pub(crate) struct ParseErrors {
     /// The number of error nodes seen.
     count: usize,
+    /// The line and zero-indexed column of the first error node seen,
+    /// if any.
+    first_pos: Option<(LineNumber, usize)>,
 }
 
 impl ParseErrors {
-    /// Record that an error node was seen.
-    fn record(&mut self) {
+    /// Record an error node, remembering the position of the first one.
+    fn record(&mut self, node: &ts::Node) {
         self.count += 1;
+        if self.first_pos.is_none() {
+            let pos = node.start_position();
+            self.first_pos = Some(((pos.row as u32).into(), pos.column));
+        }
     }
 }
 
@@ -1541,7 +1553,18 @@ pub(crate) fn to_syntax_with_limit<'a>(
 
     let error_count = lhs_errors.count + rhs_errors.count;
     if error_count > diff_options.parse_error_limit {
-        return Err(ExceededParseErrorLimit { error_count });
+        // Prefer the right-hand side, since that's the file named in
+        // the header, and only fall back to the left-hand side when the
+        // right has no parse errors.
+        let first_error_pos = match (rhs_errors.first_pos, lhs_errors.first_pos) {
+            (Some((line, column)), _) => Some((line, column, Side::Right)),
+            (None, Some((line, column))) => Some((line, column, Side::Left)),
+            (None, None) => None,
+        };
+        return Err(ExceededParseErrorLimit {
+            error_count,
+            first_error_pos,
+        });
     }
 
     Ok((lhs_nodes, rhs_nodes))
@@ -1571,8 +1594,9 @@ pub(crate) fn to_syntax<'a>(
     let mut cursor = tree.walk();
 
     let mut errors = ParseErrors::default();
-    if cursor.node().is_error() {
-        errors.record();
+    let root_node = cursor.node();
+    if root_node.is_error() {
+        errors.record(&root_node);
     }
 
     // The tree always has a single root, whereas we want nodes for
@@ -1745,7 +1769,7 @@ fn syntax_from_cursor<'a>(
     }
 
     if node.is_error() {
-        errors.record();
+        errors.record(&node);
     }
 
     if config.atom_nodes.contains(node.kind()) || highlights.comment_ids.contains(&node.id()) {
