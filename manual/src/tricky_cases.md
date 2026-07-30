@@ -497,11 +497,12 @@ parser.
 
 **Difftastic**: Difftastic will fall back to a line-oriented diff if
 any parse errors occur, to avoid diffing incomplete syntax trees. When
-this occurs, the file header reports the error count.
+this occurs, the file header reports the error count along with the
+position of the first parse error.
 
 ```
 $ difft sample_files/syntax_error_1.js sample_files/syntax_error_2.js
-sample_files/syntax_error_2.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
+sample_files/syntax_error_2.js --- Text (2 JavaScript parse errors, exceeded DFT_PARSE_ERROR_LIMIT, first at 3:1)
 ...
 ```
 
