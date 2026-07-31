@@ -47,9 +47,12 @@ jobs:
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: taiki-e/upload-rust-binary-action@f0d45ae91ee7b8ee928de7a9d04d893a08bcbec6 # v1
+      - uses: taiki-e/upload-rust-binary-action@f0d45ae91ee7b8ee928de7a9d04d893a08bcbec6 # v1.30.2
         with:
           bin: difft
+          # Ensure we respect Cargo.lock in release builds, so the
+          # released versions match those tested in CI.
+          locked: true
           # (optional) On which platform to distribute the `.tar.gz` file.
           tar: unix
           # (optional) On which platform to distribute the `.zip` file.
