@@ -64,11 +64,11 @@ fn substring_by_byte_replace_tabs(s: &str, start: usize, end: usize, tab_width: 
 pub(crate) fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
     let display_width = s.width();
 
-    // .width() on tabs returns 0, whereas we want to model them as
-    // `tab_width` spaces.
-    debug_assert_eq!("\t".width(), 0);
     let tab_count = s.matches('\t').count();
-    let tab_display_width_extra = tab_count * tab_width;
+    // "\t".width() is 1 on 0.1.13 and 0.2.x of unicode-width, but
+    // "\t".width() is 0 on <=0.1.12 and 0.1.14 of unicode-width. Be
+    // defensive against both cases.
+    let tab_display_width_extra = tab_count * (tab_width - "\t".width());
 
     display_width + tab_display_width_extra
 }
@@ -591,6 +591,23 @@ mod tests {
             split_string_by_width("fooba", 3, TAB_WIDTH),
             vec![("foo", 0), ("ba", 1)]
         );
+    }
+
+    /// Widths must match the columns occupied once tabs are expanded,
+    /// otherwise side-by-side display pads the left column wrongly.
+    #[test]
+    fn test_width_respecting_tabs() {
+        for tab_width in [1, 2, 4, 8] {
+            for s in ["", "x", "\t", "\tx", "\t\tx", "x\ty\tz", "\t一个\t"] {
+                assert_eq!(
+                    width_respecting_tabs(s, tab_width),
+                    replace_tabs(s, tab_width).width(),
+                    "width of {:?} with tab width {}",
+                    s,
+                    tab_width
+                );
+            }
+        }
     }
 
     #[test]

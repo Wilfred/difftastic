@@ -11,6 +11,11 @@ Improved support for Emacs Lisp, Java and TOML.
 Removed support for Elvish and SCSS (upstream parsers are no longer
 maintained).
 
+### Display
+
+Fixed an issue where files with tabs were not always aligned correctly
+in some build configurations.
+
 ### Release
 
 Fixed an issue where prebuilt binaries on GitHub did not respect
