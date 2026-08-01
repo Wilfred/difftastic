@@ -354,7 +354,9 @@ Higher values will allow difftastic to perform a structural diff in more cases. 
             Arg::new("parse-error-limit").long("parse-error-limit")
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
-                .help("Use a line-oriented diff if the number of parse errors exceeds this value.")
+                .help("Use a line-oriented diff if the number of parse errors exceeds this value.
+
+A value of 0 means that any parse error will make difftastic use a line-oriented diff.")
                 .default_value(format!("{}", DEFAULT_PARSE_ERROR_LIMIT))
                 .env("DFT_PARSE_ERROR_LIMIT")
                 .value_parser(clap::value_parser!(usize))
