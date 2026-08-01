@@ -13,6 +13,18 @@ use crate::options::DisplayOptions;
 use crate::parse::syntax::{AtomKind, MatchKind, MatchedPos, StringKind, TokenKind};
 use crate::summary::FileFormat;
 
+fn char_display_width(ch: char, tab_width: usize) -> usize {
+    if ch == '\t' {
+        tab_width
+    } else if ch.is_ascii_control() {
+        // Pagers such as less render ASCII control characters using
+        // two-character caret notation (for example, \x1f as ^_).
+        2
+    } else {
+        ch.width().unwrap_or(0)
+    }
+}
+
 #[derive(Clone, Copy, Debug)]
 pub(crate) enum BackgroundColor {
     Dark,
@@ -37,12 +49,7 @@ fn byte_offset_for_width(s: &str, width: usize, tab_width: usize) -> usize {
     for (offset, ch) in s.char_indices() {
         current_offset = offset;
 
-        let char_width = if ch == '\t' {
-            tab_width
-        } else {
-            ch.width().unwrap_or(0)
-        };
-        current_width += char_width;
+        current_width += char_display_width(ch, tab_width);
 
         if current_width > width {
             break;
@@ -70,7 +77,13 @@ pub(crate) fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
     let tab_count = s.matches('\t').count();
     let tab_display_width_extra = tab_count * tab_width;
 
-    display_width + tab_display_width_extra
+    let ascii_control_count = s
+        .bytes()
+        .filter(|byte| *byte != b'\t' && byte.is_ascii_control())
+        .count();
+    let ascii_control_display_width = ascii_control_count * 2;
+
+    display_width + tab_display_width_extra + ascii_control_display_width
 }
 
 /// Split a string into parts whose display length does not
@@ -598,6 +611,14 @@ mod tests {
         assert_eq!(
             split_string_by_width("ab📦def", 4, TAB_WIDTH),
             vec![("ab📦", 0), ("def", 1)]
+        );
+    }
+
+    #[test]
+    fn split_string_ascii_control() {
+        assert_eq!(
+            split_string_by_width("a\u{1f}bc", 3, TAB_WIDTH),
+            vec![("a\u{1f}", 0), ("bc", 1)]
         );
     }
 
