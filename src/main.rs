@@ -62,7 +62,7 @@ extern crate log;
 
 use display::style::print_warning;
 use log::info;
-use options::{FilePermissions, USAGE};
+use options::FilePermissions;
 
 use crate::conflicts::{apply_conflict_markers, START_LHS_MARKER};
 use crate::constants::Side;
@@ -531,21 +531,10 @@ fn diff_conflicts_file(
     };
 
     if conflict_files.num_conflicts == 0 {
-        print_error(
-            &format!(
-                "Difftastic requires two paths, or a single file with conflict markers {}.\n",
-                if display_options.use_color {
-                    START_LHS_MARKER.bold().to_string()
-                } else {
-                    START_LHS_MARKER.to_owned()
-                }
-            ),
-            display_options.use_color,
-        );
-
-        eprintln!("USAGE:\n\n    {}\n", USAGE);
-        eprintln!("For more information try --help");
-        std::process::exit(EXIT_BAD_ARGUMENTS);
+        options::bad_arguments(format!(
+            "Difftastic requires two paths, or a single file with conflict markers ({}), but '{}' has no conflict markers.",
+            START_LHS_MARKER, display_path
+        ));
     }
 
     let lhs_name = match conflict_files.lhs_name {

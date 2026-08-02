@@ -5,11 +5,12 @@ use std::ffi::{OsStr, OsString};
 use std::fmt::Display;
 use std::path::{Path, PathBuf};
 
-use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
+use clap::error::ErrorKind;
+use clap::{crate_authors, crate_description, CommandFactory, Parser, ValueEnum};
 use crossterm::tty::IsTty;
 use owo_colors::OwoColorize as _;
 
-use crate::display::style::{print_error, BackgroundColor};
+use crate::display::style::BackgroundColor;
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
 use crate::parse::guess_language::{language_override_from_name, LanguageOverride};
 use crate::version::VERSION;
@@ -23,70 +24,286 @@ pub(crate) const DEFAULT_PARSE_ERROR_LIMIT: usize = 0;
 
 pub(crate) const DEFAULT_TAB_WIDTH: usize = 4;
 
-pub(crate) const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
+pub(crate) const DEFAULT_CONTEXT_LINES: u32 = 3;
 
-#[derive(Debug, Clone, Copy)]
+const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
+
+/// The largest N accepted in the numbered environment variables
+/// `DFT_OVERRIDE_N` and `DFT_OVERRIDE_BINARY_N`.
+const MAX_NUMBERED_ENV_VAR: usize = 9;
+
+#[derive(Debug, Clone, Copy, ValueEnum)]
 pub(crate) enum ColorOutput {
     Always,
     Auto,
     Never,
 }
 
-#[derive(Debug, Clone)]
-pub(crate) struct DisplayOptions {
-    pub(crate) background_color: BackgroundColor,
-    pub(crate) use_color: bool,
-    pub(crate) display_mode: DisplayMode,
-    pub(crate) print_unchanged: bool,
-    pub(crate) tab_width: usize,
-    pub(crate) terminal_width: usize,
-    pub(crate) num_context_lines: u32,
-    pub(crate) syntax_highlight: bool,
-    pub(crate) sort_paths: bool,
+/// An option that is either on or off. Unlike a flag, the value is
+/// explicit, so users can override a value set in an environment
+/// variable.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
+enum OnOff {
+    On,
+    Off,
 }
 
-pub(crate) const DEFAULT_TERMINAL_WIDTH: usize = 80;
-
-impl Default for DisplayOptions {
-    fn default() -> Self {
-        Self {
-            background_color: BackgroundColor::Dark,
-            use_color: false,
-            display_mode: DisplayMode::SideBySide,
-            print_unchanged: true,
-            tab_width: 8,
-            terminal_width: DEFAULT_TERMINAL_WIDTH,
-            num_context_lines: 3,
-            syntax_highlight: true,
-            sort_paths: false,
-        }
+impl OnOff {
+    fn is_on(self) -> bool {
+        self == Self::On
     }
 }
 
-#[derive(Debug, Clone)]
-pub(crate) struct DiffOptions {
-    pub(crate) graph_limit: usize,
-    pub(crate) byte_limit: usize,
-    pub(crate) parse_error_limit: usize,
-    pub(crate) check_only: bool,
-    pub(crate) ignore_comments: bool,
-    pub(crate) strip_cr: bool,
+/// A single `--override` value, such as `*.c:C++`.
+type LanguageOverrideArg = (LanguageOverride, glob::Pattern);
+
+// The command line arguments accepted by difftastic.
+//
+// Difftastic supports several calling conventions (see `parse_args`),
+// so the positional arguments are validated after clap has parsed
+// them.
+//
+// Note that this is deliberately not a doc comment: clap would use it
+// as the `--help` description instead of the crate description.
+#[derive(Debug, Parser)]
+#[command(
+    name = "Difftastic",
+    override_usage = USAGE,
+    version = env!("CARGO_PKG_VERSION"),
+    long_version = VERSION.as_str(),
+    about = crate_description!(),
+    author = crate_authors!(),
+    after_long_help = after_help(),
+    arg_required_else_help = true
+)]
+struct Args {
+    #[arg(
+        long,
+        value_name = "PATH",
+        help_heading = "DEBUG OPTIONS",
+        long_help = "Parse a single file with tree-sitter and display the difftastic syntax tree."
+    )]
+    dump_syntax: Option<String>,
+
+    #[arg(
+        long,
+        value_name = "PATH",
+        help_heading = "DEBUG OPTIONS",
+        long_help = "Parse a single file with tree-sitter and display the difftastic syntax tree, as a DOT graph."
+    )]
+    dump_syntax_dot: Option<String>,
+
+    #[arg(
+        long = "dump-ts",
+        value_name = "PATH",
+        help_heading = "DEBUG OPTIONS",
+        long_help = "Parse a single file with tree-sitter and display the tree-sitter parse tree."
+    )]
+    dump_ts: Option<String>,
+
+    #[arg(
+        long,
+        value_name = "LINES",
+        env = "DFT_CONTEXT",
+        default_value_t = DEFAULT_CONTEXT_LINES,
+        long_help = "The number of contextual lines to show around changed lines."
+    )]
+    context: u32,
+
+    #[arg(
+        long,
+        value_name = "COLUMNS",
+        env = "DFT_WIDTH",
+        long_help = "Use this many columns when calculating line wrapping. If not specified, difftastic will detect the terminal width."
+    )]
+    width: Option<usize>,
+
+    #[arg(
+        long,
+        value_name = "NUM_SPACES",
+        env = "DFT_TAB_WIDTH",
+        default_value_t = DEFAULT_TAB_WIDTH,
+        long_help = "Treat a tab as this many spaces."
+    )]
+    tab_width: usize,
+
+    #[arg(
+        long,
+        value_name = "MODE",
+        env = "DFT_DISPLAY",
+        default_value = "side-by-side",
+        help = "Display mode for showing results.
+
+side-by-side: Display the before file and the after file in two separate columns, with line numbers aligned according to unchanged content. If a change is exclusively additions or exclusively removals, use a single column.
+
+side-by-side-show-both: The same as side-by-side, but always uses two columns.
+
+inline: A single column display, closer to traditional diff display.
+
+json: Output the results as a machine-readable JSON array with an element per file."
+    )]
+    display: DisplayMode,
+
+    #[arg(
+        long,
+        value_name = "WHEN",
+        env = "DFT_COLOR",
+        default_value = "auto",
+        help = "When to use color output."
+    )]
+    color: ColorOutput,
+
+    #[arg(
+        long,
+        value_name = "BACKGROUND",
+        env = "DFT_BACKGROUND",
+        default_value = "dark",
+        help = "Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds."
+    )]
+    background: BackgroundColor,
+
+    #[arg(
+        long,
+        value_name = "on/off",
+        env = "DFT_SYNTAX_HIGHLIGHT",
+        default_value = "on",
+        help = "Enable or disable syntax highlighting."
+    )]
+    syntax_highlight: OnOff,
+
+    #[arg(
+        long,
+        env = "DFT_EXIT_CODE",
+        help = "Set the exit code to 1 if there are syntactic changes in any files. For files where there is no detected language (e.g. unsupported language or binary files), sets the exit code if there are any byte changes."
+    )]
+    exit_code: bool,
+
+    #[arg(
+        long,
+        value_name = "on/off",
+        env = "DFT_STRIP_CR",
+        default_value = "on",
+        help = "Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or multiline text (e.g. in HTML) to differ if the two input files have different line endings."
+    )]
+    strip_cr: OnOff,
+
+    #[arg(
+        long,
+        env = "DFT_CHECK_ONLY",
+        help = "Report whether there are any changes, but don't calculate them. Much faster."
+    )]
+    check_only: bool,
+
+    #[arg(
+        long,
+        env = "DFT_IGNORE_COMMENTS",
+        help = "Don't consider comments when diffing."
+    )]
+    ignore_comments: bool,
+
+    #[arg(
+        long,
+        env = "DFT_SKIP_UNCHANGED",
+        help = "Don't display anything if a file is unchanged. This is useful when comparing directories of files."
+    )]
+    skip_unchanged: bool,
+
+    #[arg(
+        long = "override",
+        value_name = "GLOB:NAME",
+        env = "DFT_OVERRIDE",
+        value_parser = parse_language_override,
+        help = concat!("Associate this glob pattern with this language, overriding normal language detection. For example:
+
+$ ", env!("CARGO_BIN_NAME"), " --override='*.c:C++' old.c new.c
+
+See --list-languages for the list of language names. Language names are matched case insensitively. Overrides may also specify the language \"text\" to treat a file as plain text.
+
+This argument may be given more than once. For example:
+
+$ ", env!("CARGO_BIN_NAME"), " --override='CustomFile:json' --override='*.c:text' old.c new.c
+
+To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_1 up to DFT_OVERRIDE_9.
+
+$ export DFT_OVERRIDE='CustomFile:json'
+$ export DFT_OVERRIDE_1='*.c:text'
+$ export DFT_OVERRIDE_2='*.js:javascript jsx'
+
+When multiple overrides are specified, the first matching override wins.")
+    )]
+    language_override: Vec<LanguageOverrideArg>,
+
+    #[arg(
+        long,
+        value_name = "GLOB",
+        env = "DFT_OVERRIDE_BINARY",
+        value_parser = parse_glob,
+        help = concat!("Always treat file names matching this glob as binary files, ignoring the default heuristics for binary detection. For example:
+
+$ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' old.gz new.gz
+
+This argument may be given more than once. For example:
+
+$ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' --override-binary='foo.pickle' old.gz new.gz
+
+To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_BINARY_1 up to DFT_OVERRIDE_BINARY_9.
+
+$ export DFT_OVERRIDE_BINARY='*.gz'
+$ export DFT_OVERRIDE_BINARY_1='*.bz2'
+$ export DFT_OVERRIDE_BINARY_2='foo.pickle'")
+    )]
+    override_binary: Vec<glob::Pattern>,
+
+    #[arg(
+        long,
+        help = "Print all the languages supported by difftastic, along with their recognised extensions."
+    )]
+    list_languages: bool,
+
+    #[arg(
+        long,
+        value_name = "LIMIT",
+        env = "DFT_BYTE_LIMIT",
+        default_value_t = DEFAULT_BYTE_LIMIT,
+        help = "Use a line-oriented diff if either input file exceeds this size."
+    )]
+    byte_limit: usize,
+
+    #[arg(
+        long,
+        value_name = "LIMIT",
+        env = "DFT_GRAPH_LIMIT",
+        default_value_t = DEFAULT_GRAPH_LIMIT,
+        help = "Use a line-oriented diff if the internal graph exceeds this number of vertices. This limit controls the worst case runtime and memory usage for difftastic.
+
+Higher values will allow difftastic to perform a structural diff in more cases. Higher values will also increase the time before difftastic gives up on structural diffing, and increase peak memory usage."
+    )]
+    graph_limit: usize,
+
+    #[arg(
+        long,
+        value_name = "LIMIT",
+        env = "DFT_PARSE_ERROR_LIMIT",
+        default_value_t = DEFAULT_PARSE_ERROR_LIMIT,
+        help = "Use a line-oriented diff if the number of parse errors exceeds this value.
+
+A value of 0 means that any parse error will make difftastic use a line-oriented diff."
+    )]
+    parse_error_limit: usize,
+
+    #[arg(value_name = "PATHS", hide = true)]
+    paths: Vec<OsString>,
+
+    #[arg(
+        long,
+        env = "DFT_SORT_PATHS",
+        help = "When diffing a directory, output the results sorted by path. This is slower."
+    )]
+    sort_paths: bool,
 }
 
-impl Default for DiffOptions {
-    fn default() -> Self {
-        Self {
-            graph_limit: DEFAULT_GRAPH_LIMIT,
-            byte_limit: DEFAULT_BYTE_LIMIT,
-            parse_error_limit: DEFAULT_PARSE_ERROR_LIMIT,
-            check_only: false,
-            ignore_comments: false,
-            strip_cr: false,
-        }
-    }
-}
-
-fn app() -> clap::Command {
+/// The examples shown at the end of `--help`.
+fn after_help() -> String {
     let bin_name = env!("CARGO_BIN_NAME");
 
     let mut after_help = String::new();
@@ -138,252 +355,158 @@ fn app() -> clap::Command {
     }
     after_help.push('.');
 
-    Command::new("Difftastic")
-        .override_usage(USAGE)
-        .version(env!("CARGO_PKG_VERSION"))
-        .long_version(VERSION.as_str())
-        .about(crate_description!())
-        .author(crate_authors!())
-        .after_long_help(after_help)
-        .arg(
-            Arg::new("dump-syntax")
-                .long("dump-syntax")
-                .value_name("PATH")
-                .action(ArgAction::Set)
-                .long_help(
-                    "Parse a single file with tree-sitter and display the difftastic syntax tree.",
-                ).help_heading("DEBUG OPTIONS"),
-        )
-        .arg(
-            Arg::new("dump-syntax-dot")
-                .long("dump-syntax-dot")
-                .value_name("PATH")
-                .action(ArgAction::Set)
-                .long_help(
-                    "Parse a single file with tree-sitter and display the difftastic syntax tree, as a DOT graph.",
-                ).help_heading("DEBUG OPTIONS"),
-        )
-        .arg(
-            Arg::new("dump-ts")
-                .long("dump-ts")
-                                .value_name("PATH")
-                .action(ArgAction::Set)
-                .long_help(
-                    "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
-                ).help_heading("DEBUG OPTIONS"),
-        )
-        .arg(
-            Arg::new("context")
-                .long("context")
-                                .value_name("LINES")
-                .action(ArgAction::Set)
-                .long_help("The number of contextual lines to show around changed lines.")
-                .default_value("3")
-                .env("DFT_CONTEXT")
-                .value_parser(clap::value_parser!(u32))
-                .required(false),
-        )
-        .arg(
-            Arg::new("width")
-                .long("width")
-                .value_name("COLUMNS")
-                .action(ArgAction::Set)
-                .long_help("Use this many columns when calculating line wrapping. If not specified, difftastic will detect the terminal width.")
-                .env("DFT_WIDTH")
-                .value_parser(clap::value_parser!(usize))
-                .required(false),
-        )
-        .arg(
-            Arg::new("tab-width")
-                .long("tab-width")
-                .value_name("NUM_SPACES")
-                .action(ArgAction::Set)
-                .long_help("Treat a tab as this many spaces.")
-                .env("DFT_TAB_WIDTH")
-                .default_value(format!("{}", DEFAULT_TAB_WIDTH))
-                .value_parser(clap::value_parser!(usize))
-                .required(false),
-        )
-        .arg(
-            Arg::new("display").long("display")
-                .value_parser(["side-by-side", "side-by-side-show-both", "inline", "json"])
-                .default_value("side-by-side")
-                .value_name("MODE")
-                .action(ArgAction::Set)
-                .env("DFT_DISPLAY")
-                .help("Display mode for showing results.
-
-side-by-side: Display the before file and the after file in two separate columns, with line numbers aligned according to unchanged content. If a change is exclusively additions or exclusively removals, use a single column.
-
-side-by-side-show-both: The same as side-by-side, but always uses two columns.
-
-inline: A single column display, closer to traditional diff display.
-
-json: Output the results as a machine-readable JSON array with an element per file.")
-        )
-        .arg(
-            Arg::new("color").long("color")
-                .value_parser(["always", "auto", "never"])
-                .default_value("auto")
-                .env("DFT_COLOR")
-                .value_name("WHEN")
-                .action(ArgAction::Set)
-                .help("When to use color output.")
-        )
-        .arg(
-            Arg::new("background").long("background")
-                .value_name("BACKGROUND")
-                .env("DFT_BACKGROUND")
-                .value_parser(["dark", "light"])
-                .default_value("dark")
-                .action(ArgAction::Set)
-                .help("Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.")
-        )
-        .arg(
-            Arg::new("syntax-highlight").long("syntax-highlight")
-                .value_name("on/off")
-                .env("DFT_SYNTAX_HIGHLIGHT")
-                .value_parser(["on", "off"])
-                .default_value("on")
-                .action(ArgAction::Set)
-                .help("Enable or disable syntax highlighting.")
-        )
-        .arg(
-            Arg::new("exit-code").long("exit-code")
-                .action(ArgAction::SetTrue)
-                .env("DFT_EXIT_CODE")
-                .help("Set the exit code to 1 if there are syntactic changes in any files. For files where there is no detected language (e.g. unsupported language or binary files), sets the exit code if there are any byte changes.")
-        )
-        .arg(
-            Arg::new("strip-cr").long("strip-cr")
-                .value_name("on/off")
-                .env("DFT_STRIP_CR")
-                .value_parser(["on", "off"])
-                .default_value("on")
-                .action(ArgAction::Set)
-                .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or multiline text (e.g. in HTML) to differ if the two input files have different line endings.")
-        )
-        .arg(
-            Arg::new("check-only").long("check-only")
-                .action(ArgAction::SetTrue)
-                .env("DFT_CHECK_ONLY")
-                .help("Report whether there are any changes, but don't calculate them. Much faster.")
-        )
-        .arg(
-            Arg::new("ignore-comments").long("ignore-comments")
-                .action(ArgAction::SetTrue)
-                .env("DFT_IGNORE_COMMENTS")
-                .help("Don't consider comments when diffing.")
-        )
-        .arg(
-            Arg::new("skip-unchanged").long("skip-unchanged")
-                .action(ArgAction::SetTrue)
-                .env("DFT_SKIP_UNCHANGED")
-                .help("Don't display anything if a file is unchanged. This is useful when comparing directories of files.")
-        )
-        .arg(
-            Arg::new("override").long("override")
-                .value_name("GLOB:NAME")
-                .action(ArgAction::Append)
-                .help(concat!("Associate this glob pattern with this language, overriding normal language detection. For example:
-
-$ ", env!("CARGO_BIN_NAME"), " --override='*.c:C++' old.c new.c
-
-See --list-languages for the list of language names. Language names are matched case insensitively. Overrides may also specify the language \"text\" to treat a file as plain text.
-
-This argument may be given more than once. For example:
-
-$ ", env!("CARGO_BIN_NAME"), " --override='CustomFile:json' --override='*.c:text' old.c new.c
-
-To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_1 up to DFT_OVERRIDE_9.
-
-$ export DFT_OVERRIDE='CustomFile:json'
-$ export DFT_OVERRIDE_1='*.c:text'
-$ export DFT_OVERRIDE_2='*.js:javascript jsx'
-
-When multiple overrides are specified, the first matching override wins."))
-                .env("DFT_OVERRIDE")
-        )
-        .arg(
-            Arg::new("override-binary").long("override-binary")
-                .value_name("GLOB")
-                .action(ArgAction::Append)
-                .help(concat!("Always treat file names matching this glob as binary files, ignoring the default heuristics for binary detection. For example:
-
-$ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' old.gz new.gz
-
-This argument may be given more than once. For example:
-
-$ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' --override-binary='foo.pickle' old.gz new.gz
-
-To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_BINARY_1 up to DFT_OVERRIDE_BINARY_9.
-
-$ export DFT_OVERRIDE_BINARY='*.gz'
-$ export DFT_OVERRIDE_BINARY_1='*.bz2'
-$ export DFT_OVERRIDE_BINARY_2='foo.pickle'"))
-                .env("DFT_OVERRIDE_BINARY")
-        )
-        .arg(
-            Arg::new("list-languages").long("list-languages")
-                .action(ArgAction::SetTrue)
-                .help("Print all the languages supported by difftastic, along with their recognised extensions.")
-        )
-        .arg(
-            Arg::new("byte-limit").long("byte-limit")
-                .value_name("LIMIT")
-                .action(ArgAction::Set)
-                .help("Use a line-oriented diff if either input file exceeds this size.")
-                .default_value(format!("{}", DEFAULT_BYTE_LIMIT))
-                .env("DFT_BYTE_LIMIT")
-                .value_parser(clap::value_parser!(usize))
-                .required(false),
-        )
-        .arg(
-            Arg::new("graph-limit").long("graph-limit")
-                .value_name("LIMIT")
-                .help("Use a line-oriented diff if the internal graph exceeds this number of vertices. This limit controls the worst case runtime and memory usage for difftastic.
-
-Higher values will allow difftastic to perform a structural diff in more cases. Higher values will also increase the time before difftastic gives up on structural diffing, and increase peak memory usage.")
-                .default_value(format!("{}", DEFAULT_GRAPH_LIMIT))
-                .action(ArgAction::Set)
-                .env("DFT_GRAPH_LIMIT")
-                .value_parser(clap::value_parser!(usize))
-                .required(false),
-        )
-        .arg(
-            Arg::new("parse-error-limit").long("parse-error-limit")
-                .value_name("LIMIT")
-                .action(ArgAction::Set)
-                .help("Use a line-oriented diff if the number of parse errors exceeds this value.
-
-A value of 0 means that any parse error will make difftastic use a line-oriented diff.")
-                .default_value(format!("{}", DEFAULT_PARSE_ERROR_LIMIT))
-                .env("DFT_PARSE_ERROR_LIMIT")
-                .value_parser(clap::value_parser!(usize))
-                .required(false),
-        )
-        .arg(
-            Arg::new("paths")
-                .value_name("PATHS")
-                .action(ArgAction::Append)
-                .hide(true)
-                .value_parser(value_parser!(OsString)),
-        )
-        .arg(
-            Arg::new("sort-paths").long("sort-paths")
-                .action(ArgAction::SetTrue)
-                .env("DFT_SORT_PATHS")
-                .help("When diffing a directory, output the results sorted by path. This is slower.")
-        )
-        .arg_required_else_help(true)
+    after_help
 }
 
-#[derive(Debug, Copy, Clone)]
+/// Parse a `--override` value, such as `*.c:C++`.
+fn parse_language_override(s: &str) -> Result<LanguageOverrideArg, String> {
+    let Some((glob_str, lang_name)) = s.rsplit_once(':') else {
+        return Err(
+            "language overrides are in the format 'GLOB:LANG_NAME', e.g. '*.js:JSON'".to_owned(),
+        );
+    };
+
+    let pattern = parse_glob(glob_str)?;
+
+    match language_override_from_name(lang_name) {
+        Some(language_override) => Ok((language_override, pattern)),
+        None => Err(format!(
+            "no such language '{}'\n\nSee --list-languages for the names of all the languages available. Language overrides are case insensitive.",
+            lang_name
+        )),
+    }
+}
+
+/// Parse a glob pattern, such as an `--override-binary` value.
+fn parse_glob(s: &str) -> Result<glob::Pattern, String> {
+    glob::Pattern::new(s).map_err(|e| format!("invalid glob syntax '{}': {}", s, e.msg))
+}
+
+/// Print `message` in the same style as clap's own errors (so it
+/// includes the usage line), then exit.
+fn arg_error(kind: ErrorKind, message: String) -> ! {
+    let err = Args::command().error(kind, message);
+    let _ = err.print();
+
+    std::process::exit(EXIT_BAD_ARGUMENTS);
+}
+
+/// Report that difftastic has been called incorrectly, in the same
+/// style as clap's own errors, then exit.
+///
+/// This is for problems that we can only detect after we've started
+/// diffing, such as being given a single file that has no conflict
+/// markers.
+pub(crate) fn bad_arguments(message: String) -> ! {
+    arg_error(ErrorKind::InvalidValue, message)
+}
+
+/// The values set in the numbered environment variables `PREFIX_1` up
+/// to `PREFIX_9`, parsed with `parse`.
+///
+/// These environment variables allow users to specify options that may
+/// be given more than once on the command line.
+fn parse_numbered_env_vars<T>(prefix: &str, parse: fn(&str) -> Result<T, String>) -> Vec<T> {
+    let mut values = vec![];
+
+    for i in 1..=MAX_NUMBERED_ENV_VAR {
+        let name = format!("{}_{}", prefix, i);
+        let Ok(value) = env::var(&name) else {
+            continue;
+        };
+
+        match parse(&value) {
+            Ok(value) => values.push(value),
+            Err(message) => arg_error(
+                ErrorKind::ValueValidation,
+                format!(
+                    "invalid value '{}' for environment variable {}: {}",
+                    value, name, message
+                ),
+            ),
+        }
+    }
+
+    values
+}
+
+/// Group adjacent overrides that specify the same language, so we can
+/// check all the globs for a language together.
+fn combine_overrides(
+    overrides: Vec<LanguageOverrideArg>,
+) -> Vec<(LanguageOverride, Vec<glob::Pattern>)> {
+    let mut combined: Vec<(LanguageOverride, Vec<glob::Pattern>)> = vec![];
+
+    for (lang, glob) in overrides {
+        match combined.last_mut() {
+            Some((prev_lang, prev_globs)) if *prev_lang == lang => prev_globs.push(glob),
+            _ => combined.push((lang, vec![glob])),
+        }
+    }
+
+    combined
+}
+
+#[derive(Debug, Copy, Clone, ValueEnum)]
 pub(crate) enum DisplayMode {
-    Inline,
     SideBySide,
     SideBySideShowBoth,
+    Inline,
     Json,
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct DisplayOptions {
+    pub(crate) background_color: BackgroundColor,
+    pub(crate) use_color: bool,
+    pub(crate) display_mode: DisplayMode,
+    pub(crate) print_unchanged: bool,
+    pub(crate) tab_width: usize,
+    pub(crate) terminal_width: usize,
+    pub(crate) num_context_lines: u32,
+    pub(crate) syntax_highlight: bool,
+    pub(crate) sort_paths: bool,
+}
+
+pub(crate) const DEFAULT_TERMINAL_WIDTH: usize = 80;
+
+impl Default for DisplayOptions {
+    fn default() -> Self {
+        Self {
+            background_color: BackgroundColor::Dark,
+            use_color: false,
+            display_mode: DisplayMode::SideBySide,
+            print_unchanged: true,
+            tab_width: 8,
+            terminal_width: DEFAULT_TERMINAL_WIDTH,
+            num_context_lines: DEFAULT_CONTEXT_LINES,
+            syntax_highlight: true,
+            sort_paths: false,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct DiffOptions {
+    pub(crate) graph_limit: usize,
+    pub(crate) byte_limit: usize,
+    pub(crate) parse_error_limit: usize,
+    pub(crate) check_only: bool,
+    pub(crate) ignore_comments: bool,
+    pub(crate) strip_cr: bool,
+}
+
+impl Default for DiffOptions {
+    fn default() -> Self {
+        Self {
+            graph_limit: DEFAULT_GRAPH_LIMIT,
+            byte_limit: DEFAULT_BYTE_LIMIT,
+            parse_error_limit: DEFAULT_PARSE_ERROR_LIMIT,
+            check_only: false,
+            ignore_comments: false,
+            strip_cr: false,
+        }
+    }
 }
 
 #[derive(Eq, PartialEq, Debug)]
@@ -639,239 +762,217 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
     }
 }
 
-fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Vec<glob::Pattern>)> {
-    let mut overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)> = vec![];
-    let mut invalid_syntax = false;
-
-    for raw_override in raw_overrides {
-        if let Some((glob_str, lang_name)) = raw_override.rsplit_once(':') {
-            match glob::Pattern::new(glob_str) {
-                Ok(pattern) => {
-                    if let Some(language_override) = language_override_from_name(lang_name) {
-                        overrides.push((language_override, vec![pattern]));
-                    } else {
-                        eprintln!("No such language '{}'", lang_name);
-                        eprintln!("See --list-languages for the names of all languages available. Language overrides are case insensitive.");
-                        invalid_syntax = true;
-                    }
-                }
-                Err(e) => {
-                    eprintln!("Invalid glob syntax '{}'", glob_str);
-                    eprintln!("Glob parsing error: {}", e.msg);
-                    invalid_syntax = true;
-                }
-            }
-        } else {
-            eprintln!("Invalid language override syntax '{}'", raw_override);
-            eprintln!("Language overrides are in the format 'GLOB:LANG_NAME', e.g. '*.js:JSON'.");
-            invalid_syntax = true;
-        }
-    }
-
-    if invalid_syntax {
-        std::process::exit(EXIT_BAD_ARGUMENTS);
-    }
-
-    let mut combined_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)> = vec![];
-    for (lang, globs) in overrides {
-        if let Some((prev_lang, prev_globs)) = combined_overrides.last_mut() {
-            if *prev_lang == lang {
-                prev_globs.extend(globs);
-            } else {
-                combined_overrides.push((lang, globs));
-            }
-        } else {
-            combined_overrides.push((lang, globs));
-        }
-    }
-
-    combined_overrides
+/// The files to diff, as described by difftastic's positional
+/// arguments.
+enum PathArgs {
+    /// Diff two files against each other.
+    Diff {
+        /// The path that we show to the user.
+        display_path: String,
+        /// The path where we can read the LHS file. This is often a
+        /// temporary file generated by source control.
+        lhs_path: FileArgument,
+        /// The path where we can read the RHS file. This is often a
+        /// temporary file generated by source control.
+        rhs_path: FileArgument,
+        lhs_permissions: Option<FilePermissions>,
+        rhs_permissions: Option<FilePermissions>,
+        /// If this file has been renamed, a description of the change.
+        renamed: Option<String>,
+    },
+    /// Diff the two conflicting states in a single file that contains
+    /// conflict markers.
+    Conflicts {
+        /// The path that we show to the user.
+        display_path: String,
+        path: FileArgument,
+    },
 }
 
-fn parse_binary_overrides_or_die(glob_strs: &[String]) -> Vec<glob::Pattern> {
-    let mut overrides: Vec<glob::Pattern> = vec![];
-    let mut invalid_syntax = false;
+/// Interpret the positional arguments given, according to the number
+/// of arguments.
+///
+/// Difftastic supports several calling conventions, so that it can be
+/// used directly as well as by source control tools.
+fn parse_paths(paths: &[OsString]) -> PathArgs {
+    match paths {
+        [lhs_path, rhs_path] => {
+            // The usual case: two paths to diff.
+            let lhs_path = FileArgument::from_cli_argument(lhs_path);
+            let rhs_path = FileArgument::from_cli_argument(rhs_path);
 
-    for glob_str in glob_strs {
-        match glob::Pattern::new(glob_str) {
-            Ok(pattern) => {
-                overrides.push(pattern);
-            }
-            Err(e) => {
-                eprintln!("Invalid glob syntax '{}'", glob_str);
-                eprintln!("Glob parsing error: {}", e.msg);
-                invalid_syntax = true;
+            PathArgs::Diff {
+                display_path: build_display_path(&lhs_path, &rhs_path),
+                lhs_permissions: lhs_path.permissions(),
+                rhs_permissions: rhs_path.permissions(),
+                lhs_path,
+                rhs_path,
+                renamed: None,
             }
         }
+        [path] => {
+            // A single file containing conflict markers.
+            PathArgs::Conflicts {
+                display_path: path.to_string_lossy().to_string(),
+                path: FileArgument::from_path_argument(path),
+            }
+        }
+        [display_path, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode] => {
+            // 7 arguments, per https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
+            PathArgs::Diff {
+                display_path: display_path.to_string_lossy().to_string(),
+                lhs_path: FileArgument::from_path_argument(lhs_tmp_file),
+                rhs_path: FileArgument::from_path_argument(rhs_tmp_file),
+                lhs_permissions: FilePermissions::try_from(lhs_mode.as_os_str()).ok(),
+                rhs_permissions: FilePermissions::try_from(rhs_mode.as_os_str()).ok(),
+                renamed: None,
+            }
+        }
+        [old_name, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode, new_name, _metainfo] =>
+        {
+            // Rename file.
+            // TODO: where does git document these 9 arguments?
+            // (See run_external_diff() in diff.c in git source code.)
+            let old_name = old_name.to_string_lossy().to_string();
+            let new_name = new_name.to_string_lossy().to_string();
+
+            PathArgs::Diff {
+                display_path: new_name.clone(),
+                lhs_path: FileArgument::from_path_argument(lhs_tmp_file),
+                rhs_path: FileArgument::from_path_argument(rhs_tmp_file),
+                lhs_permissions: FilePermissions::try_from(lhs_mode.as_os_str()).ok(),
+                rhs_permissions: FilePermissions::try_from(rhs_mode.as_os_str()).ok(),
+                renamed: Some(format!("Renamed from {} to {}", old_name, new_name)),
+            }
+        }
+        _ => wrong_number_of_paths(paths),
+    }
+}
+
+/// The calling conventions supported, in the order that we describe
+/// them to users.
+const CALLING_CONVENTIONS: &str = "Difftastic can be called with:
+
+  * 2 arguments: the two paths to diff.
+  * 1 argument: a single file containing conflict markers.
+  * 7 or 9 arguments: the format used by GIT_EXTERNAL_DIFF.";
+
+/// Report that we've been given a number of paths that doesn't match
+/// any of the calling conventions supported, then exit.
+fn wrong_number_of_paths(paths: &[OsString]) -> ! {
+    if paths.is_empty() {
+        // We've been given options, but no paths at all.
+        arg_error(
+            ErrorKind::TooFewValues,
+            format!(
+                "Difftastic requires paths to diff, but none were given.\n\n{}",
+                CALLING_CONVENTIONS
+            ),
+        );
     }
 
-    if invalid_syntax {
-        std::process::exit(EXIT_BAD_ARGUMENTS);
-    }
+    let bin_name = match std::env::args_os().next() {
+        Some(first_arg) => first_arg.to_string_lossy().to_string(),
+        None => env!("CARGO_BIN_NAME").to_owned(),
+    };
+    let formatted_paths = paths
+        .iter()
+        .map(|path| path.to_string_lossy())
+        .collect::<Vec<_>>()
+        .join(" ");
 
-    overrides
+    arg_error(
+        ErrorKind::WrongNumberOfValues,
+        format!(
+            "Difftastic does not support being called with {} argument{}.\n\n{}\n\nFor reference, difftastic was invoked as `{} {}`.",
+            paths.len(),
+            if paths.len() == 1 { "" } else { "s" },
+            CALLING_CONVENTIONS,
+            bin_name,
+            formatted_paths,
+        ),
+    );
 }
 
 /// Parse CLI arguments passed to the binary.
 pub(crate) fn parse_args() -> Mode {
-    let matches = app().get_matches();
+    let args = Args::parse();
 
-    let color_output = match matches
-        .get_one::<String>("color")
-        .map(|s| s.as_str())
-        .expect("color has a default")
-    {
-        "always" => ColorOutput::Always,
-        "never" => ColorOutput::Never,
-        "auto" => ColorOutput::Auto,
-        _ => {
-            unreachable!("clap has already validated color")
-        }
-    };
-    let use_color = should_use_color(color_output);
+    let use_color = should_use_color(args.color);
+    let ignore_comments = args.ignore_comments;
 
-    let ignore_comments = matches.get_flag("ignore-comments");
+    let mut binary_overrides = args.override_binary;
+    binary_overrides.extend(parse_numbered_env_vars("DFT_OVERRIDE_BINARY", parse_glob));
 
-    let mut raw_binary_overrides: Vec<String> = vec![];
-    if let Some(binary_overrides) = matches.get_many("override-binary") {
-        raw_binary_overrides = binary_overrides.cloned().collect();
-    }
-    for i in 1..=9 {
-        if let Ok(value) = env::var(format!("DFT_OVERRIDE_BINARY_{}", i)) {
-            raw_binary_overrides.push(value);
-        }
-    }
+    let mut raw_language_overrides = args.language_override;
+    raw_language_overrides.extend(parse_numbered_env_vars(
+        "DFT_OVERRIDE",
+        parse_language_override,
+    ));
+    let language_overrides = combine_overrides(raw_language_overrides);
 
-    let binary_overrides = parse_binary_overrides_or_die(&raw_binary_overrides);
-
-    let mut raw_overrides: Vec<String> = vec![];
-    if let Some(overrides) = matches.get_many("override") {
-        raw_overrides = overrides.cloned().collect();
-    }
-    for i in 1..=9 {
-        if let Ok(value) = env::var(format!("DFT_OVERRIDE_{}", i)) {
-            raw_overrides.push(value);
-        }
-    }
-
-    let language_overrides = parse_overrides_or_die(&raw_overrides);
-
-    if matches.get_flag("list-languages") {
+    if args.list_languages {
         return Mode::ListLanguages {
             use_color,
             language_overrides,
         };
     }
 
-    if let Some(path) = matches.get_one::<String>("dump-syntax") {
+    if let Some(path) = args.dump_syntax {
         return Mode::DumpSyntax {
-            path: path.to_owned(),
+            path,
             ignore_comments,
             language_overrides,
         };
     }
 
-    if let Some(path) = matches.get_one::<String>("dump-syntax-dot") {
+    if let Some(path) = args.dump_syntax_dot {
         return Mode::DumpSyntaxDot {
-            path: path.to_owned(),
+            path,
             ignore_comments,
             language_overrides,
         };
     }
 
-    if let Some(path) = matches.get_one::<String>("dump-ts") {
+    if let Some(path) = args.dump_ts {
         return Mode::DumpTreeSitter {
-            path: path.to_owned(),
+            path,
             language_overrides,
         };
     }
 
-    let terminal_width = if let Some(arg_width) = matches.get_one::<usize>("width") {
-        *arg_width
-    } else {
-        detect_terminal_width()
-    };
-
-    let display_mode = match matches
-        .get_one::<String>("display")
-        .map(|s| s.as_str())
-        .expect("display has a default")
-    {
-        "side-by-side" => DisplayMode::SideBySide,
-        "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
-        "inline" => DisplayMode::Inline,
-        "json" => {
-            if env::var("DFT_UNSTABLE").is_err() {
-                eprintln!("JSON output is an unstable feature and its format may change in future. To enable JSON output, set the environment variable DFT_UNSTABLE=yes.");
-                std::process::exit(EXIT_BAD_ARGUMENTS);
-            }
-
-            DisplayMode::Json
-        }
-        _ => {
-            unreachable!("clap has already validated display")
-        }
-    };
-
-    let background_color = match matches
-        .get_one::<String>("background")
-        .map(|s| s.as_str())
-        .expect("Always present as we've given clap a default")
-    {
-        "dark" => BackgroundColor::Dark,
-        "light" => BackgroundColor::Light,
-        _ => unreachable!("clap has already validated the values"),
-    };
-
-    let syntax_highlight = matches
-        .get_one::<String>("syntax-highlight")
-        .map(|s| s.as_str())
-        == Some("on");
-
-    let sort_paths = matches.get_flag("sort-paths");
-
-    let graph_limit = *matches
-        .get_one("graph-limit")
-        .expect("Always present as we've given clap a default");
-
-    let byte_limit = *matches
-        .get_one("byte-limit")
-        .expect("Always present as we've given clap a default");
-
-    let parse_error_limit = *matches
-        .get_one("parse-error-limit")
-        .expect("Always present as we've given clap a default");
-
-    let tab_width = *matches
-        .get_one("tab-width")
-        .expect("Always present as we've given clap a default");
-
-    let num_context_lines = *matches
-        .get_one("context")
-        .expect("Always present as we've given clap a default");
-
-    let print_unchanged = !matches.get_flag("skip-unchanged");
-
-    let set_exit_code = matches.get_flag("exit-code");
-
-    let strip_cr = matches.get_one::<String>("strip-cr").map(|s| s.as_str()) == Some("on");
-
-    let check_only = matches.get_flag("check-only");
+    if matches!(args.display, DisplayMode::Json) && env::var("DFT_UNSTABLE").is_err() {
+        arg_error(
+            ErrorKind::InvalidValue,
+            "JSON output is an unstable feature and its format may change in future. To enable JSON output, set the environment variable DFT_UNSTABLE=yes.".to_owned(),
+        );
+    }
 
     let diff_options = DiffOptions {
-        graph_limit,
-        byte_limit,
-        parse_error_limit,
-        check_only,
+        graph_limit: args.graph_limit,
+        byte_limit: args.byte_limit,
+        parse_error_limit: args.parse_error_limit,
+        check_only: args.check_only,
         ignore_comments,
-        strip_cr,
+        strip_cr: args.strip_cr.is_on(),
     };
 
-    let args = matches
-        .get_raw("paths")
-        .unwrap_or_default()
-        .collect::<Vec<_>>();
-    info!("CLI arguments: {:?}", args);
+    let display_options = DisplayOptions {
+        background_color: args.background,
+        use_color,
+        display_mode: args.display,
+        print_unchanged: !args.skip_unchanged,
+        tab_width: args.tab_width,
+        terminal_width: args.width.unwrap_or_else(detect_terminal_width),
+        num_context_lines: args.context,
+        syntax_highlight: args.syntax_highlight.is_on(),
+        sort_paths: args.sort_paths,
+    };
+
+    let set_exit_code = args.exit_code;
+
+    let paths = args.paths;
+    info!("CLI arguments: {:?}", paths);
 
     // When there's a single path that hasn't been merged, git invokes
     // the external diff tool with a only single argument. There's
@@ -879,13 +980,13 @@ pub(crate) fn parse_args() -> Mode {
     //
     // In this case, we just inform the user that there's an unmerged
     // file, matching the builtin git-diff behaviour.
-    if args.len() == 1
+    if paths.len() == 1
         && (env::var_os("GIT_EXEC_PATH").is_some()
             || env::var_os("GIT_CONFIG_PARAMETERS").is_some()
             || env::var_os("GIT_DIFF_PATH_TOTAL").is_some())
     {
         return Mode::GitHasUnmergedFile {
-            display_path: args[0].to_string_lossy().to_string(),
+            display_path: paths[0].to_string_lossy().to_string(),
         };
     }
 
@@ -897,134 +998,36 @@ pub(crate) fn parse_args() -> Mode {
         }
     }
 
-    let (display_path, lhs_path, rhs_path, lhs_permissions, rhs_permissions, renamed) = match &args
-        [..]
-    {
-        [lhs_path, rhs_path] => {
-            let lhs_arg = FileArgument::from_cli_argument(lhs_path);
-            let rhs_arg = FileArgument::from_cli_argument(rhs_path);
-            let display_path = build_display_path(&lhs_arg, &rhs_arg);
-
-            let lhs_permissions = lhs_arg.permissions();
-            let rhs_permissions = rhs_arg.permissions();
-
-            (
-                display_path,
-                lhs_arg,
-                rhs_arg,
-                lhs_permissions,
-                rhs_permissions,
-                None,
-            )
-        }
-        [display_path, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode] => {
-            // 7 arguments, per https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
-            (
-                display_path.to_string_lossy().to_string(),
-                FileArgument::from_path_argument(lhs_tmp_file),
-                FileArgument::from_path_argument(rhs_tmp_file),
-                FilePermissions::try_from(*lhs_mode).ok(),
-                FilePermissions::try_from(*rhs_mode).ok(),
-                None,
-            )
-        }
-        [old_name, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode, new_name, _metainfo] =>
-        {
-            // Rename file.
-            // TODO: where does git document these 9 arguments?
-            // (See run_external_diff() in diff.c in git source code.)
-
-            let old_name = old_name.to_string_lossy().to_string();
-            let new_name = new_name.to_string_lossy().to_string();
-            let renamed = format!("Renamed from {} to {}", old_name, new_name);
-
-            (
-                new_name,
-                FileArgument::from_path_argument(lhs_tmp_file),
-                FileArgument::from_path_argument(rhs_tmp_file),
-                FilePermissions::try_from(*lhs_mode).ok(),
-                FilePermissions::try_from(*rhs_mode).ok(),
-                Some(renamed),
-            )
-        }
-        [path] => {
-            let display_options = DisplayOptions {
-                background_color,
-                use_color,
-                print_unchanged,
-                tab_width,
-                display_mode,
-                terminal_width,
-                num_context_lines,
-                syntax_highlight,
-                sort_paths,
-            };
-
-            let display_path = path.to_string_lossy().to_string();
-            let path = FileArgument::from_path_argument(path);
-            return Mode::DiffFromConflicts {
-                display_path,
-                path,
-                diff_options,
-                display_options,
-                set_exit_code,
-                language_overrides,
-                binary_overrides,
-            };
-        }
-        _ => {
-            if !args.is_empty() {
-                let formatted_args = args
-                    .iter()
-                    .map(|arg| arg.to_string_lossy())
-                    .collect::<Vec<_>>();
-
-                let bin_name = if let Some(first_arg) = std::env::args_os().next() {
-                    first_arg.to_string_lossy().to_string()
-                } else {
-                    env!("CARGO_BIN_NAME").to_owned()
-                };
-
-                print_error(
-                    &format!(
-                        "Difftastic does not support being called with {} argument{}.\n\nYou can pass 2 arguments, or arguments in the form used by GIT_EXTERNAL_DIFF (7 or 9 arguments). See --help for more details. \n\nFor reference, difftastic was invoked as `{} {}`.\n",
-                        args.len(),
-                        if args.len() == 1 { "" } else { "s" },
-                        bin_name,
-                        formatted_args.join(" "),
-                    ),
-                    use_color,
-                );
-            }
-
-            std::process::exit(EXIT_BAD_ARGUMENTS);
-        }
-    };
-
-    let display_options = DisplayOptions {
-        background_color,
-        use_color,
-        print_unchanged,
-        tab_width,
-        display_mode,
-        terminal_width,
-        num_context_lines,
-        syntax_highlight,
-        sort_paths,
-    };
-
-    Mode::Diff {
-        diff_options,
-        display_options,
-        set_exit_code,
-        language_overrides,
-        binary_overrides,
-        lhs_path,
-        rhs_path,
-        lhs_permissions,
-        rhs_permissions,
-        display_path,
-        renamed,
+    match parse_paths(&paths) {
+        PathArgs::Diff {
+            display_path,
+            lhs_path,
+            rhs_path,
+            lhs_permissions,
+            rhs_permissions,
+            renamed,
+        } => Mode::Diff {
+            diff_options,
+            display_options,
+            set_exit_code,
+            language_overrides,
+            binary_overrides,
+            lhs_path,
+            rhs_path,
+            lhs_permissions,
+            rhs_permissions,
+            display_path,
+            renamed,
+        },
+        PathArgs::Conflicts { display_path, path } => Mode::DiffFromConflicts {
+            display_path,
+            path,
+            diff_options,
+            display_options,
+            set_exit_code,
+            language_overrides,
+            binary_overrides,
+        },
     }
 }
 
@@ -1074,7 +1077,47 @@ mod tests {
 
     #[test]
     fn test_app() {
-        app().debug_assert();
+        Args::command().debug_assert();
+    }
+
+    #[test]
+    fn test_parse_language_override() {
+        let (lang, pattern) = parse_language_override("*.c:C++").unwrap();
+        assert_eq!(
+            lang,
+            language_override_from_name("c++").expect("C++ is a known language")
+        );
+        assert_eq!(pattern.as_str(), "*.c");
+    }
+
+    #[test]
+    fn test_parse_language_override_text() {
+        let (lang, _) = parse_language_override("CustomFile:text").unwrap();
+        assert_eq!(lang, LanguageOverride::PlainText);
+    }
+
+    #[test]
+    fn test_parse_language_override_invalid() {
+        // Missing the ':' separator.
+        assert!(parse_language_override("*.c").is_err());
+        // A language that doesn't exist.
+        assert!(parse_language_override("*.c:no-such-language").is_err());
+        // Invalid glob syntax.
+        assert!(parse_language_override("[:C").is_err());
+    }
+
+    #[test]
+    fn test_combine_overrides() {
+        let overrides = vec![
+            parse_language_override("*.c:text").unwrap(),
+            parse_language_override("*.h:text").unwrap(),
+            parse_language_override("*.js:JSON").unwrap(),
+        ];
+
+        let combined = combine_overrides(overrides);
+        assert_eq!(combined.len(), 2);
+        assert_eq!(combined[0].1.len(), 2);
+        assert_eq!(combined[1].1.len(), 1);
     }
 
     #[test]

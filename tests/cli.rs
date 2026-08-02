@@ -282,6 +282,113 @@ fn walk_hidden_items() {
 }
 
 #[test]
+fn conflict_markers_single_argument() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("sample_files/conflicts.el");
+
+    let predicate_fn = predicate::str::contains("Emacs Lisp");
+    cmd.assert().success().stdout(predicate_fn);
+}
+
+#[test]
+fn single_argument_without_conflict_markers() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("sample_files/simple_1.js");
+
+    let predicate_fn = predicate::str::contains("conflict markers");
+    cmd.assert().failure().code(2).stderr(predicate_fn);
+}
+
+#[test]
+fn unsupported_number_of_arguments() {
+    let mut cmd = get_base_command();
+
+    cmd.args(["one", "two", "three"]);
+
+    let predicate_fn =
+        predicate::str::contains("3 arguments").and(predicate::str::contains("GIT_EXTERNAL_DIFF"));
+    cmd.assert().failure().code(2).stderr(predicate_fn);
+}
+
+#[test]
+fn no_arguments_but_options() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--exit-code");
+
+    let predicate_fn = predicate::str::contains("none were given");
+    cmd.assert().failure().code(2).stderr(predicate_fn);
+}
+
+#[test]
+fn invalid_override_syntax() {
+    let mut cmd = get_base_command();
+
+    cmd.args([
+        "--override=no_colon_here",
+        "sample_files/simple_1.js",
+        "sample_files/simple_2.js",
+    ]);
+
+    let predicate_fn = predicate::str::contains("GLOB:LANG_NAME");
+    cmd.assert().failure().code(2).stderr(predicate_fn);
+}
+
+#[test]
+fn invalid_override_language() {
+    let mut cmd = get_base_command();
+
+    cmd.args([
+        "--override=*.js:no_such_language",
+        "sample_files/simple_1.js",
+        "sample_files/simple_2.js",
+    ]);
+
+    let predicate_fn = predicate::str::contains("no such language 'no_such_language'");
+    cmd.assert().failure().code(2).stderr(predicate_fn);
+}
+
+#[test]
+fn override_from_numbered_env_var() {
+    let mut cmd = get_base_command();
+
+    // DFT_OVERRIDE_1 should be applied in addition to DFT_OVERRIDE.
+    cmd.env("DFT_OVERRIDE", "*.rs:text")
+        .env("DFT_OVERRIDE_1", "*.js:text")
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
+
+    let predicate_fn = predicate::str::contains("Text");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn invalid_override_in_numbered_env_var() {
+    let mut cmd = get_base_command();
+
+    cmd.env("DFT_OVERRIDE_1", "*.js:no_such_language")
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
+
+    let predicate_fn = predicate::str::contains("DFT_OVERRIDE_1");
+    cmd.assert().failure().code(2).stderr(predicate_fn);
+}
+
+#[test]
+fn json_display_requires_dft_unstable() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=json")
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
+
+    let predicate_fn = predicate::str::contains("DFT_UNSTABLE");
+    cmd.assert().failure().code(2).stderr(predicate_fn);
+}
+
+#[test]
 fn git_unmerged_files() {
     let mut cmd = get_base_command();
 

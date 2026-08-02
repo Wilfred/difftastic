@@ -13,7 +13,7 @@ use crate::options::DisplayOptions;
 use crate::parse::syntax::{AtomKind, MatchKind, MatchedPos, StringKind, TokenKind};
 use crate::summary::FileFormat;
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, clap::ValueEnum)]
 pub(crate) enum BackgroundColor {
     Dark,
     Light,
