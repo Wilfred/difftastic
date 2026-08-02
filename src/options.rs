@@ -65,6 +65,12 @@ type LanguageOverrideArg = (LanguageOverride, glob::Pattern);
 //
 // Note that this is deliberately not a doc comment: clap would use it
 // as the `--help` description instead of the crate description.
+//
+// The doc comments on the fields are the help text shown to
+// users. They're all `verbatim_doc_comment`, so clap doesn't reflow
+// the examples or strip the trailing full stops. Doc comments can't
+// use env!("CARGO_BIN_NAME"), so they hardcode the binary name (see
+// `test_bin_name`).
 #[derive(Debug, Parser)]
 #[command(
     name = "Difftastic",
@@ -77,228 +83,228 @@ type LanguageOverrideArg = (LanguageOverride, glob::Pattern);
     arg_required_else_help = true
 )]
 struct Args {
+    /// Parse a single file with tree-sitter and display the difftastic syntax tree.
     #[arg(
         long,
         value_name = "PATH",
         help_heading = "DEBUG OPTIONS",
-        long_help = "Parse a single file with tree-sitter and display the difftastic syntax tree."
+        verbatim_doc_comment
     )]
     dump_syntax: Option<String>,
 
+    /// Parse a single file with tree-sitter and display the difftastic syntax tree, as a DOT graph.
     #[arg(
         long,
         value_name = "PATH",
         help_heading = "DEBUG OPTIONS",
-        long_help = "Parse a single file with tree-sitter and display the difftastic syntax tree, as a DOT graph."
+        verbatim_doc_comment
     )]
     dump_syntax_dot: Option<String>,
 
+    /// Parse a single file with tree-sitter and display the tree-sitter parse tree.
     #[arg(
         long = "dump-ts",
         value_name = "PATH",
         help_heading = "DEBUG OPTIONS",
-        long_help = "Parse a single file with tree-sitter and display the tree-sitter parse tree."
+        verbatim_doc_comment
     )]
     dump_ts: Option<String>,
 
+    /// The number of contextual lines to show around changed lines.
     #[arg(
         long,
         value_name = "LINES",
         env = "DFT_CONTEXT",
         default_value_t = DEFAULT_CONTEXT_LINES,
-        long_help = "The number of contextual lines to show around changed lines."
+        verbatim_doc_comment
     )]
     context: u32,
 
-    #[arg(
-        long,
-        value_name = "COLUMNS",
-        env = "DFT_WIDTH",
-        long_help = "Use this many columns when calculating line wrapping. If not specified, difftastic will detect the terminal width."
-    )]
+    /// Use this many columns when calculating line wrapping. If not specified, difftastic will detect the terminal width.
+    #[arg(long, value_name = "COLUMNS", env = "DFT_WIDTH", verbatim_doc_comment)]
     width: Option<usize>,
 
+    /// Treat a tab as this many spaces.
     #[arg(
         long,
         value_name = "NUM_SPACES",
         env = "DFT_TAB_WIDTH",
         default_value_t = DEFAULT_TAB_WIDTH,
-        long_help = "Treat a tab as this many spaces."
+        verbatim_doc_comment
     )]
     tab_width: usize,
 
+    /// Display mode for showing results.
+    ///
+    /// side-by-side: Display the before file and the after file in two separate columns, with line numbers aligned according to unchanged content. If a change is exclusively additions or exclusively removals, use a single column.
+    ///
+    /// side-by-side-show-both: The same as side-by-side, but always uses two columns.
+    ///
+    /// inline: A single column display, closer to traditional diff display.
+    ///
+    /// json: Output the results as a machine-readable JSON array with an element per file.
     #[arg(
         long,
         value_name = "MODE",
         env = "DFT_DISPLAY",
         default_value = "side-by-side",
-        help = "Display mode for showing results.
-
-side-by-side: Display the before file and the after file in two separate columns, with line numbers aligned according to unchanged content. If a change is exclusively additions or exclusively removals, use a single column.
-
-side-by-side-show-both: The same as side-by-side, but always uses two columns.
-
-inline: A single column display, closer to traditional diff display.
-
-json: Output the results as a machine-readable JSON array with an element per file."
+        verbatim_doc_comment
     )]
     display: DisplayMode,
 
+    /// When to use color output.
     #[arg(
         long,
         value_name = "WHEN",
         env = "DFT_COLOR",
         default_value = "auto",
-        help = "When to use color output."
+        verbatim_doc_comment
     )]
     color: ColorOutput,
 
+    /// Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.
     #[arg(
         long,
         value_name = "BACKGROUND",
         env = "DFT_BACKGROUND",
         default_value = "dark",
-        help = "Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds."
+        verbatim_doc_comment
     )]
     background: BackgroundColor,
 
+    /// Enable or disable syntax highlighting.
     #[arg(
         long,
         value_name = "on/off",
         env = "DFT_SYNTAX_HIGHLIGHT",
         default_value = "on",
-        help = "Enable or disable syntax highlighting."
+        verbatim_doc_comment
     )]
     syntax_highlight: OnOff,
 
-    #[arg(
-        long,
-        env = "DFT_EXIT_CODE",
-        help = "Set the exit code to 1 if there are syntactic changes in any files. For files where there is no detected language (e.g. unsupported language or binary files), sets the exit code if there are any byte changes."
-    )]
+    /// Set the exit code to 1 if there are syntactic changes in any files. For files where there is no detected language (e.g. unsupported language or binary files), sets the exit code if there are any byte changes.
+    #[arg(long, env = "DFT_EXIT_CODE", verbatim_doc_comment)]
     exit_code: bool,
 
+    /// Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\r\n`.
+    ///
+    /// When disabled, difftastic will consider multiline string literals (in code) or multiline text (e.g. in HTML) to differ if the two input files have different line endings.
     #[arg(
         long,
         value_name = "on/off",
         env = "DFT_STRIP_CR",
         default_value = "on",
-        help = "Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or multiline text (e.g. in HTML) to differ if the two input files have different line endings."
+        verbatim_doc_comment
     )]
     strip_cr: OnOff,
 
-    #[arg(
-        long,
-        env = "DFT_CHECK_ONLY",
-        help = "Report whether there are any changes, but don't calculate them. Much faster."
-    )]
+    /// Report whether there are any changes, but don't calculate them. Much faster.
+    #[arg(long, env = "DFT_CHECK_ONLY", verbatim_doc_comment)]
     check_only: bool,
 
-    #[arg(
-        long,
-        env = "DFT_IGNORE_COMMENTS",
-        help = "Don't consider comments when diffing."
-    )]
+    /// Don't consider comments when diffing.
+    #[arg(long, env = "DFT_IGNORE_COMMENTS", verbatim_doc_comment)]
     ignore_comments: bool,
 
-    #[arg(
-        long,
-        env = "DFT_SKIP_UNCHANGED",
-        help = "Don't display anything if a file is unchanged. This is useful when comparing directories of files."
-    )]
+    /// Don't display anything if a file is unchanged. This is useful when comparing directories of files.
+    #[arg(long, env = "DFT_SKIP_UNCHANGED", verbatim_doc_comment)]
     skip_unchanged: bool,
 
+    /// Associate this glob pattern with this language, overriding normal language detection.
+    ///
+    /// For example:
+    ///
+    /// $ difft --override='*.c:C++' old.c new.c
+    ///
+    /// See --list-languages for the list of language names. Language names are matched case insensitively. Overrides may also specify the language "text" to treat a file as plain text.
+    ///
+    /// This argument may be given more than once. For example:
+    ///
+    /// $ difft --override='CustomFile:json' --override='*.c:text' old.c new.c
+    ///
+    /// To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_1 up to DFT_OVERRIDE_9.
+    ///
+    /// $ export DFT_OVERRIDE='CustomFile:json'
+    /// $ export DFT_OVERRIDE_1='*.c:text'
+    /// $ export DFT_OVERRIDE_2='*.js:javascript jsx'
+    ///
+    /// When multiple overrides are specified, the first matching override wins.
     #[arg(
         long = "override",
         value_name = "GLOB:NAME",
         env = "DFT_OVERRIDE",
         value_parser = parse_language_override,
-        help = concat!("Associate this glob pattern with this language, overriding normal language detection. For example:
-
-$ ", env!("CARGO_BIN_NAME"), " --override='*.c:C++' old.c new.c
-
-See --list-languages for the list of language names. Language names are matched case insensitively. Overrides may also specify the language \"text\" to treat a file as plain text.
-
-This argument may be given more than once. For example:
-
-$ ", env!("CARGO_BIN_NAME"), " --override='CustomFile:json' --override='*.c:text' old.c new.c
-
-To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_1 up to DFT_OVERRIDE_9.
-
-$ export DFT_OVERRIDE='CustomFile:json'
-$ export DFT_OVERRIDE_1='*.c:text'
-$ export DFT_OVERRIDE_2='*.js:javascript jsx'
-
-When multiple overrides are specified, the first matching override wins.")
+        verbatim_doc_comment
     )]
     language_override: Vec<LanguageOverrideArg>,
 
+    /// Always treat file names matching this glob as binary files, ignoring the default heuristics for binary detection.
+    ///
+    /// For example:
+    ///
+    /// $ difft --override-binary='*.gz' old.gz new.gz
+    ///
+    /// This argument may be given more than once. For example:
+    ///
+    /// $ difft --override-binary='*.gz' --override-binary='foo.pickle' old.gz new.gz
+    ///
+    /// To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_BINARY_1 up to DFT_OVERRIDE_BINARY_9.
+    ///
+    /// $ export DFT_OVERRIDE_BINARY='*.gz'
+    /// $ export DFT_OVERRIDE_BINARY_1='*.bz2'
+    /// $ export DFT_OVERRIDE_BINARY_2='foo.pickle'
     #[arg(
         long,
         value_name = "GLOB",
         env = "DFT_OVERRIDE_BINARY",
         value_parser = parse_glob,
-        help = concat!("Always treat file names matching this glob as binary files, ignoring the default heuristics for binary detection. For example:
-
-$ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' old.gz new.gz
-
-This argument may be given more than once. For example:
-
-$ ", env!("CARGO_BIN_NAME"), " --override-binary='*.gz' --override-binary='foo.pickle' old.gz new.gz
-
-To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_BINARY_1 up to DFT_OVERRIDE_BINARY_9.
-
-$ export DFT_OVERRIDE_BINARY='*.gz'
-$ export DFT_OVERRIDE_BINARY_1='*.bz2'
-$ export DFT_OVERRIDE_BINARY_2='foo.pickle'")
+        verbatim_doc_comment
     )]
     override_binary: Vec<glob::Pattern>,
 
-    #[arg(
-        long,
-        help = "Print all the languages supported by difftastic, along with their recognised extensions."
-    )]
+    /// Print all the languages supported by difftastic, along with their recognised extensions.
+    #[arg(long, verbatim_doc_comment)]
     list_languages: bool,
 
+    /// Use a line-oriented diff if either input file exceeds this size.
     #[arg(
         long,
         value_name = "LIMIT",
         env = "DFT_BYTE_LIMIT",
         default_value_t = DEFAULT_BYTE_LIMIT,
-        help = "Use a line-oriented diff if either input file exceeds this size."
+        verbatim_doc_comment
     )]
     byte_limit: usize,
 
+    /// Use a line-oriented diff if the internal graph exceeds this number of vertices. This limit controls the worst case runtime and memory usage for difftastic.
+    ///
+    /// Higher values will allow difftastic to perform a structural diff in more cases. Higher values will also increase the time before difftastic gives up on structural diffing, and increase peak memory usage.
     #[arg(
         long,
         value_name = "LIMIT",
         env = "DFT_GRAPH_LIMIT",
         default_value_t = DEFAULT_GRAPH_LIMIT,
-        help = "Use a line-oriented diff if the internal graph exceeds this number of vertices. This limit controls the worst case runtime and memory usage for difftastic.
-
-Higher values will allow difftastic to perform a structural diff in more cases. Higher values will also increase the time before difftastic gives up on structural diffing, and increase peak memory usage."
+        verbatim_doc_comment
     )]
     graph_limit: usize,
 
+    /// Use a line-oriented diff if the number of parse errors exceeds this value.
+    ///
+    /// A value of 0 means that any parse error will make difftastic use a line-oriented diff.
     #[arg(
         long,
         value_name = "LIMIT",
         env = "DFT_PARSE_ERROR_LIMIT",
         default_value_t = DEFAULT_PARSE_ERROR_LIMIT,
-        help = "Use a line-oriented diff if the number of parse errors exceeds this value.
-
-A value of 0 means that any parse error will make difftastic use a line-oriented diff."
+        verbatim_doc_comment
     )]
     parse_error_limit: usize,
 
     #[arg(value_name = "PATHS", hide = true)]
     paths: Vec<OsString>,
 
-    #[arg(
-        long,
-        env = "DFT_SORT_PATHS",
-        help = "When diffing a directory, output the results sorted by path. This is slower."
-    )]
+    /// When diffing a directory, output the results sorted by path. This is slower.
+    #[arg(long, env = "DFT_SORT_PATHS", verbatim_doc_comment)]
     sort_paths: bool,
 }
 
@@ -1078,6 +1084,13 @@ mod tests {
     #[test]
     fn test_app() {
         Args::command().debug_assert();
+    }
+
+    #[test]
+    fn test_bin_name() {
+        // The examples in the help text hardcode the binary name,
+        // because doc comments can't use env!("CARGO_BIN_NAME").
+        assert_eq!(env!("CARGO_BIN_NAME"), "difft");
     }
 
     #[test]
