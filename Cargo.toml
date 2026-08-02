@@ -144,6 +144,10 @@ predicates = "3.1.3"
 
 pretty_assertions = "1.3.0"
 
+# A drop-in replacement for the divan benchmarking library, which also
+# reports results to CodSpeed when running in CI.
+divan = { package = "codspeed-divan-compat", version = "5.0.1" }
+
 [build-dependencies]
 # TODO: enable parallel mode, see discussion in
 # https://github.com/rust-lang/cc-rs/pull/849
@@ -157,6 +161,14 @@ lto = "thin"
 [[bin]]
 name = "difft"
 path = "src/main.rs"
+
+[[bench]]
+name = "diff"
+harness = false
+# The benchmarks include the source tree directly (see the comment in
+# benches/diff.rs), so building them during `cargo test` would double
+# compile times without running any additional tests.
+test = false
 
 [package.metadata.deb]
 depends = "$auto"

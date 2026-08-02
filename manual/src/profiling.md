@@ -25,3 +25,21 @@ $ perf stat ./target/release/difft sample_files/typing_1.ml sample_files/typing_
 
 Many more profiling techniques are discussed in [The Rust Performance
 Book](https://nnethercote.github.io/perf-book/).
+
+## Benchmarking
+
+Difftastic has benchmarks in `benches/` that measure parsing and
+diffing on a handful of files in `sample_files/`.
+
+```
+$ cargo bench
+```
+
+These benchmarks also run on every pull request, and
+[CodSpeed](https://codspeed.io/) reports how the results compare with
+the master branch. CodSpeed counts instructions executed, so results
+are stable even though CI machines are noisy.
+
+Note that the benchmarks include the difftastic source files directly,
+because difftastic is a binary crate and its internals aren't visible
+to a separate benchmark crate.

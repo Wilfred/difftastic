@@ -1,0 +1,47 @@
+on:
+  push:
+    branches:
+      - master
+  # Required to report benchmark results on pull requests.
+  pull_request:
+  # Allows CodSpeed to trigger backtest performance analysis, so it
+  # can generate initial data.
+  workflow_dispatch:
+
+name: CodSpeed
+
+jobs:
+  benchmarks:
+    name: Run Benchmarks
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      # Difftastic is a public repository, so CodSpeed authenticates
+      # with OpenID Connect and no upload token is required.
+      id-token: write
+    steps:
+      - name: Checkout source code
+        # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      # The Rust version used is defined by rust-toolchain.toml. Using
+      # a fixed version also makes benchmark results more comparable
+      # between runs.
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@1.85.0
+
+      - name: Install cargo-codspeed
+        uses: taiki-e/install-action@1329c298aa20c3257846c9b2e0e55967df3e3c37 # v2
+        with:
+          tool: cargo-codspeed@5.0.1
+
+      - name: Build benchmarks
+        run: cargo codspeed build
+
+      - name: Run benchmarks
+        uses: CodSpeedHQ/action@0ca9cbbf4623b599a6c3ed4fc8a922942705d9f1 # v5.0.2
+        with:
+          # Measure instructions executed rather than wall clock time,
+          # so results aren't affected by noisy CI machines.
+          mode: simulation
+          run: cargo codspeed run

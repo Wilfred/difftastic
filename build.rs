@@ -88,6 +88,12 @@ fn main() {
     // Note that difftastic does not use jemalloc on all operating
     // systems, but it's harmless to set this unconditionally.
     println!("cargo:rustc-env=JEMALLOC_SYS_WITH_LG_PAGE=16");
+
+    // Cargo only sets CARGO_BIN_NAME when building the binary itself,
+    // so src/options.rs would not compile in the benchmarks (which
+    // include the source tree directly). Set it for every target,
+    // using the same value that Cargo uses for the binary.
+    println!("cargo:rustc-env=CARGO_BIN_NAME=difft");
 }
 
 fn commit_info() {
