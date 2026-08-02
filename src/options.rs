@@ -3,10 +3,10 @@
 use std::env;
 use std::ffi::{OsStr, OsString};
 use std::fmt::Display;
+use std::io::IsTerminal as _;
 use std::path::{Path, PathBuf};
 
 use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
-use crossterm::tty::IsTty;
 use owo_colors::OwoColorize as _;
 
 use crate::display::style::{print_error, BackgroundColor};
@@ -121,7 +121,7 @@ fn app() -> clap::Command {
     ));
 
     after_help.push_str("\n\nSee the full manual at ");
-    if std::io::stdout().is_tty() {
+    if std::io::stdout().is_terminal() {
         // Make the link to the manual clickable in terminals that
         // support OSC 8, the ANSI escape code for hyperlinks.
         //
@@ -1065,7 +1065,7 @@ pub(crate) fn should_use_color(color_output: ColorOutput) -> bool {
 fn detect_color_support() -> bool {
     // TODO: consider following the env parsing logic in git_config_bool
     // in config.c.
-    std::io::stdout().is_tty() || env::var("GIT_PAGER_IN_USE").is_ok()
+    std::io::stdout().is_terminal() || env::var("GIT_PAGER_IN_USE").is_ok()
 }
 
 #[cfg(test)]
