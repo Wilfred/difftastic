@@ -17,8 +17,8 @@ fn char_display_width(ch: char, tab_width: usize) -> usize {
     if ch == '\t' {
         tab_width
     } else if ch.is_ascii_control() {
-        // Pagers such as less render ASCII control characters using
-        // two-character caret notation (for example, \x1f as ^_).
+        // ASCII control characters are rendered using two-character
+        // caret notation (for example, \x1f as ^_).
         2
     } else {
         ch.width().unwrap_or(0)
@@ -64,8 +64,7 @@ fn substring_by_byte(s: &str, start: usize, end: usize) -> &str {
 }
 
 fn substring_by_byte_replace_tabs(s: &str, start: usize, end: usize, tab_width: usize) -> String {
-    let s = s[start..end].to_string();
-    s.replace('\t', &" ".repeat(tab_width))
+    replace_tabs(&s[start..end], tab_width)
 }
 
 pub(crate) fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
@@ -134,11 +133,24 @@ fn split_string_by_width(s: &str, max_width: usize, tab_width: usize) -> Vec<(&s
     parts
 }
 
-/// Return a copy of `src` with all the tab characters replaced by
-/// `tab_width` strings.
+/// Return a copy of `src` with tabs expanded and ASCII control
+/// characters replaced by caret notation.
 pub(crate) fn replace_tabs(src: &str, tab_width: usize) -> String {
     let tab_as_spaces = " ".repeat(tab_width);
-    src.replace('\t', &tab_as_spaces)
+    let mut result = String::with_capacity(src.len());
+
+    for ch in src.chars() {
+        if ch == '\t' {
+            result.push_str(&tab_as_spaces);
+        } else if ch.is_ascii_control() {
+            result.push('^');
+            result.push(((ch as u8) ^ 0x40) as char);
+        } else {
+            result.push(ch);
+        }
+    }
+
+    result
 }
 
 /// Split `line` (from the source code) into multiple lines of
@@ -620,6 +632,11 @@ mod tests {
             split_string_by_width("a\u{1f}bc", 3, TAB_WIDTH),
             vec![("a\u{1f}", 0), ("bc", 1)]
         );
+    }
+
+    #[test]
+    fn replace_ascii_control_with_caret_notation() {
+        assert_eq!(replace_tabs("a\u{1f}\u{7f}b", TAB_WIDTH), "a^_^?b");
     }
 
     #[test]
