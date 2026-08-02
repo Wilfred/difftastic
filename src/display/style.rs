@@ -133,8 +133,8 @@ fn split_string_by_width(s: &str, max_width: usize, tab_width: usize) -> Vec<(&s
     parts
 }
 
-/// Return a copy of `src` with tabs expanded and ASCII control
-/// characters replaced by caret notation.
+/// Return a copy of `src` with tabs expanded and non-formatting ASCII
+/// control characters replaced by caret notation.
 pub(crate) fn replace_tabs(src: &str, tab_width: usize) -> String {
     let tab_as_spaces = " ".repeat(tab_width);
     let mut result = String::with_capacity(src.len());
@@ -142,7 +142,7 @@ pub(crate) fn replace_tabs(src: &str, tab_width: usize) -> String {
     for ch in src.chars() {
         if ch == '\t' {
             result.push_str(&tab_as_spaces);
-        } else if ch.is_ascii_control() {
+        } else if ch.is_ascii_control() && !matches!(ch, '\n' | '\r' | '\u{1b}') {
             result.push('^');
             result.push(((ch as u8) ^ 0x40) as char);
         } else {
@@ -637,6 +637,14 @@ mod tests {
     #[test]
     fn replace_ascii_control_with_caret_notation() {
         assert_eq!(replace_tabs("a\u{1f}\u{7f}b", TAB_WIDTH), "a^_^?b");
+    }
+
+    #[test]
+    fn preserve_output_formatting_controls() {
+        assert_eq!(
+            replace_tabs("\u{1b}[31mred\u{1b}[0m\r\n", TAB_WIDTH),
+            "\u{1b}[31mred\u{1b}[0m\r\n"
+        );
     }
 
     #[test]
