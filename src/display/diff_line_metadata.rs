@@ -60,6 +60,16 @@ fn handshake_for_version(version: u32) -> String {
     format!("{OSC};{version}{ST}")
 }
 
+/// [`DiffLineMetadata::hunkless_banner`] for callers outside the per-hunk
+/// display paths: returns `banner` with every row tagged by the file's `f`
+/// record, or unchanged when no host negotiated a version.
+pub(crate) fn tag_hunkless_file_banner(file: &str, banner: &str) -> String {
+    match DiffLineMetadata::from_env(file) {
+        Some(md) => md.hunkless_banner(banner),
+        None => banner.to_owned(),
+    }
+}
+
 /// The highest version in the host's advertised list (e.g. "V1" or "V1,V2")
 /// that this build also understands, or `None` if the lists are disjoint.
 fn pick_version(advertised: &str) -> Option<u32> {
@@ -194,17 +204,38 @@ impl DiffLineMetadata {
     ) -> String {
         let mut prefix = String::new();
         if is_first_hunk {
-            prefix.push_str(&format!(
-                "{OSC};{version};f;;;{file}{ST}",
-                version = self.version,
-                file = self.file,
-            ));
+            prefix.push_str(&self.file_record());
         }
         prefix.push_str(&self.osc('h', new_line, None));
         format!(
             "{}{}",
             prefix,
             banner.replace('\n', &format!("\n{}", prefix))
+        )
+    }
+
+    /// Prefix every row of a banner with the file's `f` record alone, for a
+    /// file that renders no hunks: a binary file, a file whose changes
+    /// produce no hunk rows, or an unchanged file under `--print-unchanged`.
+    /// Files with no content lines still emit their `f` so they stay visible
+    /// to the identity layer -- a host's file list and file navigation
+    /// include them (spec §5.5). There is no hunk to announce, so no `h`.
+    pub(crate) fn hunkless_banner(&self, banner: &str) -> String {
+        let record = self.file_record();
+        format!(
+            "{}{}",
+            record,
+            banner.replace('\n', &format!("\n{}", record))
+        )
+    }
+
+    /// The `f` record: the file's identity, never carrying line numbers
+    /// (spec §5.5).
+    fn file_record(&self) -> String {
+        format!(
+            "{OSC};{version};f;;;{file}{ST}",
+            version = self.version,
+            file = self.file,
         )
     }
 
@@ -339,6 +370,31 @@ mod tests {
             md.header_banner(true, 1, "new.txt --- Rust\nrenamed from old.txt"),
             "\x1b]1717;1;f;;;a/b.txt\x1b\\\x1b]1717;1;h;1;;a/b.txt\x1b\\new.txt --- Rust\n\
              \x1b]1717;1;f;;;a/b.txt\x1b\\\x1b]1717;1;h;1;;a/b.txt\x1b\\renamed from old.txt"
+        );
+    }
+
+    #[test]
+    fn test_hunkless_banner_carries_f_only() {
+        // A file that renders no hunks -- a binary file, or a hunk-less
+        // change -- still emits its `f` so it stays visible to the identity
+        // layer (spec §5.5). There is no hunk, so no `h`, and an `f` never
+        // carries line numbers.
+        let md = metadata();
+        assert_eq!(
+            md.hunkless_banner("b.txt --- Binary"),
+            "\x1b]1717;1;f;;;a/b.txt\x1b\\b.txt --- Binary"
+        );
+    }
+
+    #[test]
+    fn test_hunkless_banner_tags_every_row() {
+        // A renamed binary file's banner spans two rows; each row of the
+        // header block carries the same record (spec §6.4).
+        let md = metadata();
+        assert_eq!(
+            md.hunkless_banner("new.bin --- Binary\nrenamed from old.bin"),
+            "\x1b]1717;1;f;;;a/b.txt\x1b\\new.bin --- Binary\n\
+             \x1b]1717;1;f;;;a/b.txt\x1b\\renamed from old.bin"
         );
     }
 
