@@ -28,6 +28,7 @@ with `difft --list-languages`.
 | F#              | [ionide/tree-sitter-fsharp](https://github.com/ionide/tree-sitter-fsharp)                         |
 | Fortran         | [stadelmanma/tree-sitter-fortran](https://github.com/stadelmanma/tree-sitter-fortran)             |
 | Gleam           | [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)                   |
+| Glsl            | [tree-sitter-grammars/tree-sitter-glsl](https://github.com/tree-sitter-grammars/tree-sitter-glsl) |
 | Go              | [tree-sitter/tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)                       |
 | Hare            | [ecmma/tree-sitter-hare](https://git.sr.ht/~ecmma/tree-sitter-hare)                               |
 | Haskell         | [tree-sitter/tree-sitter-haskell](https://github.com/tree-sitter/tree-sitter-haskell)             |
