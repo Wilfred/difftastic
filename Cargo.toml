@@ -49,9 +49,9 @@ pretty_env_logger = "0.5.0"
 
 radix-heap = "0.4.2"
 # ignore does not declare a MSRV, but it's part of ripgrep, which has
-# a slightly more aggressive MSRV than difftastic. Constrain ignore to
-# a known-good max version.
-ignore = ">= 0.4, < 0.4.24"
+# a slightly more aggressive MSRV than difftastic. Ignore 0.4.30
+# requires rust 1.88.
+ignore = ">= 0.4, < 0.4.30"
 owo-colors = "4.2.3"
 wu-diff = "0.1.2"
 rayon = "1.7.0"
