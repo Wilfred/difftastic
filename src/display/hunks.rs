@@ -317,11 +317,17 @@ fn lines_to_hunks(
         } else {
             let (novel_lhs, novel_rhs) =
                 find_novel_lines(&current_hunk_lines, &all_lhs_novel, &all_rhs_novel);
-            hunks.push(Hunk {
-                novel_lhs,
-                novel_rhs,
-                lines: current_hunk_lines,
-            });
+            // A hunk must contain at least one novel line. `enforce_increasing`
+            // can strip the novel side of a line pair when it occurs out of
+            // order, leaving only matched (non-novel) lines behind. Such a
+            // group represents no change, so don't emit it as a hunk.
+            if !novel_lhs.is_empty() || !novel_rhs.is_empty() {
+                hunks.push(Hunk {
+                    novel_lhs,
+                    novel_rhs,
+                    lines: current_hunk_lines,
+                });
+            }
             current_hunk_lines = vec![line];
         }
 
@@ -336,11 +342,13 @@ fn lines_to_hunks(
     if !current_hunk_lines.is_empty() {
         let (novel_lhs, novel_rhs) =
             find_novel_lines(&current_hunk_lines, &all_lhs_novel, &all_rhs_novel);
-        hunks.push(Hunk {
-            novel_lhs,
-            novel_rhs,
-            lines: current_hunk_lines,
-        });
+        if !novel_lhs.is_empty() || !novel_rhs.is_empty() {
+            hunks.push(Hunk {
+                novel_lhs,
+                novel_rhs,
+                lines: current_hunk_lines,
+            });
+        }
     }
 
     hunks
