@@ -1545,9 +1545,9 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-sfapex"
-version = "2.4.0"
+version = "3.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b97637acb3bcfc2518162ecf9b02a18b28a502cd7631bec5c2a26f4e5ea024b"
+checksum = "6ac630633dad003566212db2adc29a2a75c3e581a7288713dde28f42a428b016"
 dependencies = [
  "cc",
  "tree-sitter-language",
