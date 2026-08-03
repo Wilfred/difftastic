@@ -1,11 +1,14 @@
 //! Load and configure parsers written with tree-sitter.
 
-use line_numbers::LinePositions;
+use std::sync::{LazyLock, Mutex};
+
+use line_numbers::{LineNumber, LinePositions};
 use streaming_iterator::StreamingIterator as _;
 use tree_sitter as ts;
 use typed_arena::Arena;
 
 use super::syntax::{self, MatchedPos, StringKind};
+use crate::constants::Side;
 use crate::hash::{DftHashMap, DftHashSet};
 use crate::options::DiffOptions;
 use crate::parse::guess_language as guess;
@@ -80,13 +83,11 @@ pub(crate) struct TreeSitterConfig {
 }
 
 extern "C" {
-    fn tree_sitter_elvish() -> ts::Language;
     fn tree_sitter_hare() -> ts::Language;
     fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
     fn tree_sitter_smali() -> ts::Language;
-    fn tree_sitter_scss() -> ts::Language;
 }
 
 // TODO: begin/end and object/end.
@@ -99,7 +100,23 @@ const OCAML_ATOM_NODES: [&str; 6] = [
     "attribute_id",
 ];
 
-pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
+pub(crate) fn from_language(language: guess::Language) -> &'static TreeSitterConfig {
+    // Constructing a tree sitter query is relatively expensive: it
+    // can take tens of milliseconds.
+    //
+    // This is a problem when diffing many files in the same
+    // directory, so ensure we only construct the TreeSitterConfig
+    // once per language rather than once per file.
+    static CONFIG_CACHE: LazyLock<Mutex<DftHashMap<guess::Language, &'static TreeSitterConfig>>> =
+        LazyLock::new(|| Mutex::new(DftHashMap::default()));
+
+    let mut cache = CONFIG_CACHE.lock().unwrap();
+    cache
+        .entry(language)
+        .or_insert_with(|| Box::leak(Box::new(build_config(language))))
+}
+
+fn build_config(language: guess::Language) -> TreeSitterConfig {
     use guess::Language::*;
     match language {
         Ada => {
@@ -398,21 +415,6 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
-        Elvish => {
-            let language = unsafe { tree_sitter_elvish() };
-            TreeSitterConfig {
-                language: language.clone(),
-                atom_nodes: [].into_iter().collect(),
-                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|")],
-                ignore_trailing_tokens: vec![],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/elvish.scm"),
-                )
-                .unwrap(),
-                sub_languages: vec![],
-            }
-        }
         EmacsLisp => {
             let language_fn = tree_sitter_elisp::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
@@ -424,11 +426,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")]
                     .into_iter()
                     .collect(),
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/elisp.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_elisp::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
@@ -443,6 +442,22 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_erlang::HIGHLIGHTS_QUERY)
                     .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Fish => {
+            let language = tree_sitter_fish::language();
+            let highlight_query =
+                ts::Query::new(&language, tree_sitter_fish::HIGHLIGHTS_QUERY).unwrap();
+
+            TreeSitterConfig {
+                language,
+                atom_nodes: ["single_quote_string", "double_quote_string"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
+                ignore_trailing_tokens: vec![],
+                highlight_query,
                 sub_languages: vec![],
             }
         }
@@ -466,14 +481,11 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string_literal"].into_iter().collect(),
+                atom_nodes: ["string_literal", "number_literal"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("(/", "/)"), ("[", "]")],
                 ignore_trailing_tokens: vec![],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/fortran.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_fortran::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
@@ -628,7 +640,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Java => {
-            let language_fn = tree_sitter_java::LANGUAGE;
+            let language_fn = tree_sitter_java_orchard::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
@@ -652,8 +664,11 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 // There aren't many places where Java allows trailing commas.
                 ignore_trailing_tokens: vec![("enum_body", ","), ("array_initializer", ",")],
-                highlight_query: ts::Query::new(&language, tree_sitter_java::HIGHLIGHTS_QUERY)
-                    .unwrap(),
+                highlight_query: ts::Query::new(
+                    &language,
+                    tree_sitter_java_orchard::HIGHLIGHTS_QUERY,
+                )
+                .unwrap(),
                 sub_languages: vec![],
             }
         }
@@ -1096,23 +1111,6 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
-        Scss => {
-            let language = unsafe { tree_sitter_scss() };
-            TreeSitterConfig {
-                language: language.clone(),
-                atom_nodes: ["integer_value", "float_value", "color_value"]
-                    .into_iter()
-                    .collect(),
-                delimiter_tokens: vec![("{", "}"), ("(", ")")],
-                ignore_trailing_tokens: vec![],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/scss.scm"),
-                )
-                .unwrap(),
-                sub_languages: vec![],
-            }
-        }
         Smali => {
             let language = unsafe { tree_sitter_smali() };
             TreeSitterConfig {
@@ -1182,7 +1180,13 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["string", "quoted_key"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("[", "]")],
-                ignore_trailing_tokens: vec![],
+                ignore_trailing_tokens: vec![
+                    // Arrays have always supported trailing commas.
+                    ("array", ","),
+                    // Inline tables support trailing commas as of TOML 1.1
+                    // https://github.com/toml-lang/toml/pull/904
+                    // but the tree-sitter parser doesn't allow that syntax yet.
+                ],
                 highlight_query: ts::Query::new(&language, tree_sitter_toml_ng::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
@@ -1336,7 +1340,14 @@ pub(crate) fn parse_subtrees(
     src: &str,
     config: &TreeSitterConfig,
     tree: &tree_sitter::Tree,
-) -> DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)> {
+) -> DftHashMap<
+    usize,
+    (
+        tree_sitter::Tree,
+        &'static TreeSitterConfig,
+        HighlightedNodeIds,
+    ),
+> {
     let mut subtrees = DftHashMap::default();
 
     for language in &config.sub_languages {
@@ -1360,7 +1371,7 @@ pub(crate) fn parse_subtrees(
                 .expect("Incompatible tree-sitter version");
 
             let tree = parser.parse(src, None).unwrap();
-            let sub_highlights = tree_highlights(&tree, src, &subconfig);
+            let sub_highlights = tree_highlights(&tree, src, subconfig);
 
             subtrees.insert(node.id(), (tree, subconfig, sub_highlights));
         }
@@ -1505,7 +1516,7 @@ pub(crate) fn comment_positions(
     let arena = Arena::new();
     let ignore_comments = false;
 
-    let (nodes, _err_count) = to_syntax(tree, src, &arena, config, ignore_comments);
+    let (nodes, _errors) = to_syntax(tree, src, &arena, config, ignore_comments);
     let positions = syntax::comment_positions(&nodes);
 
     positions
@@ -1520,7 +1531,35 @@ pub(crate) fn comment_positions(
 }
 
 #[derive(Debug)]
-pub(crate) struct ExceededParseErrorLimit(pub(crate) usize);
+pub(crate) struct ExceededParseErrorLimit {
+    /// The total number of parse errors found across both inputs.
+    pub(crate) error_count: usize,
+    /// The line, zero-indexed column, and side of the first parse
+    /// error, if any. The right-hand side is preferred when both sides
+    /// have errors.
+    pub(crate) first_error_pos: Option<(LineNumber, usize, Side)>,
+}
+
+/// Parse error information accumulated while walking a tree-sitter AST.
+#[derive(Debug, Default, Clone, Copy)]
+pub(crate) struct ParseErrors {
+    /// The number of error nodes seen.
+    count: usize,
+    /// The line and zero-indexed column of the first error node seen,
+    /// if any.
+    first_pos: Option<(LineNumber, usize)>,
+}
+
+impl ParseErrors {
+    /// Record an error node, remembering the position of the first one.
+    fn record(&mut self, node: &ts::Node) {
+        self.count += 1;
+        if self.first_pos.is_none() {
+            let pos = node.start_position();
+            self.first_pos = Some(((pos.row as u32).into(), pos.column));
+        }
+    }
+}
 
 pub(crate) fn to_syntax_with_limit<'a>(
     lhs_src: &str,
@@ -1531,14 +1570,14 @@ pub(crate) fn to_syntax_with_limit<'a>(
     config: &TreeSitterConfig,
     diff_options: &DiffOptions,
 ) -> Result<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>), ExceededParseErrorLimit> {
-    let (lhs_nodes, lhs_error_count) = to_syntax(
+    let (lhs_nodes, lhs_errors) = to_syntax(
         lhs_tree,
         lhs_src,
         arena,
         config,
         diff_options.ignore_comments,
     );
-    let (rhs_nodes, rhs_error_count) = to_syntax(
+    let (rhs_nodes, rhs_errors) = to_syntax(
         rhs_tree,
         rhs_src,
         arena,
@@ -1547,9 +1586,20 @@ pub(crate) fn to_syntax_with_limit<'a>(
     );
     syntax::init_all_info(&lhs_nodes, &rhs_nodes);
 
-    let error_count = lhs_error_count + rhs_error_count;
+    let error_count = lhs_errors.count + rhs_errors.count;
     if error_count > diff_options.parse_error_limit {
-        return Err(ExceededParseErrorLimit(error_count));
+        // Prefer the right-hand side, since that's the file named in
+        // the header, and only fall back to the left-hand side when the
+        // right has no parse errors.
+        let first_error_pos = match (rhs_errors.first_pos, lhs_errors.first_pos) {
+            (Some((line, column)), _) => Some((line, column, Side::Right)),
+            (None, Some((line, column))) => Some((line, column, Side::Left)),
+            (None, None) => None,
+        };
+        return Err(ExceededParseErrorLimit {
+            error_count,
+            first_error_pos,
+        });
     }
 
     Ok((lhs_nodes, rhs_nodes))
@@ -1561,12 +1611,12 @@ pub(crate) fn to_syntax<'a>(
     arena: &'a Arena<Syntax<'a>>,
     config: &TreeSitterConfig,
     ignore_comments: bool,
-) -> (Vec<&'a Syntax<'a>>, usize) {
+) -> (Vec<&'a Syntax<'a>>, ParseErrors) {
     // Don't return anything on an empty input. Most parsers return a
     // zero-width top-level AST node on empty files, which is
     // confusing and not useful for diffing.
     if src.trim().is_empty() {
-        return (vec![], 0);
+        return (vec![], ParseErrors::default());
     }
 
     let highlights = tree_highlights(tree, src, config);
@@ -1578,9 +1628,10 @@ pub(crate) fn to_syntax<'a>(
     let nl_pos = LinePositions::from(src);
     let mut cursor = tree.walk();
 
-    let mut error_count: usize = 0;
-    if cursor.node().is_error() {
-        error_count += 1;
+    let mut errors = ParseErrors::default();
+    let root_node = cursor.node();
+    if root_node.is_error() {
+        errors.record(&root_node);
     }
 
     // The tree always has a single root, whereas we want nodes for
@@ -1592,13 +1643,13 @@ pub(crate) fn to_syntax<'a>(
         src,
         &nl_pos,
         &mut cursor,
-        &mut error_count,
+        &mut errors,
         config,
         &highlights,
         &subtrees,
         ignore_comments,
     );
-    (nodes, error_count)
+    (nodes, errors)
 }
 
 /// Parse `src` with tree-sitter and convert to difftastic Syntax.
@@ -1609,7 +1660,7 @@ pub(crate) fn parse<'a>(
     ignore_comments: bool,
 ) -> Vec<&'a Syntax<'a>> {
     let tree = to_tree(src, config);
-    let (nodes, _err_count) = to_syntax(&tree, src, arena, config, ignore_comments);
+    let (nodes, _errors) = to_syntax(&tree, src, arena, config, ignore_comments);
     nodes
 }
 
@@ -1678,10 +1729,17 @@ fn all_syntaxes_from_cursor<'a>(
     src: &str,
     nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
-    error_count: &mut usize,
+    errors: &mut ParseErrors,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    subtrees: &DftHashMap<
+        usize,
+        (
+            tree_sitter::Tree,
+            &'static TreeSitterConfig,
+            HighlightedNodeIds,
+        ),
+    >,
     ignore_comments: bool,
 ) -> Vec<&'a Syntax<'a>> {
     let mut nodes: Vec<&Syntax> = vec![];
@@ -1692,7 +1750,7 @@ fn all_syntaxes_from_cursor<'a>(
             src,
             nl_pos,
             cursor,
-            error_count,
+            errors,
             config,
             highlights,
             subtrees,
@@ -1714,10 +1772,17 @@ fn syntax_from_cursor<'a>(
     src: &str,
     nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
-    error_count: &mut usize,
+    errors: &mut ParseErrors,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    subtrees: &DftHashMap<
+        usize,
+        (
+            tree_sitter::Tree,
+            &'static TreeSitterConfig,
+            HighlightedNodeIds,
+        ),
+    >,
     ignore_comments: bool,
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
@@ -1730,7 +1795,7 @@ fn syntax_from_cursor<'a>(
             src,
             nl_pos,
             &mut sub_cursor,
-            error_count,
+            errors,
             subconfig,
             subhighlights,
             &DftHashMap::default(),
@@ -1739,7 +1804,7 @@ fn syntax_from_cursor<'a>(
     }
 
     if node.is_error() {
-        *error_count += 1;
+        errors.record(&node);
     }
 
     if config.atom_nodes.contains(node.kind()) || highlights.comment_ids.contains(&node.id()) {
@@ -1760,7 +1825,7 @@ fn syntax_from_cursor<'a>(
             src,
             nl_pos,
             cursor,
-            error_count,
+            errors,
             config,
             highlights,
             subtrees,
@@ -1773,7 +1838,7 @@ fn syntax_from_cursor<'a>(
 
 /// Does `node` match the ignorable trailing tokens configuration for
 /// this language?
-fn should_ignore_last_child(
+fn can_ignore_last_child(
     config: &TreeSitterConfig,
     node: &ts::Node<'_>,
     children: &[&Syntax<'_>],
@@ -1800,27 +1865,36 @@ fn list_from_cursor<'a>(
     src: &str,
     nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
-    error_count: &mut usize,
+    errors: &mut ParseErrors,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    subtrees: &DftHashMap<
+        usize,
+        (
+            tree_sitter::Tree,
+            &'static TreeSitterConfig,
+            HighlightedNodeIds,
+        ),
+    >,
     ignore_comments: bool,
 ) -> &'a Syntax<'a> {
-    let root_node = cursor.node();
+    let list_root_node = cursor.node();
 
     // We may not have an enclosing delimiter for this list. Use "" as
     // the delimiter text and the start/end of this node as the
     // delimiter positions.
     let outer_open_content = "";
-    let outer_open_position = nl_pos.from_region(root_node.start_byte(), root_node.start_byte());
+    let outer_open_position =
+        nl_pos.from_region(list_root_node.start_byte(), list_root_node.start_byte());
     let outer_close_content = "";
-    let outer_close_position = nl_pos.from_region(root_node.end_byte(), root_node.end_byte());
+    let outer_close_position =
+        nl_pos.from_region(list_root_node.end_byte(), list_root_node.end_byte());
 
     // TODO: this should probably only allow the delimiters to be the
     // first and last child in the list.
     let (i, j) = match find_delim_positions(src, cursor, &config.delimiter_tokens) {
         Some((i, j)) => (i as isize, j as isize),
-        None => (-1, root_node.child_count() as isize),
+        None => (-1, list_root_node.child_count() as isize),
     };
 
     let mut inner_open_content = outer_open_content;
@@ -1854,7 +1928,7 @@ fn list_from_cursor<'a>(
                 src,
                 nl_pos,
                 cursor,
-                error_count,
+                errors,
                 config,
                 highlights,
                 subtrees,
@@ -1869,7 +1943,7 @@ fn list_from_cursor<'a>(
                 src,
                 nl_pos,
                 cursor,
-                error_count,
+                errors,
                 config,
                 highlights,
                 subtrees,
@@ -1884,7 +1958,7 @@ fn list_from_cursor<'a>(
                 src,
                 nl_pos,
                 cursor,
-                error_count,
+                errors,
                 config,
                 highlights,
                 subtrees,
@@ -1899,17 +1973,15 @@ fn list_from_cursor<'a>(
     }
     cursor.goto_parent();
 
-    if should_ignore_last_child(config, &root_node, &between_delim) {
-        if let Some(last_child) = between_delim.pop() {
-            if let Syntax::Atom {
-                position, content, ..
-            } = last_child
-            {
-                let position = position.clone();
-                let new_last_child =
-                    Syntax::new_atom(arena, position, content.clone(), AtomKind::CanIgnore);
-                between_delim.push(new_last_child);
-            }
+    if can_ignore_last_child(config, &list_root_node, &between_delim) {
+        if let Some(Syntax::Atom {
+            position, content, ..
+        }) = between_delim.pop()
+        {
+            let position = position.clone();
+            let new_last_child =
+                Syntax::new_atom(arena, position, content.clone(), AtomKind::CanIgnore);
+            between_delim.push(new_last_child);
         }
     }
 
@@ -2026,14 +2098,14 @@ mod tests {
     fn test_parse() {
         let arena = Arena::new();
         let css_config = from_language(guess::Language::Css);
-        parse(&arena, ".foo {}", &css_config, false);
+        parse(&arena, ".foo {}", css_config, false);
     }
 
     #[test]
     fn test_parse_empty_file() {
         let arena = Arena::new();
         let config = from_language(guess::Language::EmacsLisp);
-        let res = parse(&arena, "", &config, false);
+        let res = parse(&arena, "", config, false);
 
         let expected: Vec<&Syntax> = vec![];
         assert_eq!(res, expected);
@@ -2045,7 +2117,7 @@ mod tests {
     fn test_subtrees() {
         let arena = Arena::new();
         let config = from_language(guess::Language::Html);
-        let res = parse(&arena, "<style>.a { color: red; }</style>", &config, false);
+        let res = parse(&arena, "<style>.a { color: red; }</style>", config, false);
 
         match res[0] {
             Syntax::List { children, .. } => {

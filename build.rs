@@ -23,33 +23,7 @@ impl TreeSitterParser {
         let dir = PathBuf::from(&self.src_dir);
 
         let mut c_files = vec!["parser.c"];
-        let mut cpp_files = vec![];
-
-        for file in &self.extra_files {
-            if file.ends_with(".c") {
-                c_files.push(file);
-            } else {
-                cpp_files.push(file);
-            }
-        }
-
-        if !cpp_files.is_empty() {
-            let mut cpp_build = cc::Build::new();
-            cpp_build
-                .include(&dir)
-                .cpp(true)
-                .std("c++14")
-                .flag_if_supported("-Wno-implicit-fallthrough")
-                .flag_if_supported("-Wno-unused-parameter")
-                .flag_if_supported("-Wno-ignored-qualifiers")
-                .link_lib_modifier("+whole-archive");
-
-            for file in cpp_files {
-                cpp_build.file(dir.join(file));
-            }
-
-            cpp_build.compile(&format!("{}-cpp", self.name));
-        }
+        c_files.extend_from_slice(&self.extra_files);
 
         let mut build = cc::Build::new();
         if cfg!(target_env = "msvc") {
@@ -69,11 +43,6 @@ impl TreeSitterParser {
 fn main() {
     let parsers = vec![
         TreeSitterParser {
-            name: "tree-sitter-elvish",
-            src_dir: "vendored_parsers/tree-sitter-elvish-src",
-            extra_files: vec![],
-        },
-        TreeSitterParser {
             name: "tree-sitter-hare",
             src_dir: "vendored_parsers/tree-sitter-hare-src",
             extra_files: vec![],
@@ -91,11 +60,6 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-latex",
             src_dir: "vendored_parsers/tree-sitter-latex-src",
-            extra_files: vec!["scanner.c"],
-        },
-        TreeSitterParser {
-            name: "tree-sitter-scss",
-            src_dir: "vendored_parsers/tree-sitter-scss-src",
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {

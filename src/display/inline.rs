@@ -6,7 +6,7 @@ use crate::display::context::{
 };
 use crate::display::hunks::Hunk;
 use crate::display::style::{self, apply_colors, apply_line_number_color};
-use crate::lines::{format_line_num, split_on_newlines, MaxLine};
+use crate::lines::{format_line_num, format_line_num_padded, split_on_newlines, MaxLine};
 use crate::options::DisplayOptions;
 use crate::parse::syntax::MatchedPos;
 use crate::summary::FileFormat;
@@ -64,6 +64,10 @@ pub(crate) fn print(
     let opposite_to_lhs = opposite_positions(lhs_mps);
     let opposite_to_rhs = opposite_positions(rhs_mps);
 
+    // Calculate the maximum line number width for alignment
+    let lhs_line_nums_width = format_line_num(lhs_src.max_line()).len();
+    let rhs_line_nums_width = format_line_num(rhs_src.max_line()).len();
+
     for (i, hunk) in hunks.iter().enumerate() {
         println!(
             "{}",
@@ -100,7 +104,7 @@ pub(crate) fn print(
                 print!(
                     "{}   {}",
                     apply_line_number_color(
-                        &format_line_num(lhs_line),
+                        &format_line_num_padded(lhs_line, lhs_line_nums_width),
                         false,
                         Side::Left,
                         display_options,
@@ -115,7 +119,7 @@ pub(crate) fn print(
                 print!(
                     "{}   {}",
                     apply_line_number_color(
-                        &format_line_num(*lhs_line),
+                        &format_line_num_padded(*lhs_line, lhs_line_nums_width),
                         true,
                         Side::Left,
                         display_options,
@@ -129,7 +133,7 @@ pub(crate) fn print(
                 print!(
                     "   {}{}",
                     apply_line_number_color(
-                        &format_line_num(*rhs_line),
+                        &format_line_num_padded(*rhs_line, rhs_line_nums_width),
                         true,
                         Side::Right,
                         display_options,
@@ -144,7 +148,7 @@ pub(crate) fn print(
                 print!(
                     "   {}{}",
                     apply_line_number_color(
-                        &format_line_num(*rhs_line),
+                        &format_line_num_padded(*rhs_line, rhs_line_nums_width),
                         false,
                         Side::Right,
                         display_options,

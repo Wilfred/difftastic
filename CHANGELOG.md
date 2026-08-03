@@ -1,5 +1,27 @@
 ## 0.70 (unreleased)
 
+### Diffing
+
+Improved diffing performance, particularly when diffing directories.
+
+### Parsing
+
+Improved support for Emacs Lisp, Erlang, Java, PHP, Protocol Buffers and TOML.
+
+Removed support for Elvish and SCSS (upstream parsers are no longer
+maintained).
+
+### Display
+
+Fixed an issue where files with tabs were not always aligned correctly
+in some build configurations.
+
+### Release
+
+Fixed an issue where prebuilt binaries on GitHub did not respect
+Cargo.lock, so they used newer library versions than tested on
+CI. This caused rendering bugs in source code with tabs.
+
 ## 0.69 (released 30th April 2026)
 
 ## Diffing

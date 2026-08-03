@@ -13,21 +13,13 @@ use crate::display::style::{
     split_and_apply, width_respecting_tabs, BackgroundColor,
 };
 use crate::hash::{DftHashMap, DftHashSet};
-use crate::lines::{format_line_num, split_on_newlines};
+use crate::lines::{format_line_num, format_line_num_padded, split_on_newlines};
 use crate::options::{DisplayMode, DisplayOptions};
 use crate::parse::syntax::{zip_pad_shorter, MatchedPos};
 use crate::summary::FileFormat;
 
 /// The space shown between LHS and RHS columns.
 const SPACER: &str = "  ";
-
-fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
-    format!(
-        "{:width$} ",
-        line_num.as_usize() + 1,
-        width = column_width - 1
-    )
-}
 
 fn format_missing_line_num(
     prev_num: LineNumber,
@@ -291,7 +283,6 @@ fn highlight_positions(
         file_format,
         lhs_mps,
     );
-    // Preallocate the hashmap assuming the average line will have 2 items on it.
     let mut lhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         DftHashMap::default();
     for (span, style) in lhs_positions {

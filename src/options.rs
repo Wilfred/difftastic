@@ -3,10 +3,10 @@
 use std::env;
 use std::ffi::{OsStr, OsString};
 use std::fmt::Display;
+use std::io::IsTerminal as _;
 use std::path::{Path, PathBuf};
 
 use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
-use crossterm::tty::IsTty;
 use owo_colors::OwoColorize as _;
 
 use crate::display::style::{print_error, BackgroundColor};
@@ -121,7 +121,7 @@ fn app() -> clap::Command {
     ));
 
     after_help.push_str("\n\nSee the full manual at ");
-    if std::io::stdout().is_tty() {
+    if std::io::stdout().is_terminal() {
         // Make the link to the manual clickable in terminals that
         // support OSC 8, the ANSI escape code for hyperlinks.
         //
@@ -354,7 +354,9 @@ Higher values will allow difftastic to perform a structural diff in more cases. 
             Arg::new("parse-error-limit").long("parse-error-limit")
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
-                .help("Use a line-oriented diff if the number of parse errors exceeds this value.")
+                .help("Use a line-oriented diff if the number of parse errors exceeds this value.
+
+A value of 0 means that any parse error will make difftastic use a line-oriented diff.")
                 .default_value(format!("{}", DEFAULT_PARSE_ERROR_LIMIT))
                 .env("DFT_PARSE_ERROR_LIMIT")
                 .value_parser(clap::value_parser!(usize))
@@ -1063,7 +1065,7 @@ pub(crate) fn should_use_color(color_output: ColorOutput) -> bool {
 fn detect_color_support() -> bool {
     // TODO: consider following the env parsing logic in git_config_bool
     // in config.c.
-    std::io::stdout().is_tty() || env::var("GIT_PAGER_IN_USE").is_ok()
+    std::io::stdout().is_terminal() || env::var("GIT_PAGER_IN_USE").is_ok()
 }
 
 #[cfg(test)]

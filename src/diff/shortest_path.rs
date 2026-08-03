@@ -1,5 +1,45 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
+//!
+//! ## Why Dijkstra?
+//!
+//! Dijkstra is fast enough, and it's relatively easy to reason about.
+//!
+//! The obvious alternative to consider is A*. It's typically faster
+//! and there's some precedent for tree diffing with A*.
+//!
+//! <https://www.redblobgames.com/pathfinding/a-star/introduction.html#more>
+//! <https://thume.ca/2017/06/17/tree-diffing/>
+//!
+//! Difftastic's graph structure makes A* difficult. You can think of
+//! the graph as a grid (see the manual for the full graph
+//! description). For diffing sequences of flat tokens, this is fine.
+//!
+//! ```
+//!     A   B
+//!   o---o---o
+//! X |   |   |
+//!   o---o---o
+//! B |   | \ |
+//!   o---o---o <- GOAL
+//! ```
+//!
+//! However, difftastic's graph sometimes has edges with very low cost
+//! when it can match up entire subtrees. These edges cover a long
+//! distance in the grid despite their low cost.
+//!
+//! This means that it's really hard to write a good heuristic for
+//! A*. On a geographical map, you can use geometric distance (use a
+//! ruler) or Manhattan distance (count blocks).
+//!
+//! There's no good equivalent in the difftastic graph, which has no
+//! physical world analogue. I've experimented with A*, but you end up
+//! with something buggy and/or reimplementing much of the graph in
+//! the heuristic.
+//!
+//! Dijkstra works well enough in practice, and preprocessing the
+//! input to find smaller subsections to diff tends to be much more
+//! effective.
 
 use std::cmp::Reverse;
 use std::env;
@@ -8,7 +48,7 @@ use bumpalo::Bump;
 use radix_heap::RadixHeapMap;
 
 use crate::diff::changes::ChangeMap;
-use crate::diff::graph::{populate_change_map, set_neighbours, Edge, Vertex};
+use crate::diff::graph::{compute_neighbours, populate_change_map, Edge, Vertex};
 use crate::hash::DftHashMap;
 use crate::parse::syntax::Syntax;
 
@@ -39,8 +79,11 @@ fn shortest_vertex_path<'s, 'v>(
                     break current;
                 }
 
-                set_neighbours(current, vertex_arena, &mut seen);
-                for neighbour in *current.neighbours.borrow().as_ref().unwrap() {
+                let neighbours = *current
+                    .neighbours
+                    .get_or_init(|| compute_neighbours(current, vertex_arena, &mut seen));
+
+                for neighbour in neighbours {
                     let (edge, next) = neighbour;
                     let distance_to_next = distance + edge.cost();
 
@@ -125,7 +168,7 @@ fn edge_between<'s, 'v>(before: &Vertex<'s, 'v>, after: &Vertex<'s, 'v>) -> Edge
     assert_ne!(before, after);
 
     let mut shortest_edge: Option<Edge> = None;
-    if let Some(neighbours) = &*before.neighbours.borrow() {
+    if let Some(neighbours) = before.neighbours.get() {
         for neighbour in *neighbours {
             let (edge, next) = *neighbour;
             // If there are multiple edges that can take us to `next`,
@@ -180,17 +223,19 @@ pub(crate) fn mark_syntax<'a>(
     let lhs_node_count = node_count(lhs_syntax) as usize;
     let rhs_node_count = node_count(rhs_syntax) as usize;
     info!(
-        "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
+        "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel), LHS first: {}, RHS first: {}",
         lhs_node_count,
         tree_count(lhs_syntax),
         rhs_node_count,
         tree_count(rhs_syntax),
+        lhs_syntax.map_or_else(|| "None".into(), Syntax::dbg_content),
+        rhs_syntax.map_or_else(|| "None".into(), Syntax::dbg_content),
     );
 
     // When there are a large number of changes, we end up building a
     // graph whose size is roughly quadratic. Use this as a size hint,
     // so we don't spend too much time re-hashing and expanding the
-    // predecessors hashmap.
+    // seen nodes hashmap.
     //
     // Cap this number to the graph limit, so we don't try to allocate
     // an absurdly large (i.e. greater than physical memory) hashmap

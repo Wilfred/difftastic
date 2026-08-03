@@ -105,14 +105,10 @@ fn line_len_in_bytes(line: &str) -> usize {
     }
 }
 
-/// Build a vec of MatchedPos, performing a line-oriented diff. Match
-/// up unchanged lines, and match up unchanged words within novel
-/// lines.
-///
-/// The resulting vec only has novel items from the LHS. Callers
-/// should do `change_positions(rhs_src, lhs_src)` to obtain
-/// novel MatchedPos values for the RHS.
-pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
+/// Build vecs of MatchedPos for both sides, performing a
+/// line-oriented diff. Match up unchanged lines, and match up
+/// unchanged words within novel lines.
+pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>, Vec<MatchedPos>) {
     // TODO: If either side is "", don't split each line by words
     // pointlessly. This is common for file additions/removals.
     let lhs_lp = LinePositions::from(lhs_src);
@@ -121,7 +117,8 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
     let mut lhs_offset = 0;
     let mut rhs_offset = 0;
 
-    let mut mps = vec![];
+    let mut lhs_mps = vec![];
+    let mut rhs_mps = vec![];
 
     let mut seen_unchanged = false;
     for (kind, lhs_lines, rhs_lines) in changed_parts(lhs_src, rhs_src) {
@@ -134,13 +131,21 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                     let rhs_pos =
                         rhs_lp.from_region(rhs_offset, rhs_offset + line_len_in_bytes(rhs_line));
 
-                    mps.push(MatchedPos {
+                    lhs_mps.push(MatchedPos {
                         kind: MatchKind::UnchangedToken {
                             highlight: TokenKind::Atom(AtomKind::Normal),
                             self_pos: lhs_pos.clone(),
-                            opposite_pos: rhs_pos,
+                            opposite_pos: rhs_pos.clone(),
                         },
                         pos: lhs_pos[0],
+                    });
+                    rhs_mps.push(MatchedPos {
+                        kind: MatchKind::UnchangedToken {
+                            highlight: TokenKind::Atom(AtomKind::Normal),
+                            self_pos: rhs_pos.clone(),
+                            opposite_pos: lhs_pos,
+                        },
+                        pos: rhs_pos[0],
                     });
 
                     lhs_offset += lhs_line.len();
@@ -161,11 +166,21 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                 if lhs_words.len() > MAX_WORDS_IN_LINE || rhs_words.len() > MAX_WORDS_IN_LINE {
                     for lhs_pos in lhs_lp.from_region(lhs_offset, lhs_offset + lhs_part.len()) {
                         if lhs_pos.start_col != lhs_pos.end_col {
-                            mps.push(MatchedPos {
+                            lhs_mps.push(MatchedPos {
                                 kind: MatchKind::NovelWord {
                                     highlight: TokenKind::Atom(AtomKind::Normal),
                                 },
                                 pos: lhs_pos,
+                            });
+                        }
+                    }
+                    for rhs_pos in rhs_lp.from_region(rhs_offset, rhs_offset + rhs_part.len()) {
+                        if rhs_pos.start_col != rhs_pos.end_col {
+                            rhs_mps.push(MatchedPos {
+                                kind: MatchKind::NovelWord {
+                                    highlight: TokenKind::Atom(AtomKind::Normal),
+                                },
+                                pos: rhs_pos,
                             });
                         }
                     }
@@ -181,7 +196,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                             let lhs_pos =
                                 lhs_lp.from_region(lhs_offset, lhs_offset + lhs_word.len());
 
-                            mps.push(MatchedPos {
+                            lhs_mps.push(MatchedPos {
                                 kind: MatchKind::NovelWord {
                                     highlight: TokenKind::Atom(AtomKind::Normal),
                                 },
@@ -197,13 +212,21 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                                 let rhs_pos =
                                     rhs_lp.from_region(rhs_offset, rhs_offset + rhs_word.len());
 
-                                mps.push(MatchedPos {
+                                lhs_mps.push(MatchedPos {
                                     kind: MatchKind::UnchangedPartOfNovelItem {
                                         highlight: TokenKind::Atom(AtomKind::Normal),
                                         self_pos: lhs_pos[0],
-                                        opposite_pos: rhs_pos,
+                                        opposite_pos: rhs_pos.clone(),
                                     },
                                     pos: lhs_pos[0],
+                                });
+                                rhs_mps.push(MatchedPos {
+                                    kind: MatchKind::UnchangedPartOfNovelItem {
+                                        highlight: TokenKind::Atom(AtomKind::Normal),
+                                        self_pos: rhs_pos[0],
+                                        opposite_pos: lhs_pos,
+                                    },
+                                    pos: rhs_pos[0],
                                 });
                             }
 
@@ -211,6 +234,16 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                             rhs_offset += rhs_word.len();
                         }
                         lcs_diff::DiffResult::Right(rhs_word) => {
+                            let rhs_pos =
+                                rhs_lp.from_region(rhs_offset, rhs_offset + rhs_word.len());
+
+                            rhs_mps.push(MatchedPos {
+                                kind: MatchKind::NovelWord {
+                                    highlight: TokenKind::Atom(AtomKind::Normal),
+                                },
+                                pos: rhs_pos[0],
+                            });
+
                             rhs_offset += rhs_word.len();
                         }
                     }
@@ -233,7 +266,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
             start_col: 0,
             end_col: 0,
         };
-        mps.insert(
+        lhs_mps.insert(
             0,
             MatchedPos {
                 kind: MatchKind::UnchangedToken {
@@ -244,9 +277,20 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                 pos: lhs_pos,
             },
         );
+        rhs_mps.insert(
+            0,
+            MatchedPos {
+                kind: MatchKind::UnchangedToken {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: vec![rhs_pos],
+                    opposite_pos: vec![lhs_pos],
+                },
+                pos: rhs_pos,
+            },
+        );
     }
 
-    mps
+    (lhs_mps, rhs_mps)
 }
 
 #[cfg(test)]
@@ -265,7 +309,7 @@ mod tests {
 
     #[test]
     fn test_positions_no_changes() {
-        let positions = change_positions("foo", "foo");
+        let (positions, _) = change_positions("foo", "foo");
 
         assert_eq!(positions.len(), 1);
         assert!(!positions[0].kind.is_novel());
@@ -284,14 +328,14 @@ mod tests {
         // Even though the word exists on both sides, it should still
         // be treated as a change. We're doing a line-based diff and
         // the lines are different.
-        let mut positions = change_positions("foo", " foo");
+        let (mut positions, _) = change_positions("foo", " foo");
         let last_pos = positions.pop().unwrap();
         assert!(last_pos.kind.is_novel());
     }
 
     #[test]
     fn test_no_changes_trailing_newlines() {
-        let positions = change_positions("foo\n", "foo\n");
+        let (positions, _) = change_positions("foo\n", "foo\n");
 
         assert_eq!(positions.len(), 1);
         assert!(!positions[0].kind.is_novel());
@@ -307,7 +351,7 @@ mod tests {
 
     #[test]
     fn test_novel_lhs_trailing_newlines() {
-        let mut positions = change_positions("foo\n", "");
+        let (mut positions, _) = change_positions("foo\n", "");
 
         let last_pos = positions.pop().unwrap();
         assert!(last_pos.kind.is_novel());
@@ -315,7 +359,7 @@ mod tests {
 
     #[test]
     fn test_positions_novel_lhs() {
-        let mut positions = change_positions("foo", "");
+        let (mut positions, _) = change_positions("foo", "");
 
         let last_pos = positions.pop().unwrap();
         assert!(last_pos.kind.is_novel());

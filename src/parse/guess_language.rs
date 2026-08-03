@@ -17,7 +17,7 @@ use strum::{EnumIter, IntoEnumIterator};
 
 /// Languages supported by difftastic. Each language here has a
 /// corresponding tree-sitter parser.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EnumIter)]
 pub(crate) enum Language {
     Ada,
     Apex,
@@ -35,9 +35,9 @@ pub(crate) enum Language {
     Dockerfile,
     Elixir,
     Elm,
-    Elvish,
     EmacsLisp,
     Erlang,
+    Fish,
     FSharp,
     Fortran,
     Gleam,
@@ -73,7 +73,6 @@ pub(crate) enum Language {
     Rust,
     Scala,
     Scheme,
-    Scss,
     Smali,
     Solidity,
     Sql,
@@ -138,9 +137,9 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Dockerfile => "Dockerfile",
         Elixir => "Elixir",
         Elm => "Elm",
-        Elvish => "Elvish",
         EmacsLisp => "Emacs Lisp",
         Erlang => "Erlang",
+        Fish => "Fish",
         FSharp => "F#",
         Fortran => "Fortran",
         Gleam => "Gleam",
@@ -177,7 +176,6 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Scala => "Scala",
         Scheme => "Scheme",
         Smali => "Smali",
-        Scss => "SCSS",
         Solidity => "Solidity",
         Sql => "SQL",
         Swift => "Swift",
@@ -272,7 +270,6 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         Elm => &["*.elm"],
         EmacsLisp => &["*.el", ".emacs", "_emacs", "Cask"],
         Elixir => &["*.ex", "*.exs"],
-        Elvish => &["*.elv"],
         Erlang => &[
             "*.erl",
             "*.app.src",
@@ -286,6 +283,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "rebar.config.lock",
             "rebar.lock",
         ],
+        Fish => &["*.fish"],
         FSharp => &["*.fs", "*.fsx", "*.fsi"],
         Fortran => &["*.f", "*.for", "*.f90", "*.F", "*.FOR", "*.F90"],
         Gleam => &["*.gleam"],
@@ -380,7 +378,6 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         Scala => &["*.scala", "*.sbt", "*.sc"],
         Scheme => &["*.scm", "*.sch", "*.ss"],
         Smali => &["*.smali"],
-        Scss => &["*.scss"],
         Solidity => &["*.sol"],
         Sql => &["*.sql", "*.pgsql"],
         Swift => &["*.swift"],
@@ -542,8 +539,8 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "c++" => CPlusPlus,
             "elixir" => Elixir,
             "elm" => Elm,
-            "elvish" => Elvish,
             "emacs-lisp" => EmacsLisp,
+            "fish" => Fish,
             "fsharp" => FSharp,
             "fortran" => Fortran,
             "gleam" => Gleam,
@@ -564,7 +561,6 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "ruby" => Ruby,
             "rust" => Rust,
             "scala" => Scala,
-            "scss" => Scss,
             "sh" => Bash,
             "solidity" => Solidity,
             "sql" => Sql,
@@ -599,8 +595,8 @@ fn from_shebang(src: &str) -> Option<Language> {
                     "tcc" => return Some(C),
                     "lisp" | "sbc" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
                     "elixir" => return Some(Elixir),
-                    "elvish" => return Some(Elvish),
                     "escript" => return Some(Erlang),
+                    "fish" => return Some(Fish),
                     "runghc" | "runhaskell" | "runhugs" => return Some(Haskell),
                     "chakra" | "d8" | "gjs" | "js" | "node" | "nodejs" | "qjs" | "rhino" | "v8"
                     | "v8-shell" => return Some(JavaScript),

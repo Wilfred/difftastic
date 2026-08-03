@@ -1,6 +1,6 @@
 //! A graph representation for computing tree diffs.
 
-use std::cell::{Cell, RefCell};
+use std::cell::{Cell, OnceCell};
 use std::cmp::min;
 use std::fmt;
 use std::hash::{Hash, Hasher};
@@ -49,7 +49,15 @@ use crate::parse::syntax::{AtomKind, Syntax, SyntaxId};
 /// to syntax nodes (the 's lifetime).
 #[derive(Debug, Clone)]
 pub(crate) struct Vertex<'s, 'v> {
-    pub(crate) neighbours: RefCell<Option<&'v [(Edge, &'v Vertex<'s, 'v>)]>>,
+    /// The neighbours of this vertex. This is computed lazily, on
+    /// first access.
+    pub(crate) neighbours: OnceCell<&'v [(Edge, &'v Vertex<'s, 'v>)]>,
+    /// The predecessor of this vertex in the shortest route found so
+    /// far.
+    ///
+    /// This can change as Dijkstra runs: the first time we see the
+    /// node in the to-visit set, we may not have reached it by the
+    /// shortest route.
     pub(crate) predecessor: Cell<Option<(u32, &'v Vertex<'s, 'v>)>>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
@@ -268,7 +276,7 @@ impl<'s, 'v> Vertex<'s, 'v> {
     ) -> Self {
         let parents = Stack::new();
         Vertex {
-            neighbours: RefCell::new(None),
+            neighbours: OnceCell::new(),
             predecessor: Cell::new(None),
             lhs_syntax,
             rhs_syntax,
@@ -285,7 +293,7 @@ impl<'s, 'v> Vertex<'s, 'v> {
 /// at least a NovelFoo edge. Depending on the syntax nodes of the
 /// current [`Vertex`], other edges may also be available.
 ///
-/// See [`set_neighbours`] for all the edges available for a given `Vertex`.
+/// See [`compute_neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub(crate) enum Edge {
     UnchangedNode {
@@ -488,19 +496,17 @@ fn pop_all_parents<'s, 'v>(
     (lhs_node, rhs_node, lhs_parent_id, rhs_parent_id, parents)
 }
 
-/// Compute the neighbours of `v` if we haven't previously done so,
-/// and write them to the .neighbours cell inside `v`.
-pub(crate) fn set_neighbours<'s, 'v>(
+/// Compute the neighbours of `v`.
+///
+/// This function is extremely hot and directly affects difftastic
+/// performance.
+pub(crate) fn compute_neighbours<'s, 'v>(
     v: &Vertex<'s, 'v>,
     alloc: &'v Bump,
     seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
-) {
-    if v.neighbours.borrow().is_some() {
-        return;
-    }
-
+) -> &'v [(Edge, &'v Vertex<'s, 'v>)] {
     // There are only seven pushes in this function, so that's sufficient.
-    let mut neighbours: Vec<(Edge, &Vertex)> = Vec::with_capacity(7);
+    let mut neighbours: SmallVec<[(Edge, &Vertex); 7]> = SmallVec::new();
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
@@ -527,7 +533,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                 },
                 allocate_if_new(
                     Vertex {
-                        neighbours: RefCell::new(None),
+                        neighbours: OnceCell::new(),
                         predecessor: Cell::new(None),
                         lhs_syntax,
                         rhs_syntax,
@@ -561,7 +567,6 @@ pub(crate) fn set_neighbours<'s, 'v>(
                 let lhs_next = lhs_children.first().copied();
                 let rhs_next = rhs_children.first().copied();
 
-                // TODO: be consistent between parents_next and next_parents.
                 let parents_next = push_both_delimiters(&v.parents, lhs_syntax, rhs_syntax, alloc);
 
                 let depth_difference = (lhs_syntax.num_ancestors() as i32
@@ -584,7 +589,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                     EnterUnchangedDelimiter { depth_difference },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
+                            neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
@@ -636,7 +641,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                     edge,
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
+                            neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
@@ -670,7 +675,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                     NovelAtomLHS {},
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
+                            neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
@@ -703,7 +708,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                     EnterNovelDelimiterLHS {},
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
+                            neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
@@ -737,7 +742,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                     NovelAtomRHS {},
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
+                            neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
@@ -769,7 +774,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
                     EnterNovelDelimiterRHS {},
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
+                            neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
@@ -789,8 +794,7 @@ pub(crate) fn set_neighbours<'s, 'v>(
         "Must always find some next steps if node is not the end"
     );
 
-    v.neighbours
-        .replace(Some(alloc.alloc_slice_copy(neighbours.as_slice())));
+    alloc.alloc_slice_copy(neighbours.as_slice())
 }
 
 pub(crate) fn populate_change_map<'s, 'v>(

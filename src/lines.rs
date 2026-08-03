@@ -8,6 +8,14 @@ pub(crate) fn format_line_num(line_num: LineNumber) -> String {
     format!("{} ", line_num.display())
 }
 
+pub(crate) fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
+    format!(
+        "{:width$} ",
+        line_num.as_usize() + 1,
+        width = column_width - 1
+    )
+}
+
 /// Return the length of `s` in bytes.
 ///
 /// This is a trivial wrapper to make it clear when we want bytes not
@@ -32,8 +40,8 @@ impl<S: AsRef<str>> MaxLine for S {
     }
 }
 
-/// Split `s` on \n or \r\n. Always returns a non-empty vec. Each line
-/// in the vec does not include the trailing newline.
+/// Split `s` on \n or \r\n. Always yields at least one item. Each line
+/// does not include the trailing newline.
 ///
 /// This differs from `str::lines`, which considers `""` to be zero
 /// lines and `"foo\n"` to be one line.
