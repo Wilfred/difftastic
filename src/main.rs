@@ -531,7 +531,7 @@ fn diff_conflicts_file(
     };
 
     if conflict_files.num_conflicts == 0 {
-        options::bad_arguments(format!(
+        options::arg_error(format!(
             "Difftastic requires two paths, or a single file with conflict markers ({}), but '{}' has no conflict markers.",
             START_LHS_MARKER, display_path
         ));

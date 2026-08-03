@@ -11,17 +11,6 @@ Improved support for Emacs Lisp, Erlang, Java, PHP, Protocol Buffers and TOML.
 Removed support for Elvish and SCSS (upstream parsers are no longer
 maintained).
 
-### Command Line Interface
-
-Invalid values for `--override` and `--override-binary` (including the
-numbered `DFT_OVERRIDE_1` and `DFT_OVERRIDE_BINARY_1` environment
-variables) now report which value was rejected, and show the usage
-information.
-
-Difftastic now describes all the calling conventions it supports when
-it's given an unsupported number of arguments, and it no longer exits
-silently when given options without any paths.
-
 ### Display
 
 Fixed an issue where files with tabs were not always aligned correctly

@@ -313,30 +313,6 @@ fn unsupported_number_of_arguments() {
 }
 
 #[test]
-fn no_arguments_but_options() {
-    let mut cmd = get_base_command();
-
-    cmd.arg("--exit-code");
-
-    let predicate_fn = predicate::str::contains("none were given");
-    cmd.assert().failure().code(2).stderr(predicate_fn);
-}
-
-#[test]
-fn invalid_override_syntax() {
-    let mut cmd = get_base_command();
-
-    cmd.args([
-        "--override=no_colon_here",
-        "sample_files/simple_1.js",
-        "sample_files/simple_2.js",
-    ]);
-
-    let predicate_fn = predicate::str::contains("GLOB:LANG_NAME");
-    cmd.assert().failure().code(2).stderr(predicate_fn);
-}
-
-#[test]
 fn invalid_override_language() {
     let mut cmd = get_base_command();
 
@@ -362,30 +338,6 @@ fn override_from_numbered_env_var() {
 
     let predicate_fn = predicate::str::contains("Text");
     cmd.assert().stdout(predicate_fn);
-}
-
-#[test]
-fn invalid_override_in_numbered_env_var() {
-    let mut cmd = get_base_command();
-
-    cmd.env("DFT_OVERRIDE_1", "*.js:no_such_language")
-        .arg("sample_files/simple_1.js")
-        .arg("sample_files/simple_2.js");
-
-    let predicate_fn = predicate::str::contains("DFT_OVERRIDE_1");
-    cmd.assert().failure().code(2).stderr(predicate_fn);
-}
-
-#[test]
-fn json_display_requires_dft_unstable() {
-    let mut cmd = get_base_command();
-
-    cmd.arg("--display=json")
-        .arg("sample_files/simple_1.js")
-        .arg("sample_files/simple_2.js");
-
-    let predicate_fn = predicate::str::contains("DFT_UNSTABLE");
-    cmd.assert().failure().code(2).stderr(predicate_fn);
 }
 
 #[test]

@@ -24,19 +24,67 @@ pub(crate) const DEFAULT_PARSE_ERROR_LIMIT: usize = 0;
 
 pub(crate) const DEFAULT_TAB_WIDTH: usize = 4;
 
-pub(crate) const DEFAULT_CONTEXT_LINES: u32 = 3;
-
 const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
-
-/// The largest N accepted in the numbered environment variables
-/// `DFT_OVERRIDE_N` and `DFT_OVERRIDE_BINARY_N`.
-const MAX_NUMBERED_ENV_VAR: usize = 9;
 
 #[derive(Debug, Clone, Copy, ValueEnum)]
 pub(crate) enum ColorOutput {
     Always,
     Auto,
     Never,
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct DisplayOptions {
+    pub(crate) background_color: BackgroundColor,
+    pub(crate) use_color: bool,
+    pub(crate) display_mode: DisplayMode,
+    pub(crate) print_unchanged: bool,
+    pub(crate) tab_width: usize,
+    pub(crate) terminal_width: usize,
+    pub(crate) num_context_lines: u32,
+    pub(crate) syntax_highlight: bool,
+    pub(crate) sort_paths: bool,
+}
+
+pub(crate) const DEFAULT_TERMINAL_WIDTH: usize = 80;
+
+impl Default for DisplayOptions {
+    fn default() -> Self {
+        Self {
+            background_color: BackgroundColor::Dark,
+            use_color: false,
+            display_mode: DisplayMode::SideBySide,
+            print_unchanged: true,
+            tab_width: 8,
+            terminal_width: DEFAULT_TERMINAL_WIDTH,
+            num_context_lines: 3,
+            syntax_highlight: true,
+            sort_paths: false,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct DiffOptions {
+    pub(crate) graph_limit: usize,
+    pub(crate) byte_limit: usize,
+    pub(crate) parse_error_limit: usize,
+    pub(crate) check_only: bool,
+    pub(crate) ignore_comments: bool,
+    pub(crate) strip_cr: bool,
+}
+
+impl Default for DiffOptions {
+    fn default() -> Self {
+        Self {
+            graph_limit: DEFAULT_GRAPH_LIMIT,
+            byte_limit: DEFAULT_BYTE_LIMIT,
+            parse_error_limit: DEFAULT_PARSE_ERROR_LIMIT,
+            check_only: false,
+            ignore_comments: false,
+            strip_cr: false,
+        }
+    }
 }
 
 /// An option that is either on or off. Unlike a flag, the value is
@@ -54,9 +102,6 @@ impl OnOff {
     }
 }
 
-/// A single `--override` value, such as `*.c:C++`.
-type LanguageOverrideArg = (LanguageOverride, glob::Pattern);
-
 // The command line arguments accepted by difftastic.
 //
 // Difftastic supports several calling conventions (see `parse_args`),
@@ -68,9 +113,7 @@ type LanguageOverrideArg = (LanguageOverride, glob::Pattern);
 //
 // The doc comments on the fields are the help text shown to
 // users. They're all `verbatim_doc_comment`, so clap doesn't reflow
-// the examples or strip the trailing full stops. Doc comments can't
-// use env!("CARGO_BIN_NAME"), so they hardcode the binary name (see
-// `test_bin_name`).
+// the examples or strip the trailing full stops.
 #[derive(Debug, Parser)]
 #[command(
     name = "Difftastic",
@@ -115,7 +158,7 @@ struct Args {
         long,
         value_name = "LINES",
         env = "DFT_CONTEXT",
-        default_value_t = DEFAULT_CONTEXT_LINES,
+        default_value_t = 3,
         verbatim_doc_comment
     )]
     context: u32,
@@ -236,7 +279,7 @@ struct Args {
         value_parser = parse_language_override,
         verbatim_doc_comment
     )]
-    language_override: Vec<LanguageOverrideArg>,
+    language_override: Vec<(LanguageOverride, glob::Pattern)>,
 
     /// Always treat file names matching this glob as binary files, ignoring the default heuristics for binary detection.
     ///
@@ -365,7 +408,7 @@ fn after_help() -> String {
 }
 
 /// Parse a `--override` value, such as `*.c:C++`.
-fn parse_language_override(s: &str) -> Result<LanguageOverrideArg, String> {
+fn parse_language_override(s: &str) -> Result<(LanguageOverride, glob::Pattern), String> {
     let Some((glob_str, lang_name)) = s.rsplit_once(':') else {
         return Err(
             "language overrides are in the format 'GLOB:LANG_NAME', e.g. '*.js:JSON'".to_owned(),
@@ -388,23 +431,13 @@ fn parse_glob(s: &str) -> Result<glob::Pattern, String> {
     glob::Pattern::new(s).map_err(|e| format!("invalid glob syntax '{}': {}", s, e.msg))
 }
 
-/// Print `message` in the same style as clap's own errors (so it
-/// includes the usage line), then exit.
-fn arg_error(kind: ErrorKind, message: String) -> ! {
-    let err = Args::command().error(kind, message);
+/// Report `message` in the same style as clap's own errors, so we
+/// show the usage information too, then exit.
+pub(crate) fn arg_error(message: String) -> ! {
+    let err = Args::command().error(ErrorKind::InvalidValue, message);
     let _ = err.print();
 
     std::process::exit(EXIT_BAD_ARGUMENTS);
-}
-
-/// Report that difftastic has been called incorrectly, in the same
-/// style as clap's own errors, then exit.
-///
-/// This is for problems that we can only detect after we've started
-/// diffing, such as being given a single file that has no conflict
-/// markers.
-pub(crate) fn bad_arguments(message: String) -> ! {
-    arg_error(ErrorKind::InvalidValue, message)
 }
 
 /// The values set in the numbered environment variables `PREFIX_1` up
@@ -415,7 +448,7 @@ pub(crate) fn bad_arguments(message: String) -> ! {
 fn parse_numbered_env_vars<T>(prefix: &str, parse: fn(&str) -> Result<T, String>) -> Vec<T> {
     let mut values = vec![];
 
-    for i in 1..=MAX_NUMBERED_ENV_VAR {
+    for i in 1..=9 {
         let name = format!("{}_{}", prefix, i);
         let Ok(value) = env::var(&name) else {
             continue;
@@ -423,13 +456,10 @@ fn parse_numbered_env_vars<T>(prefix: &str, parse: fn(&str) -> Result<T, String>
 
         match parse(&value) {
             Ok(value) => values.push(value),
-            Err(message) => arg_error(
-                ErrorKind::ValueValidation,
-                format!(
-                    "invalid value '{}' for environment variable {}: {}",
-                    value, name, message
-                ),
-            ),
+            Err(message) => arg_error(format!(
+                "invalid value '{}' for environment variable {}: {}",
+                value, name, message
+            )),
         }
     }
 
@@ -439,7 +469,7 @@ fn parse_numbered_env_vars<T>(prefix: &str, parse: fn(&str) -> Result<T, String>
 /// Group adjacent overrides that specify the same language, so we can
 /// check all the globs for a language together.
 fn combine_overrides(
-    overrides: Vec<LanguageOverrideArg>,
+    overrides: Vec<(LanguageOverride, glob::Pattern)>,
 ) -> Vec<(LanguageOverride, Vec<glob::Pattern>)> {
     let mut combined: Vec<(LanguageOverride, Vec<glob::Pattern>)> = vec![];
 
@@ -459,60 +489,6 @@ pub(crate) enum DisplayMode {
     SideBySideShowBoth,
     Inline,
     Json,
-}
-
-#[derive(Debug, Clone)]
-pub(crate) struct DisplayOptions {
-    pub(crate) background_color: BackgroundColor,
-    pub(crate) use_color: bool,
-    pub(crate) display_mode: DisplayMode,
-    pub(crate) print_unchanged: bool,
-    pub(crate) tab_width: usize,
-    pub(crate) terminal_width: usize,
-    pub(crate) num_context_lines: u32,
-    pub(crate) syntax_highlight: bool,
-    pub(crate) sort_paths: bool,
-}
-
-pub(crate) const DEFAULT_TERMINAL_WIDTH: usize = 80;
-
-impl Default for DisplayOptions {
-    fn default() -> Self {
-        Self {
-            background_color: BackgroundColor::Dark,
-            use_color: false,
-            display_mode: DisplayMode::SideBySide,
-            print_unchanged: true,
-            tab_width: 8,
-            terminal_width: DEFAULT_TERMINAL_WIDTH,
-            num_context_lines: DEFAULT_CONTEXT_LINES,
-            syntax_highlight: true,
-            sort_paths: false,
-        }
-    }
-}
-
-#[derive(Debug, Clone)]
-pub(crate) struct DiffOptions {
-    pub(crate) graph_limit: usize,
-    pub(crate) byte_limit: usize,
-    pub(crate) parse_error_limit: usize,
-    pub(crate) check_only: bool,
-    pub(crate) ignore_comments: bool,
-    pub(crate) strip_cr: bool,
-}
-
-impl Default for DiffOptions {
-    fn default() -> Self {
-        Self {
-            graph_limit: DEFAULT_GRAPH_LIMIT,
-            byte_limit: DEFAULT_BYTE_LIMIT,
-            parse_error_limit: DEFAULT_PARSE_ERROR_LIMIT,
-            check_only: false,
-            ignore_comments: false,
-            strip_cr: false,
-        }
-    }
 }
 
 #[derive(Eq, PartialEq, Debug)]
@@ -768,136 +744,23 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
     }
 }
 
-/// The files to diff, as described by difftastic's positional
-/// arguments.
-enum PathArgs {
-    /// Diff two files against each other.
-    Diff {
-        /// The path that we show to the user.
-        display_path: String,
-        /// The path where we can read the LHS file. This is often a
-        /// temporary file generated by source control.
-        lhs_path: FileArgument,
-        /// The path where we can read the RHS file. This is often a
-        /// temporary file generated by source control.
-        rhs_path: FileArgument,
-        lhs_permissions: Option<FilePermissions>,
-        rhs_permissions: Option<FilePermissions>,
-        /// If this file has been renamed, a description of the change.
-        renamed: Option<String>,
-    },
-    /// Diff the two conflicting states in a single file that contains
-    /// conflict markers.
-    Conflicts {
-        /// The path that we show to the user.
-        display_path: String,
-        path: FileArgument,
-    },
-}
-
-/// Interpret the positional arguments given, according to the number
-/// of arguments.
-///
-/// Difftastic supports several calling conventions, so that it can be
-/// used directly as well as by source control tools.
-fn parse_paths(paths: &[OsString]) -> PathArgs {
-    match paths {
-        [lhs_path, rhs_path] => {
-            // The usual case: two paths to diff.
-            let lhs_path = FileArgument::from_cli_argument(lhs_path);
-            let rhs_path = FileArgument::from_cli_argument(rhs_path);
-
-            PathArgs::Diff {
-                display_path: build_display_path(&lhs_path, &rhs_path),
-                lhs_permissions: lhs_path.permissions(),
-                rhs_permissions: rhs_path.permissions(),
-                lhs_path,
-                rhs_path,
-                renamed: None,
-            }
-        }
-        [path] => {
-            // A single file containing conflict markers.
-            PathArgs::Conflicts {
-                display_path: path.to_string_lossy().to_string(),
-                path: FileArgument::from_path_argument(path),
-            }
-        }
-        [display_path, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode] => {
-            // 7 arguments, per https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
-            PathArgs::Diff {
-                display_path: display_path.to_string_lossy().to_string(),
-                lhs_path: FileArgument::from_path_argument(lhs_tmp_file),
-                rhs_path: FileArgument::from_path_argument(rhs_tmp_file),
-                lhs_permissions: FilePermissions::try_from(lhs_mode.as_os_str()).ok(),
-                rhs_permissions: FilePermissions::try_from(rhs_mode.as_os_str()).ok(),
-                renamed: None,
-            }
-        }
-        [old_name, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode, new_name, _metainfo] =>
-        {
-            // Rename file.
-            // TODO: where does git document these 9 arguments?
-            // (See run_external_diff() in diff.c in git source code.)
-            let old_name = old_name.to_string_lossy().to_string();
-            let new_name = new_name.to_string_lossy().to_string();
-
-            PathArgs::Diff {
-                display_path: new_name.clone(),
-                lhs_path: FileArgument::from_path_argument(lhs_tmp_file),
-                rhs_path: FileArgument::from_path_argument(rhs_tmp_file),
-                lhs_permissions: FilePermissions::try_from(lhs_mode.as_os_str()).ok(),
-                rhs_permissions: FilePermissions::try_from(rhs_mode.as_os_str()).ok(),
-                renamed: Some(format!("Renamed from {} to {}", old_name, new_name)),
-            }
-        }
-        _ => wrong_number_of_paths(paths),
-    }
-}
-
-/// The calling conventions supported, in the order that we describe
-/// them to users.
-const CALLING_CONVENTIONS: &str = "Difftastic can be called with:
-
-  * 2 arguments: the two paths to diff.
-  * 1 argument: a single file containing conflict markers.
-  * 7 or 9 arguments: the format used by GIT_EXTERNAL_DIFF.";
-
 /// Report that we've been given a number of paths that doesn't match
-/// any of the calling conventions supported, then exit.
+/// any of difftastic's calling conventions, then exit.
 fn wrong_number_of_paths(paths: &[OsString]) -> ! {
-    if paths.is_empty() {
-        // We've been given options, but no paths at all.
-        arg_error(
-            ErrorKind::TooFewValues,
-            format!(
-                "Difftastic requires paths to diff, but none were given.\n\n{}",
-                CALLING_CONVENTIONS
-            ),
-        );
-    }
-
-    let bin_name = match std::env::args_os().next() {
-        Some(first_arg) => first_arg.to_string_lossy().to_string(),
-        None => env!("CARGO_BIN_NAME").to_owned(),
-    };
-    let formatted_paths = paths
-        .iter()
-        .map(|path| path.to_string_lossy())
+    let invocation = env::args_os()
+        .map(|arg| arg.to_string_lossy().into_owned())
         .collect::<Vec<_>>()
         .join(" ");
 
-    arg_error(
-        ErrorKind::WrongNumberOfValues,
-        format!(
-            "Difftastic does not support being called with {} argument{}.\n\n{}\n\nFor reference, difftastic was invoked as `{} {}`.",
-            paths.len(),
-            if paths.len() == 1 { "" } else { "s" },
-            CALLING_CONVENTIONS,
-            bin_name,
-            formatted_paths,
-        ),
-    );
+    arg_error(format!(
+        "Difftastic does not support being called with {} arguments.
+
+Difftastic can be called with 2 arguments (the paths to diff), 1 argument (a file with conflict markers), or 7 or 9 arguments in the format used by GIT_EXTERNAL_DIFF.
+
+For reference, difftastic was invoked as `{}`.",
+        paths.len(),
+        invocation,
+    ))
 }
 
 /// Parse CLI arguments passed to the binary.
@@ -949,7 +812,6 @@ pub(crate) fn parse_args() -> Mode {
 
     if matches!(args.display, DisplayMode::Json) && env::var("DFT_UNSTABLE").is_err() {
         arg_error(
-            ErrorKind::InvalidValue,
             "JSON output is an unstable feature and its format may change in future. To enable JSON output, set the environment variable DFT_UNSTABLE=yes.".to_owned(),
         );
     }
@@ -1004,36 +866,85 @@ pub(crate) fn parse_args() -> Mode {
         }
     }
 
-    match parse_paths(&paths) {
-        PathArgs::Diff {
-            display_path,
-            lhs_path,
-            rhs_path,
-            lhs_permissions,
-            rhs_permissions,
-            renamed,
-        } => Mode::Diff {
-            diff_options,
-            display_options,
-            set_exit_code,
-            language_overrides,
-            binary_overrides,
-            lhs_path,
-            rhs_path,
-            lhs_permissions,
-            rhs_permissions,
-            display_path,
-            renamed,
-        },
-        PathArgs::Conflicts { display_path, path } => Mode::DiffFromConflicts {
-            display_path,
-            path,
-            diff_options,
-            display_options,
-            set_exit_code,
-            language_overrides,
-            binary_overrides,
-        },
+    let (display_path, lhs_path, rhs_path, lhs_permissions, rhs_permissions, renamed) = match &paths
+        [..]
+    {
+        [lhs_path, rhs_path] => {
+            let lhs_arg = FileArgument::from_cli_argument(lhs_path);
+            let rhs_arg = FileArgument::from_cli_argument(rhs_path);
+            let display_path = build_display_path(&lhs_arg, &rhs_arg);
+
+            let lhs_permissions = lhs_arg.permissions();
+            let rhs_permissions = rhs_arg.permissions();
+
+            (
+                display_path,
+                lhs_arg,
+                rhs_arg,
+                lhs_permissions,
+                rhs_permissions,
+                None,
+            )
+        }
+        [display_path, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode] => {
+            // 7 arguments, per https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
+            (
+                display_path.to_string_lossy().to_string(),
+                FileArgument::from_path_argument(lhs_tmp_file),
+                FileArgument::from_path_argument(rhs_tmp_file),
+                FilePermissions::try_from(lhs_mode.as_os_str()).ok(),
+                FilePermissions::try_from(rhs_mode.as_os_str()).ok(),
+                None,
+            )
+        }
+        [old_name, lhs_tmp_file, _lhs_hash, lhs_mode, rhs_tmp_file, _rhs_hash, rhs_mode, new_name, _metainfo] =>
+        {
+            // Rename file.
+            // TODO: where does git document these 9 arguments?
+            // (See run_external_diff() in diff.c in git source code.)
+
+            let old_name = old_name.to_string_lossy().to_string();
+            let new_name = new_name.to_string_lossy().to_string();
+            let renamed = format!("Renamed from {} to {}", old_name, new_name);
+
+            (
+                new_name,
+                FileArgument::from_path_argument(lhs_tmp_file),
+                FileArgument::from_path_argument(rhs_tmp_file),
+                FilePermissions::try_from(lhs_mode.as_os_str()).ok(),
+                FilePermissions::try_from(rhs_mode.as_os_str()).ok(),
+                Some(renamed),
+            )
+        }
+        [path] => {
+            let display_path = path.to_string_lossy().to_string();
+            let path = FileArgument::from_path_argument(path);
+
+            return Mode::DiffFromConflicts {
+                display_path,
+                path,
+                diff_options,
+                display_options,
+                set_exit_code,
+                language_overrides,
+                binary_overrides,
+            };
+        }
+        _ => wrong_number_of_paths(&paths),
+    };
+
+    Mode::Diff {
+        diff_options,
+        display_options,
+        set_exit_code,
+        language_overrides,
+        binary_overrides,
+        lhs_path,
+        rhs_path,
+        lhs_permissions,
+        rhs_permissions,
+        display_path,
+        renamed,
     }
 }
 
@@ -1084,53 +995,6 @@ mod tests {
     #[test]
     fn test_app() {
         Args::command().debug_assert();
-    }
-
-    #[test]
-    fn test_bin_name() {
-        // The examples in the help text hardcode the binary name,
-        // because doc comments can't use env!("CARGO_BIN_NAME").
-        assert_eq!(env!("CARGO_BIN_NAME"), "difft");
-    }
-
-    #[test]
-    fn test_parse_language_override() {
-        let (lang, pattern) = parse_language_override("*.c:C++").unwrap();
-        assert_eq!(
-            lang,
-            language_override_from_name("c++").expect("C++ is a known language")
-        );
-        assert_eq!(pattern.as_str(), "*.c");
-    }
-
-    #[test]
-    fn test_parse_language_override_text() {
-        let (lang, _) = parse_language_override("CustomFile:text").unwrap();
-        assert_eq!(lang, LanguageOverride::PlainText);
-    }
-
-    #[test]
-    fn test_parse_language_override_invalid() {
-        // Missing the ':' separator.
-        assert!(parse_language_override("*.c").is_err());
-        // A language that doesn't exist.
-        assert!(parse_language_override("*.c:no-such-language").is_err());
-        // Invalid glob syntax.
-        assert!(parse_language_override("[:C").is_err());
-    }
-
-    #[test]
-    fn test_combine_overrides() {
-        let overrides = vec![
-            parse_language_override("*.c:text").unwrap(),
-            parse_language_override("*.h:text").unwrap(),
-            parse_language_override("*.js:JSON").unwrap(),
-        ];
-
-        let combined = combine_overrides(overrides);
-        assert_eq!(combined.len(), 2);
-        assert_eq!(combined[0].1.len(), 2);
-        assert_eq!(combined[1].1.len(), 1);
     }
 
     #[test]
