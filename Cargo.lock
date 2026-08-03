@@ -1189,9 +1189,9 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-devicetree"
-version = "0.14.1"
+version = "0.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b1e6874b59d8252cbaf9750f7152166e17ed162921a5f6d4e8bd2a2bc2aed46b"
+checksum = "6264316c288e1d4fed3002fb6c2d7a8e90d65d519e2ecf64a60c5abd0ee35481"
 dependencies = [
  "cc",
  "tree-sitter-language",
