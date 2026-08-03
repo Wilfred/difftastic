@@ -19,6 +19,7 @@ edition = "2021"
 # https://tracker.debian.org/pkg/rustc) but Debian doesn't currently
 # package difftastic. Other distros are somewhat newer.
 rust-version = "1.85.0"
+
 include = [
         "/build.rs",
         "/src/",
