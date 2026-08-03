@@ -22,6 +22,12 @@ Fixed an issue where prebuilt binaries on GitHub did not respect
 Cargo.lock, so they used newer library versions than tested on
 CI. This caused rendering bugs in source code with tabs.
 
+### Display
+
+Fixed an inconsistent choice of file path label when diffing two paths
+that share no common suffix: the label no longer depends on whether the
+files have an extension.
+
 ## 0.69 (released 30th April 2026)
 
 ## Diffing

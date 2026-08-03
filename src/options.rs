@@ -622,13 +622,10 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
 
             match common_path_suffix(lhs, rhs) {
                 Some(common_suffix) => common_suffix,
-                None => {
-                    if rhs.extension().is_some() {
-                        rhs.display().to_string()
-                    } else {
-                        lhs.display().to_string()
-                    }
-                }
+                // No shared path component: use the rhs path consistently,
+                // rather than picking a side based on the file extension
+                // (see #925). This matches the git-tmpfile case above.
+                None => rhs.display().to_string(),
             }
         }
         (FileArgument::NamedPath(p), _) | (_, FileArgument::NamedPath(p)) => {
@@ -1081,5 +1078,24 @@ mod tests {
     fn test_detect_display_width() {
         // Basic smoke test.
         assert!(detect_terminal_width() > 10);
+    }
+
+    #[test]
+    fn test_build_display_path_consistent_without_common_suffix() {
+        // Regression test for #925: when two paths share no common
+        // suffix, the chosen label must not depend on whether the files
+        // have an extension. Use the rhs path consistently.
+        let a = FileArgument::NamedPath(PathBuf::from("a"));
+        let b = FileArgument::NamedPath(PathBuf::from("b"));
+        let a_txt = FileArgument::NamedPath(PathBuf::from("a.txt"));
+        let b_txt = FileArgument::NamedPath(PathBuf::from("b.txt"));
+
+        assert_eq!(build_display_path(&a, &b), "b");
+        assert_eq!(build_display_path(&a_txt, &b_txt), "b.txt");
+
+        // A shared trailing component is still used when present.
+        let dir1 = FileArgument::NamedPath(PathBuf::from("dir1/foo.txt"));
+        let dir2 = FileArgument::NamedPath(PathBuf::from("dir2/foo.txt"));
+        assert_eq!(build_display_path(&dir1, &dir2), "foo.txt");
     }
 }
