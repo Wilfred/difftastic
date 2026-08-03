@@ -6,7 +6,7 @@ Improved diffing performance, particularly when diffing directories.
 
 ### Parsing
 
-Improved support for Emacs Lisp, Java and TOML.
+Improved support for Emacs Lisp, Erlang, Java and TOML.
 
 Removed support for Elvish and SCSS (upstream parsers are no longer
 maintained).
