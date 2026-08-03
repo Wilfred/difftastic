@@ -72,6 +72,9 @@ streaming-iterator = "0.1.9"
 encoding_rs = "0.8.35"
 
 # tree-sitter itself.
+#
+# Note that tree-sitter 0.26.10 is currently not compatible with
+# tree-sitter-solidity: https://github.com/JoranHonig/tree-sitter-solidity/pull/80
 tree-sitter = "0.26.8"
 tree-sitter-language = "0.1.7"
 
