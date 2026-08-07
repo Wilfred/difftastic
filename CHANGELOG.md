@@ -4,6 +4,13 @@
 
 Improved diffing performance, particularly when diffing directories.
 
+Difftastic now understands JSX whitespace, so `<p>hello {name}</p>`
+and `<p>hello{" "}{name}</p>` are treated as "no syntactic
+changes". This makes it much easier to review JSX that has been
+reformatted by a code formatter. Conversely, whitespace that JSX does
+render, such as the space in `<p>{greeting} {name}</p>`, is no longer
+ignored.
+
 ### Parsing
 
 Improved support for Emacs Lisp, Erlang, Java, PHP, Protocol Buffers and TOML.

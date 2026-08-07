@@ -1,5 +1,6 @@
 //! Load and configure parsers written with tree-sitter.
 
+use std::cmp::min;
 use std::sync::{LazyLock, Mutex};
 
 use line_numbers::{LineNumber, LinePositions};
@@ -1710,7 +1711,7 @@ fn all_syntaxes_from_cursor<'a>(
     let mut nodes: Vec<&Syntax> = vec![];
 
     loop {
-        nodes.extend(syntax_from_cursor(
+        syntax_from_cursor(
             arena,
             src,
             nl_pos,
@@ -1720,7 +1721,8 @@ fn all_syntaxes_from_cursor<'a>(
             highlights,
             subtrees,
             ignore_comments,
-        ));
+            &mut nodes,
+        );
 
         if !cursor.goto_next_sibling() {
             break;
@@ -1730,8 +1732,12 @@ fn all_syntaxes_from_cursor<'a>(
     nodes
 }
 
-/// Convert the tree-sitter node at `cursor` to a difftastic syntax
-/// node.
+/// Convert the tree-sitter node at `cursor` to difftastic syntax
+/// nodes, and push them on to `nodes`.
+///
+/// This usually produces a single node, but a tree-sitter node may
+/// produce none (e.g. a comment when `ignore_comments` is set) or
+/// several (e.g. JSX text, where the whitespace is a separate node).
 fn syntax_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
@@ -1749,13 +1755,14 @@ fn syntax_from_cursor<'a>(
         ),
     >,
     ignore_comments: bool,
-) -> Option<&'a Syntax<'a>> {
+    nodes: &mut Vec<&'a Syntax<'a>>,
+) {
     let node = cursor.node();
 
     // See if we should go into a sub-document instead (e.g. embedded JavaScript in HTML).
     if let Some((subtree, subconfig, subhighlights)) = subtrees.get(&node.id()) {
         let mut sub_cursor = subtree.walk();
-        return syntax_from_cursor(
+        syntax_from_cursor(
             arena,
             src,
             nl_pos,
@@ -1765,11 +1772,30 @@ fn syntax_from_cursor<'a>(
             subhighlights,
             &DftHashMap::default(),
             ignore_comments,
+            nodes,
         );
+        return;
     }
 
     if node.is_error() {
         errors.record(&node);
+    }
+
+    // Treat `{" "}` as if it were the JSX text that it renders, so it
+    // matches the equivalent literal whitespace on the other side.
+    if let Some(whitespace) = jsx_whitespace_expression(src, &node) {
+        nodes.push(Syntax::new_atom(
+            arena,
+            nl_pos.from_region(node.start_byte(), node.end_byte()),
+            whitespace,
+            AtomKind::Normal,
+        ));
+        return;
+    }
+
+    if node.kind() == "jsx_text" {
+        jsx_text_from_cursor(arena, src, nl_pos, &node, nodes);
+        return;
     }
 
     if config.atom_nodes.contains(node.kind()) || highlights.comment_ids.contains(&node.id()) {
@@ -1778,14 +1804,28 @@ fn syntax_from_cursor<'a>(
         //
         // Also, if this node is highlighted as a comment, treat it as
         // an atom unconditionally.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
+        nodes.extend(atom_from_cursor(
+            arena,
+            src,
+            nl_pos,
+            cursor,
+            highlights,
+            ignore_comments,
+        ));
     } else if highlights.keyword_ids.contains(&node.id()) && node.child_count() == 1 {
         // If this list has a single child, and the list itself (not
         // the child) is marked as a keyword, treat it as an atom with
         // keyword highlighting.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
+        nodes.extend(atom_from_cursor(
+            arena,
+            src,
+            nl_pos,
+            cursor,
+            highlights,
+            ignore_comments,
+        ));
     } else if node.child_count() > 0 {
-        Some(list_from_cursor(
+        nodes.push(list_from_cursor(
             arena,
             src,
             nl_pos,
@@ -1795,9 +1835,16 @@ fn syntax_from_cursor<'a>(
             highlights,
             subtrees,
             ignore_comments,
-        ))
+        ));
     } else {
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
+        nodes.extend(atom_from_cursor(
+            arena,
+            src,
+            nl_pos,
+            cursor,
+            highlights,
+            ignore_comments,
+        ));
     }
 }
 
@@ -1888,7 +1935,7 @@ fn list_from_cursor<'a>(
     loop {
         let node = cursor.node();
         if node_i < i {
-            before_delim.extend(syntax_from_cursor(
+            syntax_from_cursor(
                 arena,
                 src,
                 nl_pos,
@@ -1898,12 +1945,13 @@ fn list_from_cursor<'a>(
                 highlights,
                 subtrees,
                 ignore_comments,
-            ));
+                &mut before_delim,
+            );
         } else if node_i == i {
             inner_open_content = &src[node.start_byte()..node.end_byte()];
             inner_open_position = nl_pos.from_region(node.start_byte(), node.end_byte());
         } else if node_i < j {
-            between_delim.extend(syntax_from_cursor(
+            syntax_from_cursor(
                 arena,
                 src,
                 nl_pos,
@@ -1913,12 +1961,13 @@ fn list_from_cursor<'a>(
                 highlights,
                 subtrees,
                 ignore_comments,
-            ));
+                &mut between_delim,
+            );
         } else if node_i == j {
             inner_close_content = &src[node.start_byte()..node.end_byte()];
             inner_close_position = nl_pos.from_region(node.start_byte(), node.end_byte());
         } else if node_i > j {
-            after_delim.extend(syntax_from_cursor(
+            syntax_from_cursor(
                 arena,
                 src,
                 nl_pos,
@@ -1928,7 +1977,8 @@ fn list_from_cursor<'a>(
                 highlights,
                 subtrees,
                 ignore_comments,
-            ));
+                &mut after_delim,
+            );
         }
 
         if !cursor.goto_next_sibling() {
@@ -1984,6 +2034,181 @@ fn list_from_cursor<'a>(
     }
 }
 
+/// Normalise the whitespace in the JSX text `content`, so it matches
+/// the text that React actually renders.
+///
+/// Tabs are converted to spaces, then every line is trimmed except for
+/// the beginning of the first line and the end of the last line. Lines
+/// that are now empty are discarded, and the remaining lines are
+/// joined with a single space.
+///
+/// This is the same algorithm that Babel uses when compiling JSX.
+///
+/// https://github.com/facebook/react/pull/480
+fn clean_jsx_text(content: &str) -> String {
+    let lines: Vec<String> = content
+        .split('\n')
+        .map(|line| line.strip_suffix('\r').unwrap_or(line).replace('\t', " "))
+        .collect();
+
+    // The last line that isn't entirely whitespace. If every line is
+    // whitespace, JSX treats the first line as the last non-blank one.
+    let last_non_blank = lines
+        .iter()
+        .rposition(|line| line.contains(|c| c != ' '))
+        .unwrap_or(0);
+
+    let mut res = String::with_capacity(content.len());
+    for (i, line) in lines.iter().enumerate() {
+        let mut line: &str = line;
+
+        // Indentation is not significant, and neither is whitespace
+        // before a newline.
+        if i > 0 {
+            line = line.trim_start_matches(' ');
+        }
+        if i + 1 < lines.len() {
+            line = line.trim_end_matches(' ');
+        }
+
+        if line.is_empty() {
+            continue;
+        }
+
+        res.push_str(line);
+        // Lines are joined with a single space.
+        if i != last_non_blank {
+            res.push(' ');
+        }
+    }
+
+    res
+}
+
+/// Convert the `jsx_text` node `node` to difftastic atoms, and push
+/// them on to `nodes`.
+///
+/// The rendered whitespace at the beginning and end of the text is a
+/// separate atom, so that it matches an equivalent `{" "}` expression
+/// on the other side. Text that renders nothing at all, such as the
+/// indentation between two elements on separate lines, produces no
+/// atoms.
+fn jsx_text_from_cursor<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    src: &str,
+    nl_pos: &LinePositions,
+    node: &ts::Node<'_>,
+    nodes: &mut Vec<&'a Syntax<'a>>,
+) {
+    let start_byte = node.start_byte();
+    let end_byte = node.end_byte();
+
+    let src_text = &src[start_byte..end_byte];
+    let content = clean_jsx_text(src_text);
+    if content.is_empty() {
+        return;
+    }
+
+    let mut push_atom = |content: &str, start_byte: usize, end_byte: usize| {
+        nodes.push(Syntax::new_atom(
+            arena,
+            nl_pos.from_region(start_byte, end_byte),
+            content.to_owned(),
+            AtomKind::Normal,
+        ));
+    };
+
+    if content.chars().all(|c| c == ' ') {
+        // This text is entirely whitespace, e.g. the space in
+        // `<p>{greeting} {name}</p>`.
+        push_atom(&content, start_byte, end_byte);
+        return;
+    }
+
+    // Whitespace is only discarded from the beginning of the first
+    // line and the end of the last line, so whitespace remaining at
+    // either end of `content` is the whitespace at that end of the
+    // original text. Take the smaller of the two, so we never claim
+    // more of the original text than is actually whitespace.
+    let leading_len = min(
+        content.len() - content.trim_start_matches(' ').len(),
+        src_text.len() - src_text.trim_start_matches([' ', '\t']).len(),
+    );
+    let trailing_len = min(
+        content.len() - content.trim_end_matches(' ').len(),
+        src_text.len() - src_text.trim_end_matches([' ', '\t']).len(),
+    );
+
+    if leading_len > 0 {
+        push_atom(
+            &content[..leading_len],
+            start_byte,
+            start_byte + leading_len,
+        );
+    }
+    push_atom(
+        &content[leading_len..content.len() - trailing_len],
+        start_byte + leading_len,
+        end_byte - trailing_len,
+    );
+    if trailing_len > 0 {
+        push_atom(
+            &content[content.len() - trailing_len..],
+            end_byte - trailing_len,
+            end_byte,
+        );
+    }
+}
+
+/// If the node at `cursor` is a JSX expression that only renders
+/// whitespace, such as the `{" "}` in `<p>hello{" "}world</p>`, return
+/// the whitespace it renders.
+///
+/// This lets us treat `{" "}` as equivalent to a literal space in JSX
+/// text, so reformatting JSX isn't reported as a change.
+fn jsx_whitespace_expression(src: &str, node: &ts::Node<'_>) -> Option<String> {
+    if node.kind() != "jsx_expression" {
+        return None;
+    }
+
+    // Only JSX children render text. An expression elsewhere, such as
+    // the attribute value in `<p title={" "} />`, is an ordinary
+    // string.
+    if !matches!(
+        node.parent().map(|p| p.kind()),
+        Some("jsx_element" | "jsx_fragment")
+    ) {
+        return None;
+    }
+
+    // We want exactly `{`, a string, then `}`. Anything else, such as
+    // a comment or a template string, is left alone.
+    if node.child_count() != 3 {
+        return None;
+    }
+    let string_node = node.child(1)?;
+    if string_node.kind() != "string" {
+        return None;
+    }
+
+    // A string is the quotes plus an optional fragment, so `{""}`
+    // renders nothing and isn't equivalent to any JSX text.
+    if string_node.child_count() != 3 {
+        return None;
+    }
+    let fragment = string_node.child(1)?;
+    if fragment.kind() != "string_fragment" {
+        return None;
+    }
+
+    let text = &src[fragment.start_byte()..fragment.end_byte()];
+    if text.is_empty() || !text.chars().all(|c| c == ' ') {
+        return None;
+    }
+
+    Some(text.to_owned())
+}
+
 /// Convert the tree-sitter node at `cursor` to a difftastic atom.
 fn atom_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
@@ -1995,7 +2220,7 @@ fn atom_from_cursor<'a>(
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
     let position = nl_pos.from_region(node.start_byte(), node.end_byte());
-    let mut content = &src[node.start_byte()..node.end_byte()];
+    let content = &src[node.start_byte()..node.end_byte()];
 
     // The C and C++ grammars have a '\n' node with the
     // preprocessor. This isn't useful for difftastic, because it's
@@ -2003,15 +2228,6 @@ fn atom_from_cursor<'a>(
     // happen to have preceding newline node.
     if node.kind() == "\n" {
         return None;
-    }
-
-    // JSX trims whitespace at the beginning and end of text nodes.
-    // TODO: match the exact trimming behaviour used in React.
-    //
-    // https://reactjs.org/blog/2014/02/20/react-v0.9.html#jsx-whitespace
-    // https://github.com/facebook/react/pull/480
-    if node.kind() == "jsx_text" {
-        content = content.trim();
     }
 
     let highlight = if node.is_error() {
@@ -2097,6 +2313,39 @@ mod tests {
                 panic!("Top level isn't a list");
             }
         };
+    }
+
+    #[test]
+    fn test_clean_jsx_text() {
+        // Whitespace within a line is significant.
+        assert_eq!(clean_jsx_text(" "), " ");
+        assert_eq!(clean_jsx_text("hello world"), "hello world");
+        assert_eq!(clean_jsx_text("hello "), "hello ");
+
+        // Indentation and the whitespace before a newline is not.
+        assert_eq!(clean_jsx_text("\n  "), "");
+        assert_eq!(clean_jsx_text("\n  hello\n"), "hello");
+        assert_eq!(clean_jsx_text("hello  \n  world"), "hello world");
+        assert_eq!(clean_jsx_text("\n\n  hello\n\n  world\n\n"), "hello world");
+
+        // Tabs are equivalent to spaces.
+        assert_eq!(clean_jsx_text("\n\thello"), "hello");
+        assert_eq!(clean_jsx_text("hello\tworld"), "hello world");
+    }
+
+    /// The whitespace at either end of JSX text should be a separate
+    /// node, so it matches an equivalent `{" "}` on the other side.
+    /// <https://github.com/Wilfred/difftastic/issues/1026>
+    #[test]
+    fn test_parse_jsx_whitespace() {
+        let arena = Arena::new();
+        let config = from_language(guess::Language::JavascriptJsx);
+
+        let space_text = parse(&arena, "<p>hello {name}</p>", config, false);
+        let space_expression = parse(&arena, "<p>hello{\" \"}{name}</p>", config, false);
+
+        syntax::init_all_info(&space_text, &space_expression);
+        assert_eq!(space_text[0].content_id(), space_expression[0].content_id());
     }
 
     /// Ensure that we don't crash when loading any of the
