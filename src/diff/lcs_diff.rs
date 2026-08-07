@@ -12,8 +12,11 @@ use crate::hash::{DftHashMap, DftHashSet};
 
 #[derive(Debug, PartialEq)]
 pub(crate) enum DiffResult<T> {
-    Left(T),
+    /// Both sides match.
     Both(T, T),
+    /// Novel to LHS.
+    Left(T),
+    /// Novel to RHS.
     Right(T),
 }
 
