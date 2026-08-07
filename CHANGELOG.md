@@ -6,8 +6,8 @@ Improved diffing performance, particularly when diffing directories.
 
 ### Parsing
 
-Improved support for Dart, Emacs Lisp, Erlang, Java, PHP, Protocol
-Buffers and TOML.
+Improved support for Dart, Emacs Lisp, Erlang, Java, OCaml, PHP,
+Protocol Buffers and TOML.
 
 Removed support for Elvish and SCSS (upstream parsers are no longer
 maintained).
