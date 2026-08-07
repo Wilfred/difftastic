@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Find all maximal cliques in an undirected graph using Bron–Kerbosch algorithm with pivoting. Also works on symmetric directed graphs, see the note below."><title>maximal_cliques in petgraph::algo::maximal_cliques - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="petgraph" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../petgraph/index.html">petgraph</a><span class="version">0.8.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">maximal_<wbr>cliques</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#arguments" title="Arguments">Arguments</a></li><li><a href="#returns" title="Returns">Returns</a></li><li><a href="#complexity" title="Complexity">Complexity</a></li><li><a href="#example" title="Example">Example</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In petgraph::<wbr>algo::<wbr>maximal_<wbr>cliques</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="../../index.html">petgraph</a>::<wbr><a href="../index.html">algo</a>::<wbr><a href="index.html">maximal_cliques</a></span><h1>Function <span class="fn">maximal_cliques</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/petgraph/algo/maximal_cliques.rs.html#115-125">Source</a> </span></div><pre class="rust item-decl"><code>pub fn maximal_cliques&lt;G&gt;(g: G) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.85.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../../../hashbrown/set/struct.HashSet.html" title="struct hashbrown::set::HashSet">HashSet</a>&lt;G::<a class="associatedtype" href="../../visit/trait.GraphBase.html#associatedtype.NodeId" title="type petgraph::visit::GraphBase::NodeId">NodeId</a>&gt;&gt;<div class="where">where
+    G: <a class="trait" href="../../visit/trait.GetAdjacencyMatrix.html" title="trait petgraph::visit::GetAdjacencyMatrix">GetAdjacencyMatrix</a> + <a class="trait" href="../../visit/trait.IntoNodeIdentifiers.html" title="trait petgraph::visit::IntoNodeIdentifiers">IntoNodeIdentifiers</a> + <a class="trait" href="../../visit/trait.IntoNeighbors.html" title="trait petgraph::visit::IntoNeighbors">IntoNeighbors</a>,
+    G::<a class="associatedtype" href="../../visit/trait.GraphBase.html#associatedtype.NodeId" title="type petgraph::visit::GraphBase::NodeId">NodeId</a>: <a class="trait" href="https://doc.rust-lang.org/1.85.0/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/1.85.0/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a>,</div></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Find all maximal cliques in an undirected graph using <a href="https://en.wikipedia.org/wiki/Bron%E2%80%93Kerbosch_algorithm">Bron–Kerbosch algorithm</a>
+with pivoting. Also works on symmetric directed graphs, see the note below.</p>
+<p>A clique is a set of nodes such that every node connects to
+every other. A maximal clique is a clique that cannot be extended
+by including one more adjacent vertex. A graph may have multiple
+maximal cliques.</p>
+<p>This method may also be called on directed graphs, but one needs to ensure that
+if an edge (u, v) exists, then (v, u) also exists.</p>
+<h2 id="arguments"><a class="doc-anchor" href="#arguments">§</a>Arguments</h2>
+<ul>
+<li><code>g</code>: The graph to find maximal cliques in.</li>
+</ul>
+<h2 id="returns"><a class="doc-anchor" href="#returns">§</a>Returns</h2>
+<ul>
+<li><code>Vec&lt;HashSet&gt;</code>: A vector of <a href="../../../hashbrown/set/struct.HashSet.html" title="struct hashbrown::set::HashSet"><code>hashbrown::HashSet</code></a> making up the maximal cliques in the graph.</li>
+</ul>
+<h2 id="complexity"><a class="doc-anchor" href="#complexity">§</a>Complexity</h2>
+<ul>
+<li>Time complexity: <strong>O(3^(|V|/3))</strong></li>
+<li>Auxiliary space: <strong>O(|V|² + |V|k)</strong>.</li>
+</ul>
+<p>where <strong>|V|</strong> is the number of nodes and k is the number of maximal cliques in the graph
+(possibly up to <em>3^(|V|/3)</em>* many).</p>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>petgraph::algo::maximal_cliques;
+<span class="kw">use </span>petgraph::graph::UnGraph;
+
+<span class="kw">let </span><span class="kw-2">mut </span>g = UnGraph::&lt;i32, ()&gt;::from_edges([(<span class="number">0</span>, <span class="number">1</span>), (<span class="number">0</span>, <span class="number">2</span>), (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">3</span>)]);
+g.add_node(<span class="number">4</span>);
+<span class="comment">// The example graph:
+//
+// 0 --- 2 -- 3
+//  \   /
+//   \ /
+//    1       4
+//
+// maximal cliques: {4}, {2, 3}, {0, 1, 2}
+// Output the result
+</span><span class="kw">let </span>cliques = maximal_cliques(<span class="kw-2">&amp;</span>g);
+<span class="macro">println!</span>(<span class="string">"{:?}"</span>, cliques);
+<span class="comment">// [
+//   {NodeIndex(4)},
+//   {NodeIndex(0), NodeIndex(1), NodeIndex(2)},
+//   {NodeIndex(2), NodeIndex(3)}
+// ]</span></code></pre></div>
+</div></details></section></div></main></body></html>

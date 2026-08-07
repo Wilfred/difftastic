@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["min_spanning_tree","min_spanning_tree_prim"],"struct":["MinSpanningTree","MinSpanningTreePrim"]};

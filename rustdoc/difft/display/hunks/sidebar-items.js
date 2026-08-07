@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["MAX_DISTANCE"],"fn":["either_side_equal","enforce_increasing","extract_lines","fill_between","find_novel_lines","lines_are_close","lines_to_hunks","matched_lines_indexes_for_hunk","matched_novel_lines","matched_pos_to_hunks","merge_adjacent","next_opposite","novel_section_in_order","sorted_novel_positions"],"struct":["Hunk"]};
