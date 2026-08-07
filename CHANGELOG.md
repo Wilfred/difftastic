@@ -6,7 +6,10 @@ Improved diffing performance, particularly when diffing directories.
 
 ### Parsing
 
-Added support for Dockerfile syntax.
+Files with parse errors now report the position of the first error, to
+help investigate issues.
+
+Added support for Dockerfiles and Fish shell.
 
 Improved support for Dart, Emacs Lisp, Erlang, Java, OCaml, PHP,
 Protocol Buffers and TOML.
@@ -18,6 +21,8 @@ maintained).
 
 Fixed an issue where files with tabs were not always aligned correctly
 in some build configurations.
+
+Fix an alignment issue with line numbers in side-by-side mode.
 
 ### Release
 
