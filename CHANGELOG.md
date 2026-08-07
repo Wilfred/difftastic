@@ -6,6 +6,8 @@ Improved diffing performance, particularly when diffing directories.
 
 ### Parsing
 
+Added support for Dockerfile syntax.
+
 Improved support for Dart, Emacs Lisp, Erlang, Java, OCaml, PHP,
 Protocol Buffers and TOML.
 
