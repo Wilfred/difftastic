@@ -75,7 +75,8 @@ pub(crate) struct SyntaxInfo<'a> {
     prev: Cell<Option<&'a Syntax<'a>>>,
     /// The parent syntax node, if present.
     parent: Cell<Option<&'a Syntax<'a>>>,
-    /// The number of nodes that are ancestors of this one.
+    /// The number of nodes that are ancestors (i.e. parents,
+    /// grandparents, ...) of this one.
     num_ancestors: Cell<u32>,
     /// A number that uniquely identifies this syntax node.
     unique_id: Cell<SyntaxId>,
