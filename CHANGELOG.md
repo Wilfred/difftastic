@@ -23,6 +23,9 @@ maintained).
 Fixed an issue where files with tabs were not always aligned correctly
 in some build configurations.
 
+Fixed a crash when displaying an unchanged token that starts or ends
+on a line where it occupies no columns, such as reindented JSX text.
+
 ### Release
 
 Fixed an issue where prebuilt binaries on GitHub did not respect

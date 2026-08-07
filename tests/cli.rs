@@ -127,6 +127,23 @@ fn check_only_text_file() {
     cmd.assert().stdout(predicate_fn);
 }
 
+/// An unchanged token may start or end on a line that it doesn't
+/// actually occupy any columns on, and the two sides can disagree on
+/// that. Difftastic used to crash on this.
+#[test]
+fn reindented_jsx_doesnt_crash() {
+    for display in ["inline", "side-by-side", "side-by-side-show-both"] {
+        let mut cmd = get_base_command();
+
+        cmd.arg("--display")
+            .arg(display)
+            .arg("sample_files/cli_tests/reindented_jsx_1.jsx")
+            .arg("sample_files/cli_tests/reindented_jsx_2.jsx");
+
+        cmd.assert().success();
+    }
+}
+
 #[test]
 fn text_changes_at_end_doesnt_crash() {
     let mut cmd = get_base_command();

@@ -3,6 +3,7 @@
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
 use std::cell::Cell;
+use std::cmp::min;
 use std::hash::Hash;
 use std::num::NonZeroU32;
 use std::{env, fmt};
@@ -913,7 +914,17 @@ impl MatchedPos {
                     Atom { position, .. } => position.clone(),
                 };
 
-                let opposite_pos_len = opposite_pos.len();
+                // Discard empty positions at either end, exactly as we
+                // did for `pos`. Otherwise the two sides disagree on
+                // how many lines this node covers, and we produce a
+                // different number of MatchedPos values on each side.
+                let opposite_pos = filter_empty_ends(&opposite_pos);
+
+                // Ensure we have the same number of unchanged
+                // MatchedPos on the LHS and RHS. This allows us to
+                // consider unchanged MatchedPos values pairwise.
+                let mps_len = min(pos.len(), opposite_pos.len());
+
                 let kind = MatchKind::UnchangedToken {
                     highlight,
                     self_pos: pos.to_vec(),
@@ -922,19 +933,11 @@ impl MatchedPos {
 
                 // Create a MatchedPos for every line that `pos` covers.
                 let mut mps = vec![];
-                for line_pos in &pos {
+                for line_pos in pos.iter().take(mps_len) {
                     mps.push(Self {
                         kind: kind.clone(),
                         pos: *line_pos,
                     });
-
-                    // Ensure we have the same number of unchanged
-                    // MatchedPos on the LHS and RHS. This allows us
-                    // to consider unchanged MatchedPos values
-                    // pairwise.
-                    if mps.len() == opposite_pos_len {
-                        break;
-                    }
                 }
                 mps
             }
