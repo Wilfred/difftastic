@@ -391,7 +391,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "poetry.lock",
             "uv.lock",
         ],
-        TypeScript => &["*.ts"],
+        TypeScript => &["*.ts", "*.cts", "*.mts"],
         TypeScriptTsx => &["*.tsx"],
         Verilog => &["*.v", "*.sv", "*.vh"],
         Vhdl => &["*.vhdl", "*.vhd"],

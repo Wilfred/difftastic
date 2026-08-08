@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Improved C++.
+Improved C++ and TypeScript.
 
 ## 0.70 (released 7th August 2026)
 
