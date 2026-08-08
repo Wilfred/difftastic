@@ -260,7 +260,8 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         // https://madnight.github.io/githut/
         // Also, treating CUDA as C++
         CPlusPlus => &[
-            "*.cc", "*.cpp", "*.h", "*.hh", "*.hpp", "*.ino", "*.cxx", "*.cu",
+            "*.cc", "*.cpp", ".c++", "*.cxx", "*.cu", "*.h", "*.hh", "*.hpp", "*.hxx", "*.inl",
+            "*.ino", "*.ipp", "*.ixx", "*.tcc",
         ],
         CSharp => &["*.cs"],
         Css => &["*.css"],
