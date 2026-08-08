@@ -223,6 +223,58 @@ fn git_style_arguments_rename() {
 }
 
 #[test]
+fn git_style_arguments_path_starting_with_hyphen() {
+    let mut cmd = get_base_command();
+
+    // Git passes paths positionally and never passes options, so it
+    // can't use `--` to mark a path that starts with a hyphen.
+    cmd.env("GIT_DIFF_PATH_TOTAL", "1")
+        .arg("-hyphen.el")
+        .arg("sample_files/elisp_1.el")
+        .arg("lhs_hash_placeholder")
+        .arg("lhs_mode_placeholder")
+        .arg("sample_files/elisp_2.el")
+        .arg("rhs_hash_placeholder")
+        .arg("rhs_mode_placeholder");
+
+    let predicate_fn = predicate::str::contains("-hyphen.el");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn git_style_arguments_rename_to_path_starting_with_hyphen() {
+    let mut cmd = get_base_command();
+
+    cmd.env("GIT_DIFF_PATH_TOTAL", "1")
+        .arg("elisp_oldname.el")
+        .arg("sample_files/elisp_1.el")
+        .arg("lhs_hash_placeholder")
+        .arg("lhs_mode_placeholder")
+        .arg("sample_files/elisp_2.el")
+        .arg("rhs_hash_placeholder")
+        .arg("rhs_mode_placeholder")
+        .arg("-hyphen.el")
+        .arg("similarity_placeholder");
+
+    let predicate_fn = predicate::str::contains("Renamed");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn options_after_paths() {
+    let mut cmd = get_base_command();
+
+    // Options may be given after the paths, so we can't simply allow
+    // hyphen values on the paths argument.
+    cmd.arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js")
+        .arg("--display=inline");
+
+    let predicate_fn = predicate::str::contains("const React");
+    cmd.assert().success().stdout(predicate_fn);
+}
+
+#[test]
 fn git_style_arguments_new_file() {
     let mut cmd = get_base_command();
 
