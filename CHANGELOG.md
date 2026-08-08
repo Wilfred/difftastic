@@ -32,6 +32,10 @@ Fixed an issue where prebuilt binaries on GitHub did not respect
 Cargo.lock, so they used newer library versions than tested on
 CI. This caused rendering bugs in source code with tabs.
 
+### Command Line Interface
+
+`--context` can now be set with the short flag `-c`.
+
 ## 0.69 (released 30th April 2026)
 
 ## Diffing
