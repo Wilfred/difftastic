@@ -903,7 +903,25 @@ fn diff_directories<'a>(
     })
 }
 
+/// Emit the diff-metadata handshake (a version-only OSC 1717, see the spec §4.4) once
+/// per run, as difftastic's first output, so a host can probe it — even on an empty
+/// diff, which prints no per-line records. Flushed so it reaches a host that captures
+/// the output, since difftastic exits via `process::exit`, which skips the implicit
+/// flush.
+fn emit_metadata_handshake_once() {
+    use std::io::Write;
+    static EMITTED: std::sync::Once = std::sync::Once::new();
+    EMITTED.call_once(|| {
+        let handshake = display::diff_line_metadata::handshake();
+        if !handshake.is_empty() {
+            print!("{handshake}");
+            let _ = std::io::stdout().flush();
+        }
+    });
+}
+
 fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
+    emit_metadata_handshake_once();
     match (&summary.lhs_src, &summary.rhs_src) {
         (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
             let hunks = &summary.hunks;
