@@ -217,7 +217,9 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 language: language.clone(),
                 // The C++ grammar extends the C grammar, so the node
                 // names are generally the same.
-                atom_nodes: ["string_literal", "char_literal"].into_iter().collect(),
+                atom_nodes: ["string_literal", "char_literal", "raw_string_literal"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),

@@ -1,5 +1,9 @@
 ## 0.71 (unreleased)
 
+### Parsing
+
+Improved C++.
+
 ## 0.70 (released 7th August 2026)
 
 ### Diffing
