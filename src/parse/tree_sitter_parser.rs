@@ -1068,6 +1068,11 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                     ("parameters", ","),
                     ("type_parameters", ","),
                     ("field_declaration_list", ","),
+                    ("field_initializer_list", ","),
+                    ("array_expression", ","),
+                    ("tuple_expression", ","),
+                    ("use_list", ","),
+                    ("enum_variant_list", ","),
                     // I believe that you can't distinguish code
                     // with/without commas in macros, and this is
                     // important to keep vec![1] and vec![1,] as equivalent.
