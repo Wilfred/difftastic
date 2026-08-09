@@ -1,5 +1,6 @@
 //! CLI option parsing.
 
+use std::cmp::max;
 use std::env;
 use std::ffi::{OsStr, OsString};
 use std::fmt::Display;
@@ -46,6 +47,24 @@ pub(crate) struct DisplayOptions {
 }
 
 pub(crate) const DEFAULT_TERMINAL_WIDTH: usize = 80;
+
+/// The floor below which the side-by-side layout cannot even fit its
+/// 2-character spacer (see `SPACER` in `display/side_by_side.rs`): the
+/// layout arithmetic does `display_width - SPACER.len()`, which underflows
+/// when `display_width <= SPACER.len()`. With this floor, `display_width`
+/// is always at least `SPACER.len() + 1`, so that subtraction is safe.
+///
+/// This is *not* "the smallest width that produces useful output" — very
+/// narrow widths (roughly 3..16 depending on line-number width and
+/// `--tab-width`) can still trip an unrelated assertion in
+/// `display/style.rs`. It is only the threshold that prevents the spacer
+/// underflow, which is what we reject/clamp here.
+///
+/// `--width`/`DFT_WIDTH` below this floor is rejected for side-by-side
+/// display at argument parsing time, and auto-detected terminal widths are
+/// clamped to it. Keep `MIN_TERMINAL_WIDTH == SPACER.len() + 1` in sync
+/// with `display/side_by_side.rs`.
+pub(crate) const MIN_TERMINAL_WIDTH: usize = 3;
 
 impl Default for DisplayOptions {
     fn default() -> Self {
@@ -813,6 +832,27 @@ pub(crate) fn parse_args() -> Mode {
         }
     };
 
+    // `--width`/`DFT_WIDTH` is only consumed by side-by-side rendering
+    // (inline and JSON ignore it entirely), so a too-small width only
+    // matters there. Below MIN_TERMINAL_WIDTH the two columns cannot even
+    // fit the spacer between them, so reject it with a clear error instead
+    // of letting the layout underflow and panic later. See
+    // `display/side_by_side.rs`.
+    if matches!(
+        display_mode,
+        DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth
+    ) {
+        if let Some(width) = matches.get_one::<usize>("width") {
+            if *width < MIN_TERMINAL_WIDTH {
+                eprintln!(
+                    "--width must be at least {} for side-by-side display, but got {}.",
+                    MIN_TERMINAL_WIDTH, width
+                );
+                std::process::exit(EXIT_BAD_ARGUMENTS);
+            }
+        }
+    }
+
     let background_color = match matches
         .get_one::<String>("background")
         .map(|s| s.as_str())
@@ -1031,6 +1071,15 @@ pub(crate) fn parse_args() -> Mode {
 /// Try to work out the width of the terminal we're on, or fall back
 /// to a sensible default value.
 fn detect_terminal_width() -> usize {
+    let detected = detect_terminal_width_raw();
+
+    // An exotic terminal (or a tiny COLUMNS value) may report a width too
+    // narrow for the side-by-side spacer plus a column of content. Clamp it
+    // to the minimum rather than letting the layout arithmetic underflow.
+    max(detected, MIN_TERMINAL_WIDTH)
+}
+
+fn detect_terminal_width_raw() -> usize {
     if let Ok((columns, _rows)) = crossterm::terminal::size() {
         if columns > 0 {
             return columns.into();

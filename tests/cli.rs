@@ -291,3 +291,45 @@ fn git_unmerged_files() {
     let predicate_fn = predicate::str::contains("Unmerged path");
     cmd.assert().stdout(predicate_fn);
 }
+
+// Regression for a release panic: `--width` below the side-by-side minimum
+// used to reach a release `assert!` in the side-by-side layout code and
+// crash. It must now be rejected cleanly as a bad argument (no panic).
+#[test]
+fn width_too_small_is_rejected() {
+    // Explicit flag.
+    let mut cmd = get_base_command();
+    cmd.arg("--width")
+        .arg("2")
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
+    cmd.assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("--width"));
+
+    // The DFT_WIDTH environment variable is validated by the same parser.
+    let mut cmd = get_base_command();
+    cmd.env("DFT_WIDTH", "2")
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
+    cmd.assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("--width"));
+}
+
+// `--width`/`DFT_WIDTH` is only consumed by side-by-side rendering; inline
+// (and JSON) ignore it entirely, so a small width must NOT be rejected for
+// those modes. Regression guard: a too-aggressive global validation broke
+// this previously.
+#[test]
+fn inline_ignores_small_width() {
+    let mut cmd = get_base_command();
+    cmd.arg("--display=inline")
+        .arg("--width")
+        .arg("2")
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
+    cmd.assert().success();
+}

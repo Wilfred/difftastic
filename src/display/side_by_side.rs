@@ -207,9 +207,17 @@ impl SourceDimensions {
             + content_max_width;
         let display_width = min(terminal_width, width_without_truncation);
 
-        assert!(
+        // A terminal narrower than the spacer cannot fit two columns, and
+        // subtracting the spacer below would underflow. The CLI rejects
+        // `--width`/`DFT_WIDTH` below MIN_TERMINAL_WIDTH and terminal
+        // auto-detection clamps to that floor, but guard defensively here
+        // too: an undersized width means the layout is unusable, not that
+        // arithmetic overflowed, so clamp rather than panic.
+        let display_width = max(display_width, SPACER.len() + 1);
+        debug_assert!(
             display_width > SPACER.len(),
-            "Terminal total width should not overflow"
+            "display_width must be wider than the {}-character spacer",
+            SPACER.len()
         );
         let lhs_total_width = (display_width - SPACER.len()) / 2;
 
@@ -804,6 +812,34 @@ mod tests {
 
         assert_eq!(source_dims.lhs_line_nums_width, 2);
         assert_eq!(source_dims.rhs_line_nums_width, 3);
+    }
+
+    #[test]
+    fn source_dimensions_clamps_subspacer_terminal_width() {
+        // Regression for the release `assert!` that used to fire in
+        // `SourceDimensions::new` when terminal_width was below the
+        // 2-character SPACER: the layout must clamp instead of
+        // underflowing/panicking, and still yield non-zero content widths.
+        for terminal_width in [0_usize, 1, 2] {
+            let source_dims = SourceDimensions::new(
+                terminal_width,
+                1.into(),
+                1.into(),
+                1.into(),
+                1.into(),
+                25,
+                25,
+            );
+
+            assert!(
+                source_dims.lhs_content_display_width >= 1,
+                "expected non-zero lhs content width for terminal_width {terminal_width}"
+            );
+            assert!(
+                source_dims.rhs_content_display_width >= 1,
+                "expected non-zero rhs content width for terminal_width {terminal_width}"
+            );
+        }
     }
 
     #[test]
