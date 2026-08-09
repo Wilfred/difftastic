@@ -110,15 +110,20 @@ fn has_utf16_byte_order_mark(bytes: &[u8]) -> bool {
 /// Group bytes into u16 values for conversion to UTF-16, respecting
 /// the byte order mark if present.
 fn u16_from_bytes(bytes: &[u8]) -> Vec<u16> {
-    let is_big_endian = match &bytes {
-        [0xfe, 0xff, ..] => true,
-        [0xff, 0xfe, ..] => false,
-        _ => false, // assume little endian if no BOM is present.
+    // Detect the byte order mark (if any) to choose endianness, and slice
+    // it off so the BOM bytes are consumed but never emitted. Otherwise the
+    // first u16 would be 0xFEFF, leaking a leading U+FEFF into the decoded
+    // text and making a UTF-16-with-BOM file look different from its
+    // logically-identical UTF-8-no-BOM counterpart.
+    let (is_big_endian, body) = match &bytes {
+        [0xfe, 0xff, rest @ ..] => (true, rest),
+        [0xff, 0xfe, rest @ ..] => (false, rest),
+        // assume little endian if no BOM is present.
+        _ => (false, bytes),
     };
 
     // https://stackoverflow.com/a/57172592
-    bytes
-        .chunks_exact(2)
+    body.chunks_exact(2)
         .map(|a| {
             if is_big_endian {
                 u16::from_be_bytes([a[0], a[1]])
@@ -433,5 +438,37 @@ mod tests {
             0xfc, 0x0c, 0x56, 0x1e, 0x93, 0xcb, 0x71, 0x92, 0x82, 0x60, 0x16, 0x37,
         ];
         assert_eq!(guess_content(&bytes), ProbableFileKind::Binary);
+    }
+
+    #[test]
+    fn utf16_bom_is_stripped() {
+        // UTF-16-LE with a BOM: the leading FF FE must be consumed to pick
+        // endianness, not decoded into a leading U+FEFF glued to the text.
+        let le_bytes: Vec<u8> = vec![0xff, 0xfe, b'h', 0x00, b'i', 0x00];
+        let le = String::from_utf16(&u16_from_bytes(&le_bytes)).unwrap();
+        assert!(
+            !le.starts_with('\u{feff}'),
+            "le decoded with leading BOM: {:?}",
+            le
+        );
+        assert_eq!(le, "hi");
+
+        // UTF-16-BE with a BOM: same expectation.
+        let be_bytes: Vec<u8> = vec![0xfe, 0xff, 0x00, b'h', 0x00, b'i'];
+        let be = String::from_utf16(&u16_from_bytes(&be_bytes)).unwrap();
+        assert!(
+            !be.starts_with('\u{feff}'),
+            "be decoded with leading BOM: {:?}",
+            be
+        );
+        assert_eq!(be, "hi");
+    }
+
+    #[test]
+    fn utf16_without_bom_unchanged() {
+        // Plain UTF-16-LE with no BOM must keep decoding as before.
+        let bytes: Vec<u8> = vec![b'h', 0x00, b'i', 0x00];
+        let s = String::from_utf16(&u16_from_bytes(&bytes)).unwrap();
+        assert_eq!(s, "hi");
     }
 }

@@ -291,3 +291,19 @@ fn git_unmerged_files() {
     let predicate_fn = predicate::str::contains("Unmerged path");
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn utf16_bom_matches_utf8_no_bom() {
+    // A UTF-16 file with a byte order mark and its logically-identical
+    // UTF-8 (no BOM) counterpart must be reported as unchanged. The BOM
+    // must not leak into the decoded text as a leading U+FEFF and make
+    // the otherwise-identical files look different.
+    let mut cmd = get_base_command();
+
+    cmd.arg("--exit-code")
+        .arg("sample_files/cli_tests/utf16_bom_same.txt")
+        .arg("sample_files/cli_tests/utf8_no_bom_same.txt");
+
+    let predicate_fn = predicate::str::contains("No changes.");
+    cmd.assert().stdout(predicate_fn);
+}
