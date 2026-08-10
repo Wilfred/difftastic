@@ -148,7 +148,7 @@ pub(crate) enum ProbableFileKind {
 ///
 /// <https://git-scm.com/docs/gitattributes#_working_tree_encoding>
 pub(crate) fn guess_content(
-    bytes: &[u8],
+    bytes: Vec<u8>,
     path: &FileArgument,
     binary_overrides: &[glob::Pattern],
 ) -> ProbableFileKind {
@@ -165,11 +165,17 @@ pub(crate) fn guess_content(
         }
     }
 
-    // If the bytes are entirely valid UTF-8, treat them as a string.
-    if let Ok(valid_utf8_string) = std::str::from_utf8(bytes) {
-        info!("Input file is valid UTF-8");
-        return ProbableFileKind::Text(valid_utf8_string.to_owned());
-    }
+    // If the bytes are entirely valid UTF-8, treat them as a
+    // string. Taking `bytes` by value means this common case is
+    // zero-copy.
+    let bytes = match String::from_utf8(bytes) {
+        Ok(valid_utf8_string) => {
+            info!("Input file is valid UTF-8");
+            return ProbableFileKind::Text(valid_utf8_string);
+        }
+        Err(err) => err.into_bytes(),
+    };
+    let bytes = &bytes[..];
 
     // Only consider the first 1,000 bytes, as tree_magic_mini
     // considers the entire file, which is very slow on large files.
@@ -218,15 +224,14 @@ pub(crate) fn guess_content(
     //
     // To avoid this, we only try UTF-16 after we've done MIME type
     // checks for binary, and we conservatively require an explicit
-    // byte order mark.
-    let u16_values = u16_from_bytes(bytes);
-    let utf16_str_result = String::from_utf16(&u16_values);
-    match utf16_str_result {
-        Ok(valid_utf16_string) if has_utf16_byte_order_mark(bytes) => {
+    // byte order mark. Check the byte order mark first, so we don't
+    // pay for a full decode attempt on files that lack one.
+    if has_utf16_byte_order_mark(bytes) {
+        let u16_values = u16_from_bytes(bytes);
+        if let Ok(valid_utf16_string) = String::from_utf16(&u16_values) {
             info!("Input file is valid UTF-16 with a byte order mark");
             return ProbableFileKind::Text(valid_utf16_string);
         }
-        _ => {}
     }
 
     // If the input bytes are *almost* valid UTF-8, treat them as
@@ -359,7 +364,7 @@ mod tests {
     use super::*;
 
     fn guess_content(bytes: &[u8]) -> ProbableFileKind {
-        super::guess_content(bytes, &FileArgument::Stdin, &[])
+        super::guess_content(bytes.to_vec(), &FileArgument::Stdin, &[])
     }
 
     #[test]

@@ -417,19 +417,22 @@ fn diff_file(
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
 
+    // Compute this before guess_content, which consumes the bytes to
+    // avoid copying them in the common text case.
+    let has_byte_changes = if lhs_bytes == rhs_bytes {
+        None
+    } else {
+        Some((lhs_bytes.len(), rhs_bytes.len()))
+    };
+
     let (mut lhs_src, mut rhs_src) = match (
-        guess_content(&lhs_bytes, lhs_path, binary_overrides),
-        guess_content(&rhs_bytes, rhs_path, binary_overrides),
+        guess_content(lhs_bytes, lhs_path, binary_overrides),
+        guess_content(rhs_bytes, rhs_path, binary_overrides),
         check_diff_attr(Path::new(display_path)),
     ) {
         (ProbableFileKind::Binary, _, _)
         | (_, ProbableFileKind::Binary, _)
         | (_, _, Some(DiffAttribute::AssumeBinary)) => {
-            let has_byte_changes = if lhs_bytes == rhs_bytes {
-                None
-            } else {
-                Some((lhs_bytes.len(), rhs_bytes.len()))
-            };
             return DiffResult {
                 extra_info: renamed,
                 display_path: display_path.to_owned(),
@@ -507,7 +510,7 @@ fn diff_conflicts_file(
     binary_overrides: &[glob::Pattern],
 ) -> DiffResult {
     let bytes = read_file_or_die(path);
-    let mut src = match guess_content(&bytes, path, binary_overrides) {
+    let mut src = match guess_content(bytes, path, binary_overrides) {
         ProbableFileKind::Text(src) => src,
         ProbableFileKind::Binary => {
             print_error(
