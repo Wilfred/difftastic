@@ -1,6 +1,7 @@
 //! Calculate which nearby lines should also be displayed.
 
 use std::cmp::Ordering;
+use std::collections::VecDeque;
 
 use line_numbers::LineNumber;
 
@@ -680,43 +681,43 @@ fn compact_gaps(
     items: &[(Option<LineNumber>, Option<LineNumber>)],
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
-    // A vec of the most recent single-sided lines, e.g.
+    // A queue of the most recent single-sided lines, e.g.
     //
     // 10 --
     // 11 --
     //
     // All items must be Some on the same side.
-    let mut unpaired_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+    let mut unpaired_lines: VecDeque<(Option<LineNumber>, Option<LineNumber>)> = VecDeque::new();
 
     for (lhs_line, rhs_line) in items {
         match (lhs_line, rhs_line) {
             (Some(lhs_line), None) => {
-                match unpaired_lines.first() {
+                match unpaired_lines.front() {
                     Some((None, Some(rhs_line))) => {
                         // We've found a line that can be compacted.
                         res.push((Some(*lhs_line), Some(*rhs_line)));
-                        unpaired_lines.remove(0);
+                        unpaired_lines.pop_front();
                     }
                     _ => {
-                        unpaired_lines.push((Some(*lhs_line), None));
+                        unpaired_lines.push_back((Some(*lhs_line), None));
                     }
                 }
             }
             (None, Some(rhs_line)) => {
-                match unpaired_lines.first() {
+                match unpaired_lines.front() {
                     Some((Some(lhs_line), None)) => {
                         // We've found a line that can be compacted.
                         res.push((Some(*lhs_line), Some(*rhs_line)));
-                        unpaired_lines.remove(0);
+                        unpaired_lines.pop_front();
                     }
                     _ => {
-                        unpaired_lines.push((None, Some(*rhs_line)));
+                        unpaired_lines.push_back((None, Some(*rhs_line)));
                     }
                 }
             }
             _ => {
                 res.extend(unpaired_lines);
-                unpaired_lines = vec![];
+                unpaired_lines = VecDeque::new();
                 res.push((*lhs_line, *rhs_line));
             }
         }
