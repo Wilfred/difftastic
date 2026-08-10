@@ -55,7 +55,9 @@ pub(crate) fn slice_by_hash<'a, T: Eq + Hash>(
     // This is the decorate-sort-undecorate pattern, or Schwartzian
     // transform, for diffing.
     let mut value_ids: DftHashMap<&T, u32> = DftHashMap::default();
-    let mut id_values: DftHashMap<u32, &T> = DftHashMap::default();
+    // IDs are dense and sequential, so a vec indexed by ID suffices
+    // for the reverse mapping.
+    let mut id_values: Vec<&T> = vec![];
 
     let mut lhs_ids = Vec::with_capacity(lhs.len());
     for value in lhs {
@@ -64,7 +66,7 @@ pub(crate) fn slice_by_hash<'a, T: Eq + Hash>(
             None => {
                 let new_id = value_ids.len() as u32;
                 value_ids.insert(value, new_id);
-                id_values.insert(new_id, value);
+                id_values.push(value);
                 new_id
             }
         };
@@ -78,7 +80,7 @@ pub(crate) fn slice_by_hash<'a, T: Eq + Hash>(
             None => {
                 let new_id = value_ids.len() as u32;
                 value_ids.insert(value, new_id);
-                id_values.insert(new_id, value);
+                id_values.push(value);
                 new_id
             }
         };
@@ -88,12 +90,12 @@ pub(crate) fn slice_by_hash<'a, T: Eq + Hash>(
     slice(&lhs_ids[..], &rhs_ids[..])
         .into_iter()
         .map(|result| match result {
-            DiffResult::Left(id) => DiffResult::Left(*id_values.get(id).unwrap()),
+            DiffResult::Left(id) => DiffResult::Left(id_values[*id as usize]),
             DiffResult::Both(lhs_id, rhs_id) => DiffResult::Both(
-                *id_values.get(lhs_id).unwrap(),
-                *id_values.get(rhs_id).unwrap(),
+                id_values[*lhs_id as usize],
+                id_values[*rhs_id as usize],
             ),
-            DiffResult::Right(id) => DiffResult::Right(*id_values.get(id).unwrap()),
+            DiffResult::Right(id) => DiffResult::Right(id_values[*id as usize]),
         })
         .collect::<Vec<_>>()
 }

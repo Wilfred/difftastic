@@ -1,8 +1,6 @@
 //! A fallback "parser" for plain text.
 
-use lazy_static::lazy_static;
 use line_numbers::{LinePositions, SingleLineSpan};
-use regex::Regex;
 
 use crate::diff::lcs_diff;
 use crate::parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind};
@@ -11,64 +9,13 @@ use crate::words::split_words;
 const MAX_WORDS_IN_LINE: usize = 1000;
 
 fn split_lines_keep_newline(s: &str) -> Vec<&str> {
-    lazy_static! {
-        static ref NEWLINE_RE: Regex = Regex::new("\n").unwrap();
-    }
-
-    let mut offset = 0;
-    let mut lines = vec![];
-    for newline_match in NEWLINE_RE.find_iter(s) {
-        lines.push(s[offset..newline_match.end()].into());
-        offset = newline_match.end();
-    }
-
-    if offset < s.len() {
-        lines.push(s[offset..].into());
-    }
-
-    lines
+    s.split_inclusive('\n').collect()
 }
 
 #[derive(Debug)]
 enum TextChangeKind {
     Novel,
     Unchanged,
-}
-
-/// Merge contiguous sequences marked as novel.
-fn merge_novel<'a>(
-    lines: &[(TextChangeKind, Vec<&'a str>, Vec<&'a str>)],
-) -> Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> {
-    let mut lhs_novel = vec![];
-    let mut rhs_novel = vec![];
-
-    let mut res: Vec<(TextChangeKind, Vec<_>, Vec<_>)> = vec![];
-    for (kind, lhs_lines, rhs_lines) in lines {
-        match kind {
-            TextChangeKind::Novel => {
-                lhs_novel.extend(lhs_lines.iter().copied());
-                rhs_novel.extend(rhs_lines.iter().copied());
-            }
-            TextChangeKind::Unchanged => {
-                if !lhs_novel.is_empty() || !rhs_novel.is_empty() {
-                    res.push((TextChangeKind::Novel, lhs_novel, rhs_novel));
-                    lhs_novel = vec![];
-                    rhs_novel = vec![];
-                }
-
-                res.push((
-                    TextChangeKind::Unchanged,
-                    lhs_lines.clone(),
-                    rhs_lines.clone(),
-                ));
-            }
-        }
-    }
-
-    if !lhs_novel.is_empty() || !rhs_novel.is_empty() {
-        res.push((TextChangeKind::Novel, lhs_novel, rhs_novel));
-    }
-    res
 }
 
 fn changed_parts<'a>(
@@ -78,23 +25,37 @@ fn changed_parts<'a>(
     let src_lines = split_lines_keep_newline(src);
     let opposite_src_lines = split_lines_keep_newline(opposite_src);
 
+    // Build the result with contiguous sequences of novel lines
+    // already merged, so we can try word highlighting on similar
+    // lines.
     let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
+    let mut lhs_novel: Vec<&'a str> = vec![];
+    let mut rhs_novel: Vec<&'a str> = vec![];
     for diff_res in lcs_diff::slice_unique_by_hash(&src_lines, &opposite_src_lines) {
         match diff_res {
             lcs_diff::DiffResult::Left(line) => {
-                res.push((TextChangeKind::Novel, vec![line], vec![]));
+                lhs_novel.push(line);
             }
             lcs_diff::DiffResult::Both(line, opposite_line) => {
+                if !lhs_novel.is_empty() || !rhs_novel.is_empty() {
+                    res.push((
+                        TextChangeKind::Novel,
+                        std::mem::take(&mut lhs_novel),
+                        std::mem::take(&mut rhs_novel),
+                    ));
+                }
                 res.push((TextChangeKind::Unchanged, vec![line], vec![opposite_line]));
             }
             lcs_diff::DiffResult::Right(opposite_line) => {
-                res.push((TextChangeKind::Novel, vec![], vec![opposite_line]));
+                rhs_novel.push(opposite_line);
             }
         }
     }
 
-    // Merge so we can try word highlighting on similar lines.
-    merge_novel(&res)
+    if !lhs_novel.is_empty() || !rhs_novel.is_empty() {
+        res.push((TextChangeKind::Novel, lhs_novel, rhs_novel));
+    }
+    res
 }
 
 fn line_len_in_bytes(line: &str) -> usize {
