@@ -363,8 +363,12 @@ fn novel_regions_after_unchanged<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
 ) -> Vec<(usize, usize)> {
-    let mut regions: Vec<Vec<usize>> = vec![];
-    let mut region: Option<Vec<usize>> = None;
+    // Regions are only used as (first, last) index pairs, so track
+    // just those rather than accumulating every index. `None` means
+    // we haven't seen an unchanged node, an empty region means we've
+    // seen an unchanged node but no novel nodes after it yet.
+    let mut regions: Vec<(usize, usize)> = vec![];
+    let mut region: Option<Option<(usize, usize)>> = None;
 
     for (i, node) in nodes.iter().enumerate() {
         let change = change_map.get(node).expect("Node changes should be set");
@@ -372,22 +376,24 @@ fn novel_regions_after_unchanged<'a>(
         match change {
             Unchanged(_) => {
                 // Could have just finished a novel region.
-                if let Some(region) = region {
+                if let Some(Some(region)) = region {
                     regions.push(region);
                 }
 
                 // Could be the unchanged node before a novel region.
-                region = Some(vec![]);
+                region = Some(None);
             }
             Novel => {
-                if let Some(mut r) = region {
-                    r.push(i);
-                    region = Some(r);
+                if let Some(r) = region {
+                    region = Some(match r {
+                        Some((first, _)) => Some((first, i)),
+                        None => Some((i, i)),
+                    });
                 }
             }
             ReplacedComment(_, _) | ReplacedString(_, _) => {
                 // Could have just finished a novel region.
-                if let Some(region) = region {
+                if let Some(Some(region)) = region {
                     regions.push(region);
                 }
 
@@ -397,15 +403,11 @@ fn novel_regions_after_unchanged<'a>(
         }
     }
 
-    if let Some(region) = region {
+    if let Some(Some(region)) = region {
         regions.push(region);
     }
 
     regions
-        .into_iter()
-        .filter(|r| !r.is_empty())
-        .map(|r| (*r.first().unwrap(), *r.last().unwrap()))
-        .collect()
 }
 
 /// Return the start and end indexes of sequences of novel nodes that
@@ -414,8 +416,10 @@ fn novel_regions_before_unchanged<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
 ) -> Vec<(usize, usize)> {
-    let mut regions: Vec<Vec<usize>> = vec![];
-    let mut region: Option<Vec<usize>> = None;
+    // Regions are only used as (first, last) index pairs, so track
+    // just those rather than accumulating every index.
+    let mut regions: Vec<(usize, usize)> = vec![];
+    let mut region: Option<(usize, usize)> = None;
 
     for (i, node) in nodes.iter().enumerate() {
         let change = change_map.get(node).expect("Node changes should be set");
@@ -430,9 +434,10 @@ fn novel_regions_before_unchanged<'a>(
                 region = None;
             }
             Novel => {
-                let mut r = if let Some(r) = region { r } else { vec![] };
-                r.push(i);
-                region = Some(r);
+                region = Some(match region {
+                    Some((first, _)) => (first, i),
+                    None => (i, i),
+                });
             }
             ReplacedComment(_, _) | ReplacedString(_, _) => {
                 region = None;
@@ -446,10 +451,6 @@ fn novel_regions_before_unchanged<'a>(
     }
 
     regions
-        .into_iter()
-        .filter(|r| !r.is_empty())
-        .map(|r| (*r.first().unwrap(), *r.last().unwrap()))
-        .collect()
 }
 
 fn is_novel_deep<'a>(node: &Syntax<'a>, change_map: &ChangeMap<'a>) -> bool {

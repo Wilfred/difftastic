@@ -3,6 +3,7 @@
 use std::sync::{LazyLock, Mutex};
 
 use line_numbers::{LineNumber, LinePositions};
+use smallvec::SmallVec;
 use streaming_iterator::StreamingIterator as _;
 use tree_sitter as ts;
 use typed_arena::Arena;
@@ -1664,8 +1665,8 @@ pub(crate) fn parse<'a>(
     nodes
 }
 
-fn child_tokens<'a>(src: &'a str, cursor: &mut ts::TreeCursor) -> Vec<Option<&'a str>> {
-    let mut tokens = vec![];
+fn child_tokens<'a>(src: &'a str, cursor: &mut ts::TreeCursor) -> SmallVec<[Option<&'a str>; 16]> {
+    let mut tokens = SmallVec::new();
 
     cursor.goto_first_child();
     loop {
