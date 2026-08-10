@@ -359,25 +359,17 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: [
                     "shell_command",
-                    "json_string_array",
                     "json_string",
                     "double_quoted_string",
                     "single_quoted_string",
                     "unquoted_string",
-                    "env_pair",
                     "image_name",
                     "image_tag",
                     "image_digest",
                 ]
                 .into_iter()
                 .collect(),
-                delimiter_tokens: vec![
-                    ("[", "]"),
-                    ("{", "}"),
-                    ("(", ")"),
-                    ("\"", "\""),
-                    ("<<", ">>"),
-                ],
+                delimiter_tokens: vec![("[", "]"), ("{", "}")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(
                     &language,
