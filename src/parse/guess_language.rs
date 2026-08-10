@@ -260,7 +260,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         // https://madnight.github.io/githut/
         // Also, treating CUDA as C++
         CPlusPlus => &[
-            "*.cc", "*.cpp", ".c++", "*.cxx", "*.cu", "*.h", "*.hh", "*.hpp", "*.hxx", "*.inl",
+            "*.cc", "*.cpp", "*.c++", "*.cxx", "*.cu", "*.h", "*.hh", "*.hpp", "*.hxx", "*.inl",
             "*.ino", "*.ipp", "*.ixx", "*.tcc",
         ],
         CSharp => &["*.cs"],
@@ -645,6 +645,14 @@ mod tests {
     fn test_guess_by_extension() {
         let path = Path::new("foo.el");
         assert_eq!(guess(path, "", &[]), Some(EmacsLisp));
+    }
+
+    #[test]
+    fn test_guess_cplusplus_cplusplus_extension() {
+        // Regression: the `.c++` extension glob was missing its leading `*`
+        // (introduced in 286cad721), so foo.c++ fell through to plain text.
+        let path = Path::new("foo.c++");
+        assert_eq!(guess(path, "", &[]), Some(CPlusPlus));
     }
 
     #[test]
