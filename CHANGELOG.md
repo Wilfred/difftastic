@@ -1,5 +1,14 @@
 ## 0.71 (unreleased)
 
+### Performance
+
+Improved display performance on large hunks: side-by-side and JSON
+output no longer scale quadratically with hunk size.
+
+Improved performance when diffing directories (language detection
+globs are now compiled once), when computing syntax tree content IDs,
+and when reading files.
+
 ## 0.70 (released 7th August 2026)
 
 ### Diffing
