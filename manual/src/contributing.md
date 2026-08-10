@@ -1,5 +1,12 @@
 # Contributing
 
+## Using AI Tools
+
+Use any tool you like, but read all the code you're proposing before
+opening a pull request, and disclose the tools you used in your commit
+messages or pull request description. See [the full AI
+policy](https://github.com/Wilfred/difftastic/blob/master/AI_POLICY.md).
+
 ## Building
 
 Install Rust with [rustup](https://rustup.rs/), then clone the code.
