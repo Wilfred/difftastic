@@ -684,9 +684,12 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 ],
                 ignore_trailing_tokens: vec![
                     ("object", ","),
+                    ("object_pattern", ","),
                     ("array", ","),
+                    ("array_pattern", ","),
                     ("arguments", ","),
                     ("formal_parameters", ","),
+                    ("named_imports", ","),
                 ],
                 highlight_query: ts::Query::new(&language, tree_sitter_javascript::HIGHLIGHT_QUERY)
                     .unwrap(),
@@ -1210,9 +1213,12 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 ignore_trailing_tokens: vec![
                     ("object", ","),
+                    ("object_pattern", ","),
                     ("array", ","),
+                    ("array_pattern", ","),
                     ("arguments", ","),
                     ("formal_parameters", ","),
+                    ("named_imports", ","),
                 ],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
