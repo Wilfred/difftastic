@@ -1031,13 +1031,16 @@ pub(crate) fn parse_args() -> Mode {
 /// Try to work out the width of the terminal we're on, or fall back
 /// to a sensible default value.
 fn detect_terminal_width() -> usize {
-    if let Ok((columns, _rows)) = crossterm::terminal::size() {
+    // Look at stdout, then stderr, then stdin, so we still find the
+    // width when our output is redirected, such as when git pipes us
+    // to a pager.
+    if let Some((terminal_size::Width(columns), _rows)) = terminal_size::terminal_size() {
         if columns > 0 {
             return columns.into();
         }
     }
 
-    // If crossterm couldn't detect the terminal width, use the
+    // If we couldn't detect the terminal width, use the
     // shell variable COLUMNS if it's set. This helps with terminals like eshell.
     //
     // https://github.com/Wilfred/difftastic/issues/707
