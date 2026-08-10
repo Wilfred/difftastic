@@ -617,13 +617,21 @@ fn from_shebang(src: &str) -> Option<Language> {
 }
 
 fn from_glob(path: &Path) -> Option<Language> {
+    // Compiling the globs is relatively expensive, and this function
+    // runs for every file diffed, so compile them once and reuse.
+    lazy_static! {
+        static ref ALL_LANGUAGE_GLOBS: Vec<(Language, Vec<glob::Pattern>)> = Language::iter()
+            .map(|language| (language, language_globs(language)))
+            .collect();
+    }
+
     match path.file_name() {
         Some(name) => {
-            let name = name.to_string_lossy().into_owned();
-            for language in Language::iter() {
-                for glob in language_globs(language) {
+            let name = name.to_string_lossy();
+            for (language, globs) in ALL_LANGUAGE_GLOBS.iter() {
+                for glob in globs {
                     if glob.matches(&name) {
-                        return Some(language);
+                        return Some(*language);
                     }
                 }
             }
