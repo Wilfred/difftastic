@@ -536,6 +536,20 @@ pub(crate) fn apply_line_number_color(
     }
 }
 
+/// Replaces control characters (which can include terminal escape
+/// sequences) with the Unicode replacement character. `display_path` and
+/// `extra_info` (a rename message) can originate from a git repository's
+/// tree, e.g. via the GIT_EXTERNAL_DIFF argv, which has no character
+/// restrictions and shouldn't be trusted to display as-is. Applied only
+/// here, at the point of printing, since callers still need the
+/// unmodified path for real filesystem/git operations (gitattributes
+/// lookups, language detection by extension).
+pub(crate) fn sanitize_for_display(s: &str) -> String {
+    s.chars()
+        .map(|c| if c.is_control() { '\u{FFFD}' } else { c })
+        .collect()
+}
+
 pub(crate) fn header(
     display_path: &str,
     extra_info: Option<&String>,
@@ -551,7 +565,7 @@ pub(crate) fn header(
     };
 
     let display_path_pretty = apply_header_color(
-        display_path,
+        &sanitize_for_display(display_path),
         display_options.use_color,
         display_options.background_color,
         hunk_num,
@@ -564,7 +578,7 @@ pub(crate) fn header(
 
     match extra_info {
         Some(extra_info) if hunk_num == 1 => {
-            let mut extra_info = extra_info.clone();
+            let mut extra_info = sanitize_for_display(extra_info);
             if display_options.use_color {
                 extra_info = extra_info.dimmed().to_string();
             }
