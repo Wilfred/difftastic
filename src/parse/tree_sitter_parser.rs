@@ -1086,15 +1086,22 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: [
-                    "string",
-                    "template_string",
-                    "interpolated_string_expression",
-                ]
-                .into_iter()
-                .collect(),
+                atom_nodes: ["string", "interpolated_string_expression"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
-                ignore_trailing_tokens: vec![],
+                ignore_trailing_tokens: vec![
+                    ("arguments", ","),
+                    ("parameters", ","),
+                    ("class_parameters", ","),
+                    ("type_parameters", ","),
+                    ("type_arguments", ","),
+                    ("tuple_expression", ","),
+                    ("tuple_type", ","),
+                    ("tuple_pattern", ","),
+                    ("bindings", ","),
+                    ("namespace_selectors", ","),
+                ],
                 highlight_query: ts::Query::new(&language, tree_sitter_scala::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
