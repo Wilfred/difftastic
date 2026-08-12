@@ -2,7 +2,8 @@
 
 ### Parsing
 
-Improved C++, Dockerfile, Haskell, JavaScript, Rust and TypeScript.
+Improved C++, Dockerfile, Haskell, JavaScript, Rust, Scala and
+TypeScript.
 
 ## 0.70 (released 7th August 2026)
 
