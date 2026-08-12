@@ -534,16 +534,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: [
-                    "qualified_variable",
-                    // Work around https://github.com/tree-sitter/tree-sitter-haskell/issues/102
-                    "qualified_module",
-                    "qualified_constructor",
-                    // Work around https://github.com/tree-sitter/tree-sitter-haskell/issues/107
-                    "strict_type",
-                ]
-                .into_iter()
-                .collect(),
+                atom_nodes: ["qualified_variable"].into_iter().collect(),
                 delimiter_tokens: vec![("[", "]"), ("(", ")")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_haskell::HIGHLIGHTS_QUERY)
