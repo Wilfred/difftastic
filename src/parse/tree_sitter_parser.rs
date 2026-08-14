@@ -384,7 +384,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: vec!["string", "sigil", "heredoc"].into_iter().collect(),
+                atom_nodes: vec!["string", "sigil"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("do", "end")]
                     .into_iter()
                     .collect(),
@@ -518,7 +518,9 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["qualified_variable"].into_iter().collect(),
+                // Qualified names, such as Data.List.map. This node
+                // also covers qualified constructors and modules.
+                atom_nodes: ["qualified"].into_iter().collect(),
                 delimiter_tokens: vec![("[", "]"), ("(", ")")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_haskell::HIGHLIGHTS_QUERY)
@@ -717,14 +719,9 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 // structure of complex types within, but it beats
                 // ignoring nullable changes.
                 // https://github.com/Wilfred/difftastic/issues/411
-                atom_nodes: [
-                    "nullable_type",
-                    "string_literal",
-                    "line_string_literal",
-                    "character_literal",
-                ]
-                .into_iter()
-                .collect(),
+                atom_nodes: ["nullable_type", "string_literal", "character_literal"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")]
                     .into_iter()
                     .collect(),
@@ -979,7 +976,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "special"].into_iter().collect(),
+                atom_nodes: ["string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_r::HIGHLIGHTS_QUERY)
@@ -1130,7 +1127,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "identifier"].into_iter().collect(),
+                atom_nodes: ["identifier"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_sequel::HIGHLIGHTS_QUERY)
@@ -2128,5 +2125,60 @@ mod tests {
         for language in guess::Language::iter() {
             from_language(language);
         }
+    }
+
+    /// Check that the node names in language configuration exist in
+    /// the relevant grammar. Names that don't occur in the grammar
+    /// never match, so a typo means the configuration does nothing.
+    ///
+    /// We can't check the token strings in `delimiter_tokens` and
+    /// `ignore_trailing_tokens`, because they're matched against
+    /// source text rather than node names. Grammars sometimes use a
+    /// named node for a delimiter, so a valid token string doesn't
+    /// have to be a node name.
+    #[test]
+    fn test_config_node_names_exist() {
+        let mut problems: Vec<String> = vec![];
+
+        for language in guess::Language::iter() {
+            let config = from_language(language);
+
+            let mut check_node_name = |name: &str, field: &str| {
+                if config.language.id_for_node_kind(name, true) != 0 {
+                    return;
+                }
+
+                // Anonymous tokens are always leaves, so configuring
+                // one is a common mistake.
+                let hint = if config.language.id_for_node_kind(name, false) != 0 {
+                    " (this grammar has an anonymous token with this name, but no named node)"
+                } else {
+                    ""
+                };
+
+                problems.push(format!(
+                    "{:?}: {} refers to the node {:?}, which does not exist in this grammar{}",
+                    language, field, name, hint
+                ));
+            };
+
+            for node_name in &config.atom_nodes {
+                check_node_name(node_name, "atom_nodes");
+            }
+
+            for (node_name, _) in &config.ignore_trailing_tokens {
+                check_node_name(node_name, "ignore_trailing_tokens");
+            }
+        }
+
+        // atom_nodes is a set, so sort for deterministic output.
+        problems.sort();
+
+        assert!(
+            problems.is_empty(),
+            "Found {} node name(s) in language configuration that don't occur in the relevant tree-sitter grammar.\n\n{}",
+            problems.len(),
+            problems.join("\n")
+        );
     }
 }
