@@ -639,6 +639,58 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
     }
 }
 
+/// Underline the `/` separated segments that differ between
+/// `old_name` and `new_name`, so it's obvious which part of the path
+/// changed.
+///
+/// Segments are compared from both ends, so renaming
+/// `scripts/foo.ts` to `src/scripts/foo.ts` only underlines `src`.
+fn underline_changed_segments(old_name: &str, new_name: &str, use_color: bool) -> (String, String) {
+    if !use_color {
+        return (old_name.to_owned(), new_name.to_owned());
+    }
+
+    let old_parts: Vec<&str> = old_name.split('/').collect();
+    let new_parts: Vec<&str> = new_name.split('/').collect();
+    let max_common = old_parts.len().min(new_parts.len());
+
+    let prefix_len = old_parts
+        .iter()
+        .zip(new_parts.iter())
+        .take_while(|(old, new)| old == new)
+        .count();
+    let suffix_len = old_parts
+        .iter()
+        .rev()
+        .zip(new_parts.iter().rev())
+        .take_while(|(old, new)| old == new)
+        .count()
+        .min(max_common - prefix_len);
+
+    (
+        underline_middle(&old_parts, prefix_len, suffix_len),
+        underline_middle(&new_parts, prefix_len, suffix_len),
+    )
+}
+
+fn underline_middle(parts: &[&str], prefix_len: usize, suffix_len: usize) -> String {
+    parts
+        .iter()
+        .enumerate()
+        .map(|(i, part)| {
+            if i >= prefix_len && i < parts.len() - suffix_len {
+                // Explicitly disable underline afterwards rather than
+                // resetting all styles, because the header dims this
+                // whole line.
+                format!("\x1b[4m{}\x1b[24m", part)
+            } else {
+                (*part).to_owned()
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("/")
+}
+
 fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Vec<glob::Pattern>)> {
     let mut overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)> = vec![];
     let mut invalid_syntax = false;
@@ -936,7 +988,9 @@ pub(crate) fn parse_args() -> Mode {
 
             let old_name = old_name.to_string_lossy().to_string();
             let new_name = new_name.to_string_lossy().to_string();
-            let renamed = format!("Renamed from {} to {}", old_name, new_name);
+            let (old_styled, new_styled) =
+                underline_changed_segments(&old_name, &new_name, use_color);
+            let renamed = format!("Renamed from {} to {}", old_styled, new_styled);
 
             (
                 new_name,
@@ -1075,6 +1129,50 @@ mod tests {
     #[test]
     fn test_app() {
         app().debug_assert();
+    }
+
+    #[test]
+    fn test_underline_changed_segments() {
+        // Same directory, different file name.
+        assert_eq!(
+            underline_changed_segments("src/a.rs", "src/b.rs", true),
+            (
+                "src/\x1b[4ma.rs\x1b[24m".to_owned(),
+                "src/\x1b[4mb.rs\x1b[24m".to_owned()
+            )
+        );
+        // Same file name, different directory.
+        assert_eq!(
+            underline_changed_segments("old/a.rs", "new/a.rs", true),
+            (
+                "\x1b[4mold\x1b[24m/a.rs".to_owned(),
+                "\x1b[4mnew\x1b[24m/a.rs".to_owned()
+            )
+        );
+        // Both changed.
+        assert_eq!(
+            underline_changed_segments("old/a.rs", "new/b.rs", true),
+            (
+                "\x1b[4mold\x1b[24m/\x1b[4ma.rs\x1b[24m".to_owned(),
+                "\x1b[4mnew\x1b[24m/\x1b[4mb.rs\x1b[24m".to_owned()
+            )
+        );
+        // A segment added, so nothing changed on the left hand side.
+        assert_eq!(
+            underline_changed_segments("scripts/a.ts", "src/scripts/a.ts", true),
+            (
+                "scripts/a.ts".to_owned(),
+                "\x1b[4msrc\x1b[24m/scripts/a.ts".to_owned()
+            )
+        );
+    }
+
+    #[test]
+    fn test_underline_changed_segments_no_color() {
+        assert_eq!(
+            underline_changed_segments("old/a.rs", "new/b.rs", false),
+            ("old/a.rs".to_owned(), "new/b.rs".to_owned())
+        );
     }
 
     #[test]
