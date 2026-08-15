@@ -139,9 +139,6 @@ fn app() -> clap::Command {
     after_help.push('.');
 
     Command::new("Difftastic")
-        // Show options in alphabetical order, rather than in
-        // declaration order.
-        .next_display_order(None)
         .override_usage(USAGE)
         .version(env!("CARGO_PKG_VERSION"))
         .long_version(VERSION.as_str())
