@@ -1,0 +1,3 @@
+q = <<~SQL
+  SELECT 2
+SQL
