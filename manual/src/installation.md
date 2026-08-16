@@ -32,6 +32,12 @@ with `pacman`.
 $ sudo pacman -S difftastic
 ```
 
+If you're a **Debian** user, you can install `difftastic` (with the `difft` command) from the pkg.haus APT archive, after setting the archive up per the instructions on https://pkg.haus.
+
+```
+$ sudo apt install difftastic
+```
+
 If you're a **Nix** user, you can install
 [difftastic](https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/text/difftastic/default.nix)
 with `nix-env`.
