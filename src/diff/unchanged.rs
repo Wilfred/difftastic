@@ -35,8 +35,12 @@ pub(crate) fn mark_unchanged<'a>(
 
 #[derive(Debug)]
 enum ChangeState {
+    /// LHS and RHS are both lists with the same delimiter, but may
+    /// have different children.
     UnchangedDelimiter,
+    /// LHS and RHS are the same.
     UnchangedNode,
+    /// LHS and RHS aren't obviously the same.
     PossiblyChanged,
 }
 
