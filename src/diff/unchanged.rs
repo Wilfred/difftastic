@@ -9,6 +9,9 @@ use crate::hash::DftHashSet;
 use crate::parse::syntax::{ContentId, Syntax};
 
 const TINY_TREE_THRESHOLD: u32 = 10;
+
+const PATIENCE_RATIO: f64 = 0.2;
+
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
 /// Look for syntax nodes that are obviously the same, and set
@@ -44,6 +47,142 @@ enum ChangeState {
     PossiblyChanged,
 }
 
+fn split_unchanged_patience<'a>(
+    lhs_nodes: &[&'a Syntax<'a>],
+    rhs_nodes: &[&'a Syntax<'a>],
+    large_only: bool,
+) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    info!(
+        "Patience split: LHS {} nodes, RHS {} nodes",
+        lhs_nodes.len(),
+        rhs_nodes.len()
+    );
+
+    let lhs_descendants = sum_descendants(lhs_nodes);
+    let rhs_descendants = sum_descendants(rhs_nodes);
+
+    let node_key = |node: &Syntax<'_>| -> u32 {
+        if large_only {
+            if sum_descendants(&[node]) > TINY_TREE_THRESHOLD as usize {
+                node.content_id()
+            } else {
+                u32::from(node.id())
+            }
+        } else {
+            node.content_id()
+        }
+    };
+
+    let lhs_node_ids = lhs_nodes
+        .iter()
+        .map(|n| EqOnFirstItem(node_key(n), *n))
+        .collect::<Vec<_>>();
+    let rhs_node_ids = rhs_nodes
+        .iter()
+        .map(|n| EqOnFirstItem(node_key(n), *n))
+        .collect::<Vec<_>>();
+
+    let mut unchanged_region: Vec<(&'a Syntax<'a>, &'a Syntax<'a>)> = vec![];
+    let mut lhs_changed = vec![];
+    let mut rhs_changed = vec![];
+
+    let mut res: Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
+
+    for diff_res in lcs_diff::slice(&lhs_node_ids, &rhs_node_ids) {
+        let ended_unchanged_region = match diff_res {
+            lcs_diff::DiffResult::Both(_, _) => false,
+            lcs_diff::DiffResult::Left(_) => true,
+            lcs_diff::DiffResult::Right(_) => true,
+        };
+
+        if ended_unchanged_region && !unchanged_region.is_empty() {
+            let big_enough = is_big_enough(&unchanged_region, lhs_descendants, rhs_descendants);
+
+            let mut lhs_region_nodes = vec![];
+            let mut rhs_region_nodes = vec![];
+            for (lhs_node, rhs_node) in unchanged_region.drain(..) {
+                lhs_region_nodes.push(lhs_node);
+                rhs_region_nodes.push(rhs_node);
+            }
+
+            if big_enough {
+                res.extend(split_changed_singleton_list(&lhs_changed, &rhs_changed));
+                lhs_changed.clear();
+                rhs_changed.clear();
+
+                res.push((
+                    ChangeState::UnchangedNode,
+                    lhs_region_nodes,
+                    rhs_region_nodes,
+                ));
+            } else {
+                lhs_changed.extend(lhs_region_nodes);
+                rhs_changed.extend(rhs_region_nodes);
+            }
+        }
+
+        match diff_res {
+            lcs_diff::DiffResult::Both(lhs, rhs) => {
+                // Start accumulating an unchanged region.
+                unchanged_region.push((lhs.1, rhs.1));
+            }
+            lcs_diff::DiffResult::Left(lhs) => lhs_changed.push(lhs.1),
+            lcs_diff::DiffResult::Right(rhs) => {
+                rhs_changed.push(rhs.1);
+            }
+        }
+    }
+
+    // Two scenarios: we end with some unchanged items and some
+    // changed items, or we only have changed items.
+
+    let big_enough = is_big_enough(&unchanged_region, lhs_descendants, rhs_descendants);
+
+    let mut lhs_region_nodes = vec![];
+    let mut rhs_region_nodes = vec![];
+    for (lhs_node, rhs_node) in unchanged_region.drain(..) {
+        lhs_region_nodes.push(lhs_node);
+        rhs_region_nodes.push(rhs_node);
+    }
+
+    if big_enough {
+        res.extend(split_changed_singleton_list(&lhs_changed, &rhs_changed));
+        lhs_changed.clear();
+        rhs_changed.clear();
+
+        res.push((
+            ChangeState::UnchangedNode,
+            lhs_region_nodes,
+            rhs_region_nodes,
+        ));
+    } else {
+        lhs_changed.extend(lhs_region_nodes);
+        rhs_changed.extend(rhs_region_nodes);
+    }
+
+    if !lhs_changed.is_empty() || !rhs_changed.is_empty() {
+        res.extend(split_changed_singleton_list(&lhs_changed, &rhs_changed));
+    }
+
+    res
+}
+
+fn is_big_enough(
+    region: &[(&Syntax<'_>, &Syntax<'_>)],
+    lhs_descendants: usize,
+    rhs_descendants: usize,
+) -> bool {
+    let region_descendants = sum_pair_descendants(region);
+
+    if region_descendants < TINY_TREE_THRESHOLD as usize {
+        return false;
+    }
+
+    let threshold =
+        (PATIENCE_RATIO * std::cmp::max(lhs_descendants, rhs_descendants) as f64) as usize;
+    region_descendants >= threshold
+}
+
 /// Wraps `split_unchanged_toplevel` with a size threshold and updates
 /// `change_map`.
 fn split_unchanged<'a>(
@@ -51,18 +190,9 @@ fn split_unchanged<'a>(
     rhs_nodes: &[&'a Syntax<'a>],
     change_map: &mut ChangeMap<'a>,
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
-    let size_threshold = if let Ok(env_threshold) = std::env::var("DFT_TINY_THRESHOLD") {
-        env_threshold
-            .parse::<u32>()
-            .ok()
-            .unwrap_or(TINY_TREE_THRESHOLD)
-    } else {
-        TINY_TREE_THRESHOLD
-    };
-
     let mut res: Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
     for (cs, lhs_section_nodes, rhs_section_nodes) in
-        split_unchanged_toplevel(lhs_nodes, rhs_nodes, size_threshold)
+        split_unchanged_patience(lhs_nodes, rhs_nodes, true)
     {
         match cs {
             ChangeState::UnchangedDelimiter => {
@@ -98,13 +228,12 @@ fn split_unchanged<'a>(
 fn split_changed_singleton_list<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
-    size_threshold: u32,
 ) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     let mut res: Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
     match as_singleton_list_children(lhs_nodes, rhs_nodes) {
         Some((lhs_children, rhs_children)) => {
-            let mut split_children =
-                split_unchanged_toplevel(&lhs_children, &rhs_children, size_threshold);
+            // TODO: terminate on second pass.
+            let mut split_children = split_unchanged_patience(&lhs_children, &rhs_children, false);
             if split_children.len() > 1 {
                 res.push((
                     ChangeState::UnchangedDelimiter,
@@ -301,7 +430,6 @@ fn split_unchanged_toplevel<'a>(
                         res.extend(split_changed_singleton_list(
                             &lhs_nodes_with_changes,
                             &rhs_nodes_with_changes,
-                            size_threshold,
                         ));
                         lhs_nodes_with_changes = vec![];
                         rhs_nodes_with_changes = vec![];
@@ -323,7 +451,6 @@ fn split_unchanged_toplevel<'a>(
         res.extend(split_changed_singleton_list(
             &lhs_nodes_with_changes,
             &rhs_nodes_with_changes,
-            size_threshold,
         ));
     }
 
@@ -481,6 +608,52 @@ fn shrink_unchanged_at_ends<'a>(
     } else {
         (changed, Vec::from(lhs_nodes), Vec::from(rhs_nodes))
     }
+}
+
+fn sum_descendants(nodes: &[&Syntax<'_>]) -> usize {
+    let mut total = 0;
+    for node in nodes {
+        match node {
+            Syntax::List {
+                num_descendants, ..
+            } => {
+                total += (*num_descendants as usize) + 1;
+            }
+            Syntax::Atom { .. } => {
+                total += 1;
+            }
+        }
+    }
+
+    total
+}
+
+fn sum_pair_descendants(nodes: &[(&Syntax<'_>, &Syntax<'_>)]) -> usize {
+    let mut total: usize = 0;
+    for (lhs_node, rhs_node) in nodes {
+        match lhs_node {
+            Syntax::List {
+                num_descendants, ..
+            } => {
+                total += (*num_descendants as usize) + 1;
+            }
+            Syntax::Atom { .. } => {
+                total += 1;
+            }
+        }
+        match rhs_node {
+            Syntax::List {
+                num_descendants, ..
+            } => {
+                total += (*num_descendants as usize) + 1;
+            }
+            Syntax::Atom { .. } => {
+                total += 1;
+            }
+        }
+    }
+
+    total
 }
 
 #[cfg(test)]
