@@ -206,6 +206,110 @@ fn directory_arguments() {
 }
 
 #[test]
+fn empty_file_only_in_lhs_directory() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--exit-code")
+        .arg("sample_files/empty_files_1")
+        .arg("sample_files/empty_files_2");
+
+    let predicate_fn = predicate::str::contains("left_only.txt --- Text\nHas changes.");
+    cmd.assert().stdout(predicate_fn).failure().code(1);
+}
+
+#[test]
+fn empty_file_only_in_rhs_directory() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("sample_files/empty_files_2")
+        .arg("sample_files/empty_files_1");
+
+    let predicate_fn = predicate::str::contains("left_only.txt --- Text\nHas changes.");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn empty_file_in_both_directories_is_unchanged() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("sample_files/empty_files_1")
+        .arg("sample_files/empty_files_2");
+
+    let predicate_fn = predicate::str::contains("empty_both.txt --- Text\nNo changes.");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn cr_only_file_only_in_lhs_directory() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("sample_files/empty_files_1")
+        .arg("sample_files/empty_files_2");
+
+    // Carriage returns are stripped by default, so this file's
+    // content normalizes to empty: it is still a one-sided file.
+    let predicate_fn = predicate::str::contains("left_only_cr.txt --- Text\nHas changes.");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn whitespace_only_file_only_in_lhs_directory() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("sample_files/empty_files_1")
+        .arg("sample_files/empty_files_2");
+
+    // Whitespace has no syntax tree nodes, so this file is
+    // syntactically identical to the missing (empty) other side: it
+    // is still a one-sided file.
+    let predicate_fn =
+        predicate::str::contains("left_only_ws.py --- Python\nHas syntactic changes.");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn binary_override_empty_file_only_in_rhs_directory() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--override-binary=*.txt")
+        .arg("sample_files/empty_files_2")
+        .arg("sample_files/empty_files_1");
+
+    let predicate_fn =
+        predicate::str::contains("left_only.txt --- Binary\nBinary file added (0 B).");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn json_reports_one_sided_empty_file_as_changed() {
+    let mut cmd = get_base_command();
+
+    cmd.env("DFT_UNSTABLE", "yes")
+        .arg("--display=json")
+        .arg("sample_files/empty_files_1")
+        .arg("sample_files/empty_files_2");
+
+    let predicate_fn =
+        predicate::str::contains("\"path\":\"left_only.txt\",\"status\":\"changed\"");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn skip_unchanged_keeps_one_sided_empty_files() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--skip-unchanged")
+        .arg("sample_files/empty_files_1")
+        .arg("sample_files/empty_files_2");
+
+    let predicate_fn = predicate::str::contains("left_only.txt --- Text\nHas changes.")
+        .and(predicate::str::contains("empty_both.txt").not())
+        .and(predicate::str::contains("shared.txt").not())
+        .and(predicate::str::contains("No changes.").not());
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
 fn git_style_arguments_rename() {
     let mut cmd = get_base_command();
 
