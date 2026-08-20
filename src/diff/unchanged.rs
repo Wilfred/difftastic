@@ -92,7 +92,10 @@ fn split_unchanged<'a>(
     res
 }
 
-fn split_unchanged_singleton_list<'a>(
+/// If both sides are a single list node, and they have the same
+/// delimiter, see if they have common children that we can trivially
+/// mark as unchanged.
+fn split_changed_singleton_list<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
     size_threshold: u32,
@@ -295,7 +298,7 @@ fn split_unchanged_toplevel<'a>(
                     rhs_nodes_with_changes.push(rhs_node);
                 } else {
                     if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty() {
-                        res.extend(split_unchanged_singleton_list(
+                        res.extend(split_changed_singleton_list(
                             &lhs_nodes_with_changes,
                             &rhs_nodes_with_changes,
                             size_threshold,
@@ -317,7 +320,7 @@ fn split_unchanged_toplevel<'a>(
     }
 
     if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty() {
-        res.extend(split_unchanged_singleton_list(
+        res.extend(split_changed_singleton_list(
             &lhs_nodes_with_changes,
             &rhs_nodes_with_changes,
             size_threshold,
