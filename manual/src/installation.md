@@ -13,6 +13,15 @@ the `difft` executable application file.
 
 ## Package Manager
 
+### Linux, macOS and Windows
+
+If you're a **[mise](https://github.com/jdx/mise)** user, you can install
+difftastic with `mise`.
+
+```
+$ mise use -g difftastic@latest
+```
+
 ### macOS
 
 If you're a **Homebrew** user, you can install
