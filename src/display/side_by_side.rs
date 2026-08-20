@@ -7,6 +7,7 @@ use owo_colors::{OwoColorize, Style};
 
 use crate::constants::Side;
 use crate::display::context::all_matched_lines_filled;
+use crate::display::diff_line_metadata::{row_is_novel, DiffLineMetadata};
 use crate::display::hunks::{matched_lines_indexes_for_hunk, Hunk};
 use crate::display::style::{
     self, apply_colors, apply_line_number_color, color_positions, novel_style, replace_tabs,
@@ -74,20 +75,24 @@ fn display_single_column(
     src_lines: &[String],
     side: Side,
     display_options: &DisplayOptions,
+    metadata: Option<&DiffLineMetadata>,
 ) -> Vec<String> {
     let column_width = format_line_num((src_lines.len() as u32).into()).len();
 
     let mut formatted_lines = Vec::with_capacity(src_lines.len());
 
-    let mut header_line = String::new();
-    header_line.push_str(&style::header(
-        display_path,
-        old_path,
-        1,
-        1,
-        file_format,
-        display_options,
-    ));
+    let banner = style::header(display_path, old_path, 1, 1, file_format, display_options);
+    let mut header_line = match metadata {
+        // A whole-file add/delete is a single hunk, so its banner carries the
+        // file's `f` and the hunk's `h`. A deleted file has no new-file
+        // content, so its hunk sits at new-line 0 (as for its deletion
+        // records); an added file's first new line is 1.
+        Some(metadata) => {
+            let new_line = if side == Side::Right { 1 } else { 0 };
+            metadata.header_banner(true, new_line, &banner)
+        }
+        None => banner,
+    };
     header_line.push('\n');
     formatted_lines.push(header_line);
 
@@ -98,6 +103,9 @@ fn display_single_column(
 
     for (i, line) in src_lines.iter().enumerate() {
         let mut formatted_line = String::with_capacity(line.len());
+        if let Some(metadata) = metadata {
+            formatted_line.push_str(&metadata.single_column_cell(side, i));
+        }
         formatted_line.push_str(
             &format_line_num_padded((i as u32).into(), column_width)
                 .style(style)
@@ -421,6 +429,21 @@ fn visible_content_max_display_width(
     (lhs_content_max_width, rhs_content_max_width)
 }
 
+/// The new-file line a hunk's header banner points at: the first new-file
+/// (RHS) line shown in the hunk (spec §5.2). A hunk with no new-file lines at
+/// all (a pure deletion with no surrounding new context) falls back to the
+/// position the next new line would occupy, mirroring the deletion convention
+/// in `left_cell`.
+fn hunk_first_new_line(
+    aligned_lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    prev_rhs: Option<LineNumber>,
+) -> usize {
+    aligned_lines
+        .iter()
+        .find_map(|(_, rhs)| rhs.map(|n| n.as_usize() + 1))
+        .unwrap_or_else(|| prev_rhs.map_or(1, |n| n.as_usize() + 2))
+}
+
 pub(crate) fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
@@ -432,6 +455,8 @@ pub(crate) fn print(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) {
+    let metadata = DiffLineMetadata::from_env(display_path);
+
     let (lhs_content_max_width, rhs_content_max_width) = visible_content_max_display_width(
         lhs_src,
         rhs_src,
@@ -494,6 +519,7 @@ pub(crate) fn print(
             &rhs_colored_lines,
             Side::Right,
             display_options,
+            metadata.as_ref(),
         ) {
             print!("{}", line);
         }
@@ -513,6 +539,7 @@ pub(crate) fn print(
             &lhs_colored_lines,
             Side::Left,
             display_options,
+            metadata.as_ref(),
         ) {
             print!("{}", line);
         }
@@ -599,18 +626,6 @@ pub(crate) fn print(
     );
 
     for (i, hunk) in hunks.iter().enumerate() {
-        println!(
-            "{}",
-            style::header(
-                display_path,
-                old_path,
-                i + 1,
-                hunks.len(),
-                file_format,
-                display_options
-            )
-        );
-
         let (start_i, end_i) = matched_lines_indexes_for_hunk(
             matched_lines_to_print,
             hunk,
@@ -623,6 +638,25 @@ pub(crate) fn print(
         // iterations, and this function is hot on large textual
         // diffs.
         matched_lines_to_print = &matched_lines_to_print[start_i..];
+
+        let banner = style::header(
+            display_path,
+            old_path,
+            i + 1,
+            hunks.len(),
+            file_format,
+            display_options,
+        );
+        match &metadata {
+            // The banner announces both the file and this hunk: every banner
+            // carries the hunk's `h` (with the hunk's first new-file line), and
+            // the first hunk's banner additionally carries the file's `f`.
+            Some(metadata) => {
+                let new_line = hunk_first_new_line(aligned_lines, prev_rhs_line_num);
+                println!("{}", metadata.header_banner(i == 0, new_line, &banner));
+            }
+            None => println!("{}", banner),
+        }
 
         let no_lhs_changes = hunk.novel_lhs.is_empty();
         let no_rhs_changes = hunk.novel_rhs.is_empty();
@@ -653,6 +687,41 @@ pub(crate) fn print(
                 prev_rhs_line_num,
             );
 
+            // Per-cell diff metadata: the left column carries the old line's
+            // identity, the right column the new line's. The line type is the
+            // row's patch-space type (contents compared -- see row_is_novel),
+            // not the display's token novelty: a row changed only on one side
+            // is still a d/a pair to a host staging by these records. Computed
+            // once for the row (the wrapped-continuation rows below carry none)
+            // and prepended to whichever column(s) the chosen rendering path
+            // actually prints.
+            let (lhs_osc, rhs_osc) = match &metadata {
+                Some(metadata) => {
+                    let row_novel =
+                        row_is_novel(*lhs_line_num, *rhs_line_num, &lhs_lines, &rhs_lines);
+                    (
+                        metadata.left_cell(
+                            *lhs_line_num,
+                            *rhs_line_num,
+                            row_novel,
+                            prev_rhs_line_num,
+                        ),
+                        metadata.right_cell(*rhs_line_num, row_novel),
+                    )
+                }
+                None => (String::new(), String::new()),
+            };
+            // A collapsed (single-column) row prints only one side's content,
+            // but still represents every patch line of the aligned row: a
+            // modification carries its d and its a back-to-back at the row's
+            // start (the first region is zero-width -- spec §6.2). A context
+            // row's two identical records collapse to one.
+            let row_oscs = if lhs_osc == rhs_osc {
+                lhs_osc.clone()
+            } else {
+                format!("{}{}", lhs_osc, rhs_osc)
+            };
+
             let show_both = matches!(
                 display_options.display_mode,
                 DisplayMode::SideBySideShowBoth
@@ -662,11 +731,11 @@ pub(crate) fn print(
                     Some(rhs_line_num) => {
                         let rhs_line = &rhs_colored_lines[rhs_line_num.as_usize()];
                         if same_lines {
-                            print!("{}{}", display_rhs_line_num, rhs_line);
+                            print!("{}{}{}", row_oscs, display_rhs_line_num, rhs_line);
                         } else {
                             print!(
-                                "{}{}{}",
-                                display_lhs_line_num, display_rhs_line_num, rhs_line
+                                "{}{}{}{}",
+                                row_oscs, display_lhs_line_num, display_rhs_line_num, rhs_line
                             );
                         }
                     }
@@ -674,7 +743,10 @@ pub(crate) fn print(
                         // We didn't have any changed RHS lines in the
                         // hunk, but we had some contextual lines that
                         // only occurred on the LHS (e.g. extra newlines).
-                        println!("{}{}", display_lhs_line_num, display_rhs_line_num);
+                        println!(
+                            "{}{}{}",
+                            row_oscs, display_lhs_line_num, display_rhs_line_num
+                        );
                     }
                 }
             } else if no_rhs_changes && !show_both {
@@ -682,16 +754,19 @@ pub(crate) fn print(
                     Some(lhs_line_num) => {
                         let lhs_line = &lhs_colored_lines[lhs_line_num.as_usize()];
                         if same_lines {
-                            print!("{}{}", display_lhs_line_num, lhs_line);
+                            print!("{}{}{}", row_oscs, display_lhs_line_num, lhs_line);
                         } else {
                             print!(
-                                "{}{}{}",
-                                display_lhs_line_num, display_rhs_line_num, lhs_line
+                                "{}{}{}{}",
+                                row_oscs, display_lhs_line_num, display_rhs_line_num, lhs_line
                             );
                         }
                     }
                     None => {
-                        println!("{}{}", display_lhs_line_num, display_rhs_line_num);
+                        println!(
+                            "{}{}{}",
+                            row_oscs, display_lhs_line_num, display_rhs_line_num
+                        );
                     }
                 }
             } else {
@@ -716,13 +791,17 @@ pub(crate) fn print(
                     None => vec!["".into()],
                 };
 
-                for (i, (lhs_line, rhs_line)) in zip_pad_shorter(&lhs_line, &rhs_line)
+                for (i, (lhs_piece, rhs_piece)) in zip_pad_shorter(&lhs_line, &rhs_line)
                     .into_iter()
                     .enumerate()
                 {
-                    let lhs_line = lhs_line
+                    // The shorter side runs out of wrapped pieces first; its
+                    // remaining rows are padding and carry no metadata.
+                    let lhs_has_content = lhs_piece.is_some();
+                    let rhs_has_content = rhs_piece.is_some();
+                    let lhs_line = lhs_piece
                         .unwrap_or_else(|| " ".repeat(source_dims.lhs_content_display_width));
-                    let rhs_line = rhs_line.unwrap_or_else(|| "".into());
+                    let rhs_line = rhs_piece.unwrap_or_else(|| "".into());
                     let lhs_num: String = if i == 0 {
                         display_lhs_line_num.clone()
                     } else {
@@ -766,7 +845,26 @@ pub(crate) fn print(
                         s
                     };
 
-                    println!("{}{}{}{}{}", lhs_num, lhs_line, SPACER, rhs_num, rhs_line);
+                    // difftastic wraps a long line into several output rows
+                    // itself, and a host sees each as a distinct line, so every
+                    // row carries its line's record -- not just the first. This
+                    // lets a host act on a continuation row (open the editor,
+                    // dive into staging) and treat the whole wrapped line as one
+                    // block when navigating, rather than stopping on each row.
+                    let lhs_cell_osc = if lhs_has_content {
+                        lhs_osc.as_str()
+                    } else {
+                        ""
+                    };
+                    let rhs_cell_osc = if rhs_has_content {
+                        rhs_osc.as_str()
+                    } else {
+                        ""
+                    };
+                    println!(
+                        "{}{}{}{}{}{}{}",
+                        lhs_cell_osc, lhs_num, lhs_line, SPACER, rhs_cell_osc, rhs_num, rhs_line
+                    );
                 }
             }
 
@@ -853,6 +951,7 @@ mod tests {
             &["print(123)\n".to_owned()],
             Side::Right,
             &DisplayOptions::default(),
+            None,
         );
         let res = res_lines.join("");
         assert!(res.len() > 10);
