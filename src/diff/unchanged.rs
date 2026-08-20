@@ -11,7 +11,29 @@ use crate::parse::syntax::{ContentId, Syntax};
 
 const TINY_TREE_THRESHOLD: u32 = 10;
 
-const PATIENCE_RATIO: f64 = 0.2;
+/// The minimum total size of a run of matched nodes before we
+/// commit to it as a split point, counting both sides (so 32 nodes
+/// per side).
+///
+/// Calibration, measured on file pairs from OSS repo histories plus
+/// constructed pathological files:
+///
+/// - Too low risks committing to coincidental matches of repeated
+///   content: with records of ~6 nodes, values <= 12 lock in
+///   occurrence mispairings that display the wrong sibling as
+///   removed and re-added; with ~12 node records the bad zone
+///   extends to ~48. The hazard scale is roughly two repeated
+///   records' worth of nodes.
+/// - Too high stops record files from splitting at all: a file of
+///   identical records with an edit every 30 records has runs of
+///   ~230, and falls back to a text diff if they don't qualify.
+/// - Between those bounds, output on ~150 real file pairs was
+///   byte-identical at every value tested (4 to 640).
+///
+/// Runs containing a node whose content is unique on both sides
+/// qualify regardless of this threshold, so this value only governs
+/// runs of repeated content.
+const RUN_MASS_THRESHOLD: usize = 64;
 
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
@@ -58,9 +80,6 @@ fn split_unchanged_patience<'a>(
         rhs_nodes.len()
     );
 
-    let lhs_descendants = sum_descendants(lhs_nodes);
-    let rhs_descendants = sum_descendants(rhs_nodes);
-
     let lhs_node_ids = lhs_nodes
         .iter()
         .map(|n| EqOnFirstItem(n.content_id(), *n))
@@ -84,7 +103,7 @@ fn split_unchanged_patience<'a>(
         };
 
         if ended_unchanged_region && !unchanged_region.is_empty() {
-            let big_enough = is_big_enough(&unchanged_region, lhs_descendants, rhs_descendants);
+            let big_enough = is_big_enough(&unchanged_region);
 
             let mut lhs_region_nodes = vec![];
             let mut rhs_region_nodes = vec![];
@@ -124,7 +143,7 @@ fn split_unchanged_patience<'a>(
     // Two scenarios: we end with some unchanged items and some
     // changed items, or we only have changed items.
 
-    let big_enough = is_big_enough(&unchanged_region, lhs_descendants, rhs_descendants);
+    let big_enough = is_big_enough(&unchanged_region);
 
     let mut lhs_region_nodes = vec![];
     let mut rhs_region_nodes = vec![];
@@ -149,30 +168,37 @@ fn split_unchanged_patience<'a>(
     }
 
     if !lhs_changed.is_empty() || !rhs_changed.is_empty() {
-        res.push((
-            ChangeState::PossiblyChanged,
-            mem::take(&mut lhs_changed),
-            mem::take(&mut rhs_changed),
-        ))
+        res.extend(split_changed_singleton_list(&lhs_changed, &rhs_changed));
+        lhs_changed.clear();
+        rhs_changed.clear();
     }
 
     res
 }
 
-fn is_big_enough(
-    region: &[(&Syntax<'_>, &Syntax<'_>)],
-    lhs_descendants: usize,
-    rhs_descendants: usize,
-) -> bool {
-    let region_descendants = sum_pair_descendants(region);
+fn is_big_enough(region: &[(&Syntax<'_>, &Syntax<'_>)]) -> bool {
+    // Overridable for experimentation, like DFT_TINY_THRESHOLD.
+    let run_threshold = std::env::var("DFT_RUN_THRESHOLD")
+        .ok()
+        .and_then(|v| v.parse::<usize>().ok())
+        .unwrap_or(RUN_MASS_THRESHOLD);
 
-    if region_descendants < TINY_TREE_THRESHOLD as usize {
-        return false;
+    let region_descendants = sum_pair_descendants(region);
+    if region_descendants >= run_threshold {
+        return true;
     }
 
-    let threshold =
-        (PATIENCE_RATIO * std::cmp::max(lhs_descendants, rhs_descendants) as f64) as usize;
-    region_descendants >= threshold
+    // A small region is still a trustworthy split point if it
+    // contains a node whose content occurs exactly once on each
+    // side, like unique lines in patience diff. Require a minimum
+    // atom length so unique punctuation doesn't qualify.
+    region.iter().any(|(lhs_node, rhs_node)| {
+        let substantial = match lhs_node {
+            Syntax::List { .. } => true,
+            Syntax::Atom { content, .. } => content.len() >= 3,
+        };
+        substantial && lhs_node.content_is_unique() && rhs_node.content_is_unique()
+    })
 }
 
 /// Wraps `split_unchanged_toplevel` with a size threshold and updates
@@ -220,6 +246,10 @@ fn split_changed_singleton_list<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
 ) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    if lhs_nodes.is_empty() && rhs_nodes.is_empty() {
+        return vec![];
+    }
+
     let mut res: Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
     match as_singleton_list_children(lhs_nodes, rhs_nodes) {
         Some((lhs_children, rhs_children)) => {
@@ -600,23 +630,6 @@ fn shrink_unchanged_at_ends<'a>(
     }
 }
 
-fn sum_descendants(nodes: &[&Syntax<'_>]) -> usize {
-    let mut total = 0;
-    for node in nodes {
-        match node {
-            Syntax::List {
-                num_descendants, ..
-            } => {
-                total += (*num_descendants as usize) + 1;
-            }
-            Syntax::Atom { .. } => {
-                total += 1;
-            }
-        }
-    }
-
-    total
-}
 
 fn sum_pair_descendants(nodes: &[(&Syntax<'_>, &Syntax<'_>)]) -> usize {
     let mut total: usize = 0;
