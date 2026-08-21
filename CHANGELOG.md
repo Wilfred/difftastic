@@ -17,6 +17,9 @@ Removed Hare support (upstream parser is no longer maintained).
 
 Improved diffing performance, particularly when diffing directories.
 
+Fixed a crash when line reordering left a hunk with no novel lines
+(#995).
+
 ### Parsing
 
 Files with parse errors now report the position of the first error, to
