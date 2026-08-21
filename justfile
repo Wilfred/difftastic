@@ -34,7 +34,7 @@ rel_notes:
 
     rg --max-count 1 -B 9999 "released " CHANGELOG.md | tail -n +3 | head -n -2 | awk 'BEGIN{RS="\n\n"; ORS="\n\n"} {gsub(/\n/, " "); print}'
 
-# Regenerate the man page difft.1 from diff.1.md.
+# Regenerate the man page difft.1 from difft.1.md.
 man:
     pandoc --standalone --to man difft.1.md -o difft.1
 
