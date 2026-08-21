@@ -4,7 +4,7 @@ use crate::constants::Side;
 use crate::display::context::{
     calculate_after_context, calculate_before_context, opposite_positions,
 };
-use crate::display::hunks::Hunk;
+use crate::display::hunks::{extract_lines, Hunk};
 use crate::display::style::{self, apply_colors, apply_line_number_color};
 use crate::lines::{format_line_num, format_line_num_padded, split_on_newlines, MaxLine};
 use crate::options::DisplayOptions;
@@ -81,7 +81,7 @@ pub(crate) fn print(
             )
         );
 
-        let hunk_lines = hunk.lines.clone();
+        let hunk_lines = extract_lines(hunk);
 
         let before_lines = calculate_before_context(
             &hunk_lines,
@@ -116,11 +116,12 @@ pub(crate) fn print(
 
         for (lhs_line, _) in &hunk_lines {
             if let Some(lhs_line) = lhs_line {
+                let is_novel = hunk.novel_lhs.contains(lhs_line);
                 print!(
                     "{}   {}",
                     apply_line_number_color(
                         &format_line_num_padded(*lhs_line, lhs_line_nums_width),
-                        true,
+                        is_novel,
                         Side::Left,
                         display_options,
                     ),
@@ -130,11 +131,12 @@ pub(crate) fn print(
         }
         for (_, rhs_line) in &hunk_lines {
             if let Some(rhs_line) = rhs_line {
+                let is_novel = hunk.novel_rhs.contains(rhs_line);
                 print!(
                     "   {}{}",
                     apply_line_number_color(
                         &format_line_num_padded(*rhs_line, rhs_line_nums_width),
-                        true,
+                        is_novel,
                         Side::Right,
                         display_options,
                     ),

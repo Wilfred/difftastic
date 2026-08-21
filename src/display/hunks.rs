@@ -93,7 +93,9 @@ fn fill_between(
     zip_pad_shorter(&lhs_lines, &rhs_lines)
 }
 
-fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+/// Return `hunk.lines` with any unchanged lines that fall
+/// between changed lines on the same side.
+pub(crate) fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut min_lhs = None;
     let mut min_rhs = None;
     let mut max_lhs = None;
