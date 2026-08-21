@@ -733,6 +733,13 @@ pub(crate) struct MatchedPos {
 ///
 /// If there is negligible text in common with `opposite_content`,
 /// treat the whole `content` as a single novel region.
+///
+/// `pos` and `opposite_pos` must be the *untrimmed* line spans of
+/// their atoms, because offset 0 of `content` is resolved relative to
+/// `pos[0]`. Trimming zero-width spans off the front (as
+/// `filter_empty_ends` does) shifts every word onto the wrong line.
+/// This matters for Ruby heredoc bodies, whose first line span is
+/// always empty because the body starts with a newline.
 fn split_atom_words(
     content: &str,
     pos: &[SingleLineSpan],
@@ -750,7 +757,7 @@ fn split_atom_words(
     let word_diffs = lcs_diff::slice(&content_parts, &other_parts);
 
     if !has_common_words(&word_diffs) {
-        return pos
+        return filter_empty_ends(pos)
             .iter()
             .map(|line| MatchedPos {
                 kind: MatchKind::Novel {
@@ -875,6 +882,7 @@ impl MatchedPos {
         // or end. We still want empty positions in the middle of
         // multiline atoms, as a multiline string literal may include
         // empty lines.
+        let untrimmed_pos = pos;
         let pos = filter_empty_ends(pos);
 
         match ck {
@@ -902,7 +910,13 @@ impl MatchedPos {
                     AtomKind::Comment
                 };
 
-                split_atom_words(this_content, &pos, opposite_content, opposite_pos, kind)
+                split_atom_words(
+                    this_content,
+                    untrimmed_pos,
+                    opposite_content,
+                    opposite_pos,
+                    kind,
+                )
             }
             Unchanged(opposite) => {
                 let opposite_pos = match opposite {
@@ -1261,6 +1275,107 @@ mod tests {
         init_all_info(&[x], &[y]);
 
         assert_eq!(x, y);
+    }
+
+    /// Heredoc bodies start with a newline, so the first line span of a
+    /// `heredoc_body` atom is zero-width. `filter_empty_ends` strips such
+    /// spans, but `split_atom_words` resolves offset 0 of the content
+    /// relative to `pos[0]`, so it must receive the *untrimmed* spans. When
+    /// it was given the trimmed spans, every word inside a Ruby heredoc was
+    /// reported one line too far down, painting the line after the heredoc
+    /// (typically `end`) as changed.
+    #[test]
+    fn test_replaced_string_with_empty_leading_line_span() {
+        // Mirrors a Ruby heredoc, with zero-indexed line numbers to match
+        // `SingleLineSpan`:
+        //
+        //   1:   <<~EOF        8 chars wide, so the body opens at col 8
+        //   2:     aaa bbb;    cols 0..12
+        //   3:     ccc novel;  cols 0..14, "novel" at cols 8..13
+        //
+        // The body's span on line 1 is zero-width: everything after
+        // `<<~EOF` on that line belongs to the heredoc, and there is
+        // nothing there but the newline.
+        let pos = vec![
+            SingleLineSpan {
+                line: 1.into(),
+                start_col: 8,
+                end_col: 8,
+            },
+            SingleLineSpan {
+                line: 2.into(),
+                start_col: 0,
+                end_col: 12,
+            },
+            SingleLineSpan {
+                line: 3.into(),
+                start_col: 0,
+                end_col: 14,
+            },
+        ];
+        let opposite_pos = vec![
+            SingleLineSpan {
+                line: 1.into(),
+                start_col: 8,
+                end_col: 8,
+            },
+            SingleLineSpan {
+                line: 2.into(),
+                start_col: 0,
+                end_col: 12,
+            },
+            SingleLineSpan {
+                line: 3.into(),
+                start_col: 0,
+                end_col: 8,
+            },
+        ];
+
+        let arena = Arena::new();
+        let lhs = Syntax::new_atom(
+            &arena,
+            pos,
+            "\n    aaa bbb;\n    ccc novel;".to_owned(),
+            AtomKind::String(StringKind::StringLiteral),
+        );
+        let rhs = Syntax::new_atom(
+            &arena,
+            opposite_pos,
+            "\n    aaa bbb;\n    ccc;".to_owned(),
+            AtomKind::String(StringKind::StringLiteral),
+        );
+        init_all_info(&[lhs], &[rhs]);
+
+        let mut change_map = ChangeMap::default();
+        change_map.insert(lhs, ChangeKind::ReplacedString(lhs, rhs));
+        change_map.insert(rhs, ChangeKind::ReplacedString(rhs, lhs));
+
+        let mps = change_positions(&[lhs], &change_map);
+
+        // The atom only covers lines 1-3. Reporting anything on line 4
+        // would highlight the line after the heredoc.
+        for mp in &mps {
+            assert!(
+                mp.pos.line <= 3.into(),
+                "position past end of atom: {:?}",
+                mp.pos
+            );
+        }
+
+        // "novel" is on line 3, at columns 8..13.
+        let novel: Vec<_> = mps
+            .iter()
+            .filter(|mp| matches!(mp.kind, MatchKind::NovelWord { .. }))
+            .map(|mp| mp.pos)
+            .collect();
+        assert_eq!(
+            novel,
+            vec![SingleLineSpan {
+                line: 3.into(),
+                start_col: 8,
+                end_col: 13,
+            }]
+        );
     }
 
     #[test]
