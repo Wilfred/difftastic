@@ -237,6 +237,20 @@ fn git_style_arguments_new_file() {
     cmd.assert().stdout(predicate_fn);
 }
 
+// Regression test for #1047: these inputs used to hit an `unreachable!` panic in
+// display/hunks.rs when the LHS/RHS unchanged positions didn't line up exactly. difft must
+// render them without panicking.
+#[test]
+fn issue_1047_no_unreachable_panic() {
+    let mut cmd = get_base_command();
+    cmd.arg("sample_files/issue_1047_before.tsx")
+        .arg("sample_files/issue_1047_after.tsx");
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains("panicked").not())
+        .stdout(predicate::str::contains("unreachable").not());
+}
+
 #[test]
 fn drop_different_path_starts() {
     let mut cmd = get_base_command();

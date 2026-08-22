@@ -514,6 +514,19 @@ fn sorted_novel_positions(
             (None, None) => {
                 break;
             }
+            // One side is exhausted but the other still has a non-novel (unchanged)
+            // position with no counterpart. This can happen on some real inputs where
+            // the LHS/RHS unchanged positions don't line up exactly (see #1047). Rather
+            // than panicking on `unreachable!`, treat the orphaned position as novel so
+            // it is still displayed and the loop makes progress.
+            (Some(lhs_mp), None) => {
+                lhs_novel_section.push(lhs_mp);
+                lhs_iter.next();
+            }
+            (None, Some(rhs_mp)) => {
+                rhs_novel_section.push(rhs_mp);
+                rhs_iter.next();
+            }
             (lhs_mp, rhs_mp) => {
                 unreachable!("Should be impossible: every LHS Unchanged MatchedPos should have a corresponding RHS Unchanged MatchedPos\n  {:?}\n  {:?}", lhs_mp, rhs_mp);
             }
