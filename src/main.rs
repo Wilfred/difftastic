@@ -1101,6 +1101,7 @@ mod tests {
             &DisplayOptions::default(),
             &DiffOptions::default(),
             &[],
+            false,
         );
 
         assert_eq!(res.lhs_positions, vec![]);
