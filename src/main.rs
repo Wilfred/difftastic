@@ -417,6 +417,11 @@ fn diff_file(
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
 
+    let has_permission_change = matches!(
+        (lhs_permissions, rhs_permissions),
+        (Some(lhs_perms), Some(rhs_perms)) if lhs_perms != rhs_perms
+    );
+
     let (mut lhs_src, mut rhs_src) = match (
         guess_content(&lhs_bytes, lhs_path, binary_overrides),
         guess_content(&rhs_bytes, rhs_path, binary_overrides),
@@ -441,6 +446,7 @@ fn diff_file(
                 hunks: vec![],
                 has_byte_changes,
                 has_syntactic_changes: false,
+                has_permission_change,
             };
         }
         (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src), _) => (lhs_src, rhs_src),
@@ -495,6 +501,7 @@ fn diff_file(
         display_options,
         diff_options,
         overrides,
+        has_permission_change,
     )
 }
 
@@ -572,6 +579,7 @@ fn diff_conflicts_file(
         display_options,
         diff_options,
         overrides,
+        false,
     )
 }
 
@@ -581,6 +589,7 @@ fn check_only_text(
     extra_info: Option<String>,
     lhs_src: &str,
     rhs_src: &str,
+    has_permission_change: bool,
 ) -> DiffResult {
     let has_byte_changes = if lhs_src == rhs_src {
         None
@@ -599,6 +608,7 @@ fn check_only_text(
         hunks: vec![],
         has_byte_changes,
         has_syntactic_changes: lhs_src != rhs_src,
+        has_permission_change,
     }
 }
 
@@ -612,6 +622,7 @@ fn diff_file_content(
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
+    has_permission_change: bool,
 ) -> DiffResult {
     let guess_src = match rhs_path {
         FileArgument::DevNull => &lhs_src,
@@ -640,6 +651,7 @@ fn diff_file_content(
             hunks: vec![],
             has_byte_changes: None,
             has_syntactic_changes: false,
+            has_permission_change,
         };
     }
 
@@ -647,7 +659,14 @@ fn diff_file_content(
         None => {
             let file_format = FileFormat::PlainText;
             if diff_options.check_only {
-                return check_only_text(&file_format, display_path, extra_info, lhs_src, rhs_src);
+                return check_only_text(
+                    &file_format,
+                    display_path,
+                    extra_info,
+                    lhs_src,
+                    rhs_src,
+                    has_permission_change,
+                );
             }
 
             let (lhs_positions, rhs_positions) = line_parser::change_positions(lhs_src, rhs_src);
@@ -687,6 +706,7 @@ fn diff_file_content(
                                     hunks: vec![],
                                     has_byte_changes,
                                     has_syntactic_changes,
+                                    has_permission_change,
                                 };
                             }
 
@@ -787,6 +807,7 @@ fn diff_file_content(
                                     extra_info,
                                     lhs_src,
                                     rhs_src,
+                                    has_permission_change,
                                 );
                             }
 
@@ -812,6 +833,7 @@ fn diff_file_content(
                             extra_info,
                             lhs_src,
                             rhs_src,
+                            has_permission_change,
                         );
                     }
 
@@ -854,6 +876,7 @@ fn diff_file_content(
         hunks,
         has_byte_changes,
         has_syntactic_changes,
+        has_permission_change,
     }
 }
 
@@ -909,7 +932,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             let hunks = &summary.hunks;
 
             if !summary.has_syntactic_changes {
-                if display_options.print_unchanged {
+                if display_options.print_unchanged || summary.has_permission_change {
                     println!(
                         "{}",
                         display::style::header(
@@ -991,7 +1014,10 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             }
         }
         (FileContent::Binary, FileContent::Binary) => {
-            if display_options.print_unchanged || summary.has_byte_changes.is_some() {
+            if display_options.print_unchanged
+                || summary.has_byte_changes.is_some()
+                || summary.has_permission_change
+            {
                 println!(
                     "{}",
                     display::style::header(

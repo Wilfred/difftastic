@@ -50,10 +50,17 @@ pub(crate) struct DiffResult {
     /// number of bytes in each file.
     pub(crate) has_byte_changes: Option<(usize, usize)>,
     pub(crate) has_syntactic_changes: bool,
+    /// The two files differ only (or additionally) in their file-system
+    /// permissions. This is a reportable change in its own right, even when
+    /// the contents are identical (so `--skip-unchanged` must not hide it).
+    pub(crate) has_permission_change: bool,
 }
 
 impl DiffResult {
     pub(crate) fn has_reportable_change(&self) -> bool {
+        if self.has_permission_change {
+            return true;
+        }
         if matches!(self.lhs_src, FileContent::Binary)
             || matches!(self.rhs_src, FileContent::Binary)
         {
