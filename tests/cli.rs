@@ -237,6 +237,40 @@ fn git_style_arguments_new_file() {
     cmd.assert().stdout(predicate_fn);
 }
 
+// Regression test for #1028: a permission-only change (identical content) must still be reported
+// under --skip-unchanged, matching plain difft.
+#[test]
+fn skip_unchanged_still_reports_permission_change() {
+    let mut cmd = get_base_command();
+    cmd.arg("--skip-unchanged")
+        .arg("perm_only.txt")
+        .arg("sample_files/simple_1.txt")
+        .arg("lhs_hash_placeholder")
+        .arg("100755")
+        .arg("sample_files/simple_1.txt")
+        .arg("rhs_hash_placeholder")
+        .arg("100644");
+    cmd.assert()
+        .stdout(predicate::str::contains("File permissions changed"));
+}
+
+// Control for #1028: --skip-unchanged must still hide a genuinely unchanged file (same content,
+// same mode) — the fix must not make everything print.
+#[test]
+fn skip_unchanged_still_hides_unchanged_file() {
+    let mut cmd = get_base_command();
+    cmd.arg("--skip-unchanged")
+        .arg("unchanged.txt")
+        .arg("sample_files/simple_1.txt")
+        .arg("lhs_hash_placeholder")
+        .arg("100644")
+        .arg("sample_files/simple_1.txt")
+        .arg("rhs_hash_placeholder")
+        .arg("100644");
+    cmd.assert()
+        .stdout(predicate::str::contains("simple_1").not());
+}
+
 #[test]
 fn drop_different_path_starts() {
     let mut cmd = get_base_command();
