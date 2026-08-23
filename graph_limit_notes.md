@@ -207,6 +207,34 @@ masked. Nothing asserts it.
   compiler warning; the per-section `info!` in
   `split_unchanged_patience` fires a lot.
 
+### 5a. Same-window attribution (measured 2026-08-23)
+
+Fresh clones (current tips, depth 400; redict 200 commits), fallback
+*files* per scan, three binaries on identical windows:
+
+| repo    | baseline (c195dc2) | this branch (t=32) | full heuristics |
+|---------|--------------------|--------------------|-----------------|
+| redict  | 9                  | 2                  | 0               |
+| veloren | 11                 | 10                 | 0               |
+| forgejo | 5                  | 1                  | 0               |
+| total   | 25                 | 13                 | 0               |
+
+So the exact-match stack on this branch (patience runs + two-pass
+big-first) fixes ~half the slow files overall, but the split is
+extremely repo-dependent: ~80% on redict/forgejo (records, locale
+JSON, mechanically-edited C test modules) vs ~9% on veloren (Rust
+game code — big fn/match bodies edited in place, nothing exact to
+anchor on at the split level).
+
+Every remaining holdout was classified individually: 13 veloren
+pairs + forgejo `routers/web/repo/view.go` all reproduce with this
+branch's binary and are all fixed by the similarity tier on
+`claude/graph-limit-heuristics` (14/14). Shape of the forgejo one is
+typical: one section, LHS 3182 nodes / 1 toplevel vs RHS 3759 nodes
+/ 8 toplevels — a function split into pieces, zero exact matches.
+Fallbacks are also what cost wall-clock: full binary scanned veloren
+in 128s vs 231s baseline.
+
 ## 6. Reproduction kit
 
 Benchmarks lived in an ephemeral scratchpad; regenerate:
