@@ -40,6 +40,15 @@ TreeSitterParser {
 If your parser includes custom C or C++ files for lexing (e.g. a
 `scanner.cc`), add them to `extra_files`.
 
+## Syntax highlighting (Optional)
+
+To add syntax highlighting for your language, you'll also need a symlink
+to the `queries/highlights.scm` file, if available.
+
+```
+$ cd vendored_parsers/highlights
+$ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
+```
 
 ## Updating a parser
 

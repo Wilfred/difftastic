@@ -69,8 +69,6 @@ You can use `difft --dump-ts foo.json` to see the results of the
 tree-sitter parser, and `difft --dump-syntax foo.json` to confirm that
 you've set atoms and delimiters correctly.
 
-`sub-languages` is empty for most languages: see the code documentation for details.
-
 ## Configure language detection
 
 Update `language_name` in `guess_language.rs` to detect your new
@@ -85,16 +83,6 @@ by adapting the `language_globs`, `from_emacs_mode_header` and `from_shebang` fu
 in that file.
 [GitHub's linguist definitions](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
 are a useful source of common file extensions.
-
-## Syntax highlighting (Optional)
-
-To add syntax highlighting for your language, you'll also need a symlink
-to the `queries/highlights.scm` file, if available.
-
-```
-$ cd vendored_parsers/highlights
-$ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
-```
 
 ## Test It
 
