@@ -68,7 +68,7 @@ sample_files/elisp_contiguous_1.el sample_files/elisp_contiguous_2.el
 f10afb2f1f60651b3dc384ea3ce8b1e4  -
 
 sample_files/elixir_1.ex sample_files/elixir_2.ex
-5ab1a845f7cb3ca6db1fdef7bc4a042f  -
+26e982d8972475312b350ce1e0bfdcc9  -
 
 sample_files/elm_1.elm sample_files/elm_2.elm
 8a67269f2dd2e4913f885b3b6e6d6a07  -
@@ -101,13 +101,13 @@ sample_files/helpful_1.el sample_files/helpful_2.el
 a26c7b0e3758b387237d9932002211f8  -
 
 sample_files/html_1.html sample_files/html_2.html
-a75207bff69134b601e677f4e3f9eb3b  -
+40cf5a085ac58331afdf8cc7fb366cae  -
 
 sample_files/html_simple_1.html sample_files/html_simple_2.html
 e31d600c98f9607c6f56c3967c000055  -
 
 sample_files/huge_cpp_1.cpp sample_files/huge_cpp_2.cpp
-3d02542d096751fcebd99a07745c8441  -
+220d0e4599d8fbfb8941ed16f225b99a  -
 
 sample_files/hyphen_subwords_1.json sample_files/hyphen_subwords_2.json
 8315e8d21c7c8a22c48ff46c3931eda9  -

@@ -741,7 +741,7 @@ fn split_atom_words(
     let content_parts = split_words_and_numbers(content);
     let other_parts = split_words_and_numbers(opposite_content);
 
-    let word_diffs = lcs_diff::slice_by_hash(&content_parts, &other_parts);
+    let word_diffs = lcs_diff::slice(&content_parts, &other_parts);
 
     if !has_common_words(&word_diffs) {
         return pos
