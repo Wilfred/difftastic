@@ -12,28 +12,28 @@ use crate::parse::syntax::{ContentId, Syntax};
 const TINY_TREE_THRESHOLD: u32 = 10;
 
 /// The minimum total size of a run of matched nodes before we
-/// commit to it as a split point, counting both sides (so 32 nodes
+/// commit to it as a split point, counting both sides (so 16 nodes
 /// per side).
 ///
 /// Calibration, measured on file pairs from OSS repo histories plus
 /// constructed pathological files:
 ///
 /// - Too low risks committing to coincidental matches of repeated
-///   content: with records of ~6 nodes, values <= 12 lock in
-///   occurrence mispairings that display the wrong sibling as
-///   removed and re-added; with ~12 node records the bad zone
-///   extends to ~48. The hazard scale is roughly two repeated
-///   records' worth of nodes.
-/// - Too high stops record files from splitting at all: a file of
-///   identical records with an edit every 30 records has runs of
-///   ~230, and falls back to a text diff if they don't qualify.
-/// - Between those bounds, output on ~150 real file pairs was
-///   byte-identical at every value tested (4 to 640).
+///   tiny content, locking in occurrence mispairings that display
+///   the wrong sibling as removed and re-added. Since nodes above
+///   TINY_TREE_THRESHOLD claim their matches in the first pass,
+///   only tiny siblings are exposed, so the damage is bounded and
+///   the hazard needs roughly two repeated tiny records' mass.
+/// - Too high stops record files from splitting: a file of
+///   identical records with an edit every 5 records has runs of
+///   ~40 and falls back to a text diff if they don't qualify.
+/// - Output on ~150 real file pairs was byte-identical at every
+///   value tested (4 to 640).
 ///
 /// Runs containing a node whose content is unique on both sides
 /// qualify regardless of this threshold, so this value only governs
 /// runs of repeated content.
-const RUN_MASS_THRESHOLD: usize = 64;
+const RUN_MASS_THRESHOLD: usize = 32;
 
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
@@ -70,9 +70,31 @@ enum ChangeState {
     PossiblyChanged,
 }
 
+fn is_tiny_node(node: &Syntax, size_threshold: u32) -> bool {
+    match node {
+        Syntax::List {
+            num_descendants, ..
+        } => *num_descendants < size_threshold,
+        Syntax::Atom { .. } => true,
+    }
+}
+
 fn split_unchanged_patience<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
+) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    split_unchanged_patience_pass(lhs_nodes, rhs_nodes, false)
+}
+
+/// Split at matched sibling runs, in two passes: first only nodes
+/// above TINY_TREE_THRESHOLD can match, so a big matched node can
+/// never lose the alignment to matches of small repeated content
+/// that cross it. Tiny nodes only match in the second pass, inside
+/// the gaps between big matches.
+fn split_unchanged_patience_pass<'a>(
+    lhs_nodes: &[&'a Syntax<'a>],
+    rhs_nodes: &[&'a Syntax<'a>],
+    match_tiny: bool,
 ) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     info!(
         "Patience split: LHS {} nodes, RHS {} nodes",
@@ -80,13 +102,25 @@ fn split_unchanged_patience<'a>(
         rhs_nodes.len()
     );
 
+    // In the first pass, tiny nodes get a key that occurs nowhere
+    // else, so the LCS cannot match them. The first element
+    // distinguishes the two sides, so tiny nodes never match each
+    // other either.
+    let node_key = |node: &'a Syntax<'a>, side: u8| -> (u8, u32) {
+        if match_tiny || !is_tiny_node(node, TINY_TREE_THRESHOLD) {
+            (0, node.content_id())
+        } else {
+            (side, u32::from(node.id()))
+        }
+    };
+
     let lhs_node_ids = lhs_nodes
         .iter()
-        .map(|n| EqOnFirstItem(n.content_id(), *n))
+        .map(|n| EqOnFirstItem(node_key(n, 1), *n))
         .collect::<Vec<_>>();
     let rhs_node_ids = rhs_nodes
         .iter()
-        .map(|n| EqOnFirstItem(n.content_id(), *n))
+        .map(|n| EqOnFirstItem(node_key(n, 2), *n))
         .collect::<Vec<_>>();
 
     let mut unchanged_region: Vec<(&'a Syntax<'a>, &'a Syntax<'a>)> = vec![];
@@ -113,7 +147,7 @@ fn split_unchanged_patience<'a>(
             }
 
             if big_enough {
-                res.extend(split_changed_singleton_list(&lhs_changed, &rhs_changed));
+                res.extend(split_changed_region(&lhs_changed, &rhs_changed, match_tiny));
                 lhs_changed.clear();
                 rhs_changed.clear();
 
@@ -153,7 +187,7 @@ fn split_unchanged_patience<'a>(
     }
 
     if big_enough {
-        res.extend(split_changed_singleton_list(&lhs_changed, &rhs_changed));
+        res.extend(split_changed_region(&lhs_changed, &rhs_changed, match_tiny));
         lhs_changed.clear();
         rhs_changed.clear();
 
@@ -168,12 +202,30 @@ fn split_unchanged_patience<'a>(
     }
 
     if !lhs_changed.is_empty() || !rhs_changed.is_empty() {
-        res.extend(split_changed_singleton_list(&lhs_changed, &rhs_changed));
+        res.extend(split_changed_region(&lhs_changed, &rhs_changed, match_tiny));
         lhs_changed.clear();
         rhs_changed.clear();
     }
 
     res
+}
+
+/// Handle a region between qualifying matched runs. In the first
+/// pass, tiny nodes weren't allowed to match, so try again allowing
+/// them.
+fn split_changed_region<'a>(
+    lhs_nodes: &[&'a Syntax<'a>],
+    rhs_nodes: &[&'a Syntax<'a>],
+    match_tiny: bool,
+) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    if lhs_nodes.is_empty() && rhs_nodes.is_empty() {
+        return vec![];
+    }
+    if match_tiny {
+        split_changed_singleton_list(lhs_nodes, rhs_nodes)
+    } else {
+        split_unchanged_patience_pass(lhs_nodes, rhs_nodes, true)
+    }
 }
 
 fn is_big_enough(region: &[(&Syntax<'_>, &Syntax<'_>)]) -> bool {
