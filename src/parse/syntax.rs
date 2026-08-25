@@ -607,6 +607,8 @@ fn set_num_ancestors(nodes: &[&Syntax], num_ancestors: u32) {
     }
 }
 
+/// Compare syntax nodes based on content ID only, ignoring positions
+/// and identity.
 impl PartialEq for Syntax<'_> {
     fn eq(&self, other: &Self) -> bool {
         debug_assert!(self.content_id() > 0);
