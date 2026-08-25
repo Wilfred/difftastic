@@ -78,7 +78,8 @@ pub(crate) struct SyntaxInfo<'a> {
     /// The number of nodes that are ancestors (i.e. parents,
     /// grandparents, ...) of this one.
     num_ancestors: Cell<u32>,
-    /// A number that uniquely identifies this syntax node.
+    /// A number that uniquely identifies this syntax node. No other
+    /// node, on LHS or RHS, will have this ID.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
     /// node. This may be the same as nodes on the other side of the
@@ -312,6 +313,9 @@ impl<'a> Syntax<'a> {
 
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
+    ///
+    /// This is a global uniqueness property, so LHS nodes and RHS
+    /// nodes will always have different values.
     pub(crate) fn id(&self) -> SyntaxId {
         self.info().unique_id.get()
     }
