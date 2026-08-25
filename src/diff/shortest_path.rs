@@ -15,7 +15,7 @@
 //! the graph as a grid (see the manual for the full graph
 //! description). For diffing sequences of flat tokens, this is fine.
 //!
-//! ```
+//! ```text
 //!     A   B
 //!   o---o---o
 //! X |   |   |
