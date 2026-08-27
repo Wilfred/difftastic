@@ -571,6 +571,9 @@ pub(crate) enum Mode {
     },
 }
 
+/// If `lhs_path` and `rhs_path` have a common ending, return that.
+///
+/// For example, given `dir1/foo/bar.py` and `dir2/foo/bar.py`, return `foo/bar.py`.
 fn common_path_suffix(lhs_path: &Path, rhs_path: &Path) -> Option<String> {
     let lhs_rev_components = lhs_path
         .components()
