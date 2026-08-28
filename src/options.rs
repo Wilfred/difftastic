@@ -624,17 +624,19 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
     match (lhs_path, rhs_path) {
         (FileArgument::NamedPath(lhs), FileArgument::NamedPath(rhs)) => {
             if is_git_tmpfile(lhs) {
+                // git-difftool calls us with `/tmp/git-blob-abc/bar.txt foo/bar.txt`.
                 return rhs.display().to_string();
             }
 
             match common_path_suffix(lhs, rhs) {
-                Some(common_suffix) => common_suffix,
+                Some(common_suffix) => {
+                    // Handle arguments `/tmp/vcs-abc/foo/bar.txt /home/wilfred/foo/bar.txt`
+                    // as 'foo/bar.txt
+                    common_suffix
+                }
                 None => {
-                    if rhs.extension().is_some() {
-                        rhs.display().to_string()
-                    } else {
-                        lhs.display().to_string()
-                    }
+                    // Given `old.txt new.txt` show `new.txt`.
+                    rhs.display().to_string()
                 }
             }
         }
