@@ -631,7 +631,7 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
             match common_path_suffix(lhs, rhs) {
                 Some(common_suffix) => {
                     // Handle arguments `/tmp/vcs-abc/foo/bar.txt /home/wilfred/foo/bar.txt`
-                    // as 'foo/bar.txt
+                    // as `foo/bar.txt`
                     common_suffix
                 }
                 None => {
