@@ -149,13 +149,12 @@ pub(crate) enum ProbableFileKind {
 /// <https://git-scm.com/docs/gitattributes#_working_tree_encoding>
 pub(crate) fn guess_content(
     bytes: &[u8],
-    path: &FileArgument,
+    display_path: &str,
     binary_overrides: &[glob::Pattern],
 ) -> ProbableFileKind {
-    if let FileArgument::NamedPath(path) = path {
-        let path = path.to_string_lossy();
+    if !display_path.is_empty() {
         for pattern in binary_overrides {
-            if pattern.matches(&path) {
+            if matches_override(pattern, display_path) {
                 info!(
                     "Input file is treated as binary due to explicit override glob {}",
                     pattern
@@ -354,12 +353,34 @@ pub(crate) fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<Pa
     paths
 }
 
+/// Returns `true` if `pattern` matches `display_path`, either as the
+/// full path or as the bare basename.
+///
+/// Glob's default semantics treat `*` as not crossing `/`, so `*.gz`
+/// would only match files at the root of the diff. Users supplying
+/// `DFT_OVERRIDE_BINARY=*.gz` reasonably expect it to match `.gz` files
+/// at any depth, mirroring how `.gitignore` treats patterns without an
+/// explicit slash. We keep the path-shaped match for patterns that *do*
+/// contain a slash (`build/*.lock`) and add the basename match for the
+/// "file-extension" shape that's by far the more common usage of this
+/// env var.
+fn matches_override(pattern: &glob::Pattern, display_path: &str) -> bool {
+    if pattern.matches(display_path) {
+        return true;
+    }
+    let basename = std::path::Path::new(display_path)
+        .file_name()
+        .and_then(|s| s.to_str())
+        .unwrap_or("");
+    !basename.is_empty() && basename != display_path && pattern.matches(basename)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     fn guess_content(bytes: &[u8]) -> ProbableFileKind {
-        super::guess_content(bytes, &FileArgument::Stdin, &[])
+        super::guess_content(bytes, "", &[])
     }
 
     #[test]
@@ -433,5 +454,55 @@ mod tests {
             0xfc, 0x0c, 0x56, 0x1e, 0x93, 0xcb, 0x71, 0x92, 0x82, 0x60, 0x16, 0x37,
         ];
         assert_eq!(guess_content(&bytes), ProbableFileKind::Binary);
+    }
+
+    fn pattern(s: &str) -> glob::Pattern {
+        glob::Pattern::new(s).expect("test pattern should parse")
+    }
+
+    #[test]
+    fn override_matches_root_filename() {
+        assert!(matches_override(&pattern("*.toml"), "rust-toolchain.toml"));
+    }
+
+    #[test]
+    fn override_matches_filename_at_depth() {
+        // The reported #967 case: a file living deeper than the diff root.
+        // `*.toml` should still treat it as binary.
+        assert!(matches_override(
+            &pattern("*.toml"),
+            "crates/foo/rust-toolchain.toml",
+        ));
+    }
+
+    #[test]
+    fn override_matches_path_shaped_pattern() {
+        // Patterns containing a slash retain their path-anchored meaning.
+        assert!(matches_override(
+            &pattern("build/*.lock"),
+            "build/Cargo.lock",
+        ));
+    }
+
+    #[test]
+    fn override_does_not_match_path_shaped_pattern_outside_anchor() {
+        // `build/*.lock` should NOT match a `Cargo.lock` outside `build/`.
+        assert!(!matches_override(
+            &pattern("build/*.lock"),
+            "crates/build/Cargo.lock",
+        ));
+    }
+
+    #[test]
+    fn override_does_not_match_non_matching_extension() {
+        // Make sure the basename fallback doesn't fire for unrelated names.
+        assert!(!matches_override(&pattern("*.gz"), "src/main.rs"));
+    }
+
+    #[test]
+    fn override_handles_empty_display_path() {
+        // Stdin / empty display path: the override loop is short-circuited
+        // by the caller, but the helper itself must not crash on it.
+        assert!(!matches_override(&pattern("*.toml"), ""));
     }
 }
