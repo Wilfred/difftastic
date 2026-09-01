@@ -1,0 +1,88 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
+  "name": "class_list",
+  "rules": {
+    "source": {
+      "type": "REPEAT",
+      "content": {
+        "type": "SYMBOL",
+        "name": "class_name"
+      }
+    },
+    "class_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "separator"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "segment"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_continuation_separator"
+                },
+                "named": true,
+                "value": "separator"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[^\\s\\-:/]+"
+                  }
+                },
+                "named": true,
+                "value": "segment"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "segment": {
+      "type": "PATTERN",
+      "value": "[^\\s\\-:/]+"
+    },
+    "separator": {
+      "type": "PATTERN",
+      "value": "[-:/]+"
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_continuation_separator"
+    }
+  ],
+  "inline": [],
+  "supertypes": [],
+  "reserved": {}
+}

@@ -83,6 +83,7 @@ pub(crate) struct TreeSitterConfig {
 }
 
 extern "C" {
+    fn tree_sitter_class_list() -> ts::Language;
     fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
@@ -317,6 +318,18 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        ClassList => {
+            let language = unsafe { tree_sitter_class_list() };
+
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: [].into_iter().collect(),
+                delimiter_tokens: vec![],
+                ignore_trailing_tokens: vec![],
+                highlight_query: ts::Query::new(&language, "").unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Dart => {
             let language_fn = tree_sitter_dart_orchard::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
@@ -400,12 +413,46 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string_constant_expr"].into_iter().collect(),
+                // Not forcing `string_constant_expr` to be an atom
+                // (unlike most other languages' string literals here)
+                // because:
+                //
+                // - Elm strings have no interpolation, so its
+                //   `open_quote`/`regular_string_part`/`close_quote`/
+                //   `string_escape` children fully and unambiguously
+                //   cover the source range, unlike the general case
+                //   described below.
+                // - We want the `class`/`Html.Attributes.class`
+                //   sub-language injection below to be able to reach
+                //   the `regular_string_part` node inside the string.
+                atom_nodes: [].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_elm::HIGHLIGHTS_QUERY)
                     .unwrap(),
-                sub_languages: vec![],
+                sub_languages: vec![TreeSitterSubLanguage {
+                    // Split the string argument of `class`/
+                    // `Html.Attributes.class` calls into individual
+                    // space-separated class names, so e.g. changing
+                    // "foo bar" to "foo baz" highlights just "bar"
+                    // vs "baz" rather than the whole string.
+                    //
+                    // `@fn-name` is always the last (unqualified)
+                    // segment of the call target, so this matches
+                    // both a bare `class` (when exposed unqualified)
+                    // and any qualified form ending in `.class`, e.g.
+                    // `Html.Attributes.class`.
+                    query: ts::Query::new(
+                        &language,
+                        r#"(function_call_expr
+                             target: (value_expr
+                               name: (value_qid (lower_case_identifier) @fn-name))
+                             arg: (string_constant_expr (regular_string_part) @contents)
+                             (#eq? @fn-name "class"))"#,
+                    )
+                    .unwrap(),
+                    parse_as: ClassList,
+                }],
             }
         }
         EmacsLisp => {
@@ -555,15 +602,20 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: [
-                    "doctype",
-                    "quoted_attribute_value",
-                    "raw_text",
-                    "tag_name",
-                    "text",
-                ]
-                .into_iter()
-                .collect(),
+                // Not forcing `quoted_attribute_value` to be an atom
+                // because:
+                //
+                // - Its children (the quote characters and a single
+                //   `attribute_value`) fully and unambiguously cover
+                //   the source range, so there's no risk of the usual
+                //   "missing children" problem this field guards
+                //   against.
+                // - We want the `class` attribute sub-language
+                //   injection below to be able to reach the
+                //   `attribute_value` node inside it.
+                atom_nodes: ["doctype", "raw_text", "tag_name", "text"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: vec![("<", ">"), ("<!", ">"), ("<!--", "-->")]
                     .into_iter()
                     .collect(),
@@ -580,6 +632,22 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                         query: ts::Query::new(&language, "(script_element (raw_text) @contents)")
                             .unwrap(),
                         parse_as: JavaScript,
+                    },
+                    TreeSitterSubLanguage {
+                        // Split the value of `class="..."` attributes
+                        // into individual space-separated class
+                        // names, so e.g. changing "foo bar" to
+                        // "foo baz" highlights just "bar" vs "baz"
+                        // rather than the whole attribute value.
+                        query: ts::Query::new(
+                            &language,
+                            r#"(attribute
+                                 (attribute_name) @name
+                                 (quoted_attribute_value (attribute_value) @contents)
+                                 (#eq? @name "class"))"#,
+                        )
+                        .unwrap(),
+                        parse_as: ClassList,
                     },
                 ],
             }
@@ -647,7 +715,18 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "template_string", "regex"].into_iter().collect(),
+                // Not forcing `string` to be an atom (unlike
+                // `template_string`, which keeps its interpolation
+                // `${...}` nodes opaque) because:
+                //
+                // - A plain string's children (`string_fragment`,
+                //   `escape_sequence`, `html_character_reference`)
+                //   fully and unambiguously cover the source range,
+                //   unlike template literals.
+                // - We want the `className` sub-language injection
+                //   below to be able to reach the `string_fragment`
+                //   node inside the string.
+                atom_nodes: ["template_string", "regex"].into_iter().collect(),
                 delimiter_tokens: vec![
                     ("[", "]"),
                     ("(", ")"),
@@ -666,9 +745,33 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                     ("formal_parameters", ","),
                     ("named_imports", ","),
                 ],
-                highlight_query: ts::Query::new(&language, tree_sitter_javascript::HIGHLIGHT_QUERY)
+                highlight_query: {
+                    // The upstream query only captures `(string)` as a
+                    // whole, not its `string_fragment` children. Since
+                    // `string` is no longer forced to be an atom, we
+                    // need `string_fragment` in `string_ids` directly,
+                    // or its content stops being highlighted as a
+                    // string.
+                    let mut query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();
+                    query.push_str("\n(string_fragment) @string\n");
+                    ts::Query::new(&language, &query).unwrap()
+                },
+                sub_languages: vec![TreeSitterSubLanguage {
+                    // Split the value of `className="..."` JSX
+                    // attributes into individual space-separated
+                    // class names, so e.g. changing "foo bar" to
+                    // "foo baz" highlights just "bar" vs "baz" rather
+                    // than the whole attribute value.
+                    query: ts::Query::new(
+                        &language,
+                        r#"(jsx_attribute
+                             (property_identifier) @name
+                             (string (string_fragment) @contents)
+                             (#eq? @name "className"))"#,
+                    )
                     .unwrap(),
-                sub_languages: vec![],
+                    parse_as: ClassList,
+                }],
             }
         }
         Json => {
@@ -1177,19 +1280,35 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             }
         }
         TypeScript | TypeScriptTsx => {
-            let language_fn = if language == TypeScript {
-                tree_sitter_typescript::LANGUAGE_TYPESCRIPT
-            } else {
+            let is_tsx = language == TypeScriptTsx;
+            let language_fn = if is_tsx {
                 tree_sitter_typescript::LANGUAGE_TSX
+            } else {
+                tree_sitter_typescript::LANGUAGE_TYPESCRIPT
             };
             let language = tree_sitter::Language::new(language_fn);
 
             let mut highlight_query = tree_sitter_javascript::HIGHLIGHT_QUERY.to_owned();
             highlight_query.push_str(tree_sitter_typescript::HIGHLIGHTS_QUERY);
+            // The upstream queries only capture `(string)` as a
+            // whole, not its `string_fragment` children. Since
+            // `string` is no longer forced to be an atom (see below),
+            // we need `string_fragment` in `string_ids` directly, or
+            // its content stops being highlighted as a string.
+            highlight_query.push_str("\n(string_fragment) @string\n");
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "template_string", "regex", "predefined_type"]
+                // Not forcing `string` to be an atom (unlike
+                // `template_string`, which keeps its interpolation
+                // `${...}` nodes opaque) because:
+                //
+                // - A plain string's children fully and unambiguously
+                //   cover the source range, unlike template literals.
+                // - We want the `className` sub-language injection
+                //   below to be able to reach the `string_fragment`
+                //   node inside the string (only relevant for TSX).
+                atom_nodes: ["template_string", "regex", "predefined_type"]
                     .into_iter()
                     .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
@@ -1203,7 +1322,27 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                     ("named_imports", ","),
                 ],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
-                sub_languages: vec![],
+                sub_languages: if is_tsx {
+                    // Split the value of `className="..."` JSX
+                    // attributes into individual space-separated
+                    // class names. Plain TypeScript (as opposed to
+                    // TSX) has no `jsx_attribute` node kind at all,
+                    // so this query would fail to even compile
+                    // against that dialect's grammar.
+                    vec![TreeSitterSubLanguage {
+                        query: ts::Query::new(
+                            &language,
+                            r#"(jsx_attribute
+                                 (property_identifier) @name
+                                 (string (string_fragment) @contents)
+                                 (#eq? @name "className"))"#,
+                        )
+                        .unwrap(),
+                        parse_as: ClassList,
+                    }]
+                } else {
+                    vec![]
+                },
             }
         }
         Xml => {
@@ -1338,12 +1477,36 @@ pub(crate) fn parse_subtrees(
     let mut subtrees = DftHashMap::default();
 
     for language in &config.sub_languages {
+        // The node to reparse is always the capture named `contents`.
+        // Queries may have other captures too (e.g. to restrict
+        // matches with a `#eq?`/`#match?` predicate on a function
+        // name), so we look this up by name rather than assuming
+        // it's capture index 0.
+        let contents_capture_index = language
+            .query
+            .capture_index_for_name("contents")
+            .expect("sub-language queries must have a capture named `contents`");
+
         let mut query_cursor = tree_sitter::QueryCursor::new();
         let mut query_matches =
             query_cursor.matches(&language.query, tree.root_node(), src.as_bytes());
 
+        let mut buf1 = Vec::new();
+        let mut buf2 = Vec::new();
         while let Some(m) = query_matches.next() {
-            let node = m.nodes_for_capture_index(0).next().unwrap();
+            if !m.satisfies_text_predicates(
+                &language.query,
+                &mut buf1,
+                &mut buf2,
+                &mut src.as_bytes(),
+            ) {
+                continue;
+            }
+
+            let node = m
+                .nodes_for_capture_index(contents_capture_index)
+                .next()
+                .unwrap();
             if node.byte_range().is_empty() {
                 continue;
             }

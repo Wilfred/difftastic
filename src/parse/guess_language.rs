@@ -30,6 +30,10 @@ pub(crate) enum Language {
     CPlusPlus,
     CSharp,
     Css,
+    /// Not detected from file extensions. Only used internally, when
+    /// parsing whitespace-separated tokens (e.g. HTML class lists)
+    /// injected from another language.
+    ClassList,
     Dart,
     DeviceTree,
     Dockerfile,
@@ -131,6 +135,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         CPlusPlus => "C++",
         CSharp => "C#",
         Css => "CSS",
+        ClassList => "Class List",
         Dart => "Dart",
         DeviceTree => "Device Tree",
         Dockerfile => "Dockerfile",
@@ -263,6 +268,9 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         ],
         CSharp => &["*.cs"],
         Css => &["*.css"],
+        // Not a real file type: only used internally via language
+        // injection, so it has no file extensions of its own.
+        ClassList => &[],
         Dart => &["*.dart"],
         DeviceTree => &["*.dts", "*.dtsi", "*.dtso", "*.its"],
         Dockerfile => &[

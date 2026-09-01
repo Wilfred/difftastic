@@ -1,0 +1,45 @@
+[
+  {
+    "type": "class_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "segment",
+          "named": true
+        },
+        {
+          "type": "separator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "class_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "segment",
+    "named": true
+  },
+  {
+    "type": "separator",
+    "named": true
+  }
+]
