@@ -58,6 +58,9 @@ sample_files/css_1.css sample_files/css_2.css
 sample_files/dart_1.dart sample_files/dart_2.dart
 2cacc19ded574d97416eed1a3da513e6  -
 
+sample_files/dedent_1.py sample_files/dedent_2.py
+84e87f1695bc3450889520976434c64a  -
+
 sample_files/devicetree_1.dts sample_files/devicetree_2.dts
 36a87e82032c54d0d1a630f895ea6f1b  -
 
@@ -137,7 +140,7 @@ sample_files/json_1.json sample_files/json_2.json
 2be569c35a1e90edbbdea641db73f9e7  -
 
 sample_files/jsx_1.jsx sample_files/jsx_2.jsx
-89832bde34f9c54c99a1bfb0f68291a9  -
+a1db24fc0074412bf8c9d92ad3c1179f  -
 
 sample_files/julia_1.jl sample_files/julia_2.jl
 10ac32ea1bd1d48b20386f1deeca40a0  -

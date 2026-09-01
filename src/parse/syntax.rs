@@ -311,6 +311,10 @@ impl<'a> Syntax<'a> {
         self.info().next_sibling.get()
     }
 
+    pub(crate) fn previous_sibling(&self) -> Option<&'a Self> {
+        self.info().previous_sibling.get()
+    }
+
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
     ///
@@ -1010,6 +1014,199 @@ pub(crate) fn change_positions<'a>(
     positions
 }
 
+/// The position of the first visible token in `node`: the atom
+/// itself, a visible open delimiter, or the leading token of the
+/// first child.
+fn leading_token_pos(node: &Syntax) -> Option<SingleLineSpan> {
+    match node {
+        Atom { position, .. } => position.first().copied(),
+        List {
+            open_content,
+            open_position,
+            children,
+            ..
+        } => {
+            if !open_content.is_empty() {
+                return open_position.first().copied();
+            }
+            children.iter().find_map(|child| leading_token_pos(child))
+        }
+    }
+}
+
+/// The position of the last visible token in `node`.
+fn trailing_token_pos(node: &Syntax) -> Option<SingleLineSpan> {
+    match node {
+        Atom { position, .. } => position.last().copied(),
+        List {
+            close_content,
+            close_position,
+            open_content,
+            open_position,
+            children,
+            ..
+        } => {
+            if !close_content.is_empty() {
+                return close_position.last().copied();
+            }
+            children
+                .iter()
+                .rev()
+                .find_map(|child| trailing_token_pos(child))
+                .or_else(|| {
+                    if open_content.is_empty() {
+                        None
+                    } else {
+                        open_position.last().copied()
+                    }
+                })
+        }
+    }
+}
+
+/// Is the leading token of `node` the first token on its line?
+fn starts_line(node: &Syntax, pos: SingleLineSpan) -> bool {
+    let mut current = node;
+    loop {
+        if let Some(prev) = current.previous_sibling() {
+            return match trailing_token_pos(prev) {
+                Some(prev_pos) => prev_pos.line < pos.line,
+                None => true,
+            };
+        }
+        match current.parent() {
+            Some(parent) => {
+                if let List {
+                    open_content,
+                    open_position,
+                    ..
+                } = parent
+                {
+                    if !open_content.is_empty() {
+                        return match open_position.last() {
+                            Some(open_pos) => open_pos.line < pos.line,
+                            None => true,
+                        };
+                    }
+                }
+                current = parent;
+            }
+            None => return true,
+        }
+    }
+}
+
+/// Is `parent` matched with `opposite_parent`?
+fn parents_match<'a>(
+    parent: Option<&'a Syntax<'a>>,
+    opposite_parent: Option<&'a Syntax<'a>>,
+    change_map: &ChangeMap<'a>,
+) -> bool {
+    match (parent, opposite_parent) {
+        (None, None) => true,
+        (Some(parent), Some(opposite_parent)) => match change_map.get(parent) {
+            Some(ChangeKind::Unchanged(parent_opposite)) => {
+                parent_opposite.id() == opposite_parent.id()
+            }
+            _ => false,
+        },
+        _ => false,
+    }
+}
+
+/// Does `node` (unchanged, matched with `opposite`) have a different
+/// parent on the two sides? Both sides of the change map have to
+/// agree, as slider fixes can leave a node matched on one side but
+/// novel on the other.
+fn is_reparented<'a>(
+    node: &'a Syntax<'a>,
+    opposite: &'a Syntax<'a>,
+    change_map: &ChangeMap<'a>,
+) -> bool {
+    !parents_match(node.parent(), opposite.parent(), change_map)
+        && !parents_match(opposite.parent(), node.parent(), change_map)
+}
+
+/// Is the change of container for `node` already displayed? This is
+/// the case when a novel ancestor has visible delimiters, or a novel
+/// ancestor has novel tokens of its own.
+fn container_change_is_visible<'a>(node: &'a Syntax<'a>, change_map: &ChangeMap<'a>) -> bool {
+    let mut current = node.parent();
+    while let Some(List {
+        open_content,
+        close_content,
+        children,
+        ..
+    }) = current
+    {
+        let parent = current.unwrap();
+        if !matches!(change_map.get(parent), Some(ChangeKind::Novel)) {
+            break;
+        }
+        if !open_content.is_empty() || !close_content.is_empty() {
+            return true;
+        }
+        for child in children {
+            if matches!(change_map.get(child), Some(ChangeKind::Novel)) {
+                match child {
+                    Atom { .. } => return true,
+                    List {
+                        open_content,
+                        close_content,
+                        ..
+                    } => {
+                        if !open_content.is_empty() || !close_content.is_empty() {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        current = parent.parent();
+    }
+    false
+}
+
+/// If `node` is unchanged but was moved to a different container
+/// and its indentation changed, return a novel position covering
+/// its indentation so the line is shown as changed.
+///
+/// This only reads the other side through the `Unchanged` link, and
+/// both sides reach the same decision for a matched pair.
+fn moved_indent_pos<'a>(
+    node: &'a Syntax<'a>,
+    opposite: &'a Syntax<'a>,
+    change_map: &ChangeMap<'a>,
+) -> Option<MatchedPos> {
+    let pos = leading_token_pos(node)?;
+    let opposite_pos = leading_token_pos(opposite)?;
+    if pos.start_col == opposite_pos.start_col {
+        return None;
+    }
+    if !starts_line(node, pos) || !starts_line(opposite, opposite_pos) {
+        return None;
+    }
+    if !is_reparented(node, opposite, change_map) {
+        return None;
+    }
+    if container_change_is_visible(node, change_map)
+        || container_change_is_visible(opposite, change_map)
+    {
+        return None;
+    }
+
+    Some(MatchedPos {
+        kind: MatchKind::Novel {
+            highlight: TokenKind::Atom(AtomKind::Normal),
+        },
+        pos: SingleLineSpan {
+            line: pos.line,
+            start_col: 0,
+            end_col: pos.start_col,
+        },
+    })
+}
+
 fn change_positions_<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
@@ -1021,8 +1218,12 @@ fn change_positions_<'a>(
             .get(node)
             .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
 
-        if matches!(change, ChangeKind::Unchanged(_)) {
+        if let ChangeKind::Unchanged(opposite) = change {
             *seen_unchanged = true;
+
+            if let Some(mp) = moved_indent_pos(node, opposite, change_map) {
+                positions.push(mp);
+            }
         }
 
         match node {
