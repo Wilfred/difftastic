@@ -14,7 +14,7 @@ use self::Syntax::*;
 use crate::diff::changes::ChangeKind::*;
 use crate::diff::changes::{ChangeKind, ChangeMap};
 use crate::diff::lcs_diff;
-use crate::hash::DftHashMap;
+use crate::hash::{DftHashMap, DftHashSet};
 use crate::lines::{is_all_whitespace, split_on_newlines};
 use crate::words::split_words_and_numbers;
 
@@ -90,6 +90,8 @@ pub(crate) struct SyntaxInfo<'a> {
     /// Is this the only node with this content? Ignores nodes on the
     /// other side.
     content_is_unique_to_side: Cell<bool>,
+    /// Does a node with the same content exist on the other side?
+    content_has_counterpart: Cell<bool>,
 }
 
 impl<'a> SyntaxInfo<'a> {
@@ -103,6 +105,7 @@ impl<'a> SyntaxInfo<'a> {
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
             content_is_unique_to_side: Cell::new(false),
+            content_has_counterpart: Cell::new(false),
         }
     }
 }
@@ -243,7 +246,10 @@ impl<'a> Syntax<'a> {
         // This is a small performance win as it makes the difftastic
         // syntax tree smaller. It also really helps when looking at
         // debug output for small inputs.
-        if children.len() == 1 && open_content.is_empty() && close_content.is_empty() {
+        static NO_FLATTEN: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+        let no_flatten = *NO_FLATTEN.get_or_init(|| std::env::var("DFT_NO_FLATTEN").is_ok());
+        if !no_flatten && children.len() == 1 && open_content.is_empty() && close_content.is_empty()
+        {
             return children[0];
         }
 
@@ -333,6 +339,10 @@ impl<'a> Syntax<'a> {
 
     pub(crate) fn content_is_unique(&self) -> bool {
         self.info().content_is_unique_to_side.get()
+    }
+
+    pub(crate) fn content_has_counterpart(&self) -> bool {
+        self.info().content_has_counterpart.get()
     }
 
     pub(crate) fn num_ancestors(&self) -> u32 {
@@ -446,6 +456,33 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
 
     set_content_is_unique(lhs_roots);
     set_content_is_unique(rhs_roots);
+
+    let mut lhs_ids = DftHashSet::default();
+    collect_content_ids(lhs_roots, &mut lhs_ids);
+    let mut rhs_ids = DftHashSet::default();
+    collect_content_ids(rhs_roots, &mut rhs_ids);
+    set_content_has_counterpart(lhs_roots, &rhs_ids);
+    set_content_has_counterpart(rhs_roots, &lhs_ids);
+}
+
+fn collect_content_ids(nodes: &[&Syntax], ids: &mut DftHashSet<ContentId>) {
+    for node in nodes {
+        ids.insert(node.content_id());
+        if let List { children, .. } = node {
+            collect_content_ids(children, ids);
+        }
+    }
+}
+
+fn set_content_has_counterpart(nodes: &[&Syntax], other_ids: &DftHashSet<ContentId>) {
+    for node in nodes {
+        node.info()
+            .content_has_counterpart
+            .set(other_ids.contains(&node.content_id()));
+        if let List { children, .. } = node {
+            set_content_has_counterpart(children, other_ids);
+        }
+    }
 }
 
 type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
@@ -1180,14 +1217,36 @@ fn moved_indent_pos<'a>(
 ) -> Option<MatchedPos> {
     let pos = leading_token_pos(node)?;
     let opposite_pos = leading_token_pos(opposite)?;
-    if pos.start_col == opposite_pos.start_col {
-        return None;
-    }
-    if !starts_line(node, pos) || !starts_line(opposite, opposite_pos) {
-        return None;
+    static STRUCTURAL: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+    let structural = *STRUCTURAL.get_or_init(|| std::env::var("DFT_STRUCTURAL").is_ok());
+    if !structural {
+        if pos.start_col == opposite_pos.start_col {
+            return None;
+        }
+        if !starts_line(node, pos) || !starts_line(opposite, opposite_pos) {
+            return None;
+        }
     }
     if !is_reparented(node, opposite, change_map) {
         return None;
+    }
+    if structural && !starts_line(node, pos) {
+        // Not at the start of a line: flag the line without painting anything.
+        if container_change_is_visible(node, change_map)
+            || container_change_is_visible(opposite, change_map)
+        {
+            return None;
+        }
+        return Some(MatchedPos {
+            kind: MatchKind::Novel {
+                highlight: TokenKind::Atom(AtomKind::Normal),
+            },
+            pos: SingleLineSpan {
+                line: pos.line,
+                start_col: pos.start_col,
+                end_col: pos.start_col,
+            },
+        });
     }
     if container_change_is_visible(node, change_map)
         || container_change_is_visible(opposite, change_map)
@@ -1221,8 +1280,12 @@ fn change_positions_<'a>(
         if let ChangeKind::Unchanged(opposite) = change {
             *seen_unchanged = true;
 
-            if let Some(mp) = moved_indent_pos(node, opposite, change_map) {
-                positions.push(mp);
+            static RULE_OFF: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+            let rule_off = *RULE_OFF.get_or_init(|| std::env::var("DFT_NO_MOVE_RULE").is_ok());
+            if !rule_off {
+                if let Some(mp) = moved_indent_pos(node, opposite, change_map) {
+                    positions.push(mp);
+                }
             }
         }
 

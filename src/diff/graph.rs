@@ -231,6 +231,134 @@ fn try_pop_rhs<'s, 'v>(
     }
 }
 
+fn stack_to_vec<'s, 'v>(stack: &Stack<'v, &'s Syntax<'s>>) -> Vec<&'s Syntax<'s>> {
+    let mut res = vec![];
+    let mut current = stack.clone();
+    while let Some(item) = current.peek() {
+        res.push(*item);
+        current = current.pop().unwrap();
+    }
+    res.reverse();
+    res
+}
+
+/// Leave the innermost RHS delimiter that was entered together with
+/// an LHS delimiter, while staying inside the LHS delimiter. Any
+/// PopEither entries above it must have no pending RHS delimiters.
+fn try_exit_rhs<'s, 'v>(
+    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+    alloc: &'v Bump,
+) -> Option<(&'s Syntax<'s>, Stack<'v, EnteredDelimiter<'s, 'v>>)> {
+    let mut pending_lhs: Vec<&'s Syntax<'s>> = vec![];
+    let mut current = entered.clone();
+    loop {
+        match current.peek() {
+            Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
+                if !rhs_delims.is_empty() {
+                    return None;
+                }
+                let mut items = stack_to_vec(lhs_delims);
+                items.append(&mut pending_lhs);
+                pending_lhs = items;
+                current = current.pop().unwrap();
+            }
+            Some(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim))) => {
+                let rhs_delim = *rhs_delim;
+                let mut lhs_stack = Stack::new().push(*lhs_delim, alloc);
+                for item in pending_lhs {
+                    lhs_stack = lhs_stack.push(item, alloc);
+                }
+                let entered = current.pop().unwrap().push(
+                    EnteredDelimiter::PopEither((lhs_stack, Stack::new())),
+                    alloc,
+                );
+                return Some((rhs_delim, entered));
+            }
+            None => return None,
+        }
+    }
+}
+
+/// Mirror of `try_exit_rhs`.
+fn try_exit_lhs<'s, 'v>(
+    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+    alloc: &'v Bump,
+) -> Option<(&'s Syntax<'s>, Stack<'v, EnteredDelimiter<'s, 'v>>)> {
+    let mut pending_rhs: Vec<&'s Syntax<'s>> = vec![];
+    let mut current = entered.clone();
+    loop {
+        match current.peek() {
+            Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
+                if !lhs_delims.is_empty() {
+                    return None;
+                }
+                let mut items = stack_to_vec(rhs_delims);
+                items.append(&mut pending_rhs);
+                pending_rhs = items;
+                current = current.pop().unwrap();
+            }
+            Some(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim))) => {
+                let lhs_delim = *lhs_delim;
+                let mut rhs_stack = Stack::new().push(*rhs_delim, alloc);
+                for item in pending_rhs {
+                    rhs_stack = rhs_stack.push(item, alloc);
+                }
+                let entered = current.pop().unwrap().push(
+                    EnteredDelimiter::PopEither((Stack::new(), rhs_stack)),
+                    alloc,
+                );
+                return Some((lhs_delim, entered));
+            }
+            None => return None,
+        }
+    }
+}
+
+fn exit_edges_enabled() -> bool {
+    static ENABLED: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+    *ENABLED.get_or_init(|| std::env::var("DFT_EXIT_EDGE").is_ok())
+}
+
+fn exit_cost() -> u32 {
+    static COST: std::sync::OnceLock<u32> = std::sync::OnceLock::new();
+    *COST.get_or_init(|| {
+        std::env::var("DFT_EXIT_COST")
+            .ok()
+            .and_then(|v| v.parse().ok())
+            .unwrap_or(300)
+    })
+}
+
+fn exit_cost_next() -> u32 {
+    static COST: std::sync::OnceLock<u32> = std::sync::OnceLock::new();
+    *COST.get_or_init(|| {
+        std::env::var("DFT_EXIT_COST_NEXT")
+            .ok()
+            .and_then(|v| v.parse().ok())
+            .unwrap_or_else(exit_cost)
+    })
+}
+
+fn exit_prune() -> bool {
+    static PRUNE: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+    *PRUNE.get_or_init(|| std::env::var("DFT_EXIT_PRUNE").is_ok())
+}
+
+/// Is the top of the stack a one-sided entry with nothing pending on
+/// `rhs` (or `lhs`)? That means we just exited that side.
+fn just_exited(entered: &Stack<EnteredDelimiter>, rhs: bool) -> bool {
+    match entered.peek() {
+        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
+            if rhs {
+                rhs_delims.is_empty()
+            } else {
+                lhs_delims.is_empty()
+            }
+        }
+        _ => false,
+    }
+}
+
 fn push_lhs_delimiter<'s, 'v>(
     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
     delimiter: &'s Syntax<'s>,
@@ -318,6 +446,15 @@ pub(crate) enum Edge {
     // rather doing LHS and RHS separately.
     EnterNovelDelimiterLHS {},
     EnterNovelDelimiterRHS {},
+    /// Leave a delimiter on one side only, keeping the matched
+    /// delimiter on the other side open. Nodes matched afterwards
+    /// have different parents on the two sides.
+    ExitDelimiterLHS {
+        consecutive: bool,
+    },
+    ExitDelimiterRHS {
+        consecutive: bool,
+    },
 }
 
 impl Edge {
@@ -357,6 +494,13 @@ impl Edge {
             // Otherwise, we've added/removed a node.
             NovelAtomLHS {} | NovelAtomRHS {} => 300,
             EnterNovelDelimiterLHS { .. } | EnterNovelDelimiterRHS { .. } => 300,
+            ExitDelimiterLHS { consecutive } | ExitDelimiterRHS { consecutive } => {
+                if consecutive {
+                    exit_cost_next()
+                } else {
+                    exit_cost()
+                }
+            }
             // Replacing a comment is better than treating it as
             // novel. However, since ReplacedComment is an alternative
             // to NovelAtomLHS and NovelAtomRHS, we need to be
@@ -789,6 +933,75 @@ pub(crate) fn compute_neighbours<'s, 'v>(
             }
         }
     }
+    if exit_edges_enabled() {
+        if v.lhs_syntax.is_some()
+            && v.rhs_syntax.is_none()
+            && !(exit_prune() && !v.lhs_syntax.unwrap().content_has_counterpart())
+        {
+            let consecutive = just_exited(&v.parents, true);
+            if let Some((rhs_delim, parents_next)) = try_exit_rhs(&v.parents, alloc) {
+                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
+                    pop_all_parents(
+                        v.lhs_syntax,
+                        rhs_delim.next_sibling(),
+                        v.lhs_parent_id,
+                        rhs_delim.parent().map(Syntax::id),
+                        &parents_next,
+                        alloc,
+                    );
+                neighbours.push((
+                    ExitDelimiterRHS { consecutive },
+                    allocate_if_new(
+                        Vertex {
+                            neighbours: OnceCell::new(),
+                            predecessor: Cell::new(None),
+                            lhs_syntax,
+                            rhs_syntax,
+                            parents,
+                            lhs_parent_id,
+                            rhs_parent_id,
+                        },
+                        alloc,
+                        seen,
+                    ),
+                ));
+            }
+        }
+        if v.rhs_syntax.is_some()
+            && v.lhs_syntax.is_none()
+            && !(exit_prune() && !v.rhs_syntax.unwrap().content_has_counterpart())
+        {
+            let consecutive = just_exited(&v.parents, false);
+            if let Some((lhs_delim, parents_next)) = try_exit_lhs(&v.parents, alloc) {
+                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
+                    pop_all_parents(
+                        lhs_delim.next_sibling(),
+                        v.rhs_syntax,
+                        lhs_delim.parent().map(Syntax::id),
+                        v.rhs_parent_id,
+                        &parents_next,
+                        alloc,
+                    );
+                neighbours.push((
+                    ExitDelimiterLHS { consecutive },
+                    allocate_if_new(
+                        Vertex {
+                            neighbours: OnceCell::new(),
+                            predecessor: Cell::new(None),
+                            lhs_syntax,
+                            rhs_syntax,
+                            parents,
+                            lhs_parent_id,
+                            rhs_parent_id,
+                        },
+                        alloc,
+                        seen,
+                    ),
+                ));
+            }
+        }
+    }
+
     assert!(
         !neighbours.is_empty(),
         "Must always find some next steps if node is not the end"
@@ -845,6 +1058,9 @@ pub(crate) fn populate_change_map<'s, 'v>(
             NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
                 let rhs = v.rhs_syntax.unwrap();
                 change_map.insert(rhs, ChangeKind::Novel);
+            }
+            ExitDelimiterLHS { .. } | ExitDelimiterRHS { .. } => {
+                // The delimiters were already marked when entered.
             }
         }
     }
