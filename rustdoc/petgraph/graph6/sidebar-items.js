@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["from_graph6_representation","get_graph6_representation"],"trait":["FromGraph6","ToGraph6"]};
