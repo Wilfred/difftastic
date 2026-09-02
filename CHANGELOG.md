@@ -1,5 +1,15 @@
 ## 0.71 (unreleased)
 
+### Diffing
+
+Improved linear diffing performance by switching from Wu-Manber to the
+Histogram algorithm. Runtime is slightly improved on average and worst
+case memory usage is substantially improved.
+
+(Linear diffing is used for line-based diffing and word highlighting
+in difftastic. Some diff results have slightly changed due to this
+algorithm change.)
+
 ### Parsing
 
 Improved C++, Dockerfile, Haskell, JavaScript, Rust, Scala and

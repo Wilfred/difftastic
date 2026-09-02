@@ -53,7 +53,7 @@ radix-heap = "0.4.2"
 # requires rust 1.88.
 ignore = ">= 0.4, < 0.4.30"
 owo-colors = "4.2.3"
-wu-diff = "0.1.2"
+imara-diff = { version = "0.2.0", default-features = false }
 rayon = "1.7.0"
 tree_magic_mini = "3.2.0"
 
