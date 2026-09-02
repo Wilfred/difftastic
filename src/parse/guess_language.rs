@@ -597,7 +597,7 @@ fn from_shebang(src: &str) -> Option<Language> {
                         return Some(Bash)
                     }
                     "tcc" => return Some(C),
-                    "lisp" | "sbc" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
+                    "lisp" | "sbcl" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
                     "elixir" => return Some(Elixir),
                     "escript" => return Some(Erlang),
                     "fish" => return Some(Fish),
