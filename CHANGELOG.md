@@ -12,7 +12,7 @@ algorithm change.)
 
 ### Parsing
 
-Improved C++, Dockerfile, Haskell, JavaScript, Ruby, Rust, Scala and
+Improved C++, Dockerfile, Haskell, JavaScript, Perl, Ruby, Rust, Scala and
 TypeScript.
 
 Removed Hare support (upstream parser is no longer maintained).
