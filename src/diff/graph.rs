@@ -16,6 +16,11 @@ use crate::diff::stack::Stack;
 use crate::hash::DftHashMap;
 use crate::parse::syntax::{AtomKind, Syntax, SyntaxId};
 
+/// The vertices allocated so far, keyed by their syntax positions.
+/// Vertices with the same key but different delimiter stacks are
+/// chained through `Vertex::next_variant`.
+pub(crate) type SeenMap<'s, 'v> = DftHashMap<&'v Vertex<'s, 'v>, ()>;
+
 /// A vertex in a directed acyclic graph that represents a diff.
 ///
 /// Each vertex represents two pointers: one to the next unmatched LHS
@@ -66,6 +71,9 @@ pub(crate) struct Vertex<'s, 'v> {
     /// The successor of this vertex in the shortest route to the end
     /// vertex found so far. Only used by bidirectional search.
     pub(crate) successor: Cell<Option<(u32, &'v Vertex<'s, 'v>)>>,
+    /// The next vertex with the same key but a different delimiter
+    /// stack, if any. See `allocate_if_new`.
+    next_variant: Cell<Option<&'v Vertex<'s, 'v>>>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
     pub(crate) lhs_syntax: Option<&'s Syntax<'s>>,
@@ -273,6 +281,14 @@ fn push_rhs_delimiter<'s, 'v>(
 }
 
 impl<'s, 'v> Vertex<'s, 'v> {
+    pub(crate) fn lhs_parent_id(&self) -> Option<SyntaxId> {
+        self.lhs_parent_id
+    }
+
+    pub(crate) fn rhs_parent_id(&self) -> Option<SyntaxId> {
+        self.rhs_parent_id
+    }
+
     pub(crate) fn is_end(&self) -> bool {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
@@ -334,6 +350,7 @@ impl<'s, 'v> Vertex<'s, 'v> {
             predecessor: Cell::new(None),
             predecessors: OnceCell::new(),
             successor: Cell::new(None),
+            next_variant: Cell::new(None),
             lhs_syntax,
             rhs_syntax,
             parents,
@@ -353,14 +370,14 @@ impl<'s, 'v> Vertex<'s, 'v> {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub(crate) enum Edge {
     UnchangedNode {
-        depth_difference: u32,
+        depth_difference: u8,
         /// Is this node just punctuation? We penalise this case,
         /// because it's more useful to match e.g. a variable name
         /// than a comma.
         probably_punctuation: bool,
     },
     EnterUnchangedDelimiter {
-        depth_difference: u32,
+        depth_difference: u8,
     },
     ReplacedComment {
         levenshtein_pct: u8,
@@ -449,7 +466,7 @@ impl Edge {
                 // The cost for unchanged nodes can be as low as 1,
                 // but we penalise nodes that have a different depth
                 // difference, capped at 40.
-                let base = min(costs.depth_cap, depth_difference + 1);
+                let base = min(costs.depth_cap, u32::from(depth_difference) + 1);
 
                 // If the node is only punctuation, increase the
                 // cost. It's better to have unchanged variable names
@@ -472,7 +489,7 @@ impl Edge {
             }
             // Matching an outer delimiter is good.
             EnterUnchangedDelimiter { depth_difference } => {
-                costs.enter + min(costs.depth_cap, depth_difference)
+                costs.enter + min(costs.depth_cap, u32::from(depth_difference))
             }
 
             // Otherwise, we've added/removed a node.
@@ -504,25 +521,29 @@ impl Edge {
 pub(crate) fn allocate_if_new<'s, 'v>(
     v: Vertex<'s, 'v>,
     alloc: &'v Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+    seen: &mut SeenMap<'s, 'v>,
 ) -> &'v Vertex<'s, 'v> {
     // We use the entry API so that we only need to do a single lookup
     // for access and insert.
     match seen.raw_entry_mut().from_key(&v) {
-        RawEntryMut::Occupied(mut occupied) => {
-            let existing = occupied.get_mut();
+        RawEntryMut::Occupied(occupied) => {
+            let first: &'v Vertex<'s, 'v> = occupied.key();
 
             // Don't explore more than two possible parenthesis
             // nestings for each syntax node pair.
-            if let Some(allocated) = existing.last() {
-                if existing.len() >= stack_cap() {
-                    return allocated;
-                }
+            let mut count = 0;
+            let mut last = first;
+            for existing_node in std::iter::successors(Some(first), |v| v.next_variant.get()) {
+                count += 1;
+                last = existing_node;
+            }
+            if count >= stack_cap() {
+                return last;
             }
 
             // If we have seen exactly this graph node before, even
             // considering parenthesis matching, return it.
-            for existing_node in existing.iter() {
+            for existing_node in std::iter::successors(Some(first), |v| v.next_variant.get()) {
                 if existing_node.parents == v.parents {
                     return existing_node;
                 }
@@ -531,20 +552,12 @@ pub(crate) fn allocate_if_new<'s, 'v>(
             // We haven't reached the graph node limit yet, allocate a
             // new one.
             let allocated = alloc.alloc(v);
-            existing.push(allocated);
+            last.next_variant.set(Some(allocated));
             allocated
         }
         RawEntryMut::Vacant(vacant) => {
             let allocated = alloc.alloc(v);
-
-            // We know that this vec will never have more than 2
-            // nodes, and this code is very hot, so use a smallvec.
-            //
-            // We still use a vec to enable experiments with the value
-            // of how many possible parenthesis nestings to explore.
-            let existing: SmallVec<[&'v Vertex<'s, 'v>; 2]> = smallvec![&*allocated];
-
-            vacant.insert(allocated, existing);
+            vacant.insert(allocated, ());
             allocated
         }
     }
@@ -552,10 +565,10 @@ pub(crate) fn allocate_if_new<'s, 'v>(
 
 /// The total number of vertices allocated, i.e. the size of the
 /// graph explored so far.
-pub(crate) fn vertex_count(
-    seen: &DftHashMap<&Vertex<'_, '_>, SmallVec<[&Vertex<'_, '_>; 2]>>,
-) -> usize {
-    seen.values().map(|entries| entries.len()).sum()
+pub(crate) fn vertex_count(seen: &SeenMap<'_, '_>) -> usize {
+    seen.keys()
+        .map(|first| std::iter::successors(Some(*first), |v| v.next_variant.get()).count())
+        .sum()
 }
 
 /// How many delimiter stacks to explore per syntax node pair. This
@@ -575,16 +588,10 @@ fn stack_cap() -> usize {
 ///
 /// Unlike `allocate_if_new`, this never returns a vertex with a
 /// different delimiter stack.
-fn find_exact<'s, 'v>(
-    v: &Vertex<'s, 'v>,
-    seen: &DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
-) -> Option<&'v Vertex<'s, 'v>> {
-    seen.get(v).and_then(|existing| {
-        existing
-            .iter()
-            .find(|existing_node| existing_node.parents == v.parents)
-            .copied()
-    })
+fn find_exact<'s, 'v>(v: &Vertex<'s, 'v>, seen: &SeenMap<'s, 'v>) -> Option<&'v Vertex<'s, 'v>> {
+    let (first, ()) = seen.get_key_value(v)?;
+    std::iter::successors(Some(*first), |v| v.next_variant.get())
+        .find(|existing_node| existing_node.parents == v.parents)
 }
 
 /// Does this node look like punctuation?
@@ -673,7 +680,7 @@ fn pop_all_parents<'s, 'v>(
 pub(crate) fn compute_neighbours<'s, 'v>(
     v: &Vertex<'s, 'v>,
     alloc: &'v Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+    seen: &mut SeenMap<'s, 'v>,
 ) -> &'v [(Edge, &'v Vertex<'s, 'v>)] {
     // There are only eight pushes in this function, so that's sufficient.
     let mut neighbours: SmallVec<[(Edge, &Vertex); 8]> = SmallVec::new();
@@ -682,7 +689,8 @@ pub(crate) fn compute_neighbours<'s, 'v>(
         if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i32
                 - rhs_syntax.num_ancestors() as i32)
-                .unsigned_abs();
+                .unsigned_abs()
+                .min(u32::from(u8::MAX)) as u8;
 
             let probably_punctuation = looks_like_punctuation(lhs_syntax);
 
@@ -707,6 +715,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                         predecessor: Cell::new(None),
                         predecessors: OnceCell::new(),
                         successor: Cell::new(None),
+                        next_variant: Cell::new(None),
                         lhs_syntax,
                         rhs_syntax,
                         parents,
@@ -743,7 +752,8 @@ pub(crate) fn compute_neighbours<'s, 'v>(
 
                 let depth_difference = (lhs_syntax.num_ancestors() as i32
                     - rhs_syntax.num_ancestors() as i32)
-                    .unsigned_abs();
+                    .unsigned_abs()
+                    .min(u32::from(u8::MAX)) as u8;
 
                 // When we enter a list, we may need to immediately
                 // pop several levels if the list has no children.
@@ -765,6 +775,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                             predecessor: Cell::new(None),
                             predecessors: OnceCell::new(),
                             successor: Cell::new(None),
+                            next_variant: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -816,6 +827,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                             predecessor: Cell::new(None),
                             predecessors: OnceCell::new(),
                             successor: Cell::new(None),
+                            next_variant: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -870,6 +882,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                             predecessor: Cell::new(None),
                             predecessors: OnceCell::new(),
                             successor: Cell::new(None),
+                            next_variant: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -909,6 +922,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                             predecessor: Cell::new(None),
                             predecessors: OnceCell::new(),
                             successor: Cell::new(None),
+                            next_variant: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -944,6 +958,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                             predecessor: Cell::new(None),
                             predecessors: OnceCell::new(),
                             successor: Cell::new(None),
+                            next_variant: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -983,6 +998,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                             predecessor: Cell::new(None),
                             predecessors: OnceCell::new(),
                             successor: Cell::new(None),
+                            next_variant: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -1017,6 +1033,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                             predecessor: Cell::new(None),
                             predecessors: OnceCell::new(),
                             successor: Cell::new(None),
+                            next_variant: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -1334,56 +1351,56 @@ pub(crate) fn compute_predecessors<'s, 'v>(
     v: &'v Vertex<'s, 'v>,
     ctx: BackwardContext<'s>,
     alloc: &'v Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+    seen: &mut SeenMap<'s, 'v>,
 ) -> &'v [(Edge, &'v Vertex<'s, 'v>)] {
     let mut candidates: SmallVec<[&'v Vertex<'s, 'v>; 16]> = SmallVec::new();
 
-    let mut consider =
-        |lhs_syntax: Option<&'s Syntax<'s>>,
-         rhs_syntax: Option<&'s Syntax<'s>>,
-         lhs_parent_id: Option<SyntaxId>,
-         rhs_parent_id: Option<SyntaxId>,
-         parents: Stack<'v, EnteredDelimiter<'s, 'v>>,
-         seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>| {
-            // Only canonical states (where no more parents can be
-            // popped) are vertices in the graph.
-            let (popped_lhs, popped_rhs, _, _, popped_parents) = pop_all_parents(
-                lhs_syntax,
-                rhs_syntax,
-                lhs_parent_id,
-                rhs_parent_id,
-                &parents,
-                alloc,
-            );
-            if popped_lhs.map(Syntax::id) != lhs_syntax.map(Syntax::id)
-                || popped_rhs.map(Syntax::id) != rhs_syntax.map(Syntax::id)
-                || popped_parents != parents
-            {
-                return;
-            }
+    let mut consider = |lhs_syntax: Option<&'s Syntax<'s>>,
+                        rhs_syntax: Option<&'s Syntax<'s>>,
+                        lhs_parent_id: Option<SyntaxId>,
+                        rhs_parent_id: Option<SyntaxId>,
+                        parents: Stack<'v, EnteredDelimiter<'s, 'v>>,
+                        seen: &mut SeenMap<'s, 'v>| {
+        // Only canonical states (where no more parents can be
+        // popped) are vertices in the graph.
+        let (popped_lhs, popped_rhs, _, _, popped_parents) = pop_all_parents(
+            lhs_syntax,
+            rhs_syntax,
+            lhs_parent_id,
+            rhs_parent_id,
+            &parents,
+            alloc,
+        );
+        if popped_lhs.map(Syntax::id) != lhs_syntax.map(Syntax::id)
+            || popped_rhs.map(Syntax::id) != rhs_syntax.map(Syntax::id)
+            || popped_parents != parents
+        {
+            return;
+        }
 
-            let vertex = Vertex {
-                neighbours: OnceCell::new(),
-                predecessor: Cell::new(None),
-                predecessors: OnceCell::new(),
-                successor: Cell::new(None),
-                lhs_syntax,
-                rhs_syntax,
-                parents,
-                lhs_parent_id,
-                rhs_parent_id,
-            };
-            // Prefer the vertex with exactly this state if we've seen
-            // it, as `allocate_if_new` may return a vertex with a
-            // different delimiter stack.
-            let candidate = match find_exact(&vertex, seen) {
-                Some(existing) => existing,
-                None => allocate_if_new(vertex, alloc, seen),
-            };
-            if !candidates.iter().any(|c| std::ptr::eq(*c, candidate)) {
-                candidates.push(candidate);
-            }
+        let vertex = Vertex {
+            neighbours: OnceCell::new(),
+            predecessor: Cell::new(None),
+            predecessors: OnceCell::new(),
+            successor: Cell::new(None),
+            next_variant: Cell::new(None),
+            lhs_syntax,
+            rhs_syntax,
+            parents,
+            lhs_parent_id,
+            rhs_parent_id,
         };
+        // Prefer the vertex with exactly this state if we've seen
+        // it, as `allocate_if_new` may return a vertex with a
+        // different delimiter stack.
+        let candidate = match find_exact(&vertex, seen) {
+            Some(existing) => existing,
+            None => allocate_if_new(vertex, alloc, seen),
+        };
+        if !candidates.iter().any(|c| std::ptr::eq(*c, candidate)) {
+            candidates.push(candidate);
+        }
+    };
 
     for s in pre_images(v, ctx, alloc) {
         let lhs_prev = step_back(s.lhs_syntax, s.lhs_parent, ctx.lhs_last_root);

@@ -50,18 +50,198 @@ use radix_heap::RadixHeapMap;
 use crate::diff::changes::ChangeMap;
 use crate::diff::graph::{
     allocate_if_new, compute_neighbours, compute_predecessors, populate_change_map, vertex_count,
-    BackwardContext, Edge, Vertex,
+    BackwardContext, Edge, SeenMap, Vertex,
 };
 use crate::hash::DftHashMap;
-use crate::parse::syntax::Syntax;
+use crate::parse::syntax::{AtomKind, Syntax};
 
 #[derive(Debug)]
 pub(crate) struct ExceededGraphLimit {}
+
+/// A lower bound on the remaining cost from a vertex, for A*.
+///
+/// Any atom whose content does not occur anywhere on the other side
+/// can only be consumed by a novel edge (cost 300) or a replacement
+/// edge (cost at least 500 for two atoms). Syntax IDs are assigned
+/// in preorder, so the nodes remaining after a vertex are a suffix
+/// of the section's ID range.
+struct Heuristic {
+    lhs_first_id: u32,
+    /// `lhs_suffix[i]` is the weighted count of unmatchable LHS atoms
+    /// with an ID of at least `lhs_first_id + i`.
+    lhs_suffix: Vec<u32>,
+    /// `lhs_subtree_end[i]` is the last ID in the subtree of the node
+    /// with ID `lhs_first_id + i`.
+    lhs_subtree_end: Vec<u32>,
+    rhs_first_id: u32,
+    rhs_suffix: Vec<u32>,
+    rhs_subtree_end: Vec<u32>,
+}
+
+fn section_nodes<'a>(root: Option<&'a Syntax<'a>>) -> Vec<&'a Syntax<'a>> {
+    fn walk<'a>(node: &'a Syntax<'a>, out: &mut Vec<&'a Syntax<'a>>) {
+        out.push(node);
+        if let Syntax::List { children, .. } = node {
+            for child in children {
+                walk(child, out);
+            }
+        }
+    }
+    let mut res = vec![];
+    for node in std::iter::successors(root, |node| node.next_sibling()) {
+        walk(node, &mut res);
+    }
+    res
+}
+
+impl Heuristic {
+    /// Build the heuristic. When `counting` is false, only atoms whose
+    /// content never occurs on the other side are counted. When it's
+    /// true, atoms and delimiter pairs that occur more often on this
+    /// side than the other are counted too: the excess must be novel.
+    /// The counting heuristic is admissible but not consistent.
+    fn new<'a>(
+        lhs_syntax: Option<&'a Syntax<'a>>,
+        rhs_syntax: Option<&'a Syntax<'a>>,
+        counting: bool,
+        unique_lists: bool,
+    ) -> Self {
+        let lhs_nodes = section_nodes(lhs_syntax);
+        let rhs_nodes = section_nodes(rhs_syntax);
+
+        // Atoms are keyed by content ID, lists by their delimiters.
+        #[derive(PartialEq, Eq, Hash, Clone, Copy)]
+        enum Key<'a> {
+            Atom(u32),
+            List(&'a str, &'a str),
+        }
+        let key = |node: &'a Syntax<'a>| match node {
+            Syntax::Atom { .. } => Key::Atom(node.content_id()),
+            Syntax::List {
+                open_content,
+                close_content,
+                ..
+            } => Key::List(open_content, close_content),
+        };
+
+        let counts = |nodes: &[&'a Syntax<'a>]| -> DftHashMap<Key<'a>, u32> {
+            let mut res: DftHashMap<Key<'a>, u32> = DftHashMap::default();
+            for node in nodes {
+                if counting || unique_lists || matches!(node, Syntax::Atom { .. }) {
+                    *res.entry(key(node)).or_insert(0) += 1;
+                }
+            }
+            res
+        };
+        let lhs_counts = counts(&lhs_nodes);
+        let rhs_counts = counts(&rhs_nodes);
+
+        let build = |nodes: &[&'a Syntax<'a>],
+                     other_counts: &DftHashMap<Key<'a>, u32>|
+         -> (u32, Vec<u32>, Vec<u32>) {
+            let Some(first) = nodes.first() else {
+                return (0, vec![0], vec![]);
+            };
+            let first_id = u32::from(first.id());
+            let n = nodes.len();
+            let mut subtree_end = vec![0u32; n];
+            let mut suffix = vec![0u32; n + 1];
+            let mut seen_after: DftHashMap<Key<'a>, u32> = DftHashMap::default();
+            for (i, node) in nodes.iter().enumerate().rev() {
+                debug_assert_eq!(u32::from(node.id()), first_id + i as u32);
+                let (weight, end) = match node {
+                    Syntax::Atom { kind, .. } => (
+                        match kind {
+                            AtomKind::Comment | AtomKind::String(_) => 250,
+                            _ => 300,
+                        },
+                        first_id + i as u32,
+                    ),
+                    Syntax::List {
+                        num_descendants, ..
+                    } => (300, first_id + i as u32 + num_descendants),
+                };
+                subtree_end[i] = end;
+
+                let is_list = matches!(node, Syntax::List { .. });
+                let excess = if is_list && !counting && !unique_lists {
+                    false
+                } else {
+                    let seen = seen_after.entry(key(node)).or_insert(0);
+                    *seen += 1;
+                    let available = other_counts.get(&key(node)).copied().unwrap_or(0);
+                    if counting {
+                        *seen > available
+                    } else {
+                        available == 0
+                    }
+                };
+                suffix[i] = suffix[i + 1] + if excess { weight } else { 0 };
+            }
+            (first_id, suffix, subtree_end)
+        };
+
+        let (lhs_first_id, lhs_suffix, lhs_subtree_end) = build(&lhs_nodes, &rhs_counts);
+        let (rhs_first_id, rhs_suffix, rhs_subtree_end) = build(&rhs_nodes, &lhs_counts);
+        Heuristic {
+            lhs_first_id,
+            lhs_suffix,
+            lhs_subtree_end,
+            rhs_first_id,
+            rhs_suffix,
+            rhs_subtree_end,
+        }
+    }
+
+    fn remaining(
+        first_id: u32,
+        suffix: &[u32],
+        subtree_end: &[u32],
+        syntax: Option<&Syntax>,
+        parent_id: Option<crate::parse::syntax::SyntaxId>,
+    ) -> u32 {
+        let n = subtree_end.len() as u32;
+        let position = match syntax {
+            Some(node) => u32::from(node.id()).wrapping_sub(first_id),
+            None => match parent_id {
+                // We've finished the children of this list, so the
+                // remaining nodes start after its subtree.
+                Some(parent_id) => {
+                    let parent = u32::from(parent_id).wrapping_sub(first_id);
+                    if parent < n {
+                        subtree_end[parent as usize] + 1 - first_id
+                    } else {
+                        n
+                    }
+                }
+                None => n,
+            },
+        };
+        suffix[std::cmp::min(position, n) as usize]
+    }
+
+    fn estimate(&self, v: &Vertex) -> u32 {
+        Self::remaining(
+            self.lhs_first_id,
+            &self.lhs_suffix,
+            &self.lhs_subtree_end,
+            v.lhs_syntax,
+            v.lhs_parent_id(),
+        ) + Self::remaining(
+            self.rhs_first_id,
+            &self.rhs_suffix,
+            &self.rhs_subtree_end,
+            v.rhs_syntax,
+            v.rhs_parent_id(),
+        )
+    }
+}
 
 /// Return the shortest route from `start` to the end vertex.
 fn shortest_vertex_path<'s, 'v>(
     start: Vertex<'s, 'v>,
     ctx: BackwardContext<'s>,
+    heuristic: Option<&Heuristic>,
     vertex_arena: &'v Bump,
     size_hint: usize,
     graph_limit: usize,
@@ -69,21 +249,42 @@ fn shortest_vertex_path<'s, 'v>(
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, &'v Vertex<'s, 'v>> = RadixHeapMap::new();
+    // Heap values are the vertex and its distance when pushed, so
+    // we can skip entries that a shorter route has since replaced.
+    let mut heap: RadixHeapMap<Reverse<u32>, (&'v Vertex<'s, 'v>, u32)> = RadixHeapMap::new();
 
-    let mut seen = DftHashMap::default();
+    let mut seen = SeenMap::default();
     seen.reserve(size_hint);
 
     let start = allocate_if_new(start, vertex_arena, &mut seen);
-    heap.push(Reverse(0), start);
+    let estimate = |v: &Vertex<'s, 'v>| heuristic.map_or(0, |h| h.estimate(v));
+    // The heap is keyed by distance plus the heuristic estimate of
+    // the remaining cost (plain Dijkstra when there is no heuristic).
+    heap.push(Reverse(estimate(start)), (start, 0));
+    let estimate_at_start = estimate(start);
 
+    let skip_stale = env::var("DFT_NO_SKIP_STALE").is_err();
+    let check_heuristic = env::var("DFT_CHECK_HEURISTIC").is_ok();
     let mut settled: usize = 0;
+    let mut stale: usize = 0;
 
     let end: &'v Vertex<'s, 'v> = loop {
         match heap.pop() {
-            Some((Reverse(distance), current)) => {
+            Some((Reverse(key), (current, pushed_distance))) => {
                 if current.is_end() {
                     break current;
+                }
+                let distance = match current.predecessor.get() {
+                    Some((distance, _)) => distance,
+                    None => 0,
+                };
+                // If we've since found a shorter route to this
+                // vertex, we've already expanded it with that route.
+                if pushed_distance > distance {
+                    stale += 1;
+                    if skip_stale {
+                        continue;
+                    }
                 }
                 settled += 1;
 
@@ -102,7 +303,23 @@ fn shortest_vertex_path<'s, 'v>(
 
                     if found_shorter_route {
                         next.predecessor.replace(Some((distance_to_next, current)));
-                        heap.push(Reverse(distance_to_next), next);
+                        // The heuristic may not be consistent, so
+                        // never let the key drop below the current
+                        // one (the "pathmax" rule). This keeps the
+                        // radix heap monotonic and A* optimal.
+                        let next_key = std::cmp::max(distance_to_next + estimate(next), key);
+                        heap.push(Reverse(next_key), (next, distance_to_next));
+                    }
+                    if check_heuristic && estimate(current) > edge.cost() + estimate(next) {
+                        eprintln!(
+                            "INCONSISTENT HEURISTIC: {} > {} + {} for edge {:?}\n  from: {}\n  to:   {}",
+                            estimate(current),
+                            edge.cost(),
+                            estimate(next),
+                            edge,
+                            current.dbg_summary(),
+                            next.dbg_summary()
+                        );
                     }
                 }
 
@@ -119,11 +336,14 @@ fn shortest_vertex_path<'s, 'v>(
     };
 
     info!(
-        "Saw {} vertices ({} keys, a Vertex is {} bytes), settled {} forward, arena consumed {}, with {} vertices left on heap.",
+        "Saw {} vertices ({} keys, a Vertex is {} bytes, a neighbour entry is {} bytes), settled {} forward, {} stale pops, estimate at start {}, arena consumed {}, with {} vertices left on heap.",
         vertex_count(&seen),
         seen.len(),
         std::mem::size_of::<Vertex>(),
+        std::mem::size_of::<(Edge, &Vertex)>(),
         settled,
+        stale,
+        estimate_at_start,
         humansize::format_size(vertex_arena.allocated_bytes(), humansize::BINARY),
         heap.len(),
     );
@@ -189,7 +409,7 @@ fn bidirectional_vertex_path<'s, 'v>(
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<&'v Vertex<'s, 'v>>, ExceededGraphLimit> {
-    let mut seen = DftHashMap::default();
+    let mut seen = SeenMap::default();
     seen.reserve(size_hint);
 
     // The backward search may reach the start vertex, so make sure
@@ -385,7 +605,35 @@ fn shortest_path<'s, 'v>(
     let vertex_path = if env::var("DFT_BIDIRECTIONAL").is_ok() {
         bidirectional_vertex_path(start, ctx, vertex_arena, size_hint, graph_limit)?
     } else {
-        shortest_vertex_path(start, ctx, vertex_arena, size_hint, graph_limit)?
+        let heuristic = match env::var("DFT_ASTAR").ok().as_deref() {
+            Some("1") => Some(Heuristic::new(
+                start.lhs_syntax,
+                start.rhs_syntax,
+                false,
+                false,
+            )),
+            Some("2") => Some(Heuristic::new(
+                start.lhs_syntax,
+                start.rhs_syntax,
+                true,
+                true,
+            )),
+            Some("3") => Some(Heuristic::new(
+                start.lhs_syntax,
+                start.rhs_syntax,
+                false,
+                true,
+            )),
+            _ => None,
+        };
+        shortest_vertex_path(
+            start,
+            ctx,
+            heuristic.as_ref(),
+            vertex_arena,
+            size_hint,
+            graph_limit,
+        )?
     };
     Ok(shortest_path_with_edges(&vertex_path))
 }
