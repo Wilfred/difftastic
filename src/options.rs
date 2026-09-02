@@ -305,7 +305,9 @@ $ export DFT_OVERRIDE='CustomFile:json'
 $ export DFT_OVERRIDE_1='*.c:text'
 $ export DFT_OVERRIDE_2='*.js:javascript jsx'
 
-When multiple overrides are specified, the first matching override wins."))
+When multiple overrides are specified, the first matching override wins.
+
+Difftastic also honours the linguist-language attribute in .gitattributes, e.g. '*.props linguist-language=XML'. This argument takes precedence over it."))
                 .env("DFT_OVERRIDE")
         )
         .arg(

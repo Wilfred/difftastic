@@ -98,18 +98,27 @@ pub(crate) enum LanguageOverride {
     PlainText,
 }
 
-/// If there is a language called `name` (comparing case
-/// insensitively), return it. Treat `"text"` as an additional option.
+/// Normalise a language name for comparison. Names are compared case
+/// insensitively, and `-` and `_` are treated as spaces.
+///
+/// Git attribute values cannot contain spaces, so `.gitattributes`
+/// files spell multi-word languages as e.g. `emacs-lisp`.
+fn normalise_language_name(name: &str) -> String {
+    name.trim().to_lowercase().replace(['-', '_'], " ")
+}
+
+/// If there is a language called `name` (see
+/// [`normalise_language_name`] for how names are compared), return
+/// it. Treat `"text"` as an additional option.
 pub(crate) fn language_override_from_name(name: &str) -> Option<LanguageOverride> {
-    let name = name.trim().to_lowercase();
+    let name = normalise_language_name(name);
 
     if name == "text" {
         return Some(LanguageOverride::PlainText);
     }
 
     for language in Language::iter() {
-        let lang_name = language_name(language);
-        if lang_name.to_lowercase() == name {
+        if normalise_language_name(language_name(language)) == name {
             return Some(LanguageOverride::Language(language));
         }
     }
@@ -466,10 +475,18 @@ fn looks_like_xml(src: &str) -> bool {
     src.starts_with("<?xml")
 }
 
+/// Guess the language of the file at `path`, whose contents are `src`.
+///
+/// `overrides` are the `--override` arguments given on the command
+/// line, and `gitattributes_override` is the language requested by a
+/// `linguist-language` attribute in `.gitattributes` for this path, if
+/// any. Command line overrides win over `.gitattributes`, and both win
+/// over normal detection.
 pub(crate) fn guess(
     path: &Path,
     src: &str,
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
+    gitattributes_override: Option<LanguageOverride>,
 ) -> Option<Language> {
     if let Some(file_name) = path.file_name() {
         let file_name = file_name.to_string_lossy();
@@ -485,6 +502,12 @@ pub(crate) fn guess(
                 }
             }
         }
+    }
+
+    match gitattributes_override {
+        Some(LanguageOverride::Language(lang)) => return Some(lang),
+        Some(LanguageOverride::PlainText) => return None,
+        None => {}
     }
 
     if let Some(lang) = from_emacs_mode_header(src) {
@@ -647,7 +670,7 @@ mod tests {
     #[test]
     fn test_guess_by_extension() {
         let path = Path::new("foo.el");
-        assert_eq!(guess(path, "", &[]), Some(EmacsLisp));
+        assert_eq!(guess(path, "", &[], None), Some(EmacsLisp));
     }
 
     #[test]
@@ -655,38 +678,46 @@ mod tests {
         // Regression: the `.c++` extension glob was missing its leading `*`
         // (introduced in 286cad721), so foo.c++ fell through to plain text.
         let path = Path::new("foo.c++");
-        assert_eq!(guess(path, "", &[]), Some(CPlusPlus));
+        assert_eq!(guess(path, "", &[], None), Some(CPlusPlus));
     }
 
     #[test]
     fn test_guess_by_whole_name() {
         let path = Path::new("foo/.bashrc");
-        assert_eq!(guess(path, "", &[]), Some(Bash));
+        assert_eq!(guess(path, "", &[], None), Some(Bash));
     }
 
     #[test]
     fn test_guess_by_shebang() {
         let path = Path::new("foo");
-        assert_eq!(guess(path, "#!/bin/bash", &[]), Some(Bash));
+        assert_eq!(guess(path, "#!/bin/bash", &[], None), Some(Bash));
     }
 
     #[test]
     fn test_guess_by_env_shebang() {
         let path = Path::new("foo");
-        assert_eq!(guess(path, "#!/usr/bin/env python", &[]), Some(Python));
+        assert_eq!(
+            guess(path, "#!/usr/bin/env python", &[], None),
+            Some(Python)
+        );
     }
 
     #[test]
     fn test_guess_by_shebang_with_space() {
         let path = Path::new("foo");
-        assert_eq!(guess(path, "#! /bin/sh", &[]), Some(Bash));
+        assert_eq!(guess(path, "#! /bin/sh", &[], None), Some(Bash));
     }
 
     #[test]
     fn test_guess_by_emacs_mode() {
         let path = Path::new("foo");
         assert_eq!(
-            guess(path, "; -*- mode: Lisp; eval: (auto-fill-mode 1); -*-", &[]),
+            guess(
+                path,
+                "; -*- mode: Lisp; eval: (auto-fill-mode 1); -*-",
+                &[],
+                None
+            ),
             Some(CommonLisp)
         );
     }
@@ -695,7 +726,7 @@ mod tests {
     fn test_guess_by_emacs_mode_second_line() {
         let path = Path::new("foo");
         assert_eq!(
-            guess(path, "#!/bin/bash\n; -*- mode: Lisp; -*-", &[]),
+            guess(path, "#!/bin/bash\n; -*- mode: Lisp; -*-", &[], None),
             Some(CommonLisp)
         );
     }
@@ -703,20 +734,25 @@ mod tests {
     #[test]
     fn test_guess_by_emacs_mode_shorthand() {
         let path = Path::new("foo");
-        assert_eq!(guess(path, "(* -*- tuareg -*- *)", &[]), Some(OCaml));
+        assert_eq!(guess(path, "(* -*- tuareg -*- *)", &[], None), Some(OCaml));
     }
 
     #[test]
     fn test_guess_by_emacs_mode_shorthand_no_spaces() {
         let path = Path::new("foo");
-        assert_eq!(guess(path, "# -*-python-*-", &[]), Some(Python));
+        assert_eq!(guess(path, "# -*-python-*-", &[], None), Some(Python));
     }
 
     #[test]
     fn test_guess_by_xml_header() {
         let path = Path::new("foo");
         assert_eq!(
-            guess(path, "<?xml version=\"1.0\" encoding=\"utf-8\"?>", &[]),
+            guess(
+                path,
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>",
+                &[],
+                None
+            ),
             Some(Xml)
         );
     }
@@ -724,7 +760,7 @@ mod tests {
     #[test]
     fn test_guess_unknown() {
         let path = Path::new("jfkdlsjfkdsljfkdsljf");
-        assert_eq!(guess(path, "", &[]), None);
+        assert_eq!(guess(path, "", &[], None), None);
     }
 
     #[test]
@@ -737,9 +773,125 @@ mod tests {
                 &[(
                     LanguageOverride::Language(Css),
                     vec![glob::Pattern::new("*.el").unwrap()],
-                )]
+                )],
+                None
             ),
             Some(Css)
+        );
+    }
+
+    #[test]
+    fn test_guess_gitattributes_override() {
+        // `*.props linguist-language=XML` should win over normal detection.
+        let path = Path::new("Directory.Build.props");
+        assert_eq!(
+            guess(path, "<Project></Project>", &[], None),
+            None,
+            "sanity check: not detected without the attribute"
+        );
+        assert_eq!(
+            guess(
+                path,
+                "<Project></Project>",
+                &[],
+                Some(LanguageOverride::Language(Xml))
+            ),
+            Some(Xml)
+        );
+    }
+
+    #[test]
+    fn test_guess_gitattributes_override_beats_extension() {
+        let path = Path::new("app_zh.ts");
+        assert_eq!(
+            guess(path, "", &[], Some(LanguageOverride::Language(Xml))),
+            Some(Xml)
+        );
+    }
+
+    #[test]
+    fn test_guess_gitattributes_override_plain_text() {
+        let path = Path::new("foo.el");
+        assert_eq!(
+            guess(path, "", &[], Some(LanguageOverride::PlainText)),
+            None
+        );
+    }
+
+    #[test]
+    fn test_guess_command_line_override_beats_gitattributes() {
+        let path = Path::new("foo.el");
+        assert_eq!(
+            guess(
+                path,
+                "",
+                &[(
+                    LanguageOverride::Language(Css),
+                    vec![glob::Pattern::new("*.el").unwrap()],
+                )],
+                Some(LanguageOverride::Language(Xml))
+            ),
+            Some(Css)
+        );
+    }
+
+    #[test]
+    fn test_guess_gitattributes_override_beats_shebang() {
+        let path = Path::new("script");
+        assert_eq!(
+            guess(
+                path,
+                "#!/bin/bash",
+                &[],
+                Some(LanguageOverride::Language(Python))
+            ),
+            Some(Python)
+        );
+    }
+
+    #[test]
+    fn test_language_override_from_name() {
+        assert_eq!(
+            language_override_from_name("XML"),
+            Some(LanguageOverride::Language(Xml))
+        );
+        assert_eq!(
+            language_override_from_name("xml"),
+            Some(LanguageOverride::Language(Xml))
+        );
+        assert_eq!(
+            language_override_from_name("text"),
+            Some(LanguageOverride::PlainText)
+        );
+        assert_eq!(language_override_from_name("Nonesuch"), None);
+    }
+
+    #[test]
+    fn test_language_override_from_name_separators() {
+        // Git attribute values cannot contain spaces, so multi-word languages have to be written
+        // with a separator.
+        for name in ["Emacs Lisp", "emacs-lisp", "Emacs_Lisp", "EMACS-LISP"] {
+            assert_eq!(
+                language_override_from_name(name),
+                Some(LanguageOverride::Language(EmacsLisp)),
+                "name: {}",
+                name
+            );
+        }
+
+        assert_eq!(
+            language_override_from_name("objective-c"),
+            Some(LanguageOverride::Language(ObjC))
+        );
+        assert_eq!(
+            language_override_from_name("typescript-tsx"),
+            Some(LanguageOverride::Language(TypeScriptTsx))
+        );
+
+        // Names that don't contain a separator are unaffected.
+        assert_eq!(
+            language_override_from_name("C++"),
+            Some(LanguageOverride::Language(CPlusPlus))
         );
     }
 }

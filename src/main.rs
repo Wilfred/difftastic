@@ -77,9 +77,9 @@ use crate::files::{
     guess_content, read_file_or_die, read_files_or_die, read_or_die, relative_paths_in_either,
     ProbableFileKind,
 };
-use crate::gitattributes::{check_diff_attr, DiffAttribute};
+use crate::gitattributes::{check_attrs, DiffAttribute, GitAttributes};
 use crate::parse::guess_language::{
-    guess, language_globs, language_name, Language, LanguageOverride,
+    guess, language_globs, language_name, language_override_from_name, Language, LanguageOverride,
 };
 use crate::parse::syntax;
 
@@ -154,7 +154,12 @@ fn main() {
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
 
-            let language = guess(path, &src, &language_overrides);
+            let language = guess(
+                path,
+                &src,
+                &language_overrides,
+                gitattributes_language(path),
+            );
             match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
@@ -175,7 +180,12 @@ fn main() {
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
 
-            let language = guess(path, &src, &language_overrides);
+            let language = guess(
+                path,
+                &src,
+                &language_overrides,
+                gitattributes_language(path),
+            );
             match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
@@ -198,7 +208,12 @@ fn main() {
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
 
-            let language = guess(path, &src, &language_overrides);
+            let language = guess(
+                path,
+                &src,
+                &language_overrides,
+                gitattributes_language(path),
+            );
             match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
@@ -401,6 +416,36 @@ fn main() {
     };
 }
 
+/// The language requested by a `linguist-language` attribute in
+/// `.gitattributes`, if any.
+///
+/// Difftastic matches the attribute value against its own language
+/// names, the same names that `--override` and `--list-languages` use.
+/// Linguist knows about languages that difftastic has no parser for, so
+/// an unrecognised value is ignored rather than being an error.
+fn language_from_attrs(attrs: Option<&GitAttributes>) -> Option<LanguageOverride> {
+    let name = attrs?.linguist_language.as_deref()?;
+
+    match language_override_from_name(name) {
+        Some(lang_override) => Some(lang_override),
+        None => {
+            debug!(
+                "ignoring linguist-language={:?} in .gitattributes: difftastic has no language with that name, see --list-languages",
+                name
+            );
+            None
+        }
+    }
+}
+
+/// As [`language_from_attrs`], but looking up the attributes for `path`.
+///
+/// Prefer [`language_from_attrs`] when the caller has already run
+/// [`check_attrs`], so we only run `git check-attr` once per file.
+fn gitattributes_language(path: &Path) -> Option<LanguageOverride> {
+    language_from_attrs(check_attrs(path).as_ref())
+}
+
 /// Print a diff between two files.
 fn diff_file(
     display_path: &str,
@@ -417,10 +462,13 @@ fn diff_file(
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
 
+    let attrs = check_attrs(Path::new(display_path));
+    let gitattributes_override = language_from_attrs(attrs.as_ref());
+
     let (mut lhs_src, mut rhs_src) = match (
         guess_content(&lhs_bytes, lhs_path, binary_overrides),
         guess_content(&rhs_bytes, rhs_path, binary_overrides),
-        check_diff_attr(Path::new(display_path)),
+        attrs.map(|attrs| attrs.diff),
     ) {
         (ProbableFileKind::Binary, _, _)
         | (_, ProbableFileKind::Binary, _)
@@ -495,6 +543,7 @@ fn diff_file(
         display_options,
         diff_options,
         overrides,
+        gitattributes_override,
     )
 }
 
@@ -572,6 +621,7 @@ fn diff_conflicts_file(
         display_options,
         diff_options,
         overrides,
+        gitattributes_language(Path::new(display_path)),
     )
 }
 
@@ -612,13 +662,19 @@ fn diff_file_content(
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
+    gitattributes_override: Option<LanguageOverride>,
 ) -> DiffResult {
     let guess_src = match rhs_path {
         FileArgument::DevNull => &lhs_src,
         _ => &rhs_src,
     };
 
-    let language = guess(Path::new(display_path), guess_src, overrides);
+    let language = guess(
+        Path::new(display_path),
+        guess_src,
+        overrides,
+        gitattributes_override,
+    );
     let lang_config = language.map(|lang| (lang, tsp::from_language(lang)));
 
     if lhs_src == rhs_src {
@@ -1075,6 +1131,7 @@ mod tests {
             &DisplayOptions::default(),
             &DiffOptions::default(),
             &[],
+            None,
         );
 
         assert_eq!(res.lhs_positions, vec![]);

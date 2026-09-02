@@ -109,6 +109,9 @@ OPTIONS
 
     When multiple overrides are specified, the first matching override wins.
 
+    Difftastic also honours the **linguist-language** attribute in _.gitattributes_, e.g.
+    `*.props linguist-language=XML`. This argument takes precedence over it.
+
 **\-\-parse-error-limit** _LIMIT_
 
 : Use a line-oriented diff if the number of parse errors exceeds this value.
