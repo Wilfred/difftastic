@@ -15,6 +15,8 @@ algorithm change.)
 Improved C++, Dockerfile, Haskell, JavaScript, Perl, Ruby, Rust, Scala and
 TypeScript.
 
+Improved heuristics and the default globs used for language detection.
+
 Removed Hare support (upstream parser is no longer maintained).
 
 ### Command Line Interface
