@@ -368,14 +368,57 @@ pub(crate) enum Edge {
     ReplacedString {
         levenshtein_pct: u8,
     },
-    NovelAtomLHS {},
-    NovelAtomRHS {},
+    NovelAtomLHS {
+        probably_punctuation: bool,
+    },
+    NovelAtomRHS {
+        probably_punctuation: bool,
+    },
     EnterNovelDelimiterLHS {},
     EnterNovelDelimiterRHS {},
     /// Enter both lists as novel in a single step. This reaches the
     /// same vertex as `EnterNovelDelimiterLHS` followed by
     /// `EnterNovelDelimiterRHS`.
     EnterNovelDelimiterBoth {},
+}
+
+/// Edge costs. These are the defaults unless overridden with
+/// environment variables, for experiments.
+struct Costs {
+    /// Cap on the depth difference penalty for unchanged nodes and
+    /// delimiters (DFT_COST_DEPTH_CAP).
+    depth_cap: u32,
+    /// Extra cost for matching a punctuation node (DFT_COST_PUNCT).
+    punct_penalty: u32,
+    /// Cost of entering an unchanged delimiter (DFT_COST_ENTER).
+    enter: u32,
+    /// Cost of a novel atom or delimiter (DFT_COST_NOVEL).
+    novel: u32,
+    /// Cost of a novel punctuation atom (DFT_COST_NOVEL_PUNCT).
+    novel_punct: u32,
+    /// Base cost of a replaced comment or string (DFT_COST_REPLACE).
+    replace: u32,
+}
+
+fn costs() -> &'static Costs {
+    static COSTS: std::sync::OnceLock<Costs> = std::sync::OnceLock::new();
+    COSTS.get_or_init(|| {
+        let get = |name: &str, default: u32| {
+            std::env::var(name)
+                .ok()
+                .and_then(|s| s.parse().ok())
+                .unwrap_or(default)
+        };
+        let novel = get("DFT_COST_NOVEL", 300);
+        Costs {
+            depth_cap: get("DFT_COST_DEPTH_CAP", 40),
+            punct_penalty: get("DFT_COST_PUNCT", 200),
+            enter: get("DFT_COST_ENTER", 100),
+            novel,
+            novel_punct: get("DFT_COST_NOVEL_PUNCT", novel),
+            replace: get("DFT_COST_REPLACE", 500),
+        }
+    })
 }
 
 /// The cost of `EnterNovelDelimiterBoth`. This is 600 unless
@@ -393,6 +436,7 @@ fn novel_both_cost() -> u32 {
 
 impl Edge {
     pub(crate) fn cost(self) -> u32 {
+        let costs = costs();
         match self {
             // Matching nodes is always best.
             UnchangedNode {
@@ -405,7 +449,7 @@ impl Edge {
                 // The cost for unchanged nodes can be as low as 1,
                 // but we penalise nodes that have a different depth
                 // difference, capped at 40.
-                let base = min(40, depth_difference + 1);
+                let base = min(costs.depth_cap, depth_difference + 1);
 
                 // If the node is only punctuation, increase the
                 // cost. It's better to have unchanged variable names
@@ -420,21 +464,38 @@ impl Edge {
                 // If we have replacements either side of a node
                 // (e.g. see comma_and_comment_1.js), then that's
                 // potentially a cost difference of 200.
-                base + if probably_punctuation { 200 } else { 0 }
+                base + if probably_punctuation {
+                    costs.punct_penalty
+                } else {
+                    0
+                }
             }
             // Matching an outer delimiter is good.
-            EnterUnchangedDelimiter { depth_difference } => 100 + min(40, depth_difference),
+            EnterUnchangedDelimiter { depth_difference } => {
+                costs.enter + min(costs.depth_cap, depth_difference)
+            }
 
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS {} | NovelAtomRHS {} => 300,
-            EnterNovelDelimiterLHS { .. } | EnterNovelDelimiterRHS { .. } => 300,
+            NovelAtomLHS {
+                probably_punctuation,
+            }
+            | NovelAtomRHS {
+                probably_punctuation,
+            } => {
+                if probably_punctuation {
+                    costs.novel_punct
+                } else {
+                    costs.novel
+                }
+            }
+            EnterNovelDelimiterLHS { .. } | EnterNovelDelimiterRHS { .. } => costs.novel,
             EnterNovelDelimiterBoth { .. } => novel_both_cost(),
             // Replacing a comment is better than treating it as
             // novel. However, since ReplacedComment is an alternative
             // to NovelAtomLHS and NovelAtomRHS, we need to be
             // slightly less than 2 * 300.
             ReplacedComment { levenshtein_pct } | ReplacedString { levenshtein_pct } => {
-                500 + u32::from(100 - levenshtein_pct)
+                costs.replace + u32::from(100 - levenshtein_pct)
             }
         }
     }
@@ -827,6 +888,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
         match lhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
+                let probably_punctuation = looks_like_punctuation(lhs_syntax);
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
                         lhs_syntax.next_sibling(),
@@ -838,7 +900,9 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                     );
 
                 neighbours.push((
-                    NovelAtomLHS {},
+                    NovelAtomLHS {
+                        probably_punctuation,
+                    },
                     allocate_if_new(
                         Vertex {
                             neighbours: OnceCell::new(),
@@ -898,6 +962,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
         match rhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
+                let probably_punctuation = looks_like_punctuation(rhs_syntax);
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
                         v.lhs_syntax,
@@ -909,7 +974,9 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                     );
 
                 neighbours.push((
-                    NovelAtomRHS {},
+                    NovelAtomRHS {
+                        probably_punctuation,
+                    },
                     allocate_if_new(
                         Vertex {
                             neighbours: OnceCell::new(),

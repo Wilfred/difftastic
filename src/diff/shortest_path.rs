@@ -584,7 +584,9 @@ mod tests {
                 EnterUnchangedDelimiter {
                     depth_difference: 0
                 },
-                NovelAtomLHS {},
+                NovelAtomLHS {
+                    probably_punctuation: false
+                },
             ]
         );
     }
@@ -626,8 +628,12 @@ mod tests {
                 EnterUnchangedDelimiter {
                     depth_difference: 0
                 },
-                NovelAtomRHS {},
-                NovelAtomRHS {},
+                NovelAtomRHS {
+                    probably_punctuation: false
+                },
+                NovelAtomRHS {
+                    probably_punctuation: false
+                },
             ]
         );
     }
@@ -784,7 +790,9 @@ mod tests {
                 ReplacedComment {
                     levenshtein_pct: 95
                 },
-                NovelAtomLHS {}
+                NovelAtomLHS {
+                    probably_punctuation: false
+                }
             ]
         );
     }
