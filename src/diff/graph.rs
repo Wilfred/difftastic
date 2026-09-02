@@ -370,10 +370,25 @@ pub(crate) enum Edge {
     },
     NovelAtomLHS {},
     NovelAtomRHS {},
-    // TODO: An EnterNovelDelimiterBoth edge might help performance
-    // rather doing LHS and RHS separately.
     EnterNovelDelimiterLHS {},
     EnterNovelDelimiterRHS {},
+    /// Enter both lists as novel in a single step. This reaches the
+    /// same vertex as `EnterNovelDelimiterLHS` followed by
+    /// `EnterNovelDelimiterRHS`.
+    EnterNovelDelimiterBoth {},
+}
+
+/// The cost of `EnterNovelDelimiterBoth`. This is 600 unless
+/// overridden with DFT_NOVEL_BOTH_COST, for experiments. A value of
+/// 0 disables the edge.
+fn novel_both_cost() -> u32 {
+    static COST: std::sync::OnceLock<u32> = std::sync::OnceLock::new();
+    *COST.get_or_init(|| {
+        std::env::var("DFT_NOVEL_BOTH_COST")
+            .ok()
+            .and_then(|s| s.parse().ok())
+            .unwrap_or(600)
+    })
 }
 
 impl Edge {
@@ -413,6 +428,7 @@ impl Edge {
             // Otherwise, we've added/removed a node.
             NovelAtomLHS {} | NovelAtomRHS {} => 300,
             EnterNovelDelimiterLHS { .. } | EnterNovelDelimiterRHS { .. } => 300,
+            EnterNovelDelimiterBoth { .. } => novel_both_cost(),
             // Replacing a comment is better than treating it as
             // novel. However, since ReplacedComment is an alternative
             // to NovelAtomLHS and NovelAtomRHS, we need to be
@@ -598,8 +614,8 @@ pub(crate) fn compute_neighbours<'s, 'v>(
     alloc: &'v Bump,
     seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
 ) -> &'v [(Edge, &'v Vertex<'s, 'v>)] {
-    // There are only seven pushes in this function, so that's sufficient.
-    let mut neighbours: SmallVec<[(Edge, &Vertex); 7]> = SmallVec::new();
+    // There are only eight pushes in this function, so that's sufficient.
+    let mut neighbours: SmallVec<[(Edge, &Vertex); 8]> = SmallVec::new();
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
@@ -682,6 +698,57 @@ pub(crate) fn compute_neighbours<'s, 'v>(
 
                 neighbours.push((
                     EnterUnchangedDelimiter { depth_difference },
+                    allocate_if_new(
+                        Vertex {
+                            neighbours: OnceCell::new(),
+                            predecessor: Cell::new(None),
+                            predecessors: OnceCell::new(),
+                            successor: Cell::new(None),
+                            lhs_syntax,
+                            rhs_syntax,
+                            parents,
+                            lhs_parent_id,
+                            rhs_parent_id,
+                        },
+                        alloc,
+                        seen,
+                    ),
+                ));
+            }
+        }
+
+        if let (
+            Syntax::List {
+                children: lhs_children,
+                ..
+            },
+            Syntax::List {
+                children: rhs_children,
+                ..
+            },
+        ) = (lhs_syntax, rhs_syntax)
+        {
+            if novel_both_cost() > 0 {
+                // Enter both lists at once, treating both delimiters
+                // as novel.
+                let lhs_next = lhs_children.first().copied();
+                let rhs_next = rhs_children.first().copied();
+
+                let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax, alloc);
+                let parents_next = push_rhs_delimiter(&parents_next, rhs_syntax, alloc);
+
+                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
+                    pop_all_parents(
+                        lhs_next,
+                        rhs_next,
+                        Some(lhs_syntax.id()),
+                        Some(rhs_syntax.id()),
+                        &parents_next,
+                        alloc,
+                    );
+
+                neighbours.push((
+                    EnterNovelDelimiterBoth {},
                     allocate_if_new(
                         Vertex {
                             neighbours: OnceCell::new(),
@@ -1340,6 +1407,27 @@ pub(crate) fn compute_predecessors<'s, 'v>(
                 }
             }
         }
+        // EnterNovelDelimiterBoth.
+        if let Some((rhs_delim, parents)) = try_pop_rhs(&s.parents, alloc) {
+            if let Some((lhs_delim, parents)) = try_pop_lhs(&parents, alloc) {
+                if is_first_child(s.lhs_syntax, s.lhs_parent, lhs_delim)
+                    && is_first_child(s.rhs_syntax, s.rhs_parent, rhs_delim)
+                {
+                    for lhs_parent_id in ctx.lhs_parent_ids(lhs_delim) {
+                        for rhs_parent_id in ctx.rhs_parent_ids(rhs_delim) {
+                            consider(
+                                Some(lhs_delim),
+                                Some(rhs_delim),
+                                lhs_parent_id,
+                                rhs_parent_id,
+                                parents.clone(),
+                                seen,
+                            );
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // Keep the candidates that really do have an edge to `v`,
@@ -1408,6 +1496,12 @@ pub(crate) fn populate_change_map<'s, 'v>(
             NovelAtomLHS { .. } | EnterNovelDelimiterLHS { .. } => {
                 let lhs = v.lhs_syntax.unwrap();
                 change_map.insert(lhs, ChangeKind::Novel);
+            }
+            EnterNovelDelimiterBoth { .. } => {
+                let lhs = v.lhs_syntax.unwrap();
+                let rhs = v.rhs_syntax.unwrap();
+                change_map.insert(lhs, ChangeKind::Novel);
+                change_map.insert(rhs, ChangeKind::Novel);
             }
             NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
                 let rhs = v.rhs_syntax.unwrap();

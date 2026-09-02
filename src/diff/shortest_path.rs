@@ -669,8 +669,7 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                EnterNovelDelimiterRHS {},
-                EnterNovelDelimiterLHS {},
+                EnterNovelDelimiterBoth {},
                 UnchangedNode {
                     probably_punctuation: false,
                     depth_difference: 0
