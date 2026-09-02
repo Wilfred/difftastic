@@ -48,7 +48,10 @@ use bumpalo::Bump;
 use radix_heap::RadixHeapMap;
 
 use crate::diff::changes::ChangeMap;
-use crate::diff::graph::{compute_neighbours, populate_change_map, Edge, Vertex};
+use crate::diff::graph::{
+    allocate_if_new, compute_neighbours, compute_predecessors, populate_change_map, vertex_count,
+    BackwardContext, Edge, Vertex,
+};
 use crate::hash::DftHashMap;
 use crate::parse::syntax::Syntax;
 
@@ -57,7 +60,8 @@ pub(crate) struct ExceededGraphLimit {}
 
 /// Return the shortest route from `start` to the end vertex.
 fn shortest_vertex_path<'s, 'v>(
-    start: &'v Vertex<'s, 'v>,
+    start: Vertex<'s, 'v>,
+    ctx: BackwardContext<'s>,
     vertex_arena: &'v Bump,
     size_hint: usize,
     graph_limit: usize,
@@ -67,10 +71,13 @@ fn shortest_vertex_path<'s, 'v>(
     // Reverse to flip comparisons.
     let mut heap: RadixHeapMap<Reverse<_>, &'v Vertex<'s, 'v>> = RadixHeapMap::new();
 
-    heap.push(Reverse(0), start);
-
     let mut seen = DftHashMap::default();
     seen.reserve(size_hint);
+
+    let start = allocate_if_new(start, vertex_arena, &mut seen);
+    heap.push(Reverse(0), start);
+
+    let mut settled: usize = 0;
 
     let end: &'v Vertex<'s, 'v> = loop {
         match heap.pop() {
@@ -78,6 +85,7 @@ fn shortest_vertex_path<'s, 'v>(
                 if current.is_end() {
                     break current;
                 }
+                settled += 1;
 
                 let neighbours = *current
                     .neighbours
@@ -111,9 +119,11 @@ fn shortest_vertex_path<'s, 'v>(
     };
 
     info!(
-        "Saw {} vertices (a Vertex is {} bytes), arena consumed {}, with {} vertices left on heap.",
+        "Saw {} vertices ({} keys, a Vertex is {} bytes), settled {} forward, arena consumed {}, with {} vertices left on heap.",
+        vertex_count(&seen),
         seen.len(),
         std::mem::size_of::<Vertex>(),
+        settled,
         humansize::format_size(vertex_arena.allocated_bytes(), humansize::BINARY),
         heap.len(),
     );
@@ -126,6 +136,218 @@ fn shortest_vertex_path<'s, 'v>(
     }
 
     vertex_route.reverse();
+
+    // Debugging aid: check that every edge on the route is found by
+    // `compute_predecessors`.
+    if env::var("DFT_CHECK_PREDECESSORS").is_ok() {
+        for pair in vertex_route.windows(2) {
+            let (before, after) = (pair[0], pair[1]);
+            let predecessors = compute_predecessors(after, ctx, vertex_arena, &mut seen);
+            if !predecessors.iter().any(|(_, v)| std::ptr::eq(*v, before)) {
+                eprintln!(
+                    "MISSING PREDECESSOR: edge {:?}\n  before: {}\n  after:  {}\n  found:",
+                    edge_between(before, after),
+                    before.dbg_summary(),
+                    after.dbg_summary(),
+                );
+                for (edge, v) in predecessors {
+                    eprintln!("    {:?} {}", edge, v.dbg_summary());
+                }
+            }
+        }
+    }
+
+    Ok(vertex_route)
+}
+
+/// The shortest distance from the start vertex to `v` found so far.
+fn forward_distance<'s, 'v>(v: &'v Vertex<'s, 'v>, start: &'v Vertex<'s, 'v>) -> Option<u32> {
+    if std::ptr::eq(v, start) {
+        Some(0)
+    } else {
+        v.predecessor.get().map(|(distance, _)| distance)
+    }
+}
+
+/// The shortest distance from `v` to the end vertex found so far.
+fn backward_distance<'s, 'v>(v: &'v Vertex<'s, 'v>) -> Option<u32> {
+    if v.is_end() {
+        Some(0)
+    } else {
+        v.successor.get().map(|(distance, _)| distance)
+    }
+}
+
+/// Return the shortest route from `start` to the end vertex, using
+/// bidirectional Dijkstra: one search from the start vertex following
+/// edges forwards, and one from the end vertex following edges
+/// backwards. We stop when the two searches have met.
+fn bidirectional_vertex_path<'s, 'v>(
+    start: Vertex<'s, 'v>,
+    ctx: BackwardContext<'s>,
+    vertex_arena: &'v Bump,
+    size_hint: usize,
+    graph_limit: usize,
+) -> Result<Vec<&'v Vertex<'s, 'v>>, ExceededGraphLimit> {
+    let mut seen = DftHashMap::default();
+    seen.reserve(size_hint);
+
+    // The backward search may reach the start vertex, so make sure
+    // it's in `seen` and any equal vertex gets the same allocation.
+    let start = allocate_if_new(start, vertex_arena, &mut seen);
+
+    let mut heap_f: RadixHeapMap<Reverse<u32>, &'v Vertex<'s, 'v>> = RadixHeapMap::new();
+    let mut heap_b: RadixHeapMap<Reverse<u32>, &'v Vertex<'s, 'v>> = RadixHeapMap::new();
+    heap_f.push(Reverse(0), start);
+
+    // The forward search records different parent IDs at the top
+    // level depending on the route taken, so there are several
+    // possible end vertices. Start the backward search from all of
+    // them.
+    for (lhs_parent_id, rhs_parent_id) in ctx.end_parent_ids() {
+        let end = allocate_if_new(
+            Vertex::new_end(lhs_parent_id, rhs_parent_id),
+            vertex_arena,
+            &mut seen,
+        );
+        assert!(end.is_end());
+        heap_b.push(Reverse(0), end);
+    }
+
+    // RadixHeapMap has no peek, so hold the smallest entry of each
+    // heap here until we expand it.
+    let mut pending_f: Option<(u32, &'v Vertex<'s, 'v>)> = None;
+    let mut pending_b: Option<(u32, &'v Vertex<'s, 'v>)> = None;
+
+    // The cost of the best complete route found so far, and the
+    // vertex where the two searches met on that route.
+    let mut best_cost = u32::MAX;
+    let mut meeting: Option<&'v Vertex<'s, 'v>> = None;
+
+    let mut settled_f: usize = 0;
+    let mut settled_b: usize = 0;
+
+    loop {
+        if pending_f.is_none() {
+            pending_f = heap_f.pop().map(|(Reverse(d), v)| (d, v));
+        }
+        if pending_b.is_none() {
+            pending_b = heap_b.pop().map(|(Reverse(d), v)| (d, v));
+        }
+
+        let bound_f = pending_f.map_or(u64::from(u32::MAX), |(d, _)| u64::from(d));
+        let bound_b = pending_b.map_or(u64::from(u32::MAX), |(d, _)| u64::from(d));
+        if best_cost != u32::MAX && bound_f + bound_b >= u64::from(best_cost) {
+            break;
+        }
+
+        let expand_forward = match (pending_f, pending_b) {
+            (Some((d_f, _)), Some((d_b, _))) => d_f <= d_b,
+            (Some(_), None) => true,
+            (None, Some(_)) => false,
+            (None, None) => panic!("Ran out of graph nodes before reaching end"),
+        };
+
+        if expand_forward {
+            let (distance, current) = pending_f.take().unwrap();
+            if forward_distance(current, start) != Some(distance) || current.is_end() {
+                continue;
+            }
+            settled_f += 1;
+
+            let neighbours = *current
+                .neighbours
+                .get_or_init(|| compute_neighbours(current, vertex_arena, &mut seen));
+
+            for (edge, next) in neighbours {
+                let distance_to_next = distance + edge.cost();
+                let prev_distance = forward_distance(next, start);
+                let found_shorter_route = prev_distance.map_or(true, |d| distance_to_next < d);
+
+                if found_shorter_route {
+                    next.predecessor.replace(Some((distance_to_next, current)));
+                    heap_f.push(Reverse(distance_to_next), next);
+                }
+
+                if let Some(distance_to_end) = backward_distance(next) {
+                    let total = std::cmp::min(distance_to_next, prev_distance.unwrap_or(u32::MAX))
+                        + distance_to_end;
+                    if total < best_cost {
+                        best_cost = total;
+                        meeting = Some(next);
+                    }
+                }
+            }
+        } else {
+            let (distance, current) = pending_b.take().unwrap();
+            if backward_distance(current) != Some(distance) || std::ptr::eq(current, start) {
+                continue;
+            }
+            settled_b += 1;
+
+            let predecessors = *current
+                .predecessors
+                .get_or_init(|| compute_predecessors(current, ctx, vertex_arena, &mut seen));
+
+            for (edge, prev) in predecessors {
+                let distance_to_prev = distance + edge.cost();
+                let prev_distance = backward_distance(prev);
+                let found_shorter_route = prev_distance.map_or(true, |d| distance_to_prev < d);
+
+                if found_shorter_route {
+                    prev.successor.replace(Some((distance_to_prev, current)));
+                    heap_b.push(Reverse(distance_to_prev), prev);
+                }
+
+                if let Some(distance_from_start) = forward_distance(prev, start) {
+                    let total = std::cmp::min(distance_to_prev, prev_distance.unwrap_or(u32::MAX))
+                        + distance_from_start;
+                    if total < best_cost {
+                        best_cost = total;
+                        meeting = Some(prev);
+                    }
+                }
+            }
+        }
+
+        if seen.len() > graph_limit {
+            info!(
+                "Reached graph limit, arena consumed {}",
+                humansize::format_size(vertex_arena.allocated_bytes(), humansize::BINARY),
+            );
+            return Err(ExceededGraphLimit {});
+        }
+    }
+
+    info!(
+        "Bidirectional: saw {} vertices ({} keys, a Vertex is {} bytes), settled {} forward and {} backward, arena consumed {}, with {} + {} vertices left on heaps, cost {}.",
+        vertex_count(&seen),
+        seen.len(),
+        std::mem::size_of::<Vertex>(),
+        settled_f,
+        settled_b,
+        humansize::format_size(vertex_arena.allocated_bytes(), humansize::BINARY),
+        heap_f.len(),
+        heap_b.len(),
+        best_cost,
+    );
+
+    let meeting = meeting.expect("Bidirectional search should find a route");
+
+    let mut vertex_route: Vec<&'v Vertex<'s, 'v>> = vec![];
+    let mut current = Some(meeting);
+    while let Some(node) = current {
+        vertex_route.push(node);
+        current = node.predecessor.get().map(|(_, prev)| prev);
+    }
+    vertex_route.reverse();
+
+    let mut current = meeting.successor.get().map(|(_, next)| next);
+    while let Some(node) = current {
+        vertex_route.push(node);
+        current = node.successor.get().map(|(_, next)| next);
+    }
+
     Ok(vertex_route)
 }
 
@@ -159,8 +381,12 @@ fn shortest_path<'s, 'v>(
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<(Edge, &'v Vertex<'s, 'v>)>, ExceededGraphLimit> {
-    let start: &'v Vertex<'s, 'v> = vertex_arena.alloc(start);
-    let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
+    let ctx = BackwardContext::new(start.lhs_syntax, start.rhs_syntax);
+    let vertex_path = if env::var("DFT_BIDIRECTIONAL").is_ok() {
+        bidirectional_vertex_path(start, ctx, vertex_arena, size_hint, graph_limit)?
+    } else {
+        shortest_vertex_path(start, ctx, vertex_arena, size_hint, graph_limit)?
+    };
     Ok(shortest_path_with_edges(&vertex_path))
 }
 

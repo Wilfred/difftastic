@@ -311,6 +311,10 @@ impl<'a> Syntax<'a> {
         self.info().next_sibling.get()
     }
 
+    pub(crate) fn previous_sibling(&self) -> Option<&'a Self> {
+        self.info().previous_sibling.get()
+    }
+
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
     ///

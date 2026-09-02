@@ -59,6 +59,13 @@ pub(crate) struct Vertex<'s, 'v> {
     /// node in the to-visit set, we may not have reached it by the
     /// shortest route.
     pub(crate) predecessor: Cell<Option<(u32, &'v Vertex<'s, 'v>)>>,
+    /// The vertices with an edge leading to this vertex. This is
+    /// computed lazily, on first access, and only used by
+    /// bidirectional search.
+    pub(crate) predecessors: OnceCell<&'v [(Edge, &'v Vertex<'s, 'v>)]>,
+    /// The successor of this vertex in the shortest route to the end
+    /// vertex found so far. Only used by bidirectional search.
+    pub(crate) successor: Cell<Option<(u32, &'v Vertex<'s, 'v>)>>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
     pub(crate) lhs_syntax: Option<&'s Syntax<'s>>,
@@ -270,6 +277,53 @@ impl<'s, 'v> Vertex<'s, 'v> {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
 
+    /// A compact description of this vertex, for debugging.
+    pub(crate) fn dbg_summary(&self) -> String {
+        let mut stack = vec![];
+        let mut parents = self.parents.clone();
+        while let Some(entered) = parents.peek() {
+            stack.push(match entered {
+                EnteredDelimiter::PopBoth((l, r)) => {
+                    format!("Both({}/{})", l.id(), r.id())
+                }
+                EnteredDelimiter::PopEither((ls, rs)) => {
+                    let ids = |st: &Stack<'v, &'s Syntax<'s>>| {
+                        let mut st = st.clone();
+                        let mut v = vec![];
+                        while let Some(d) = st.peek() {
+                            v.push(d.id().to_string());
+                            st = st.pop().unwrap();
+                        }
+                        v.join(",")
+                    };
+                    format!("Either([{}]/[{}])", ids(ls), ids(rs))
+                }
+            });
+            parents = parents.pop().unwrap();
+        }
+        format!(
+            "lhs={}#{} rhs={}#{} lhs_parent={:?} rhs_parent={:?} stack(top first)={:?}",
+            self.lhs_syntax.map_or("None".into(), Syntax::dbg_content),
+            self.lhs_syntax.map_or("-".into(), |n| n.id().to_string()),
+            self.rhs_syntax.map_or("None".into(), Syntax::dbg_content),
+            self.rhs_syntax.map_or("-".into(), |n| n.id().to_string()),
+            self.lhs_parent_id,
+            self.rhs_parent_id,
+            stack,
+        )
+    }
+
+    /// An end vertex with the given parent IDs.
+    pub(crate) fn new_end(
+        lhs_parent_id: Option<SyntaxId>,
+        rhs_parent_id: Option<SyntaxId>,
+    ) -> Self {
+        let mut v = Self::new(None, None);
+        v.lhs_parent_id = lhs_parent_id;
+        v.rhs_parent_id = rhs_parent_id;
+        v
+    }
+
     pub(crate) fn new(
         lhs_syntax: Option<&'s Syntax<'s>>,
         rhs_syntax: Option<&'s Syntax<'s>>,
@@ -278,6 +332,8 @@ impl<'s, 'v> Vertex<'s, 'v> {
         Vertex {
             neighbours: OnceCell::new(),
             predecessor: Cell::new(None),
+            predecessors: OnceCell::new(),
+            successor: Cell::new(None),
             lhs_syntax,
             rhs_syntax,
             parents,
@@ -368,7 +424,7 @@ impl Edge {
     }
 }
 
-fn allocate_if_new<'s, 'v>(
+pub(crate) fn allocate_if_new<'s, 'v>(
     v: Vertex<'s, 'v>,
     alloc: &'v Bump,
     seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
@@ -382,7 +438,7 @@ fn allocate_if_new<'s, 'v>(
             // Don't explore more than two possible parenthesis
             // nestings for each syntax node pair.
             if let Some(allocated) = existing.last() {
-                if existing.len() >= 2 {
+                if existing.len() >= stack_cap() {
                     return allocated;
                 }
             }
@@ -415,6 +471,43 @@ fn allocate_if_new<'s, 'v>(
             allocated
         }
     }
+}
+
+/// The total number of vertices allocated, i.e. the size of the
+/// graph explored so far.
+pub(crate) fn vertex_count(
+    seen: &DftHashMap<&Vertex<'_, '_>, SmallVec<[&Vertex<'_, '_>; 2]>>,
+) -> usize {
+    seen.values().map(|entries| entries.len()).sum()
+}
+
+/// How many delimiter stacks to explore per syntax node pair. This
+/// is 2 unless overridden with DFT_STACK_CAP, for experiments.
+fn stack_cap() -> usize {
+    static CAP: std::sync::OnceLock<usize> = std::sync::OnceLock::new();
+    *CAP.get_or_init(|| {
+        std::env::var("DFT_STACK_CAP")
+            .ok()
+            .and_then(|s| s.parse().ok())
+            .unwrap_or(2)
+    })
+}
+
+/// Find the vertex that has exactly the same state as `v`, if we
+/// have allocated one.
+///
+/// Unlike `allocate_if_new`, this never returns a vertex with a
+/// different delimiter stack.
+fn find_exact<'s, 'v>(
+    v: &Vertex<'s, 'v>,
+    seen: &DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+) -> Option<&'v Vertex<'s, 'v>> {
+    seen.get(v).and_then(|existing| {
+        existing
+            .iter()
+            .find(|existing_node| existing_node.parents == v.parents)
+            .copied()
+    })
 }
 
 /// Does this node look like punctuation?
@@ -535,6 +628,8 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                     Vertex {
                         neighbours: OnceCell::new(),
                         predecessor: Cell::new(None),
+                        predecessors: OnceCell::new(),
+                        successor: Cell::new(None),
                         lhs_syntax,
                         rhs_syntax,
                         parents,
@@ -591,6 +686,8 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
+                            predecessors: OnceCell::new(),
+                            successor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -643,6 +740,8 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
+                            predecessors: OnceCell::new(),
+                            successor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -677,6 +776,8 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
+                            predecessors: OnceCell::new(),
+                            successor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -710,6 +811,8 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
+                            predecessors: OnceCell::new(),
+                            successor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -744,6 +847,8 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
+                            predecessors: OnceCell::new(),
+                            successor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -776,6 +881,8 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                         Vertex {
                             neighbours: OnceCell::new(),
                             predecessor: Cell::new(None),
+                            predecessors: OnceCell::new(),
+                            successor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
                             parents,
@@ -795,6 +902,466 @@ pub(crate) fn compute_neighbours<'s, 'v>(
     );
 
     alloc.alloc_slice_copy(neighbours.as_slice())
+}
+
+/// Information about the syntax trees that is needed to walk the
+/// graph backwards, from the end vertex towards the start vertex.
+#[derive(Debug, Clone, Copy)]
+pub(crate) struct BackwardContext<'s> {
+    /// The last top-level LHS node being diffed.
+    pub(crate) lhs_last_root: Option<&'s Syntax<'s>>,
+    /// The last top-level RHS node being diffed.
+    pub(crate) rhs_last_root: Option<&'s Syntax<'s>>,
+    /// The parent of the top-level LHS nodes, if we're diffing a
+    /// subsection of a larger tree. Top-level nodes are treated as
+    /// having no parent by the graph.
+    pub(crate) lhs_root_parent_id: Option<SyntaxId>,
+    pub(crate) rhs_root_parent_id: Option<SyntaxId>,
+}
+
+impl BackwardContext<'_> {
+    pub(crate) fn new<'s>(
+        lhs_syntax: Option<&'s Syntax<'s>>,
+        rhs_syntax: Option<&'s Syntax<'s>>,
+    ) -> BackwardContext<'s> {
+        let last = |root: Option<&'s Syntax<'s>>| {
+            std::iter::successors(root, |node| node.next_sibling()).last()
+        };
+        BackwardContext {
+            lhs_last_root: last(lhs_syntax),
+            rhs_last_root: last(rhs_syntax),
+            lhs_root_parent_id: lhs_syntax.and_then(|node| node.parent()).map(Syntax::id),
+            rhs_root_parent_id: rhs_syntax.and_then(|node| node.parent()).map(Syntax::id),
+        }
+    }
+
+    /// The parent IDs that a vertex whose LHS syntax is `node` may
+    /// have. Inside a list, this is always the enclosing list. For
+    /// top-level nodes the graph carries the start vertex's `None`
+    /// until a top-level list is popped, after which it uses the
+    /// parent of the top-level nodes, so both are possible.
+    fn lhs_parent_ids(&self, node: &Syntax) -> SmallVec<[Option<SyntaxId>; 2]> {
+        Self::parent_ids(node, self.lhs_root_parent_id)
+    }
+
+    fn rhs_parent_ids(&self, node: &Syntax) -> SmallVec<[Option<SyntaxId>; 2]> {
+        Self::parent_ids(node, self.rhs_root_parent_id)
+    }
+
+    fn parent_ids(
+        node: &Syntax,
+        root_parent_id: Option<SyntaxId>,
+    ) -> SmallVec<[Option<SyntaxId>; 2]> {
+        let parent_id = node.parent().map(Syntax::id);
+        if parent_id == root_parent_id {
+            let mut res = smallvec![None];
+            if parent_id.is_some() {
+                res.push(parent_id);
+            }
+            res
+        } else {
+            smallvec![parent_id]
+        }
+    }
+
+    /// The parent IDs that an end vertex may have.
+    pub(crate) fn end_parent_ids(&self) -> Vec<(Option<SyntaxId>, Option<SyntaxId>)> {
+        let mut res = vec![(None, None)];
+        if self.lhs_root_parent_id.is_some() {
+            res.push((self.lhs_root_parent_id, None));
+        }
+        if self.rhs_root_parent_id.is_some() {
+            res.push((None, self.rhs_root_parent_id));
+        }
+        if self.lhs_root_parent_id.is_some() && self.rhs_root_parent_id.is_some() {
+            res.push((self.lhs_root_parent_id, self.rhs_root_parent_id));
+        }
+        res
+    }
+}
+
+/// A position in the graph before `pop_all_parents` has been
+/// applied. Unlike a `Vertex`, we track the syntax node we're inside
+/// on each side, so we can walk backwards from the end of a list.
+#[derive(Clone)]
+struct RawState<'s, 'v> {
+    lhs_syntax: Option<&'s Syntax<'s>>,
+    rhs_syntax: Option<&'s Syntax<'s>>,
+    /// The list whose children we're currently visiting, or `None`
+    /// at the top level.
+    lhs_parent: Option<&'s Syntax<'s>>,
+    rhs_parent: Option<&'s Syntax<'s>>,
+    /// The parent IDs as the forward search would record them.
+    lhs_parent_id: Option<SyntaxId>,
+    rhs_parent_id: Option<SyntaxId>,
+    parents: Stack<'v, EnteredDelimiter<'s, 'v>>,
+    /// Have we undone a RHS pop in the topmost PopEither? If so,
+    /// undoing a LHS pop would produce a duplicate of a state we
+    /// generate elsewhere.
+    rhs_undone: bool,
+}
+
+/// The node before `node` in the sequence being visited, i.e. its
+/// previous sibling, or the last child of `parent` if we've reached
+/// the end of the sequence.
+fn step_back<'s>(
+    node: Option<&'s Syntax<'s>>,
+    parent: Option<&'s Syntax<'s>>,
+    last_root: Option<&'s Syntax<'s>>,
+) -> Option<&'s Syntax<'s>> {
+    match node {
+        Some(node) => node.previous_sibling(),
+        None => match parent {
+            Some(Syntax::List { children, .. }) => children.last().copied(),
+            Some(Syntax::Atom { .. }) => None,
+            None => last_root,
+        },
+    }
+}
+
+/// The list that the LHS is currently inside, according to the
+/// delimiter stack.
+fn lhs_parent_from_stack<'s, 'v>(
+    parents: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+) -> Option<&'s Syntax<'s>> {
+    let mut parents = parents.clone();
+    while let Some(entered) = parents.peek() {
+        match entered {
+            EnteredDelimiter::PopBoth((lhs_delim, _)) => return Some(lhs_delim),
+            EnteredDelimiter::PopEither((lhs_delims, _)) => {
+                if let Some(lhs_delim) = lhs_delims.peek() {
+                    return Some(lhs_delim);
+                }
+            }
+        }
+        parents = parents.pop().unwrap();
+    }
+    None
+}
+
+fn rhs_parent_from_stack<'s, 'v>(
+    parents: &Stack<'v, EnteredDelimiter<'s, 'v>>,
+) -> Option<&'s Syntax<'s>> {
+    let mut parents = parents.clone();
+    while let Some(entered) = parents.peek() {
+        match entered {
+            EnteredDelimiter::PopBoth((_, rhs_delim)) => return Some(rhs_delim),
+            EnteredDelimiter::PopEither((_, rhs_delims)) => {
+                if let Some(rhs_delim) = rhs_delims.peek() {
+                    return Some(rhs_delim);
+                }
+            }
+        }
+        parents = parents.pop().unwrap();
+    }
+    None
+}
+
+/// Is `node` the first child of `delim`? If `node` is `None`, `delim`
+/// must have no children, and we must be inside `delim`.
+fn is_first_child(node: Option<&Syntax>, parent: Option<&Syntax>, delim: &Syntax) -> bool {
+    match node {
+        Some(node) => {
+            node.previous_sibling().is_none() && node.parent().map(Syntax::id) == Some(delim.id())
+        }
+        None => match (parent, delim) {
+            (Some(parent), Syntax::List { children, .. }) => {
+                parent.id() == delim.id() && children.is_empty()
+            }
+            _ => false,
+        },
+    }
+}
+
+/// The largest number of raw states we consider when computing
+/// predecessors of a vertex.
+const MAX_PRE_IMAGES: usize = 100_000;
+
+/// All the raw states `s` such that applying `pop_all_parents` to
+/// `s` gives `v`.
+///
+/// `pop_all_parents` may pop several delimiters in a row, so we undo
+/// pops one at a time, in every combination.
+fn pre_images<'s, 'v>(
+    v: &Vertex<'s, 'v>,
+    ctx: BackwardContext<'s>,
+    alloc: &'v Bump,
+) -> Vec<RawState<'s, 'v>> {
+    let mut res: Vec<RawState<'s, 'v>> = vec![];
+    let mut todo = vec![RawState {
+        lhs_syntax: v.lhs_syntax,
+        rhs_syntax: v.rhs_syntax,
+        lhs_parent: lhs_parent_from_stack(&v.parents),
+        rhs_parent: rhs_parent_from_stack(&v.parents),
+        lhs_parent_id: v.lhs_parent_id,
+        rhs_parent_id: v.rhs_parent_id,
+        parents: v.parents.clone(),
+        rhs_undone: false,
+    }];
+
+    while let Some(s) = todo.pop() {
+        if res.len() >= MAX_PRE_IMAGES {
+            break;
+        }
+
+        let lhs_prev = step_back(s.lhs_syntax, s.lhs_parent, ctx.lhs_last_root);
+        let rhs_prev = step_back(s.rhs_syntax, s.rhs_parent, ctx.rhs_last_root);
+
+        // Popping a delimiter sets the parent ID to the delimiter's
+        // parent, so we can only undo a pop if that matches.
+        let lhs_poppable = match lhs_prev {
+            Some(lhs_delim @ Syntax::List { .. })
+                if lhs_delim.parent().map(Syntax::id) == s.lhs_parent_id =>
+            {
+                Some(lhs_delim)
+            }
+            _ => None,
+        };
+        let rhs_poppable = match rhs_prev {
+            Some(rhs_delim @ Syntax::List { .. })
+                if rhs_delim.parent().map(Syntax::id) == s.rhs_parent_id =>
+            {
+                Some(rhs_delim)
+            }
+            _ => None,
+        };
+
+        // Undo popping a LHS delimiter.
+        if !s.rhs_undone {
+            if let Some(lhs_delim) = lhs_poppable {
+                todo.push(RawState {
+                    lhs_syntax: None,
+                    rhs_syntax: s.rhs_syntax,
+                    lhs_parent: Some(lhs_delim),
+                    rhs_parent: s.rhs_parent,
+                    lhs_parent_id: Some(lhs_delim.id()),
+                    rhs_parent_id: s.rhs_parent_id,
+                    parents: push_lhs_delimiter(&s.parents, lhs_delim, alloc),
+                    rhs_undone: false,
+                });
+            }
+        }
+        // Undo popping a RHS delimiter.
+        if let Some(rhs_delim) = rhs_poppable {
+            todo.push(RawState {
+                lhs_syntax: s.lhs_syntax,
+                rhs_syntax: None,
+                lhs_parent: s.lhs_parent,
+                rhs_parent: Some(rhs_delim),
+                lhs_parent_id: s.lhs_parent_id,
+                rhs_parent_id: Some(rhs_delim.id()),
+                parents: push_rhs_delimiter(&s.parents, rhs_delim, alloc),
+                rhs_undone: true,
+            });
+        }
+        // Undo popping both delimiters together.
+        if let (Some(lhs_delim), Some(rhs_delim)) = (lhs_poppable, rhs_poppable) {
+            todo.push(RawState {
+                lhs_syntax: None,
+                rhs_syntax: None,
+                lhs_parent: Some(lhs_delim),
+                rhs_parent: Some(rhs_delim),
+                lhs_parent_id: Some(lhs_delim.id()),
+                rhs_parent_id: Some(rhs_delim.id()),
+                parents: push_both_delimiters(&s.parents, lhs_delim, rhs_delim, alloc),
+                rhs_undone: false,
+            });
+        }
+
+        res.push(s);
+    }
+
+    res
+}
+
+/// Could there be a `ReplacedComment` or `ReplacedString` edge
+/// between these two nodes?
+fn is_replaceable<'s>(lhs: &Syntax<'s>, rhs: &Syntax<'s>) -> bool {
+    match (lhs, rhs) {
+        (
+            Syntax::Atom {
+                kind: lhs_kind @ (AtomKind::Comment | AtomKind::String(_)),
+                ..
+            },
+            Syntax::Atom {
+                kind: rhs_kind @ (AtomKind::Comment | AtomKind::String(_)),
+                ..
+            },
+        ) => lhs_kind == rhs_kind && lhs != rhs,
+        _ => false,
+    }
+}
+
+/// Compute the vertices that have an edge to `v`.
+///
+/// Every candidate is checked by computing its neighbours, so the
+/// result is exactly consistent with `compute_neighbours`.
+pub(crate) fn compute_predecessors<'s, 'v>(
+    v: &'v Vertex<'s, 'v>,
+    ctx: BackwardContext<'s>,
+    alloc: &'v Bump,
+    seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+) -> &'v [(Edge, &'v Vertex<'s, 'v>)] {
+    let mut candidates: SmallVec<[&'v Vertex<'s, 'v>; 16]> = SmallVec::new();
+
+    let mut consider =
+        |lhs_syntax: Option<&'s Syntax<'s>>,
+         rhs_syntax: Option<&'s Syntax<'s>>,
+         lhs_parent_id: Option<SyntaxId>,
+         rhs_parent_id: Option<SyntaxId>,
+         parents: Stack<'v, EnteredDelimiter<'s, 'v>>,
+         seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>| {
+            // Only canonical states (where no more parents can be
+            // popped) are vertices in the graph.
+            let (popped_lhs, popped_rhs, _, _, popped_parents) = pop_all_parents(
+                lhs_syntax,
+                rhs_syntax,
+                lhs_parent_id,
+                rhs_parent_id,
+                &parents,
+                alloc,
+            );
+            if popped_lhs.map(Syntax::id) != lhs_syntax.map(Syntax::id)
+                || popped_rhs.map(Syntax::id) != rhs_syntax.map(Syntax::id)
+                || popped_parents != parents
+            {
+                return;
+            }
+
+            let vertex = Vertex {
+                neighbours: OnceCell::new(),
+                predecessor: Cell::new(None),
+                predecessors: OnceCell::new(),
+                successor: Cell::new(None),
+                lhs_syntax,
+                rhs_syntax,
+                parents,
+                lhs_parent_id,
+                rhs_parent_id,
+            };
+            // Prefer the vertex with exactly this state if we've seen
+            // it, as `allocate_if_new` may return a vertex with a
+            // different delimiter stack.
+            let candidate = match find_exact(&vertex, seen) {
+                Some(existing) => existing,
+                None => allocate_if_new(vertex, alloc, seen),
+            };
+            if !candidates.iter().any(|c| std::ptr::eq(*c, candidate)) {
+                candidates.push(candidate);
+            }
+        };
+
+    for s in pre_images(v, ctx, alloc) {
+        let lhs_prev = step_back(s.lhs_syntax, s.lhs_parent, ctx.lhs_last_root);
+        let rhs_prev = step_back(s.rhs_syntax, s.rhs_parent, ctx.rhs_last_root);
+
+        // NovelAtomLHS.
+        if let Some(lhs_prev @ Syntax::Atom { .. }) = lhs_prev {
+            consider(
+                Some(lhs_prev),
+                s.rhs_syntax,
+                s.lhs_parent_id,
+                s.rhs_parent_id,
+                s.parents.clone(),
+                seen,
+            );
+        }
+        // NovelAtomRHS.
+        if let Some(rhs_prev @ Syntax::Atom { .. }) = rhs_prev {
+            consider(
+                s.lhs_syntax,
+                Some(rhs_prev),
+                s.lhs_parent_id,
+                s.rhs_parent_id,
+                s.parents.clone(),
+                seen,
+            );
+        }
+        // UnchangedNode, ReplacedComment or ReplacedString.
+        if let (Some(lhs_prev), Some(rhs_prev)) = (lhs_prev, rhs_prev) {
+            if lhs_prev == rhs_prev || is_replaceable(lhs_prev, rhs_prev) {
+                consider(
+                    Some(lhs_prev),
+                    Some(rhs_prev),
+                    s.lhs_parent_id,
+                    s.rhs_parent_id,
+                    s.parents.clone(),
+                    seen,
+                );
+            }
+        }
+
+        // EnterUnchangedDelimiter.
+        if let Some((lhs_delim, rhs_delim, parents)) = try_pop_both(&s.parents) {
+            if is_first_child(s.lhs_syntax, s.lhs_parent, lhs_delim)
+                && is_first_child(s.rhs_syntax, s.rhs_parent, rhs_delim)
+            {
+                for lhs_parent_id in ctx.lhs_parent_ids(lhs_delim) {
+                    for rhs_parent_id in ctx.rhs_parent_ids(rhs_delim) {
+                        consider(
+                            Some(lhs_delim),
+                            Some(rhs_delim),
+                            lhs_parent_id,
+                            rhs_parent_id,
+                            parents.clone(),
+                            seen,
+                        );
+                    }
+                }
+            }
+        }
+        // EnterNovelDelimiterLHS.
+        if let Some((lhs_delim, parents)) = try_pop_lhs(&s.parents, alloc) {
+            if is_first_child(s.lhs_syntax, s.lhs_parent, lhs_delim) {
+                for lhs_parent_id in ctx.lhs_parent_ids(lhs_delim) {
+                    consider(
+                        Some(lhs_delim),
+                        s.rhs_syntax,
+                        lhs_parent_id,
+                        s.rhs_parent_id,
+                        parents.clone(),
+                        seen,
+                    );
+                }
+            }
+        }
+        // EnterNovelDelimiterRHS.
+        if let Some((rhs_delim, parents)) = try_pop_rhs(&s.parents, alloc) {
+            if is_first_child(s.rhs_syntax, s.rhs_parent, rhs_delim) {
+                for rhs_parent_id in ctx.rhs_parent_ids(rhs_delim) {
+                    consider(
+                        s.lhs_syntax,
+                        Some(rhs_delim),
+                        s.lhs_parent_id,
+                        rhs_parent_id,
+                        parents.clone(),
+                        seen,
+                    );
+                }
+            }
+        }
+    }
+
+    // Keep the candidates that really do have an edge to `v`,
+    // preferring the cheapest edge when there are several.
+    let mut predecessors: SmallVec<[(Edge, &'v Vertex<'s, 'v>); 8]> = SmallVec::new();
+    for candidate in candidates {
+        let neighbours = *candidate
+            .neighbours
+            .get_or_init(|| compute_neighbours(candidate, alloc, seen));
+
+        let mut best: Option<Edge> = None;
+        for (edge, next) in neighbours {
+            if std::ptr::eq(*next, v) && best.map_or(true, |b| edge.cost() < b.cost()) {
+                best = Some(*edge);
+            }
+        }
+        if let Some(edge) = best {
+            predecessors.push((edge, candidate));
+        }
+    }
+
+    alloc.alloc_slice_copy(predecessors.as_slice())
 }
 
 pub(crate) fn populate_change_map<'s, 'v>(
