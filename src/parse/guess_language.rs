@@ -586,7 +586,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
 /// Try to guess the language based on a shebang present in the source.
 fn from_shebang(src: &str) -> Option<Language> {
     lazy_static! {
-        static ref RE: Regex = Regex::new(r"#! *(?:/usr/bin/env )?([^ ]+)").unwrap();
+        static ref RE: Regex = Regex::new(r"^#! *(?:/usr/bin/env )?([^ ]+)").unwrap();
     }
     if let Some(first_line) = split_on_newlines(src).next() {
         if let Some(cap) = RE.captures(first_line) {
@@ -680,6 +680,12 @@ mod tests {
     fn test_guess_by_shebang_with_space() {
         let path = Path::new("foo");
         assert_eq!(guess(path, "#! /bin/sh", &[]), Some(Bash));
+    }
+
+    #[test]
+    fn test_guess_comment_not_shebang() {
+        let path = Path::new("foo.py");
+        assert_eq!(guess(path, "bar = 1 #!/bin/bash", &[]), Some(Python));
     }
 
     #[test]
