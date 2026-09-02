@@ -522,7 +522,7 @@ pub(crate) fn guess(
 /// <https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html>
 fn from_emacs_mode_header(src: &str) -> Option<Language> {
     lazy_static! {
-        static ref MODE_RE: Regex = Regex::new(r"-\*-.*mode:([^;]+?);.*-\*-").unwrap();
+        static ref MODE_RE: Regex = Regex::new(r"-\*- *mode: *([a-zA-Z0-9_+-]+).*-\*-").unwrap();
         static ref SHORTHAND_RE: Regex = Regex::new(r"-\*-(.+)-\*-").unwrap();
     }
 
@@ -686,6 +686,12 @@ mod tests {
     fn test_guess_comment_not_shebang() {
         let path = Path::new("foo.py");
         assert_eq!(guess(path, "bar = 1 #!/bin/bash", &[]), Some(Python));
+    }
+
+    #[test]
+    fn test_guess_by_emacs_mode_simple() {
+        let path = Path::new("foo");
+        assert_eq!(guess(path, "; -*- mode: Lisp -*-", &[]), Some(CommonLisp));
     }
 
     #[test]
