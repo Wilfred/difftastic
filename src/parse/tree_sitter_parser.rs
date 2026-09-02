@@ -2036,16 +2036,28 @@ fn atom_from_cursor<'a>(
         content = content.trim();
     }
 
+    let is_highlighted = highlights.keyword_ids.contains(&node.id())
+        || highlights.string_ids.contains(&node.id())
+        || highlights.type_ids.contains(&node.id());
+
+    // tree-sitter says "extra nodes represent things like comments",
+    // but occasionally grammars use extra nodes for things that
+    // aren't comments.
+    //
+    // For example, the Ruby parser treats heredocs as extra, but
+    // highlights them as a string. We'd rather treat them as a
+    // string, so only consider extra nodes as comments if no other
+    // highlighting is present.
+    let is_extra_comment = !is_highlighted && node.is_extra();
+
     let highlight = if node.is_error() {
         AtomKind::TreeSitterError
-    } else if node.is_extra()
-        || node.kind() == "comment"
+    } else if node.kind() == "comment"
         || highlights.comment_ids.contains(&node.id())
+        || is_extra_comment
     {
-        // 'extra' nodes in tree-sitter are comments. Most parsers use
-        // 'comment' as their comment node name, but if they don't we
-        // can still detect comments by looking at their syntax
-        // highlighting.
+        // Most parsers use 'comment' as their comment node name, but
+        // also use syntax highlighting to catch other comment nodes.
 
         if ignore_comments {
             return None;
