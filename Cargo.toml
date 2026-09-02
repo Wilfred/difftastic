@@ -31,7 +31,7 @@ include = [
 ]
 
 [package.metadata.binstall]
-pkg-url = "{ repo }/releases/download/{ version }/difft-{ target }.{ archive-format }"
+pkg-url = "{ repo }/releases/download/{ version }/difft-{ version }-{ target }.{ archive-format }"
 
 [package.metadata.binstall.overrides.x86_64-pc-windows-msvc]
 pkg-fmt = "zip"
