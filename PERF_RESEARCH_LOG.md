@@ -381,3 +381,64 @@ pushes, so stale pops are rare, and re-expanding one is cheap because
 `neighbours` is memoised in a `OnceCell`. The added `Cell` read and compare on
 every pop costs more than the re-expansions it avoids. Reverted.
 
+### exp7: pack the vertex identity into two words — KEPT
+
+Profiling `slow.rs`, where the search dominates:
+
+```
+744,162,246 (33.46%)  difft::diff::graph::allocate_if_new     (3,466,493 calls)
+575,047,461 (25.86%)  difft::diff::shortest_path::mark_syntax
+341,732,608 (15.37%)  difft::diff::graph::compute_neighbours  (1,909,165 calls)
+```
+
+215 instructions per `allocate_if_new` call is a lot for one hash-map lookup.
+`Hash for Vertex` hashed five fields separately — two `Option<SyntaxId>` from
+the syntax nodes, two parent ids and a bool — which is ten writes into
+`FxHasher` once the `Option` discriminants are counted, and `PartialEq` walked
+the same fields with a match per side.
+
+Both now go through one `key()` returning `(u64, u64)`. Syntax IDs are
+`NonZeroU32`, so bit 32 distinguishes "we're at this node" from "we've run out
+of nodes inside this parent", and bit 33 carries the pop-either-parent flag.
+This is exactly the old equality relation, and it no longer relies on the
+invariant that `lhs_parent_id` agrees with `lhs_syntax`'s parent — which the
+old `Hash` did rely on, since it hashed the parent id even when `eq` ignored
+it.
+
+```
+name                     exp5-word-split-limit exp7-packed-vertex-key        delta      pct
+slow                          2223663938      2172859254    -50804684   -2.28%
+typing                        3133916884      3124653500     -9263384   -0.30%
+long_line                     1734942448      1736277833     +1335385   +0.08%
+newick                         820174614       799386781    -20787833   -2.53%
+modules                       2129237363      2126747538     -2489825   -0.12%
+fortran                        864238799       842185725    -22053074   -2.55%
+objc_module                   1529218070      1524663681     -4554389   -0.30%
+perl                           772193040       772169563       -23477   -0.00%
+verilog                        773769623       773671321       -98302   -0.01%
+nest                           440070721       438663009     -1407712   -0.32%
+javascript                     254035839       246270346     -7765493   -3.06%
+erlang                         547287342       546402084      -885258   -0.16%
+context                        209145801       209114703       -31098   -0.01%
+haskell                        147473232       147433034       -40198   -0.03%
+apex                           467489914       467490266         +352   +0.00%
+simple                          12944682        12943728         -954   -0.01%
+typescript                      33186088        33201773       +15685   +0.05%
+ruby                            53068015        53062547        -5468   -0.01%
+swift                          322981812       322992220       +10408   +0.00%
+hack                             3066110         3066652         +542   +0.02%
+identical                      289288293       289302984       +14691   +0.01%
+zig                            163285037       163283703        -1334   -0.00%
+dart                            58963118        58912804       -50314   -0.09%
+if                              17510582        17509585         -997   -0.01%
+tab                             16492177        16511177       +19000   +0.12%
+json                             4911591         4891975       -19616   -0.40%
+yaml                            10325709        10290879       -34830   -0.34%
+total                        17032880842     16913958665   -118922177   -0.70%
+```
+
+**-0.70% overall**, up to -3.1% on the pairs that spend most of their time in
+the search (`javascript`, `fortran`, `newick`, `slow`).
+
+Output unchanged; `cargo test` passes.
+

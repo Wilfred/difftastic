@@ -68,54 +68,63 @@ pub(crate) struct Vertex<'s, 'v> {
     rhs_parent_id: Option<SyntaxId>,
 }
 
+impl<'s, 'v> Vertex<'s, 'v> {
+    /// Everything that distinguishes this vertex from another, packed into two
+    /// words.
+    ///
+    /// Looking up vertices in the `seen` map is the hottest thing difftastic
+    /// does, so it's worth hashing and comparing two words rather than five
+    /// separate fields.
+    ///
+    /// Strictly speaking, we should compare the whole `EnteredDelimiter`
+    /// stack, not just the immediate parents. By taking the immediate parent,
+    /// we have vertices with different stacks that are 'equal'.
+    ///
+    /// This makes the graph traversal path dependent: the first vertex we see
+    /// 'wins', and we use it for deciding how we can pop.
+    ///
+    /// In practice this seems to work well. The first vertex has the lowest
+    /// cost, so has the most PopBoth occurrences, which is the best outcome.
+    ///
+    /// Handling this properly would require considering many more vertices to
+    /// be distinct, exponentially increasing the graph size relative to tree
+    /// depth.
+    fn key(&self) -> (u64, u64) {
+        // Syntax IDs are non-zero, so bit 32 distinguishes "we're at this
+        // node" from "we've run out of nodes inside this parent", and 0 means
+        // neither.
+        fn side(syntax: Option<&Syntax>, parent_id: Option<SyntaxId>) -> u64 {
+            match syntax {
+                Some(node) => u64::from(node.id().get()) | 1 << 32,
+                None => parent_id.map_or(0, |id| u64::from(id.get())),
+            }
+        }
+
+        // We do want to distinguish whether we can pop each side
+        // independently. Without this, if we find a case where we can pop
+        // sides together, we don't consider the case where we get a better
+        // diff by popping each side separately.
+        let can_pop_either = u64::from(can_pop_either_parent(&self.parents)) << 33;
+
+        (
+            side(self.lhs_syntax, self.lhs_parent_id),
+            side(self.rhs_syntax, self.rhs_parent_id) | can_pop_either,
+        )
+    }
+}
+
 impl PartialEq for Vertex<'_, '_> {
     fn eq(&self, other: &Self) -> bool {
-        // Strictly speaking, we should compare the whole
-        // EnteredDelimiter stack, not just the immediate
-        // parents. By taking the immediate parent, we have
-        // vertices with different stacks that are 'equal'.
-        //
-        // This makes the graph traversal path dependent: the
-        // first vertex we see 'wins', and we use it for deciding
-        // how we can pop.
-        //
-        // In practice this seems to work well. The first vertex
-        // has the lowest cost, so has the most PopBoth
-        // occurrences, which is the best outcome.
-        //
-        // Handling this properly would require considering many
-        // more vertices to be distinct, exponentially increasing
-        // the graph size relative to tree depth.
-        let b0 = match (self.lhs_syntax, other.lhs_syntax) {
-            (Some(s0), Some(s1)) => s0.id() == s1.id(),
-            (None, None) => self.lhs_parent_id == other.lhs_parent_id,
-            _ => false,
-        };
-        let b1 = match (self.rhs_syntax, other.rhs_syntax) {
-            (Some(s0), Some(s1)) => s0.id() == s1.id(),
-            (None, None) => self.rhs_parent_id == other.rhs_parent_id,
-            _ => false,
-        };
-        // We do want to distinguish whether we can pop each side
-        // independently though. Without this, if we find a case
-        // where we can pop sides together, we don't consider the
-        // case where we get a better diff by popping each side
-        // separately.
-        let b2 = can_pop_either_parent(&self.parents) == can_pop_either_parent(&other.parents);
-
-        b0 && b1 && b2
+        self.key() == other.key()
     }
 }
 impl Eq for Vertex<'_, '_> {}
 
 impl Hash for Vertex<'_, '_> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.lhs_syntax.map(|node| node.id()).hash(state);
-        self.rhs_syntax.map(|node| node.id()).hash(state);
-
-        self.lhs_parent_id.hash(state);
-        self.rhs_parent_id.hash(state);
-        can_pop_either_parent(&self.parents).hash(state);
+        let (lhs, rhs) = self.key();
+        state.write_u64(lhs);
+        state.write_u64(rhs);
     }
 }
 
