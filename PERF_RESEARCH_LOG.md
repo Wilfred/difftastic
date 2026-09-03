@@ -39,3 +39,84 @@ output without the expectation being regenerated.
   change that helps one parser or one shape of tree can't carry the total on
   its own.
 
+### Where the instructions actually go
+
+Profiling a diff of two 24-byte Rust files (`fn main() { let x = 1; }`):
+
+```
+444,668,795 total Ir
+388,843,746 (87%)  ts_query__perform_analysis
+ 44,115,214 (10%)  ts_query__analyze_patterns
+```
+
+Essentially the entire run is tree-sitter compiling the syntax-highlighting
+query, before any parsing or diffing happens. It is a fixed cost per process,
+paid once per language (`from_language` already caches `TreeSitterConfig`), and
+it is invisible on large inputs but dominates the small-diff case that `git
+diff` actually hits.
+
+Fixed cost of a trivial diff, by language, before any change:
+
+| language | Ir |
+| --- | --- |
+| Rust | 444,668,795 |
+| JavaScript | 101,986,799 |
+| Python | 67,987,464 |
+| JSON | 3,506,786 |
+| plain text | 3,516,740 |
+
+JSON and plain text set the floor: no highlighting query worth analysing.
+
+### exp1: drop highlight-query patterns whose captures difftastic ignores — KEPT
+
+`tree_highlights` reduces every capture in `highlights.scm` to one of four
+buckets (comment / keyword-ish / string / type) and throws the rest away.
+Rust's `highlights.scm` has 101 patterns, of which 28 capture only things
+difftastic never reads: `@property`, `@function`, `@punctuation.bracket`,
+`@variable.parameter`, `@escape`, `@attribute`.
+
+Patterns in a tree-sitter query match independently, so dropping one cannot
+change the matches of the others. `retain_relevant_patterns` splits the query
+source into top-level patterns and keeps only those containing a capture name
+that `is_relevant_capture` accepts. Splitting is textual, so a query whose
+syntax the splitter mishandles yields a query that fails to compile rather than
+one that quietly matches differently — `new_highlight_query` then falls back to
+the original source.
+
+The capture-name predicates are now the single source of truth shared by the
+filter and by `tree_highlights`, so the two can't drift apart.
+
+Trivial-diff cost after:
+
+| language | before | after | change |
+| --- | --- | --- | --- |
+| Rust | 444,668,795 | 272,106,589 | **-38.8%** |
+| JavaScript | 101,986,799 | 12,045,324 | **-88.2%** |
+| Python | 67,987,464 | 17,207,949 | **-74.7%** |
+| JSON | 3,506,786 | 3,493,849 | -0.4% |
+| plain text | 3,516,740 | 3,511,534 | -0.1% |
+
+JavaScript gains most because difftastic concatenates three highlight queries
+(JS + TypeScript + QML) for `.js`, and most of the combined result is captures
+it discards.
+
+Output unchanged on all 145 sample pairs in all three display modes;
+`cargo test` passes.
+
+### exp2: merge simple patterns sharing a capture name — REJECTED
+
+Follow-on idea: rewrite the 42 separate `"fn" @keyword`-style patterns as one
+`["fn" "let" ...] @keyword` alternation, on the theory that analysis cost scales
+with pattern count. It does not. For Rust, after exp1's filtering:
+
+| query | patterns | `Query::new` |
+| --- | --- | --- |
+| filtered | 73 | 38.2 ms |
+| filtered + merged | 21 | 36.1 ms |
+
+A 3.5x reduction in pattern count buys ~5%, which is inside the noise of the
+wall-clock measurement. Analysis cost tracks the number of pattern *steps* and
+the grammar states each step can occur in, not the number of patterns, so
+merging steps into one alternation moves the work rather than removing it. Not
+worth the risk of rewriting query source.
+
