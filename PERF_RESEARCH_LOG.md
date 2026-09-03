@@ -100,6 +100,49 @@ JavaScript gains most because difftastic concatenates three highlight queries
 (JS + TypeScript + QML) for `.js`, and most of the combined result is captures
 it discards.
 
+Across the whole benchmark suite (27 pairs, instructions executed):
+
+```
+name                            baseline exp1-trim-highlight-query        delta      pct
+slow                          2465876442      2290030615   -175845827   -7.13%
+typing                        3380379723      3132286053   -248093670   -7.34%
+long_line                     2302656601      2301487378     -1169223   -0.05%
+newick                         823119262       822165785      -953477   -0.12%
+modules                       2349996120      2129202366   -220793754   -9.40%
+fortran                        939055225       864272651    -74782574   -7.96%
+objc_module                   2228274140      1529525143   -698748997  -31.36%
+perl                          2182661116       772147917  -1410513199  -64.62%
+verilog                       1368529947       773666334   -594863613  -43.47%
+nest                           683344286       505792998   -177551288  -25.98%
+javascript                     345241026       254039479    -91201547  -26.42%
+erlang                         654797252       547417696   -107379556  -16.40%
+context                        447270316       274677075   -172593241  -38.59%
+haskell                       2370207090       147330305  -2222876785  -93.78%
+apex                          2793654418       467304356  -2326350062  -83.27%
+simple                         102864006        12897356    -89966650  -87.46%
+typescript                     235574104        33118177   -202455927  -85.94%
+ruby                           284677942        52987433   -231690509  -81.39%
+swift                         1166420340       322854722   -843565618  -72.32%
+hack                             3089382         3079266       -10116   -0.33%
+identical                      608560652       336597949   -271962703  -44.69%
+zig                            398482558       163218690   -235263868  -59.04%
+dart                           559198461        59249924   -499948537  -89.40%
+if                              68274815        17467133    -50807682  -74.42%
+tab                             41634481        16435738    -25198743  -60.52%
+json                             4932310         4916062       -16248   -0.33%
+yaml                            58300809        10320618    -47980191  -82.30%
+total                        28867072824     17844489219 -11022583605  -38.18%
+```
+
+**-38.2% overall.** The large pairs gain 7-9%, which is the fixed query cost
+amortised over real work. The small pairs gain 60-94%, because for them the
+query build *was* the work. Haskell is the extreme: `haskell_1.hs` is 191 bytes
+and took 2.37 billion instructions to diff, of which 2.22 billion was analysing
+highlighting patterns whose captures difftastic discards.
+
+The pairs that don't move (`long_line`, `newick`, `hack`, `json`) are plain
+text, or languages whose highlighting query is small to begin with.
+
 Output unchanged on all 145 sample pairs in all three display modes;
 `cargo test` passes.
 
