@@ -76,7 +76,7 @@ and say so loudly in the log. Nothing so far has needed to.
 ## State as of this handoff
 
 Baseline is master at `dc2283500`: **28,867,072,824** instructions over the
-suite. After the kept changes: **16,913,958,665**, i.e. **-41.4%**.
+suite. After the kept changes: **16,586,352,574**, i.e. **-42.5%**.
 
 | exp | change | suite | verdict |
 | --- | --- | --- | --- |
@@ -87,20 +87,11 @@ suite. After the kept changes: **16,913,958,665**, i.e. **-41.4%**.
 | 5 | stop splitting words past the word-diff limit | -2.4% | kept |
 | 6 | skip stale entries when popping the Dijkstra heap | +0.2% | rejected |
 | 7 | pack the vertex identity into two words | -0.7% | kept |
-| 8 | key the `seen` map by that packed key | in flight | see below |
+| 8 | key the `seen` map by that packed key | -1.9% | kept |
 
-### exp8 is unfinished
-
-`src/diff/graph.rs` has an uncommitted change: `seen` becomes
-`DftHashMap<VertexKey, SmallVec<...>>` instead of being keyed by `&Vertex`, so
-hash-map probing compares two words instead of unpacking a `Vertex` on both
-sides for every candidate. It builds and `cargo test` passes; `check_output.sh`
-and `measure.sh exp8-key-seen-map-by-key` were running when this session was
-interrupted. Finish it: compare against `exp7-packed-vertex-key`, then keep or
-revert as the numbers say.
-
-If the working tree came back clean, the change was reverted or committed —
-check `git log` and `PERF_RESEARCH_LOG.md` before redoing it.
+Everything is committed and the working tree is clean. `results/` holds a
+labelled `.tsv` per experiment, so a new change is compared against
+`exp8-key-seen-map-by-key`.
 
 ## Where to look next
 
@@ -109,9 +100,9 @@ Ordered by how much is left on the table. The suite is now dominated by
 `objc_module` (1.52G).
 
 1. **More of `allocate_if_new`.** Still the single hottest function: 33% of
-   `slow.rs`, 3.47M calls at ~215 instructions each before exp7. Beyond exp8,
-   the remaining idea is to avoid *constructing* the 64-byte `Vertex` at all on
-   a hit — `compute_neighbours` builds one for each of up to seven neighbours
+   `slow.rs`, 3.47M calls at ~215 instructions each before exp7 and exp8 took
+   about a fifth off that. The remaining idea is to avoid *constructing* the
+   64-byte `Vertex` at all on a hit — `compute_neighbours` builds one for each of up to seven neighbours
    and `allocate_if_new` discards most of them. The key can be computed from
    the same inputs before the struct is built. This is a real refactor of the
    seven construction sites, not a micro-edit.
