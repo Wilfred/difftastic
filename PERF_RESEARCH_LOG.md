@@ -592,6 +592,47 @@ cheap. Decomposing the value instead increased argument passing and code size
 on every candidate, including misses where the struct is still required. The
 probe failed, so no full suite or output check was run. Reverted.
 
+### exp11: build syntax spans from tree-sitter points — KEPT
+
+On `typing.ml`, `line_numbers::LinePositions::from_offset` consumed 86.3M
+instructions (2.5% of the whole run). Every syntax atom and delimiter called
+`LinePositions::from_region`, which binary-searched the file's line table for
+both ends of the region. Tree-sitter nodes already expose their start and end
+as byte-based `(row, column)` points, so the searches duplicated information
+the parser had computed.
+
+The tree-sitter conversion path now keeps a slice of source lines. Zero-width
+outer delimiter positions come directly from a point; full node positions
+iterate from the start row to the end row, using the point columns on the first
+and last rows and the indexed source-line length for intermediate rows. This
+preserves the old multiline `Vec<SingleLineSpan>` representation, including
+zero-width final spans, without searching by absolute byte offset.
+
+A five-run `perf stat` probe reduced `typing` from 3,266,890,480 to
+3,148,455,355 instructions (**-3.63%**). The deterministic callgrind suite
+confirmed the result:
+
+| pair | exp9 | exp11 | change |
+| --- | ---: | ---: | ---: |
+| slow | 1,896,338,185 | 1,892,085,471 | -0.22% |
+| typing | 3,381,722,170 | 3,264,634,497 | **-3.46%** |
+| long_line | 1,704,010,085 | 1,705,547,227 | +0.09% |
+| modules | 2,418,498,514 | 2,330,652,805 | **-3.63%** |
+| nest | 410,337,856 | 404,315,477 | **-1.47%** |
+| erlang | 585,303,945 | 565,611,246 | **-3.36%** |
+| total (26 pairs) | 16,651,632,340 | 16,412,197,612 | **-1.44%** |
+
+The other pairs are flat or modest wins; the full per-pair result is in
+`perf-research/results/exp11-tree-sitter-point-spans.tsv`. The only apparent
+regression is `long_line` at +0.09%, which is plain text and cannot reach this
+code, so it is binary-layout noise.
+
+The experiment is byte-identical to the control in side-by-side colour,
+inline, and JSON modes on 108 of the 109 sample pairs, including the separate
+22 MB `huge_cpp` pair, HTML sublanguages, multibyte text, and multiline
+strings. The remaining Haskell pair is the pre-existing baseline heap abort
+described in exp9. `cargo test --release` passes (157 passed, one ignored).
+
 ## Where this leaves things
 
 | pair | master | now | change |

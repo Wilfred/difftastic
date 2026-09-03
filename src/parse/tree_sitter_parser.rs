@@ -2,7 +2,7 @@
 
 use std::sync::{LazyLock, Mutex};
 
-use line_numbers::{LineNumber, LinePositions};
+use line_numbers::{LineNumber, SingleLineSpan};
 use streaming_iterator::StreamingIterator as _;
 use tree_sitter as ts;
 use typed_arena::Arena;
@@ -1600,7 +1600,7 @@ pub(crate) fn to_syntax<'a>(
     // highlighting and for more precise Syntax nodes where applicable.
     let subtrees = parse_subtrees(src, config, tree);
 
-    let nl_pos = LinePositions::from(src);
+    let src_lines: Vec<&str> = src.split('\n').collect();
     let mut cursor = tree.walk();
 
     let mut errors = ParseErrors::default();
@@ -1616,7 +1616,7 @@ pub(crate) fn to_syntax<'a>(
     let nodes = all_syntaxes_from_cursor(
         arena,
         src,
-        &nl_pos,
+        &src_lines,
         &mut cursor,
         &mut errors,
         config,
@@ -1702,7 +1702,7 @@ pub(crate) struct HighlightedNodeIds {
 fn all_syntaxes_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
-    nl_pos: &LinePositions,
+    src_lines: &[&str],
     cursor: &mut ts::TreeCursor,
     errors: &mut ParseErrors,
     config: &TreeSitterConfig,
@@ -1723,7 +1723,7 @@ fn all_syntaxes_from_cursor<'a>(
         nodes.extend(syntax_from_cursor(
             arena,
             src,
-            nl_pos,
+            src_lines,
             cursor,
             errors,
             config,
@@ -1745,7 +1745,7 @@ fn all_syntaxes_from_cursor<'a>(
 fn syntax_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
-    nl_pos: &LinePositions,
+    src_lines: &[&str],
     cursor: &mut ts::TreeCursor,
     errors: &mut ParseErrors,
     config: &TreeSitterConfig,
@@ -1768,7 +1768,7 @@ fn syntax_from_cursor<'a>(
         return syntax_from_cursor(
             arena,
             src,
-            nl_pos,
+            src_lines,
             &mut sub_cursor,
             errors,
             subconfig,
@@ -1788,17 +1788,17 @@ fn syntax_from_cursor<'a>(
         //
         // Also, if this node is highlighted as a comment, treat it as
         // an atom unconditionally.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
+        atom_from_cursor(arena, src, src_lines, cursor, highlights, ignore_comments)
     } else if highlights.keyword_ids.contains(&node.id()) && node.child_count() == 1 {
         // If this list has a single child, and the list itself (not
         // the child) is marked as a keyword, treat it as an atom with
         // keyword highlighting.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
+        atom_from_cursor(arena, src, src_lines, cursor, highlights, ignore_comments)
     } else if node.child_count() > 0 {
         Some(list_from_cursor(
             arena,
             src,
-            nl_pos,
+            src_lines,
             cursor,
             errors,
             config,
@@ -1807,7 +1807,7 @@ fn syntax_from_cursor<'a>(
             ignore_comments,
         ))
     } else {
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
+        atom_from_cursor(arena, src, src_lines, cursor, highlights, ignore_comments)
     }
 }
 
@@ -1833,12 +1833,42 @@ fn can_ignore_last_child(
     false
 }
 
+fn span_at_point(point: ts::Point) -> SingleLineSpan {
+    SingleLineSpan {
+        line: (point.row as u32).into(),
+        start_col: point.column as u32,
+        end_col: point.column as u32,
+    }
+}
+
+/// Convert tree-sitter's byte-based row and column positions directly into
+/// difftastic's per-line spans.
+fn spans_for_node(node: ts::Node<'_>, src_lines: &[&str]) -> Vec<SingleLineSpan> {
+    let start = node.start_position();
+    let end = node.end_position();
+    let mut spans = Vec::with_capacity(end.row - start.row + 1);
+
+    for row in start.row..=end.row {
+        spans.push(SingleLineSpan {
+            line: (row as u32).into(),
+            start_col: if row == start.row { start.column } else { 0 } as u32,
+            end_col: if row == end.row {
+                end.column
+            } else {
+                src_lines[row].len()
+            } as u32,
+        });
+    }
+
+    spans
+}
+
 /// Convert the tree-sitter node at `cursor` to a difftastic list
 /// node.
 fn list_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
-    nl_pos: &LinePositions,
+    src_lines: &[&str],
     cursor: &mut ts::TreeCursor,
     errors: &mut ParseErrors,
     config: &TreeSitterConfig,
@@ -1859,11 +1889,9 @@ fn list_from_cursor<'a>(
     // the delimiter text and the start/end of this node as the
     // delimiter positions.
     let outer_open_content = "";
-    let outer_open_position =
-        nl_pos.from_region(list_root_node.start_byte(), list_root_node.start_byte());
+    let outer_open_position = vec![span_at_point(list_root_node.start_position())];
     let outer_close_content = "";
-    let outer_close_position =
-        nl_pos.from_region(list_root_node.end_byte(), list_root_node.end_byte());
+    let outer_close_position = vec![span_at_point(list_root_node.end_position())];
 
     // TODO: this should probably only allow the delimiters to be the
     // first and last child in the list.
@@ -1901,7 +1929,7 @@ fn list_from_cursor<'a>(
             before_delim.extend(syntax_from_cursor(
                 arena,
                 src,
-                nl_pos,
+                src_lines,
                 cursor,
                 errors,
                 config,
@@ -1911,12 +1939,12 @@ fn list_from_cursor<'a>(
             ));
         } else if node_i == i {
             inner_open_content = &src[node.start_byte()..node.end_byte()];
-            inner_open_position = nl_pos.from_region(node.start_byte(), node.end_byte());
+            inner_open_position = spans_for_node(node, src_lines);
         } else if node_i < j {
             between_delim.extend(syntax_from_cursor(
                 arena,
                 src,
-                nl_pos,
+                src_lines,
                 cursor,
                 errors,
                 config,
@@ -1926,12 +1954,12 @@ fn list_from_cursor<'a>(
             ));
         } else if node_i == j {
             inner_close_content = &src[node.start_byte()..node.end_byte()];
-            inner_close_position = nl_pos.from_region(node.start_byte(), node.end_byte());
+            inner_close_position = spans_for_node(node, src_lines);
         } else if node_i > j {
             after_delim.extend(syntax_from_cursor(
                 arena,
                 src,
-                nl_pos,
+                src_lines,
                 cursor,
                 errors,
                 config,
@@ -1998,13 +2026,13 @@ fn list_from_cursor<'a>(
 fn atom_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
-    nl_pos: &LinePositions,
+    src_lines: &[&str],
     cursor: &mut ts::TreeCursor,
     highlights: &HighlightedNodeIds,
     ignore_comments: bool,
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
-    let position = nl_pos.from_region(node.start_byte(), node.end_byte());
+    let position = spans_for_node(node, src_lines);
     let mut content = &src[node.start_byte()..node.end_byte()];
 
     // The C and C++ grammars have a '\n' node with the
