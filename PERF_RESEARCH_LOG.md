@@ -163,3 +163,85 @@ the grammar states each step can occur in, not the number of patterns, so
 merging steps into one alternation moves the work rather than removing it. Not
 worth the risk of rewriting query source.
 
+### exp3: drop patterns already covered by a whole-node pattern — KEPT
+
+Ablating the 13 surviving non-trivial Rust patterns individually (query build
+cost above the 41.2M floor of an empty query):
+
+```
+  48,847,281  ((scoped_identifier path: (scoped_identifier name: (identifier) @type)) ...)
+  47,531,515  ((scoped_type_identifier path: (scoped_identifier name: (identifier) @type)) ...)
+  25,456,275  (struct_pattern type: (scoped_type_identifier name: (type_identifier) @constructor))
+  24,473,042  (scoped_identifier (self) @keyword)
+  21,761,456  (block_comment (doc_comment)) @comment.documentation
+  20,128,573  (line_comment (doc_comment)) @comment.documentation
+  18,187,236  ((scoped_identifier path: (identifier) @type) ...)
+  17,423,127  ((scoped_type_identifier path: (identifier) @type) ...)
+   4,960,645  (lifetime (identifier) @label)
+     429,225  ((identifier) @constant (#match? ...))
+     241,994  (use_list (self) @keyword)
+     220,676  (scoped_use_list (self) @keyword)
+      83,296  ((identifier) @constructor (#match? ...))
+```
+
+Cost is in the nested patterns, not the count: dropping all 60 *bare* patterns
+(`"fn" @keyword` and friends) from the filtered query saved only 1.8M of 269M.
+Analysis is proportional to how many grammar states a pattern's steps can occur
+in, and a bare token pattern resolves in one step.
+
+Three of these nested patterns can go. `(type_identifier) @type` already puts
+every `type_identifier` in the type bucket, so the `struct_pattern` pattern that
+captures a `type_identifier` as `@constructor` — also the type bucket — cannot
+add a node id that isn't there already. Likewise `(line_comment) @comment`
+covers `(line_comment (doc_comment)) @comment.documentation`.
+
+Generalised: a pattern is redundant when every capture difftastic reads sits on
+a node kind that some whole-node pattern already assigns to the same bucket.
+`whole_node_pattern` recognises the covering patterns, `bucketed_captures`
+works out which node kind each capture attaches to (skipping capture references
+inside predicates, which name a capture written elsewhere in the pattern), and
+the two are compared as bucket bitmasks.
+
+```
+name                     exp1-trim-highlight-query exp3-drop-covered-patterns        delta      pct
+slow                          2290030615      2222301428    -67729187   -2.96%
+typing                        3132286053      3133607355     +1321302   +0.04%
+long_line                     2301487378      2302154010      +666632   +0.03%
+newick                         822165785       821645928      -519857   -0.06%
+modules                       2129202366      2128993936      -208430   -0.01%
+fortran                        864272651       864047589      -225062   -0.03%
+objc_module                   1529525143      1529469142       -56001   -0.00%
+perl                           772147917       772256892      +108975   +0.01%
+verilog                        773666334       773789797      +123463   +0.02%
+nest                           505792998       440165855    -65627143  -12.98%
+javascript                     254039479       253917656      -121823   -0.05%
+erlang                         547417696       546811605      -606091   -0.11%
+context                        274677075       209156043    -65521032  -23.85%
+haskell                        147330305       147509665      +179360   +0.12%
+apex                           467304356       467491440      +187084   +0.04%
+simple                          12897356        12934842       +37486   +0.29%
+typescript                      33118177        33193269       +75092   +0.23%
+ruby                            52987433        53065657       +78224   +0.15%
+swift                          322854722       323036290      +181568   +0.06%
+hack                             3079266         3081236        +1970   +0.06%
+identical                      336597949       289305278    -47292671  -14.05%
+zig                            163218690       163340886      +122196   +0.07%
+dart                            59249924        58970261      -279663   -0.47%
+if                              17467133        17516504       +49371   +0.28%
+tab                             16435738        16481710       +45972   +0.28%
+json                             4916062         4927875       +11813   +0.24%
+yaml                            10320618        10339252       +18634   +0.18%
+total                        17844489219     17599511401   -244977818   -1.37%
+```
+
+**-1.37% overall**, concentrated where the redundancy is: Rust (`context`
+-23.9%, `nest` -13.0%) and Scala (`identical` -14.1%). The trivial Rust diff
+goes from 272.1M to 206.6M.
+
+The +0.1% to +0.3% on the other pairs is the cost of the extra analysis pass
+itself — building the covered-kinds map and walking each pattern's captures.
+On `json`, whose whole run is 4.9M instructions, that shows up as +11.8k. It is
+paid once per language and is worth the Rust and Scala wins.
+
+Output unchanged; `cargo test` passes.
+
