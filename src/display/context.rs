@@ -4,9 +4,50 @@ use std::cmp::Ordering;
 use std::collections::VecDeque;
 
 use line_numbers::LineNumber;
+use smallvec::SmallVec;
 
-use crate::hash::{DftHashMap, DftHashSet};
 use crate::parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos};
+
+/// Opposite line numbers indexed by line number on this side of the diff.
+///
+/// Source line numbers are dense, and almost every line maps to a single line
+/// on the other side. Dense indexing avoids hashing the line number and keeps
+/// the common value inline.
+#[derive(Debug, Default)]
+pub(crate) struct OppositePositions {
+    by_line: Vec<SmallVec<[LineNumber; 1]>>,
+}
+
+impl OppositePositions {
+    fn with_capacity(capacity: usize) -> Self {
+        Self {
+            by_line: Vec::with_capacity(capacity),
+        }
+    }
+
+    fn insert(&mut self, line: LineNumber, opposite: LineNumber) {
+        let line = line.as_usize();
+        if line >= self.by_line.len() {
+            self.by_line.resize_with(line + 1, SmallVec::new);
+        }
+
+        let opposites = &mut self.by_line[line];
+        if !opposites.contains(&opposite) {
+            opposites.push(opposite);
+        }
+    }
+
+    pub(crate) fn get(&self, line: &LineNumber) -> Option<&[LineNumber]> {
+        self.by_line
+            .get(line.as_usize())
+            .filter(|opposites| !opposites.is_empty())
+            .map(SmallVec::as_slice)
+    }
+
+    pub(crate) fn contains_key(&self, line: &LineNumber) -> bool {
+        self.get(line).is_some()
+    }
+}
 
 pub(crate) fn all_matched_lines_filled(
     lhs_mps: &[MatchedPos],
@@ -322,11 +363,8 @@ fn match_preceding_blanks(
     res
 }
 
-pub(crate) fn opposite_positions(
-    mps: &[MatchedPos],
-) -> DftHashMap<LineNumber, DftHashSet<LineNumber>> {
-    let mut res: DftHashMap<LineNumber, DftHashSet<LineNumber>> =
-        DftHashMap::with_capacity_and_hasher(mps.len(), Default::default());
+pub(crate) fn opposite_positions(mps: &[MatchedPos]) -> OppositePositions {
+    let mut res = OppositePositions::with_capacity(mps.len());
 
     for mp in mps {
         match &mp.kind {
@@ -336,10 +374,7 @@ pub(crate) fn opposite_positions(
                 ..
             } => {
                 for (self_span, opposite_span) in zip_repeat_shorter(self_pos, opposite_pos) {
-                    let opposite_lines = res
-                        .entry(self_span.line)
-                        .or_insert_with(DftHashSet::default);
-                    opposite_lines.insert(opposite_span.line);
+                    res.insert(self_span.line, opposite_span.line);
                 }
             }
             MatchKind::UnchangedPartOfNovelItem {
@@ -347,9 +382,8 @@ pub(crate) fn opposite_positions(
                 self_pos,
                 ..
             } => {
-                let opposite_lines = res.entry(self_pos.line).or_insert_with(DftHashSet::default);
                 for opposite_span in opposite_pos {
-                    opposite_lines.insert(opposite_span.line);
+                    res.insert(self_pos.line, opposite_span.line);
                 }
             }
             MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::Ignored { .. } => {}
@@ -376,7 +410,7 @@ pub(crate) fn opposite_positions(
 /// ```
 fn before_with_opposites(
     before_lines: &[LineNumber],
-    opposite_lines: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
+    opposite_lines: &OppositePositions,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut lines = before_lines.to_vec();
     lines.reverse();
@@ -472,7 +506,7 @@ pub(crate) fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx
 /// 122    91 (closest match)
 fn after_with_opposites(
     after_lines: &[LineNumber],
-    opposite_lines: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
+    opposite_lines: &OppositePositions,
     prev_max_opposite: Option<LineNumber>,
     max_opposite: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
@@ -515,8 +549,8 @@ fn after_with_opposites(
 
 pub(crate) fn calculate_before_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
-    opposite_to_rhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
+    opposite_to_lhs: &OppositePositions,
+    opposite_to_rhs: &OppositePositions,
     num_context_lines: usize,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     match lines.first() {
@@ -537,8 +571,8 @@ pub(crate) fn calculate_before_context(
 
 pub(crate) fn calculate_after_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
-    opposite_to_rhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
+    opposite_to_lhs: &OppositePositions,
+    opposite_to_rhs: &OppositePositions,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
     num_context_lines: usize,
@@ -587,8 +621,8 @@ pub(crate) fn calculate_after_context(
 
 pub(crate) fn add_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
-    opposite_to_rhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
+    opposite_to_lhs: &OppositePositions,
+    opposite_to_rhs: &OppositePositions,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
     num_context_lines: usize,
@@ -727,8 +761,6 @@ fn compact_gaps(
 
 #[cfg(test)]
 mod tests {
-    use std::iter::FromIterator;
-
     use line_numbers::SingleLineSpan;
     use pretty_assertions::assert_eq;
 
@@ -736,15 +768,27 @@ mod tests {
     use crate::syntax::TokenKind;
 
     #[test]
+    fn test_opposite_positions_deduplicates_lines() {
+        let mut positions = OppositePositions::default();
+        positions.insert(2.into(), 4.into());
+        positions.insert(2.into(), 4.into());
+        positions.insert(2.into(), 5.into());
+
+        assert_eq!(positions.get(&2.into()), Some(&[4.into(), 5.into()][..]));
+        assert!(positions.contains_key(&2.into()));
+        assert!(!positions.contains_key(&1.into()));
+    }
+
+    #[test]
     fn test_calculate_before_context() {
         let num_context_lines = 3;
         let lines = vec![(Some(1.into()), Some(1.into()))];
 
-        let mut opposite_to_lhs = DftHashMap::default();
-        opposite_to_lhs.insert(0.into(), DftHashSet::from_iter([0.into()]));
+        let mut opposite_to_lhs = OppositePositions::default();
+        opposite_to_lhs.insert(0.into(), 0.into());
 
-        let mut opposite_to_rhs = DftHashMap::default();
-        opposite_to_rhs.insert(0.into(), DftHashSet::from_iter([0.into()]));
+        let mut opposite_to_rhs = OppositePositions::default();
+        opposite_to_rhs.insert(0.into(), 0.into());
 
         let res = calculate_before_context(
             &lines,

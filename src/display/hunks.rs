@@ -8,9 +8,9 @@ const MAX_DISTANCE: u32 = 4;
 use line_numbers::LineNumber;
 
 use crate::constants::Side;
-use crate::display::context::{add_context, opposite_positions};
+use crate::display::context::{add_context, opposite_positions, OppositePositions};
 use crate::display::side_by_side::lines_with_novel;
-use crate::hash::{DftHashMap, DftHashSet};
+use crate::hash::DftHashSet;
 use crate::parse::syntax::{zip_pad_shorter, MatchKind, MatchedPos};
 
 /// A hunk represents a series of modified lines that are displayed
@@ -133,8 +133,8 @@ fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
 /// 12-15 with 5 context lines, combine the two hunks.
 pub(crate) fn merge_adjacent(
     hunks: &[Hunk],
-    opposite_to_lhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
-    opposite_to_rhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
+    opposite_to_lhs: &OppositePositions,
+    opposite_to_rhs: &OppositePositions,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
     num_context_lines: usize,
@@ -365,8 +365,8 @@ fn novel_section_in_order(
     rhs_novel_mps: &[&MatchedPos],
     lhs_prev_matched_line: Option<LineNumber>,
     rhs_prev_matched_line: Option<LineNumber>,
-    opposite_to_lhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
-    opposite_to_rhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
+    opposite_to_lhs: &OppositePositions,
+    opposite_to_rhs: &OppositePositions,
 ) -> Vec<(Side, MatchedPos)> {
     let mut res: Vec<(Side, MatchedPos)> = vec![];
 
@@ -440,8 +440,8 @@ fn novel_section_in_order(
 fn sorted_novel_positions(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
-    opposite_to_lhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
-    opposite_to_rhs: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
+    opposite_to_lhs: &OppositePositions,
+    opposite_to_rhs: &OppositePositions,
 ) -> Vec<(Side, MatchedPos)> {
     let mut lhs_mps: Vec<MatchedPos> = lhs_mps.to_vec();
     lhs_mps.sort_unstable_by_key(|mp| mp.pos);
@@ -534,7 +534,7 @@ fn sorted_novel_positions(
 
 fn next_opposite(
     line: LineNumber,
-    opposites: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
+    opposites: &OppositePositions,
     prev_opposite: Option<LineNumber>,
 ) -> Option<LineNumber> {
     opposites.get(&line).and_then(|lines_set| {
@@ -725,7 +725,6 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
-    use crate::hash::DftHashMap;
     use crate::syntax::{MatchKind, TokenKind};
 
     #[test]
@@ -765,8 +764,8 @@ mod tests {
         let res = sorted_novel_positions(
             &lhs_mps,
             &[matched_mp],
-            &DftHashMap::default(),
-            &DftHashMap::default(),
+            &OppositePositions::default(),
+            &OppositePositions::default(),
         );
 
         assert_eq!(res, vec![(Side::Left, novel_mp)]);

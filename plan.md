@@ -177,6 +177,7 @@ suite. After the kept changes: **16,586,352,574**, i.e. **-42.5%**.
 | 19 | construct unchanged fallback spans from line order | -7.36% on the 22 MB C++ pair | kept |
 | 20 | reserve line-map capacity from `MatchedPos` count | -2.08% on the 22 MB C++ pair | kept |
 | 21 | collect, sort, and deduplicate line numbers directly | -2.81% on the 22 MB C++ pair | kept |
+| 22 | store opposite-line mappings densely with inline values | -9.15% instructions, -29% RSS on the 22 MB C++ pair | kept |
 
 The last completed experiment is committed. `results/` holds a labelled `.tsv`
 per experiment, so a new callgrind suite run should normally be compared

@@ -890,6 +890,33 @@ including all modes on `huge_cpp`; Haskell remains unavailable because of the
 unchanged baseline abort from exp9. `cargo test` passes (159 passed, one
 ignored).
 
+### exp22: store opposite-line mappings densely with inline values — KEPT
+
+`opposite_positions` used a hash map from source line to a separately allocated
+hash set of opposite lines. Line numbers are dense, and the overwhelmingly
+common mapping has one value, so the large fallback path paid for roughly
+1.2 million outer hash entries plus one heap allocation per mapped line.
+
+`OppositePositions` now indexes a vector by source line and stores values in
+`SmallVec<[LineNumber; 1]>`. Insertion retains the hash set's deduplication
+semantics, and all consumers still sort multi-line mappings before choosing an
+opposite, so output ordering is unchanged.
+
+Five-run `perf stat` results:
+
+| pair | before | after | change |
+| --- | ---: | ---: | ---: |
+| `huge_cpp` | 10,219,934,402 | 9,285,036,692 | **-9.15%** |
+| `typing` | 3,138,777,608 | 3,115,209,321 | **-0.75%** |
+| `slow` | 1,882,855,301 | 1,881,540,156 | -0.07% |
+
+Peak RSS on `huge_cpp` fell from 696 MB to 491 MB (**-29%**); `typing` stayed
+flat at 230 MB. Output is byte-identical in all three modes on all 108
+measurable sample pairs, including all modes on `huge_cpp`; Haskell remains
+unavailable because of the unchanged baseline abort from exp9. `cargo test`
+passes (160 passed, one ignored), including a focused test for deduplication
+and absent line keys.
+
 ## Where this leaves things
 
 | pair | master | now | change |
