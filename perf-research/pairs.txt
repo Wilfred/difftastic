@@ -1,0 +1,16 @@
+# Benchmark pairs, chosen to cover the slow cases and a spread of languages.
+# Each line is "lhs rhs".
+sample_files/slow_1.rs sample_files/slow_2.rs
+sample_files/typing_1.ml sample_files/typing_2.ml
+sample_files/long_line_1.txt sample_files/long_line_2.txt
+sample_files/newick_1.nwk sample_files/newick_2.nwk
+sample_files/modules_1.ml sample_files/modules_2.ml
+sample_files/fortran_1.f90 sample_files/fortran_2.f90
+sample_files/objc_module_1.m sample_files/objc_module_2.m
+sample_files/haskell_1.hs sample_files/haskell_2.hs
+sample_files/apex_1.cls sample_files/apex_2.cls
+sample_files/perl_1.pl sample_files/perl_2.pl
+sample_files/verilog_1.sv sample_files/verilog_2.sv
+sample_files/nest_1.rs sample_files/nest_2.rs
+sample_files/javascript_1.js sample_files/javascript_2.js
+sample_files/erlang_1.erl sample_files/erlang_2.erl
