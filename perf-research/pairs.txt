@@ -1,5 +1,10 @@
-# Benchmark pairs, chosen to cover the slow cases and a spread of languages.
-# Each line is "lhs rhs".
+# Benchmark pairs, "lhs rhs" per line.
+#
+# Two regimes matter and they stress different code. Large pairs are dominated
+# by parsing and by the Dijkstra search; small pairs are dominated by fixed
+# per-process setup, which is what `git diff` actually pays most of the time.
+
+# Large: the slowest sample pairs, plus a spread of languages.
 sample_files/slow_1.rs sample_files/slow_2.rs
 sample_files/typing_1.ml sample_files/typing_2.ml
 sample_files/long_line_1.txt sample_files/long_line_2.txt
@@ -7,10 +12,26 @@ sample_files/newick_1.nwk sample_files/newick_2.nwk
 sample_files/modules_1.ml sample_files/modules_2.ml
 sample_files/fortran_1.f90 sample_files/fortran_2.f90
 sample_files/objc_module_1.m sample_files/objc_module_2.m
-sample_files/haskell_1.hs sample_files/haskell_2.hs
-sample_files/apex_1.cls sample_files/apex_2.cls
 sample_files/perl_1.pl sample_files/perl_2.pl
 sample_files/verilog_1.sv sample_files/verilog_2.sv
 sample_files/nest_1.rs sample_files/nest_2.rs
 sample_files/javascript_1.js sample_files/javascript_2.js
 sample_files/erlang_1.erl sample_files/erlang_2.erl
+
+# Small: a few hundred bytes at most, across languages whose highlighting
+# queries differ a lot in size.
+sample_files/context_1.rs sample_files/context_2.rs
+sample_files/haskell_1.hs sample_files/haskell_2.hs
+sample_files/apex_1.cls sample_files/apex_2.cls
+sample_files/simple_1.js sample_files/simple_2.js
+sample_files/typescript_1.ts sample_files/typescript_2.ts
+sample_files/ruby_1.rb sample_files/ruby_2.rb
+sample_files/swift_1.swift sample_files/swift_2.swift
+sample_files/hack_1.php sample_files/hack_2.php
+sample_files/identical_1.scala sample_files/identical_2.scala
+sample_files/zig_1.zig sample_files/zig_2.zig
+sample_files/dart_1.dart sample_files/dart_2.dart
+sample_files/if_1.py sample_files/if_2.py
+sample_files/tab_1.c sample_files/tab_2.c
+sample_files/json_1.json sample_files/json_2.json
+sample_files/yaml_1.yaml sample_files/yaml_2.yaml

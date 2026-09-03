@@ -35,4 +35,4 @@ while read -r lhs rhs; do
 done < "$pairs_file"
 
 printf 'total\t%s\n' "$total" >> "$outdir/$label.tsv"
-column -t "$outdir/$label.tsv"
+awk -F"\\t" '{printf "%-24s %15s\n", $1, $2}' "$outdir/$label.tsv"
