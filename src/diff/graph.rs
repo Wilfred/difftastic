@@ -3,10 +3,9 @@
 use std::cell::{Cell, OnceCell};
 use std::cmp::min;
 use std::fmt;
-use std::hash::{Hash, Hasher};
 
 use bumpalo::Bump;
-use hashbrown::hash_map::RawEntryMut;
+use hashbrown::hash_map::Entry;
 use smallvec::{smallvec, SmallVec};
 use strsim::normalized_levenshtein;
 
@@ -68,6 +67,10 @@ pub(crate) struct Vertex<'s, 'v> {
     rhs_parent_id: Option<SyntaxId>,
 }
 
+/// Everything that distinguishes one [`Vertex`] from another, packed into two
+/// words. See [`Vertex::key`].
+pub(crate) type VertexKey = (u64, u64);
+
 impl<'s, 'v> Vertex<'s, 'v> {
     /// Everything that distinguishes this vertex from another, packed into two
     /// words.
@@ -89,7 +92,7 @@ impl<'s, 'v> Vertex<'s, 'v> {
     /// Handling this properly would require considering many more vertices to
     /// be distinct, exponentially increasing the graph size relative to tree
     /// depth.
-    fn key(&self) -> (u64, u64) {
+    pub(crate) fn key(&self) -> VertexKey {
         // Syntax IDs are non-zero, so bit 32 distinguishes "we're at this
         // node" from "we've run out of nodes inside this parent", and 0 means
         // neither.
@@ -120,13 +123,6 @@ impl PartialEq for Vertex<'_, '_> {
 }
 impl Eq for Vertex<'_, '_> {}
 
-impl Hash for Vertex<'_, '_> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        let (lhs, rhs) = self.key();
-        state.write_u64(lhs);
-        state.write_u64(rhs);
-    }
-}
 
 /// Tracks entering syntax List nodes.
 #[derive(Clone, PartialEq)]
@@ -380,12 +376,16 @@ impl Edge {
 fn allocate_if_new<'s, 'v>(
     v: Vertex<'s, 'v>,
     alloc: &'v Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+    seen: &mut DftHashMap<VertexKey, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
 ) -> &'v Vertex<'s, 'v> {
+    // Look the vertex up by its packed key rather than by itself, so probing
+    // compares two words instead of unpacking a Vertex on both sides for every
+    // candidate.
+    //
     // We use the entry API so that we only need to do a single lookup
     // for access and insert.
-    match seen.raw_entry_mut().from_key(&v) {
-        RawEntryMut::Occupied(mut occupied) => {
+    match seen.entry(v.key()) {
+        Entry::Occupied(mut occupied) => {
             let existing = occupied.get_mut();
 
             // Don't explore more than two possible parenthesis
@@ -410,7 +410,7 @@ fn allocate_if_new<'s, 'v>(
             existing.push(allocated);
             allocated
         }
-        RawEntryMut::Vacant(vacant) => {
+        Entry::Vacant(vacant) => {
             let allocated = alloc.alloc(v);
 
             // We know that this vec will never have more than 2
@@ -420,7 +420,7 @@ fn allocate_if_new<'s, 'v>(
             // of how many possible parenthesis nestings to explore.
             let existing: SmallVec<[&'v Vertex<'s, 'v>; 2]> = smallvec![&*allocated];
 
-            vacant.insert(allocated, existing);
+            vacant.insert(existing);
             allocated
         }
     }
@@ -512,7 +512,7 @@ fn pop_all_parents<'s, 'v>(
 pub(crate) fn compute_neighbours<'s, 'v>(
     v: &Vertex<'s, 'v>,
     alloc: &'v Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'v>, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+    seen: &mut DftHashMap<VertexKey, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
 ) -> &'v [(Edge, &'v Vertex<'s, 'v>)] {
     // There are only seven pushes in this function, so that's sufficient.
     let mut neighbours: SmallVec<[(Edge, &Vertex); 7]> = SmallVec::new();

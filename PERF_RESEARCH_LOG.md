@@ -442,3 +442,67 @@ the search (`javascript`, `fortran`, `newick`, `slow`).
 
 Output unchanged; `cargo test` passes.
 
+### exp8: key the seen map by the packed key — KEPT
+
+exp7 made `Vertex`'s hash and equality cheap, but the map was still keyed by
+`&Vertex`, so every probe candidate had to be unpacked into a key on both sides
+and compared. Keying `seen` by `VertexKey` directly means probing compares two
+words, and `hashbrown`'s ordinary `Entry` API replaces `raw_entry_mut`.
+
+```
+name                     exp7-packed-vertex-key exp8-key-seen-map-by-key        delta      pct
+slow                          2172859254      2016559970   -156299284   -7.19%
+typing                        3124653500      3096827340    -27826160   -0.89%
+long_line                     1736277833      1739119496     +2841663   +0.16%
+newick                         799386781       735855443    -63531338   -7.95%
+modules                       2126747538      2127199152      +451614   +0.02%
+fortran                        842185725       795282320    -46903405   -5.57%
+objc_module                   1524663681      1511289981    -13373700   -0.88%
+perl                           772169563       772183498       +13935   +0.00%
+verilog                        773671321       773458183      -213138   -0.03%
+nest                           438663009       435423446     -3239563   -0.74%
+javascript                     246270346       227892250    -18378096   -7.46%
+erlang                         546402084       545640147      -761937   -0.14%
+context                        209114703       209087925       -26778   -0.01%
+haskell                        147433034       147403051       -29983   -0.02%
+apex                           467490266       467497800        +7534   +0.00%
+simple                          12943728        12953982       +10254   +0.08%
+typescript                      33201773        33203982        +2209   +0.01%
+ruby                            53062547        53079310       +16763   +0.03%
+swift                          322992220       323023455       +31235   +0.01%
+hack                             3066652         3081152       +14500   +0.47%
+identical                      289302984       289308105        +5121   +0.00%
+zig                            163283703       163175624      -108079   -0.07%
+dart                            58912804        58698574      -214230   -0.36%
+if                              17509585        17519112        +9527   +0.05%
+tab                             16511177        16516150        +4973   +0.03%
+json                             4891975         4845341       -46634   -0.95%
+yaml                            10290879        10227785       -63094   -0.61%
+total                        16913958665     16586352574   -327606091   -1.94%
+```
+
+**-1.94% overall**, and -5% to -8% on the search-bound pairs (`newick`, `slow`,
+`fortran`). Cumulative against master: **-42.5%**, 28.87G to 16.59G.
+
+`Hash for Vertex` is now gone; `PartialEq` stays because `edge_between`
+compares vertices.
+
+Output unchanged; `cargo test` passes.
+
+## Where this leaves things
+
+| pair | master | now | change |
+| --- | --- | --- | --- |
+| suite total | 28,867,072,824 | 16,586,352,574 | **-42.5%** |
+| trivial Rust diff | 444,668,795 | ~206,000,000 | **-54%** |
+
+The two biggest wins were both about not doing work that could not affect the
+answer: analysing highlighting patterns whose captures are discarded (exp1,
+exp3), and splitting a 4.7MB line into words that are then thrown away (exp5).
+The micro-optimisations in the search (exp7, exp8) came to -2.6% together,
+which is respectable but an order of magnitude less than exp1 alone.
+
+Both rejections are the same shape: a change that looks like it removes work
+but adds a check to a hot path that runs far more often than the work it
+avoids (exp6), or that moves cost around without removing it (exp2).
+
