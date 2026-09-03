@@ -1,21 +1,16 @@
 /// Split `s` into a vec of things that look like words and individual
-/// non-word characters.
+/// non-word characters, or return `None` as soon as there are more than
+/// `limit` items.
 ///
 /// "foo..bar23" -> vec!["foo", ".", ".", "bar23"]
 ///
-/// See also `split_words_and_numbers`. Both these functions are hot,
-/// so they are separate implementations rather than passing a bool to
-/// customise number handling.
-pub(crate) fn split_words(s: &str) -> Vec<&str> {
-    split_words_up_to(s, usize::MAX).expect("usize::MAX words is unreachable")
-}
-
-/// Split `s` as [`split_words`], or return `None` as soon as there are more
-/// than `limit` items.
+/// The limit lets callers that give up on word diffing above a threshold avoid
+/// walking a very long line: `long_line.txt` in the sample files is a single
+/// 4.7MB line that splits into millions of words we then discard.
 ///
-/// Callers that give up on word diffing above a threshold can use this to
-/// avoid walking a very long line: `long_line.txt` in the sample files is a
-/// single 4.7MB line that splits into millions of words we then discard.
+/// See also `split_words_and_numbers`. Both these functions are hot, so they
+/// are separate implementations rather than passing a bool to customise number
+/// handling.
 pub(crate) fn split_words_up_to(s: &str, limit: usize) -> Option<Vec<&str>> {
     let mut words = vec![];
     let mut word_start: Option<usize> = None;
@@ -103,6 +98,10 @@ mod tests {
 
     use super::*;
 
+    fn split_words(s: &str) -> Vec<&str> {
+        split_words_up_to(s, usize::MAX).expect("usize::MAX words is unreachable")
+    }
+
     #[test]
     fn test_split_words() {
         let s = "example.com";
@@ -157,13 +156,6 @@ mod tests {
         assert_eq!(split_words_up_to("a.b", 3), Some(vec!["a", ".", "b"]));
         assert_eq!(split_words_up_to("a.b", 2), None);
         assert_eq!(split_words_up_to("", 0), Some(vec![]));
-    }
-
-    #[test]
-    fn test_split_words_up_to_matches_split_words() {
-        for s in ["", "a", "example.com", "a ö b", "foo123bar", "x.\ny"] {
-            assert_eq!(split_words_up_to(s, usize::MAX), Some(split_words(s)));
-        }
     }
 
     #[test]
