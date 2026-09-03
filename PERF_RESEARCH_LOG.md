@@ -633,6 +633,35 @@ inline, and JSON modes on 108 of the 109 sample pairs, including the separate
 strings. The remaining Haskell pair is the pre-existing baseline heap abort
 described in exp9. `cargo test --release` passes (157 passed, one ignored).
 
+### exp12: avoid the scalar ASCII pre-scan on mixed Unicode lines — REJECTED
+
+`long_line` is mostly ASCII but contains some Unicode. The exp4 helper scans
+bytes until the first non-ASCII character, then falls back to
+`UnicodeWidthStr::width`, which scans the complete string again. `perf report`
+showed 9.4% of cycles in Unicode width's reverse fold and another 11.3% in
+`split_string_by_width`.
+
+The first experiment replaced both passes with a forward byte loop that decoded
+only non-ASCII characters. It appeared to cut the `long_line` instruction
+count by 4.95%, but the existing equivalence test caught that this changes
+semantics: `UnicodeWidthStr` handles controls, CRLF, variation selectors, and
+emoji sequences with right-to-left context, so character widths cannot simply
+be summed. That implementation was discarded immediately.
+
+The semantics-preserving version first used vectorised `str::is_ascii`; mixed
+strings went directly to the unchanged Unicode algorithm, while ASCII strings
+continued through exp4's byte-and-tab counter. Its five-run `perf stat` result
+was a regression:
+
+| pair | before | after | change |
+| --- | ---: | ---: | ---: |
+| long_line | 1,696,739,631 | 1,708,245,401 | **+0.68%** |
+
+The extra ASCII pass is paid on every short wrapped chunk, outweighing the
+faster detection on the two complete mixed-Unicode lines. The focused Unicode
+equivalence test passed, but the performance probe failed, so no suite run was
+needed. Reverted.
+
 ## Where this leaves things
 
 | pair | master | now | change |
