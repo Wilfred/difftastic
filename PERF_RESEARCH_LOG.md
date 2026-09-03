@@ -872,6 +872,24 @@ in all three modes on all 108 measurable sample pairs, including all modes on
 `huge_cpp`; Haskell remains unavailable because of the unchanged baseline
 abort from exp9. `cargo test` passes (159 passed, one ignored).
 
+### exp21: sort and deduplicate line numbers directly — KEPT
+
+`all_lines` inserted every `MatchedPos` line number into a hash set and then
+copied the set into a vector and sorted it. The required result is simply a
+sorted unique vector, so collecting directly, sorting, and calling `dedup`
+removes hashing without changing the result. Rust's unstable sort also handles
+the already ordered large-fallback positions efficiently.
+
+On five-run `perf stat` measurements, `huge_cpp` fell from 10,518,314,074 to
+10,222,259,856 instructions (**-2.81%**). `slow` was flat (-0.018%, below the
+binary-layout noise threshold). Peak RSS was effectively unchanged at 702 MB
+versus 703 MB on `huge_cpp`.
+
+Output is byte-identical in all three modes on all 108 measurable sample pairs,
+including all modes on `huge_cpp`; Haskell remains unavailable because of the
+unchanged baseline abort from exp9. `cargo test` passes (159 passed, one
+ignored).
+
 ## Where this leaves things
 
 | pair | master | now | change |

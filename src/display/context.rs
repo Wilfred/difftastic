@@ -122,12 +122,9 @@ fn all_matched_lines(
 }
 
 fn all_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
-    let mut lines = DftHashSet::with_capacity_and_hasher(mps.len(), Default::default());
-    for mp in mps {
-        lines.insert(mp.pos.line);
-    }
-    let mut line_nums: Vec<LineNumber> = lines.into_iter().collect();
+    let mut line_nums: Vec<LineNumber> = mps.iter().map(|mp| mp.pos.line).collect();
     line_nums.sort_unstable();
+    line_nums.dedup();
     line_nums
 }
 
