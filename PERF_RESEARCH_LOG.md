@@ -497,6 +497,77 @@ compares vertices.
 
 Output unchanged; `cargo test` passes.
 
+### exp9: replace the per-key `SmallVec` with two pointer slots — KEPT
+
+After exp8, the packed-key lookup was cheaper but its value was still a
+`SmallVec<[&Vertex; 2]>`. The graph deliberately keeps at most two vertices for
+each key (representing two possible parenthesis nestings), so the collection's
+length/capacity representation described states that cannot occur.
+
+The current `slow.rs` profile made this the first large-input target:
+
+```
+422,473,594 (21.20%)  difft::diff::graph::allocate_if_new
+341,732,608 (17.15%)  difft::diff::graph::compute_neighbours
+```
+
+The map value is now `(&Vertex, Option<&Vertex>)`. The occupied path returns
+the second pointer immediately when present, compares the first vertex's
+parent stack when it is the only entry, and fills the second slot otherwise.
+This is the same decision tree as the previous `SmallVec` implementation, but
+with a smaller hash-table bucket and no collection length checks or iteration.
+
+This environment produced materially different counts from the saved exp8
+binary, so I rebuilt the unchanged control and measured both binaries rather
+than comparing across environments. The unchanged control aborts in
+tree-sitter-haskell on `haskell_1.hs` even after a clean out-of-tree rebuild
+(`corrupted size vs. prev_size`), so Haskell was excluded from both sides of
+this one comparison. It accounts for only 0.9% of the previous suite. The
+fixed remaining 26 pairs measured:
+
+```
+name                     exp8-current-no-haskell exp9-two-slot-seen-map        delta      pct
+slow                          1992564782      1896338185    -96226597   -4.83%
+typing                        3402837328      3381722170    -21115158   -0.62%
+long_line                     1702198562      1704010085     +1811523   +0.11%
+newick                         734314839       697981531    -36333308   -4.95%
+modules                       2417955794      2418498514      +542720   +0.02%
+fortran                        811587848       786098742    -25489106   -3.14%
+objc_module                   1499759526      1490766209     -8993317   -0.60%
+perl                           740366051       740309725       -56326   -0.01%
+verilog                        729503833       729343136      -160697   -0.02%
+nest                           412052183       410337856     -1714327   -0.42%
+javascript                     226483406       216428943    -10054463   -4.44%
+erlang                         585760902       585303945      -456957   -0.08%
+context                        191824833       191792739       -32094   -0.02%
+apex                           459699702       459703280        +3578   +0.00%
+simple                          12259037        12265867        +6830   +0.06%
+typescript                      31678686        31687672        +8986   +0.03%
+ruby                            50965920        50968358        +2438   +0.00%
+swift                          312531337       312536131        +4794   +0.00%
+hack                             2873439         2878236        +4797   +0.17%
+identical                      275585630       275590174        +4544   +0.00%
+zig                            154356589       154297241       -59348   -0.04%
+dart                            55898003        55783632      -114371   -0.20%
+if                              16827820        16832135        +4315   +0.03%
+tab                             15829374        15833332        +3958   +0.03%
+json                             4588681         4559076       -29605   -0.65%
+yaml                             9808290         9765426       -42864   -0.44%
+total                        16850112395     16651632340   -198480055   -1.18%
+```
+
+**-1.18% overall on the controlled 26-pair suite**, concentrated in inputs
+where the graph search is hot. `slow`, `newick`, JavaScript and Fortran improve
+by 3.1-5.0%; parsing- and display-bound pairs are flat within binary-layout
+noise. A quick hardware-counter probe with `perf stat` also works in this
+environment and will be used for faster iteration in later experiments.
+
+All 26 measurable pairs are byte-identical between the control and experiment
+in side-by-side colour, inline, and JSON output. `cargo test --release` passes
+(157 tests passed, one ignored). The Haskell abort is unchanged in the control
+and experiment and is therefore recorded as a correctness-harness limitation,
+not caused by this change.
+
 ## Where this leaves things
 
 | pair | master | now | change |
@@ -513,4 +584,3 @@ which is respectable but an order of magnitude less than exp1 alone.
 Both rejections are the same shape: a change that looks like it removes work
 but adds a check to a hot path that runs far more often than the work it
 avoids (exp6), or that moves cost around without removing it (exp2).
-

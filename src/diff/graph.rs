@@ -6,7 +6,7 @@ use std::fmt;
 
 use bumpalo::Bump;
 use hashbrown::hash_map::Entry;
-use smallvec::{smallvec, SmallVec};
+use smallvec::SmallVec;
 use strsim::normalized_levenshtein;
 
 use self::Edge::*;
@@ -373,10 +373,17 @@ impl Edge {
     }
 }
 
+/// The vertices allocated for one packed vertex key. Difftastic explores at
+/// most two possible parenthesis nestings for a key, so the second slot is
+/// optional and no length or capacity fields are needed.
+type SeenVertices<'s, 'v> = (&'v Vertex<'s, 'v>, Option<&'v Vertex<'s, 'v>>);
+
+type SeenMap<'s, 'v> = DftHashMap<VertexKey, SeenVertices<'s, 'v>>;
+
 fn allocate_if_new<'s, 'v>(
     v: Vertex<'s, 'v>,
     alloc: &'v Bump,
-    seen: &mut DftHashMap<VertexKey, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+    seen: &mut SeenMap<'s, 'v>,
 ) -> &'v Vertex<'s, 'v> {
     // Look the vertex up by its packed key rather than by itself, so probing
     // compares two words instead of unpacking a Vertex on both sides for every
@@ -386,41 +393,29 @@ fn allocate_if_new<'s, 'v>(
     // for access and insert.
     match seen.entry(v.key()) {
         Entry::Occupied(mut occupied) => {
-            let existing = occupied.get_mut();
+            let (first, second) = occupied.get_mut();
 
             // Don't explore more than two possible parenthesis
             // nestings for each syntax node pair.
-            if let Some(allocated) = existing.last() {
-                if existing.len() >= 2 {
-                    return allocated;
-                }
+            if let Some(allocated) = second {
+                return allocated;
             }
 
             // If we have seen exactly this graph node before, even
             // considering parenthesis matching, return it.
-            for existing_node in existing.iter() {
-                if existing_node.parents == v.parents {
-                    return existing_node;
-                }
+            if first.parents == v.parents {
+                return first;
             }
 
             // We haven't reached the graph node limit yet, allocate a
             // new one.
             let allocated = alloc.alloc(v);
-            existing.push(allocated);
+            *second = Some(allocated);
             allocated
         }
         Entry::Vacant(vacant) => {
             let allocated = alloc.alloc(v);
-
-            // We know that this vec will never have more than 2
-            // nodes, and this code is very hot, so use a smallvec.
-            //
-            // We still use a vec to enable experiments with the value
-            // of how many possible parenthesis nestings to explore.
-            let existing: SmallVec<[&'v Vertex<'s, 'v>; 2]> = smallvec![&*allocated];
-
-            vacant.insert(existing);
+            vacant.insert((allocated, None));
             allocated
         }
     }
@@ -512,7 +507,7 @@ fn pop_all_parents<'s, 'v>(
 pub(crate) fn compute_neighbours<'s, 'v>(
     v: &Vertex<'s, 'v>,
     alloc: &'v Bump,
-    seen: &mut DftHashMap<VertexKey, SmallVec<[&'v Vertex<'s, 'v>; 2]>>,
+    seen: &mut SeenMap<'s, 'v>,
 ) -> &'v [(Edge, &'v Vertex<'s, 'v>)] {
     // There are only seven pushes in this function, so that's sufficient.
     let mut neighbours: SmallVec<[(Edge, &Vertex); 7]> = SmallVec::new();
