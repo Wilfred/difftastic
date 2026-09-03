@@ -568,6 +568,30 @@ in side-by-side colour, inline, and JSON output. `cargo test --release` passes
 and experiment and is therefore recorded as a correctness-harness limitation,
 not caused by this change.
 
+### exp10: compute the vertex key before constructing a `Vertex` — REJECTED
+
+`compute_neighbours` passed a complete 64-byte `Vertex` to `allocate_if_new`
+at each of its seven edge sites. Most candidates hit an existing map entry, so
+the hypothesis was that computing the packed key from the five position fields
+first would avoid initializing `OnceCell`, `Cell`, and the full struct on the
+common hit path.
+
+I extracted `vertex_key` so it could operate on the position fields, changed
+`allocate_if_new` to accept those fields separately, and constructed `Vertex`
+only in the occupied-new-nesting and vacant branches. Five-run `perf stat`
+instruction counts regressed on both search-bound probes:
+
+| pair | before | after | change |
+| --- | ---: | ---: | ---: |
+| slow | 1,888,131,031 | 1,895,312,738 | **+0.38%** |
+| newick | 695,362,982 | 698,007,128 | **+0.38%** |
+| typing | 3,266,890,480 | 3,268,374,572 | +0.05% |
+
+The compiler was already able to make constructing the simple metadata fields
+cheap. Decomposing the value instead increased argument passing and code size
+on every candidate, including misses where the struct is still required. The
+probe failed, so no full suite or output check was run. Reverted.
+
 ## Where this leaves things
 
 | pair | master | now | change |
