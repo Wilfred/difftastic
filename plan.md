@@ -175,6 +175,7 @@ suite. After the kept changes: **16,586,352,574**, i.e. **-42.5%**.
 | 17 | index final aligned-line occurrences for hunk display | -22.0% on the 22 MB C++ pair | kept |
 | 18 | replace regex newline scanning with `split_inclusive` | +0.32% to +0.86% | rejected |
 | 19 | construct unchanged fallback spans from line order | -7.36% on the 22 MB C++ pair | kept |
+| 20 | reserve line-map capacity from `MatchedPos` count | -2.08% on the 22 MB C++ pair | kept |
 
 The last completed experiment is committed. `results/` holds a labelled `.tsv`
 per experiment, so a new callgrind suite run should normally be compared

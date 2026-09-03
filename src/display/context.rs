@@ -122,7 +122,7 @@ fn all_matched_lines(
 }
 
 fn all_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
-    let mut lines = DftHashSet::default();
+    let mut lines = DftHashSet::with_capacity_and_hasher(mps.len(), Default::default());
     for mp in mps {
         lines.insert(mp.pos.line);
     }
@@ -328,7 +328,8 @@ fn match_preceding_blanks(
 pub(crate) fn opposite_positions(
     mps: &[MatchedPos],
 ) -> DftHashMap<LineNumber, DftHashSet<LineNumber>> {
-    let mut res: DftHashMap<LineNumber, DftHashSet<LineNumber>> = DftHashMap::default();
+    let mut res: DftHashMap<LineNumber, DftHashSet<LineNumber>> =
+        DftHashMap::with_capacity_and_hasher(mps.len(), Default::default());
 
     for mp in mps {
         match &mp.kind {

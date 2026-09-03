@@ -852,6 +852,26 @@ all modes on `huge_cpp`; Haskell remains unavailable because of the unchanged
 baseline abort from exp9. `cargo test` passes (159 passed, one ignored), with a
 new focused test for unchanged line numbers after a novel block.
 
+### exp20: reserve line-map capacity from the position count — KEPT
+
+After exp19, hash-table insertion accounted for 16.7% of `huge_cpp` cycles and
+rehashing for another 3.8%. Both `all_lines` and `opposite_positions` build at
+most one outer key per `MatchedPos`, but started empty and repeatedly grew.
+The large fallback representation has approximately one position per source
+line, so `mps.len()` is also a close capacity estimate rather than merely an
+upper bound.
+
+Constructing those sets and maps with that known capacity reduced the five-run
+`huge_cpp` instruction count from 10,744,079,610 to 10,520,825,001
+(**-2.08%**). The `slow` syntax-diff probe was flat (-0.011%, below layout
+noise), despite its larger number of positions per line.
+
+Peak RSS did not regress: `/usr/bin/time -v` measured 696 MB versus 699 MB on
+`huge_cpp`, and both versions used 349 MB on `slow`. Output is byte-identical
+in all three modes on all 108 measurable sample pairs, including all modes on
+`huge_cpp`; Haskell remains unavailable because of the unchanged baseline
+abort from exp9. `cargo test` passes (159 passed, one ignored).
+
 ## Where this leaves things
 
 | pair | master | now | change |
