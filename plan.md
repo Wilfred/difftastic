@@ -149,10 +149,14 @@ master (see `PRIOR_WORK.md`).
 If you deliberately change output, re-record with `check_output.sh --record`
 and say so loudly in the log. Nothing so far has needed to.
 
-## State as of this handoff
+## State on the current branch
 
 Baseline is master at `dc2283500`: **28,867,072,824** instructions over the
-suite. After the kept changes: **16,586,352,574**, i.e. **-42.5%**.
+original 27-pair callgrind suite. Through exp8, the last directly comparable
+full-suite run was **16,586,352,574**, i.e. **-42.5%**. The current environment
+has a pre-existing heap abort in tree-sitter-haskell on the Haskell sample, so
+later fixed-suite comparisons use the other 26 pairs and fresh controls rather
+than mixing counts across environments.
 
 | exp | change | suite | verdict |
 | --- | --- | --- | --- |
@@ -179,10 +183,13 @@ suite. After the kept changes: **16,586,352,574**, i.e. **-42.5%**.
 | 21 | collect, sort, and deduplicate line numbers directly | -2.81% on the 22 MB C++ pair | kept |
 | 22 | store opposite-line mappings densely with inline values | -9.15% instructions, -29% RSS on the 22 MB C++ pair | kept |
 
-The last completed experiment is committed. `results/` holds a labelled `.tsv`
-per experiment, so a new callgrind suite run should normally be compared
-against `exp8-key-seen-map-by-key`. If the compiler, dependencies, profiler, or
-machine changed, record a fresh control build before comparing binaries.
+Every completed experiment is committed and pushed. `results/` holds labelled
+callgrind tables through `exp13-linear-visible-width`; experiments that only
+affect inline, JSON, or synthetic/very-large shapes use repeated targeted
+`perf stat` measurements instead. Exp17 through exp22 reduced the 22 MB
+`huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
+reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
+profiler, or machine changed, record a fresh control binary before comparing.
 
 ## Where to look next
 
@@ -204,12 +211,13 @@ Ordered by how much is left on the table. The suite is now dominated by
    `compute_neighbours` remain the leading costs on `slow`; exp10 showed that
    merely decomposing candidate construction makes the hot path worse, so the
    next attempt needs to remove larger-grained work or improve the algorithm.
-4. **Large-file line conversion and allocation behaviour.** After exp17, the
-   22 MB `huge_cpp` profile is led by hash-table insertion and
-   `LinePositions::from_offset`; determine which maps and line-parser regions
-   can use monotonic cursors, dense storage, or better capacity planning. Also
-   measure peak memory so instruction-only wins do not hide excessive retained
-   indexes or temporary structures.
+4. **Large fallback diffing and allocation behaviour.** After exp22 removed the
+   hash-map hotspot, the 22 MB `huge_cpp` profile is led by line splitting,
+   Imara histogram construction, allocator traffic, and the remaining changed
+   region calls to `LinePositions`. Explore monotonic position cursors,
+   allocation reuse/capacity, and whether the fallback pipeline can avoid
+   materialising the same line structure more than once. Keep measuring peak
+   memory so instruction wins do not hide excessive retained temporaries.
 5. **Ideas that change output** — better pre-diff splitting, skipping unique
    atoms — are listed in `PRIOR_WORK.md`. They can't go through this loop as
    set up, because `check_output.sh` would reject them by construction. They

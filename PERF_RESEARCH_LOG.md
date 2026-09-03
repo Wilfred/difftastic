@@ -919,17 +919,22 @@ and absent line keys.
 
 ## Where this leaves things
 
-| pair | master | now | change |
-| --- | --- | --- | --- |
-| suite total | 28,867,072,824 | 16,586,352,574 | **-42.5%** |
-| trivial Rust diff | 444,668,795 | ~206,000,000 | **-54%** |
+| workload | earlier reference | now | change |
+| --- | ---: | ---: | ---: |
+| original 27-pair suite, master through exp8 | 28,867,072,824 | 16,586,352,574 | **-42.5%** |
+| trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
+| `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
+| `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
 
-The two biggest wins were both about not doing work that could not affect the
-answer: analysing highlighting patterns whose captures are discarded (exp1,
-exp3), and splitting a 4.7MB line into words that are then thrown away (exp5).
-The micro-optimisations in the search (exp7, exp8) came to -2.6% together,
-which is respectable but an order of magnitude less than exp1 alone.
+The large-input pass found a different class of wins from the original suite:
+quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
+and general-purpose hashed representations for dense line data (exp20-22).
+The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
+diff construction, allocator traffic, and changed-region line conversion; the
+previous hunk-end and opposite-line hash hotspots are gone.
 
-Both rejections are the same shape: a change that looks like it removes work
-but adds a check to a hot path that runs far more often than the work it
-avoids (exp6), or that moves cost around without removing it (exp2).
+Rejected experiments continue to constrain the search: generic-looking
+simplifications are not necessarily cheaper (`split_inclusive`, exp18), and
+Unicode display width has contextual semantics that a scalar character loop
+does not preserve (exp12). Measure the exact workload and keep output
+equivalence as the gate.
