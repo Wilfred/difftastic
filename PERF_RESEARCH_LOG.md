@@ -808,6 +808,24 @@ modes on `huge_cpp`. Haskell remains unavailable because of the unchanged
 baseline abort from exp9. The duplicate-line invariant now has a focused unit
 test; the full suite plus that test passes (158 passed, one ignored).
 
+### exp18: replace the regex newline splitter with `split_inclusive` — REJECTED
+
+The post-exp17 `huge_cpp` profile spends 7.3% of cycles in string splitting
+iterators and searchers. `line_parser::split_lines_keep_newline` used a compiled
+regex solely to find `\n`, so the standard library's `str::split_inclusive`
+looked like a simpler zero-setup replacement with identical slices.
+
+Five-run `perf stat` probes showed the opposite:
+
+| pair | regex iterator | `split_inclusive` | change |
+| --- | ---: | ---: | ---: |
+| `huge_cpp` | 11,608,400,594 | 11,645,368,750 | **+0.32%** |
+| `long_line` | 1,619,434,227 | 1,633,405,708 | **+0.86%** |
+
+The regex engine's literal search is better optimized for this workload than
+the generic pattern iterator. Focused line-parser tests passed, but the
+performance probe failed, so the implementation was reverted.
+
 ## Where this leaves things
 
 | pair | master | now | change |
