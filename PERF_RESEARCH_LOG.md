@@ -245,3 +245,65 @@ paid once per language and is worth the Rust and Scala wins.
 
 Output unchanged; `cargo test` passes.
 
+### exp4: ASCII fast path for display width — KEPT
+
+Profiling `long_line` (a 4.7MB single-line text file, the sample that isn't a
+tree-sitter language at all):
+
+```
+426,574,998 (18.53%)  DoubleEndedIterator::rfold
+402,958,051 (17.50%)  difft::words::split_words
+235,811,605 (10.24%)  difft::display::style::split_string_by_width
+```
+
+The `rfold` is `UnicodeWidthStr::width`, called 218,714 times from
+`split_string_by_width` and 4 times from `side_by_side::print`
+(`visible_content_max_display_width` measures each whole line, and here a line
+is the whole file). Wrapping a 4.7MB line at 180 columns produces ~26,000
+parts, and each part's width is measured with the full Unicode algorithm.
+
+Printable ASCII is one column per byte, so counting bytes and tabs gives the
+same answer. The fast path bails to the Unicode version on any other byte, and
+a test asserts the two agree on ASCII, accented Latin, CJK, emoji, newlines and
+control characters.
+
+The tab arithmetic is written so it matches the general formula whether
+`"\t".width()` is 0 or 1, which the existing code is careful about.
+
+```
+name                     exp3-drop-covered-patterns exp4-ascii-width        delta      pct
+slow                          2222301428      2221986140      -315288   -0.01%
+typing                        3133607355      3131942073     -1665282   -0.05%
+long_line                     2302154010      2155541019   -146612991   -6.37%
+newick                         821645928       819429551     -2216377   -0.27%
+modules                       2128993936      2127326407     -1667529   -0.08%
+fortran                        864047589       863710138      -337451   -0.04%
+objc_module                   1529469142      1529153628      -315514   -0.02%
+perl                           772256892       772183377       -73515   -0.01%
+verilog                        773789797       773789468         -329   -0.00%
+nest                           440165855       440073036       -92819   -0.02%
+javascript                     253917656       253807575      -110081   -0.04%
+erlang                         546811605       546994707      +183102   +0.03%
+context                        209156043       209145812       -10231   -0.00%
+haskell                        147509665       147473209       -36456   -0.02%
+apex                           467491440       467486965        -4475   -0.00%
+simple                          12934842        12944111        +9269   +0.07%
+typescript                      33193269        33192338         -931   -0.00%
+ruby                            53065657        53057684        -7973   -0.02%
+swift                          323036290       322980994       -55296   -0.02%
+hack                             3081236         3071416        -9820   -0.32%
+identical                      289305278       289304008        -1270   -0.00%
+zig                            163340886       163315301       -25585   -0.02%
+dart                            58970261        58960240       -10021   -0.02%
+if                              17516504        17509208        -7296   -0.04%
+tab                             16481710        16473880        -7830   -0.05%
+json                             4927875         4910033       -17842   -0.36%
+yaml                            10339252        10336876        -2376   -0.02%
+total                        17599511401     17446099194   -153412207   -0.87%
+```
+
+**-0.87% overall, -6.4% on `long_line`.** Everything else is flat, as expected:
+the function is only hot when lines are long enough to wrap many times.
+
+Output unchanged; `cargo test` passes.
+

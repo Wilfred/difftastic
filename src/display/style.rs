@@ -62,6 +62,33 @@ fn substring_by_byte_replace_tabs(s: &str, start: usize, end: usize, tab_width: 
 }
 
 pub(crate) fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
+    match ascii_width_respecting_tabs(s, tab_width) {
+        Some(width) => width,
+        None => unicode_width_respecting_tabs(s, tab_width),
+    }
+}
+
+/// The display width of `s`, if it only contains characters whose width we can
+/// work out from their bytes.
+///
+/// Every printable ASCII character is one column wide, so we only need to
+/// count bytes and tabs. This is a worthwhile shortcut because
+/// `split_string_by_width` calls this for every part of every wrapped line,
+/// and files with very long lines have a lot of parts.
+fn ascii_width_respecting_tabs(s: &str, tab_width: usize) -> Option<usize> {
+    let mut tab_count = 0;
+    for &b in s.as_bytes() {
+        match b {
+            b'\t' => tab_count += 1,
+            0x20..=0x7e => {}
+            _ => return None,
+        }
+    }
+
+    Some(s.len() - tab_count + tab_count * tab_width)
+}
+
+fn unicode_width_respecting_tabs(s: &str, tab_width: usize) -> usize {
     let display_width = s.width();
 
     let tab_count = s.matches('\t').count();
@@ -579,6 +606,32 @@ pub(crate) fn header(
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn ascii_and_unicode_widths_agree() {
+        for s in [
+            "",
+            "hello",
+            "\thello",
+            "a\tb\tc",
+            "\t\t\t",
+            "hello world 123 !@#$%^&*()",
+            "caf\u{e9}",
+            "\u{4f60}\u{597d}",
+            "a\u{4f60}\tb",
+            "\u{1f49d}",
+            "line\nbreak",
+            "\u{7}bell",
+        ] {
+            for tab_width in [1, 2, 4, 8] {
+                assert_eq!(
+                    width_respecting_tabs(s, tab_width),
+                    unicode_width_respecting_tabs(s, tab_width),
+                    "{s:?} with tab width {tab_width}"
+                );
+            }
+        }
+    }
+
     const TAB_WIDTH: usize = 2;
 
     use pretty_assertions::assert_eq;
