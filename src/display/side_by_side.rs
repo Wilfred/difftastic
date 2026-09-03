@@ -7,7 +7,7 @@ use owo_colors::{OwoColorize, Style};
 
 use crate::constants::Side;
 use crate::display::context::all_matched_lines_filled;
-use crate::display::hunks::{matched_lines_indexes_for_hunk, Hunk};
+use crate::display::hunks::{Hunk, MatchedLineIndexes};
 use crate::display::style::{
     self, apply_colors, apply_line_number_color, color_positions, novel_style, replace_tabs,
     split_and_apply, width_respecting_tabs, BackgroundColor,
@@ -549,18 +549,16 @@ pub(crate) fn print(
     }
 
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
-    let mut matched_lines_to_print = &matched_lines[..];
+    let matched_line_indexes = MatchedLineIndexes::new(&matched_lines);
+    let mut matched_lines_start = 0;
 
     let mut lhs_max_visible_line = 1.into();
     let mut rhs_max_visible_line = 1.into();
 
     if let Some(hunk) = hunks.last() {
-        let (start_i, end_i) = matched_lines_indexes_for_hunk(
-            matched_lines_to_print,
-            hunk,
-            display_options.num_context_lines as usize,
-        );
-        let aligned_lines = &matched_lines_to_print[start_i..end_i];
+        let (start_i, end_i) =
+            matched_line_indexes.for_hunk(hunk, display_options.num_context_lines as usize, 0);
+        let aligned_lines = &matched_lines[start_i..end_i];
 
         for (lhs_line_num, rhs_line_num) in aligned_lines.iter().rev() {
             if let Some(lhs_line_num) = *lhs_line_num {
@@ -611,18 +609,16 @@ pub(crate) fn print(
             )
         );
 
-        let (start_i, end_i) = matched_lines_indexes_for_hunk(
-            matched_lines_to_print,
+        let (start_i, end_i) = matched_line_indexes.for_hunk(
             hunk,
             display_options.num_context_lines as usize,
+            matched_lines_start,
         );
-        let aligned_lines = &matched_lines_to_print[start_i..end_i];
+        let aligned_lines = &matched_lines[start_i..end_i];
         // We iterate through hunks in order, so we know the next hunk
         // must appear after start_i. This makes
-        // `matched_lines_indexes_for_hunk` faster on later
-        // iterations, and this function is hot on large textual
-        // diffs.
-        matched_lines_to_print = &matched_lines_to_print[start_i..];
+        // `MatchedLineIndexes::for_hunk` faster on later iterations.
+        matched_lines_start = start_i;
 
         let no_lhs_changes = hunk.novel_lhs.is_empty();
         let no_rhs_changes = hunk.novel_rhs.is_empty();

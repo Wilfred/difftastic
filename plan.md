@@ -172,6 +172,7 @@ suite. After the kept changes: **16,586,352,574**, i.e. **-42.5%**.
 | 14 | group JSON changes by line before rendering | -82.6% on a 12k-line full rewrite | kept |
 | 15 | calculate inline line bounds once per file | -90.2% on a 20k-line/2k-hunk diff | kept |
 | 16 | use a queue when compacting long one-sided runs | -44.5% on a 20k-line full rewrite | kept |
+| 17 | index final aligned-line occurrences for hunk display | -22.0% on the 22 MB C++ pair | kept |
 
 The last completed experiment is committed. `results/` holds a labelled `.tsv`
 per experiment, so a new callgrind suite run should normally be compared
@@ -198,9 +199,12 @@ Ordered by how much is left on the table. The suite is now dominated by
    `compute_neighbours` remain the leading costs on `slow`; exp10 showed that
    merely decomposing candidate construction makes the hot path worse, so the
    next attempt needs to remove larger-grained work or improve the algorithm.
-4. **Large-file allocation and peak-memory behaviour.** The 22 MB `huge_cpp`
-   pair and synthetic large hunks can expose repeated growth, cloning, and
-   retained temporary structures that instruction-only profiles understate.
+4. **Large-file line conversion and allocation behaviour.** After exp17, the
+   22 MB `huge_cpp` profile is led by hash-table insertion and
+   `LinePositions::from_offset`; determine which maps and line-parser regions
+   can use monotonic cursors, dense storage, or better capacity planning. Also
+   measure peak memory so instruction-only wins do not hide excessive retained
+   indexes or temporary structures.
 5. **Ideas that change output** — better pre-diff splitting, skipping unique
    atoms — are listed in `PRIOR_WORK.md`. They can't go through this loop as
    set up, because `check_output.sh` would reject them by construction. They

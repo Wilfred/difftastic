@@ -5,7 +5,7 @@ use serde::ser::SerializeStruct;
 use serde::{Serialize, Serializer};
 
 use crate::display::context::{all_matched_lines_filled, opposite_positions};
-use crate::display::hunks::{matched_lines_indexes_for_hunk, matched_pos_to_hunks, merge_adjacent};
+use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent, MatchedLineIndexes};
 use crate::display::side_by_side::lines_with_novel;
 use crate::hash::DftHashMap;
 use crate::lines::MaxLine;
@@ -119,15 +119,17 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                     .map(|(lhs, rhs)| (lhs.map(|l| l.0), rhs.map(|l| l.0)))
                     .collect();
 
-                let mut matched_lines = &matched_lines[..];
+                let matched_line_indexes = MatchedLineIndexes::new(&matched_lines);
+                let mut matched_lines_start = 0;
 
                 let mut chunks = Vec::with_capacity(hunks.len());
                 for hunk in &hunks {
                     let mut lines = BTreeMap::new();
 
-                    let (start_i, end_i) = matched_lines_indexes_for_hunk(matched_lines, hunk, 0);
+                    let (start_i, end_i) =
+                        matched_line_indexes.for_hunk(hunk, 0, matched_lines_start);
                     let aligned_lines = &matched_lines[start_i..end_i];
-                    matched_lines = &matched_lines[start_i..];
+                    matched_lines_start = start_i;
 
                     for (lhs_line_num, rhs_line_num) in aligned_lines {
                         if !lhs_lines_with_novel.contains(&lhs_line_num.unwrap_or(LineNumber(0)))

@@ -777,6 +777,37 @@ Output is byte-identical in side-by-side colour, inline, and JSON modes on all
 because of the unchanged baseline abort from exp9. `cargo test` passes (157
 passed, one ignored).
 
+### exp17: index final line occurrences for hunk display — KEPT
+
+After exp16, a cycle profile of the 22 MB `huge_cpp` pair put 19.7% of the
+entire run in `matched_lines_indexes_for_hunk`. The side-by-side and JSON
+renderers advance the start of their alignment slice as they visit hunks, so
+finding each hunk's first line is linear overall. Finding its end still scanned
+backward from the end of the remaining file for every hunk, making many sparse
+hunks near-quadratic.
+
+The first probe searched forward from the hunk start and reduced `huge_cpp` by
+22.4%, but changed output on `Session_1.kt`. A line number can occur multiple
+times in an alignment, and the renderer intentionally ends at its final
+occurrence. That unsafe version was discarded.
+
+The kept implementation makes one linear pass over the alignment and stores
+the final index of every LHS and RHS line in dense vectors. Hunk starts retain
+the old ordered forward search; hunk ends now take the maximum indexed
+occurrence from either side, exactly matching the old reverse search. Results:
+
+| workload | before | after | change |
+| --- | ---: | ---: | ---: |
+| 22 MB `huge_cpp` pair (three-run `perf stat` mean) | 14,858,905,910 | 11,597,644,715 | **-22.0%** |
+| 20k-line/2k-hunk synthetic pair (median) | 1,919,832,555 | 1,720,873,610 | **-10.4%** |
+
+The post-change profile no longer contains `matched_lines_indexes_for_hunk`
+among its visible costs. Output is byte-identical in side-by-side colour,
+inline, and JSON modes on all 108 measurable sample pairs, including all three
+modes on `huge_cpp`. Haskell remains unavailable because of the unchanged
+baseline abort from exp9. The duplicate-line invariant now has a focused unit
+test; the full suite plus that test passes (158 passed, one ignored).
+
 ## Where this leaves things
 
 | pair | master | now | change |

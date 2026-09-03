@@ -624,61 +624,97 @@ fn either_side_equal(
     false
 }
 
-/// Given a set of matched lines between the LHS and RHS, return the
-/// start and end indexes in `matched_lines` that should be displayed
-/// for `hunk`.
-pub(crate) fn matched_lines_indexes_for_hunk(
-    matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    hunk: &Hunk,
-    num_context_lines: usize,
-) -> (usize, usize) {
-    let mut hunk_lhs_novel = hunk.novel_lhs.iter().copied().collect::<Vec<_>>();
-    hunk_lhs_novel.sort();
+/// Index the final occurrence of each line in a set of matched lines.
+///
+/// A source line can occur more than once in the alignment, so a hunk ends at
+/// the final occurrence of either of its largest novel lines.
+pub(crate) struct MatchedLineIndexes<'lines> {
+    matched_lines: &'lines [(Option<LineNumber>, Option<LineNumber>)],
+    lhs_last: Vec<Option<usize>>,
+    rhs_last: Vec<Option<usize>>,
+}
 
-    let mut hunk_rhs_novel = hunk.novel_rhs.iter().copied().collect::<Vec<_>>();
-    hunk_rhs_novel.sort();
+impl<'lines> MatchedLineIndexes<'lines> {
+    pub(crate) fn new(matched_lines: &'lines [(Option<LineNumber>, Option<LineNumber>)]) -> Self {
+        let mut lhs_last = vec![];
+        let mut rhs_last = vec![];
 
-    let hunk_smallest = (
-        hunk_lhs_novel.first().copied(),
-        hunk_rhs_novel.first().copied(),
-    );
-    let hunk_largest = (
-        hunk_lhs_novel.last().copied(),
-        hunk_rhs_novel.last().copied(),
-    );
+        for (i, (lhs_line, rhs_line)) in matched_lines.iter().enumerate() {
+            if let Some(lhs_line) = lhs_line {
+                let line = lhs_line.as_usize();
+                if line >= lhs_last.len() {
+                    lhs_last.resize(line + 1, None);
+                }
+                lhs_last[line] = Some(i);
+            }
+            if let Some(rhs_line) = rhs_line {
+                let line = rhs_line.as_usize();
+                if line >= rhs_last.len() {
+                    rhs_last.resize(line + 1, None);
+                }
+                rhs_last[line] = Some(i);
+            }
+        }
 
-    // TODO: Use binary search instead.
-    let mut start_i = None;
-    for (i, matched_line) in matched_lines.iter().enumerate() {
-        if either_side_equal(matched_line, &hunk_smallest) {
-            start_i = Some(i);
-            break;
+        Self {
+            matched_lines,
+            lhs_last,
+            rhs_last,
         }
     }
 
-    let mut end_i = None;
-    for (i, matched_line) in matched_lines.iter().enumerate().rev() {
-        if either_side_equal(matched_line, &hunk_largest) {
-            end_i = Some(i + 1);
-            break;
+    /// Return the start and end indexes that should be displayed for `hunk`.
+    /// Searching starts at `min_index`, which callers advance as they visit
+    /// hunks in order.
+    pub(crate) fn for_hunk(
+        &self,
+        hunk: &Hunk,
+        num_context_lines: usize,
+        min_index: usize,
+    ) -> (usize, usize) {
+        let mut hunk_lhs_novel = hunk.novel_lhs.iter().copied().collect::<Vec<_>>();
+        hunk_lhs_novel.sort();
+
+        let mut hunk_rhs_novel = hunk.novel_rhs.iter().copied().collect::<Vec<_>>();
+        hunk_rhs_novel.sort();
+
+        let hunk_smallest = (
+            hunk_lhs_novel.first().copied(),
+            hunk_rhs_novel.first().copied(),
+        );
+        let hunk_largest = (
+            hunk_lhs_novel.last().copied(),
+            hunk_rhs_novel.last().copied(),
+        );
+
+        let mut start_i = None;
+        for (i, matched_line) in self.matched_lines[min_index..].iter().enumerate() {
+            if either_side_equal(matched_line, &hunk_smallest) {
+                start_i = Some(min_index + i);
+                break;
+            }
         }
-    }
 
-    let mut start_i = start_i.expect("Hunk lines should be present in matched lines");
-    let mut end_i = end_i.expect("Hunk lines should be present in matched lines");
-    if start_i >= num_context_lines {
-        start_i -= num_context_lines;
-    } else {
-        start_i = 0;
-    }
+        let lhs_end = hunk_largest
+            .0
+            .and_then(|line| self.lhs_last.get(line.as_usize()).copied().flatten());
+        let rhs_end = hunk_largest
+            .1
+            .and_then(|line| self.rhs_last.get(line.as_usize()).copied().flatten());
+        let end_i = lhs_end.into_iter().chain(rhs_end).max().map(|i| i + 1);
 
-    if end_i + num_context_lines < matched_lines.len() {
-        end_i += num_context_lines
-    } else {
-        end_i = matched_lines.len();
-    }
+        let mut start_i = start_i.expect("Hunk lines should be present in matched lines");
+        let mut end_i = end_i.expect("Hunk lines should be present in matched lines");
+        start_i = start_i.saturating_sub(num_context_lines).max(min_index);
 
-    (start_i, end_i)
+        if end_i + num_context_lines < self.matched_lines.len() {
+            end_i += num_context_lines
+        } else {
+            end_i = self.matched_lines.len();
+        }
+
+        (start_i, end_i)
+    }
 }
 
 #[cfg(test)]
@@ -795,7 +831,8 @@ mod tests {
         matched_lines: &'a [(Option<LineNumber>, Option<LineNumber>)],
         hunk: &Hunk,
     ) -> &'a [(Option<LineNumber>, Option<LineNumber>)] {
-        let (start_i, end_i) = matched_lines_indexes_for_hunk(matched_lines, hunk, 3);
+        let indexes = MatchedLineIndexes::new(matched_lines);
+        let (start_i, end_i) = indexes.for_hunk(hunk, 3, 0);
         &matched_lines[start_i..end_i]
     }
 
@@ -859,6 +896,32 @@ mod tests {
                 (Some(3.into()), Some(3.into())),
                 (Some(4.into()), Some(4.into())),
                 (Some(5.into()), Some(5.into())),
+            ]
+        );
+    }
+
+    #[test]
+    fn test_matched_lines_for_hunk_uses_final_line_occurrence() {
+        let matched_lines = &[
+            (Some(0.into()), Some(0.into())),
+            (Some(1.into()), Some(1.into())),
+            (Some(1.into()), Some(2.into())),
+            (Some(2.into()), Some(3.into())),
+        ];
+        let hunk = Hunk {
+            novel_lhs: DftHashSet::from_iter([1.into()]),
+            novel_rhs: DftHashSet::from_iter([1.into()]),
+            lines: vec![(Some(1.into()), Some(1.into()))],
+        };
+
+        let indexes = MatchedLineIndexes::new(matched_lines);
+        let (start_i, end_i) = indexes.for_hunk(&hunk, 0, 0);
+
+        assert_eq!(
+            &matched_lines[start_i..end_i],
+            &[
+                (Some(1.into()), Some(1.into())),
+                (Some(1.into()), Some(2.into())),
             ]
         );
     }
