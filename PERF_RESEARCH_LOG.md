@@ -9,11 +9,12 @@ revert it if it doesn't, write down the outcome either way.
 
 ## Harness
 
-`perf(1)` is not installed in this sandbox and its counts are noisy anyway, so
-the metric is callgrind's `Ir` — the same quantity `perf stat` reports as
-`instructions:u`, but counted by emulation rather than sampled from the PMU.
-Repeated runs of the same binary on the same input agree to the instruction,
-which means a 0.3% win is a real 0.3% win and needs no repeat runs.
+Both `perf` and callgrind are available in the current environment. The fast
+iteration metric is repeated `perf stat -e instructions:u`; callgrind's `Ir`
+counts the same quantity by emulation and is used when deterministic attribution
+or a fixed-suite comparison justifies its roughly 40x slowdown. Repeated
+callgrind runs of the same binary agree to the instruction, while `perf` runs
+are reported as a distribution or median.
 
 | script | purpose |
 | --- | --- |
@@ -725,6 +726,29 @@ all three modes on all 108 measurable sample pairs, including a separate JSON
 comparison of the 22 MB `huge_cpp` pair. Haskell remains unavailable because
 of the unchanged baseline abort from exp9. `cargo test --release` passes (157
 passed, one ignored).
+
+### exp15: calculate inline line bounds once per file — KEPT
+
+Inline rendering computed each input's maximum line number once to determine
+the line-number column width, but then rescanned both complete input strings
+inside every hunk when calculating after-context. With `h` sparse hunks in an
+`n`-byte file, that made this part of inline display O(nh).
+
+The renderer now retains the two line numbers it already needs for column
+widths and passes them to every context calculation. On a synthetic 20,000-line
+text pair with every tenth line changed, `--display inline --context 0`
+produces 2,000 separate hunks. Three individual `perf stat` runs gave:
+
+| implementation | instruction counts | median | change |
+| --- | --- | ---: | ---: |
+| rescan both files per hunk | 17,610,740,476; 17,610,721,413; 17,610,524,215 | 17,610,721,413 | |
+| calculate each maximum once | 1,719,749,762; 1,719,473,867; 1,719,496,131 | 1,719,496,131 | **-90.2%** |
+
+This path is only reached by inline display, so the default side-by-side
+callgrind suite was not run. Output is byte-identical in side-by-side colour,
+inline, and JSON modes on all 108 measurable sample pairs, including the 22 MB
+`huge_cpp` pair. Haskell remains unavailable because of the unchanged baseline
+abort from exp9. `cargo test` passes (157 passed, one ignored).
 
 ## Where this leaves things
 
