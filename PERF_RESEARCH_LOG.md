@@ -826,6 +826,32 @@ The regex engine's literal search is better optimized for this workload than
 the generic pattern iterator. Focused line-parser tests passed, but the
 performance probe failed, so the implementation was reverted.
 
+### exp19: construct unchanged fallback spans from line order — KEPT
+
+Large files exceed the syntax parser's size limit and use the line-oriented
+fallback parser. Its changed-part iterator consumes both files monotonically,
+but every unchanged line still called `LinePositions::from_region` on each
+side. That performs two binary searches to recover a fact the iterator already
+knows: the line starts at column zero on the next line. After exp17,
+`LinePositions::from_offset` alone accounted for 8.0% of `huge_cpp` cycles.
+
+The fallback parser now tracks each side's current line number. It constructs
+the single span for an unchanged line directly and advances the counters by
+the number of source lines in changed blocks; changed-word spans retain the old
+`LinePositions` path. Five-run `perf stat` results:
+
+| pair | before | after | change |
+| --- | ---: | ---: | ---: |
+| `huge_cpp` | 11,607,904,707 | 10,753,573,169 | **-7.36%** |
+| `long_line` | 1,619,329,210 | 1,619,452,542 | +0.008% |
+
+The plain-text long-line result is flat within binary-layout noise; its cost is
+in novel-word and display processing, not unchanged lines. Output is
+byte-identical in all three modes on all 108 measurable sample pairs, including
+all modes on `huge_cpp`; Haskell remains unavailable because of the unchanged
+baseline abort from exp9. `cargo test` passes (159 passed, one ignored), with a
+new focused test for unchanged line numbers after a novel block.
+
 ## Where this leaves things
 
 | pair | master | now | change |
