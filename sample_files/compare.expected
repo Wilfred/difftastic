@@ -13,8 +13,8 @@ sample_files/align_footer_1.txt sample_files/align_footer_2.txt
 sample_files/all_changed_1.js sample_files/all_changed_2.js
 8b18e5155d4754e8e6d6319be6f58301  -
 
-sample_files/apex_1.cls sample_files/apex_2.cls
-8e477350907734ac4d5201752523dff3  -
+sample_files/apex_1.trigger sample_files/apex_2.trigger
+155030769509703a2cad74f1bc3c44f6  -
 
 sample_files/asm_1.s sample_files/asm_2.s
 869f6057e259526eaf913e9505f3d473  -
