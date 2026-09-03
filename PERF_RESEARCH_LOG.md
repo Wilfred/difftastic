@@ -361,3 +361,23 @@ is exact for a given binary, but comparing *different* binaries carries about
 
 Output unchanged; `cargo test` passes.
 
+### exp6: skip stale entries when popping the Dijkstra heap — REJECTED
+
+A vertex is pushed again every time a shorter route to it is found, so the heap
+holds entries for routes already improved on. The textbook fix is to compare
+the popped distance against the recorded one and skip if it's worse. That's
+output-safe here: edge costs are all positive and `RadixHeapMap` pops in order,
+so by the time a stale entry surfaces its neighbours have already been offered
+a shorter distance, and `found_shorter_route` would reject every update it
+proposes.
+
+| pair | before | after | change |
+| --- | --- | --- | --- |
+| slow | 2,223,663,938 | 2,227,576,780 | **+0.18%** |
+| typing | 3,133,916,884 | 3,133,590,637 | -0.01% |
+
+Slower. The existing `found_shorter_route` guard already stops most redundant
+pushes, so stale pops are rare, and re-expanding one is cheap because
+`neighbours` is memoised in a `OnceCell`. The added `Cell` read and compare on
+every pop costs more than the re-expansions it avoids. Reverted.
+
