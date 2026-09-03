@@ -750,6 +750,33 @@ inline, and JSON modes on all 108 measurable sample pairs, including the 22 MB
 `huge_cpp` pair. Haskell remains unavailable because of the unchanged baseline
 abort from exp9. `cargo test` passes (157 passed, one ignored).
 
+### exp16: use a queue when compacting long one-sided runs — KEPT
+
+`compact_gaps` buffers a run of lines present on only one side, then pairs them
+with lines from the other side. The buffer was a `Vec`, and every pairing used
+`remove(0)`, shifting all remaining elements. Two opposite runs of `n` lines
+therefore copied O(n²) elements. A sampled profile of a 20,000-line full
+rewrite put about half the cycles in anonymous libc addresses, consistent with
+the repeated `memmove` calls.
+
+The buffer is now a `VecDeque`, so consuming its front is amortised O(1). Three
+individual `perf stat` runs on that full rewrite gave:
+
+| implementation | instruction counts | median | change |
+| --- | --- | ---: | ---: |
+| `Vec::remove(0)` | 675,042,806; 675,054,490; 674,999,344 | 675,042,806 | |
+| `VecDeque::pop_front()` | 374,746,583; 374,695,959; 374,726,007 | 374,726,007 | **-44.5%** |
+
+Five-run probes on ordinary `slow`, `typing`, and `long_line` pairs were flat:
+the instruction-count changes were -0.0005%, -0.0030%, and -0.0028%, all well
+below the established binary-layout noise threshold. This fix was also present
+in the unmerged `claude/project-review-az284i` display work and is isolated here.
+
+Output is byte-identical in side-by-side colour, inline, and JSON modes on all
+108 measurable sample pairs, including `huge_cpp`; Haskell remains unavailable
+because of the unchanged baseline abort from exp9. `cargo test` passes (157
+passed, one ignored).
+
 ## Where this leaves things
 
 | pair | master | now | change |

@@ -171,6 +171,7 @@ suite. After the kept changes: **16,586,352,574**, i.e. **-42.5%**.
 | 13 | insert visible line ranges once per hunk | -96.6% on a 12k-line full rewrite | kept |
 | 14 | group JSON changes by line before rendering | -82.6% on a 12k-line full rewrite | kept |
 | 15 | calculate inline line bounds once per file | -90.2% on a 20k-line/2k-hunk diff | kept |
+| 16 | use a queue when compacting long one-sided runs | -44.5% on a 20k-line full rewrite | kept |
 
 The last completed experiment is committed. `results/` holds a labelled `.tsv`
 per experiment, so a new callgrind suite run should normally be compared
@@ -183,11 +184,7 @@ Ordered by how much is left on the table. The suite is now dominated by
 `typing` (3.12G), `slow` (2.17G), `modules` (2.13G), `long_line` (1.74G) and
 `objc_module` (1.52G).
 
-1. **`compact_gaps` on large single-sided runs.** It removes index zero from a
-   `Vec` while pairing pending lines, which shifts the remaining elements on
-   every removal. Profile a synthetic insertion/deletion large enough to make
-   that path dominant, then test a `VecDeque` or cursor-based implementation.
-2. **The remaining tree-sitter query analysis.** After exp1 and exp3 a trivial
+1. **The remaining tree-sitter query analysis.** After exp1 and exp3 a trivial
    Rust diff is 206M instructions, still ~80% `ts_query__perform_analysis`. The
    ablation in the log shows it's four `scoped_identifier`/`scoped_type_identifier`
    patterns costing ~132M between them, and they genuinely affect output, so
@@ -195,12 +192,15 @@ Ordered by how much is left on the table. The suite is now dominated by
    are needed at all when `--color=never` (they only affect display colour,
    unlike `@comment`/`@string` which change the diff itself); whether a newer
    tree-sitter analyses faster.
-3. **`split_string_by_width` and the display path** — still 10% of
+2. **`split_string_by_width` and the display path** — still 10% of
    `long_line` after exp4.
-4. **Graph search after exp9.** `mark_syntax`, `allocate_if_new`, and
+3. **Graph search after exp9.** `mark_syntax`, `allocate_if_new`, and
    `compute_neighbours` remain the leading costs on `slow`; exp10 showed that
    merely decomposing candidate construction makes the hot path worse, so the
    next attempt needs to remove larger-grained work or improve the algorithm.
+4. **Large-file allocation and peak-memory behaviour.** The 22 MB `huge_cpp`
+   pair and synthetic large hunks can expose repeated growth, cloning, and
+   retained temporary structures that instruction-only profiles understate.
 5. **Ideas that change output** — better pre-diff splitting, skipping unique
    atoms — are listed in `PRIOR_WORK.md`. They can't go through this loop as
    set up, because `check_output.sh` would reject them by construction. They
