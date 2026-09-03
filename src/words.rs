@@ -7,6 +7,16 @@
 /// so they are separate implementations rather than passing a bool to
 /// customise number handling.
 pub(crate) fn split_words(s: &str) -> Vec<&str> {
+    split_words_up_to(s, usize::MAX).expect("usize::MAX words is unreachable")
+}
+
+/// Split `s` as [`split_words`], or return `None` as soon as there are more
+/// than `limit` items.
+///
+/// Callers that give up on word diffing above a threshold can use this to
+/// avoid walking a very long line: `long_line.txt` in the sample files is a
+/// single 4.7MB line that splits into millions of words we then discard.
+pub(crate) fn split_words_up_to(s: &str, limit: usize) -> Option<Vec<&str>> {
     let mut words = vec![];
     let mut word_start: Option<usize> = None;
     for (idx, c) in s.char_indices() {
@@ -29,12 +39,19 @@ pub(crate) fn split_words(s: &str) -> Vec<&str> {
                 }
             }
         }
+
+        if words.len() > limit {
+            return None;
+        }
     }
 
     if let Some(start) = word_start {
         words.push(&s[start..]);
     }
-    words
+    if words.len() > limit {
+        return None;
+    }
+    Some(words)
 }
 
 /// Split `s` into a vec of things that look like words and individual
@@ -133,6 +150,20 @@ mod tests {
         let s = "a xöy b";
         let res = split_words(s);
         assert_eq!(res, vec!["a", " ", "xöy", " ", "b"])
+    }
+
+    #[test]
+    fn test_split_words_up_to() {
+        assert_eq!(split_words_up_to("a.b", 3), Some(vec!["a", ".", "b"]));
+        assert_eq!(split_words_up_to("a.b", 2), None);
+        assert_eq!(split_words_up_to("", 0), Some(vec![]));
+    }
+
+    #[test]
+    fn test_split_words_up_to_matches_split_words() {
+        for s in ["", "a", "example.com", "a ö b", "foo123bar", "x.\ny"] {
+            assert_eq!(split_words_up_to(s, usize::MAX), Some(split_words(s)));
+        }
     }
 
     #[test]

@@ -307,3 +307,57 @@ the function is only hot when lines are long enough to wrap many times.
 
 Output unchanged; `cargo test` passes.
 
+### exp5: stop splitting words once past the word-diff limit — KEPT
+
+`change_positions` splits a novel run into words on both sides, then throws
+both vecs away if either has more than `MAX_WORDS_IN_LINE` (1000) words,
+because Myers diff scales badly. For `long_line.txt` that means splitting 4.7MB
+into millions of `&str` and immediately discarding them.
+
+`split_words_up_to` returns `None` as soon as the count passes the limit, and
+the caller only splits the right-hand side if the left-hand side came back
+under it. Same decision, same output, without walking the rest of the line.
+
+```
+name                     exp4-ascii-width exp5-word-split-limit        delta      pct
+slow                          2221986140      2223663938     +1677798   +0.08%
+typing                        3131942073      3133916884     +1974811   +0.06%
+long_line                     2155541019      1734942448   -420598571  -19.51%
+newick                         819429551       820174614      +745063   +0.09%
+modules                       2127326407      2129237363     +1910956   +0.09%
+fortran                        863710138       864238799      +528661   +0.06%
+objc_module                   1529153628      1529218070       +64442   +0.00%
+perl                           772183377       772193040        +9663   +0.00%
+verilog                        773789468       773769623       -19845   -0.00%
+nest                           440073036       440070721        -2315   -0.00%
+javascript                     253807575       254035839      +228264   +0.09%
+erlang                         546994707       547287342      +292635   +0.05%
+context                        209145812       209145801          -11   -0.00%
+haskell                        147473209       147473232          +23   +0.00%
+apex                           467486965       467489914        +2949   +0.00%
+simple                          12944111        12944682         +571   +0.00%
+typescript                      33192338        33186088        -6250   -0.02%
+ruby                            53057684        53068015       +10331   +0.02%
+swift                          322980994       322981812         +818   +0.00%
+hack                             3071416         3066110        -5306   -0.17%
+identical                      289304008       289288293       -15715   -0.01%
+zig                            163315301       163285037       -30264   -0.02%
+dart                            58960240        58963118        +2878   +0.00%
+if                              17509208        17510582        +1374   +0.01%
+tab                             16473880        16492177       +18297   +0.11%
+json                             4910033         4911591        +1558   +0.03%
+yaml                            10336876        10325709       -11167   -0.11%
+total                        17446099194     17032880842   -413218352   -2.37%
+```
+
+**-2.37% overall, -19.5% on `long_line`.**
+
+The +0.06% to +0.09% on `typing`, `modules`, `newick`, `fortran` and `erlang`
+is not a real cost: those are tree-sitter languages, which reach
+`split_words_and_numbers` and never call `split_words` at all. It's the binary
+laying out differently. Worth recording as a methodology note — callgrind's Ir
+is exact for a given binary, but comparing *different* binaries carries about
+±0.1% of layout noise, so anything below that isn't a result.
+
+Output unchanged; `cargo test` passes.
+

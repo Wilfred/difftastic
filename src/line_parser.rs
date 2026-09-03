@@ -6,7 +6,7 @@ use regex::Regex;
 
 use crate::diff::lcs_diff;
 use crate::parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind};
-use crate::words::split_words;
+use crate::words::split_words_up_to;
 
 const MAX_WORDS_IN_LINE: usize = 1000;
 
@@ -156,14 +156,17 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
                 let lhs_part = lhs_lines.join("");
                 let rhs_part = rhs_lines.join("");
 
-                let lhs_words = split_words(&lhs_part);
-                let rhs_words = split_words(&rhs_part);
-
                 // Myers Diff scales badly on large inputs, and
                 // word-level diffing is merely nice to have. If we
                 // have a very large number of words, don't diff
                 // individual words.
-                if lhs_words.len() > MAX_WORDS_IN_LINE || rhs_words.len() > MAX_WORDS_IN_LINE {
+                let words = match split_words_up_to(&lhs_part, MAX_WORDS_IN_LINE) {
+                    Some(lhs_words) => split_words_up_to(&rhs_part, MAX_WORDS_IN_LINE)
+                        .map(|rhs_words| (lhs_words, rhs_words)),
+                    None => None,
+                };
+
+                let Some((lhs_words, rhs_words)) = words else {
                     for lhs_pos in lhs_lp.from_region(lhs_offset, lhs_offset + lhs_part.len()) {
                         if lhs_pos.start_col != lhs_pos.end_col {
                             lhs_mps.push(MatchedPos {
@@ -188,7 +191,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
                     lhs_offset += lhs_part.len();
                     rhs_offset += rhs_part.len();
                     continue;
-                }
+                };
 
                 for diff_res in lcs_diff::slice(&lhs_words, &rhs_words) {
                     match diff_res {
