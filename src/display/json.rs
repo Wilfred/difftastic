@@ -7,6 +7,7 @@ use serde::{Serialize, Serializer};
 use crate::display::context::{all_matched_lines_filled, opposite_positions};
 use crate::display::hunks::{matched_lines_indexes_for_hunk, matched_pos_to_hunks, merge_adjacent};
 use crate::display::side_by_side::lines_with_novel;
+use crate::hash::DftHashMap;
 use crate::lines::MaxLine;
 use crate::parse::syntax::{self, MatchedPos, StringKind};
 use crate::summary::{DiffResult, FileContent, FileFormat};
@@ -102,6 +103,8 @@ impl<'f> From<&'f DiffResult> for File<'f> {
 
                 let (lhs_lines_with_novel, rhs_lines_with_novel) =
                     lines_with_novel(&summary.lhs_positions, &summary.rhs_positions);
+                let lhs_novel_by_line = novel_matches_by_line(&summary.lhs_positions);
+                let rhs_novel_by_line = novel_matches_by_line(&summary.rhs_positions);
 
                 let matched_lines = all_matched_lines_filled(
                     &summary.lhs_positions,
@@ -145,7 +148,7 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                                 line.lhs.as_mut().unwrap(),
                                 *line_num,
                                 &lhs_lines,
-                                &summary.lhs_positions,
+                                &lhs_novel_by_line,
                             );
                         }
                         if let Some(line_num) = rhs_line_num {
@@ -153,7 +156,7 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                                 line.rhs.as_mut().unwrap(),
                                 *line_num,
                                 &rhs_lines,
-                                &summary.rhs_positions,
+                                &rhs_novel_by_line,
                             );
                         }
                     }
@@ -317,25 +320,28 @@ fn add_changes_to_side<'s>(
     side: &mut Side<'s>,
     line_num: LineNumber,
     src_lines: &[&'s str],
-    all_matches: &[MatchedPos],
+    novel_by_line: &DftHashMap<LineNumber, Vec<&MatchedPos>>,
 ) {
     let src_line = src_lines[line_num.0 as usize];
 
-    let matches = matches_for_line(all_matches, line_num);
-    for m in matches {
-        side.changes.push(Change {
-            start: m.pos.start_col,
-            end: m.pos.end_col,
-            content: &src_line[(m.pos.start_col as usize)..(m.pos.end_col as usize)],
-            highlight: Highlight::from_match(&m.kind),
-        })
+    if let Some(matches) = novel_by_line.get(&line_num) {
+        for m in matches {
+            side.changes.push(Change {
+                start: m.pos.start_col,
+                end: m.pos.end_col,
+                content: &src_line[(m.pos.start_col as usize)..(m.pos.end_col as usize)],
+                highlight: Highlight::from_match(&m.kind),
+            })
+        }
     }
 }
 
-fn matches_for_line(matches: &[MatchedPos], line_num: LineNumber) -> Vec<&MatchedPos> {
-    matches
-        .iter()
-        .filter(|m| m.pos.line == line_num)
-        .filter(|m| m.kind.is_novel())
-        .collect()
+fn novel_matches_by_line(matches: &[MatchedPos]) -> DftHashMap<LineNumber, Vec<&MatchedPos>> {
+    let mut by_line: DftHashMap<LineNumber, Vec<&MatchedPos>> = DftHashMap::default();
+    for m in matches {
+        if m.kind.is_novel() {
+            by_line.entry(m.pos.line).or_default().push(m);
+        }
+    }
+    by_line
 }

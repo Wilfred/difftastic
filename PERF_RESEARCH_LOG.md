@@ -701,6 +701,31 @@ Output is byte-identical in side-by-side colour, inline, and JSON modes on all
 because of the unchanged baseline abort from exp9. `cargo test --release`
 passes (157 passed, one ignored).
 
+### exp14: group JSON changes by line before rendering — KEPT
+
+JSON rendering called `matches_for_line` for every changed line on both sides.
+That helper scanned every `MatchedPos` in the file and allocated a result vec,
+making a large changed hunk quadratic in the number of positions. This was
+another component of the unmerged `claude/project-review-az284i` display work,
+isolated here on the current branch.
+
+The renderer now makes one pass over each side's positions, grouping novel
+matches in a `DftHashMap<LineNumber, Vec<&MatchedPos>>`, and performs a map
+lookup for each output line. On the same 12,000-line full rewrite used for
+exp13, three individual `perf stat` runs gave:
+
+| implementation | median instructions | change |
+| --- | ---: | ---: |
+| scan every position per output line | 1,734,710,300 | |
+| group novel positions once | 301,986,032 | **-82.6%** |
+
+This code is only reached by `--display json`, so the default side-by-side
+callgrind suite cannot measure it and was not run. Output is byte-identical in
+all three modes on all 108 measurable sample pairs, including a separate JSON
+comparison of the 22 MB `huge_cpp` pair. Haskell remains unavailable because
+of the unchanged baseline abort from exp9. `cargo test --release` passes (157
+passed, one ignored).
+
 ## Where this leaves things
 
 | pair | master | now | change |
