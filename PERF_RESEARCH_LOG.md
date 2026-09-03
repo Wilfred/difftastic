@@ -662,6 +662,45 @@ faster detection on the two complete mixed-Unicode lines. The focused Unicode
 equivalence test passed, but the performance probe failed, so no suite run was
 needed. Reverted.
 
+### exp13: insert visible line ranges once per hunk — KEPT
+
+`visible_content_max_display_width` scans each hunk to find its minimum and
+maximum visible line, then records that padded range in a set. The range
+insertion was inside the loop over hunk lines, so a hunk spanning `n` lines
+inserted growing ranges of sizes 1 through `n`: quadratic work before any text
+was displayed. This exact issue was already present in the unmerged
+`claude/project-review-az284i` branch; this experiment isolates that one fix on
+top of the current autoresearch changes.
+
+Moving the two range-insertion loops after the hunk scan makes the work linear
+without changing which line numbers enter either set. On a reproducible
+12,000-line full text rewrite, three individual `perf stat` runs were stable:
+
+| implementation | median instructions | change |
+| --- | ---: | ---: |
+| insert the growing range per line | 14,912,560,491 | |
+| insert the final range per hunk | 504,788,354 | **-96.6%** |
+
+The 22 MB `huge_cpp` pair is split into many small hunks and stayed flat at
+about 16.6G instructions, confirming that file size alone does not create the
+pathology. The fixed 26-pair callgrind suite also remained essentially flat
+overall, while finding a real win on `newick`:
+
+| pair | exp11 | exp13 | change |
+| --- | ---: | ---: | ---: |
+| long_line | 1,705,547,227 | 1,702,111,158 | -0.20% |
+| newick | 696,865,747 | 690,004,893 | **-0.98%** |
+| total (26 pairs) | 16,412,197,612 | 16,397,707,382 | -0.09% |
+
+The suite total is at the established binary-layout noise boundary, but the
+asymptotic result and the isolated large-hunk measurement are unambiguous. The
+full table is in `perf-research/results/exp13-linear-visible-width.tsv`.
+
+Output is byte-identical in side-by-side colour, inline, and JSON modes on all
+108 measurable sample pairs, including `huge_cpp`; Haskell remains unavailable
+because of the unchanged baseline abort from exp9. `cargo test --release`
+passes (157 passed, one ignored).
+
 ## Where this leaves things
 
 | pair | master | now | change |
