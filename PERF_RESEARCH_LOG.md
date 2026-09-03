@@ -146,6 +146,14 @@ text, or languages whose highlighting query is small to begin with.
 Output unchanged on all 145 sample pairs in all three display modes;
 `cargo test` passes.
 
+**This turned out to be a rediscovery.** The same change was made in July 2026
+on `claude/arena-allocators-difftastic-8jpqov`, commit `95d1b70` — same
+reasoning, same measurements to within a few tenths of a percent, and the same
+decision to extract the capture-name predicates so the filter and
+`tree_highlights` can't drift. It is unmerged, so it isn't visible from
+`master`. See `PRIOR_WORK.md`: check the branch list *before* starting, not
+after.
+
 ### exp2: merge simple patterns sharing a capture name — REJECTED
 
 Follow-on idea: rewrite the 42 separate `"fn" @keyword`-style patterns as one

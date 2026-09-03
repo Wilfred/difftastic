@@ -15,6 +15,24 @@ rejections, which are the part that stops the next session repeating the work.
 Branch: `claude/auto-research-karpathy-diuc1c`. Everything is committed and
 pushed there; nothing has been merged to master and no PR has been opened.
 
+## Read `PRIOR_WORK.md` first
+
+Seriously: exp1, the biggest win in the log (-38%), duplicated work already
+sitting unmerged on a branch from July. There are 77 unmerged branches and
+several carry their own callgrind tables. `PRIOR_WORK.md` inventories them,
+records the one-line outcome of each relevant past session, and notes which
+questions are already settled (FxHasher is optimal; `UnchangedDelimiter` can't
+be removed).
+
+It also points at `claude/codspeed-ci-setup-ahqufj`, which adds `benches/diff.rs`
+and a CodSpeed workflow that measures instructions executed per PR, splitting
+parse from diff. **If you're moving off Claude Code on the web, cherry-pick
+that branch first** — it's a better long-term harness than `perf-research/`,
+which was built only because `perf` is unavailable in the sandbox.
+
+Note the sandbox clones shallow, which hides almost every branch. Start with
+`git fetch --unshallow origin`.
+
 ## The loop
 
 One experiment at a time, in this order:
