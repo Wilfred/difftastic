@@ -508,18 +508,25 @@ pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
 /// Set all the `SyntaxInfo` values for all the `roots` on a single
 /// side (LHS or RHS).
 fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
-    set_parent(roots, None);
-    set_num_ancestors(roots, 0);
-    set_unique_id(roots, next_id);
+    set_identity_and_ancestry(roots, None, 0, next_id);
 }
 
-fn set_unique_id(nodes: &[&Syntax], next_id: &mut SyntaxId) {
+fn set_identity_and_ancestry<'a>(
+    nodes: &[&'a Syntax<'a>],
+    parent: Option<&'a Syntax<'a>>,
+    num_ancestors: u32,
+    next_id: &mut SyntaxId,
+) {
     for node in nodes {
-        node.info().unique_id.set(*next_id);
+        let info = node.info();
+        info.parent.set(parent);
+        info.num_ancestors.set(num_ancestors);
+        info.unique_id.set(*next_id);
         *next_id = NonZeroU32::new(u32::from(*next_id) + 1)
             .expect("Should not have more than u32::MAX nodes");
+
         if let List { children, .. } = node {
-            set_unique_id(children, next_id);
+            set_identity_and_ancestry(children, Some(node), num_ancestors + 1, next_id);
         }
     }
 }
@@ -565,25 +572,6 @@ fn set_next_prev<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
 
         if let List { children, .. } = node {
             set_next_prev(children, Some(node));
-        }
-    }
-}
-
-fn set_parent<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
-    for node in nodes {
-        node.info().parent.set(parent);
-        if let List { children, .. } = node {
-            set_parent(children, Some(node));
-        }
-    }
-}
-
-fn set_num_ancestors(nodes: &[&Syntax], num_ancestors: u32) {
-    for node in nodes {
-        node.info().num_ancestors.set(num_ancestors);
-
-        if let List { children, .. } = node {
-            set_num_ancestors(children, num_ancestors + 1);
         }
     }
 }
