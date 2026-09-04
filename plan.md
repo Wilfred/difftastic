@@ -183,6 +183,7 @@ than mixing counts across environments.
 | 21 | collect, sort, and deduplicate line numbers directly | -2.81% on the 22 MB C++ pair | kept |
 | 22 | store opposite-line mappings densely with inline values | -9.15% instructions, -29% RSS on the 22 MB C++ pair | kept |
 | 23 | regenerate graph neighbours instead of caching them | +3.81% `slow`, +0.42% `typing` | rejected |
+| 24 | omit packed keys from the graph hash table | +8.21% `slow`, +0.95% `typing`; RSS -10.8% | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -212,8 +213,10 @@ Ordered by how much is left on the table. The suite is now dominated by
    `compute_neighbours` remain the leading costs on `slow`; exp10 showed that
    merely decomposing candidate construction makes the hot path worse, while
    exp23 showed that shrinking vertices by regenerating neighbours costs 3.81%.
-   The next attempt needs to preserve lazy neighbour caching while removing
-   larger-grained work or improving the algorithm.
+   Exp24 saved 10.8% memory by omitting keys from the seen table, but pointer
+   chasing made `slow` 8.21% worse. The next attempt needs to preserve lazy
+   neighbour caching and packed-key locality while removing larger-grained work
+   or improving the algorithm.
 4. **Large fallback diffing and allocation behaviour.** After exp22 removed the
    hash-map hotspot, the 22 MB `huge_cpp` profile is led by line splitting,
    Imara histogram construction, allocator traffic, and the remaining changed

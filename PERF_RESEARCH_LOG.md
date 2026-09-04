@@ -958,6 +958,26 @@ object and the eliminated neighbour-slice allocations. The code was reverted;
 future graph-layout experiments should preserve the lazy cache or avoid stale
 heap expansions by construction.
 
+### exp24: omit packed keys from the graph hash table — REJECTED
+
+The seen map stores a 16-byte packed `VertexKey` beside two vertex pointers.
+`hashbrown::HashTable` can instead store only those pointers, using the first
+vertex to reconstruct the key for equality and rehashing. This reduced the hot
+bucket payload from 32 to 16 bytes without changing lookup semantics.
+
+The memory saving was real: peak RSS on `slow` fell from 349,460 KiB to
+311,772 KiB (**-10.8%**). Runtime moved sharply in the wrong direction:
+
+| pair | packed key in bucket | keyless bucket | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 1,881,539,982 | 2,036,086,409 | **+8.21%** |
+| `typing` | 3,115,140,742 | 3,144,876,634 | **+0.95%** |
+
+Equality probes in the keyless table must chase a pointer into the much larger
+vertex arena and rebuild the key. Keeping the packed key adjacent to the table
+control bytes is substantially faster despite its memory cost. The change was
+reverted.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
