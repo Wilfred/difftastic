@@ -199,6 +199,8 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
+The focused exp23-31 pass then reduced `typing` from 3.115B to 3.065B
+(**-1.60%**) and `slow` from 1.882B to 1.862B (**-1.06%**).
 
 ## Where to look next
 
@@ -225,6 +227,9 @@ Ordered by how much is left on the table. The suite is now dominated by
    neighbour caching and packed-key locality while removing larger-grained work
    or improving the algorithm. Exp29-30 also show that fewer visited vertices
    do not help when each list-pair expansion gains another candidate.
+   Exp28 and exp31 did make parent-stack handling about 0.9% cheaper on `slow`;
+   look for similarly exact reductions in the existing candidate path rather
+   than adding speculative edges.
 4. **Large fallback diffing and allocation behaviour.** After exp22 removed the
    hash-map hotspot, the 22 MB `huge_cpp` profile is led by line splitting,
    Imara histogram construction, allocator traffic, and the remaining changed

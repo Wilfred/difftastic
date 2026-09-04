@@ -1114,6 +1114,8 @@ one ignored).
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
+| focused `typing`, exp22 through exp31 | 3,115,140,742 | 3,065,196,701 | **-1.60%** |
+| focused `slow`, exp22 through exp31 | 1,881,539,982 | 1,861,541,470 | **-1.06%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1121,6 +1123,13 @@ and general-purpose hashed representations for dense line data (exp20-22).
 The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
+
+The focused exp23-31 pass found small, composable wins in slider range
+collection and parent-stack dispatch. It also ruled out three tempting graph
+directions on the exact target inputs: regenerating cached neighbours, moving
+packed keys out of hash buckets, and adding a combined novel-delimiter edge.
+The latter reduced the vertex count but still increased executed instructions,
+so vertex count alone is not a sufficient proxy for this graph.
 
 Rejected experiments continue to constrain the search: generic-looking
 simplifications are not necessarily cheaper (`split_inclusive`, exp18), and
