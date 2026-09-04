@@ -19,8 +19,8 @@ reasoning burden needed to preserve diff semantics.
 | Original 27-pair suite, master through exp8 | 28.87B instructions | 16.59B | **-42.5%** |
 | 22 MB `huge_cpp` line-oriented pair, exp17 through exp60 | 14.86B | 8.86B | **-40.4%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| Parsed `typing_1.ml`/`typing_2.ml`, exp22 through exp61 | 3.115B | 2.617B | **-15.98%** |
-| Parsed `slow_1.rs`/`slow_2.rs`, exp22 through exp61 | 1.882B | 0.468B | **-75.13%** |
+| Parsed `typing_1.ml`/`typing_2.ml`, exp22 through exp63 | 3.115B | 2.613B | **-16.12%** |
+| Parsed `slow_1.rs`/`slow_2.rs`, exp22 through exp63 | 1.882B | 0.468B | **-75.15%** |
 
 The strongest overall pattern is that removing unnecessary work beats making
 the same work slightly cheaper. Query pruning removes patterns difftastic never
@@ -83,6 +83,7 @@ enough to be worthwhile.
 | [Distinguish atom/list content keys](https://github.com/Wilfred/difftastic/commit/a904f7d) (exp57) | **-0.25%** `typing`, flat on `slow` | Atom-heavy parsed trees | Low complexity, good value; atoms no longer hash list-only sentinel fields. |
 | [Move final unchanged-position metadata](https://github.com/Wilfred/difftastic/commit/aa1b5b9) (exp58) | **-0.92%** `typing`, -0.32% `slow` | Parsed inputs with many unchanged syntax tokens | Low complexity, very high value; avoids cloning two position vectors in the common single-line case. |
 | [Construct inline positions directly from slices](https://github.com/Wilfred/difftastic/commit/b4092fe) (exp61) | **-0.48%** `typing`, -0.14% `slow` | Parsed inputs with many unchanged tokens | Low complexity, high value; avoids generic iterator extension for the usual one-span copy. |
+| Split atom/list content interners (exp63) | **-0.17%** `typing`, flat on `slow` | Atom-heavy parsed trees | Medium complexity, modest value; smaller homogeneous hash buckets retain one global dense ID space. |
 | [Fuse syntax metadata traversals](https://github.com/Wilfred/difftastic/commit/edb0357), [identity traversal](https://github.com/Wilfred/difftastic/commit/95f0d37), and [initial setup](https://github.com/Wilfred/difftastic/commit/ca155c8) (exp36-37, 47) | Individual wins from flat to -0.56% | Large parsed trees where recursive metadata walks are visible | Medium complexity, modest-to-good value; useful cumulatively, but less leverage than reducing hash/allocation work. |
 
 ## Practical prioritisation

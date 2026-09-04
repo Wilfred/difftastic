@@ -1615,6 +1615,27 @@ walk. Ten-run means were flat: `typing` moved from 2,617,383,408 to
 costs as much as rediscovering child slices. The recursive implementation was
 restored; future slider work should target region scanning or mutation logic.
 
+### exp63: split atom and list content interners — KEPT
+
+Exp57's enum stopped atoms hashing list-only fields, but every hash-table bucket
+still had to hold the largest enum variant. Content interning now uses separate
+maps for `(text, is_comment)` atom keys and `(open, close, child IDs)` list
+keys. The next ID remains the sum of both map lengths plus one, so global dense
+IDs and traversal-order assignment are unchanged.
+
+Ten-run `perf stat` means were:
+
+| pair | one enum-key map | two homogeneous maps | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 467,969,480 | 467,611,550 | -0.077% |
+| `typing` | 2,617,335,727 | 2,612,898,228 | **-0.170%** |
+
+`slow` is within layout noise, while atom-heavy `typing` improves beyond the
+established threshold. The control-vs-candidate oracle is byte-identical in
+side-by-side, inline, and JSON modes on all 107 available non-Haskell,
+non-`huge_cpp` sample pairs. `cargo test` passes (165 passed, one ignored), and
+`src/parse/syntax.rs` passes `rustfmt --check`.
+
 ### exp59: move final novel-position metadata — REJECTED
 
 The final-element move used by exp58 was applied to `MatchKind::Novel` as a
@@ -1741,8 +1762,8 @@ JSON modes on all 107 available non-Haskell, non-`huge_cpp` sample pairs.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp60 | 14,858,905,910 | 8,857,070,730 | **-40.4%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp61 | 3,115,140,742 | 2,617,410,174 | **-15.98%** |
-| focused `slow`, exp22 through exp61 | 1,881,539,982 | 467,995,876 | **-75.13%** |
+| focused `typing`, exp22 through exp63 | 3,115,140,742 | 2,612,898,228 | **-16.12%** |
+| focused `slow`, exp22 through exp63 | 1,881,539,982 | 467,611,550 | **-75.15%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1751,7 +1772,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-61 pass first found small, composable wins in slider range
+The focused exp23-63 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,

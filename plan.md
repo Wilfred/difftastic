@@ -241,10 +241,10 @@ new incremental experiment, use the latest accepted branch tip as the control.
 
 Fresh five-run `perf stat` means at the start of the focused pass:
 
-| pair | post-exp22 instructions | latest accepted after exp61 | cumulative change |
+| pair | post-exp22 instructions | latest accepted after exp63 | cumulative change |
 | --- | ---: | ---: | ---: |
-| `typing` | 3,115,140,742 | 2,617,410,174 | **-15.98%** |
-| `slow` | 1,881,539,982 | 467,995,876 | **-75.13%** |
+| `typing` | 3,115,140,742 | 2,612,898,228 | **-16.12%** |
+| `slow` | 1,881,539,982 | 467,611,550 | **-75.15%** |
 
 The original focused callgrind files were `/tmp/cg-focused-typing.out` and
 `/tmp/cg-focused-slow.out`; sampled cycle profiles were
@@ -379,6 +379,7 @@ than mixing counts across environments.
 | 60 | store the usual one-span unchanged positions inline | -1.53% `typing`, -0.54% `slow`, -4.77% `huge_cpp` | kept |
 | 61 | construct inline unchanged positions directly from slices | -0.48% `typing`, -0.14% `slow` | kept |
 | 62 | cache postorder sibling groups across both slider passes | flat on both focused pairs | rejected |
+| 63 | intern atom and list content keys in separate homogeneous maps | -0.17% `typing`, flat on `slow` | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -387,8 +388,8 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
-The focused exp23-61 pass reduced `typing` from 3.115B to 2.617B (**-15.98%**)
-and `slow` from 1.882B to 0.468B (**-75.13%**). Exp35's similar-list pairing and
+The focused exp23-63 pass reduced `typing` from 3.115B to 2.613B (**-16.12%**)
+and `slow` from 1.882B to 0.468B (**-75.15%**). Exp35's similar-list pairing and
 exp39's lower decomposition gate are responsible for most of that improvement;
 exp54-57 additionally remove repeated highlight-set hashing, content-string
 cloning, and redundant atom-key hashing from the mixed tree-sitter pipeline,
@@ -742,7 +743,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp63 (then exp64, etc.) to
+   and immediately append exp64 (then exp65, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

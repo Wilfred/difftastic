@@ -436,34 +436,30 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     init_info_on_side(lhs_roots, &mut id);
     init_info_on_side(rhs_roots, &mut id);
 
-    let mut existing = DftHashMap::default();
-    set_content_id(lhs_roots, &mut existing);
-    set_content_id(rhs_roots, &mut existing);
+    let mut existing_atoms = DftHashMap::default();
+    let mut existing_lists = DftHashMap::default();
+    set_content_id(lhs_roots, &mut existing_atoms, &mut existing_lists);
+    set_content_id(rhs_roots, &mut existing_atoms, &mut existing_lists);
 
     // Content IDs are dense and start at one. Keep slot zero unused so an ID
     // can index this vector directly.
-    let mut content_counts = vec![0; existing.len() + 1];
+    let mut content_counts = vec![0; existing_atoms.len() + existing_lists.len() + 1];
     set_content_is_unique(lhs_roots, &mut content_counts);
     content_counts.fill(0);
     set_content_is_unique(rhs_roots, &mut content_counts);
 }
 
-#[derive(Eq, Hash, PartialEq)]
-enum ContentKey<'a> {
-    Atom {
-        content: Cow<'a, str>,
-        is_comment: bool,
-    },
-    List {
-        open_content: Cow<'a, str>,
-        close_content: Cow<'a, str>,
-        children_content_ids: Vec<u32>,
-    },
-}
+type AtomContentKey<'a> = (Cow<'a, str>, bool);
+type ListContentKey<'a> = (Cow<'a, str>, Cow<'a, str>, Vec<u32>);
 
-fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut DftHashMap<ContentKey<'a>, u32>) {
+fn set_content_id<'a>(
+    nodes: &[&'a Syntax<'a>],
+    existing_atoms: &mut DftHashMap<AtomContentKey<'a>, u32>,
+    existing_lists: &mut DftHashMap<ListContentKey<'a>, u32>,
+) {
     for node in nodes {
-        let key: ContentKey<'a> = match *node {
+        // Combined map lengths preserve one dense ID space for both variants.
+        let content_id = match *node {
             List {
                 open_content,
                 close_content,
@@ -471,7 +467,7 @@ fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut DftHashMap<Conten
                 ..
             } => {
                 // Recurse first, so children all have their content_id set.
-                set_content_id(children, existing);
+                set_content_id(children, existing_atoms, existing_lists);
 
                 let children_content_ids: Vec<_> = children
                     .iter()
@@ -482,11 +478,13 @@ fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut DftHashMap<Conten
                     .map(|c| c.info().content_id.get())
                     .collect();
 
-                ContentKey::List {
-                    open_content: Cow::Borrowed(open_content.as_str()),
-                    close_content: Cow::Borrowed(close_content.as_str()),
+                let key = (
+                    Cow::Borrowed(open_content.as_str()),
+                    Cow::Borrowed(close_content.as_str()),
                     children_content_ids,
-                }
+                );
+                let next_id = existing_atoms.len() as u32 + existing_lists.len() as u32 + 1;
+                *existing_lists.entry(key).or_insert(next_id)
             }
             Atom {
                 content,
@@ -504,18 +502,13 @@ fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut DftHashMap<Conten
                 } else {
                     Cow::Borrowed(content.as_str())
                 };
-                ContentKey::Atom {
-                    content: clean_content,
-                    is_comment,
-                }
+                let key = (clean_content, is_comment);
+                let next_id = existing_atoms.len() as u32 + existing_lists.len() as u32 + 1;
+                *existing_atoms.entry(key).or_insert(next_id)
             }
         };
 
-        // Ensure the ID is always greater than zero, so we can
-        // distinguish an uninitialised SyntaxInfo value.
-        let next_id = existing.len() as u32 + 1;
-        let content_id = existing.entry(key).or_insert(next_id);
-        node.info().content_id.set(*content_id);
+        node.info().content_id.set(content_id);
     }
 }
 
