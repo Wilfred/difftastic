@@ -241,10 +241,10 @@ new incremental experiment, use the latest accepted branch tip as the control.
 
 Fresh five-run `perf stat` means at the start of the focused pass:
 
-| pair | post-exp22 instructions | latest accepted after exp46 | cumulative change |
+| pair | post-exp22 instructions | latest accepted after exp47 | cumulative change |
 | --- | ---: | ---: | ---: |
-| `typing` | 3,115,140,742 | 2,743,556,655 | **-11.93%** |
-| `slow` | 1,881,539,982 | 514,223,778 | **-72.67%** |
+| `typing` | 3,115,140,742 | 2,741,351,758 | **-12.00%** |
+| `slow` | 1,881,539,982 | 511,351,595 | **-72.82%** |
 
 The original focused callgrind files were `/tmp/cg-focused-typing.out` and
 `/tmp/cg-focused-slow.out`; sampled cycle profiles were
@@ -363,6 +363,7 @@ than mixing counts across environments.
 | 44 | reuse one slider-region scratch vector across both passes | flat on both focused pairs | rejected |
 | 45 | replace hashed `ChangeMap` with dense syntax-ID indexing | -1.20% `typing`, -0.27% `slow`; `typing` RSS -4.5% | kept |
 | 46 | replace hashed content-ID counts with a dense vector | -0.40% `typing`, -0.12% `slow` | kept |
+| 47 | fuse initial link setup into identity/ancestry traversal | -0.56% `slow`, flat on `typing` | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -371,8 +372,8 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
-The focused exp23-46 pass reduced `typing` from 3.115B to 2.744B (**-11.93%**)
-and `slow` from 1.882B to 0.514B (**-72.67%**). Exp35's similar-list pairing and
+The focused exp23-47 pass reduced `typing` from 3.115B to 2.741B (**-12.00%**)
+and `slow` from 1.882B to 0.511B (**-72.82%**). Exp35's similar-list pairing and
 exp39's lower decomposition gate are responsible for most of that improvement.
 
 ## Research synthesis: where larger wins can come from
@@ -691,7 +692,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp47 (then exp48, etc.) to
+   and immediately append exp48 (then exp49, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

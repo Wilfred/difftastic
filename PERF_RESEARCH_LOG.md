@@ -1418,6 +1418,28 @@ side-by-side, inline, and JSON modes on all 107 available sample pairs.
 `cargo test` passes (164 passed, one ignored), and the changed file passes
 `rustfmt --check`.
 
+### exp47: initialise all syntax links and identity in one pass — KEPT
+
+Exp36 and exp37 reduced six syntax metadata walks to two, but initial parsing
+still ran those two traversals back-to-back over each complete tree. The
+identity/ancestry pass now also sets initial previous-sibling, next-sibling, and
+graph-predecessor links. The standalone link routine remains in place because
+each possibly-changed section must reset its boundary links before graph
+search.
+
+Ten-run `perf stat` means were:
+
+| pair | separate initial passes | fused initial pass | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 514,210,234 | 511,351,595 | **-0.556%** |
+| `typing` | 2,743,378,793 | 2,741,351,758 | -0.074% |
+
+`typing` is flat within layout noise, while `slow` clearly benefits. Preorder
+ID assignment and all link semantics are unchanged. Output is byte-identical
+in side-by-side, inline, and JSON modes on all 107 available sample pairs.
+`cargo test` passes (164 passed, one ignored), and the changed file passes
+`rustfmt --check`.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1426,8 +1448,8 @@ side-by-side, inline, and JSON modes on all 107 available sample pairs.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp46 | 3,115,140,742 | 2,743,556,655 | **-11.93%** |
-| focused `slow`, exp22 through exp46 | 1,881,539,982 | 514,223,778 | **-72.67%** |
+| focused `typing`, exp22 through exp47 | 3,115,140,742 | 2,741,351,758 | **-12.00%** |
+| focused `slow`, exp22 through exp47 | 1,881,539,982 | 511,351,595 | **-72.82%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1436,7 +1458,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-46 pass first found small, composable wins in slider range
+The focused exp23-47 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,

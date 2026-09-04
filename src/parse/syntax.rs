@@ -390,8 +390,6 @@ pub(crate) fn comment_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<SingleLineS
 /// Initialise all the fields in `SyntaxInfo`.
 pub(crate) fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     init_info(lhs_roots, rhs_roots);
-    init_next_prev(lhs_roots);
-    init_next_prev(rhs_roots);
 }
 
 pub(crate) fn print_as_dot<'a>(roots: &[&'a Syntax<'a>]) {
@@ -512,17 +510,21 @@ pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
 /// Set all the `SyntaxInfo` values for all the `roots` on a single
 /// side (LHS or RHS).
 fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
-    set_identity_and_ancestry(roots, None, 0, next_id);
+    set_initial_info(roots, None, 0, next_id);
 }
 
-fn set_identity_and_ancestry<'a>(
+fn set_initial_info<'a>(
     nodes: &[&'a Syntax<'a>],
     parent: Option<&'a Syntax<'a>>,
     num_ancestors: u32,
     next_id: &mut SyntaxId,
 ) {
-    for node in nodes {
+    for (i, node) in nodes.iter().enumerate() {
         let info = node.info();
+        let previous_sibling = if i == 0 { None } else { Some(nodes[i - 1]) };
+        info.previous_sibling.set(previous_sibling);
+        info.next_sibling.set(nodes.get(i + 1).copied());
+        info.prev.set(previous_sibling.or(parent));
         info.parent.set(parent);
         info.num_ancestors.set(num_ancestors);
         info.unique_id.set(*next_id);
@@ -530,7 +532,7 @@ fn set_identity_and_ancestry<'a>(
             .expect("Should not have more than u32::MAX nodes");
 
         if let List { children, .. } = node {
-            set_identity_and_ancestry(children, Some(node), num_ancestors + 1, next_id);
+            set_initial_info(children, Some(node), num_ancestors + 1, next_id);
         }
     }
 }
