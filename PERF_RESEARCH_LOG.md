@@ -1604,6 +1604,15 @@ JSON modes on all 107 available non-Haskell, non-`huge_cpp` sample pairs.
 `cargo test` passes (165 passed, one ignored), and `src/parse/syntax.rs` passes
 `rustfmt --check`.
 
+### exp59: move final novel-position metadata — REJECTED
+
+The final-element move used by exp58 was applied to `MatchKind::Novel` as a
+separate experiment. Unlike `UnchangedToken`, this variant owns no position
+vectors, so cloning it is only a small enum copy. Ten-run means were entirely
+flat: `typing` moved from 2,670,712,163 to 2,670,659,328 instructions (-0.002%)
+and `slow` from 471,188,880 to 471,084,379 (-0.022%). The added split-last
+control flow was not useful, and the source was restored.
+
 ### exp56: store short child-ID keys inline — REJECTED
 
 After exp55 removed text clones, list content keys still allocate a `Vec<u32>`

@@ -375,6 +375,7 @@ than mixing counts across environments.
 | 56 | store up to four child content IDs inline in each key | -0.16% `typing`, +0.73% `slow` | rejected |
 | 57 | distinguish atom and list content keys with enum variants | -0.25% `typing`, flat on `slow` | kept |
 | 58 | move unchanged match metadata into its final emitted position | -0.92% `typing`, -0.32% `slow` | kept |
+| 59 | move trivial novel match metadata into its final position | flat on both focused pairs | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -705,6 +706,8 @@ percentages above predate exp25-31.
   saves allocations on `typing` but slows `slow` substantially (exp56).
 - Do not clone unchanged `MatchKind` metadata for its final (usually only)
   emitted position; move the already-built value there (exp58).
+- Do not add final-element move control flow for `MatchKind::Novel`; unlike the
+  unchanged variant it owns no vectors, and its clone is already cheap (exp59).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -728,7 +731,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp59 (then exp60, etc.) to
+   and immediately append exp60 (then exp61, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full
