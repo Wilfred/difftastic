@@ -1488,6 +1488,19 @@ Output is byte-identical in side-by-side, inline, and JSON modes on all 107
 available sample pairs. `cargo test` passes (165 passed, one ignored), and the
 changed file passes `rustfmt --check`.
 
+### exp50: hash a folded vertex key with one FxHasher write — REJECTED
+
+Vertex lookup remained the leading post-exp49 graph hotspot. The packed key is
+two `u64` words, and its ordinary tuple hash feeds both words to FxHasher. A
+custom key retained both words for exact equality but hashed their XOR with the
+second word rotated by 32 bits, reducing hashing to one write/multiply.
+
+Ten-run means regressed: `slow` rose from 475,854,181 to 480,082,192
+instructions (**+0.89%**), and `typing` rose from 2,730,229,605 to 2,731,738,920
+(+0.055%). The focused key's correlated syntax IDs need the stronger two-word
+mixing; extra table collisions cost more than the saved multiply. The source
+was reverted.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |

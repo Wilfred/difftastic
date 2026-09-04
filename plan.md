@@ -366,6 +366,7 @@ than mixing counts across environments.
 | 47 | fuse initial link setup into identity/ancestry traversal | -0.56% `slow`, flat on `typing` | kept |
 | 48 | replace the radix heap with a 601-slot circular Dial queue | -6.05% `slow`, -0.36% `typing`; `typing` RSS -2.0% | kept |
 | 49 | cache persistent-stack length for equality rejection | -0.94% `slow`, flat on `typing` | kept |
+| 50 | fold the two-word vertex key into one FxHasher write | +0.89% `slow`, +0.06% `typing` | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -672,6 +673,8 @@ percentages above predate exp25-31.
   vector growth was flat on both focused pairs after exp41-42 (exp43).
 - Do not reuse a single slider-region scratch vector; the remaining small range
   allocations were flat on both focused pairs (exp44).
+- Do not fold the two-word vertex key into one rotated-XOR hash write; poorer
+  distribution regressed `slow` 0.89% (exp50).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -695,7 +698,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp50 (then exp51, etc.) to
+   and immediately append exp51 (then exp52, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full
