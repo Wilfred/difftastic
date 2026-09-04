@@ -1119,6 +1119,25 @@ A fresh exp31 control measured 1,861,551,104 instructions on `slow` and
 flat. These nested-slider searches are too rare to matter on the focused
 inputs, so the extra representation was reverted.
 
+### exp33: store edge depth differences as `u8` — REJECTED
+
+`Edge::UnchangedNode` and `EnterUnchangedDelimiter` stored a `u32` depth
+difference even though edge costs cap the value at 40. Following a historical
+branch, the fields were changed to saturating `u8` values and widened only
+inside `Edge::cost`.
+
+Five-run means regressed from the fresh exp31 control:
+
+| pair | `u32` depth | `u8` depth | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 1,861,551,104 | 1,889,546,037 | **+1.50%** |
+| `typing` | 3,065,110,465 | 3,070,731,701 | **+0.18%** |
+
+The `(Edge, &Vertex)` neighbour representation remains pointer-aligned, so the
+smaller enum does not shrink the hot neighbour entries. Saturating on edge
+construction and widening during cost calculation instead add work. The change
+was reverted.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |

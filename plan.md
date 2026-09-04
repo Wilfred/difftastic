@@ -311,6 +311,7 @@ than mixing counts across environments.
 | 30 | add the combined edge only for different delimiters | +6.84% `slow`, +0.54% `typing` | rejected |
 | 31 | dispatch parent pops from one stack-head lookup | -0.41% `slow`, flat on `typing` | kept |
 | 32 | replace nested-slider vectors with a bounded accumulator | flat on both focused pairs | rejected |
+| 33 | store edge depth differences as `u8` | +1.50% `slow`, +0.18% `typing` | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -333,22 +334,17 @@ the percentages above predate exp25-31.
    `compute_neighbours`/`allocate_if_new` that can be removed on an existing
    edge. Exp28 and exp31 show that exact parent-stack reductions pay; exp10
    shows that merely decomposing candidate construction does not.
-2. **Measure compact `Edge` metadata.** A historical search branch stores
-   depth differences as `u8`; current costs cap them at 40 but the enum carries
-   `u32`. First check `size_of::<Edge>()` and generated code. A smaller enum only
-   matters if it reduces copying or the `(Edge, &Vertex)` neighbour/route
-   representation; alignment may erase the apparent saving.
-3. **Target real tree-sitter work on `typing`.** Exp27 proved capture-bucket
+2. **Target real tree-sitter work on `typing`.** Exp27 proved capture-bucket
    lookup itself is negligible. Investigate query matching, syntax cursor
    traversal, or duplicated tree walking. Type highlights affect colour but,
    unlike comments and strings, appear not to affect content equality; a
    no-colour fast path is only valid after tracing `AtomKind::Type` through
    parsing, matching, and every output mode. Do not assume this from the name.
-4. **Consider phase-specific instrumentation.** The unmerged
+3. **Consider phase-specific instrumentation.** The unmerged
    `claude/codspeed-ci-setup-ahqufj` benchmark separates parse and diff. Adapt
    it locally if whole-process profiles cannot distinguish a `typing` change;
    do not broaden the benchmark inputs beyond the two focused pairs.
-5. **Algorithmic splitting only with explicit output review.** Historical
+4. **Algorithmic splitting only with explicit output review.** Historical
    pre-diff splitting and unique-atom branches can dramatically reduce graph
    work, but they change which optimal diff is selected. The current exact
    output oracle will reject them. Record such a proposal separately and seek
@@ -367,6 +363,8 @@ the percentages above predate exp25-31.
 - Do not optimize capture classification alone (exp27: -0.03%, noise).
 - Do not replace nested-slider scratch vectors with a bounded accumulator;
   those searches were flat on both focused pairs (exp32).
+- Do not compact edge depth fields to `u8`; pointer alignment preserves the
+  neighbour-entry size and conversions regressed both pairs (exp33).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 
