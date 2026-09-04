@@ -241,10 +241,10 @@ new incremental experiment, use the latest accepted branch tip as the control.
 
 Fresh five-run `perf stat` means at the start of the focused pass:
 
-| pair | post-exp22 instructions | latest accepted after exp39 | cumulative change |
+| pair | post-exp22 instructions | latest accepted after exp41 | cumulative change |
 | --- | ---: | ---: | ---: |
-| `typing` | 3,115,140,742 | 2,824,159,538 | **-9.34%** |
-| `slow` | 1,881,539,982 | 518,537,235 | **-72.44%** |
+| `typing` | 3,115,140,742 | 2,809,006,642 | **-9.83%** |
+| `slow` | 1,881,539,982 | 517,554,150 | **-72.49%** |
 
 The original focused callgrind files were `/tmp/cg-focused-typing.out` and
 `/tmp/cg-focused-slow.out`; sampled cycle profiles were
@@ -277,6 +277,14 @@ and `/tmp/difft-exp35-typing.data`:
   (5.2%), and slider fixing (4.5%) now lead. Graph routines are individually
   near 1%. Several independent syntax metadata walks each account for roughly
   1--1.7%, making traversal fusion a measured, exact-output opportunity.
+
+Exp39's lower pairing gate changed `slow` again. The accepted-tip sampled
+profiles are `/tmp/difft-exp40accepted-slow.data` and
+`/tmp/difft-exp40accepted-typing.data`. On `slow`, allocation (15.5%) and
+neighbour generation (15.2%) still lead graph work, but tree-sitter query
+analysis plus compilation is now about 18.6% and the radix heap is 4.4%. On
+`typing`, lexing remains largest (10.5%); `change_positions_` is 5.0%, slider
+fixing 4.3%, and `MatchedPos::new` 1.8%. These figures predate exp41.
 
 Useful diagnostics:
 
@@ -349,6 +357,7 @@ than mixing counts across environments.
 | 38 | count content IDs during content-ID assignment | -0.07% `typing`, flat on `slow` | rejected |
 | 39 | lower similar-list graph-size gate from 1,000,000 to 45,000 | -19.33% `slow`, -0.14% `typing` | kept |
 | 40 | lower large-list pairing requirement from two unique votes to one | flat on both focused pairs | rejected |
+| 41 | filter empty endpoint spans as a borrowed subslice | -0.54% `typing`, -0.19% `slow` | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -357,8 +366,8 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
-The focused exp23-39 pass reduced `typing` from 3.115B to 2.824B (**-9.34%**)
-and `slow` from 1.882B to 0.519B (**-72.44%**). Exp35's similar-list pairing and
+The focused exp23-41 pass reduced `typing` from 3.115B to 2.809B (**-9.83%**)
+and `slow` from 1.882B to 0.518B (**-72.49%**). Exp35's similar-list pairing and
 exp39's lower decomposition gate are responsible for most of that improvement.
 
 ## Research synthesis: where larger wins can come from
@@ -613,8 +622,11 @@ percentages above predate exp25-31.
    stack allocation, or matching in existing edges. Exp28 and exp31 show exact
    parent-stack reductions pay; exp10 shows merely decomposing candidate
    construction does not.
-8. **Target real tree-sitter work on `typing`.** Exp27 proved capture-bucket
-   lookup itself is negligible. Investigate query matching, syntax cursor
+8. **Target the remaining mixed-pipeline work on `typing`.** Exp27 proved
+   capture-bucket lookup itself is negligible, while exp41 removed one
+   allocation from `change_positions_`. Next test appending ordinary matched
+   positions directly to the destination vector instead of returning a fresh
+   vector per syntax node. Also investigate query matching, syntax cursor
    traversal, duplicated tree walking, and whether no-colour mode can safely
    skip highlight-only classifications after tracing `AtomKind::Type` through
    parsing, equality, and all output modes.
@@ -666,7 +678,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp41 (then exp42, etc.) to
+   and immediately append exp42 (then exp43, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

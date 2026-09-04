@@ -1307,6 +1307,27 @@ instructions (+0.006%), and `typing` from 2,824,043,612 to 2,824,052,878
 already has two votes, or is handled by the small-list rule. The source was
 reverted without running the wider oracle.
 
+### exp41: filter empty endpoint spans without allocating — KEPT
+
+After exp39, a fresh sampled-cycle profile put 5.0% of `typing` in
+`change_positions_` and another 1.8% in `MatchedPos::new`. Every syntax token
+called `filter_empty_ends`, which copied its span vector solely to omit a
+zero-width first and/or last element. Those removals are representable as a
+borrowed subslice, including the important case where an empty span in the
+middle must be retained.
+
+Ten-run `perf stat` means were:
+
+| pair | exp39 control | borrowed subslice | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 518,517,191 | 517,554,150 | **-0.186%** |
+| `typing` | 2,824,174,045 | 2,809,006,642 | **-0.537%** |
+
+Output is byte-identical in side-by-side, inline, and JSON modes on all 107
+available sample pairs. `cargo test` passes, the changed file passes
+`rustfmt --check`, and a new unit test covers trimming both ends, preserving a
+middle empty span, and the singleton-empty case.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1315,8 +1336,8 @@ reverted without running the wider oracle.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp39 | 3,115,140,742 | 2,824,159,538 | **-9.34%** |
-| focused `slow`, exp22 through exp39 | 1,881,539,982 | 518,537,235 | **-72.44%** |
+| focused `typing`, exp22 through exp41 | 3,115,140,742 | 2,809,006,642 | **-9.83%** |
+| focused `slow`, exp22 through exp41 | 1,881,539,982 | 517,554,150 | **-72.49%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1325,7 +1346,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-39 pass first found small, composable wins in slider range
+The focused exp23-41 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,

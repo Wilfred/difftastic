@@ -815,18 +815,21 @@ fn has_common_words(word_diffs: &Vec<lcs_diff::DiffResult<&&str>>) -> bool {
 }
 
 /// Skip line spans at the beginning or end that have zero width.
-fn filter_empty_ends(line_spans: &[SingleLineSpan]) -> Vec<SingleLineSpan> {
-    let mut spans: Vec<SingleLineSpan> = vec![];
-
-    for (i, span) in line_spans.iter().enumerate() {
-        if (i == 0 || i == line_spans.len() - 1) && span.start_col == span.end_col {
-            continue;
-        }
-
-        spans.push(*span);
+fn filter_empty_ends(mut line_spans: &[SingleLineSpan]) -> &[SingleLineSpan] {
+    if line_spans
+        .first()
+        .is_some_and(|span| span.start_col == span.end_col)
+    {
+        line_spans = &line_spans[1..];
+    }
+    if line_spans
+        .last()
+        .is_some_and(|span| span.start_col == span.end_col)
+    {
+        line_spans = &line_spans[..line_spans.len() - 1];
     }
 
-    spans
+    line_spans
 }
 
 impl MatchedPos {
@@ -867,7 +870,7 @@ impl MatchedPos {
                     AtomKind::Comment
                 };
 
-                split_atom_words(this_content, &pos, opposite_content, opposite_pos, kind)
+                split_atom_words(this_content, pos, opposite_content, opposite_pos, kind)
             }
             Unchanged(opposite) => {
                 let opposite_pos = match opposite {
@@ -894,7 +897,7 @@ impl MatchedPos {
 
                 // Create a MatchedPos for every line that `pos` covers.
                 let mut mps = vec![];
-                for line_pos in &pos {
+                for line_pos in pos {
                     mps.push(Self {
                         kind: kind.clone(),
                         pos: *line_pos,
@@ -914,7 +917,7 @@ impl MatchedPos {
                 let kind = MatchKind::Novel { highlight };
                 // Create a MatchedPos for every line that `pos` covers.
                 let mut mps = vec![];
-                for line_pos in &pos {
+                for line_pos in pos {
                     // Don't create a MatchedPos for entirely empty positions. This
                     // occurs when we have lists with empty open/close
                     // delimiter positions, such as the top-level list of syntax items.
@@ -1076,6 +1079,35 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
+
+    #[test]
+    fn test_filter_empty_ends() {
+        let spans = [
+            SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 0,
+            },
+            SingleLineSpan {
+                line: 1.into(),
+                start_col: 0,
+                end_col: 1,
+            },
+            SingleLineSpan {
+                line: 2.into(),
+                start_col: 1,
+                end_col: 1,
+            },
+            SingleLineSpan {
+                line: 3.into(),
+                start_col: 2,
+                end_col: 2,
+            },
+        ];
+
+        assert_eq!(filter_empty_ends(&spans), &spans[1..3]);
+        assert!(filter_empty_ends(&spans[..1]).is_empty());
+    }
 
     /// Consider comment atoms as distinct to other atoms even if the
     /// content matches otherwise.
