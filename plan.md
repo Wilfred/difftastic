@@ -182,6 +182,7 @@ than mixing counts across environments.
 | 20 | reserve line-map capacity from `MatchedPos` count | -2.08% on the 22 MB C++ pair | kept |
 | 21 | collect, sort, and deduplicate line numbers directly | -2.81% on the 22 MB C++ pair | kept |
 | 22 | store opposite-line mappings densely with inline values | -9.15% instructions, -29% RSS on the 22 MB C++ pair | kept |
+| 23 | regenerate graph neighbours instead of caching them | +3.81% `slow`, +0.42% `typing` | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -209,8 +210,10 @@ Ordered by how much is left on the table. The suite is now dominated by
    `long_line` after exp4.
 3. **Graph search after exp9.** `mark_syntax`, `allocate_if_new`, and
    `compute_neighbours` remain the leading costs on `slow`; exp10 showed that
-   merely decomposing candidate construction makes the hot path worse, so the
-   next attempt needs to remove larger-grained work or improve the algorithm.
+   merely decomposing candidate construction makes the hot path worse, while
+   exp23 showed that shrinking vertices by regenerating neighbours costs 3.81%.
+   The next attempt needs to preserve lazy neighbour caching while removing
+   larger-grained work or improving the algorithm.
 4. **Large fallback diffing and allocation behaviour.** After exp22 removed the
    hash-map hotspot, the 22 MB `huge_cpp` profile is led by line splitting,
    Imara histogram construction, allocator traffic, and the remaining changed

@@ -917,6 +917,47 @@ unavailable because of the unchanged baseline abort from exp9. `cargo test`
 passes (160 passed, one ignored), including a focused test for deduplication
 and absent line keys.
 
+## Focused pass: `typing.ml` and `slow.rs`
+
+At the user's request, the second investigation is restricted to
+`typing_1.ml`/`typing_2.ml` and `slow_1.rs`/`slow_2.rs`. A fresh release build
+at the post-exp22 commit established these five-run `perf stat` means:
+
+| pair | instructions |
+| --- | ---: |
+| `typing` | 3,115,140,742 |
+| `slow` | 1,881,539,982 |
+
+The profiles are materially different. In callgrind, `slow` is dominated by
+the syntax graph: `mark_syntax` self cost is 29.2%, `allocate_if_new` 24.7%,
+`compute_neighbours` 18.2%, and `pop_all_parents` 8.1%. Its largest diff section
+visits 1,011,157 graph vertices. `typing` has a broader mix: tree-sitter lexing,
+querying, cursor traversal, graph search, syntax-position construction, and
+slider correction. This makes `slow` the clean probe for graph changes, while
+`typing` is the guard against shifting work into parsing or post-processing.
+
+### exp23: regenerate neighbours instead of caching them — REJECTED
+
+Each graph vertex stored a 16-byte lazy neighbour slice. Removing that field,
+returning the inline `SmallVec` from `compute_neighbours`, and recording the
+chosen edge with each predecessor shrank `Vertex` from 64 to 56 bytes and also
+removed the arena copy of every neighbour list. The tradeoff was recomputing
+neighbours when a vertex had more than one heap entry.
+
+Five-run `perf stat` means rejected the tradeoff:
+
+| pair | cached neighbours | regenerated neighbours | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 1,881,539,982 | 1,953,247,780 | **+3.81%** |
+| `typing` | 3,115,140,742 | 3,128,177,709 | **+0.42%** |
+
+The million-vertex `slow` section still consumed a 256 MiB bump-arena chunk,
+so the smaller vertex did not reduce its reported allocation class. More
+importantly, the repeated graph construction outweighed both the smaller hot
+object and the eliminated neighbour-slice allocations. The code was reverted;
+future graph-layout experiments should preserve the lazy cache or avoid stale
+heap expansions by construction.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
