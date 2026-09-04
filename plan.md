@@ -241,10 +241,10 @@ new incremental experiment, use the latest accepted branch tip as the control.
 
 Fresh five-run `perf stat` means at the start of the focused pass:
 
-| pair | post-exp22 instructions | latest accepted after exp49 | cumulative change |
+| pair | post-exp22 instructions | latest accepted after exp51 | cumulative change |
 | --- | ---: | ---: | ---: |
-| `typing` | 3,115,140,742 | 2,730,236,601 | **-12.36%** |
-| `slow` | 1,881,539,982 | 475,866,676 | **-74.71%** |
+| `typing` | 3,115,140,742 | 2,728,589,988 | **-12.41%** |
+| `slow` | 1,881,539,982 | 474,433,194 | **-74.78%** |
 
 The original focused callgrind files were `/tmp/cg-focused-typing.out` and
 `/tmp/cg-focused-slow.out`; sampled cycle profiles were
@@ -367,6 +367,7 @@ than mixing counts across environments.
 | 48 | replace the radix heap with a 601-slot circular Dial queue | -6.05% `slow`, -0.36% `typing`; `typing` RSS -2.0% | kept |
 | 49 | cache persistent-stack length for equality rejection | -0.94% `slow`, flat on `typing` | kept |
 | 50 | fold the two-word vertex key into one FxHasher write | +0.89% `slow`, +0.06% `typing` | rejected |
+| 51 | reserve seen-map capacity for both parent-stack variants | -0.30% instructions, -6.2% RSS on `slow` | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -375,8 +376,8 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
-The focused exp23-49 pass reduced `typing` from 3.115B to 2.730B (**-12.36%**)
-and `slow` from 1.882B to 0.476B (**-74.71%**). Exp35's similar-list pairing and
+The focused exp23-51 pass reduced `typing` from 3.115B to 2.729B (**-12.41%**)
+and `slow` from 1.882B to 0.474B (**-74.78%**). Exp35's similar-list pairing and
 exp39's lower decomposition gate are responsible for most of that improvement.
 
 ## Research synthesis: where larger wins can come from
@@ -634,7 +635,9 @@ percentages above predate exp25-31.
    table is keyed by structural content and cannot use this technique; audit
    other hot maps only when they have the same dense invariant. Exp49's cached
    stack length made equality cheaper without enlarging `Vertex`; re-profile
-   before adding fingerprints or more stack metadata.
+   before adding fingerprints or more stack metadata. Exp51 showed that seen
+   capacity must account for both allowed parent-stack variants; do not reduce
+   that reserve without measuring both rehash cost and peak memory.
 8. **Target the remaining mixed-pipeline work on `typing`.** Exp27 proved
    capture-bucket lookup itself is negligible, while exp41 removed one
    allocation from `change_positions_`, and exp42 removed the per-node result
@@ -698,7 +701,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp51 (then exp52, etc.) to
+   and immediately append exp52 (then exp53, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

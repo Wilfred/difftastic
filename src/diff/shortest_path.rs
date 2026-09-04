@@ -285,7 +285,14 @@ pub(crate) fn mark_syntax<'a>(
     // an absurdly large (i.e. greater than physical memory) hashmap
     // when there is a large number of nodes. We'll never visit more
     // than graph_limit nodes.
-    let size_hint = std::cmp::min(lhs_node_count * rhs_node_count, graph_limit);
+    // A syntax-position pair can have up to two parent-stack variants in the
+    // seen table, so leave room for both before the search starts.
+    let size_hint = std::cmp::min(
+        lhs_node_count
+            .saturating_mul(rhs_node_count)
+            .saturating_mul(2),
+        graph_limit,
+    );
 
     let start = Vertex::new(lhs_syntax, rhs_syntax);
     let vertex_arena = Bump::new();
