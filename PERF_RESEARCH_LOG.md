@@ -1349,6 +1349,18 @@ Output is byte-identical in side-by-side, inline, and JSON modes on all 107
 available sample pairs. `cargo test` passes (164 passed, one ignored), and the
 changed file passes `rustfmt --check`.
 
+### exp43: reserve matched-position capacity from syntax size — REJECTED
+
+The result vector after exp42 still grows geometrically. The existing
+`num_descendants` field gives an O(number-of-roots) lower bound of one output
+position per syntax node, so the candidate reserved that capacity before the
+walk without adding a counting traversal.
+
+Ten-run means were flat: `slow` moved from 516,228,011 to 516,397,899
+instructions (+0.033%), while `typing` moved from 2,787,899,956 to
+2,787,345,767 (-0.020%). Geometric growth is not a relevant cost after the
+per-node allocations removed in exp41-42, and the source was reverted.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |

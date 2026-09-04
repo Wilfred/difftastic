@@ -359,6 +359,7 @@ than mixing counts across environments.
 | 40 | lower large-list pairing requirement from two unique votes to one | flat on both focused pairs | rejected |
 | 41 | filter empty endpoint spans as a borrowed subslice | -0.54% `typing`, -0.19% `slow` | kept |
 | 42 | append ordinary matched positions directly to the result | -0.75% `typing`, -0.25% `slow` | kept |
+| 43 | reserve matched-position capacity from syntax-node count | flat on both focused pairs | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -626,8 +627,9 @@ percentages above predate exp25-31.
 8. **Target the remaining mixed-pipeline work on `typing`.** Exp27 proved
    capture-bucket lookup itself is negligible, while exp41 removed one
    allocation from `change_positions_`, and exp42 removed the per-node result
-   vector. Next inspect capacity growth and the remaining replacement-word
-   vector before leaving this path. Also investigate query matching, syntax
+   vector; exp43 showed destination capacity growth is negligible. Inspect the
+   remaining replacement-word vector only if a replacement-heavy profile
+   motivates it. Also investigate query matching, syntax
    cursor traversal, duplicated tree walking, and whether no-colour mode can
    safely skip highlight-only classifications after tracing `AtomKind::Type`
    through parsing, equality, and all output modes.
@@ -656,6 +658,8 @@ percentages above predate exp25-31.
   only the traversal overhead was flat on both focused pairs (exp38).
 - Do not lower the large-list similar-pair vote requirement from two to one;
   it did not change either focused workload (exp40).
+- Do not reserve `change_positions` output capacity from syntax-node count;
+  vector growth was flat on both focused pairs after exp41-42 (exp43).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -679,7 +683,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp43 (then exp44, etc.) to
+   and immediately append exp44 (then exp45, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full
