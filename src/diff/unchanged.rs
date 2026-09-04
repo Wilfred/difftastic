@@ -13,7 +13,7 @@ const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
 /// Only attempt to decompose a possibly-changed section further when the graph
 /// size would otherwise be at least this big.
-const OVERSIZED_SECTION_MIN_GRAPH_SIZE: u64 = 1_000_000;
+const OVERSIZED_SECTION_MIN_GRAPH_SIZE: u64 = 45_000;
 /// A list smaller than this only needs to share one unique subtree with another
 /// list to be paired with it.
 const SIMILAR_LIST_MIN_DESCENDANTS: u32 = 20;

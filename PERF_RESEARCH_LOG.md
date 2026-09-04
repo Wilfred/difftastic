@@ -1263,6 +1263,37 @@ Both changes are within the roughly 0.1% cross-binary layout noise. The pass
 mostly performs required hash-table counting work, so eliminating only its
 tree-walk control flow has little leverage. The source was fully reverted.
 
+### exp39: lower the similar-list decomposition gate — KEPT at 45,000
+
+Exp35 only attempted similar-list pairing when the product of the two section
+sizes reached one million. A temporary trace showed that `slow` entered through
+one 1.69M top-level section, while `typing` recursively paired sections from
+1.06M to 5.10M but left plausible 0.40M and 0.48M sections untouched. A
+compile-time sensitivity sweep lowered this single gate:
+
+| graph-size gate | `slow` change | `typing` change | 107-pair output oracle |
+| ---: | ---: | ---: | --- |
+| 250,000 | flat | -0.103% | identical |
+| 100,000 | flat | -0.145% | identical |
+| 50,000 | -17.62% | -0.143% | identical |
+| 45,000 | **-19.33%** | **-0.144%** | identical |
+| 40,000 | -19.33% | -0.144% | `slider_1.rs` changed |
+| 25,000 | -31.40% | -0.140% | `load_1.js` and `slider_1.rs` changed |
+
+The cliff is discrete: lowering the threshold enables another recursive split,
+not merely a little more preprocessing. The lowest tested exact-output setting,
+45,000, was retained. Its final ten-run means against a copied exp37 control
+were 642,765,789 to 518,537,235 instructions on `slow` and 2,828,226,154 to
+2,824,159,538 on `typing`.
+
+On `slow`, the number of searches rises from 8 to 17, but their total visited
+vertices fall from 224,960 to 144,260 (**-35.87%**) and the largest search falls
+from 63,774 to 42,265 vertices (**-33.73%**). This confirms that many smaller
+searches are substantially cheaper than a few medium dense ones. Output is
+byte-identical in side-by-side, inline, and JSON modes on all 107 available
+sample pairs. `cargo test` passes (163 passed, one ignored), and the changed
+file passes `rustfmt --check`.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1271,8 +1302,8 @@ tree-walk control flow has little leverage. The source was fully reverted.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp37 | 3,115,140,742 | 2,828,276,712 | **-9.21%** |
-| focused `slow`, exp22 through exp37 | 1,881,539,982 | 642,755,405 | **-65.84%** |
+| focused `typing`, exp22 through exp39 | 3,115,140,742 | 2,824,159,538 | **-9.34%** |
+| focused `slow`, exp22 through exp39 | 1,881,539,982 | 518,537,235 | **-72.44%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1281,7 +1312,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-37 pass first found small, composable wins in slider range
+The focused exp23-39 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,

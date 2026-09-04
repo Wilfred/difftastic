@@ -241,10 +241,10 @@ new incremental experiment, use the latest accepted branch tip as the control.
 
 Fresh five-run `perf stat` means at the start of the focused pass:
 
-| pair | post-exp22 instructions | latest accepted after exp37 | cumulative change |
+| pair | post-exp22 instructions | latest accepted after exp39 | cumulative change |
 | --- | ---: | ---: | ---: |
-| `typing` | 3,115,140,742 | 2,828,276,712 | **-9.21%** |
-| `slow` | 1,881,539,982 | 642,755,405 | **-65.84%** |
+| `typing` | 3,115,140,742 | 2,824,159,538 | **-9.34%** |
+| `slow` | 1,881,539,982 | 518,537,235 | **-72.44%** |
 
 The original focused callgrind files were `/tmp/cg-focused-typing.out` and
 `/tmp/cg-focused-slow.out`; sampled cycle profiles were
@@ -347,6 +347,7 @@ than mixing counts across environments.
 | 36 | initialise sibling and predecessor links in one syntax traversal | -0.16% `typing`, flat on `slow` | kept |
 | 37 | initialise parent, ancestor depth, and preorder ID in one traversal | -0.16% `typing`, -0.10% `slow` | kept |
 | 38 | count content IDs during content-ID assignment | -0.07% `typing`, flat on `slow` | rejected |
+| 39 | lower similar-list graph-size gate from 1,000,000 to 45,000 | -19.33% `slow`, -0.14% `typing` | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -355,9 +356,9 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
-The focused exp23-37 pass reduced `typing` from 3.115B to 2.828B (**-9.21%**)
-and `slow` from 1.882B to 0.643B (**-65.84%**). Exp35's similar-list pairing is
-responsible for most of that improvement.
+The focused exp23-39 pass reduced `typing` from 3.115B to 2.824B (**-9.34%**)
+and `slow` from 1.882B to 0.519B (**-72.44%**). Exp35's similar-list pairing and
+exp39's lower decomposition gate are responsible for most of that improvement.
 
 ## Research synthesis: where larger wins can come from
 
@@ -575,9 +576,10 @@ percentages above predate exp25-31.
 
 1. **Characterise and tighten similar-list pairing.** Exp35 kept the pairing +
    descent combination after byte-identical output on all 107 available sample
-   pairs. Measure the one-million product gate and vote thresholds one at a
-   time, including values that disable pairing on `typing` or split `slow` more
-   finely. Do not weaken ambiguity or non-crossing guards merely for speed.
+   pairs. Exp39 swept the graph-size gate and retained 45,000: 40,000 changed
+   `slider_1.rs`, while 25,000 also changed `load_1.js`. Measure the minimum
+   common-unique vote threshold next, one value at a time. Do not weaken
+   ambiguity or non-crossing guards merely for speed.
 2. **Add low-overhead search-shape instrumentation.** Counters should be
    compile-time- or log-gated and excluded from timed release measurements.
    Attribute which edge types create and settle the million-state `slow`
@@ -658,7 +660,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp39 (then exp40, etc.) to
+   and immediately append exp40 (then exp41, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full
