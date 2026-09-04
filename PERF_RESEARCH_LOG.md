@@ -1396,6 +1396,28 @@ side-by-side, inline, and JSON modes on all 107 available sample pairs.
 `cargo test` passes (164 passed, one ignored), and the changed file passes
 `rustfmt --check`.
 
+### exp46: count dense content IDs in a vector — KEPT
+
+The two uniqueness passes counted `ContentId`s in hash maps. Like syntax IDs,
+content IDs are dense positive integers; after both trees receive IDs, the
+number of possible IDs is already known from the content-key table. The counts
+now use direct vector indexing, and the allocation is cleared and reused for
+the RHS. This removes hashing from both the counting and uniqueness-setting
+walks; exp38 had shown that eliminating a walk while retaining those hashes was
+flat.
+
+Ten-run `perf stat` means were:
+
+| pair | hashed counts | dense counts | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 514,819,594 | 514,223,778 | **-0.116%** |
+| `typing` | 2,754,599,330 | 2,743,556,655 | **-0.401%** |
+
+Peak RSS was flat in single-run checks. Output is byte-identical in
+side-by-side, inline, and JSON modes on all 107 available sample pairs.
+`cargo test` passes (164 passed, one ignored), and the changed file passes
+`rustfmt --check`.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1404,8 +1426,8 @@ side-by-side, inline, and JSON modes on all 107 available sample pairs.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp45 | 3,115,140,742 | 2,754,519,861 | **-11.58%** |
-| focused `slow`, exp22 through exp45 | 1,881,539,982 | 514,830,042 | **-72.64%** |
+| focused `typing`, exp22 through exp46 | 3,115,140,742 | 2,743,556,655 | **-11.93%** |
+| focused `slow`, exp22 through exp46 | 1,881,539,982 | 514,223,778 | **-72.67%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1414,7 +1436,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-45 pass first found small, composable wins in slider range
+The focused exp23-46 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,

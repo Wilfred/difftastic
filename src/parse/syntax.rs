@@ -440,8 +440,12 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     set_content_id(lhs_roots, &mut existing);
     set_content_id(rhs_roots, &mut existing);
 
-    set_content_is_unique(lhs_roots);
-    set_content_is_unique(rhs_roots);
+    // Content IDs are dense and start at one. Keep slot zero unused so an ID
+    // can index this vector directly.
+    let mut content_counts = vec![0; existing.len() + 1];
+    set_content_is_unique(lhs_roots, &mut content_counts);
+    content_counts.fill(0);
+    set_content_is_unique(rhs_roots, &mut content_counts);
 }
 
 type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
@@ -532,21 +536,20 @@ fn set_identity_and_ancestry<'a>(
 }
 
 /// Assumes that `set_content_id` has already run.
-fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut DftHashMap<ContentId, usize>) {
+fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut [usize]) {
     for node in nodes {
-        *counts.entry(node.content_id()).or_insert(0) += 1;
+        counts[node.content_id() as usize] += 1;
         if let List { children, .. } = node {
             find_nodes_with_unique_content(children, counts);
         }
     }
 }
 
-fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &DftHashMap<ContentId, usize>) {
+fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &[usize]) {
     for node in nodes {
-        let count = counts
-            .get(&node.content_id())
-            .expect("Count should be present");
-        node.info().content_is_unique_to_side.set(*count == 1);
+        node.info()
+            .content_is_unique_to_side
+            .set(counts[node.content_id() as usize] == 1);
 
         if let List { children, .. } = node {
             set_content_is_unique_from_counts(children, counts);
@@ -554,10 +557,9 @@ fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &DftHashMap<Cont
     }
 }
 
-fn set_content_is_unique(nodes: &[&Syntax]) {
-    let mut counts = DftHashMap::default();
-    find_nodes_with_unique_content(nodes, &mut counts);
-    set_content_is_unique_from_counts(nodes, &counts);
+fn set_content_is_unique(nodes: &[&Syntax], counts: &mut [usize]) {
+    find_nodes_with_unique_content(nodes, counts);
+    set_content_is_unique_from_counts(nodes, counts);
 }
 
 /// Initialise the sibling links and the preceding node used by graph search in
