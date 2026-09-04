@@ -190,6 +190,7 @@ than mixing counts across environments.
 | 28 | return early when neither graph side can pop | -0.49% `slow`, flat on `typing` | kept |
 | 29 | enter novel delimiters on both sides in one edge | +7.32% `slow`, +0.74% `typing` | rejected |
 | 30 | add the combined edge only for different delimiters | +6.84% `slow`, +0.54% `typing` | rejected |
+| 31 | dispatch parent pops from one stack-head lookup | -0.41% `slow`, flat on `typing` | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only

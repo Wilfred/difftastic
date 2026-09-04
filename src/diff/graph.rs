@@ -171,71 +171,6 @@ fn can_pop_either_parent(entered: &Stack<EnteredDelimiter>) -> bool {
     matches!(entered.peek(), Some(EnteredDelimiter::PopEither(_)))
 }
 
-fn try_pop_both<'s, 'v>(
-    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
-) -> Option<(
-    &'s Syntax<'s>,
-    &'s Syntax<'s>,
-    Stack<'v, EnteredDelimiter<'s, 'v>>,
-)> {
-    match entered.peek() {
-        Some(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim))) => {
-            Some((lhs_delim, rhs_delim, entered.pop().unwrap()))
-        }
-        _ => None,
-    }
-}
-
-fn try_pop_lhs<'s, 'v>(
-    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
-    alloc: &'v Bump,
-) -> Option<(&'s Syntax<'s>, Stack<'v, EnteredDelimiter<'s, 'v>>)> {
-    match entered.peek() {
-        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match lhs_delims.peek() {
-            Some(lhs_delim) => {
-                let mut entered = entered.pop().unwrap();
-                let new_lhs_delims = lhs_delims.pop().unwrap();
-
-                if !new_lhs_delims.is_empty() || !rhs_delims.is_empty() {
-                    entered = entered.push(
-                        EnteredDelimiter::PopEither((new_lhs_delims, rhs_delims.clone())),
-                        alloc,
-                    );
-                }
-
-                Some((lhs_delim, entered))
-            }
-            None => None,
-        },
-        _ => None,
-    }
-}
-
-fn try_pop_rhs<'s, 'v>(
-    entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
-    alloc: &'v Bump,
-) -> Option<(&'s Syntax<'s>, Stack<'v, EnteredDelimiter<'s, 'v>>)> {
-    match entered.peek() {
-        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match rhs_delims.peek() {
-            Some(rhs_delim) => {
-                let mut entered = entered.pop().unwrap();
-                let new_rhs_delims = rhs_delims.pop().unwrap();
-
-                if !lhs_delims.is_empty() || !new_rhs_delims.is_empty() {
-                    entered = entered.push(
-                        EnteredDelimiter::PopEither((lhs_delims.clone(), new_rhs_delims)),
-                        alloc,
-                    );
-                }
-
-                Some((rhs_delim, entered))
-            }
-            None => None,
-        },
-        _ => None,
-    }
-}
-
 fn push_lhs_delimiter<'s, 'v>(
     entered: &Stack<'v, EnteredDelimiter<'s, 'v>>,
     delimiter: &'s Syntax<'s>,
@@ -465,43 +400,59 @@ fn pop_all_parents<'s, 'v>(
     let mut parents = parents.clone();
 
     loop {
-        if lhs_node.is_none() {
-            if let Some((lhs_parent, parents_next)) = try_pop_lhs(&parents, alloc) {
-                // Move to next after LHS parent.
-
-                // Continue from sibling of parent.
-                lhs_node = lhs_parent.next_sibling();
-                lhs_parent_id = lhs_parent.parent().map(Syntax::id);
-                parents = parents_next;
-                continue;
-            }
-        }
-
-        if rhs_node.is_none() {
-            if let Some((rhs_parent, parents_next)) = try_pop_rhs(&parents, alloc) {
-                // Move to next after RHS parent.
-
-                // Continue from sibling of parent.
-                rhs_node = rhs_parent.next_sibling();
-                rhs_parent_id = rhs_parent.parent().map(Syntax::id);
-                parents = parents_next;
-                continue;
-            }
-        }
-
-        if lhs_node.is_none() && rhs_node.is_none() {
-            // We have exhausted all the nodes on both lists, so we can
-            // move up to the parent node.
-
-            // Continue from sibling of parent.
-            if let Some((lhs_parent, rhs_parent, parents_next)) = try_pop_both(&parents) {
+        match parents.peek() {
+            Some(EnteredDelimiter::PopBoth((lhs_parent, rhs_parent)))
+                if lhs_node.is_none() && rhs_node.is_none() =>
+            {
+                let lhs_parent = *lhs_parent;
+                let rhs_parent = *rhs_parent;
                 lhs_node = lhs_parent.next_sibling();
                 rhs_node = rhs_parent.next_sibling();
                 lhs_parent_id = lhs_parent.parent().map(Syntax::id);
                 rhs_parent_id = rhs_parent.parent().map(Syntax::id);
-                parents = parents_next;
+                parents = parents.pop().unwrap();
                 continue;
             }
+            Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
+                if lhs_node.is_none() {
+                    if let Some(lhs_parent) = lhs_delims.peek().copied() {
+                        let new_lhs_delims = lhs_delims.pop().unwrap();
+                        let rhs_delims = rhs_delims.clone();
+                        let mut parents_next = parents.pop().unwrap();
+                        if !new_lhs_delims.is_empty() || !rhs_delims.is_empty() {
+                            parents_next = parents_next.push(
+                                EnteredDelimiter::PopEither((new_lhs_delims, rhs_delims)),
+                                alloc,
+                            );
+                        }
+
+                        lhs_node = lhs_parent.next_sibling();
+                        lhs_parent_id = lhs_parent.parent().map(Syntax::id);
+                        parents = parents_next;
+                        continue;
+                    }
+                }
+
+                if rhs_node.is_none() {
+                    if let Some(rhs_parent) = rhs_delims.peek().copied() {
+                        let lhs_delims = lhs_delims.clone();
+                        let new_rhs_delims = rhs_delims.pop().unwrap();
+                        let mut parents_next = parents.pop().unwrap();
+                        if !lhs_delims.is_empty() || !new_rhs_delims.is_empty() {
+                            parents_next = parents_next.push(
+                                EnteredDelimiter::PopEither((lhs_delims, new_rhs_delims)),
+                                alloc,
+                            );
+                        }
+
+                        rhs_node = rhs_parent.next_sibling();
+                        rhs_parent_id = rhs_parent.parent().map(Syntax::id);
+                        parents = parents_next;
+                        continue;
+                    }
+                }
+            }
+            _ => {}
         }
 
         break;

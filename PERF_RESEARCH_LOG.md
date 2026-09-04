@@ -1086,6 +1086,26 @@ Both variants were reverted. On the current implementation, reducing the
 number of popped vertices is not sufficient if it requires constructing an
 extra candidate across a large part of the graph.
 
+### exp31: dispatch parent pops from one stack-head lookup — KEPT
+
+After exp28's common-case return, the general parent-pop loop still called up
+to three helpers in sequence. Each helper independently loaded and matched the
+same persistent-stack head to determine whether the LHS, RHS, or both sides
+could pop. The loop now matches that head once and performs the applicable
+state transition directly, retaining the original LHS-first ordering for
+`PopEither` states.
+
+Relative to exp28, five-run `perf stat` means were:
+
+| pair | before | after | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 1,869,143,154 | 1,861,541,470 | **-0.41%** |
+| `typing` | 3,066,150,157 | 3,065,196,701 | -0.03% |
+
+`typing` is flat within layout noise. Output is byte-identical in all three
+modes on all 107 available sample pairs, and `cargo test` passes (160 passed,
+one ignored).
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
