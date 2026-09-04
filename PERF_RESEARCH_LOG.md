@@ -1161,6 +1161,45 @@ side, so forced singleton descent cannot reach it without the pairing phase.
 The component was reverted. Do not retry it alone; its only plausible role is
 as the recursion enabler for similar-list pairing.
 
+### exp35: pair similar lists before searching oversized sections — KEPT
+
+The dominant `slow` section contains five changed Rust items per side. Rather
+than sending their 1,227 by 1,369 syntax nodes into one graph, this experiment
+uses the historical GumTree-like decomposition from `178d05f`: content that is
+unique on its own side votes for corresponding sibling lists, competing claims
+are resolved by vote count, and a longest increasing subsequence removes
+crossing pairs. The forced descent from exp34 then opens each paired
+same-delimiter list and lets the existing exact-subtree splitter work inside
+it. The heuristic runs only when the section-size product is at least one
+million.
+
+Final five-run `perf stat` means against the fresh exp31 control were:
+
+| pair | control | similar-list pairing | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 1,861,546,836 | 643,763,021 | **-65.42%** |
+| `typing` | 3,065,167,932 | 2,837,444,022 | **-7.43%** |
+
+The graph log explains the large result. The old 1,011,157-vertex `slow`
+search became five searches with 8,916, 39,156, 38,291, 41,364, and 63,774
+vertices: 191,501 in total, **81.06% fewer**. The largest reported bump arena
+fell from 256 MiB to 16 MiB. A single `/usr/bin/time -v` check also reduced
+peak RSS from 347,176 KiB to 48,108 KiB (-86.1%) and wall time from 0.92 s to
+0.14 s; instructions remain the acceptance metric.
+
+Unlike the tiny-unique-anchor changes elsewhere on the historical branch,
+this isolated pairing + descent variant was byte-identical to the exp31 control
+in side-by-side, inline, and JSON modes on all 107 available non-Haskell,
+non-`huge_cpp` sample pairs. The focused pairs were included in all modes.
+Three new unit tests cover direct pairing, an inserted sibling, and removal of
+crossing pairs. `cargo test` passes (163 passed, one ignored), and the changed
+file passes `rustfmt --check` (the full repository still has pre-existing
+formatting drift in unrelated accepted files).
+
+This result is kept. It validates the broader strategy: reducing the dimensions
+of the graph before Dijkstra has much more leverage than further work on each
+million-state transition.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1169,8 +1208,8 @@ as the recursion enabler for similar-list pairing.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp31 | 3,115,140,742 | 3,065,196,701 | **-1.60%** |
-| focused `slow`, exp22 through exp31 | 1,881,539,982 | 1,861,541,470 | **-1.06%** |
+| focused `typing`, exp22 through exp35 | 3,115,140,742 | 2,837,444,022 | **-8.91%** |
+| focused `slow`, exp22 through exp35 | 1,881,539,982 | 643,763,021 | **-65.79%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1179,12 +1218,13 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-31 pass found small, composable wins in slider range
-collection and parent-stack dispatch. It also ruled out three tempting graph
-directions on the exact target inputs: regenerating cached neighbours, moving
-packed keys out of hash buckets, and adding a combined novel-delimiter edge.
-The latter reduced the vertex count but still increased executed instructions,
-so vertex count alone is not a sufficient proxy for this graph.
+The focused exp23-35 pass first found small, composable wins in slider range
+collection and parent-stack dispatch, then a much larger win by decomposing
+oversized graphs at similar sibling lists. It also ruled out three tempting
+graph directions on the exact target inputs: regenerating cached neighbours,
+moving packed keys out of hash buckets, and adding a combined novel-delimiter
+edge. The latter reduced the vertex count but still increased executed
+instructions, so vertex count alone is not a sufficient proxy for this graph.
 
 Rejected experiments continue to constrain the search: generic-looking
 simplifications are not necessarily cheaper (`split_inclusive`, exp18), and

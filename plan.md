@@ -243,8 +243,8 @@ Fresh five-run `perf stat` means at the start of the focused pass:
 
 | pair | post-exp22 instructions | latest accepted after exp31 | cumulative change |
 | --- | ---: | ---: | ---: |
-| `typing` | 3,115,140,742 | 3,065,196,701 | **-1.60%** |
-| `slow` | 1,881,539,982 | 1,861,541,470 | **-1.06%** |
+| `typing` | 3,115,140,742 | 2,837,444,022 | **-8.91%** |
+| `slow` | 1,881,539,982 | 643,763,021 | **-65.79%** |
 
 The original focused callgrind files were `/tmp/cg-focused-typing.out` and
 `/tmp/cg-focused-slow.out`; sampled cycle profiles were
@@ -329,6 +329,7 @@ than mixing counts across environments.
 | 32 | replace nested-slider vectors with a bounded accumulator | flat on both focused pairs | rejected |
 | 33 | store edge depth differences as `u8` | +1.50% `slow`, +0.18% `typing` | rejected |
 | 34 | force descent into oversized same-delimiter singleton lists | +1.28% `slow`, +0.06% `typing`; no graph reduction | rejected |
+| 35 | pair similar lists before oversized-section search, then force descent | -65.42% `slow`, -7.43% `typing`; -86.1% `slow` RSS | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -337,8 +338,9 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
-The focused exp23-31 pass then reduced `typing` from 3.115B to 3.065B
-(**-1.60%**) and `slow` from 1.882B to 1.862B (**-1.06%**).
+The focused exp23-35 pass reduced `typing` from 3.115B to 2.837B (**-8.91%**)
+and `slow` from 1.882B to 0.644B (**-65.79%**). Exp35's similar-list pairing is
+responsible for most of that improvement.
 
 ## Research synthesis: where larger wins can come from
 
@@ -554,13 +556,11 @@ Stay focused on `typing` and `slow` for measurement, but pursue the following
 in order of expected impact. Re-profile after any large accepted change; the
 percentages above predate exp25-31.
 
-1. **Re-isolate GumTree-like similar-list pairing and forced descent.** Exp34
-   confirmed that forced descent alone cannot reach either focused graph. Start
-   from the current branch, inspect the historical commits rather than copying
-   the final tree, and measure the pairing + descent combination next. Sweep
-   only the oversized-section gate and the minimum vote rule initially. Check
-   the two focused outputs first, then build a gallery of every wider oracle
-   change. This is exp35 unless another experiment is logged first.
+1. **Characterise and tighten similar-list pairing.** Exp35 kept the pairing +
+   descent combination after byte-identical output on all 107 available sample
+   pairs. Measure the one-million product gate and vote thresholds one at a
+   time, including values that disable pairing on `typing` or split `slow` more
+   finely. Do not weaken ambiguity or non-crossing guards merely for speed.
 2. **Add low-overhead search-shape instrumentation.** Counters should be
    compile-time- or log-gated and excluded from timed release measurements.
    Attribute which edge types create and settle the million-state `slow`
@@ -639,7 +639,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp35 (then exp36, etc.) to
+   and immediately append exp36 (then exp37, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full
