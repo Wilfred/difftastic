@@ -1555,6 +1555,32 @@ on these workloads therefore do not make this cap a meaningful ordering
 parameter. The original cap of 40 was restored, and the uninformative 80 case
 was not built.
 
+### exp54: consolidate syntax-highlight lookups — KEPT
+
+The accepted `typing` profile still showed tree-sitter node-set membership as
+visible work. Highlight classification was stored in four hash sets, and syntax
+conversion repeatedly hashed the same node ID: dispatch checked comment and
+keyword membership, then atom construction could make up to five more probes
+to distinguish comments, keywords, strings, and types.
+
+Highlight kinds are now bits in one `DftHashMap<usize, u8>`. Captures for the
+same tree-sitter node still accumulate, and the existing comment/keyword/string/
+type precedence is unchanged. Syntax conversion loads the flags once per node
+and passes the byte to atom construction. Ten-run `perf stat` means against a
+fresh exp53 control were:
+
+| pair | four highlight sets | one bitmask map | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 474,418,378 | 473,600,919 | **-0.172%** |
+| `typing` | 2,728,497,191 | 2,711,901,100 | **-0.608%** |
+
+The control variation is below the effect size, and both workloads improve.
+The control-vs-candidate oracle is byte-identical in side-by-side, inline, and
+JSON modes on all 107 available non-Haskell, non-`huge_cpp` sample pairs. The
+repository checker still reaches the pre-existing Haskell allocator abort.
+`cargo test` passes (165 passed, one ignored), and the changed hunk matches
+rustfmt; the file retains unrelated pre-existing formatting drift elsewhere.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1563,8 +1589,8 @@ was not built.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp51 | 3,115,140,742 | 2,728,589,988 | **-12.41%** |
-| focused `slow`, exp22 through exp51 | 1,881,539,982 | 474,433,194 | **-74.78%** |
+| focused `typing`, exp22 through exp54 | 3,115,140,742 | 2,711,901,100 | **-12.95%** |
+| focused `slow`, exp22 through exp54 | 1,881,539,982 | 473,600,919 | **-74.83%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1573,7 +1599,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-51 pass first found small, composable wins in slider range
+The focused exp23-54 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,

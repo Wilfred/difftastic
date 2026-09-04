@@ -1422,31 +1422,27 @@ fn tree_highlights(
     let mut qc = ts::QueryCursor::new();
     let mut q_matches = qc.matches(&config.highlight_query, tree.root_node(), src.as_bytes());
 
-    let mut comment_ids = DftHashSet::default();
-    let mut keyword_ids = DftHashSet::default();
-    let mut string_ids = DftHashSet::default();
-    let mut type_ids = DftHashSet::default();
+    let mut node_highlights = DftHashMap::default();
 
     while let Some(m) = q_matches.next() {
         for c in m.captures {
-            if comment_capture_ids.contains(&c.index) {
-                comment_ids.insert(c.node.id());
+            let highlight = if comment_capture_ids.contains(&c.index) {
+                COMMENT_HIGHLIGHT
             } else if keyword_ish_capture_ids.contains(&c.index) {
-                keyword_ids.insert(c.node.id());
+                KEYWORD_HIGHLIGHT
             } else if string_capture_ids.contains(&c.index) {
-                string_ids.insert(c.node.id());
+                STRING_HIGHLIGHT
             } else if type_capture_ids.contains(&c.index) {
-                type_ids.insert(c.node.id());
-            }
+                TYPE_HIGHLIGHT
+            } else {
+                continue;
+            };
+
+            *node_highlights.entry(c.node.id()).or_insert(0) |= highlight;
         }
     }
 
-    HighlightedNodeIds {
-        comment_ids,
-        keyword_ids,
-        string_ids,
-        type_ids,
-    }
+    HighlightedNodeIds { node_highlights }
 }
 
 pub(crate) fn print_tree(src: &str, tree: &tree_sitter::Tree) {
@@ -1689,11 +1685,13 @@ fn find_delim_positions(
 
 #[derive(Debug)]
 pub(crate) struct HighlightedNodeIds {
-    keyword_ids: DftHashSet<usize>,
-    comment_ids: DftHashSet<usize>,
-    string_ids: DftHashSet<usize>,
-    type_ids: DftHashSet<usize>,
+    node_highlights: DftHashMap<usize, u8>,
 }
+
+const COMMENT_HIGHLIGHT: u8 = 1 << 0;
+const KEYWORD_HIGHLIGHT: u8 = 1 << 1;
+const STRING_HIGHLIGHT: u8 = 1 << 2;
+const TYPE_HIGHLIGHT: u8 = 1 << 3;
 
 /// Convert all the tree-sitter nodes at this level to difftastic
 /// syntax nodes.
@@ -1782,18 +1780,38 @@ fn syntax_from_cursor<'a>(
         errors.record(&node);
     }
 
-    if config.atom_nodes.contains(node.kind()) || highlights.comment_ids.contains(&node.id()) {
+    let node_highlights = highlights
+        .node_highlights
+        .get(&node.id())
+        .copied()
+        .unwrap_or(0);
+
+    if config.atom_nodes.contains(node.kind()) || node_highlights & COMMENT_HIGHLIGHT != 0 {
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
         //
         // Also, if this node is highlighted as a comment, treat it as
         // an atom unconditionally.
-        atom_from_cursor(arena, src, src_lines, cursor, highlights, ignore_comments)
-    } else if highlights.keyword_ids.contains(&node.id()) && node.child_count() == 1 {
+        atom_from_cursor(
+            arena,
+            src,
+            src_lines,
+            cursor,
+            node_highlights,
+            ignore_comments,
+        )
+    } else if node_highlights & KEYWORD_HIGHLIGHT != 0 && node.child_count() == 1 {
         // If this list has a single child, and the list itself (not
         // the child) is marked as a keyword, treat it as an atom with
         // keyword highlighting.
-        atom_from_cursor(arena, src, src_lines, cursor, highlights, ignore_comments)
+        atom_from_cursor(
+            arena,
+            src,
+            src_lines,
+            cursor,
+            node_highlights,
+            ignore_comments,
+        )
     } else if node.child_count() > 0 {
         Some(list_from_cursor(
             arena,
@@ -1807,7 +1825,14 @@ fn syntax_from_cursor<'a>(
             ignore_comments,
         ))
     } else {
-        atom_from_cursor(arena, src, src_lines, cursor, highlights, ignore_comments)
+        atom_from_cursor(
+            arena,
+            src,
+            src_lines,
+            cursor,
+            node_highlights,
+            ignore_comments,
+        )
     }
 }
 
@@ -2028,7 +2053,7 @@ fn atom_from_cursor<'a>(
     src: &str,
     src_lines: &[&str],
     cursor: &mut ts::TreeCursor,
-    highlights: &HighlightedNodeIds,
+    node_highlights: u8,
     ignore_comments: bool,
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
@@ -2052,9 +2077,8 @@ fn atom_from_cursor<'a>(
         content = content.trim();
     }
 
-    let is_highlighted = highlights.keyword_ids.contains(&node.id())
-        || highlights.string_ids.contains(&node.id())
-        || highlights.type_ids.contains(&node.id());
+    let is_highlighted =
+        node_highlights & (KEYWORD_HIGHLIGHT | STRING_HIGHLIGHT | TYPE_HIGHLIGHT) != 0;
 
     // tree-sitter says "extra nodes represent things like comments",
     // but occasionally grammars use extra nodes for things that
@@ -2069,7 +2093,7 @@ fn atom_from_cursor<'a>(
     let highlight = if node.is_error() {
         AtomKind::TreeSitterError
     } else if node.kind() == "comment"
-        || highlights.comment_ids.contains(&node.id())
+        || node_highlights & COMMENT_HIGHLIGHT != 0
         || is_extra_comment
     {
         // Most parsers use 'comment' as their comment node name, but
@@ -2080,11 +2104,11 @@ fn atom_from_cursor<'a>(
         }
 
         AtomKind::Comment
-    } else if highlights.keyword_ids.contains(&node.id()) {
+    } else if node_highlights & KEYWORD_HIGHLIGHT != 0 {
         AtomKind::Keyword
-    } else if highlights.string_ids.contains(&node.id()) {
+    } else if node_highlights & STRING_HIGHLIGHT != 0 {
         AtomKind::String(StringKind::StringLiteral)
-    } else if highlights.type_ids.contains(&node.id()) {
+    } else if node_highlights & TYPE_HIGHLIGHT != 0 {
         AtomKind::Type
     } else if node.kind() == "CharData" || node.kind() == "text" {
         AtomKind::String(StringKind::Text)
