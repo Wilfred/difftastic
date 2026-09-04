@@ -372,6 +372,7 @@ than mixing counts across environments.
 | 53 | lower match depth-difference cap from 40 to 20 and 10 | flat on both focused pairs | rejected |
 | 54 | store per-node highlight kinds as one bitmask and look them up once | -0.61% `typing`, -0.17% `slow` | kept |
 | 55 | borrow atom and delimiter text in content-ID keys | -0.37% `typing`, -0.14% `slow` | kept |
+| 56 | store up to four child content IDs inline in each key | -0.16% `typing`, +0.73% `slow` | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -697,6 +698,8 @@ percentages above predate exp25-31.
   avoiding repeated node-ID hashing (exp54).
 - Do not restore owned strings in content-ID keys. Borrowed atom and delimiter
   text is valid for the map's lifetime and avoids cloning every node (exp55).
+- Do not replace content keys' child-ID vectors with `SmallVec<[u32; 4]>`; it
+  saves allocations on `typing` but slows `slow` substantially (exp56).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -720,7 +723,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp56 (then exp57, etc.) to
+   and immediately append exp57 (then exp58, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

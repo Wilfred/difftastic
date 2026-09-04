@@ -1604,6 +1604,24 @@ JSON modes on all 107 available non-Haskell, non-`huge_cpp` sample pairs.
 `cargo test` passes (165 passed, one ignored), and `src/parse/syntax.rs` passes
 `rustfmt --check`.
 
+### exp56: store short child-ID keys inline — REJECTED
+
+After exp55 removed text clones, list content keys still allocate a `Vec<u32>`
+for their child content IDs. Replacing it with `SmallVec<[u32; 4]>` kept the
+composite key at the same size while placing up to four IDs inline. Ten-run
+means showed a workload tradeoff:
+
+| pair | `Vec<u32>` | four-ID `SmallVec` | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 472,934,307 | 476,400,430 | **+0.733%** |
+| `typing` | 2,701,977,260 | 2,697,669,347 | **-0.159%** |
+
+The small typing benefit does not justify the much larger Rust regression.
+Inline/tagged access affects hashing and equality for every list key, including
+keys whose `Vec` allocation is not a dominant cost. The source was restored to
+`Vec<u32>`; other inline capacities should not be swept without child-count
+evidence that explains why they would avoid this tradeoff.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
