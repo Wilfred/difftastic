@@ -241,10 +241,10 @@ new incremental experiment, use the latest accepted branch tip as the control.
 
 Fresh five-run `perf stat` means at the start of the focused pass:
 
-| pair | post-exp22 instructions | latest accepted after exp31 | cumulative change |
+| pair | post-exp22 instructions | latest accepted after exp36 | cumulative change |
 | --- | ---: | ---: | ---: |
-| `typing` | 3,115,140,742 | 2,837,444,022 | **-8.91%** |
-| `slow` | 1,881,539,982 | 643,763,021 | **-65.79%** |
+| `typing` | 3,115,140,742 | 2,832,639,324 | **-9.07%** |
+| `slow` | 1,881,539,982 | 643,382,474 | **-65.81%** |
 
 The original focused callgrind files were `/tmp/cg-focused-typing.out` and
 `/tmp/cg-focused-slow.out`; sampled cycle profiles were
@@ -263,6 +263,20 @@ Their attribution describes the post-exp22 baseline, before exp25-31:
   (2.2%). The sampled profile also put 5.1% of cycles in
   `fix_all_sliders_one_step` and visible cost in `syntax::change_positions_`.
   It is a mixed pipeline workload rather than a single-hotspot graph case.
+
+Exp35 changed the profile enough that those graph percentages are no longer a
+current guide. Fresh sampled-cycle profiles are `/tmp/difft-exp35-slow.data`
+and `/tmp/difft-exp35-typing.data`:
+
+- `slow`: the former million-state section is gone. Remaining leading samples
+  are graph allocation (22.8%), neighbour generation (16.6%), tree-sitter
+  query analysis (9.6%), radix-heap work (7.1%), persistent-stack equality
+  (6.2%), and parent popping (4.6%). The replacement sections visit 191,501
+  vertices in total rather than 1,011,157.
+- `typing`: tree-sitter lexing (7.9%), cursor traversal, position adjustment
+  (5.2%), and slider fixing (4.5%) now lead. Graph routines are individually
+  near 1%. Several independent syntax metadata walks each account for roughly
+  1--1.7%, making traversal fusion a measured, exact-output opportunity.
 
 Useful diagnostics:
 
@@ -330,6 +344,7 @@ than mixing counts across environments.
 | 33 | store edge depth differences as `u8` | +1.50% `slow`, +0.18% `typing` | rejected |
 | 34 | force descent into oversized same-delimiter singleton lists | +1.28% `slow`, +0.06% `typing`; no graph reduction | rejected |
 | 35 | pair similar lists before oversized-section search, then force descent | -65.42% `slow`, -7.43% `typing`; -86.1% `slow` RSS | kept |
+| 36 | initialise sibling and predecessor links in one syntax traversal | -0.16% `typing`, flat on `slow` | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -338,8 +353,8 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
-The focused exp23-35 pass reduced `typing` from 3.115B to 2.837B (**-8.91%**)
-and `slow` from 1.882B to 0.644B (**-65.79%**). Exp35's similar-list pairing is
+The focused exp23-36 pass reduced `typing` from 3.115B to 2.833B (**-9.07%**)
+and `slow` from 1.882B to 0.643B (**-65.81%**). Exp35's similar-list pairing is
 responsible for most of that improvement.
 
 ## Research synthesis: where larger wins can come from
@@ -556,46 +571,51 @@ Stay focused on `typing` and `slow` for measurement, but pursue the following
 in order of expected impact. Re-profile after any large accepted change; the
 percentages above predate exp25-31.
 
-1. **Characterise and tighten similar-list pairing.** Exp35 kept the pairing +
+1. **Consolidate measured syntax metadata walks.** Exp36 combined sibling and
+   predecessor setup. Next combine parent, ancestor-depth, and preorder-ID
+   initialisation, whose separate walks each remain visible in the post-exp35
+   `typing` profile. Then test folding uniqueness counting into content-ID
+   assignment. Preserve preorder IDs and per-side uniqueness semantics exactly.
+2. **Characterise and tighten similar-list pairing.** Exp35 kept the pairing +
    descent combination after byte-identical output on all 107 available sample
    pairs. Measure the one-million product gate and vote thresholds one at a
    time, including values that disable pairing on `typing` or split `slow` more
    finely. Do not weaken ambiguity or non-crossing guards merely for speed.
-2. **Add low-overhead search-shape instrumentation.** Counters should be
+3. **Add low-overhead search-shape instrumentation.** Counters should be
    compile-time- or log-gated and excluded from timed release measurements.
    Attribute which edge types create and settle the million-state `slow`
    section. This turns the edge-cost sweep and pruning work into evidence rather
    than blind parameter changes.
-3. **Run the edge-cost sensitivity sweep.** Use the switchboard and governance
+4. **Run the edge-cost sensitivity sweep.** Use the switchboard and governance
    above. Keep exact-output winners eligible for normal acceptance; report
    quality-changing winners separately. Validate promising settings beyond the
    focused files before drawing conclusions.
-4. **Try an exact upper-bound prune.** Construct the cheap all-novel route (and,
+5. **Try an exact upper-bound prune.** Construct the cheap all-novel route (and,
    if useful, a greedy matched route) before Dijkstra. Avoid allocating or
    pushing candidates whose `g + admissible_lower_bound` is strictly greater
    than the bound. Preserve an actual fallback route and prove what happens at
    equal cost.
-5. **Compare a circular bucket queue with the radix heap.** Current maximum edge
+6. **Compare a circular bucket queue with the radix heap.** Current maximum edge
    cost is 600. Keep graph generation identical and make queue statistics
    visible so a result is attributable. This is a contained exact-output
    experiment and can move earlier if instrumentation shows queue work is hot.
-6. **Re-evaluate A* only from the best historical lower bound.** Port the
+7. **Re-evaluate A* only from the best historical lower bound.** Port the
    unmatched-content suffix heuristic from `2efe93b` onto the current compact
    graph, measure heuristic-only deltas, and inspect why it leaves states
    unpruned. Candidate extensions are multiplicity imbalance and a cheap
    abstract/flattened relaxation; abandon any bound whose O(1) evaluation cost
    is not repaid on `slow`.
-7. **Continue exact per-state graph reductions.** Preserve the lazy neighbour
+8. **Continue exact per-state graph reductions.** Preserve the lazy neighbour
    cache and packed `VertexKey`. Look for repeated state extraction, parent
    stack allocation, or matching in existing edges. Exp28 and exp31 show exact
    parent-stack reductions pay; exp10 shows merely decomposing candidate
    construction does not.
-8. **Target real tree-sitter work on `typing`.** Exp27 proved capture-bucket
+9. **Target real tree-sitter work on `typing`.** Exp27 proved capture-bucket
    lookup itself is negligible. Investigate query matching, syntax cursor
    traversal, duplicated tree walking, and whether no-colour mode can safely
    skip highlight-only classifications after tracing `AtomKind::Type` through
    parsing, equality, and all output modes.
-9. **Use phase-specific benchmarks when attribution is unclear.** Adapt the
+10. **Use phase-specific benchmarks when attribution is unclear.** Adapt the
    unmerged `claude/codspeed-ci-setup-ahqufj` benchmark locally to separate
    parse and diff. Continue reporting whole-process instructions for acceptance.
 
@@ -639,7 +659,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp36 (then exp37, etc.) to
+   and immediately append exp37 (then exp38, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

@@ -502,9 +502,7 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>)
 }
 
 pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
-    set_prev_sibling(roots);
-    set_next_sibling(roots);
-    set_prev(roots, None);
+    set_next_prev(roots, None);
 }
 
 /// Set all the `SyntaxInfo` values for all the `roots` on a single
@@ -555,39 +553,18 @@ fn set_content_is_unique(nodes: &[&Syntax]) {
     set_content_is_unique_from_counts(nodes, &counts);
 }
 
-fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
-    let mut prev = None;
-
-    for node in nodes {
-        node.info().previous_sibling.set(prev);
-        prev = Some(node);
-
-        if let List { children, .. } = node {
-            set_prev_sibling(children);
-        }
-    }
-}
-
-fn set_next_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
+/// Initialise the sibling links and the preceding node used by graph search in
+/// one traversal. These fields have the same recursive shape, so separate
+/// passes only revisit every syntax node.
+fn set_next_prev<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
     for (i, node) in nodes.iter().enumerate() {
-        let sibling = nodes.get(i + 1).copied();
-        node.info().next_sibling.set(sibling);
+        let previous_sibling = if i == 0 { None } else { Some(nodes[i - 1]) };
+        node.info().previous_sibling.set(previous_sibling);
+        node.info().next_sibling.set(nodes.get(i + 1).copied());
+        node.info().prev.set(previous_sibling.or(parent));
 
         if let List { children, .. } = node {
-            set_next_sibling(children);
-        }
-    }
-}
-
-/// For every syntax node in the tree, mark the previous node
-/// according to a preorder traversal.
-fn set_prev<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
-    for (i, node) in nodes.iter().enumerate() {
-        let node_prev = if i == 0 { parent } else { Some(nodes[i - 1]) };
-
-        node.info().prev.set(node_prev);
-        if let List { children, .. } = node {
-            set_prev(children, Some(node));
+            set_next_prev(children, Some(node));
         }
     }
 }
