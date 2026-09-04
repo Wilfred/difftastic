@@ -1545,6 +1545,16 @@ the plan's quality-lane rules, the base remains 100 on the accepted branch.
 The 25--75 range is a promising candidate for a language-diverse real-diff
 gallery and human readability review; 125 should not be revisited.
 
+### exp53: lower the depth-difference cost cap — REJECTED
+
+Exact-node and unchanged-delimiter costs both cap their structural-depth
+penalty at 40. Compile-time variants lowered both caps together. A cap of 20
+was entirely flat on both pairs (less than 0.001% movement); a cap of 10 moved
+`slow` -0.001% and `typing` +0.008% in ten-run means. Useful explored matches
+on these workloads therefore do not make this cap a meaningful ordering
+parameter. The original cap of 40 was restored, and the uninformative 80 case
+was not built.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |

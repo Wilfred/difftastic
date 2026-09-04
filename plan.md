@@ -369,6 +369,7 @@ than mixing counts across environments.
 | 50 | fold the two-word vertex key into one FxHasher write | +0.89% `slow`, +0.06% `typing` | rejected |
 | 51 | reserve seen-map capacity for both parent-stack variants | -0.30% instructions, -6.2% RSS on `slow` | kept |
 | 52 | sweep unchanged-delimiter base cost from 25 to 125 | 25 gives -0.84% `slow`; no sample changes, but objective differs | quality-lane only; reverted |
+| 53 | lower match depth-difference cap from 40 to 20 and 10 | flat on both focused pairs | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -562,7 +563,8 @@ Explore these hypotheses one factor at a time before trying combinations:
   but the objective change remains pending a real-diff quality gallery.
 - **Depth penalty/cap:** try caps near 10, 20, 40, and 80. A smaller cap makes
   cross-depth matches competitive sooner; a larger cap keeps the search near
-  structurally similar paths. Include nesting-change fixtures in review.
+  structurally similar paths. Exp53 found 10 and 20 flat on both focused pairs,
+  so do not continue this sweep without a new depth-heavy target.
 - **Punctuation:** sweep the +200 penalty and separately price *novel*
   punctuation. This can make the queue prioritise identifiers and literals,
   but the existing +200 encodes a deliberate inequality around replacement
@@ -684,6 +686,8 @@ percentages above predate exp25-31.
 - Do not raise the unchanged-delimiter base above 100; 125 regressed `slow`
   0.30% (exp52). Bases from 25 to 75 are performance-positive but belong in
   the diff-quality lane until broader human review.
+- Do not tune the depth-difference cap on the current focused pairs; lowering
+  40 to either 20 or 10 was flat (exp53).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -707,7 +711,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp53 (then exp54, etc.) to
+   and immediately append exp54 (then exp55, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full
