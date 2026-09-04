@@ -1241,6 +1241,28 @@ complete tree walks by construction. Output is byte-identical in side-by-side,
 inline, and JSON modes on all 107 available sample pairs. `cargo test` passes
 (163 passed, one ignored), and the changed file passes `rustfmt --check`.
 
+### exp38: count content IDs while assigning them — REJECTED
+
+The post-exp35 profile showed `find_nodes_with_unique_content` at about 1.7% of
+sampled `typing` cycles. Since content IDs are already visited immediately
+before uniqueness counting, the count was accumulated during ID assignment,
+removing one recursive pass per side.
+
+The first candidate also reused the LHS count map allocation for the RHS and
+appeared marginally positive (`typing` -0.113%, `slow` -0.023%). To avoid
+attributing two changes to one experiment, the allocation reuse was removed and
+the traversal fusion was rebuilt and measured independently. Ten-run means for
+the isolated change were:
+
+| pair | exp37 control | fused counting | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 642,746,015 | 642,643,884 | -0.016% |
+| `typing` | 2,828,168,951 | 2,826,182,636 | -0.070% |
+
+Both changes are within the roughly 0.1% cross-binary layout noise. The pass
+mostly performs required hash-table counting work, so eliminating only its
+tree-walk control flow has little leverage. The source was fully reverted.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
