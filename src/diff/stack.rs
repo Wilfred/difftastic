@@ -4,6 +4,7 @@ use bumpalo::Bump;
 struct Node<'b, T> {
     val: T,
     next: Option<&'b Node<'b, T>>,
+    len: u32,
 }
 
 /// A persistent stack.
@@ -19,6 +20,11 @@ impl<T: PartialEq> PartialEq for Stack<'_, T> {
     fn eq(&self, other: &Self) -> bool {
         let mut lhs = self.head;
         let mut rhs = other.head;
+
+        if lhs.map(|node| node.len) != rhs.map(|node| node.len) {
+            return false;
+        }
+
         loop {
             match (lhs, rhs) {
                 (None, None) => return true,
@@ -58,10 +64,12 @@ impl<'b, T> Stack<'b, T> {
     }
 
     pub(crate) fn push(&self, v: T, alloc: &'b Bump) -> Self {
+        let len = self.head.map_or(1, |node| node.len + 1);
         Self {
             head: Some(alloc.alloc(Node {
                 val: v,
                 next: self.head,
+                len,
             })),
         }
     }

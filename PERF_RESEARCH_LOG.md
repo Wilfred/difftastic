@@ -1465,6 +1465,29 @@ byte-identical in side-by-side, inline, and JSON modes on all 107 available
 sample pairs. `cargo test` passes (165 passed, one ignored), and the changed
 source file passes `rustfmt --check`.
 
+### exp49: reject unequal stack lengths before deep equality — KEPT
+
+The post-Dial `slow` profile still spent 4.5% of sampled cycles comparing
+persistent parent stacks. Each arena-allocated stack node now stores its depth,
+allowing equality to reject different-length stacks before walking and
+comparing their contents. `Stack` itself remains pointer-sized, so this does not
+enlarge every graph vertex; the tradeoff is a larger node for each stack push.
+
+Ten-run `perf stat` means were:
+
+| pair | content-only equality | length precheck | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 480,391,516 | 475,866,676 | **-0.942%** |
+| `typing` | 2,731,367,339 | 2,730,236,601 | -0.041% |
+
+`typing` is flat. Five-run OS peak-RSS checks were noisy and showed roughly 1%
+higher means for the candidate, but overlapping ranges; more importantly, the
+bump allocator reported exactly the same allocation classes for every `slow`
+graph section, including the 16 MiB maximum. The instruction win was retained.
+Output is byte-identical in side-by-side, inline, and JSON modes on all 107
+available sample pairs. `cargo test` passes (165 passed, one ignored), and the
+changed file passes `rustfmt --check`.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1473,8 +1496,8 @@ source file passes `rustfmt --check`.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp48 | 3,115,140,742 | 2,731,564,132 | **-12.31%** |
-| focused `slow`, exp22 through exp48 | 1,881,539,982 | 480,393,029 | **-74.47%** |
+| focused `typing`, exp22 through exp49 | 3,115,140,742 | 2,730,236,601 | **-12.36%** |
+| focused `slow`, exp22 through exp49 | 1,881,539,982 | 475,866,676 | **-74.71%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1483,7 +1506,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-48 pass first found small, composable wins in slider range
+The focused exp23-49 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,
