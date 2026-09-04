@@ -186,6 +186,7 @@ than mixing counts across environments.
 | 24 | omit packed keys from the graph hash table | +8.21% `slow`, +0.95% `typing`; RSS -10.8% | rejected |
 | 25 | collect slider ranges without per-region vectors | -1.29% `typing`, -0.14% `slow` | kept |
 | 26 | skip slider scans for fewer than three siblings | -0.19% `typing`, flat on `slow` | kept |
+| 27 | classify highlight captures by direct index | -0.03% `typing`, flat on `slow` | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only

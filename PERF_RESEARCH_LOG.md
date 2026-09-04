@@ -1023,6 +1023,20 @@ noise bound and removes work by construction; the `slow` movement is treated
 as flat. Output is byte-identical in all three modes on all 107 available
 sample pairs, and `cargo test` passes (160 passed, one ignored).
 
+### exp27: classify highlight captures by direct index — REJECTED
+
+`tree_highlights` kept four short vectors of capture IDs and linearly searched
+them for every tree-sitter query capture. Replacing those searches with a
+single byte of bucket flags indexed by capture ID looked useful for the
+query-heavy `typing` input, but the existing vectors are sufficiently short
+that this work is negligible.
+
+Against exp26, five-run means moved from 3,069,056,555 to 3,068,149,116 on
+`typing` (-0.03%) and from 1,878,402,116 to 1,878,299,363 on `slow` (-0.005%).
+Both are inside binary-layout noise, so the change was reverted. Further
+tree-sitter work should reduce query matching, parsing, or cursor traversal
+rather than micro-optimizing capture classification.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
