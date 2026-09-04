@@ -1581,6 +1581,29 @@ repository checker still reaches the pre-existing Haskell allocator abort.
 `cargo test` passes (165 passed, one ignored), and the changed hunk matches
 rustfmt; the file retains unrelated pre-existing formatting drift elsewhere.
 
+### exp55: borrow text in content-ID keys — KEPT
+
+The new accepted profile put `set_content_id` at 2.17% of sampled `typing`
+cycles. Its composite hash-map key cloned every atom's text and both delimiter
+strings for every list, even though the syntax nodes outlive the temporary map.
+A historical change on `origin/claude/project-review-az284i` had measured the
+same idea positively before this research branch diverged.
+
+The content key now stores `Cow<str>` and borrows ordinary atom and delimiter
+text. Only multiline comments whose leading whitespace must be normalised keep
+an owned string. This isolates string ownership; child content-ID vectors are
+unchanged. Ten-run `perf stat` means against the accepted exp54 binary were:
+
+| pair | owned strings | borrowed strings | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 473,601,437 | 472,933,027 | **-0.141%** |
+| `typing` | 2,711,947,711 | 2,701,998,920 | **-0.367%** |
+
+The control-vs-candidate oracle is byte-identical in side-by-side, inline, and
+JSON modes on all 107 available non-Haskell, non-`huge_cpp` sample pairs.
+`cargo test` passes (165 passed, one ignored), and `src/parse/syntax.rs` passes
+`rustfmt --check`.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1589,8 +1612,8 @@ rustfmt; the file retains unrelated pre-existing formatting drift elsewhere.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp54 | 3,115,140,742 | 2,711,901,100 | **-12.95%** |
-| focused `slow`, exp22 through exp54 | 1,881,539,982 | 473,600,919 | **-74.83%** |
+| focused `typing`, exp22 through exp55 | 3,115,140,742 | 2,701,998,920 | **-13.26%** |
+| focused `slow`, exp22 through exp55 | 1,881,539,982 | 472,933,027 | **-74.87%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1599,7 +1622,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-54 pass first found small, composable wins in slider range
+The focused exp23-55 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,

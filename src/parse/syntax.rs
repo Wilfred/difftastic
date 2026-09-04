@@ -2,6 +2,7 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
+use std::borrow::Cow;
 use std::cell::Cell;
 use std::hash::Hash;
 use std::num::NonZeroU32;
@@ -446,11 +447,17 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     set_content_is_unique(rhs_roots, &mut content_counts);
 }
 
-type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
+type ContentKey<'a> = (
+    Option<Cow<'a, str>>,
+    Option<Cow<'a, str>>,
+    Vec<u32>,
+    bool,
+    bool,
+);
 
-fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>) {
+fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut DftHashMap<ContentKey<'a>, u32>) {
     for node in nodes {
-        let key: ContentKey = match node {
+        let key: ContentKey<'a> = match *node {
             List {
                 open_content,
                 close_content,
@@ -470,8 +477,8 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>)
                     .collect();
 
                 (
-                    Some(open_content.clone()),
-                    Some(close_content.clone()),
+                    Some(Cow::Borrowed(open_content.as_str())),
+                    Some(Cow::Borrowed(close_content.as_str())),
                     children_content_ids,
                     true,
                     true,
@@ -484,12 +491,14 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>)
             } => {
                 let is_comment = *highlight == AtomKind::Comment;
                 let clean_content = if is_comment && split_on_newlines(content).count() > 1 {
-                    split_on_newlines(content)
-                        .map(|l| l.trim_start())
-                        .collect::<Vec<_>>()
-                        .join("\n")
+                    Cow::Owned(
+                        split_on_newlines(content)
+                            .map(|l| l.trim_start())
+                            .collect::<Vec<_>>()
+                            .join("\n"),
+                    )
                 } else {
-                    content.clone()
+                    Cow::Borrowed(content.as_str())
                 };
                 (Some(clean_content), None, vec![], false, is_comment)
             }
