@@ -1440,6 +1440,31 @@ in side-by-side, inline, and JSON modes on all 107 available sample pairs.
 `cargo test` passes (164 passed, one ignored), and the changed file passes
 `rustfmt --check`.
 
+### exp48: replace the radix heap with a circular Dial queue — KEPT
+
+After exp39 reduced graph size, radix-heap constraint/redistribution still
+accounted for 4.4% of sampled `slow` cycles. All edge costs are positive
+integers no greater than 600, so Dijkstra's newly inserted distances are at
+most 600 beyond the distance just popped. The candidate uses 601 circular
+buckets, advances through empty distances, and pops equal-distance entries
+last-in-first-out to preserve the old radix heap's documented tie order.
+
+Final ten-run `perf stat` means were:
+
+| pair | radix heap | circular buckets | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 511,349,356 | 480,393,029 | **-6.054%** |
+| `typing` | 2,741,375,683 | 2,731,564,132 | **-0.358%** |
+
+The `radix-heap` dependency is no longer used and was removed. A focused unit
+test covers increasing order, LIFO ties, the maximum 600-cost window, and
+circular bucket reuse after wraparound; debug assertions enforce the active
+window during all shortest-path tests. Single-run peak RSS was flat on `slow`
+and fell from 91,156 KiB to 89,296 KiB on `typing` (-2.0%). Output is
+byte-identical in side-by-side, inline, and JSON modes on all 107 available
+sample pairs. `cargo test` passes (165 passed, one ignored), and the changed
+source file passes `rustfmt --check`.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1448,8 +1473,8 @@ in side-by-side, inline, and JSON modes on all 107 available sample pairs.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp47 | 3,115,140,742 | 2,741,351,758 | **-12.00%** |
-| focused `slow`, exp22 through exp47 | 1,881,539,982 | 511,351,595 | **-72.82%** |
+| focused `typing`, exp22 through exp48 | 3,115,140,742 | 2,731,564,132 | **-12.31%** |
+| focused `slow`, exp22 through exp48 | 1,881,539,982 | 480,393,029 | **-74.47%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1458,7 +1483,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-47 pass first found small, composable wins in slider range
+The focused exp23-48 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,

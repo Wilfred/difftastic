@@ -41,11 +41,9 @@
 //! input to find smaller subsections to diff tends to be much more
 //! effective.
 
-use std::cmp::Reverse;
 use std::env;
 
 use bumpalo::Bump;
-use radix_heap::RadixHeapMap;
 
 use crate::diff::changes::ChangeMap;
 use crate::diff::graph::{compute_neighbours, populate_change_map, Edge, Vertex};
@@ -55,6 +53,55 @@ use crate::parse::syntax::Syntax;
 #[derive(Debug)]
 pub(crate) struct ExceededGraphLimit {}
 
+// Keep this in sync with `Edge::cost`. DialQueue relies on every item being at
+// most this far ahead of the distance it is inserted from.
+const MAX_EDGE_COST: u32 = 600;
+
+/// Monotone priority queue for nonnegative distances with bounded increments.
+/// Items with equal distances are popped last-in-first-out, matching the radix
+/// heap used previously.
+struct DialQueue<T> {
+    buckets: Vec<Vec<(u32, T)>>,
+    len: usize,
+    next_distance: u32,
+}
+
+impl<T> DialQueue<T> {
+    fn new() -> Self {
+        let bucket_count = MAX_EDGE_COST as usize + 1;
+        Self {
+            buckets: (0..bucket_count).map(|_| vec![]).collect(),
+            len: 0,
+            next_distance: 0,
+        }
+    }
+
+    fn push(&mut self, distance: u32, value: T) {
+        debug_assert!(distance >= self.next_distance);
+        debug_assert!(distance - self.next_distance <= MAX_EDGE_COST);
+        let bucket_i = distance as usize % self.buckets.len();
+        self.buckets[bucket_i].push((distance, value));
+        self.len += 1;
+    }
+
+    fn pop(&mut self) -> Option<(u32, T)> {
+        while self.len > 0 {
+            let bucket_i = self.next_distance as usize % self.buckets.len();
+            if let Some(item) = self.buckets[bucket_i].pop() {
+                debug_assert_eq!(item.0, self.next_distance);
+                self.len -= 1;
+                return Some(item);
+            }
+            self.next_distance += 1;
+        }
+        None
+    }
+
+    fn len(&self) -> usize {
+        self.len
+    }
+}
+
 /// Return the shortest route from `start` to the end vertex.
 fn shortest_vertex_path<'s, 'v>(
     start: &'v Vertex<'s, 'v>,
@@ -62,19 +109,16 @@ fn shortest_vertex_path<'s, 'v>(
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<&'v Vertex<'s, 'v>>, ExceededGraphLimit> {
-    // We want to visit nodes with the shortest distance first, but
-    // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
-    // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, &'v Vertex<'s, 'v>> = RadixHeapMap::new();
+    let mut heap: DialQueue<&'v Vertex<'s, 'v>> = DialQueue::new();
 
-    heap.push(Reverse(0), start);
+    heap.push(0, start);
 
     let mut seen = DftHashMap::default();
     seen.reserve(size_hint);
 
     let end: &'v Vertex<'s, 'v> = loop {
         match heap.pop() {
-            Some((Reverse(distance), current)) => {
+            Some((distance, current)) => {
                 if current.is_end() {
                     break current;
                 }
@@ -94,7 +138,7 @@ fn shortest_vertex_path<'s, 'v>(
 
                     if found_shorter_route {
                         next.predecessor.replace(Some((distance_to_next, current)));
-                        heap.push(Reverse(distance_to_next), next);
+                        heap.push(distance_to_next, next);
                     }
                 }
 
@@ -294,6 +338,29 @@ mod tests {
             start_col: 0,
             end_col: 1,
         }]
+    }
+
+    #[test]
+    fn dial_queue_orders_distances_and_reverses_ties() {
+        let mut queue = DialQueue::new();
+        queue.push(0, "start");
+        assert_eq!(queue.pop(), Some((0, "start")));
+
+        queue.push(300, "middle");
+        queue.push(1, "first at one");
+        queue.push(600, "last");
+        queue.push(1, "second at one");
+
+        assert_eq!(queue.pop(), Some((1, "second at one")));
+        assert_eq!(queue.pop(), Some((1, "first at one")));
+        assert_eq!(queue.pop(), Some((300, "middle")));
+        assert_eq!(queue.pop(), Some((600, "last")));
+
+        queue.push(1_200, "wrapped last");
+        queue.push(601, "wrapped first");
+        assert_eq!(queue.pop(), Some((601, "wrapped first")));
+        assert_eq!(queue.pop(), Some((1_200, "wrapped last")));
+        assert_eq!(queue.pop(), None);
     }
 
     #[test]

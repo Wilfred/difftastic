@@ -47,7 +47,6 @@ libc = "0.2.108"
 log = "0.4.14"
 pretty_env_logger = "0.5.0"
 
-radix-heap = "0.4.2"
 # ignore does not declare a MSRV, but it's part of ripgrep, which has
 # a slightly more aggressive MSRV than difftastic. Ignore 0.4.30
 # requires rust 1.88.

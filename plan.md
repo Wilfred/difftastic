@@ -241,10 +241,10 @@ new incremental experiment, use the latest accepted branch tip as the control.
 
 Fresh five-run `perf stat` means at the start of the focused pass:
 
-| pair | post-exp22 instructions | latest accepted after exp47 | cumulative change |
+| pair | post-exp22 instructions | latest accepted after exp48 | cumulative change |
 | --- | ---: | ---: | ---: |
-| `typing` | 3,115,140,742 | 2,741,351,758 | **-12.00%** |
-| `slow` | 1,881,539,982 | 511,351,595 | **-72.82%** |
+| `typing` | 3,115,140,742 | 2,731,564,132 | **-12.31%** |
+| `slow` | 1,881,539,982 | 480,393,029 | **-74.47%** |
 
 The original focused callgrind files were `/tmp/cg-focused-typing.out` and
 `/tmp/cg-focused-slow.out`; sampled cycle profiles were
@@ -364,6 +364,7 @@ than mixing counts across environments.
 | 45 | replace hashed `ChangeMap` with dense syntax-ID indexing | -1.20% `typing`, -0.27% `slow`; `typing` RSS -4.5% | kept |
 | 46 | replace hashed content-ID counts with a dense vector | -0.40% `typing`, -0.12% `slow` | kept |
 | 47 | fuse initial link setup into identity/ancestry traversal | -0.56% `slow`, flat on `typing` | kept |
+| 48 | replace the radix heap with a 601-slot circular Dial queue | -6.05% `slow`, -0.36% `typing`; `typing` RSS -2.0% | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -372,8 +373,8 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
-The focused exp23-47 pass reduced `typing` from 3.115B to 2.741B (**-12.00%**)
-and `slow` from 1.882B to 0.511B (**-72.82%**). Exp35's similar-list pairing and
+The focused exp23-48 pass reduced `typing` from 3.115B to 2.732B (**-12.31%**)
+and `slow` from 1.882B to 0.480B (**-74.47%**). Exp35's similar-list pairing and
 exp39's lower decomposition gate are responsible for most of that improvement.
 
 ## Research synthesis: where larger wins can come from
@@ -505,7 +506,7 @@ with today's instruction harness.
 | GumTree-style anchors and descendant voting | Very high: shrinks an `L x R` section before the expensive search, with strong historical results on both focused pairs | Can constrain the global optimum and alter output. Re-isolate first, then use a changed-output gallery and real corpus. |
 | [A*](https://doi.org/10.1109/TSSC.1968.300136) | Can settle fewer states while preserving minimum cost with an admissible bound | Five historical branches did not merge. Reuse the latest unmatched-content heuristic as a baseline; only continue if a stronger O(1) bound saves more than it costs. |
 | Branch and bound from a fast complete route | Can avoid allocating or queuing states that cannot beat a known route, and composes with A* | A scalar all-novel bound may be too loose. Build a legal route, prune only strictly worse states, and prove tie handling before claiming byte identity. |
-| [Bounded-integer bucket/Dial queue](https://people.mpi-inf.mpg.de/~mehlhorn/ftp/Mehlhorn-Sanders-Toolbox.pdf) | Current edge weights are small positive integers (1--600), so a circular bucket queue may have lower constants than the current radix heap | The radix heap is already a monotone integer queue. Prototype behind one queue abstraction and compare pushes/pops plus instructions; reject unless clearly better. |
+| [Bounded-integer bucket/Dial queue](https://people.mpi-inf.mpg.de/~mehlhorn/ftp/Mehlhorn-Sanders-Toolbox.pdf) | Validated by exp48: the 1--600 edge bound permits 601 circular buckets and reduced `slow` 6.05% | Kept with LIFO ties matching the old radix heap, debug-checked insertion bounds, wraparound tests, and the full output oracle. Re-profile before further queue tuning. |
 | [Topological DAG dynamic programming](https://xlinux.nist.gov/dads/HTML/dagShortPath.html) | A DAG shortest path can be solved in linear `O(V + E)` time without a priority queue | It generally explores the whole reachable graph, whereas Dijkstra stops at the goal. First prove a cheap rank from syntax progress and measure total reachable states on reduced sections; likely useful only in small/dense regions. |
 | Bidirectional Dijkstra/A* | Could meet before either frontier spans the search blob | Historical reverse-edge enumeration had to undo canonical parent pops and validate candidates with the forward generator. Treat as low priority unless a compact exact predecessor representation is found. |
 | [Delta-stepping / parallel frontier search](https://doi.org/10.1016/S0196-6774(03)00076-2) | May exploit multiple cores and buckets for large graphs | Repeated relaxations, synchronisation, arena allocation, and a mostly sequential implicit graph threaten instruction count. Wall-time-only gains do not meet the primary metric; keep low priority. |
@@ -514,13 +515,13 @@ with today's instruction harness.
 | Histogram/rare anchors | More anchors than strict uniqueness | Historical `occurs <= 4` work fixed no additional corpus cases and regressed sample output. Do not repeat unchanged. |
 | Beam search, IDA*, fringe search, or hard work bounds | Bounded memory/work and graceful performance cliffs | Beam/work bounds sacrifice optimality; IDA*/fringe variants already have old unmerged branches and can repeat expensive neighbour generation. Only revisit for explicit fallback behaviour, not the exact lane. |
 
-The current `RadixHeapMap` is not a naive binary heap: [radix heaps were
+The former `RadixHeapMap` was not a naive binary heap: [radix heaps were
 designed](https://acm.math.spbu.ru/~sk1/download/books/ds/heaps/ahuja-heap.pdf)
-for monotone integer shortest-path keys. A queue experiment must therefore beat
-an appropriate specialised baseline, not merely improve asymptotic claims.
-Conversely, the DAG property is worth exploiting only if a topological order is
-obtainable without first constructing the graph and without expanding far more
-states than Dijkstra.
+for monotone integer shortest-path keys. Exp48 nevertheless showed that this
+graph's especially small maximum edge cost favours a simpler circular Dial
+queue. The DAG property is still worth exploiting only if a topological order
+is obtainable without first constructing the graph and without expanding far
+more states than Dijkstra.
 
 ### Edge-cost and search-order investigation
 
@@ -613,10 +614,9 @@ percentages above predate exp25-31.
    pushing candidates whose `g + admissible_lower_bound` is strictly greater
    than the bound. Preserve an actual fallback route and prove what happens at
    equal cost.
-5. **Compare a circular bucket queue with the radix heap.** Current maximum edge
-   cost is 600. Keep graph generation identical and make queue statistics
-   visible so a result is attributable. This is a contained exact-output
-   experiment and can move earlier if instrumentation shows queue work is hot.
+5. **Re-profile the post-Dial graph search.** Exp48 replaced the radix heap and
+   reduced `slow` 6.05%. Confirm whether queue scanning, allocation, neighbour
+   generation, or stack equality now leads before changing the queue further.
 6. **Re-evaluate A* only from the best historical lower bound.** Port the
    unmatched-content suffix heuristic from `2efe93b` onto the current compact
    graph, measure heuristic-only deltas, and inspect why it leaves states
@@ -692,7 +692,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp48 (then exp49, etc.) to
+   and immediately append exp49 (then exp50, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full
