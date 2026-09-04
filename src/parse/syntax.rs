@@ -907,18 +907,18 @@ impl MatchedPos {
                         ..
                     } => {
                         if is_close_delim {
-                            close_position.iter().copied().collect()
+                            SmallVec::from_slice(close_position)
                         } else {
-                            open_position.iter().copied().collect()
+                            SmallVec::from_slice(open_position)
                         }
                     }
-                    Atom { position, .. } => position.iter().copied().collect(),
+                    Atom { position, .. } => SmallVec::from_slice(position),
                 };
 
                 let opposite_pos_len = opposite_pos.len();
                 let kind = MatchKind::UnchangedToken {
                     highlight,
-                    self_pos: pos.iter().copied().collect(),
+                    self_pos: SmallVec::from_slice(pos),
                     opposite_pos,
                 };
 

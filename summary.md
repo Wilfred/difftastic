@@ -19,8 +19,8 @@ reasoning burden needed to preserve diff semantics.
 | Original 27-pair suite, master through exp8 | 28.87B instructions | 16.59B | **-42.5%** |
 | 22 MB `huge_cpp` line-oriented pair, exp17 through exp60 | 14.86B | 8.86B | **-40.4%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| Parsed `typing_1.ml`/`typing_2.ml`, exp22 through exp60 | 3.115B | 2.630B | **-15.58%** |
-| Parsed `slow_1.rs`/`slow_2.rs`, exp22 through exp60 | 1.882B | 0.469B | **-75.09%** |
+| Parsed `typing_1.ml`/`typing_2.ml`, exp22 through exp61 | 3.115B | 2.617B | **-15.98%** |
+| Parsed `slow_1.rs`/`slow_2.rs`, exp22 through exp61 | 1.882B | 0.468B | **-75.13%** |
 
 The strongest overall pattern is that removing unnecessary work beats making
 the same work slightly cheaper. Query pruning removes patterns difftastic never
@@ -38,7 +38,7 @@ where IDs are already compact.
 | [Index hunk ends](https://github.com/Wilfred/difftastic/commit/ca5b12f) (exp17) | **-22.0%** on the 22 MB C++ pair | Very large **line-oriented** inputs with many aligned lines/hunks. It removes repeated reverse searches for the final occurrence of aligned lines. | Medium | **Very high.** A substantial whole-input win from replacing repeated scans with an index. |
 | [Store opposite-line mappings densely](https://github.com/Wilfred/difftastic/commit/980a55f) (exp22) | **-9.15%** instructions and **-29%** RSS on the 22 MB C++ pair | Large line-oriented inputs and display processing, where line numbers are dense and most lines have zero or one opposite line. | Medium | **Very high.** Improves both time and memory by matching representation to the data domain. |
 | [Use a bounded circular Dial queue](https://github.com/Wilfred/difftastic/commit/c8082ef) (exp48) | **-6.05%** `slow`, -0.36% `typing` | Parsed inputs that spend significant time in syntax-graph shortest path. All edge costs are bounded by 600, so a 601-bucket circular queue replaces a general radix heap. | High | **High.** Strong graph-heavy win and removes a dependency, but depends on a proved edge-cost bound and careful wrap/tie handling. |
-| Store one-span unchanged positions inline (exp60) | **-4.77%** `huge_cpp`, -1.53% `typing`, -0.54% `slow` | Both line-oriented and parsed inputs with many unchanged tokens. Each match usually maps one span on each side. | Medium | **Very high.** Removes two tiny heap allocations per common unchanged match without changing consumers' slice-based logic. |
+| [Store one-span unchanged positions inline](https://github.com/Wilfred/difftastic/commit/64f7686) (exp60) | **-4.77%** `huge_cpp`, -1.53% `typing`, -0.54% `slow` | Both line-oriented and parsed inputs with many unchanged tokens. Each match usually maps one span on each side. | Medium | **Very high.** Removes two tiny heap allocations per common unchanged match without changing consumers' slice-based logic. |
 | [Build unchanged spans from line order](https://github.com/Wilfred/difftastic/commit/eaac294) (exp19) | **-7.36%** on the 22 MB C++ pair | Very large line-oriented fallback diffs. It avoids repeated byte-offset-to-line binary searches when traversal already supplies line order. | Medium | **High.** A good example of carrying known structure forward instead of reconstructing it. |
 
 ## Large display and line-oriented wins
@@ -82,6 +82,7 @@ enough to be worthwhile.
 | [Borrow content-key text](https://github.com/Wilfred/difftastic/commit/66c14b4) (exp55) | **-0.37%** `typing`, -0.14% `slow` | Large parsed trees, particularly with substantial atom text | Low complexity, good value; syntax nodes already outlive the temporary interning map. |
 | [Distinguish atom/list content keys](https://github.com/Wilfred/difftastic/commit/a904f7d) (exp57) | **-0.25%** `typing`, flat on `slow` | Atom-heavy parsed trees | Low complexity, good value; atoms no longer hash list-only sentinel fields. |
 | [Move final unchanged-position metadata](https://github.com/Wilfred/difftastic/commit/aa1b5b9) (exp58) | **-0.92%** `typing`, -0.32% `slow` | Parsed inputs with many unchanged syntax tokens | Low complexity, very high value; avoids cloning two position vectors in the common single-line case. |
+| Construct inline positions directly from slices (exp61) | **-0.48%** `typing`, -0.14% `slow` | Parsed inputs with many unchanged tokens | Low complexity, high value; avoids generic iterator extension for the usual one-span copy. |
 | [Fuse syntax metadata traversals](https://github.com/Wilfred/difftastic/commit/edb0357), [identity traversal](https://github.com/Wilfred/difftastic/commit/95f0d37), and [initial setup](https://github.com/Wilfred/difftastic/commit/ca155c8) (exp36-37, 47) | Individual wins from flat to -0.56% | Large parsed trees where recursive metadata walks are visible | Medium complexity, modest-to-good value; useful cumulatively, but less leverage than reducing hash/allocation work. |
 
 ## Practical prioritisation

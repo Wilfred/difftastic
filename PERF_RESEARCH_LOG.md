@@ -1641,6 +1641,26 @@ oracle and a separate `huge_cpp` comparison are byte-identical in side-by-side,
 inline, and JSON modes. `cargo test` passes (165 passed, one ignored), and all
 four changed Rust files pass `rustfmt --check`.
 
+### exp61: construct inline positions directly from slices — KEPT
+
+The post-exp60 annotation of `MatchedPos::append_to` showed that each conversion
+from a syntax position slice called generic iterator `Extend` for the new
+`SmallVec`, even in the common single-span case. Replacing the three
+`iter().copied().collect()` sites with `SmallVec::from_slice` preserves inline
+and multiline-spill behaviour but uses the collection's direct copy path.
+
+Ten-run `perf stat` means were:
+
+| pair | iterator collection | direct slice copy | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 468,671,352 | 467,995,876 | **-0.144%** |
+| `typing` | 2,629,961,820 | 2,617,410,174 | **-0.477%** |
+
+The control-vs-candidate oracle is byte-identical in side-by-side, inline, and
+JSON modes on all 107 available non-Haskell, non-`huge_cpp` sample pairs.
+`cargo test` passes (165 passed, one ignored), and `src/parse/syntax.rs` passes
+`rustfmt --check`.
+
 ### exp56: store short child-ID keys inline — REJECTED
 
 After exp55 removed text clones, list content keys still allocate a `Vec<u32>`
@@ -1710,8 +1730,8 @@ JSON modes on all 107 available non-Haskell, non-`huge_cpp` sample pairs.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp60 | 14,858,905,910 | 8,857,070,730 | **-40.4%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp60 | 3,115,140,742 | 2,629,901,231 | **-15.58%** |
-| focused `slow`, exp22 through exp60 | 1,881,539,982 | 468,624,726 | **-75.09%** |
+| focused `typing`, exp22 through exp61 | 3,115,140,742 | 2,617,410,174 | **-15.98%** |
+| focused `slow`, exp22 through exp61 | 1,881,539,982 | 467,995,876 | **-75.13%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1720,7 +1740,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-60 pass first found small, composable wins in slider range
+The focused exp23-61 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,
