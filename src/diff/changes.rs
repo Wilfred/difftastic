@@ -1,7 +1,6 @@
 //! Data types that track the change state for syntax nodes.
 
-use crate::hash::DftHashMap;
-use crate::parse::syntax::{AtomKind, Syntax, SyntaxId};
+use crate::parse::syntax::{AtomKind, Syntax};
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub(crate) enum ChangeKind<'a> {
@@ -22,16 +21,23 @@ pub(crate) enum ChangeKind<'a> {
 
 #[derive(Debug, Default)]
 pub(crate) struct ChangeMap<'a> {
-    changes: DftHashMap<SyntaxId, ChangeKind<'a>>,
+    /// Syntax IDs are dense and start at one, so slot `id - 1` stores the
+    /// change state without hashing. `None` means that state is not set yet.
+    changes: Vec<Option<ChangeKind<'a>>>,
 }
 
 impl<'a> ChangeMap<'a> {
     pub(crate) fn insert(&mut self, node: &'a Syntax<'a>, ck: ChangeKind<'a>) {
-        self.changes.insert(node.id(), ck);
+        let index = node.id().get() as usize - 1;
+        if index >= self.changes.len() {
+            self.changes.resize(index + 1, None);
+        }
+        self.changes[index] = Some(ck);
     }
 
     pub(crate) fn get(&self, node: &Syntax<'a>) -> Option<ChangeKind<'a>> {
-        self.changes.get(&node.id()).copied()
+        let index = node.id().get() as usize - 1;
+        self.changes.get(index).copied().flatten()
     }
 }
 
