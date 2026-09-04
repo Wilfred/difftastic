@@ -1644,6 +1644,27 @@ in side-by-side, inline, and JSON modes on all 107 available non-Haskell,
 non-`huge_cpp` sample pairs. `cargo test` passes (165 passed, one ignored), and
 `src/parse/syntax.rs` passes `rustfmt --check`.
 
+### exp58: move final unchanged-position metadata — KEPT
+
+`MatchedPos::append_to` constructed `MatchKind::UnchangedToken` with owned
+self/opposite position vectors, then cloned that value into every emitted line
+record and dropped the original. Most syntax tokens occupy one line, so the
+common case allocated both vectors twice.
+
+The function now clones the match kind only for earlier lines and moves the
+already-built value into the final emitted record. It still truncates to the
+shorter side and emits records in the same order. Ten-run means were:
+
+| pair | clone every record | move final record | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 472,630,770 | 471,125,768 | **-0.318%** |
+| `typing` | 2,695,419,162 | 2,670,637,453 | **-0.919%** |
+
+The control-vs-candidate oracle is byte-identical in side-by-side, inline, and
+JSON modes on all 107 available non-Haskell, non-`huge_cpp` sample pairs.
+`cargo test` passes (165 passed, one ignored), and `src/parse/syntax.rs` passes
+`rustfmt --check`.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1652,8 +1673,8 @@ non-`huge_cpp` sample pairs. `cargo test` passes (165 passed, one ignored), and
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp57 | 3,115,140,742 | 2,695,329,510 | **-13.48%** |
-| focused `slow`, exp22 through exp57 | 1,881,539,982 | 472,556,070 | **-74.89%** |
+| focused `typing`, exp22 through exp58 | 3,115,140,742 | 2,670,637,453 | **-14.27%** |
+| focused `slow`, exp22 through exp58 | 1,881,539,982 | 471,125,768 | **-74.96%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1662,7 +1683,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-57 pass first found small, composable wins in slider range
+The focused exp23-58 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,

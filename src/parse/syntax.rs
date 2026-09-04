@@ -921,21 +921,22 @@ impl MatchedPos {
                     opposite_pos,
                 };
 
-                // Create a MatchedPos for every line that `pos` covers.
-                let initial_len = positions.len();
-                for line_pos in pos {
-                    positions.push(Self {
-                        kind: kind.clone(),
-                        pos: *line_pos,
-                    });
-
-                    // Ensure we have the same number of unchanged
-                    // MatchedPos on the LHS and RHS. This allows us
-                    // to consider unchanged MatchedPos values
-                    // pairwise.
-                    if positions.len() - initial_len == opposite_pos_len {
-                        break;
+                // Create a MatchedPos for every line that `pos` covers. Move
+                // the kind into the last position instead of cloning its two
+                // position vectors only to drop the originals.
+                let position_count = pos.len().min(opposite_pos_len);
+                if let Some((last_pos, earlier_positions)) = pos[..position_count].split_last() {
+                    for line_pos in earlier_positions {
+                        positions.push(Self {
+                            kind: kind.clone(),
+                            pos: *line_pos,
+                        });
                     }
+
+                    positions.push(Self {
+                        kind,
+                        pos: *last_pos,
+                    });
                 }
             }
             Novel => {
