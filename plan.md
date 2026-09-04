@@ -19,20 +19,36 @@ stop later sessions from repeating work.
 Branch: `claude/auto-research-karpathy-diuc1c`. Everything is committed and
 pushed there; nothing has been merged to master and no PR has been opened.
 
-### Active scope (supersedes the broad backlog)
+### Active benchmarks, broad strategy
 
 The current user request is a **second, focused investigation only of**:
 
 - `sample_files/typing_1.ml` versus `sample_files/typing_2.ml`;
 - `sample_files/slow_1.rs` versus `sample_files/slow_2.rs`.
 
-Do not spend experiment time on `huge_cpp`, `long_line`, other suite leaders,
-or general startup microbenchmarks unless a proposed change is first motivated
-by one of these two focused pairs. Still run the wider output oracle before
-keeping a change, because exact output compatibility remains the correctness
-gate. Measure both focused pairs for every experiment: `slow` is currently the
-clean graph-search probe, while `typing` catches parser, syntax-construction,
-slider, graph, and display costs.
+Use these two pairs as the primary measurement targets, but do not restrict the
+*kind* of solution to local optimisations in their current hot functions. In
+particular, preprocessing, decomposition, alternative exact search algorithms,
+edge-cost tuning, and deliberately quality-changing heuristics are all in scope
+for investigation. The focused pairs keep iteration fast and comparable;
+broader sample and real-world corpora protect against overfitting.
+
+Do not spend experiment time optimising `huge_cpp`, `long_line`, other suite
+leaders, or general startup microbenchmarks unless a proposed change is first
+motivated by one of these two focused pairs. Still run the wider output oracle
+before keeping an exact-output change. Measure both focused pairs for every
+experiment: `slow` is currently the clean graph-search probe, while `typing`
+catches parser, syntax-construction, slider, graph, and display costs.
+
+There are now two legitimate research lanes, and their results must not be
+mixed:
+
+- **Exact-output lane:** byte-identical output remains a hard gate. This is the
+  default lane for implementation and search-engine optimisations.
+- **Diff-quality lane:** preprocessing rules, new graph edges, or cost changes
+  may deliberately select a different diff. Measure performance, but keep the
+  result experimental until the changed-output gallery has been reviewed by a
+  human. Never update the output baseline merely to make this lane pass.
 
 ## High-level approach
 
@@ -323,32 +339,264 @@ profiler, or machine changed, record a fresh control binary before comparing.
 The focused exp23-31 pass then reduced `typing` from 3.115B to 3.065B
 (**-1.60%**) and `slow` from 1.882B to 1.862B (**-1.06%**).
 
-## Focused next-experiment backlog
+## Research synthesis: where larger wins can come from
 
-Stay within `typing` and `slow`. Re-profile after a few more accepted changes;
-the percentages above predate exp25-31.
+The current algorithm constructs an implicit directed acyclic graph. A vertex
+is a pair of positions in the syntax trees plus enough parent-stack state to
+represent independent changes in nesting. Each edge consumes syntax on at
+least one side. Dijkstra stops when it settles the end vertex rather than
+materialising the whole graph.
 
-1. **Reduce existing graph candidate overhead on `slow`.** Preserve the lazy
-   neighbour cache and the packed `VertexKey` stored directly in the hash
-   bucket. Look for repeated state extraction, stack allocation, or matching in
-   `compute_neighbours`/`allocate_if_new` that can be removed on an existing
-   edge. Exp28 and exp31 show that exact parent-stack reductions pay; exp10
-   shows that merely decomposing candidate construction does not.
-2. **Target real tree-sitter work on `typing`.** Exp27 proved capture-bucket
+For a large changed section, runtime is roughly driven by four factors:
+
+1. the dimensions of the section sent to graph search;
+2. the fraction of its reachable states settled before the goal;
+3. the number of candidate edges constructed per settled state; and
+4. the cost of allocation, hashing, stack handling, and queue work per state.
+
+The `slow` profile is dominated by a single section with 1,011,157 vertices,
+so reducing the *problem* or the number of settled states has much more upside
+than saving a few instructions on one transition. The `typing` profile still
+justifies parser and syntax-pipeline work, but it also benefits from splitting
+large graph sections. The next pass should therefore pursue a portfolio rather
+than repeatedly polishing `compute_neighbours`.
+
+### What the related designs teach us
+
+#### Autochrome
+
+[Autochrome's design write-up](https://fazzone.github.io/autochrome.html) is
+the closest ancestor of difftastic's graph. It uses paired cursors and parent
+stacks; identical subtrees advance together, novel subtrees advance one side,
+and delimiters can be entered either together or independently so that nesting
+changes remain matchable. It explicitly gives independent entry a higher cost
+because those transitions cause many extra states.
+
+Autochrome originally used A*, which explored fewer states, but changed to
+Dijkstra to solve a *multi-origin top-level form alignment* problem. It limits
+that quadratic alignment work by hashing identical forms first, removing an
+already-selected target from later searches, and including deletion of the
+whole source form as an immediate upper bound. Its reported worst case is a
+large form split into several edited forms.
+
+Implications for difftastic:
+
+- independent nesting moves are a structural source of state growth, not just
+  an implementation accident;
+- matching or pairing sections before graph search is the most direct lever;
+- a cheap complete route (the analogue of deleting the whole form) can provide
+  a sound upper bound for branch-and-bound pruning;
+- Autochrome's reason for abandoning A* does not by itself rule A* out here,
+  because difftastic normally searches one start/end section at a time, but a
+  strong cheap admissible heuristic is still the central difficulty.
+
+#### Tristan Hume's dynamic program and A* search
+
+[Tristan Hume's write-up](https://thume.ca/2017/06/17/tree-diffing/) starts
+with memoised dynamic programming over a sequence-alignment-like grid. Its
+objective is the size of the resulting configuration, including the overhead
+of grouping edits, rather than a conventional unit-cost tree edit script. Two
+engineering ideas transfer directly: calculate only scalar costs during the
+search, and reconstruct expensive result objects lazily only for the winning
+route.
+
+The later A* implementation used a lower bound derived from the cost of the
+remaining suffixes. Hume reports that the explored band grows with edit
+distance rather than the full input product, and notes that Dijkstra is already
+competitive when matches are free, but expands a blob when matches themselves
+have cost. Difftastic gives even exact matches a positive cost (1--40 for an
+ordinary node and 100--140 for matched delimiters), so this observation is
+relevant. However, difftastic's very cheap whole-subtree transitions make a
+simple geometric or remaining-node-count heuristic inadmissible.
+
+Implications for difftastic:
+
+- continue avoiding change-map or display construction during search;
+- test admissible bounds based on *mandatory* unmatched content, not distance
+  through the syntax trees;
+- record heuristic construction/evaluation cost separately from states saved;
+- prefer precomputed suffix/subtree summaries and O(1) estimates per vertex;
+- use pathmax or a queue that tolerates non-monotone keys if a useful bound is
+  admissible but inconsistent.
+
+#### GumTree and pre-search matching
+
+The [original GumTree paper](https://hal.science/hal-01054552/document)
+describes a deliberately non-optimal hybrid:
+
+1. a top-down pass processes large subtrees first using height-indexed queues;
+2. identical subtrees are recognised by hashes, while ambiguous identical
+   matches are ranked by Dice similarity of their parents;
+3. a bottom-up pass considers unmatched containers in postorder and scores
+   them by the proportion of already-matched descendants; and
+4. an exact matcher is used only to recover mappings inside bounded small
+   subtrees.
+
+The paper's recommended controls (`minHeight = 2`, `minDice = 0.5`, and
+`maxSize = 100`) make the scalability strategy explicit: greedy global anchors,
+similarity-guided container pairing, and exact work only below a size limit.
+The later [hyperparameter optimisation study](https://arxiv.org/abs/2011.10268)
+also shows that these thresholds materially affect results: tuned settings
+improved edit-script length in 21.8% of evaluated cases. This supports treating
+difftastic's costs and split thresholds as empirical parameters, while also
+warning that tuning only on two files will overfit.
+
+There is already stronger repository-specific evidence. The historical
+`origin/claude/difftastic-graph-limit-r5irm0` branch contains a study of about
+22,500 real file diffs and a GumTree-like `similar-list pairing` prototype. It
+lets shared unique descendants vote for sibling-list pairs, keeps a
+non-crossing increasing subsequence of pairs, and forcibly descends into
+oversized paired lists. In its old build, this changed:
+
+- `slow_1.rs`: about 1.3 s to 0.2 s;
+- `typing_1.ml`: about 0.83 s to 0.56 s;
+- all 35 captured graph-limit failures to structural output rather than
+  wholesale fallback.
+
+The focused pair outputs were unchanged, but two other sample diffs changed
+and appeared better to the researcher. This is the strongest current lead and
+belongs in the diff-quality lane until revalidated. Do not cherry-pick the
+branch wholesale: inspect forced descent at `036892a`, similar-list pairing at
+`178d05f`, and the later fixes at `a9daf30`/`30e3e02`, then reimplement or
+isolate the minimum pieces on the latest accepted base. Measure each component
+with today's instruction harness.
+
+#### Other exact and approximate solvers
+
+| approach | potential value here | main obstacle / proposed treatment |
+| --- | --- | --- |
+| GumTree-style anchors and descendant voting | Very high: shrinks an `L x R` section before the expensive search, with strong historical results on both focused pairs | Can constrain the global optimum and alter output. Re-isolate first, then use a changed-output gallery and real corpus. |
+| [A*](https://doi.org/10.1109/TSSC.1968.300136) | Can settle fewer states while preserving minimum cost with an admissible bound | Five historical branches did not merge. Reuse the latest unmatched-content heuristic as a baseline; only continue if a stronger O(1) bound saves more than it costs. |
+| Branch and bound from a fast complete route | Can avoid allocating or queuing states that cannot beat a known route, and composes with A* | A scalar all-novel bound may be too loose. Build a legal route, prune only strictly worse states, and prove tie handling before claiming byte identity. |
+| [Bounded-integer bucket/Dial queue](https://people.mpi-inf.mpg.de/~mehlhorn/ftp/Mehlhorn-Sanders-Toolbox.pdf) | Current edge weights are small positive integers (1--600), so a circular bucket queue may have lower constants than the current radix heap | The radix heap is already a monotone integer queue. Prototype behind one queue abstraction and compare pushes/pops plus instructions; reject unless clearly better. |
+| [Topological DAG dynamic programming](https://xlinux.nist.gov/dads/HTML/dagShortPath.html) | A DAG shortest path can be solved in linear `O(V + E)` time without a priority queue | It generally explores the whole reachable graph, whereas Dijkstra stops at the goal. First prove a cheap rank from syntax progress and measure total reachable states on reduced sections; likely useful only in small/dense regions. |
+| Bidirectional Dijkstra/A* | Could meet before either frontier spans the search blob | Historical reverse-edge enumeration had to undo canonical parent pops and validate candidates with the forward generator. Treat as low priority unless a compact exact predecessor representation is found. |
+| [Delta-stepping / parallel frontier search](https://doi.org/10.1016/S0196-6774(03)00076-2) | May exploit multiple cores and buckets for large graphs | Repeated relaxations, synchronisation, arena allocation, and a mostly sequential implicit graph threaten instruction count. Wall-time-only gains do not meet the primary metric; keep low priority. |
+| RTED/APTED or Zhang--Shasha-style tree edit DP | Dynamic tree-shape-dependent decomposition and bounded exact subproblems could replace graph search inside suitable regions | These solve a different edit model and do not naturally cover difftastic's cross-depth matching and display objective. Consider only as a bounded local matcher or lower bound, never a drop-in replacement. See the [RTED paper](https://vldb.org/pvldb/vol5/p334_mateuszpawlik_vldb2012.pdf). |
+| Patience/unique anchors | Cheap, reliable split points; already successful in the graph-limit study | Unique tiny anchors can still change alignment. Retain the historical two-pass rule where large exact matches claim alignment first. |
+| Histogram/rare anchors | More anchors than strict uniqueness | Historical `occurs <= 4` work fixed no additional corpus cases and regressed sample output. Do not repeat unchanged. |
+| Beam search, IDA*, fringe search, or hard work bounds | Bounded memory/work and graceful performance cliffs | Beam/work bounds sacrifice optimality; IDA*/fringe variants already have old unmerged branches and can repeat expensive neighbour generation. Only revisit for explicit fallback behaviour, not the exact lane. |
+
+The current `RadixHeapMap` is not a naive binary heap: [radix heaps were
+designed](https://acm.math.spbu.ru/~sk1/download/books/ds/heaps/ahuja-heap.pdf)
+for monotone integer shortest-path keys. A queue experiment must therefore beat
+an appropriate specialised baseline, not merely improve asymptotic claims.
+Conversely, the DAG property is worth exploiting only if a topological order is
+obtainable without first constructing the graph and without expanding far more
+states than Dijkstra.
+
+### Edge-cost and search-order investigation
+
+Current costs in `Edge::cost` are:
+
+| edge | current cost | intended preference |
+| --- | ---: | --- |
+| unchanged ordinary node | `min(40, depth_difference + 1)` = 1--40 | favour exact content, especially at similar depth |
+| unchanged punctuation | ordinary cost + 200 = 201--240 | avoid aligning punctuation instead of meaningful atoms |
+| enter unchanged delimiters | `100 + min(40, depth_difference)` = 100--140 | preserve matching structure, but below novelty |
+| novel atom or one-sided delimiter entry | 300 | insertion/deletion |
+| replaced comment or string | `500 + (100 - levenshtein_pct)` = 500--600 | prefer a similar replacement to two novel atoms |
+
+Costs determine both the selected diff and how Dijkstra expands the graph.
+Autochrome explicitly used relative costs to postpone state-expanding
+single-cursor moves, and the current code does the same. A useful tuning can
+therefore improve performance even without changing the graph representation,
+but a lower instruction count might merely reflect a worse objective. Uniformly
+scaling every cost cannot change queue order and is not a useful experiment.
+
+Use historical commit `5165b0c` as the starting point for an experimental cost
+switchboard. It exposed `depth cap`, punctuation, delimiter entry, novelty,
+novel punctuation, and replacement costs through environment variables.
+Recreate that facility so variables are parsed once outside the hot loop, or
+generate compile-time variants; do not leave repeated environment lookups in a
+candidate being timed.
+
+Explore these hypotheses one factor at a time before trying combinations:
+
+- **Delimiter entry:** sweep the base near 50, 75, 100, 125, and 150. Raising
+  it may suppress speculative descent; lowering it may reach cheap subtree
+  matches sooner. Record edge mix because either direction can explode states.
+- **Depth penalty/cap:** try caps near 10, 20, 40, and 80. A smaller cap makes
+  cross-depth matches competitive sooner; a larger cap keeps the search near
+  structurally similar paths. Include nesting-change fixtures in review.
+- **Punctuation:** sweep the +200 penalty and separately price *novel*
+  punctuation. This can make the queue prioritise identifiers and literals,
+  but the existing +200 encodes a deliberate inequality around replacement
+  edges, so audit `comma_and_comment_1.js` and related tests.
+- **Novelty:** test modest changes around 250--350, preferably as ratios to the
+  other costs. Moving novelty changes how long Dijkstra explores cheap matches
+  before accepting an insertion/deletion.
+- **Replacement:** vary the base and similarity contribution while retaining
+  the invariant that a good comment/string replacement is cheaper than two
+  novel atoms. Inspect word-diff quality, not only graph size.
+- **Content-aware match value:** longer or globally unique atoms may deserve a
+  stronger preference than common short tokens. This resembles GumTree's
+  large/unique-first matching, but changes the objective and belongs in the
+  quality lane.
+- **Separate search tie-break from semantic cost:** keep distance as the
+  primary key and prefer more syntax progress, matched-subtree size, smaller
+  diagonal imbalance, or fewer independent parent stacks only among equal-cost
+  states. This preserves the minimum numeric cost but can still select a
+  different equal-cost route, so output equivalence is not automatic.
+
+For each setting record both focused instruction counts and search shape:
+vertices allocated, vertices settled, neighbours generated, heap pushes/pops,
+maximum heap size, arena bytes, winning path cost/length, and edge-type counts.
+Start with a sensitivity sweep, then test a small number of promising
+combinations; do not grid-search every combination. Any candidate must then run
+the complete sample oracle and a language-diverse corpus. If output changes,
+produce paired rendered diffs and evaluate readability separately from speed.
+
+### Prioritised next-experiment backlog
+
+Stay focused on `typing` and `slow` for measurement, but pursue the following
+in order of expected impact. Re-profile after any large accepted change; the
+percentages above predate exp25-31.
+
+1. **Re-isolate GumTree-like similar-list pairing and forced descent.** Start
+   from the current branch, inspect the historical commits rather than copying
+   the final tree, and measure pairing alone, descent alone, and their
+   combination. Sweep only the oversized-section gate and the minimum vote
+   rule initially. Check the two focused outputs first, then build a gallery of
+   every wider oracle change. This is exp34 unless another experiment is logged
+   first.
+2. **Add low-overhead search-shape instrumentation.** Counters should be
+   compile-time- or log-gated and excluded from timed release measurements.
+   Attribute which edge types create and settle the million-state `slow`
+   section. This turns the edge-cost sweep and pruning work into evidence rather
+   than blind parameter changes.
+3. **Run the edge-cost sensitivity sweep.** Use the switchboard and governance
+   above. Keep exact-output winners eligible for normal acceptance; report
+   quality-changing winners separately. Validate promising settings beyond the
+   focused files before drawing conclusions.
+4. **Try an exact upper-bound prune.** Construct the cheap all-novel route (and,
+   if useful, a greedy matched route) before Dijkstra. Avoid allocating or
+   pushing candidates whose `g + admissible_lower_bound` is strictly greater
+   than the bound. Preserve an actual fallback route and prove what happens at
+   equal cost.
+5. **Compare a circular bucket queue with the radix heap.** Current maximum edge
+   cost is 600. Keep graph generation identical and make queue statistics
+   visible so a result is attributable. This is a contained exact-output
+   experiment and can move earlier if instrumentation shows queue work is hot.
+6. **Re-evaluate A* only from the best historical lower bound.** Port the
+   unmatched-content suffix heuristic from `2efe93b` onto the current compact
+   graph, measure heuristic-only deltas, and inspect why it leaves states
+   unpruned. Candidate extensions are multiplicity imbalance and a cheap
+   abstract/flattened relaxation; abandon any bound whose O(1) evaluation cost
+   is not repaid on `slow`.
+7. **Continue exact per-state graph reductions.** Preserve the lazy neighbour
+   cache and packed `VertexKey`. Look for repeated state extraction, parent
+   stack allocation, or matching in existing edges. Exp28 and exp31 show exact
+   parent-stack reductions pay; exp10 shows merely decomposing candidate
+   construction does not.
+8. **Target real tree-sitter work on `typing`.** Exp27 proved capture-bucket
    lookup itself is negligible. Investigate query matching, syntax cursor
-   traversal, or duplicated tree walking. Type highlights affect colour but,
-   unlike comments and strings, appear not to affect content equality; a
-   no-colour fast path is only valid after tracing `AtomKind::Type` through
-   parsing, matching, and every output mode. Do not assume this from the name.
-3. **Consider phase-specific instrumentation.** The unmerged
-   `claude/codspeed-ci-setup-ahqufj` benchmark separates parse and diff. Adapt
-   it locally if whole-process profiles cannot distinguish a `typing` change;
-   do not broaden the benchmark inputs beyond the two focused pairs.
-4. **Algorithmic splitting only with explicit output review.** Historical
-   pre-diff splitting and unique-atom branches can dramatically reduce graph
-   work, but they change which optimal diff is selected. The current exact
-   output oracle will reject them. Record such a proposal separately and seek
-   Wilfred's diff-quality judgment rather than silently weakening the gate.
+   traversal, duplicated tree walking, and whether no-colour mode can safely
+   skip highlight-only classifications after tracing `AtomKind::Type` through
+   parsing, equality, and all output modes.
+9. **Use phase-specific benchmarks when attribution is unclear.** Adapt the
+   unmerged `claude/codspeed-ci-setup-ahqufj` benchmark locally to separate
+   parse and diff. Continue reporting whole-process instructions for acceptance.
 
 ### Settled directions not to repeat
 
@@ -367,11 +615,18 @@ the percentages above predate exp25-31.
   neighbour-entry size and conversions regressed both pairs (exp33).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
+- Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
+  designs unchanged. Start from their recorded failure/benefit and articulate
+  the new information that makes a variant different.
+- Do not retry histogram-style `occurs <= 4` anchors unchanged. The graph-limit
+  study found no additional corpus wins and worse sample alignment.
 
 ## Resume checklist
 
-1. Read this file, then the exp23 onward section of `PERF_RESEARCH_LOG.md` and
-   the relevant `PRIOR_WORK.md` section before editing.
+1. Read this file, then the exp23 onward section of `PERF_RESEARCH_LOG.md`, the
+   search/splitting sections of `PRIOR_WORK.md`, and the historical report via
+   `git show origin/claude/difftastic-graph-limit-r5irm0:graph_limit_investigation.md`
+   before editing.
 2. Confirm the branch and a clean worktree with `git status --short --branch`.
    Fetch the requested branch if the local clone is stale; do not work on
    master.
@@ -379,12 +634,14 @@ the percentages above predate exp25-31.
 4. Re-run one five-sample baseline for both focused pairs. If it differs
    materially from 3.065B (`typing`) / 1.862B (`slow`), record the new control
    rather than comparing across machines or toolchains.
-5. Choose one hypothesis from the focused backlog, change one thing, measure
-   both pairs, and immediately append exp32 (then exp33, etc.) to
+5. Choose one hypothesis from the prioritised backlog, state whether it is in
+   the exact-output or diff-quality lane, change one thing, measure both pairs,
+   and immediately append exp34 (then exp35, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full
-   tests before committing.
+   tests before committing. For a quality-lane change, also preserve a gallery
+   of changed outputs and do not promote it without human review.
 7. Stage explicit paths, include `AI-assisted change (OpenAI Codex).` in every
    commit message, push, and verify the remote ref when finishing a tranche.
 
