@@ -819,6 +819,18 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Nu => {
+            let language_fn = tree_sitter_nu::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: ["val_string"].into_iter().collect(),
+                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[","]")],
+                ignore_trailing_tokens: vec![],
+                highlight_query: ts::Query::new(&language, tree_sitter_nu::HIGHLIGHTS_QUERY).unwrap(),
+                sub_languages: vec![],
+            }
+        }
         ObjC => {
             let language_fn = tree_sitter_objc::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);

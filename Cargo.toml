@@ -112,6 +112,7 @@ tree-sitter-lua = "0.5"
 tree-sitter-make = "1.1.1"
 tree-sitter-newick = "1.1.0"
 tree-sitter-nix = "0.3.0"
+tree-sitter-nu = { git = "https://github.com/nushell/tree-sitter-nu", branch = "main" }
 tree-sitter-objc = "3.0.2"
 tree-sitter-ocaml = "0.25.0"
 tree-sitter-pascal = "0.10.0"
