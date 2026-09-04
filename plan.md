@@ -241,10 +241,10 @@ new incremental experiment, use the latest accepted branch tip as the control.
 
 Fresh five-run `perf stat` means at the start of the focused pass:
 
-| pair | post-exp22 instructions | latest accepted after exp41 | cumulative change |
+| pair | post-exp22 instructions | latest accepted after exp42 | cumulative change |
 | --- | ---: | ---: | ---: |
-| `typing` | 3,115,140,742 | 2,809,006,642 | **-9.83%** |
-| `slow` | 1,881,539,982 | 517,554,150 | **-72.49%** |
+| `typing` | 3,115,140,742 | 2,787,966,830 | **-10.50%** |
+| `slow` | 1,881,539,982 | 516,244,380 | **-72.56%** |
 
 The original focused callgrind files were `/tmp/cg-focused-typing.out` and
 `/tmp/cg-focused-slow.out`; sampled cycle profiles were
@@ -358,6 +358,7 @@ than mixing counts across environments.
 | 39 | lower similar-list graph-size gate from 1,000,000 to 45,000 | -19.33% `slow`, -0.14% `typing` | kept |
 | 40 | lower large-list pairing requirement from two unique votes to one | flat on both focused pairs | rejected |
 | 41 | filter empty endpoint spans as a borrowed subslice | -0.54% `typing`, -0.19% `slow` | kept |
+| 42 | append ordinary matched positions directly to the result | -0.75% `typing`, -0.25% `slow` | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -366,8 +367,8 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
-The focused exp23-41 pass reduced `typing` from 3.115B to 2.809B (**-9.83%**)
-and `slow` from 1.882B to 0.518B (**-72.49%**). Exp35's similar-list pairing and
+The focused exp23-42 pass reduced `typing` from 3.115B to 2.788B (**-10.50%**)
+and `slow` from 1.882B to 0.516B (**-72.56%**). Exp35's similar-list pairing and
 exp39's lower decomposition gate are responsible for most of that improvement.
 
 ## Research synthesis: where larger wins can come from
@@ -624,12 +625,12 @@ percentages above predate exp25-31.
    construction does not.
 8. **Target the remaining mixed-pipeline work on `typing`.** Exp27 proved
    capture-bucket lookup itself is negligible, while exp41 removed one
-   allocation from `change_positions_`. Next test appending ordinary matched
-   positions directly to the destination vector instead of returning a fresh
-   vector per syntax node. Also investigate query matching, syntax cursor
-   traversal, duplicated tree walking, and whether no-colour mode can safely
-   skip highlight-only classifications after tracing `AtomKind::Type` through
-   parsing, equality, and all output modes.
+   allocation from `change_positions_`, and exp42 removed the per-node result
+   vector. Next inspect capacity growth and the remaining replacement-word
+   vector before leaving this path. Also investigate query matching, syntax
+   cursor traversal, duplicated tree walking, and whether no-colour mode can
+   safely skip highlight-only classifications after tracing `AtomKind::Type`
+   through parsing, equality, and all output modes.
 9. **Use phase-specific benchmarks when attribution is unclear.** Adapt the
    unmerged `claude/codspeed-ci-setup-ahqufj` benchmark locally to separate
    parse and diff. Continue reporting whole-process instructions for acceptance.
@@ -678,7 +679,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp42 (then exp43, etc.) to
+   and immediately append exp43 (then exp44, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

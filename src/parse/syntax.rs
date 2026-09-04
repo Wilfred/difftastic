@@ -833,12 +833,13 @@ fn filter_empty_ends(mut line_spans: &[SingleLineSpan]) -> &[SingleLineSpan] {
 }
 
 impl MatchedPos {
-    fn new(
+    fn append_to(
+        positions: &mut Vec<Self>,
         ck: ChangeKind,
         highlight: TokenKind,
         pos: &[SingleLineSpan],
         is_close_delim: bool,
-    ) -> Vec<Self> {
+    ) {
         // Don't create a MatchedPos for empty positions at the start
         // or end. We still want empty positions in the middle of
         // multiline atoms, as a multiline string literal may include
@@ -870,7 +871,13 @@ impl MatchedPos {
                     AtomKind::Comment
                 };
 
-                split_atom_words(this_content, pos, opposite_content, opposite_pos, kind)
+                positions.extend(split_atom_words(
+                    this_content,
+                    pos,
+                    opposite_content,
+                    opposite_pos,
+                    kind,
+                ));
             }
             Unchanged(opposite) => {
                 let opposite_pos = match opposite {
@@ -896,9 +903,9 @@ impl MatchedPos {
                 };
 
                 // Create a MatchedPos for every line that `pos` covers.
-                let mut mps = vec![];
+                let initial_len = positions.len();
                 for line_pos in pos {
-                    mps.push(Self {
+                    positions.push(Self {
                         kind: kind.clone(),
                         pos: *line_pos,
                     });
@@ -907,16 +914,14 @@ impl MatchedPos {
                     // MatchedPos on the LHS and RHS. This allows us
                     // to consider unchanged MatchedPos values
                     // pairwise.
-                    if mps.len() == opposite_pos_len {
+                    if positions.len() - initial_len == opposite_pos_len {
                         break;
                     }
                 }
-                mps
             }
             Novel => {
                 let kind = MatchKind::Novel { highlight };
                 // Create a MatchedPos for every line that `pos` covers.
-                let mut mps = vec![];
                 for line_pos in pos {
                     // Don't create a MatchedPos for entirely empty positions. This
                     // occurs when we have lists with empty open/close
@@ -925,15 +930,13 @@ impl MatchedPos {
                         continue;
                     }
 
-                    mps.push(Self {
+                    positions.push(Self {
                         kind: kind.clone(),
                         pos: *line_pos,
                     });
                 }
-
-                mps
             }
-            IgnoredPunctuation => vec![],
+            IgnoredPunctuation => {}
         }
     }
 }
@@ -1000,29 +1003,26 @@ fn change_positions_<'a>(
                 close_position,
                 ..
             } => {
-                positions.extend(MatchedPos::new(
+                MatchedPos::append_to(
+                    positions,
                     change,
                     TokenKind::Delimiter,
                     open_position,
                     false,
-                ));
+                );
 
                 change_positions_(children, change_map, positions, seen_unchanged);
 
-                positions.extend(MatchedPos::new(
+                MatchedPos::append_to(
+                    positions,
                     change,
                     TokenKind::Delimiter,
                     close_position,
                     true,
-                ));
+                );
             }
             Atom { position, kind, .. } => {
-                positions.extend(MatchedPos::new(
-                    change,
-                    TokenKind::Atom(*kind),
-                    position,
-                    false,
-                ));
+                MatchedPos::append_to(positions, change, TokenKind::Atom(*kind), position, false);
             }
         }
     }

@@ -1328,6 +1328,27 @@ available sample pairs. `cargo test` passes, the changed file passes
 `rustfmt --check`, and a new unit test covers trimming both ends, preserving a
 middle empty span, and the singleton-empty case.
 
+### exp42: append matched positions directly — KEPT
+
+After exp41, `MatchedPos::new` still allocated a fresh vector for every syntax
+node and `change_positions_` immediately drained it into the result. The helper
+now appends unchanged and novel positions directly to the caller's vector.
+Replacement comments and strings still use their existing word-diff vector, so
+this experiment isolates the common per-node scratch allocation. The unchanged
+case retains the original emitted-position count rule, including its behaviour
+when an opposite delimiter has no spans.
+
+Ten-run `perf stat` means were:
+
+| pair | exp41 control | direct append | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 517,558,958 | 516,244,380 | **-0.254%** |
+| `typing` | 2,808,912,768 | 2,787,966,830 | **-0.746%** |
+
+Output is byte-identical in side-by-side, inline, and JSON modes on all 107
+available sample pairs. `cargo test` passes (164 passed, one ignored), and the
+changed file passes `rustfmt --check`.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1336,8 +1357,8 @@ middle empty span, and the singleton-empty case.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp41 | 3,115,140,742 | 2,809,006,642 | **-9.83%** |
-| focused `slow`, exp22 through exp41 | 1,881,539,982 | 517,554,150 | **-72.49%** |
+| focused `typing`, exp22 through exp42 | 3,115,140,742 | 2,787,966,830 | **-10.50%** |
+| focused `slow`, exp22 through exp42 | 1,881,539,982 | 516,244,380 | **-72.56%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1346,7 +1367,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-41 pass first found small, composable wins in slider range
+The focused exp23-42 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,
