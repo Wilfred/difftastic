@@ -1106,6 +1106,19 @@ Relative to exp28, five-run `perf stat` means were:
 modes on all 107 available sample pairs, and `cargo test` passes (160 passed,
 one ignored).
 
+### exp32: replace nested-slider vectors with a bounded accumulator — REJECTED
+
+Nested slider searches only distinguish zero, one, and multiple unchanged
+descendants, but collected every match in a `Vec<&Syntax>`. A fixed two-state
+accumulator removed those allocations and stopped traversal as soon as a
+second candidate made sliding impossible.
+
+A fresh exp31 control measured 1,861,551,104 instructions on `slow` and
+3,065,110,465 on `typing`. Five-run candidate means were 1,861,549,014
+(-0.0001%) and 3,065,320,316 (+0.007%), respectively. Both are unequivocally
+flat. These nested-slider searches are too rare to matter on the focused
+inputs, so the extra representation was reverted.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |

@@ -310,6 +310,7 @@ than mixing counts across environments.
 | 29 | enter novel delimiters on both sides in one edge | +7.32% `slow`, +0.74% `typing` | rejected |
 | 30 | add the combined edge only for different delimiters | +6.84% `slow`, +0.54% `typing` | rejected |
 | 31 | dispatch parent pops from one stack-head lookup | -0.41% `slow`, flat on `typing` | kept |
+| 32 | replace nested-slider vectors with a bounded accumulator | flat on both focused pairs | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -326,34 +327,28 @@ The focused exp23-31 pass then reduced `typing` from 3.115B to 3.065B
 Stay within `typing` and `slow`. Re-profile after a few more accepted changes;
 the percentages above predate exp25-31.
 
-1. **Remove remaining slider scratch allocation on `typing`.** Exp25 removed
-   the per-region `Vec<usize>` allocations and won 1.29%. Nested slider
-   correction still creates `Vec<&Syntax>` scratch buffers named `candidates`
-   and `found_unchanged` for each relevant list even though it only cares about
-   zero, one, or more-than-one matches. Test a fixed two-slot accumulator or a
-   `SmallVec<[&Syntax; 2]>`, preserving traversal and early-stop semantics.
-2. **Reduce existing graph candidate overhead on `slow`.** Preserve the lazy
+1. **Reduce existing graph candidate overhead on `slow`.** Preserve the lazy
    neighbour cache and the packed `VertexKey` stored directly in the hash
    bucket. Look for repeated state extraction, stack allocation, or matching in
    `compute_neighbours`/`allocate_if_new` that can be removed on an existing
    edge. Exp28 and exp31 show that exact parent-stack reductions pay; exp10
    shows that merely decomposing candidate construction does not.
-3. **Measure compact `Edge` metadata.** A historical search branch stores
+2. **Measure compact `Edge` metadata.** A historical search branch stores
    depth differences as `u8`; current costs cap them at 40 but the enum carries
    `u32`. First check `size_of::<Edge>()` and generated code. A smaller enum only
    matters if it reduces copying or the `(Edge, &Vertex)` neighbour/route
    representation; alignment may erase the apparent saving.
-4. **Target real tree-sitter work on `typing`.** Exp27 proved capture-bucket
+3. **Target real tree-sitter work on `typing`.** Exp27 proved capture-bucket
    lookup itself is negligible. Investigate query matching, syntax cursor
    traversal, or duplicated tree walking. Type highlights affect colour but,
    unlike comments and strings, appear not to affect content equality; a
    no-colour fast path is only valid after tracing `AtomKind::Type` through
    parsing, matching, and every output mode. Do not assume this from the name.
-5. **Consider phase-specific instrumentation.** The unmerged
+4. **Consider phase-specific instrumentation.** The unmerged
    `claude/codspeed-ci-setup-ahqufj` benchmark separates parse and diff. Adapt
    it locally if whole-process profiles cannot distinguish a `typing` change;
    do not broaden the benchmark inputs beyond the two focused pairs.
-6. **Algorithmic splitting only with explicit output review.** Historical
+5. **Algorithmic splitting only with explicit output review.** Historical
    pre-diff splitting and unique-atom branches can dramatically reduce graph
    work, but they change which optimal diff is selected. The current exact
    output oracle will reject them. Record such a proposal separately and seek
@@ -370,6 +365,8 @@ the percentages above predate exp25-31.
   instructions.
 - Do not add the stale-heap check unchanged (exp6: +0.2%).
 - Do not optimize capture classification alone (exp27: -0.03%, noise).
+- Do not replace nested-slider scratch vectors with a bounded accumulator;
+  those searches were flat on both focused pairs (exp32).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 
