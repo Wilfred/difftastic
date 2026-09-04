@@ -363,8 +363,9 @@ fn novel_regions_after_unchanged<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
 ) -> Vec<(usize, usize)> {
-    let mut regions: Vec<Vec<usize>> = vec![];
-    let mut region: Option<Vec<usize>> = None;
+    let mut regions = vec![];
+    let mut region = None;
+    let mut after_unchanged = false;
 
     for (i, node) in nodes.iter().enumerate() {
         let change = change_map.get(node).expect("Node changes should be set");
@@ -377,12 +378,15 @@ fn novel_regions_after_unchanged<'a>(
                 }
 
                 // Could be the unchanged node before a novel region.
-                region = Some(vec![]);
+                region = None;
+                after_unchanged = true;
             }
             Novel => {
-                if let Some(mut r) = region {
-                    r.push(i);
-                    region = Some(r);
+                if after_unchanged {
+                    region = Some(match region {
+                        Some((start, _)) => (start, i),
+                        None => (i, i),
+                    });
                 }
             }
             ReplacedComment(_, _) | ReplacedString(_, _) => {
@@ -392,6 +396,7 @@ fn novel_regions_after_unchanged<'a>(
                 }
 
                 region = None;
+                after_unchanged = false;
             }
             IgnoredPunctuation => {}
         }
@@ -402,10 +407,6 @@ fn novel_regions_after_unchanged<'a>(
     }
 
     regions
-        .into_iter()
-        .filter(|r| !r.is_empty())
-        .map(|r| (*r.first().unwrap(), *r.last().unwrap()))
-        .collect()
 }
 
 /// Return the start and end indexes of sequences of novel nodes that
@@ -414,8 +415,8 @@ fn novel_regions_before_unchanged<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
 ) -> Vec<(usize, usize)> {
-    let mut regions: Vec<Vec<usize>> = vec![];
-    let mut region: Option<Vec<usize>> = None;
+    let mut regions = vec![];
+    let mut region = None;
 
     for (i, node) in nodes.iter().enumerate() {
         let change = change_map.get(node).expect("Node changes should be set");
@@ -430,9 +431,10 @@ fn novel_regions_before_unchanged<'a>(
                 region = None;
             }
             Novel => {
-                let mut r = if let Some(r) = region { r } else { vec![] };
-                r.push(i);
-                region = Some(r);
+                region = Some(match region {
+                    Some((start, _)) => (start, i),
+                    None => (i, i),
+                });
             }
             ReplacedComment(_, _) | ReplacedString(_, _) => {
                 region = None;
@@ -446,10 +448,6 @@ fn novel_regions_before_unchanged<'a>(
     }
 
     regions
-        .into_iter()
-        .filter(|r| !r.is_empty())
-        .map(|r| (*r.first().unwrap(), *r.last().unwrap()))
-        .collect()
 }
 
 fn is_novel_deep<'a>(node: &Syntax<'a>, change_map: &ChangeMap<'a>) -> bool {

@@ -184,6 +184,7 @@ than mixing counts across environments.
 | 22 | store opposite-line mappings densely with inline values | -9.15% instructions, -29% RSS on the 22 MB C++ pair | kept |
 | 23 | regenerate graph neighbours instead of caching them | +3.81% `slow`, +0.42% `typing` | rejected |
 | 24 | omit packed keys from the graph hash table | +8.21% `slow`, +0.95% `typing`; RSS -10.8% | rejected |
+| 25 | collect slider ranges without per-region vectors | -1.29% `typing`, -0.14% `slow` | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -196,7 +197,7 @@ profiler, or machine changed, record a fresh control binary before comparing.
 ## Where to look next
 
 Ordered by how much is left on the table. The suite is now dominated by
-`typing` (3.12G), `slow` (2.17G), `modules` (2.13G), `long_line` (1.74G) and
+`typing` (3.07G), `slow` (1.88G), `modules` (2.13G), `long_line` (1.74G) and
 `objc_module` (1.52G).
 
 1. **The remaining tree-sitter query analysis.** After exp1 and exp3 a trivial

@@ -978,6 +978,32 @@ vertex arena and rebuild the key. Keeping the packed key adjacent to the table
 control bytes is substantially faster despite its memory cost. The change was
 reverted.
 
+### exp25: collect slider ranges without per-region vectors — KEPT
+
+Slider correction scanned every sibling list twice per correction pass. Each
+scan represented a run of novel nodes as a separately allocated `Vec<usize>`,
+then retained only its first and last indexes. `typing` spends substantial time
+in the two recursive slider passes, making those short-lived allocations
+visible at whole-program scale.
+
+The scanner now tracks each active run as an inline `(start, end)` pair and
+pushes that pair directly. It preserves the distinctions between a run after
+an unchanged node, a run invalidated by a replacement, and ignored punctuation
+inside a run.
+
+Five-run `perf stat` means:
+
+| pair | before | after | change |
+| --- | ---: | ---: | ---: |
+| `typing` | 3,115,140,742 | 3,074,886,508 | **-1.29%** |
+| `slow` | 1,881,539,982 | 1,878,980,000 | **-0.14%** |
+
+Output is byte-identical in side-by-side colour, inline, and JSON modes on all
+107 available sample pairs; Haskell remains unavailable because of the
+unchanged baseline abort from exp9. The focused `typing` and `slow` JSON checks
+were also repeated with unstable JSON explicitly enabled. `cargo test` passes
+(160 passed, one ignored).
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
