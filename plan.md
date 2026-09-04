@@ -378,6 +378,7 @@ than mixing counts across environments.
 | 59 | move trivial novel match metadata into its final position | flat on both focused pairs | rejected |
 | 60 | store the usual one-span unchanged positions inline | -1.53% `typing`, -0.54% `slow`, -4.77% `huge_cpp` | kept |
 | 61 | construct inline unchanged positions directly from slices | -0.48% `typing`, -0.14% `slow` | kept |
+| 62 | cache postorder sibling groups across both slider passes | flat on both focused pairs | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -716,6 +717,8 @@ percentages above predate exp25-31.
   inline child IDs in content keys (exp56).
 - Construct those inline position lists with `SmallVec::from_slice`; generic
   iterator collection retains a measurable non-inlined `Extend` cost (exp61).
+- Do not cache slider sibling groups merely to avoid the second recursive walk;
+  collecting and replaying the slice pointers is equally expensive (exp62).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -739,7 +742,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp62 (then exp63, etc.) to
+   and immediately append exp63 (then exp64, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

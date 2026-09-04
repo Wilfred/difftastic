@@ -1604,6 +1604,17 @@ JSON modes on all 107 available non-Haskell, non-`huge_cpp` sample pairs.
 `cargo test` passes (165 passed, one ignored), and `src/parse/syntax.rs` passes
 `rustfmt --check`.
 
+### exp62: cache sibling groups across slider passes — REJECTED
+
+Slider correction performs two full postorder traversals. A candidate collected
+every sibling slice once in the same postorder, then replayed that list twice,
+preserving the exact mutation order while avoiding the second recursive tree
+walk. Ten-run means were flat: `typing` moved from 2,617,383,408 to
+2,616,315,863 instructions (-0.041%), and `slow` from 467,964,992 to
+467,917,839 (-0.010%). Allocating, filling, and replaying the traversal cache
+costs as much as rediscovering child slices. The recursive implementation was
+restored; future slider work should target region scanning or mutation logic.
+
 ### exp59: move final novel-position metadata — REJECTED
 
 The final-element move used by exp58 was applied to `MatchKind::Novel` as a
