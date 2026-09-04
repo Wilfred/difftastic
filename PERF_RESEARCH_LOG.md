@@ -1004,6 +1004,25 @@ unchanged baseline abort from exp9. The focused `typing` and `slow` JSON checks
 were also repeated with unstable JSON explicitly enabled. `cargo test` passes
 (160 passed, one ignored).
 
+### exp26: skip slider scans for fewer than three siblings — KEPT
+
+A slider needs both an unchanged boundary and at least two novel nodes, so it
+cannot exist in a sibling list shorter than three items. Despite that invariant,
+each side's two correction passes scanned every such list twice looking for
+regions. An early return now skips those structurally impossible scans.
+
+Relative to exp25, five-run `perf stat` means were:
+
+| pair | before | after | change |
+| --- | ---: | ---: | ---: |
+| `typing` | 3,074,886,508 | 3,069,056,555 | **-0.19%** |
+| `slow` | 1,878,980,000 | 1,878,402,116 | -0.03% |
+
+The `typing` result is small but exceeds the established ±0.1% binary-layout
+noise bound and removes work by construction; the `slow` movement is treated
+as flat. Output is byte-identical in all three modes on all 107 available
+sample pairs, and `cargo test` passes (160 passed, one ignored).
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |

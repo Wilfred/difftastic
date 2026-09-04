@@ -349,6 +349,11 @@ fn push_unchanged_to_ancestor<'a>(
 /// change which nodes are marked as novel if it produces a sequence
 /// of nodes that are closer together.
 fn fix_sliders<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut ChangeMap<'a>) {
+    // Sliding requires an unchanged boundary and at least two novel nodes.
+    if nodes.len() < 3 {
+        return;
+    }
+
     for (region_start, region_end) in novel_regions_after_unchanged(nodes, change_map) {
         slide_to_prev_node(nodes, change_map, region_start, region_end);
     }
