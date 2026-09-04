@@ -368,6 +368,7 @@ than mixing counts across environments.
 | 49 | cache persistent-stack length for equality rejection | -0.94% `slow`, flat on `typing` | kept |
 | 50 | fold the two-word vertex key into one FxHasher write | +0.89% `slow`, +0.06% `typing` | rejected |
 | 51 | reserve seen-map capacity for both parent-stack variants | -0.30% instructions, -6.2% RSS on `slow` | kept |
+| 52 | sweep unchanged-delimiter base cost from 25 to 125 | 25 gives -0.84% `slow`; no sample changes, but objective differs | quality-lane only; reverted |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -556,7 +557,9 @@ Explore these hypotheses one factor at a time before trying combinations:
 
 - **Delimiter entry:** sweep the base near 50, 75, 100, 125, and 150. Raising
   it may suppress speculative descent; lowering it may reach cheap subtree
-  matches sooner. Record edge mix because either direction can explode states.
+  matches sooner. Exp52 measured a monotonic `slow` improvement down to 25
+  (-0.84%) and a regression at 125; all 25--75 sample outputs were identical,
+  but the objective change remains pending a real-diff quality gallery.
 - **Depth penalty/cap:** try caps near 10, 20, 40, and 80. A smaller cap makes
   cross-depth matches competitive sooner; a larger cap keeps the search near
   structurally similar paths. Include nesting-change fixtures in review.
@@ -678,6 +681,9 @@ percentages above predate exp25-31.
   allocations were flat on both focused pairs (exp44).
 - Do not fold the two-word vertex key into one rotated-XOR hash write; poorer
   distribution regressed `slow` 0.89% (exp50).
+- Do not raise the unchanged-delimiter base above 100; 125 regressed `slow`
+  0.30% (exp52). Bases from 25 to 75 are performance-positive but belong in
+  the diff-quality lane until broader human review.
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -701,7 +707,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp52 (then exp53, etc.) to
+   and immediately append exp53 (then exp54, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

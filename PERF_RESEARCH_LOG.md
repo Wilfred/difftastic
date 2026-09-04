@@ -1524,6 +1524,27 @@ in side-by-side, inline, and JSON modes on all 107 available sample pairs.
 `cargo test` passes (165 passed, one ignored), and the changed file passes
 `rustfmt --check`.
 
+### exp52: sweep the unchanged-delimiter base cost — QUALITY-LANE ONLY
+
+Autochrome's search ordering suggests that entering matching structure sooner
+can reduce exploration. Holding every other cost fixed, compile-time variants
+changed the `EnterUnchangedDelimiter` base from 100:
+
+| delimiter base | `slow` change | `typing` change | 107-pair output oracle |
+| ---: | ---: | ---: | --- |
+| 125 | +0.305% | +0.023% | not run after failed performance probe |
+| 75 | -0.347% | +0.009% | identical |
+| 50 | -0.582% | +0.002% | identical |
+| 25 | **-0.840%** | -0.004% | identical |
+
+Each row uses ten-run means against the same copied exp51 control. The monotonic
+`slow` trend is real: cheaper matching-delimiter descent reaches useful subtree
+matches sooner. However, this changes the numeric diff objective, and the
+focused/sample oracle cannot prove equivalent alignment on unseen inputs. Per
+the plan's quality-lane rules, the base remains 100 on the accepted branch.
+The 25--75 range is a promising candidate for a language-diverse real-diff
+gallery and human readability review; 125 should not be revisited.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
