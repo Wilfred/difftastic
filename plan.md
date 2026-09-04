@@ -328,6 +328,7 @@ than mixing counts across environments.
 | 31 | dispatch parent pops from one stack-head lookup | -0.41% `slow`, flat on `typing` | kept |
 | 32 | replace nested-slider vectors with a bounded accumulator | flat on both focused pairs | rejected |
 | 33 | store edge depth differences as `u8` | +1.50% `slow`, +0.18% `typing` | rejected |
+| 34 | force descent into oversized same-delimiter singleton lists | +1.28% `slow`, +0.06% `typing`; no graph reduction | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -553,13 +554,13 @@ Stay focused on `typing` and `slow` for measurement, but pursue the following
 in order of expected impact. Re-profile after any large accepted change; the
 percentages above predate exp25-31.
 
-1. **Re-isolate GumTree-like similar-list pairing and forced descent.** Start
+1. **Re-isolate GumTree-like similar-list pairing and forced descent.** Exp34
+   confirmed that forced descent alone cannot reach either focused graph. Start
    from the current branch, inspect the historical commits rather than copying
-   the final tree, and measure pairing alone, descent alone, and their
-   combination. Sweep only the oversized-section gate and the minimum vote
-   rule initially. Check the two focused outputs first, then build a gallery of
-   every wider oracle change. This is exp34 unless another experiment is logged
-   first.
+   the final tree, and measure the pairing + descent combination next. Sweep
+   only the oversized-section gate and the minimum vote rule initially. Check
+   the two focused outputs first, then build a gallery of every wider oracle
+   change. This is exp35 unless another experiment is logged first.
 2. **Add low-overhead search-shape instrumentation.** Counters should be
    compile-time- or log-gated and excluded from timed release measurements.
    Attribute which edge types create and settle the million-state `slow`
@@ -613,6 +614,8 @@ percentages above predate exp25-31.
   those searches were flat on both focused pairs (exp32).
 - Do not compact edge depth fields to `u8`; pointer alignment preserves the
   neighbour-entry size and conversions regressed both pairs (exp33).
+- Do not force descent into oversized singleton lists without similar-list
+  pairing; it did not change either graph and regressed `slow` 1.28% (exp34).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -636,7 +639,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp34 (then exp35, etc.) to
+   and immediately append exp35 (then exp36, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

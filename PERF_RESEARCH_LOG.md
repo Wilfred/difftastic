@@ -1138,6 +1138,29 @@ smaller enum does not shrink the hot neighbour entries. Saturating on edge
 construction and widening during cost calculation instead add work. The change
 was reverted.
 
+### exp34: forcibly descend into oversized singleton lists — REJECTED
+
+The historical graph-limit branch only decomposed a large changed section after
+it had become a same-delimiter singleton list. This experiment isolated that
+forced-descent component before restoring its similar-list pairing enabler. A
+section with at least one million possible node pairs was allowed to mark the
+outer delimiters unchanged and recursively split their children even when the
+ordinary unchanged-node splitter had made no progress.
+
+Five-run `perf stat` means against a fresh exp31 control were:
+
+| pair | control | forced descent | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 1,861,548,883 | 1,885,292,437 | **+1.28%** |
+| `typing` | 3,065,283,546 | 3,067,054,391 | +0.06% |
+
+The `typing` movement is within layout noise. `DFT_LOG=info` confirmed that
+`slow` still produced exactly the same four graph searches, including the same
+1,011,157-vertex dominant section: that section has five top-level nodes per
+side, so forced singleton descent cannot reach it without the pairing phase.
+The component was reverted. Do not retry it alone; its only plausible role is
+as the recursion enabler for similar-list pairing.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
