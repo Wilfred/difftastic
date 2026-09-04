@@ -721,9 +721,33 @@ fn parse_binary_overrides_or_die(glob_strs: &[String]) -> Vec<glob::Pattern> {
     overrides
 }
 
+/// The arguments to parse, with `--` inserted if git has invoked us
+/// as an external diff tool.
+///
+/// Git's external diff protocol is entirely positional: it passes 7
+/// arguments (or 9 for a rename) and never passes options. A path
+/// that starts with a hyphen, such as `-foo.txt`, would otherwise
+/// look like an option to us, and git has no way of adding a `--`
+/// separator on our behalf. Without this, git aborts the whole diff
+/// with "fatal: external diff died".
+///
+/// Git sets GIT_DIFF_PATH_TOTAL when running GIT_EXTERNAL_DIFF, so
+/// it's a reliable signal that we're being invoked this way. Note
+/// that `args_os()` includes the name of the binary, so the argument
+/// counts here are one higher.
+fn args_with_git_paths_escaped() -> Vec<OsString> {
+    let mut args: Vec<OsString> = env::args_os().collect();
+
+    if env::var_os("GIT_DIFF_PATH_TOTAL").is_some() && matches!(args.len(), 8 | 10) {
+        args.insert(1, OsString::from("--"));
+    }
+
+    args
+}
+
 /// Parse CLI arguments passed to the binary.
 pub(crate) fn parse_args() -> Mode {
-    let matches = app().get_matches();
+    let matches = app().get_matches_from(args_with_git_paths_escaped());
 
     let color_output = match matches
         .get_one::<String>("color")
