@@ -188,6 +188,8 @@ than mixing counts across environments.
 | 26 | skip slider scans for fewer than three siblings | -0.19% `typing`, flat on `slow` | kept |
 | 27 | classify highlight captures by direct index | -0.03% `typing`, flat on `slow` | rejected |
 | 28 | return early when neither graph side can pop | -0.49% `slow`, flat on `typing` | kept |
+| 29 | enter novel delimiters on both sides in one edge | +7.32% `slow`, +0.74% `typing` | rejected |
+| 30 | add the combined edge only for different delimiters | +6.84% `slow`, +0.54% `typing` | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -220,7 +222,8 @@ Ordered by how much is left on the table. The suite is now dominated by
    Exp24 saved 10.8% memory by omitting keys from the seen table, but pointer
    chasing made `slow` 8.21% worse. The next attempt needs to preserve lazy
    neighbour caching and packed-key locality while removing larger-grained work
-   or improving the algorithm.
+   or improving the algorithm. Exp29-30 also show that fewer visited vertices
+   do not help when each list-pair expansion gains another candidate.
 4. **Large fallback diffing and allocation behaviour.** After exp22 removed the
    hash-map hotspot, the 22 MB `huge_cpp` profile is led by line splitting,
    Imara histogram construction, allocator traffic, and the remaining changed

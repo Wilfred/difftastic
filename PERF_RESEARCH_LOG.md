@@ -1057,6 +1057,35 @@ The graph-dominated `slow` improvement is clear; `typing` is treated as flat.
 Output is byte-identical in all three modes on all 107 available sample pairs,
 and `cargo test` passes (160 passed, one ignored).
 
+### exp29: enter novel delimiters on both sides in one edge — REJECTED
+
+A historical branch proposed a cost-600 edge that enters list delimiters on
+both sides at once, reaching the same state and marking the same nodes as the
+two cost-300 one-sided edges. It promised to shorten paths and remains a TODO
+in the current source, so it was isolated from that branch and retested after
+the newer seen-map improvements.
+
+The largest `slow` section did visit fewer vertices: 1,011,157 fell to 990,008
+(-2.09%). Generating and considering an additional neighbour at every pair of
+list nodes cost much more than that saved:
+
+| pair | exp28 | combined edge | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 1,869,143,154 | 2,005,982,593 | **+7.32%** |
+| `typing` | 3,066,150,157 | 3,088,878,537 | **+0.74%** |
+
+### exp30: add the combined edge only for different delimiters — REJECTED
+
+The combined edge is redundant with the cheap unchanged-delimiter edge when
+the two lists use the same opening and closing text. Restricting it to list
+pairs whose delimiters differ reduced the candidate rate, but not enough. The
+largest `slow` graph still shrank 1.63%, to 994,718 vertices, while instructions
+rose to 1,997,067,064 (**+6.84%**). `typing` rose to 3,082,794,712 (**+0.54%**).
+
+Both variants were reverted. On the current implementation, reducing the
+number of popped vertices is not sufficient if it requires constructing an
+extra candidate across a large part of the graph.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
