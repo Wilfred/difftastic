@@ -1037,6 +1037,26 @@ Both are inside binary-layout noise, so the change was reverted. Further
 tree-sitter work should reduce query matching, parsing, or cursor traversal
 rather than micro-optimizing capture classification.
 
+### exp28: return early when neither graph side can pop — KEPT
+
+Every graph edge calls `pop_all_parents`, but the common transition still has
+a next syntax node on both sides. In that case no parent can be exhausted, yet
+the general loop tested left exhaustion, right exhaustion, and joint
+exhaustion before returning. A fast path now returns the unchanged state as
+soon as both nodes are present; all actual popping continues through the old
+loop.
+
+Relative to exp26, five-run `perf stat` means were:
+
+| pair | before | after | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 1,878,402,116 | 1,869,143,154 | **-0.49%** |
+| `typing` | 3,069,056,555 | 3,066,150,157 | -0.09% |
+
+The graph-dominated `slow` improvement is clear; `typing` is treated as flat.
+Output is byte-identical in all three modes on all 107 available sample pairs,
+and `cargo test` passes (160 passed, one ignored).
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |

@@ -448,6 +448,16 @@ fn pop_all_parents<'s, 'v>(
     Option<SyntaxId>,
     Stack<'v, EnteredDelimiter<'s, 'v>>,
 ) {
+    if lhs_node.is_some() && rhs_node.is_some() {
+        return (
+            lhs_node,
+            rhs_node,
+            lhs_parent_id,
+            rhs_parent_id,
+            parents.clone(),
+        );
+    }
+
     let mut lhs_node = lhs_node;
     let mut rhs_node = rhs_node;
     let mut lhs_parent_id = lhs_parent_id;
