@@ -19,6 +19,21 @@ stop later sessions from repeating work.
 Branch: `claude/auto-research-karpathy-diuc1c`. Everything is committed and
 pushed there; nothing has been merged to master and no PR has been opened.
 
+### Active scope (supersedes the broad backlog)
+
+The current user request is a **second, focused investigation only of**:
+
+- `sample_files/typing_1.ml` versus `sample_files/typing_2.ml`;
+- `sample_files/slow_1.rs` versus `sample_files/slow_2.rs`.
+
+Do not spend experiment time on `huge_cpp`, `long_line`, other suite leaders,
+or general startup microbenchmarks unless a proposed change is first motivated
+by one of these two focused pairs. Still run the wider output oracle before
+keeping a change, because exact output compatibility remains the correctness
+gate. Measure both focused pairs for every experiment: `slow` is currently the
+clean graph-search probe, while `typing` catches parser, syntax-construction,
+slider, graph, and display costs.
+
 ## High-level approach
 
 Treat performance research as a search over both implementation details and the
@@ -85,7 +100,8 @@ One experiment at a time, in this order:
 1. **Profile** to pick a target — don't guess. Use `perf record`/`perf report`
    when available; use callgrind when deterministic attribution is more useful.
 2. **Change one thing.**
-3. **`cargo build --release`** (~17s incremental) and **`cargo test --release`**.
+3. **`cargo build --release`** (~11s incremental in this environment). Run
+   focused tests before measuring and the full `cargo test` before accepting.
 4. **Probe** the pair expected to move with the fastest reliable counter
    available. Prefer repeated `perf stat -e instructions:u` runs for iteration;
    `./perf-research/ir.sh A B` is slower but deterministic. If the target pair
@@ -107,6 +123,57 @@ One experiment at a time, in this order:
 | `perf-research/check_output.sh` | the correctness gate |
 | `perf-research/pairs.txt` | the 27 benchmark pairs |
 | `examples/query_cost.rs` | times `ts::Query::new` on a language, optionally with a query read from a file — how the highlight-query experiments were bisected |
+
+### Exact focused measurement recipe
+
+Build and establish a control only from a clean, accepted commit. The control
+must be copied before editing because each release build overwrites
+`target/release/difft`:
+
+```bash
+cargo build --release
+cp target/release/difft /tmp/difft-focused-control
+```
+
+For each candidate, rebuild and take five instruction counts for both pairs:
+
+```bash
+for pair in slow typing; do
+  for run in 1 2 3 4 5; do
+    perf stat -x, -e instructions:u -- \
+      target/release/difft --color never \
+      sample_files/${pair}_1.* sample_files/${pair}_2.* >/dev/null
+  done
+done
+```
+
+Capture stderr separately and average only rows whose third comma-separated
+field is `instructions:u`. Do not append a second experiment to an old `/tmp`
+CSV and accidentally average ten runs. Label temporary files with the
+experiment number. Five-run instruction counts have been extremely stable;
+the important uncertainty is the roughly ±0.1% layout effect between distinct
+binaries.
+
+For a kept experiment, compare the accepted control and candidate on the
+focused pair in all modes:
+
+```bash
+# side-by-side
+difft --color always LHS RHS
+# inline
+difft --display inline --color never LHS RHS
+# JSON (must set this for real JSON rather than comparing two error messages)
+DFT_UNSTABLE=yes difft --display json LHS RHS
+```
+
+Then run the repository-wide output checker/control comparison and `cargo
+test`. `/tmp/check_control_variant_pairs.sh` was used during exp25-31 to compare
+the clean control and candidate in all three modes over 107 non-Haskell,
+non-`huge_cpp` sample pairs, but `/tmp` is ephemeral: inspect or recreate it in
+a new environment rather than assuming it exists. The Haskell pair currently
+aborts in the unchanged tree-sitter-haskell baseline (`corrupted size vs.
+prev_size`); this is not caused by the performance branch. The `huge_cpp` pair
+uses the line fallback and is outside the active scope.
 
 ### Choosing measurement and profiling tools
 
@@ -148,6 +215,58 @@ master (see `PRIOR_WORK.md`).
 
 If you deliberately change output, re-record with `check_output.sh --record`
 and say so loudly in the log. Nothing so far has needed to.
+
+## Focused baselines, profiles, and artifacts
+
+The focused control is the accepted post-exp22 build, copied to
+`/tmp/difft-focused-control` during the 2026-09-04 session. Recreate it from the
+post-exp22 commit `4d91b24` only if an exact original control is needed; for a
+new incremental experiment, use the latest accepted branch tip as the control.
+
+Fresh five-run `perf stat` means at the start of the focused pass:
+
+| pair | post-exp22 instructions | latest accepted after exp31 | cumulative change |
+| --- | ---: | ---: | ---: |
+| `typing` | 3,115,140,742 | 3,065,196,701 | **-1.60%** |
+| `slow` | 1,881,539,982 | 1,861,541,470 | **-1.06%** |
+
+The original focused callgrind files were `/tmp/cg-focused-typing.out` and
+`/tmp/cg-focused-slow.out`; sampled cycle profiles were
+`/tmp/difft-focused-typing.data` and `/tmp/difft-focused-slow.data`. These are
+diagnostic artifacts, not checked-in inputs, and may disappear after a restart.
+Their attribution describes the post-exp22 baseline, before exp25-31:
+
+- `slow`: 1,881,261,402 callgrind instructions. `mark_syntax` self cost 29.2%,
+  `allocate_if_new` 24.7%, `compute_neighbours` 18.2%, and `pop_all_parents`
+  8.1%. Its four changed sections visit 116, 6,156, 27,187, and **1,011,157**
+  vertices; the last section dominates and consumed a 256 MiB bump-arena
+  allocation class. This pair is overwhelmingly a graph/shortest-path problem.
+- `typing`: 3,121,830,730 callgrind instructions. Major self costs included
+  tree-sitter lexing (13.4%), cursor/query analysis and traversal, parser work,
+  `mark_syntax` (3.4%), `allocate_if_new` (3.1%), and `compute_neighbours`
+  (2.2%). The sampled profile also put 5.1% of cycles in
+  `fix_all_sliders_one_step` and visible cost in `syntax::change_positions_`.
+  It is a mixed pipeline workload rather than a single-hotspot graph case.
+
+Useful diagnostics:
+
+```bash
+DFT_LOG=info target/release/difft --color never \
+  sample_files/slow_1.rs sample_files/slow_2.rs >/dev/null
+
+valgrind --tool=callgrind --callgrind-out-file=/tmp/cg-focused.out \
+  target/release/difft --color never LHS RHS
+callgrind_annotate --inclusive=no /tmp/cg-focused.out
+
+perf record -o /tmp/difft-focused.data --call-graph dwarf -- \
+  target/release/difft --color never LHS RHS
+perf report -i /tmp/difft-focused.data --stdio
+```
+
+Release binaries use LTO and some reports lose or merge Rust symbols. Preserve
+the exact profiled binary or its build ID before rebuilding; otherwise `perf
+report` may show addresses because `target/release/difft` no longer matches the
+recording.
 
 ## State on the current branch
 
@@ -202,45 +321,77 @@ profiler, or machine changed, record a fresh control binary before comparing.
 The focused exp23-31 pass then reduced `typing` from 3.115B to 3.065B
 (**-1.60%**) and `slow` from 1.882B to 1.862B (**-1.06%**).
 
-## Where to look next
+## Focused next-experiment backlog
 
-Ordered by how much is left on the table. The suite is now dominated by
-`typing` (3.07G), `slow` (1.88G), `modules` (2.13G), `long_line` (1.74G) and
-`objc_module` (1.52G).
+Stay within `typing` and `slow`. Re-profile after a few more accepted changes;
+the percentages above predate exp25-31.
 
-1. **The remaining tree-sitter query analysis.** After exp1 and exp3 a trivial
-   Rust diff is 206M instructions, still ~80% `ts_query__perform_analysis`. The
-   ablation in the log shows it's four `scoped_identifier`/`scoped_type_identifier`
-   patterns costing ~132M between them, and they genuinely affect output, so
-   they can't just be dropped. Ideas not yet tried: whether `@type` captures
-   are needed at all when `--color=never` (they only affect display colour,
-   unlike `@comment`/`@string` which change the diff itself); whether a newer
-   tree-sitter analyses faster.
-2. **`split_string_by_width` and the display path** — still 10% of
-   `long_line` after exp4.
-3. **Graph search after exp9.** `mark_syntax`, `allocate_if_new`, and
-   `compute_neighbours` remain the leading costs on `slow`; exp10 showed that
-   merely decomposing candidate construction makes the hot path worse, while
-   exp23 showed that shrinking vertices by regenerating neighbours costs 3.81%.
-   Exp24 saved 10.8% memory by omitting keys from the seen table, but pointer
-   chasing made `slow` 8.21% worse. The next attempt needs to preserve lazy
-   neighbour caching and packed-key locality while removing larger-grained work
-   or improving the algorithm. Exp29-30 also show that fewer visited vertices
-   do not help when each list-pair expansion gains another candidate.
-   Exp28 and exp31 did make parent-stack handling about 0.9% cheaper on `slow`;
-   look for similarly exact reductions in the existing candidate path rather
-   than adding speculative edges.
-4. **Large fallback diffing and allocation behaviour.** After exp22 removed the
-   hash-map hotspot, the 22 MB `huge_cpp` profile is led by line splitting,
-   Imara histogram construction, allocator traffic, and the remaining changed
-   region calls to `LinePositions`. Explore monotonic position cursors,
-   allocation reuse/capacity, and whether the fallback pipeline can avoid
-   materialising the same line structure more than once. Keep measuring peak
-   memory so instruction wins do not hide excessive retained temporaries.
-5. **Ideas that change output** — better pre-diff splitting, skipping unique
-   atoms — are listed in `PRIOR_WORK.md`. They can't go through this loop as
-   set up, because `check_output.sh` would reject them by construction. They
-   need Wilfred judging diff quality.
+1. **Remove remaining slider scratch allocation on `typing`.** Exp25 removed
+   the per-region `Vec<usize>` allocations and won 1.29%. Nested slider
+   correction still creates `Vec<&Syntax>` scratch buffers named `candidates`
+   and `found_unchanged` for each relevant list even though it only cares about
+   zero, one, or more-than-one matches. Test a fixed two-slot accumulator or a
+   `SmallVec<[&Syntax; 2]>`, preserving traversal and early-stop semantics.
+2. **Reduce existing graph candidate overhead on `slow`.** Preserve the lazy
+   neighbour cache and the packed `VertexKey` stored directly in the hash
+   bucket. Look for repeated state extraction, stack allocation, or matching in
+   `compute_neighbours`/`allocate_if_new` that can be removed on an existing
+   edge. Exp28 and exp31 show that exact parent-stack reductions pay; exp10
+   shows that merely decomposing candidate construction does not.
+3. **Measure compact `Edge` metadata.** A historical search branch stores
+   depth differences as `u8`; current costs cap them at 40 but the enum carries
+   `u32`. First check `size_of::<Edge>()` and generated code. A smaller enum only
+   matters if it reduces copying or the `(Edge, &Vertex)` neighbour/route
+   representation; alignment may erase the apparent saving.
+4. **Target real tree-sitter work on `typing`.** Exp27 proved capture-bucket
+   lookup itself is negligible. Investigate query matching, syntax cursor
+   traversal, or duplicated tree walking. Type highlights affect colour but,
+   unlike comments and strings, appear not to affect content equality; a
+   no-colour fast path is only valid after tracing `AtomKind::Type` through
+   parsing, matching, and every output mode. Do not assume this from the name.
+5. **Consider phase-specific instrumentation.** The unmerged
+   `claude/codspeed-ci-setup-ahqufj` benchmark separates parse and diff. Adapt
+   it locally if whole-process profiles cannot distinguish a `typing` change;
+   do not broaden the benchmark inputs beyond the two focused pairs.
+6. **Algorithmic splitting only with explicit output review.** Historical
+   pre-diff splitting and unique-atom branches can dramatically reduce graph
+   work, but they change which optimal diff is selected. The current exact
+   output oracle will reject them. Record such a proposal separately and seek
+   Wilfred's diff-quality judgment rather than silently weakening the gate.
+
+### Settled directions not to repeat
+
+- Do not regenerate neighbours to shrink `Vertex` (exp23: +3.81% on `slow`).
+- Do not omit packed keys from seen-map buckets (exp24: +8.21% on `slow`, even
+  though RSS improved 10.8%).
+- Do not retry hash crates; nine were previously measured and FxHasher won.
+- Do not add `EnterNovelDelimiterBoth`, even only for mismatched delimiters
+  (exp29-30: +6.84% to +7.32% on `slow`). Fewer vertices did not mean fewer
+  instructions.
+- Do not add the stale-heap check unchanged (exp6: +0.2%).
+- Do not optimize capture classification alone (exp27: -0.03%, noise).
+- Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
+  required and its removal panics.
+
+## Resume checklist
+
+1. Read this file, then the exp23 onward section of `PERF_RESEARCH_LOG.md` and
+   the relevant `PRIOR_WORK.md` section before editing.
+2. Confirm the branch and a clean worktree with `git status --short --branch`.
+   Fetch the requested branch if the local clone is stale; do not work on
+   master.
+3. Build the latest accepted commit and copy a fresh control binary to `/tmp`.
+4. Re-run one five-sample baseline for both focused pairs. If it differs
+   materially from 3.065B (`typing`) / 1.862B (`slow`), record the new control
+   rather than comparing across machines or toolchains.
+5. Choose one hypothesis from the focused backlog, change one thing, measure
+   both pairs, and immediately append exp32 (then exp33, etc.) to
+   `PERF_RESEARCH_LOG.md` and the state table here.
+6. Fully revert rejected source changes with `apply_patch`, but commit and push
+   their log entries. For a kept change, run the wider output oracle and full
+   tests before committing.
+7. Stage explicit paths, include `AI-assisted change (OpenAI Codex).` in every
+   commit message, push, and verify the remote ref when finishing a tranche.
 
 ## Constraints
 
