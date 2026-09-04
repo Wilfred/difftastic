@@ -360,6 +360,7 @@ than mixing counts across environments.
 | 41 | filter empty endpoint spans as a borrowed subslice | -0.54% `typing`, -0.19% `slow` | kept |
 | 42 | append ordinary matched positions directly to the result | -0.75% `typing`, -0.25% `slow` | kept |
 | 43 | reserve matched-position capacity from syntax-node count | flat on both focused pairs | rejected |
+| 44 | reuse one slider-region scratch vector across both passes | flat on both focused pairs | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -660,6 +661,8 @@ percentages above predate exp25-31.
   it did not change either focused workload (exp40).
 - Do not reserve `change_positions` output capacity from syntax-node count;
   vector growth was flat on both focused pairs after exp41-42 (exp43).
+- Do not reuse a single slider-region scratch vector; the remaining small range
+  allocations were flat on both focused pairs (exp44).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -683,7 +686,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp44 (then exp45, etc.) to
+   and immediately append exp45 (then exp46, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

@@ -1361,6 +1361,19 @@ instructions (+0.033%), while `typing` moved from 2,787,899,956 to
 2,787,345,767 (-0.020%). Geometric growth is not a relevant cost after the
 per-node allocations removed in exp41-42, and the source was reverted.
 
+### exp44: reuse one slider-region scratch vector — REJECTED
+
+Exp25 replaced a separately allocated vector for every novel run with inline
+range pairs, but each eligible sibling list still created two vectors of those
+ranges per slider pass. The candidate passed one scratch vector through both
+postorder traversals, clearing it between the after-unchanged and
+before-unchanged scans. It retained the original collect-then-apply ordering.
+
+Ten-run means were flat: `slow` moved from 516,229,764 to 516,239,863
+instructions (+0.002%), and `typing` moved from 2,787,904,682 to 2,788,919,791
+(+0.036%). The remaining range vectors are not a meaningful part of the 4.8%
+slider hotspot, so the source was reverted.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
