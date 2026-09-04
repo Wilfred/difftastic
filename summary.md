@@ -19,8 +19,8 @@ reasoning burden needed to preserve diff semantics.
 | Original 27-pair suite, master through exp8 | 28.87B instructions | 16.59B | **-42.5%** |
 | 22 MB `huge_cpp` line-oriented pair, exp17 through exp22 | 14.86B | 9.29B | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| Parsed `typing_1.ml`/`typing_2.ml`, exp22 through exp55 | 3.115B | 2.702B | **-13.26%** |
-| Parsed `slow_1.rs`/`slow_2.rs`, exp22 through exp55 | 1.882B | 0.473B | **-74.87%** |
+| Parsed `typing_1.ml`/`typing_2.ml`, exp22 through exp57 | 3.115B | 2.695B | **-13.48%** |
+| Parsed `slow_1.rs`/`slow_2.rs`, exp22 through exp57 | 1.882B | 0.473B | **-74.89%** |
 
 The strongest overall pattern is that removing unnecessary work beats making
 the same work slightly cheaper. Query pruning removes patterns difftastic never
@@ -79,6 +79,7 @@ enough to be worthwhile.
 | [Count content IDs densely](https://github.com/Wilfred/difftastic/commit/2bf1971) (exp46) | -0.40% `typing`, -0.12% `slow` | Large parsed trees | Low-to-medium complexity, good value. |
 | [Consolidate highlight kinds](https://github.com/Wilfred/difftastic/commit/bec7a7f) (exp54) | **-0.61%** `typing`, -0.17% `slow` | Query-heavy parsed inputs with many syntax nodes | Medium complexity, good value; one bitmask lookup replaces repeated node-ID hashing while preserving overlapping captures. |
 | [Borrow content-key text](https://github.com/Wilfred/difftastic/commit/66c14b4) (exp55) | **-0.37%** `typing`, -0.14% `slow` | Large parsed trees, particularly with substantial atom text | Low complexity, good value; syntax nodes already outlive the temporary interning map. |
+| Distinguish atom/list content keys (exp57) | **-0.25%** `typing`, flat on `slow` | Atom-heavy parsed trees | Low complexity, good value; atoms no longer hash list-only sentinel fields. |
 | [Fuse syntax metadata traversals](https://github.com/Wilfred/difftastic/commit/edb0357), [identity traversal](https://github.com/Wilfred/difftastic/commit/95f0d37), and [initial setup](https://github.com/Wilfred/difftastic/commit/ca155c8) (exp36-37, 47) | Individual wins from flat to -0.56% | Large parsed trees where recursive metadata walks are visible | Medium complexity, modest-to-good value; useful cumulatively, but less leverage than reducing hash/allocation work. |
 
 ## Practical prioritisation

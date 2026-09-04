@@ -447,13 +447,18 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     set_content_is_unique(rhs_roots, &mut content_counts);
 }
 
-type ContentKey<'a> = (
-    Option<Cow<'a, str>>,
-    Option<Cow<'a, str>>,
-    Vec<u32>,
-    bool,
-    bool,
-);
+#[derive(Eq, Hash, PartialEq)]
+enum ContentKey<'a> {
+    Atom {
+        content: Cow<'a, str>,
+        is_comment: bool,
+    },
+    List {
+        open_content: Cow<'a, str>,
+        close_content: Cow<'a, str>,
+        children_content_ids: Vec<u32>,
+    },
+}
 
 fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut DftHashMap<ContentKey<'a>, u32>) {
     for node in nodes {
@@ -476,13 +481,11 @@ fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut DftHashMap<Conten
                     .map(|c| c.info().content_id.get())
                     .collect();
 
-                (
-                    Some(Cow::Borrowed(open_content.as_str())),
-                    Some(Cow::Borrowed(close_content.as_str())),
+                ContentKey::List {
+                    open_content: Cow::Borrowed(open_content.as_str()),
+                    close_content: Cow::Borrowed(close_content.as_str()),
                     children_content_ids,
-                    true,
-                    true,
-                )
+                }
             }
             Atom {
                 content,
@@ -500,7 +503,10 @@ fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut DftHashMap<Conten
                 } else {
                     Cow::Borrowed(content.as_str())
                 };
-                (Some(clean_content), None, vec![], false, is_comment)
+                ContentKey::Atom {
+                    content: clean_content,
+                    is_comment,
+                }
             }
         };
 

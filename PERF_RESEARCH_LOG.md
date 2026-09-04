@@ -1622,6 +1622,28 @@ keys whose `Vec` allocation is not a dominant cost. The source was restored to
 `Vec<u32>`; other inline capacities should not be swept without child-count
 evidence that explains why they would avoid this tradeoff.
 
+### exp57: use distinct atom and list content-key variants — KEPT
+
+The content key was a five-field tuple. Atom keys therefore hashed a `None`
+close delimiter, an empty child vector, and a list discriminator in addition to
+their text and comment flag. A derived `ContentKey` enum now gives atoms and
+lists only the fields they use. Equality semantics are unchanged: variant
+identity replaces the tuple's list boolean, while the comment distinction is
+retained for atoms.
+
+Ten-run `perf stat` means against a fresh accepted exp55 control were:
+
+| pair | tuple key | enum key | change |
+| --- | ---: | ---: | ---: |
+| `slow` | 472,918,648 | 472,556,070 | -0.077% |
+| `typing` | 2,701,966,253 | 2,695,329,510 | **-0.246%** |
+
+`slow` is within cross-binary noise, while the atom-heavy `typing` workload
+shows the intended reduction. The control-vs-candidate oracle is byte-identical
+in side-by-side, inline, and JSON modes on all 107 available non-Haskell,
+non-`huge_cpp` sample pairs. `cargo test` passes (165 passed, one ignored), and
+`src/parse/syntax.rs` passes `rustfmt --check`.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |
@@ -1630,8 +1652,8 @@ evidence that explains why they would avoid this tradeoff.
 | trivial Rust diff, master through query work | 444,668,795 | ~206,000,000 | **-54%** |
 | `huge_cpp`, before exp17 through exp22 | 14,858,905,910 | 9,285,036,692 | **-37.5%** |
 | `huge_cpp` peak RSS, exp21 through exp22 | 696 MB | 491 MB | **-29%** |
-| focused `typing`, exp22 through exp55 | 3,115,140,742 | 2,701,998,920 | **-13.26%** |
-| focused `slow`, exp22 through exp55 | 1,881,539,982 | 472,933,027 | **-74.87%** |
+| focused `typing`, exp22 through exp57 | 3,115,140,742 | 2,695,329,510 | **-13.48%** |
+| focused `slow`, exp22 through exp57 | 1,881,539,982 | 472,556,070 | **-74.89%** |
 
 The large-input pass found a different class of wins from the original suite:
 quadratic display loops (exp13-17), redundant offset-to-line searches (exp19),
@@ -1640,7 +1662,7 @@ The post-exp22 `huge_cpp` profile is now led by line splitting, Imara histogram
 diff construction, allocator traffic, and changed-region line conversion; the
 previous hunk-end and opposite-line hash hotspots are gone.
 
-The focused exp23-55 pass first found small, composable wins in slider range
+The focused exp23-57 pass first found small, composable wins in slider range
 collection and parent-stack dispatch, then a much larger win by decomposing
 oversized graphs at similar sibling lists. It also ruled out three tempting
 graph directions on the exact target inputs: regenerating cached neighbours,
