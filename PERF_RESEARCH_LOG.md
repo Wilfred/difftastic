@@ -1294,6 +1294,19 @@ byte-identical in side-by-side, inline, and JSON modes on all 107 available
 sample pairs. `cargo test` passes (163 passed, one ignored), and the changed
 file passes `rustfmt --check`.
 
+### exp40: require one unique-content vote for large-list pairing — REJECTED
+
+Large sibling lists normally require two shared unique descendants before they
+are paired; lists below 20 descendants already require only one. Lowering the
+large-list requirement to one tested whether additional weak anchors could
+decompose either focused graph further.
+
+Ten-run means were flat: `slow` moved from 518,514,898 to 518,545,181
+instructions (+0.006%), and `typing` from 2,824,043,612 to 2,824,052,878
+(+0.0003%). Every performance-relevant candidate on these files therefore
+already has two votes, or is handled by the small-list rule. The source was
+reverted without running the wider oracle.
+
 ## Where this leaves things
 
 | workload | earlier reference | now | change |

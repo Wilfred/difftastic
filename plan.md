@@ -348,6 +348,7 @@ than mixing counts across environments.
 | 37 | initialise parent, ancestor depth, and preorder ID in one traversal | -0.16% `typing`, -0.10% `slow` | kept |
 | 38 | count content IDs during content-ID assignment | -0.07% `typing`, flat on `slow` | rejected |
 | 39 | lower similar-list graph-size gate from 1,000,000 to 45,000 | -19.33% `slow`, -0.14% `typing` | kept |
+| 40 | lower large-list pairing requirement from two unique votes to one | flat on both focused pairs | rejected |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -577,9 +578,12 @@ percentages above predate exp25-31.
 1. **Characterise and tighten similar-list pairing.** Exp35 kept the pairing +
    descent combination after byte-identical output on all 107 available sample
    pairs. Exp39 swept the graph-size gate and retained 45,000: 40,000 changed
-   `slider_1.rs`, while 25,000 also changed `load_1.js`. Measure the minimum
-   common-unique vote threshold next, one value at a time. Do not weaken
-   ambiguity or non-crossing guards merely for speed.
+   `slider_1.rs`, while 25,000 also changed `load_1.js`. Exp40 showed that a
+   one-vote rule finds no additional performance-relevant pairs. The remaining
+   useful characterization is raising the two-vote requirement or changing the
+   20-descendant boundary; only pursue it with evidence that pairing overhead
+   or a weak match matters. Do not weaken ambiguity or non-crossing guards
+   merely for speed.
 2. **Add low-overhead search-shape instrumentation.** Counters should be
    compile-time- or log-gated and excluded from timed release measurements.
    Attribute which edge types create and settle the million-state `slow`
@@ -637,6 +641,8 @@ percentages above predate exp25-31.
   pairing; it did not change either graph and regressed `slow` 1.28% (exp34).
 - Do not fold uniqueness counting into content-ID assignment alone; removing
   only the traversal overhead was flat on both focused pairs (exp38).
+- Do not lower the large-list similar-pair vote requirement from two to one;
+  it did not change either focused workload (exp40).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -660,7 +666,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp40 (then exp41, etc.) to
+   and immediately append exp41 (then exp42, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full
