@@ -9,6 +9,7 @@ use std::num::NonZeroU32;
 use std::{env, fmt};
 
 use line_numbers::{LinePositions, SingleLineSpan};
+use smallvec::SmallVec;
 use typed_arena::Arena;
 
 use self::Syntax::*;
@@ -659,8 +660,8 @@ pub(crate) enum TokenKind {
 pub(crate) enum MatchKind {
     UnchangedToken {
         highlight: TokenKind,
-        self_pos: Vec<SingleLineSpan>,
-        opposite_pos: Vec<SingleLineSpan>,
+        self_pos: SmallVec<[SingleLineSpan; 1]>,
+        opposite_pos: SmallVec<[SingleLineSpan; 1]>,
     },
     /// A novel token in an AST diff.
     Novel { highlight: TokenKind },
@@ -899,25 +900,25 @@ impl MatchedPos {
                 ));
             }
             Unchanged(opposite) => {
-                let opposite_pos = match opposite {
+                let opposite_pos: SmallVec<_> = match opposite {
                     List {
                         open_position,
                         close_position,
                         ..
                     } => {
                         if is_close_delim {
-                            close_position.clone()
+                            close_position.iter().copied().collect()
                         } else {
-                            open_position.clone()
+                            open_position.iter().copied().collect()
                         }
                     }
-                    Atom { position, .. } => position.clone(),
+                    Atom { position, .. } => position.iter().copied().collect(),
                 };
 
                 let opposite_pos_len = opposite_pos.len();
                 let kind = MatchKind::UnchangedToken {
                     highlight,
-                    self_pos: pos.to_vec(),
+                    self_pos: pos.iter().copied().collect(),
                     opposite_pos,
                 };
 
@@ -990,8 +991,8 @@ pub(crate) fn change_positions<'a>(
             MatchedPos {
                 kind: MatchKind::UnchangedToken {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![lhs_pos],
-                    opposite_pos: vec![rhs_pos],
+                    self_pos: SmallVec::from_slice(&[lhs_pos]),
+                    opposite_pos: SmallVec::from_slice(&[rhs_pos]),
                 },
                 pos: lhs_pos,
             },

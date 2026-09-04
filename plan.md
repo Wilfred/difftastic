@@ -241,10 +241,10 @@ new incremental experiment, use the latest accepted branch tip as the control.
 
 Fresh five-run `perf stat` means at the start of the focused pass:
 
-| pair | post-exp22 instructions | latest accepted after exp58 | cumulative change |
+| pair | post-exp22 instructions | latest accepted after exp60 | cumulative change |
 | --- | ---: | ---: | ---: |
-| `typing` | 3,115,140,742 | 2,670,637,453 | **-14.27%** |
-| `slow` | 1,881,539,982 | 471,125,768 | **-74.96%** |
+| `typing` | 3,115,140,742 | 2,629,901,231 | **-15.58%** |
+| `slow` | 1,881,539,982 | 468,624,726 | **-75.09%** |
 
 The original focused callgrind files were `/tmp/cg-focused-typing.out` and
 `/tmp/cg-focused-slow.out`; sampled cycle profiles were
@@ -376,6 +376,7 @@ than mixing counts across environments.
 | 57 | distinguish atom and list content keys with enum variants | -0.25% `typing`, flat on `slow` | kept |
 | 58 | move unchanged match metadata into its final emitted position | -0.92% `typing`, -0.32% `slow` | kept |
 | 59 | move trivial novel match metadata into its final position | flat on both focused pairs | rejected |
+| 60 | store the usual one-span unchanged positions inline | -1.53% `typing`, -0.54% `slow`, -4.77% `huge_cpp` | kept |
 
 Every completed experiment is committed and pushed. `results/` holds labelled
 callgrind tables through `exp13-linear-visible-width`; experiments that only
@@ -384,12 +385,13 @@ affect inline, JSON, or synthetic/very-large shapes use repeated targeted
 `huge_cpp` pair from 14.86B to 9.29B instructions (**-37.5%**), and exp22 also
 reduced its peak RSS from 696 MB to 491 MB. If the compiler, dependencies,
 profiler, or machine changed, record a fresh control binary before comparing.
-The focused exp23-58 pass reduced `typing` from 3.115B to 2.671B (**-14.27%**)
-and `slow` from 1.882B to 0.471B (**-74.96%**). Exp35's similar-list pairing and
+The focused exp23-60 pass reduced `typing` from 3.115B to 2.630B (**-15.58%**)
+and `slow` from 1.882B to 0.469B (**-75.09%**). Exp35's similar-list pairing and
 exp39's lower decomposition gate are responsible for most of that improvement;
 exp54-57 additionally remove repeated highlight-set hashing, content-string
 cloning, and redundant atom-key hashing from the mixed tree-sitter pipeline,
-while exp58 removes redundant position-vector clones in result construction.
+while exp58 and exp60 remove redundant position-vector clones and heap storage
+in result construction.
 
 ## Research synthesis: where larger wins can come from
 
@@ -708,6 +710,9 @@ percentages above predate exp25-31.
   emitted position; move the already-built value there (exp58).
 - Do not add final-element move control flow for `MatchKind::Novel`; unlike the
   unchanged variant it owns no vectors, and its clone is already cheap (exp59).
+- Keep single-span inline storage specific to unchanged-token positions: it is
+  not hashed and improves both parsed targets plus `huge_cpp` (exp60), unlike
+  inline child IDs in content keys (exp56).
 - Do not remove `ChangeState::UnchangedDelimiter`; prior work found it is
   required and its removal panics.
 - Do not reimplement the historical A*, bidirectional, IDA*, or fringe-search
@@ -731,7 +736,7 @@ percentages above predate exp25-31.
    rather than comparing across machines or toolchains.
 5. Choose one hypothesis from the prioritised backlog, state whether it is in
    the exact-output or diff-quality lane, change one thing, measure both pairs,
-   and immediately append exp60 (then exp61, etc.) to
+   and immediately append exp61 (then exp62, etc.) to
    `PERF_RESEARCH_LOG.md` and the state table here.
 6. Fully revert rejected source changes with `apply_patch`, but commit and push
    their log entries. For a kept change, run the wider output oracle and full

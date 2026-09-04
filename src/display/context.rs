@@ -3,7 +3,7 @@
 use std::cmp::Ordering;
 use std::collections::VecDeque;
 
-use line_numbers::LineNumber;
+use line_numbers::{LineNumber, SingleLineSpan};
 use smallvec::SmallVec;
 
 use crate::parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos};
@@ -177,17 +177,20 @@ fn matched_lines_from_unchanged(
 
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     for mp in mps {
+        let next_opposite_line = |opposite_pos: &[SingleLineSpan]| {
+            if let Some(highest_opposite_side) = highest_opposite_line {
+                opposite_pos
+                    .iter()
+                    .map(|p| p.line)
+                    .find(|l| *l > highest_opposite_side)
+            } else {
+                opposite_pos.first().map(|p| p.line)
+            }
+        };
         let opposite_line = match &mp.kind {
-            MatchKind::UnchangedToken { opposite_pos, .. }
-            | MatchKind::UnchangedPartOfNovelItem { opposite_pos, .. } => {
-                if let Some(highest_opposite_side) = highest_opposite_line {
-                    opposite_pos
-                        .iter()
-                        .map(|p| p.line)
-                        .find(|l| *l > highest_opposite_side)
-                } else {
-                    opposite_pos.first().map(|p| p.line)
-                }
+            MatchKind::UnchangedToken { opposite_pos, .. } => next_opposite_line(opposite_pos),
+            MatchKind::UnchangedPartOfNovelItem { opposite_pos, .. } => {
+                next_opposite_line(opposite_pos)
             }
             MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::Ignored { .. } => {
                 None
@@ -820,8 +823,8 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::UnchangedToken {
                     highlight: TokenKind::Delimiter,
-                    self_pos: vec![matched_pos],
-                    opposite_pos: vec![matched_pos],
+                    self_pos: vec![matched_pos].into(),
+                    opposite_pos: vec![matched_pos].into(),
                 },
                 pos: matched_pos,
             },
@@ -829,8 +832,8 @@ mod tests {
         let rhs_mps = [MatchedPos {
             kind: MatchKind::UnchangedToken {
                 highlight: TokenKind::Delimiter,
-                self_pos: vec![matched_pos],
-                opposite_pos: vec![matched_pos],
+                self_pos: vec![matched_pos].into(),
+                opposite_pos: vec![matched_pos].into(),
             },
             pos: matched_pos,
         }];
@@ -862,8 +865,8 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::UnchangedToken {
                     highlight: TokenKind::Delimiter,
-                    self_pos: vec![matched_pos],
-                    opposite_pos: vec![matched_pos],
+                    self_pos: vec![matched_pos].into(),
+                    opposite_pos: vec![matched_pos].into(),
                 },
                 pos: matched_pos,
             },
@@ -905,12 +908,14 @@ mod tests {
                         line: 1.into(),
                         start_col: 2,
                         end_col: 3,
-                    }],
+                    }]
+                    .into(),
                     opposite_pos: vec![SingleLineSpan {
                         line: 1.into(),
                         start_col: 2,
                         end_col: 3,
-                    }],
+                    }]
+                    .into(),
                 },
                 pos: SingleLineSpan {
                     line: 1.into(),
@@ -1055,16 +1060,16 @@ mod tests {
         let lhs_mps = [MatchedPos {
             kind: MatchKind::UnchangedToken {
                 highlight: TokenKind::Delimiter,
-                self_pos: vec![matched_pos],
-                opposite_pos: vec![matched_pos],
+                self_pos: vec![matched_pos].into(),
+                opposite_pos: vec![matched_pos].into(),
             },
             pos: matched_pos,
         }];
         let rhs_mps = [MatchedPos {
             kind: MatchKind::UnchangedToken {
                 highlight: TokenKind::Delimiter,
-                self_pos: vec![matched_pos],
-                opposite_pos: vec![matched_pos],
+                self_pos: vec![matched_pos].into(),
+                opposite_pos: vec![matched_pos].into(),
             },
             pos: matched_pos,
         }];

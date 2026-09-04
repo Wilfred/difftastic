@@ -128,12 +128,12 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
             TextChangeKind::Unchanged => {
                 seen_unchanged = true;
                 for (lhs_line, rhs_line) in lhs_lines.iter().zip(rhs_lines) {
-                    let lhs_pos = vec![SingleLineSpan {
+                    let lhs_pos = smallvec::smallvec![SingleLineSpan {
                         line: lhs_line_num.into(),
                         start_col: 0,
                         end_col: line_len_in_bytes(lhs_line) as u32,
                     }];
-                    let rhs_pos = vec![SingleLineSpan {
+                    let rhs_pos = smallvec::smallvec![SingleLineSpan {
                         line: rhs_line_num.into(),
                         start_col: 0,
                         end_col: line_len_in_bytes(rhs_line) as u32,
@@ -289,8 +289,8 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
             MatchedPos {
                 kind: MatchKind::UnchangedToken {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![lhs_pos],
-                    opposite_pos: vec![rhs_pos],
+                    self_pos: smallvec::smallvec![lhs_pos],
+                    opposite_pos: smallvec::smallvec![rhs_pos],
                 },
                 pos: lhs_pos,
             },
@@ -300,8 +300,8 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
             MatchedPos {
                 kind: MatchKind::UnchangedToken {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![rhs_pos],
-                    opposite_pos: vec![lhs_pos],
+                    self_pos: smallvec::smallvec![rhs_pos],
+                    opposite_pos: smallvec::smallvec![lhs_pos],
                 },
                 pos: rhs_pos,
             },

@@ -746,12 +746,14 @@ mod tests {
                     line: 1.into(),
                     start_col: 1,
                     end_col: 2,
-                }],
+                }]
+                .into(),
                 opposite_pos: vec![SingleLineSpan {
                     line: 2.into(),
                     start_col: 1,
                     end_col: 2,
-                }],
+                }]
+                .into(),
             },
             pos: SingleLineSpan {
                 line: 1.into(),
@@ -793,8 +795,8 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::UnchangedToken {
                     highlight: TokenKind::Delimiter,
-                    self_pos: vec![matched_pos],
-                    opposite_pos: vec![matched_pos],
+                    self_pos: vec![matched_pos].into(),
+                    opposite_pos: vec![matched_pos].into(),
                 },
                 pos: matched_pos,
             },
@@ -814,8 +816,8 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::UnchangedToken {
                     highlight: TokenKind::Delimiter,
-                    self_pos: vec![matched_pos],
-                    opposite_pos: vec![matched_pos],
+                    self_pos: vec![matched_pos].into(),
+                    opposite_pos: vec![matched_pos].into(),
                 },
                 pos: matched_pos,
             },
