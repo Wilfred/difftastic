@@ -55,6 +55,11 @@ Fixed an issue where prebuilt binaries on GitHub did not respect
 Cargo.lock, so they used newer library versions than tested on
 CI. This caused rendering bugs in source code with tabs.
 
+### Display
+
+Fixed an issue with inline display where unchanged lines between two
+nearby changes were not shown.
+
 ## 0.69 (released 30th April 2026)
 
 ## Diffing
