@@ -909,7 +909,12 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             let hunks = &summary.hunks;
 
             if !summary.has_syntactic_changes {
-                if display_options.print_unchanged {
+                // extra_info holds changes that are not in the file contents:
+                // a rename, or a permission change. --skip-unchanged is about
+                // unchanged files, and a file whose mode changed is not one,
+                // so it should still be reported. This matches the binary
+                // case below, which already prints when only the bytes differ.
+                if display_options.print_unchanged || summary.extra_info.is_some() {
                     println!(
                         "{}",
                         display::style::header(

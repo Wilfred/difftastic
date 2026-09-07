@@ -223,6 +223,36 @@ fn git_style_arguments_rename() {
 }
 
 #[test]
+fn skip_unchanged_still_reports_a_rename() {
+    // --skip-unchanged is about unchanged files. A file that was renamed is
+    // not one, even when its contents are identical.
+    let mut cmd = get_base_command();
+
+    cmd.arg("--skip-unchanged")
+        .arg("elisp_oldname.el")
+        .arg("sample_files/elisp_1.el")
+        .arg("lhs_hash_placeholder")
+        .arg("lhs_mode_placeholder")
+        .arg("sample_files/elisp_1.el")
+        .arg("rhs_hash_placeholder")
+        .arg("rhs_mode_placeholder")
+        .arg("elisp_newname.el")
+        .arg("similarity_placeholder");
+    let predicate_fn = predicate::str::contains("Renamed");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn skip_unchanged_drops_a_genuinely_unchanged_file() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--skip-unchanged")
+        .arg("sample_files/elisp_1.el")
+        .arg("sample_files/elisp_1.el");
+    cmd.assert().stdout(predicate::str::is_empty());
+}
+
+#[test]
 fn git_style_arguments_new_file() {
     let mut cmd = get_base_command();
 
