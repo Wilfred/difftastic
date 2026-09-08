@@ -291,3 +291,23 @@ fn git_unmerged_files() {
     let predicate_fn = predicate::str::contains("Unmerged path");
     cmd.assert().stdout(predicate_fn);
 }
+
+// Regression test for #966: a file that ends in a newline must not
+// render an extra empty line after its last line when shown in a single
+// column (e.g. diffing an added file against /dev/null).
+// sample_files/cli_tests/trailing_newline.txt has 3 lines, so no line 4
+// should appear in the output.
+#[test]
+fn no_phantom_trailing_line() {
+    let mut cmd = get_base_command();
+
+    cmd.args([
+        "--color=never",
+        "/dev/null",
+        "sample_files/cli_tests/trailing_newline.txt",
+    ]);
+
+    let predicate_fn =
+        predicate::str::contains("3 bar").and(predicate::str::contains("\n4 ").not());
+    cmd.assert().stdout(predicate_fn);
+}
