@@ -396,7 +396,17 @@ fn main() {
             std::process::exit(exit_code);
         }
         Mode::GitHasUnmergedFile { display_path } => {
-            println!("Unmerged path: {display_path}");
+            // The only row announcing this file, so it carries the file's `f`
+            // record -- keeping conflicted files visible to the identity
+            // layer (spec §5.5), like any other file with no content lines.
+            emit_metadata_handshake_once();
+            println!(
+                "{}",
+                display::diff_line_metadata::tag_hunkless_file_banner(
+                    &display_path,
+                    &format!("Unmerged path: {display_path}"),
+                )
+            );
         }
     };
 }
@@ -903,7 +913,25 @@ fn diff_directories<'a>(
     })
 }
 
+/// Emit the diff-metadata handshake (a version-only OSC 1717, see the spec §4.4) once
+/// per run, as difftastic's first output, so a host can probe it — even on an empty
+/// diff, which prints no per-line records. Flushed so it reaches a host that captures
+/// the output, since difftastic exits via `process::exit`, which skips the implicit
+/// flush.
+fn emit_metadata_handshake_once() {
+    use std::io::Write;
+    static EMITTED: std::sync::Once = std::sync::Once::new();
+    EMITTED.call_once(|| {
+        let handshake = display::diff_line_metadata::handshake();
+        if !handshake.is_empty() {
+            print!("{handshake}");
+            let _ = std::io::stdout().flush();
+        }
+    });
+}
+
 fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
+    emit_metadata_handshake_once();
     match (&summary.lhs_src, &summary.rhs_src) {
         (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
             let hunks = &summary.hunks;
@@ -912,13 +940,16 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 if display_options.print_unchanged {
                     println!(
                         "{}",
-                        display::style::header(
+                        display::diff_line_metadata::tag_hunkless_file_banner(
                             &summary.display_path,
-                            summary.extra_info.as_ref(),
-                            1,
-                            1,
-                            &summary.file_format,
-                            display_options
+                            &display::style::header(
+                                &summary.display_path,
+                                summary.extra_info.as_ref(),
+                                1,
+                                1,
+                                &summary.file_format,
+                                display_options
+                            )
                         )
                     );
                     match summary.file_format {
@@ -939,13 +970,16 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             if summary.has_syntactic_changes && hunks.is_empty() {
                 println!(
                     "{}",
-                    display::style::header(
+                    display::diff_line_metadata::tag_hunkless_file_banner(
                         &summary.display_path,
-                        summary.extra_info.as_ref(),
-                        1,
-                        1,
-                        &summary.file_format,
-                        display_options
+                        &display::style::header(
+                            &summary.display_path,
+                            summary.extra_info.as_ref(),
+                            1,
+                            1,
+                            &summary.file_format,
+                            display_options
+                        )
                     )
                 );
                 match summary.file_format {
@@ -992,15 +1026,20 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
         }
         (FileContent::Binary, FileContent::Binary) => {
             if display_options.print_unchanged || summary.has_byte_changes.is_some() {
+                // A binary file emits no content records; its `f` keeps it
+                // visible to the identity layer (spec §5.5).
                 println!(
                     "{}",
-                    display::style::header(
+                    display::diff_line_metadata::tag_hunkless_file_banner(
                         &summary.display_path,
-                        summary.extra_info.as_ref(),
-                        1,
-                        1,
-                        &FileFormat::Binary,
-                        display_options
+                        &display::style::header(
+                            &summary.display_path,
+                            summary.extra_info.as_ref(),
+                            1,
+                            1,
+                            &FileFormat::Binary,
+                            display_options
+                        )
                     )
                 );
 
@@ -1042,13 +1081,16 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             // We're diffing a binary file against a text file.
             println!(
                 "{}",
-                display::style::header(
+                display::diff_line_metadata::tag_hunkless_file_banner(
                     &summary.display_path,
-                    summary.extra_info.as_ref(),
-                    1,
-                    1,
-                    &FileFormat::Binary,
-                    display_options
+                    &display::style::header(
+                        &summary.display_path,
+                        summary.extra_info.as_ref(),
+                        1,
+                        1,
+                        &FileFormat::Binary,
+                        display_options
+                    )
                 )
             );
             println!("Binary contents changed.\n");
