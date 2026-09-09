@@ -108,7 +108,7 @@ pub(crate) fn print(
             // print gaps
             let (lhs_line, rhs_line) = &hunk_lines[chunk_start];
 
-            if previous_lhs_line_nbr == 0 && previous_rhs_line_nbr == 0 {
+            if previous_lhs_line_nbr > 0 && previous_rhs_line_nbr > 0 {
                 let diff = match (lhs_line, rhs_line) {
                     (Some(lhs), Some(rhs)) => {
                         cmp::min(
