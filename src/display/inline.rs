@@ -108,30 +108,32 @@ pub(crate) fn print(
             // print gaps
             let (lhs_line, rhs_line) = &hunk_lines[chunk_start];
 
-            let diff = match (lhs_line, rhs_line) {
-                (Some(lhs), Some(rhs)) => {
-                    cmp::min(
-                        lhs.as_usize() - previous_lhs_line_nbr,
-                        rhs.as_usize() - previous_rhs_line_nbr,
-                    ) - 1
-                }
-                (Some(lhs), None) => lhs.as_usize() - previous_lhs_line_nbr - 1,
-                (None, Some(rhs)) => rhs.as_usize() - previous_rhs_line_nbr - 1,
-                (None, None) => panic!("somethings wrong"),
-            };
+            if previous_lhs_line_nbr == 0 && previous_rhs_line_nbr == 0 {
+                let diff = match (lhs_line, rhs_line) {
+                    (Some(lhs), Some(rhs)) => {
+                        cmp::min(
+                            lhs.as_usize() - previous_lhs_line_nbr,
+                            rhs.as_usize() - previous_rhs_line_nbr,
+                        ) - 1
+                    }
+                    (Some(lhs), None) => lhs.as_usize() - previous_lhs_line_nbr - 1,
+                    (None, Some(rhs)) => rhs.as_usize() - previous_rhs_line_nbr - 1,
+                    (None, None) => panic!("somethings wrong"),
+                };
 
-            if chunk_start > 0 && diff > 0 {
-                (previous_lhs_line_nbr, previous_rhs_line_nbr) = print_before_lines(
-                    display_options,
-                    &lhs_colored_lines,
-                    &opposite_to_lhs,
-                    &opposite_to_rhs,
-                    column_width,
-                    &hunk_lines,
-                    &mut lhs_previous,
-                    chunk_start,
-                    diff,
-                );
+                if chunk_start > 0 && diff > 0 {
+                    (previous_lhs_line_nbr, previous_rhs_line_nbr) = print_before_lines(
+                        display_options,
+                        &lhs_colored_lines,
+                        &opposite_to_lhs,
+                        &opposite_to_rhs,
+                        column_width,
+                        &hunk_lines,
+                        &mut lhs_previous,
+                        chunk_start,
+                        diff,
+                    );
+                }
             }
 
             // print lhs lines
