@@ -83,8 +83,10 @@ Associate this glob pattern with this language, overriding normal
 language detection.
 For example:
 .RS
-.PP
-$ difft \-\-override=\[cq]*.c:C++\[cq] old.c new.c
+.IP
+.EX
+$ difft \-\-override=\[aq]*.c:C++\[aq] old.c new.c
+.EE
 .PP
 See \f[B]\-\-list\-languages\f[R] for the list of language names.
 Language names are matched case insensitively.
@@ -93,16 +95,19 @@ treat a file as plain text.
 .PP
 This argument may be given more than once.
 For example:
-.PP
-$ difft \-\-override=`CustomFile:json' \-\-override=\[cq]*.c:text\[cq]
-old.c new.c
+.IP
+.EX
+$ difft \-\-override=\[aq]CustomFile:json\[aq] \-\-override=\[aq]*.c:text\[aq] old.c new.c
+.EE
 .PP
 To configure multiple overrides using environment variables, difftastic
 also accepts \f[B]DFT_OVERRIDE_1\f[R] up to \f[B]DFT_OVERRIDE_9\f[R].
-.PP
-$ export DFT_OVERRIDE=`CustomFile:json' $ export
-DFT_OVERRIDE_1=`\f[I].c:text\[cq] $ export
-DFT_OVERRIDE_2=\[cq]\f[R].js:javascript jsx'
+.IP
+.EX
+$ export DFT_OVERRIDE=\[aq]CustomFile:json\[aq]
+$ export DFT_OVERRIDE_1=\[aq]*.c:text\[aq]
+$ export DFT_OVERRIDE_2=\[aq]*.js:javascript jsx\[aq]
+.EE
 .PP
 When multiple overrides are specified, the first matching override wins.
 .RE
@@ -121,7 +126,7 @@ This is slower.
 \f[B]\-\-strip\-cr\f[R]
 Remove any carriage return characters before diffing.
 This can be helpful when dealing with files on Windows that contain
-CRLF, i.e.\ ***.
+CRLF, i.e.\ \f[CR]\[rs]r\[rs]n\f[R].
 .TP
 \f[B]\-\-syntax\-highlight\f[R] \f[I]on/off\f[R]
 Enable or disable syntax highlighting.

@@ -283,7 +283,6 @@ fn highlight_positions(
         file_format,
         lhs_mps,
     );
-    // Preallocate the hashmap assuming the average line will have 2 items on it.
     let mut lhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         DftHashMap::default();
     for (span, style) in lhs_positions {

@@ -167,7 +167,7 @@ language-agnostic way is difficult, so difftastic has a small list of
 punctuation characters that always get lower priority than other
 atoms.
 
-## Autoformatter Punctuation
+## Trailing Punctuation
 
 In some cases, reformatting code can change the trailing punctuation
 without changing the meaning of the code. We don't want to show a diff
@@ -214,9 +214,10 @@ Desired result: <code>[2,<span style="background-color: PaleGreen; color: #000">
 If the diffing logic effectively sees `[2]` and `[2,3]` because we've
 discarded the punctuation, we don't get the desired result here.
 
-**Difftastic**: Difftastic solves this problem by considering trailing
-punctuation during diffing, and then post-processing known syntactic
-elements that aren't significant.
+**Difftastic**: Difftastic solves this problem by considering lists
+syntactically equal in this case. Each language configuration has a
+set of AST node types (e.g. list literals) where trailing punctuation
+doesn't matter.
 
 ## Sliders (Flat)
 
@@ -496,11 +497,12 @@ parser.
 
 **Difftastic**: Difftastic will fall back to a line-oriented diff if
 any parse errors occur, to avoid diffing incomplete syntax trees. When
-this occurs, the file header reports the error count.
+this occurs, the file header reports the error count along with the
+position of the first parse error.
 
 ```
 $ difft sample_files/syntax_error_1.js sample_files/syntax_error_2.js
-sample_files/syntax_error_2.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
+sample_files/syntax_error_2.js --- Text (2 JavaScript parse errors, exceeded DFT_PARSE_ERROR_LIMIT, first at 3:1)
 ...
 ```
 

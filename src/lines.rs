@@ -40,8 +40,8 @@ impl<S: AsRef<str>> MaxLine for S {
     }
 }
 
-/// Split `s` on \n or \r\n. Always returns a non-empty vec. Each line
-/// in the vec does not include the trailing newline.
+/// Split `s` on \n or \r\n. Always yields at least one item. Each line
+/// does not include the trailing newline.
 ///
 /// This differs from `str::lines`, which considers `""` to be zero
 /// lines and `"foo\n"` to be one line.

@@ -1,4 +1,4 @@
-//! Find nodes that are obviously unchanged, so we can run the main
+//! Find syntax nodes that are obviously unchanged, so we can run the main
 //! diff on smaller inputs.
 
 use std::hash::Hash;
@@ -11,8 +11,11 @@ use crate::parse::syntax::{ContentId, Syntax};
 const TINY_TREE_THRESHOLD: u32 = 10;
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
-/// Set [`ChangeKind`] on nodes that have exactly the same structure
-/// on both sides, and return a vec of pairs that need proper diffing.
+/// Look for syntax nodes that are obviously the same, and set
+/// [`ChangeKind`] on them.
+///
+/// Split the remaining nodes into subsequences that need proper
+/// diffing, and return those subsequences.
 pub(crate) fn mark_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
@@ -32,11 +35,17 @@ pub(crate) fn mark_unchanged<'a>(
 
 #[derive(Debug)]
 enum ChangeState {
+    /// LHS and RHS are both lists with the same delimiter, but may
+    /// have different children.
     UnchangedDelimiter,
+    /// LHS and RHS are the same.
     UnchangedNode,
+    /// LHS and RHS aren't obviously the same.
     PossiblyChanged,
 }
 
+/// Wraps `split_unchanged_toplevel` with a size threshold and updates
+/// `change_map`.
 fn split_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
@@ -83,7 +92,10 @@ fn split_unchanged<'a>(
     res
 }
 
-fn split_unchanged_singleton_list<'a>(
+/// If both sides are a single list node, and they have the same
+/// delimiter, see if they have common children that we can trivially
+/// mark as unchanged.
+fn split_changed_singleton_list<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
     size_threshold: u32,
@@ -166,8 +178,9 @@ fn count_common_unique(lhs: &Syntax, rhs: &Syntax) -> usize {
     count_unique_subtrees(lhs, &rhs_unique_ids)
 }
 
-/// Return true if both nodes are lists with same delimiters and have
-/// the same start and end children.
+/// Return true if both nodes are lists that share at least
+/// `MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN` unique subtrees, regardless
+/// of whether their delimiters match.
 fn is_mostly_unchanged_list(lhs: &Syntax, rhs: &Syntax) -> bool {
     match (lhs, rhs) {
         (Syntax::List { .. }, Syntax::List { .. }) => {
@@ -235,8 +248,12 @@ fn split_mostly_unchanged_toplevel<'a>(
     res
 }
 
-/// Mark top-level nodes as unchanged if they have exactly the same
-/// content on both sides.
+/// Walk `lhs_nodes` and `rhs_nodes` and run a
+/// longest-common-subsequence (traditional) diff on their toplevel
+/// content IDs.
+///
+/// For sufficiently large nodes that are equal by ID, mark them as
+/// unchanged. Return the nodes in-between for full tree diffing.
 fn split_unchanged_toplevel<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
@@ -252,8 +269,8 @@ fn split_unchanged_toplevel<'a>(
         .collect::<Vec<_>>();
 
     let mut res: Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
-    let mut section_lhs_nodes = vec![];
-    let mut section_rhs_nodes = vec![];
+    let mut lhs_nodes_with_changes = vec![];
+    let mut rhs_nodes_with_changes = vec![];
 
     for diff_res in lcs_diff::slice(&lhs_node_ids, &rhs_node_ids) {
         match diff_res {
@@ -277,35 +294,35 @@ fn split_unchanged_toplevel<'a>(
                 };
 
                 if tiny_node {
-                    section_lhs_nodes.push(lhs_node);
-                    section_rhs_nodes.push(rhs_node);
+                    lhs_nodes_with_changes.push(lhs_node);
+                    rhs_nodes_with_changes.push(rhs_node);
                 } else {
-                    if !section_lhs_nodes.is_empty() || !section_rhs_nodes.is_empty() {
-                        res.extend(split_unchanged_singleton_list(
-                            &section_lhs_nodes,
-                            &section_rhs_nodes,
+                    if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty() {
+                        res.extend(split_changed_singleton_list(
+                            &lhs_nodes_with_changes,
+                            &rhs_nodes_with_changes,
                             size_threshold,
                         ));
-                        section_lhs_nodes = vec![];
-                        section_rhs_nodes = vec![];
+                        lhs_nodes_with_changes = vec![];
+                        rhs_nodes_with_changes = vec![];
                     }
 
                     res.push((ChangeState::UnchangedNode, vec![lhs_node], vec![rhs_node]));
                 }
             }
             lcs_diff::DiffResult::Left(lhs) => {
-                section_lhs_nodes.push(lhs.1);
+                lhs_nodes_with_changes.push(lhs.1);
             }
             lcs_diff::DiffResult::Right(rhs) => {
-                section_rhs_nodes.push(rhs.1);
+                rhs_nodes_with_changes.push(rhs.1);
             }
         }
     }
 
-    if !section_lhs_nodes.is_empty() || !section_rhs_nodes.is_empty() {
-        res.extend(split_unchanged_singleton_list(
-            &section_lhs_nodes,
-            &section_rhs_nodes,
+    if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty() {
+        res.extend(split_changed_singleton_list(
+            &lhs_nodes_with_changes,
+            &rhs_nodes_with_changes,
             size_threshold,
         ));
     }
@@ -313,6 +330,12 @@ fn split_unchanged_toplevel<'a>(
     res
 }
 
+/// A 2-tuple that only considers the first item in equality, sorting
+/// and hashing.
+///
+/// Helpful when you have some values that you want to treat as equal,
+/// but you also want some metadata to track exactly which value
+/// you're looking at.
 #[derive(Debug, Clone)]
 struct EqOnFirstItem<X, Y>(X, Y);
 
@@ -407,6 +430,8 @@ fn shrink_unchanged_delimiters<'a>(
 
 /// Skip syntax nodes at the beginning or end that are obviously
 /// unchanged.
+///
+/// Recurses when both sides are a singleton list.
 ///
 /// Set the [`ChangeKind`] on the definitely changed nodes, and return the
 /// nodes that may contain changes.

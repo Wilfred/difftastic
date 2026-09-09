@@ -65,6 +65,7 @@ use log::info;
 use options::{FilePermissions, USAGE};
 
 use crate::conflicts::{apply_conflict_markers, START_LHS_MARKER};
+use crate::constants::Side;
 use crate::diff::changes::ChangeMap;
 use crate::diff::shortest_path::ExceededGraphLimit;
 use crate::diff::{shortest_path, unchanged};
@@ -649,8 +650,7 @@ fn diff_file_content(
                 return check_only_text(&file_format, display_path, extra_info, lhs_src, rhs_src);
             }
 
-            let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-            let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+            let (lhs_positions, rhs_positions) = line_parser::change_positions(lhs_src, rhs_src);
             (file_format, lhs_positions, rhs_positions)
         }
         Some((language, lang_config)) => {
@@ -718,8 +718,8 @@ fn diff_file_content(
                             }
 
                             if exceeded_graph_limit {
-                                let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-                                let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+                                let (lhs_positions, rhs_positions) =
+                                    line_parser::change_positions(lhs_src, rhs_src);
                                 (
                                     FileFormat::TextFallback {
                                         reason: "exceeded DFT_GRAPH_LIMIT".into(),
@@ -751,13 +751,32 @@ fn diff_file_content(
                                 )
                             }
                         }
-                        Err(tsp::ExceededParseErrorLimit(error_count)) => {
+                        Err(tsp::ExceededParseErrorLimit {
+                            error_count,
+                            first_error_pos,
+                        }) => {
+                            let location = match first_error_pos {
+                                Some((line, column, side)) => {
+                                    let in_initial = match side {
+                                        Side::Left => " in initial file",
+                                        Side::Right => "",
+                                    };
+                                    format!(
+                                        ", first at {}:{}{}",
+                                        line.display(),
+                                        column,
+                                        in_initial
+                                    )
+                                }
+                                None => "".to_owned(),
+                            };
                             let file_format = FileFormat::TextFallback {
                                 reason: format!(
-                                    "{} {} parse error{}, exceeded DFT_PARSE_ERROR_LIMIT",
+                                    "{} {} parse error{}, exceeded DFT_PARSE_ERROR_LIMIT{}",
                                     error_count,
                                     language_name(language),
-                                    if error_count == 1 { "" } else { "s" }
+                                    if error_count == 1 { "" } else { "s" },
+                                    location
                                 ),
                             };
 
@@ -771,8 +790,8 @@ fn diff_file_content(
                                 );
                             }
 
-                            let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-                            let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+                            let (lhs_positions, rhs_positions) =
+                                line_parser::change_positions(lhs_src, rhs_src);
                             (file_format, lhs_positions, rhs_positions)
                         }
                     }
@@ -796,8 +815,8 @@ fn diff_file_content(
                         );
                     }
 
-                    let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-                    let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+                    let (lhs_positions, rhs_positions) =
+                        line_parser::change_positions(lhs_src, rhs_src);
                     (file_format, lhs_positions, rhs_positions)
                 }
             }

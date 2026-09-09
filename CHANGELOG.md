@@ -1,4 +1,29 @@
-## 0.70 (unreleased)
+## 0.71 (unreleased)
+
+### Diffing
+
+Improved linear diffing performance by switching from Wu-Manber to the
+Histogram algorithm. Runtime is slightly improved on average and worst
+case memory usage is substantially improved.
+
+(Linear diffing is used for line-based diffing and word highlighting
+in difftastic. Some diff results have slightly changed due to this
+algorithm change.)
+
+### Parsing
+
+Improved C++, Dockerfile, Haskell, JavaScript, Perl, Ruby, Rust, Scala and
+TypeScript.
+
+Improved heuristics and the default globs used for language detection.
+
+Removed Hare support (upstream parser is no longer maintained).
+
+### Command Line Interface
+
+`--context` can now be set with the short flag `-c`.
+
+## 0.70 (released 7th August 2026)
 
 ### Diffing
 
@@ -6,9 +31,29 @@ Improved diffing performance, particularly when diffing directories.
 
 ### Parsing
 
-Improved support for TOML.
+Files with parse errors now report the position of the first error, to
+help investigate issues.
 
-Removed support for SCSS (upstream parser is no longer maintained).
+Added support for Dockerfiles and Fish shell.
+
+Improved support for Dart, Emacs Lisp, Erlang, Java, OCaml, PHP,
+Protocol Buffers and TOML.
+
+Removed support for Elvish and SCSS (upstream parsers are no longer
+maintained).
+
+### Display
+
+Fixed an issue where files with tabs were not always aligned correctly
+in some build configurations.
+
+Fix an alignment issue with line numbers in side-by-side mode.
+
+### Release
+
+Fixed an issue where prebuilt binaries on GitHub did not respect
+Cargo.lock, so they used newer library versions than tested on
+CI. This caused rendering bugs in source code with tabs.
 
 ## 0.69 (released 30th April 2026)
 

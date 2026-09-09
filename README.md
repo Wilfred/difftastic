@@ -114,7 +114,7 @@ $ difft foo1.c foo2.c
 
 ### Can difftastic help me with merge conflicts?
 
-Yes! As of version 0.50, difftastic understands merge conflict markers
+Yes! As of version 0.50 (released 2023-08-16), difftastic understands merge conflict markers
 (i.e. `<<<<<<<`, `=======` and `>>>>>>>`).
 
 Pass your file with conflicts as a single argument to

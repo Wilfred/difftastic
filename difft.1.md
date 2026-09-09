@@ -90,7 +90,9 @@ OPTIONS
 : Associate this glob pattern with this language, overriding normal language detection.
   For example:
 
-    $ difft \-\-override='*.c:C++' old.c new.c
+    ```
+    $ difft --override='*.c:C++' old.c new.c
+    ```
 
     See **\-\-list-languages** for the list of language names. Language names are matched case
     insensitively. Overrides may also specify the language _"text"_ to treat a file as plain
@@ -98,14 +100,18 @@ OPTIONS
 
     This argument may be given more than once. For example:
 
-    $ difft \-\-override='CustomFile:json' \-\-override='*.c:text' old.c new.c
+    ```
+    $ difft --override='CustomFile:json' --override='*.c:text' old.c new.c
+    ```
 
     To configure multiple overrides using environment variables, difftastic also accepts
     **DFT_OVERRIDE_1** up to **DFT_OVERRIDE_9**.
 
+    ```
     $ export DFT_OVERRIDE='CustomFile:json'
     $ export DFT_OVERRIDE_1='*.c:text'
     $ export DFT_OVERRIDE_2='*.js:javascript jsx'
+    ```
 
     When multiple overrides are specified, the first matching override wins.
 
@@ -124,7 +130,7 @@ OPTIONS
 **\-\-strip-cr**
 
 : Remove any carriage return characters before diffing. This can be helpful when dealing
-  with files on Windows that contain CRLF, i.e. **\r\n**.
+  with files on Windows that contain CRLF, i.e. `\r\n`.
 
 **\-\-syntax-highlight** _on/off_
 
