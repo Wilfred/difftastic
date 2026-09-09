@@ -139,7 +139,9 @@ pub(crate) fn print(
             let mut lhs_chunk = chunk_start;
             while let (Some(line_nbr), _) = hunk_lines[lhs_chunk] {
                 if lhs_chunk >= hunk_lines.len()
+                    // This is for subline changes
                     || !hunk.novel_lhs.contains(&line_nbr)
+                    // This is when the new line is a new chunk
                     || last_lhs_line_nbr != 0 && line_nbr.as_usize() > last_lhs_line_nbr + 1
                 {
                     break;
@@ -166,10 +168,11 @@ pub(crate) fn print(
             // print rhs lines
             let mut last_rhs_line_nbr: usize = 0;
             let mut rhs_chunk = chunk_start;
-            last_rhs_line_nbr = 0;
             while let (_, Some(line_nbr)) = hunk_lines[rhs_chunk] {
                 if rhs_chunk >= hunk_lines.len()
+                    // This is for subline changes
                     || !hunk.novel_rhs.contains(&line_nbr)
+                    // This is when the new line is a new chunk
                     || last_rhs_line_nbr > 0 && line_nbr.as_usize() > last_rhs_line_nbr + 1
                 {
                     break;
