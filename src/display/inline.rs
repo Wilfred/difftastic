@@ -89,7 +89,6 @@ pub(crate) fn print(
         let hunk_lines = hunk.lines.clone();
 
         let mut lhs_previous: Option<usize> = None;
-        let mut i = 0;
 
         // Print the before context
         let (mut previous_lhs_line_nbr, mut previous_rhs_line_nbr) = print_before_lines(
@@ -99,16 +98,15 @@ pub(crate) fn print(
             &opposite_to_rhs,
             column_width,
             &hunk_lines,
-            &mut lhs_previous,
-            i,
+            &mut None,
+            0,
             3,
         );
 
+        let mut chunk_start = 0;
         loop {
             // print gaps
-            let (lhs_line, rhs_line) = &hunk_lines[i];
-
-            println!("{:#?}", hunk_lines[i]);
+            let (lhs_line, rhs_line) = &hunk_lines[chunk_start];
 
             let diff = match (lhs_line, rhs_line) {
                 (Some(lhs), Some(rhs)) => {
@@ -122,7 +120,7 @@ pub(crate) fn print(
                 (None, None) => panic!("somethings wrong"),
             };
 
-            if i > 0 && diff > 0 {
+            if chunk_start > 0 && diff > 0 {
                 (previous_lhs_line_nbr, previous_rhs_line_nbr) = print_before_lines(
                     display_options,
                     &lhs_colored_lines,
@@ -131,16 +129,17 @@ pub(crate) fn print(
                     column_width,
                     &hunk_lines,
                     &mut lhs_previous,
-                    i,
+                    chunk_start,
                     diff,
                 );
             }
 
             // print lhs lines
             let mut last_lhs_line_nbr: usize = 0;
-            let mut j = i;
-            while let (Some(line_nbr), _) = hunk_lines[j] {
-                if j >= hunk_lines.len()
+            let mut lhs_chunk = chunk_start;
+            while let (Some(line_nbr), _) = hunk_lines[lhs_chunk] {
+                if lhs_chunk >= hunk_lines.len()
+                    || !hunk.novel_lhs.contains(&line_nbr)
                     || last_lhs_line_nbr != 0 && line_nbr.as_usize() > last_lhs_line_nbr + 1
                 {
                     break;
@@ -156,19 +155,21 @@ pub(crate) fn print(
                     ),
                     &lhs_colored_lines[line_nbr.as_usize()],
                 );
-                j += 1;
+                lhs_chunk += 1;
                 last_lhs_line_nbr = line_nbr.as_usize();
                 previous_lhs_line_nbr = line_nbr.as_usize();
-                if j >= hunk_lines.len() {
+                if lhs_chunk >= hunk_lines.len() {
                     break;
                 }
             }
 
             // print rhs lines
             let mut last_rhs_line_nbr: usize = 0;
+            let mut rhs_chunk = chunk_start;
             last_rhs_line_nbr = 0;
-            while let (_, Some(line_nbr)) = hunk_lines[i] {
-                if i >= hunk_lines.len()
+            while let (_, Some(line_nbr)) = hunk_lines[rhs_chunk] {
+                if rhs_chunk >= hunk_lines.len()
+                    || !hunk.novel_rhs.contains(&line_nbr)
                     || last_rhs_line_nbr > 0 && line_nbr.as_usize() > last_rhs_line_nbr + 1
                 {
                     break;
@@ -184,15 +185,15 @@ pub(crate) fn print(
                     ),
                     &rhs_colored_lines[line_nbr.as_usize()],
                 );
-                i += 1;
+                rhs_chunk += 1;
                 last_rhs_line_nbr = line_nbr.as_usize();
                 previous_rhs_line_nbr = line_nbr.as_usize();
-                if i >= hunk_lines.len() {
+                if rhs_chunk >= hunk_lines.len() {
                     break;
                 }
             }
-            i = cmp::max(i, j);
-            if i >= hunk_lines.len() {
+            chunk_start = cmp::max(lhs_chunk, rhs_chunk);
+            if chunk_start >= hunk_lines.len() {
                 break;
             }
         }
@@ -294,7 +295,11 @@ fn apply_combine_line_number(
             display_options,
         )
     } else {
-        format!("{:^width$}", " ", width = column_width)
+        format!(
+            "{:^width$}",
+            ".".repeat(rhs_line.unwrap_or(0.into()).display().len()),
+            width = column_width
+        )
     };
 
     let rhs_line_nbr = if let Some(rhs_line) = rhs_line {
@@ -305,7 +310,11 @@ fn apply_combine_line_number(
             display_options,
         )
     } else {
-        format!("{:^width$}", " ", width = column_width)
+        format!(
+            "{:^width$}",
+            ".".repeat(lhs_line.unwrap_or(0.into()).display().len()),
+            width = column_width
+        )
     };
 
     format!("{}{}", lhs_line_nbr, rhs_line_nbr)
