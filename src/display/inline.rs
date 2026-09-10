@@ -86,30 +86,21 @@ pub(crate) fn print(
             )
         );
 
-        let hunk_lines = hunk.lines.clone();
+        // let hunk.lines = hunk.lines.clone();
 
         let mut lhs_previous: Option<usize> = None;
-
-        // Print the before context
-        let (mut previous_lhs_line_nbr, mut previous_rhs_line_nbr) = print_before_lines(
-            display_options,
-            &lhs_colored_lines,
-            &opposite_to_lhs,
-            &opposite_to_rhs,
-            column_width,
-            &hunk_lines,
-            &mut None,
-            0,
-            3,
-        );
+        let mut previous_lhs_line_nbr: usize = 0;
+        let mut previous_rhs_line_nbr: usize = 0;
 
         let mut chunk_start = 0;
         loop {
             // print gaps
-            let (lhs_line, rhs_line) = &hunk_lines[chunk_start];
+            let (lhs_line, rhs_line) = &hunk.lines[chunk_start];
 
-            if previous_lhs_line_nbr > 0 && previous_rhs_line_nbr > 0 {
-                let diff = match (lhs_line, rhs_line) {
+            let diff: usize = if chunk_start == 0 {
+                display_options.num_context_lines.try_into().unwrap_or(0)
+            } else {
+                match (lhs_line, rhs_line) {
                     (Some(lhs), Some(rhs)) => {
                         cmp::min(
                             lhs.as_usize() - previous_lhs_line_nbr,
@@ -119,32 +110,32 @@ pub(crate) fn print(
                     (Some(lhs), None) => lhs.as_usize() - previous_lhs_line_nbr - 1,
                     (None, Some(rhs)) => rhs.as_usize() - previous_rhs_line_nbr - 1,
                     (None, None) => panic!("somethings wrong"),
-                };
-
-                if chunk_start > 0 && diff > 0 {
-                    (previous_lhs_line_nbr, previous_rhs_line_nbr) = print_before_lines(
-                        display_options,
-                        &lhs_colored_lines,
-                        &opposite_to_lhs,
-                        &opposite_to_rhs,
-                        column_width,
-                        &hunk_lines,
-                        &mut lhs_previous,
-                        chunk_start,
-                        diff,
-                    );
                 }
+            };
+
+            if diff > 0 {
+                (previous_lhs_line_nbr, previous_rhs_line_nbr) = print_before_lines(
+                    display_options,
+                    &lhs_colored_lines,
+                    &opposite_to_lhs,
+                    &opposite_to_rhs,
+                    column_width,
+                    &hunk.lines,
+                    &mut lhs_previous,
+                    chunk_start,
+                    diff,
+                );
             }
 
             // print lhs lines
             let mut last_lhs_line_nbr: usize = 0;
             let mut lhs_chunk = chunk_start;
-            while let (Some(line_nbr), _) = hunk_lines[lhs_chunk] {
-                if lhs_chunk >= hunk_lines.len()
+            while let (Some(line_nbr), _) = hunk.lines[lhs_chunk] {
+                if lhs_chunk >= hunk.lines.len()
                     // This is for subline changes
                     || !hunk.novel_lhs.contains(&line_nbr)
                     // This is when the new line is a new chunk
-                    || last_lhs_line_nbr != 0 && line_nbr.as_usize() > last_lhs_line_nbr + 1
+                    || lhs_chunk != chunk_start && line_nbr.as_usize() > last_lhs_line_nbr + 1
                 {
                     break;
                 }
@@ -162,7 +153,7 @@ pub(crate) fn print(
                 lhs_chunk += 1;
                 last_lhs_line_nbr = line_nbr.as_usize();
                 previous_lhs_line_nbr = line_nbr.as_usize();
-                if lhs_chunk >= hunk_lines.len() {
+                if lhs_chunk >= hunk.lines.len() {
                     break;
                 }
             }
@@ -170,12 +161,12 @@ pub(crate) fn print(
             // print rhs lines
             let mut last_rhs_line_nbr: usize = 0;
             let mut rhs_chunk = chunk_start;
-            while let (_, Some(line_nbr)) = hunk_lines[rhs_chunk] {
-                if rhs_chunk >= hunk_lines.len()
+            while let (_, Some(line_nbr)) = hunk.lines[rhs_chunk] {
+                if rhs_chunk >= hunk.lines.len()
                     // This is for subline changes
                     || !hunk.novel_rhs.contains(&line_nbr)
                     // This is when the new line is a new chunk
-                    || last_rhs_line_nbr > 0 && line_nbr.as_usize() > last_rhs_line_nbr + 1
+                    || rhs_chunk != chunk_start  && line_nbr.as_usize() > last_rhs_line_nbr + 1
                 {
                     break;
                 }
@@ -193,25 +184,25 @@ pub(crate) fn print(
                 rhs_chunk += 1;
                 last_rhs_line_nbr = line_nbr.as_usize();
                 previous_rhs_line_nbr = line_nbr.as_usize();
-                if rhs_chunk >= hunk_lines.len() {
+                if rhs_chunk >= hunk.lines.len() {
                     break;
                 }
             }
             chunk_start = cmp::max(lhs_chunk, rhs_chunk);
-            if chunk_start >= hunk_lines.len() {
+            if chunk_start >= hunk.lines.len() {
                 break;
             }
         }
 
         // Print the after context
         let before_lines = calculate_before_context(
-            &hunk_lines,
+            &hunk.lines,
             &opposite_to_lhs,
             &opposite_to_rhs,
             display_options.num_context_lines as usize,
         );
         let after_lines = calculate_after_context(
-            &[&before_lines[..], &hunk_lines[..]].concat(),
+            &[&before_lines[..], &hunk.lines[..]].concat(),
             &opposite_to_lhs,
             &opposite_to_rhs,
             lhs_src.max_line(),
@@ -261,7 +252,7 @@ fn print_before_lines(
         &hunk_lines[i..],
         opposite_to_lhs,
         opposite_to_rhs,
-        context - 1, // somehow this print 3 line before
+        context - 1, // somehow this print 1 more line
     );
 
     let mut lhs_line: Option<LineNumber> = None;
