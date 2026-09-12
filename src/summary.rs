@@ -57,9 +57,9 @@ impl DiffResult {
         if matches!(self.lhs_src, FileContent::Binary)
             || matches!(self.rhs_src, FileContent::Binary)
         {
-            return self.has_byte_changes.is_some();
+            return self.has_byte_changes.is_some() || self.extra_info.is_some();
         }
 
-        self.has_syntactic_changes
+        self.has_syntactic_changes || self.extra_info.is_some()
     }
 }

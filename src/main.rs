@@ -909,7 +909,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             let hunks = &summary.hunks;
 
             if !summary.has_syntactic_changes {
-                if display_options.print_unchanged {
+                if display_options.print_unchanged || summary.extra_info.is_some() {
                     println!(
                         "{}",
                         display::style::header(
@@ -991,7 +991,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             }
         }
         (FileContent::Binary, FileContent::Binary) => {
-            if display_options.print_unchanged || summary.has_byte_changes.is_some() {
+            if display_options.print_unchanged || summary.has_byte_changes.is_some() || summary.extra_info.is_some() {
                 println!(
                     "{}",
                     display::style::header(
