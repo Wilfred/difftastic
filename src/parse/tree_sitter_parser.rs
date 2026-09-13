@@ -365,6 +365,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                     "image_name",
                     "image_tag",
                     "image_digest",
+                    "heredoc_block",
                 ]
                 .into_iter()
                 .collect(),
