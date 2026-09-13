@@ -6,7 +6,7 @@ use regex::Regex;
 
 use crate::diff::lcs_diff;
 use crate::parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind};
-use crate::words::split_words;
+use crate::words::split_words_up_to;
 
 const MAX_WORDS_IN_LINE: usize = 1000;
 
@@ -116,6 +116,8 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
 
     let mut lhs_offset = 0;
     let mut rhs_offset = 0;
+    let mut lhs_line_num = 0;
+    let mut rhs_line_num = 0;
 
     let mut lhs_mps = vec![];
     let mut rhs_mps = vec![];
@@ -126,10 +128,16 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
             TextChangeKind::Unchanged => {
                 seen_unchanged = true;
                 for (lhs_line, rhs_line) in lhs_lines.iter().zip(rhs_lines) {
-                    let lhs_pos =
-                        lhs_lp.from_region(lhs_offset, lhs_offset + line_len_in_bytes(lhs_line));
-                    let rhs_pos =
-                        rhs_lp.from_region(rhs_offset, rhs_offset + line_len_in_bytes(rhs_line));
+                    let lhs_pos = vec![SingleLineSpan {
+                        line: lhs_line_num.into(),
+                        start_col: 0,
+                        end_col: line_len_in_bytes(lhs_line) as u32,
+                    }];
+                    let rhs_pos = vec![SingleLineSpan {
+                        line: rhs_line_num.into(),
+                        start_col: 0,
+                        end_col: line_len_in_bytes(rhs_line) as u32,
+                    }];
 
                     lhs_mps.push(MatchedPos {
                         kind: MatchKind::UnchangedToken {
@@ -150,20 +158,25 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
 
                     lhs_offset += lhs_line.len();
                     rhs_offset += rhs_line.len();
+                    lhs_line_num += 1;
+                    rhs_line_num += 1;
                 }
             }
             TextChangeKind::Novel => {
                 let lhs_part = lhs_lines.join("");
                 let rhs_part = rhs_lines.join("");
 
-                let lhs_words = split_words(&lhs_part);
-                let rhs_words = split_words(&rhs_part);
-
                 // Myers Diff scales badly on large inputs, and
                 // word-level diffing is merely nice to have. If we
                 // have a very large number of words, don't diff
                 // individual words.
-                if lhs_words.len() > MAX_WORDS_IN_LINE || rhs_words.len() > MAX_WORDS_IN_LINE {
+                let words = match split_words_up_to(&lhs_part, MAX_WORDS_IN_LINE) {
+                    Some(lhs_words) => split_words_up_to(&rhs_part, MAX_WORDS_IN_LINE)
+                        .map(|rhs_words| (lhs_words, rhs_words)),
+                    None => None,
+                };
+
+                let Some((lhs_words, rhs_words)) = words else {
                     for lhs_pos in lhs_lp.from_region(lhs_offset, lhs_offset + lhs_part.len()) {
                         if lhs_pos.start_col != lhs_pos.end_col {
                             lhs_mps.push(MatchedPos {
@@ -187,8 +200,10 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
 
                     lhs_offset += lhs_part.len();
                     rhs_offset += rhs_part.len();
+                    lhs_line_num += lhs_lines.len() as u32;
+                    rhs_line_num += rhs_lines.len() as u32;
                     continue;
-                }
+                };
 
                 for diff_res in lcs_diff::slice(&lhs_words, &rhs_words) {
                     match diff_res {
@@ -248,6 +263,9 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> (Vec<MatchedPos>
                         }
                     }
                 }
+
+                lhs_line_num += lhs_lines.len() as u32;
+                rhs_line_num += rhs_lines.len() as u32;
             }
         }
     }
@@ -363,5 +381,19 @@ mod tests {
 
         let last_pos = positions.pop().unwrap();
         assert!(last_pos.kind.is_novel());
+    }
+
+    #[test]
+    fn test_unchanged_line_numbers_after_novel_block() {
+        let (positions, _) = change_positions("same\nold\nsame again", "same\nnew\nsame again");
+        let unchanged_lines = positions
+            .iter()
+            .filter_map(|position| match position.kind {
+                MatchKind::UnchangedToken { .. } => Some(position.pos.line.0),
+                _ => None,
+            })
+            .collect::<Vec<_>>();
+
+        assert_eq!(unchanged_lines, vec![0, 2]);
     }
 }
