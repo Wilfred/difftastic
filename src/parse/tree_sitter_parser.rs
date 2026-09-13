@@ -362,6 +362,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                     "double_quoted_string",
                     "single_quoted_string",
                     "unquoted_string",
+                    "heredoc_content",
                     "image_name",
                     "image_tag",
                     "image_digest",
