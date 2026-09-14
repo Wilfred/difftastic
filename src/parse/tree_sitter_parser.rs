@@ -55,7 +55,7 @@ pub(crate) struct TreeSitterConfig {
     /// By forcing the tree-sitter subtree to be a difftastic atom, we
     /// guarantee a correct diff, at the cost of losing some structure
     /// in the tree-sitter AST.
-    atom_nodes: DftHashSet<&'static str>,
+    atom_nodes: DftHashSet<TreeSitterNodeName>,
 
     /// We want to consider delimiter tokens as part of lists, not
     /// standalone atoms. Tree-sitter includes delimiter tokens, so
@@ -72,7 +72,7 @@ pub(crate) struct TreeSitterConfig {
     ///
     /// Note that core diffing still sees these tokens, and we only
     /// handle them specially in post-processing.
-    ignore_trailing_tokens: Vec<(&'static str, &'static str)>,
+    ignore_trailing_tokens: Vec<(TreeSitterNodeName, &'static str)>,
 
     /// The tree-sitter query used for syntax highlighting this
     /// language.
@@ -81,6 +81,9 @@ pub(crate) struct TreeSitterConfig {
     /// Sub-languages in use, if any.
     sub_languages: Vec<TreeSitterSubLanguage>,
 }
+
+// TODO: define a proper type instead of an alias.
+type TreeSitterNodeName = &'static str;
 
 extern "C" {
     fn tree_sitter_janet_simple() -> ts::Language;
@@ -2138,7 +2141,11 @@ mod tests {
         }
     }
 
-    fn assert_names_exist(language: &ts::Language, names: &[&str], description: &str) {
+    fn assert_names_exist(
+        language: &ts::Language,
+        names: &[TreeSitterNodeName],
+        description: &str,
+    ) {
         let mut missing_names: Vec<&str> = vec![];
 
         for name in names {
