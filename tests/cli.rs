@@ -291,3 +291,15 @@ fn git_unmerged_files() {
     let predicate_fn = predicate::str::contains("Unmerged path");
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn dockerfile_heredoc_changes() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=inline")
+        .arg("sample_files/cli_tests/heredoc_1.dockerfile")
+        .arg("sample_files/cli_tests/heredoc_2.dockerfile");
+
+    let predicate_fn = predicate::str::contains("pacman -Syu");
+    cmd.assert().stdout(predicate_fn);
+}
