@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Repeats the embedded parser and collects the results in a type implementing `Extend + Default`. Fails if the amount of time the embedded parser is run is not within the specified range."><title>many in nom::multi - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="nom" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../nom/index.html">nom</a><span class="version">8.0.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">many</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#arguments" title="Arguments">Arguments</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In nom::<wbr>multi</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="../index.html">nom</a>::<wbr><a href="index.html">multi</a></span><h1>Function <span class="fn">many</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/nom/multi/mod.rs.html#1665-1681">Source</a> </span></div><pre class="rust item-decl"><code>pub fn many&lt;I, E, Collection, F, G&gt;(
+    range: G,
+    parser: F,
+) -&gt; impl <a class="trait" href="../trait.Parser.html" title="trait nom::Parser">Parser</a>&lt;I, Output = Collection, Error = E&gt;<div class="where">where
+    I: <a class="trait" href="https://doc.rust-lang.org/1.85.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="../trait.Input.html" title="trait nom::Input">Input</a>,
+    F: <a class="trait" href="../trait.Parser.html" title="trait nom::Parser">Parser</a>&lt;I, Error = E&gt;,
+    Collection: <a class="trait" href="https://doc.rust-lang.org/1.85.0/core/iter/traits/collect/trait.Extend.html" title="trait core::iter::traits::collect::Extend">Extend</a>&lt;&lt;F as <a class="trait" href="../trait.Parser.html" title="trait nom::Parser">Parser</a>&lt;I&gt;&gt;::<a class="associatedtype" href="../trait.Parser.html#associatedtype.Output" title="type nom::Parser::Output">Output</a>&gt; + <a class="trait" href="https://doc.rust-lang.org/1.85.0/core/default/trait.Default.html" title="trait core::default::Default">Default</a>,
+    E: <a class="trait" href="../error/trait.ParseError.html" title="trait nom::error::ParseError">ParseError</a>&lt;I&gt;,
+    G: <a class="trait" href="../trait.NomRange.html" title="trait nom::NomRange">NomRange</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.85.0/std/primitive.usize.html">usize</a>&gt;,</div></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Repeats the embedded parser and collects the results in a type implementing <code>Extend + Default</code>.
+Fails if the amount of time the embedded parser is run is not
+within the specified range.</p>
+<h2 id="arguments"><a class="doc-anchor" href="#arguments">§</a>Arguments</h2>
+<ul>
+<li><code>range</code> Constrains the number of iterations.
+<ul>
+<li>A range without an upper bound <code>a..</code> is equivalent to a range of <code>a..=usize::MAX</code>.</li>
+<li>A single <code>usize</code> value is equivalent to <code>value..=value</code>.</li>
+<li>An empty range is invalid.</li>
+</ul>
+</li>
+<li><code>parse</code> The parser to apply.</li>
+</ul>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::multi::many;
+<span class="kw">use </span>nom::bytes::complete::tag;
+
+<span class="kw">fn </span>parser(s: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, Vec&lt;<span class="kw-2">&amp;</span>str&gt;&gt; {
+  many(<span class="number">0</span>..=<span class="number">2</span>, tag(<span class="string">"abc"</span>)).parse(s)
+}
+
+<span class="macro">assert_eq!</span>(parser(<span class="string">"abcabc"</span>), <span class="prelude-val">Ok</span>((<span class="string">""</span>, <span class="macro">vec!</span>[<span class="string">"abc"</span>, <span class="string">"abc"</span>])));
+<span class="macro">assert_eq!</span>(parser(<span class="string">"abc123"</span>), <span class="prelude-val">Ok</span>((<span class="string">"123"</span>, <span class="macro">vec!</span>[<span class="string">"abc"</span>])));
+<span class="macro">assert_eq!</span>(parser(<span class="string">"123123"</span>), <span class="prelude-val">Ok</span>((<span class="string">"123123"</span>, <span class="macro">vec!</span>[])));
+<span class="macro">assert_eq!</span>(parser(<span class="string">""</span>), <span class="prelude-val">Ok</span>((<span class="string">""</span>, <span class="macro">vec!</span>[])));
+<span class="macro">assert_eq!</span>(parser(<span class="string">"abcabcabc"</span>), <span class="prelude-val">Ok</span>((<span class="string">"abc"</span>, <span class="macro">vec!</span>[<span class="string">"abc"</span>, <span class="string">"abc"</span>])));</code></pre></div>
+<p>This is not limited to <code>Vec</code>, other collections like <code>HashMap</code>
+can be used:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::multi::many;
+<span class="kw">use </span>nom::bytes::complete::{tag, take_while};
+<span class="kw">use </span>nom::sequence::{separated_pair, terminated};
+<span class="kw">use </span>nom::AsChar;
+
+<span class="kw">use </span>std::collections::HashMap;
+
+<span class="kw">fn </span>key_value(s: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, HashMap&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt;&gt; {
+  many(<span class="number">0</span>.., terminated(
+    separated_pair(
+      take_while(AsChar::is_alpha),
+      tag(<span class="string">"="</span>),
+      take_while(AsChar::is_alpha)
+    ),
+    tag(<span class="string">";"</span>)
+  )).parse(s)
+}
+
+<span class="macro">assert_eq!</span>(
+  key_value(<span class="string">"a=b;c=d;"</span>),
+  <span class="prelude-val">Ok</span>((<span class="string">""</span>, HashMap::from([(<span class="string">"a"</span>, <span class="string">"b"</span>), (<span class="string">"c"</span>, <span class="string">"d"</span>)])))
+);</code></pre></div>
+<p>If more control is needed on the default value, <a href="fn.fold.html" title="fn nom::multi::fold">fold</a> can
+be used instead:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::multi::fold;
+<span class="kw">use </span>nom::bytes::complete::tag;
+
+
+<span class="kw">fn </span>parser(s: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, Vec&lt;<span class="kw-2">&amp;</span>str&gt;&gt; {
+  fold(
+    <span class="number">0</span>..=<span class="number">4</span>,
+    tag(<span class="string">"abc"</span>),
+    <span class="comment">// preallocates a vector of the max size
+    </span>|| Vec::with_capacity(<span class="number">4</span>),
+    |<span class="kw-2">mut </span>acc: Vec&lt;<span class="kw">_</span>&gt;, item| {
+      acc.push(item);
+      acc
+    }
+  ).parse(s)
+}
+
+
+<span class="macro">assert_eq!</span>(parser(<span class="string">"abcabcabcabc"</span>), <span class="prelude-val">Ok</span>((<span class="string">""</span>, <span class="macro">vec!</span>[<span class="string">"abc"</span>, <span class="string">"abc"</span>, <span class="string">"abc"</span>, <span class="string">"abc"</span>])));</code></pre></div>
+</div></details></section></div></main></body></html>
