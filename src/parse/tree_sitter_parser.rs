@@ -385,7 +385,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
 
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: vec!["string", "sigil", "heredoc"].into_iter().collect(),
+                atom_nodes: vec!["string", "sigil"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("do", "end")]
                     .into_iter()
                     .collect(),
@@ -519,7 +519,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["qualified_variable"].into_iter().collect(),
+                atom_nodes: [].into_iter().collect(),
                 delimiter_tokens: vec![("[", "]"), ("(", ")")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_haskell::HIGHLIGHTS_QUERY)
@@ -718,14 +718,9 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 // structure of complex types within, but it beats
                 // ignoring nullable changes.
                 // https://github.com/Wilfred/difftastic/issues/411
-                atom_nodes: [
-                    "nullable_type",
-                    "string_literal",
-                    "line_string_literal",
-                    "character_literal",
-                ]
-                .into_iter()
-                .collect(),
+                atom_nodes: ["nullable_type", "string_literal", "character_literal"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")]
                     .into_iter()
                     .collect(),
@@ -980,7 +975,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "special"].into_iter().collect(),
+                atom_nodes: ["string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_r::HIGHLIGHTS_QUERY)
@@ -1131,7 +1126,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
-                atom_nodes: ["string", "identifier"].into_iter().collect(),
+                atom_nodes: ["identifier"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_sequel::HIGHLIGHTS_QUERY)
@@ -2140,6 +2135,48 @@ mod tests {
     fn test_configs_valid() {
         for language in guess::Language::iter() {
             from_language(language);
+        }
+    }
+
+    fn assert_names_exist(language: &ts::Language, names: &[&str], description: &str) {
+        let mut missing_names: Vec<&str> = vec![];
+
+        for name in names {
+            let id = language.id_for_node_kind(name, true);
+            if id == 0 {
+                missing_names.push(*name);
+            }
+        }
+
+        if !missing_names.is_empty() {
+            let missing_description = missing_names.into_iter().collect::<Vec<&str>>().join(", ");
+            panic!("{description} refers to tree-sitter node names that don't exist: {missing_description}");
+        }
+    }
+
+    #[test]
+    fn test_tree_sitter_node_names_exist() {
+        for language in guess::Language::iter() {
+            let config = from_language(language);
+
+            let atom_nodes = config.atom_nodes.iter().copied().collect::<Vec<_>>();
+
+            assert_names_exist(
+                &config.language,
+                &atom_nodes,
+                &format!("atom_nodes for {:?}", language),
+            );
+
+            let ignore_trailing_nodes = config
+                .ignore_trailing_tokens
+                .iter()
+                .map(|(n, _)| *n)
+                .collect::<Vec<_>>();
+            assert_names_exist(
+                &config.language,
+                &ignore_trailing_nodes,
+                &format!("ignore_trailing_tokens for {:?}", language),
+            );
         }
     }
 }
