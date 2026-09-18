@@ -2,13 +2,16 @@
 
 ### Diffing
 
-Improved linear diffing performance by switching from Wu-Manber to the
-Histogram algorithm. Runtime is slightly improved on average and worst
-case memory usage is substantially improved.
+Improved performance, particularly for line-based diffs or
+pathological cases (e.g. an extremely long line).
 
-(Linear diffing is used for line-based diffing and word highlighting
-in difftastic. Some diff results have slightly changed due to this
-algorithm change.)
+Linear diffs (used in line-based diffs and word highlighting) have
+changed from the Wu-Manber algorithm to the Histogram algorithm. This
+is a modest runtime improvement and a large improvement for memory
+usage in worst case scenarios.
+
+Some diff results have slightly changed, although the diff quality
+should be similar. (Please file bugs if not.)
 
 ### Parsing
 
@@ -22,6 +25,11 @@ Removed Hare support (upstream parser is no longer maintained).
 ### Command Line Interface
 
 `--context` can now be set with the short flag `-c`.
+
+### Release
+
+Prebuilt binaries attached to releases now include the version in the
+filename.
 
 ## 0.70 (released 7th August 2026)
 
