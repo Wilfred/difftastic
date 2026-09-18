@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Make a parser that is usable with `parse_macro_input!` in a `#[proc_macro_attribute]` macro."><title>parser in syn::meta - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="syn" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../syn/index.html">syn</a><span class="version">2.0.106</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">parser</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#example" title="Example">Example</a></li><li><a href="#example-1" title="Example">Example</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In syn::<wbr>meta</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="../index.html">syn</a>::<wbr><a href="index.html">meta</a></span><h1>Function <span class="fn">parser</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/syn/meta.rs.html#132-140">Source</a> </span></div><pre class="rust item-decl"><code>pub fn parser(
+    logic: impl <a class="trait" href="https://doc.rust-lang.org/1.85.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(<a class="struct" href="struct.ParseNestedMeta.html" title="struct syn::meta::ParseNestedMeta">ParseNestedMeta</a>&lt;'_&gt;) -&gt; <a class="type" href="../type.Result.html" title="type syn::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.85.0/std/primitive.unit.html">()</a>&gt;,
+) -&gt; impl <a class="trait" href="../parse/trait.Parser.html" title="trait syn::parse::Parser">Parser</a>&lt;Output = <a class="primitive" href="https://doc.rust-lang.org/1.85.0/std/primitive.unit.html">()</a>&gt;</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Make a parser that is usable with <code>parse_macro_input!</code> in a
+<code>#[proc_macro_attribute]</code> macro.</p>
+<p><em>Warning:</em> When parsing attribute args <strong>other than</strong> the
+<code>proc_macro::TokenStream</code> input of a <code>proc_macro_attribute</code>, you do <strong>not</strong>
+need this function. In several cases your callers will get worse error
+messages if you use this function, because the surrounding delimiter’s span
+is concealed from attribute macros by rustc. Use
+<a href="../struct.Attribute.html#method.parse_nested_meta" title="method syn::Attribute::parse_nested_meta"><code>Attribute::parse_nested_meta</code></a> instead.</p>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<p>This example implements an attribute macro whose invocations look like this:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tea(kind = <span class="string">"EarlGrey"</span>, hot)]
+</span><span class="kw">struct </span>Picard {...}</code></pre></div>
+<p>The “parameters” supported by the attribute are:</p>
+<ul>
+<li><code>kind = "..."</code></li>
+<li><code>hot</code></li>
+<li><code>with(sugar, milk, ...)</code>, a comma-separated list of ingredients</li>
+</ul>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>proc_macro::TokenStream;
+<span class="kw">use </span>syn::{parse_macro_input, LitStr, Path};
+
+<span class="attr">#[proc_macro_attribute]
+</span><span class="kw">pub fn </span>tea(args: TokenStream, input: TokenStream) -&gt; TokenStream {
+    <span class="kw">let </span><span class="kw-2">mut </span>kind: <span class="prelude-ty">Option</span>&lt;LitStr&gt; = <span class="prelude-val">None</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>hot: bool = <span class="bool-val">false</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>with: Vec&lt;Path&gt; = Vec::new();
+    <span class="kw">let </span>tea_parser = syn::meta::parser(|meta| {
+        <span class="kw">if </span>meta.path.is_ident(<span class="string">"kind"</span>) {
+            kind = <span class="prelude-val">Some</span>(meta.value()<span class="question-mark">?</span>.parse()<span class="question-mark">?</span>);
+            <span class="prelude-val">Ok</span>(())
+        } <span class="kw">else if </span>meta.path.is_ident(<span class="string">"hot"</span>) {
+            hot = <span class="bool-val">true</span>;
+            <span class="prelude-val">Ok</span>(())
+        } <span class="kw">else if </span>meta.path.is_ident(<span class="string">"with"</span>) {
+            meta.parse_nested_meta(|meta| {
+                with.push(meta.path);
+                <span class="prelude-val">Ok</span>(())
+            })
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Err</span>(meta.error(<span class="string">"unsupported tea property"</span>))
+        }
+    });
+
+    <span class="macro">parse_macro_input!</span>(args with tea_parser);
+    <span class="macro">eprintln!</span>(<span class="string">"kind={kind:?} hot={hot} with={with:?}"</span>);
+
+    <span class="comment">/* ... */
+</span>}</code></pre></div>
+<p>The <code>syn::meta</code> library will take care of dealing with the commas including
+trailing commas, and producing sensible error messages on unexpected input.</p>
+<div class="example-wrap"><pre class="language-console"><code>error: expected `,`
+ --&gt; src/main.rs:3:37
+  |
+3 | #[tea(kind = &quot;EarlGrey&quot;, with(sugar = &quot;lol&quot;, milk))]
+  |                                     ^</code></pre></div><h2 id="example-1"><a class="doc-anchor" href="#example-1">§</a>Example</h2>
+<p>Same as above but we factor out most of the logic into a separate function.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>proc_macro::TokenStream;
+<span class="kw">use </span>syn::meta::ParseNestedMeta;
+<span class="kw">use </span>syn::parse::{Parser, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span>syn::{parse_macro_input, LitStr, Path};
+
+<span class="attr">#[proc_macro_attribute]
+</span><span class="kw">pub fn </span>tea(args: TokenStream, input: TokenStream) -&gt; TokenStream {
+    <span class="kw">let </span><span class="kw-2">mut </span>attrs = TeaAttributes::default();
+    <span class="kw">let </span>tea_parser = syn::meta::parser(|meta| attrs.parse(meta));
+    <span class="macro">parse_macro_input!</span>(args with tea_parser);
+
+    <span class="comment">/* ... */
+</span>}
+
+<span class="attr">#[derive(Default)]
+</span><span class="kw">struct </span>TeaAttributes {
+    kind: <span class="prelude-ty">Option</span>&lt;LitStr&gt;,
+    hot: bool,
+    with: Vec&lt;Path&gt;,
+}
+
+<span class="kw">impl </span>TeaAttributes {
+    <span class="kw">fn </span>parse(<span class="kw-2">&amp;mut </span><span class="self">self</span>, meta: ParseNestedMeta) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">if </span>meta.path.is_ident(<span class="string">"kind"</span>) {
+            <span class="self">self</span>.kind = <span class="prelude-val">Some</span>(meta.value()<span class="question-mark">?</span>.parse()<span class="question-mark">?</span>);
+            <span class="prelude-val">Ok</span>(())
+        } <span class="kw">else </span><span class="comment">/* just like in last example */
+
+    </span>}
+}</code></pre></div>
+</div></details></section></div></main></body></html>

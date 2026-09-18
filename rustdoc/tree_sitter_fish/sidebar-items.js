@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["HIGHLIGHTS_QUERY","NODE_TYPES"],"fn":["language"]};

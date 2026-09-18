@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["guess_language","syntax","tree_sitter_parser"]};
