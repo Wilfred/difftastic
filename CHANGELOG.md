@@ -1,4 +1,6 @@
-## 0.71 (unreleased)
+## 0.72 (unreleased)
+
+## 0.71 (released 18th September 2026)
 
 ### Diffing
 
