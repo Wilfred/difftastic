@@ -15,7 +15,7 @@ should be similar. (Please file bugs if not.)
 
 ### Parsing
 
-Improved C++, Dockerfile, Haskell, JavaScript, Perl, Ruby, Rust, Scala and
+Improved C++, Dockerfile, Haskell, JavaScript, Makefile, Perl, Ruby, Rust, Scala and
 TypeScript.
 
 Improved heuristics and the default globs used for language detection.

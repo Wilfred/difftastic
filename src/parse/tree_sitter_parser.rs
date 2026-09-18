@@ -2069,7 +2069,7 @@ fn atom_from_cursor<'a>(
         AtomKind::String(StringKind::StringLiteral)
     } else if highlights.type_ids.contains(&node.id()) {
         AtomKind::Type
-    } else if node.kind() == "CharData" || node.kind() == "text" {
+    } else if node.kind() == "CharData" || node.kind() == "text" || node.kind() == "shell_text" {
         AtomKind::String(StringKind::Text)
     } else {
         AtomKind::Normal
