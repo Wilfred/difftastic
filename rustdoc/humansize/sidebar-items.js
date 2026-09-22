@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["BINARY","DECIMAL","WINDOWS"],"enum":["BaseUnit","FixedAt","Kilo"],"fn":["format_size","format_size_i","make_format","make_format_i"],"struct":["FormatSizeOptions","ISizeFormatter","SizeFormatter"],"trait":["Signed","ToF64","Unsigned"]};

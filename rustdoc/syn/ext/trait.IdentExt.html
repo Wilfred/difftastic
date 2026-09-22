@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Additional methods for `Ident` not provided by proc-macro2 or libproc_macro."><title>IdentExt in syn::ext - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="syn" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc trait"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../syn/index.html">syn</a><span class="version">2.0.106</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Ident<wbr>Ext</a></h2><h3><a href="#provided-associated-consts">Provided Associated Constants</a></h3><ul class="block"><li><a href="#associatedconstant.peek_any" title="peek_any">peek_any</a></li></ul><h3><a href="#required-methods">Required Methods</a></h3><ul class="block"><li><a href="#tymethod.parse_any" title="parse_any">parse_any</a></li><li><a href="#tymethod.unraw" title="unraw">unraw</a></li></ul><h3><a href="#dyn-compatibility">Dyn Compatibility</a></h3><h3><a href="#implementors">Implementors</a></h3></section><div id="rustdoc-modnav"><h2><a href="index.html">In syn::<wbr>ext</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="../index.html">syn</a>::<wbr><a href="index.html">ext</a></span><h1>Trait <span class="trait">IdentExt</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/syn/ext.rs.html#15-84">Source</a> </span></div><pre class="rust item-decl"><code>pub trait IdentExt: <a class="trait" href="https://doc.rust-lang.org/1.85.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + Sealed {
+    const <a href="#associatedconstant.peek_any" class="constant">peek_any</a>: PeekFn = private::PeekFn;
+
+    // Required methods
+    fn <a href="#tymethod.parse_any" class="fn">parse_any</a>(input: <a class="type" href="../parse/type.ParseStream.html" title="type syn::parse::ParseStream">ParseStream</a>&lt;'_&gt;) -&gt; <a class="type" href="../type.Result.html" title="type syn::Result">Result</a>&lt;Self&gt;;
+<span class="item-spacer"></span>    fn <a href="#tymethod.unraw" class="fn">unraw</a>(&amp;self) -&gt; <a class="struct" href="../struct.Ident.html" title="struct syn::Ident">Ident</a>;
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Additional methods for <code>Ident</code> not provided by proc-macro2 or libproc_macro.</p>
+<p>This trait is sealed and cannot be implemented for types outside of Syn. It
+is implemented only for <code>proc_macro2::Ident</code>.</p>
+</div></details><h2 id="provided-associated-consts" class="section-header">Provided Associated Constants<a href="#provided-associated-consts" class="anchor">§</a></h2><div class="methods"><details class="toggle" open><summary><section id="associatedconstant.peek_any" class="method"><a class="src rightside" href="../../src/syn/ext.rs.html#54">Source</a><h4 class="code-header">const <a href="#associatedconstant.peek_any" class="constant">peek_any</a>: PeekFn = private::PeekFn</h4></section></summary><div class="docblock"><p>Peeks any identifier including keywords. Usage:
+<code>input.peek(Ident::peek_any)</code></p>
+<p>This is different from <code>input.peek(Ident)</code> which only returns true in
+the case of an ident which is not a Rust keyword.</p>
+</div></details></div><h2 id="required-methods" class="section-header">Required Methods<a href="#required-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="tymethod.parse_any" class="method"><a class="src rightside" href="../../src/syn/ext.rs.html#46">Source</a><h4 class="code-header">fn <a href="#tymethod.parse_any" class="fn">parse_any</a>(input: <a class="type" href="../parse/type.ParseStream.html" title="type syn::parse::ParseStream">ParseStream</a>&lt;'_&gt;) -&gt; <a class="type" href="../type.Result.html" title="type syn::Result">Result</a>&lt;Self&gt;</h4></section></summary><div class="docblock"><p>Parses any identifier including keywords.</p>
+<p>This is useful when parsing macro input which allows Rust keywords as
+identifiers.</p>
+<h5 id="example"><a class="doc-anchor" href="#example">§</a>Example</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>syn::{Error, Ident, <span class="prelude-ty">Result</span>, Token};
+<span class="kw">use </span>syn::ext::IdentExt;
+<span class="kw">use </span>syn::parse::ParseStream;
+
+<span class="kw">mod </span>kw {
+    <span class="macro">syn::custom_keyword!</span>(name);
+}
+
+<span class="comment">// Parses input that looks like `name = NAME` where `NAME` can be
+// any identifier.
+//
+// Examples:
+//
+//     name = anything
+//     name = impl
+</span><span class="kw">fn </span>parse_dsl(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;Ident&gt; {
+    input.parse::&lt;kw::name&gt;()<span class="question-mark">?</span>;
+    input.parse::&lt;<span class="macro">Token!</span>[=]&gt;()<span class="question-mark">?</span>;
+    <span class="kw">let </span>name = input.call(Ident::parse_any)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(name)
+}</code></pre></div>
+</div></details><details class="toggle method-toggle" open><summary><section id="tymethod.unraw" class="method"><a class="src rightside" href="../../src/syn/ext.rs.html#83">Source</a><h4 class="code-header">fn <a href="#tymethod.unraw" class="fn">unraw</a>(&amp;self) -&gt; <a class="struct" href="../struct.Ident.html" title="struct syn::Ident">Ident</a></h4></section></summary><div class="docblock"><p>Strips the raw marker <code>r#</code>, if any, from the beginning of an ident.</p>
+<ul>
+<li>unraw(<code>x</code>) = <code>x</code></li>
+<li>unraw(<code>move</code>) = <code>move</code></li>
+<li>unraw(<code>r#move</code>) = <code>move</code></li>
+</ul>
+<h5 id="example-1"><a class="doc-anchor" href="#example-1">§</a>Example</h5>
+<p>In the case of interop with other languages like Python that have a
+different set of keywords than Rust, we might come across macro input
+that involves raw identifiers to refer to ordinary variables in the
+other language with a name that happens to be a Rust keyword.</p>
+<p>The function below appends an identifier from the caller’s input onto a
+fixed prefix. Without using <code>unraw()</code>, this would tend to produce
+invalid identifiers like <code>__pyo3_get_r#move</code>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>proc_macro2::Span;
+<span class="kw">use </span>syn::Ident;
+<span class="kw">use </span>syn::ext::IdentExt;
+
+<span class="kw">fn </span>ident_for_getter(variable: <span class="kw-2">&amp;</span>Ident) -&gt; Ident {
+    <span class="kw">let </span>getter = <span class="macro">format!</span>(<span class="string">"__pyo3_get_{}"</span>, variable.unraw());
+    Ident::new(<span class="kw-2">&amp;</span>getter, Span::call_site())
+}</code></pre></div>
+</div></details></div><h2 id="dyn-compatibility" class="section-header">Dyn Compatibility<a href="#dyn-compatibility" class="anchor">§</a></h2><div class="dyn-compatibility-info"><p>This trait is <b>not</b> <a href="https://doc.rust-lang.org/1.85.0/reference/items/traits.html#object-safety">dyn compatible</a>.</p><p><i>In older versions of Rust, dyn compatibility was called "object safety", so this trait is not object safe.</i></p></div><h2 id="implementors" class="section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"><section id="impl-IdentExt-for-Ident" class="impl"><a class="src rightside" href="../../src/syn/ext.rs.html#86-102">Source</a><a href="#impl-IdentExt-for-Ident" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="trait.IdentExt.html" title="trait syn::ext::IdentExt">IdentExt</a> for <a class="struct" href="../struct.Ident.html" title="struct syn::Ident">Ident</a></h3></section></div><script src="../../trait.impl/syn/ext/trait.IdentExt.js" data-ignore-extern-crates="proc_macro2" async></script></section></div></main></body></html>
