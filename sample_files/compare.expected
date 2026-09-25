@@ -13,8 +13,11 @@ sample_files/align_footer_1.txt sample_files/align_footer_2.txt
 sample_files/all_changed_1.js sample_files/all_changed_2.js
 8b18e5155d4754e8e6d6319be6f58301  -
 
-sample_files/apex_1.cls sample_files/apex_2.cls
-8e477350907734ac4d5201752523dff3  -
+sample_files/apex_1.trigger sample_files/apex_2.trigger
+155030769509703a2cad74f1bc3c44f6  -
+
+sample_files/asm_1.s sample_files/asm_2.s
+869f6057e259526eaf913e9505f3d473  -
 
 sample_files/b2_math_1.h sample_files/b2_math_2.h
 2d8f9619e0c39d04b1a6ecbe14696b38  -
@@ -65,28 +68,25 @@ sample_files/elisp_contiguous_1.el sample_files/elisp_contiguous_2.el
 f10afb2f1f60651b3dc384ea3ce8b1e4  -
 
 sample_files/elixir_1.ex sample_files/elixir_2.ex
-5ab1a845f7cb3ca6db1fdef7bc4a042f  -
+26e982d8972475312b350ce1e0bfdcc9  -
 
 sample_files/elm_1.elm sample_files/elm_2.elm
 8a67269f2dd2e4913f885b3b6e6d6a07  -
-
-sample_files/elvish_1.elv sample_files/elvish_2.elv
-93af1d46752d57db84011ca7482ae842  -
 
 sample_files/erlang_1.erl sample_files/erlang_2.erl
 77c259baf4751716db4da1503088e742  -
 
 sample_files/f_sharp_1.fs sample_files/f_sharp_2.fs
-f6c90edd5c4fb81b793f3b7c9b367845  -
+63defe290bfc6754b51457a6c374838b  -
+
+sample_files/fish_1.fish sample_files/fish_2.fish
+707c9e00520b380813342c33a9d0f2d3  -
 
 sample_files/fortran_1.f90 sample_files/fortran_2.f90
-b5fae2c0a3e0755ca8182df1f728400b  -
+94351de50c5e6eae2ce5f165e83d93da  -
 
 sample_files/hack_1.php sample_files/hack_2.php
-c2bb0aa7d7b07d6ced79f6a5363e878b  -
-
-sample_files/hare_1.ha sample_files/hare_2.ha
-e344b3fa7bc35fd4a0f3c7cecab39447  -
+fd23895fca3cb3e70b5ffd364f8c30fe  -
 
 sample_files/haskell_1.hs sample_files/haskell_2.hs
 3cace65f14319c339fcbd30e8e9ebdcc  -
@@ -101,13 +101,13 @@ sample_files/helpful_1.el sample_files/helpful_2.el
 a26c7b0e3758b387237d9932002211f8  -
 
 sample_files/html_1.html sample_files/html_2.html
-a75207bff69134b601e677f4e3f9eb3b  -
+40cf5a085ac58331afdf8cc7fb366cae  -
 
 sample_files/html_simple_1.html sample_files/html_simple_2.html
 e31d600c98f9607c6f56c3967c000055  -
 
 sample_files/huge_cpp_1.cpp sample_files/huge_cpp_2.cpp
-3d02542d096751fcebd99a07745c8441  -
+12f666ec2e48233d7a46308d0a3ce4f6  -
 
 sample_files/hyphen_subwords_1.json sample_files/hyphen_subwords_2.json
 8315e8d21c7c8a22c48ff46c3931eda9  -
@@ -152,7 +152,7 @@ sample_files/lua_1.lua sample_files/lua_2.lua
 11693bb34168541f2ac9f4154d246038  -
 
 sample_files/makefile_1.mk sample_files/makefile_2.mk
-87e3b196d26ca6de861e546ee582d929  -
+2e0ade608a19bb097311e4207cbb13f3  -
 
 sample_files/many_newlines_1.txt sample_files/many_newlines_2.txt
 52ca05855e520876479e6f608c5e7831  -
@@ -209,7 +209,7 @@ sample_files/pascal_1.pascal sample_files/pascal_2.pascal
 de04f7fdb7af7bd70ca62f1868504f11  -
 
 sample_files/perl_1.pl sample_files/perl_2.pl
-2cd2638b2b6d07248911f1f2e5ad1b25  -
+c840d4e116ff2d963c111239ae2bc895  -
 
 sample_files/prefer_outer_1.el sample_files/prefer_outer_2.el
 991038c9988cccc2c824652e33f772a2  -
@@ -241,9 +241,6 @@ sample_files/scheme_1.scm sample_files/scheme_2.scm
 sample_files/simple_1.js sample_files/simple_2.js
 f73ae56c0467bac101bb5f7a435f89f3  -
 
-sample_files/simple_1.scss sample_files/simple_2.scss
-8479280a4782aabf42acf4bb7d3668c5  -
-
 sample_files/simple_1.txt sample_files/simple_2.txt
 b0a13567bfdd36c854d9d2f537c704de  -
 
@@ -263,7 +260,7 @@ sample_files/sql_1.sql sample_files/sql_2.sql
 ee54ee3f974aa54c8bdfc2b9075824f2  -
 
 sample_files/string_subwords_1.el sample_files/string_subwords_2.el
-5c72eae6a018e26189868bcc28747c72  -
+25c9e7cc72bf1a0ed2211762ad3bd7bc  -
 
 sample_files/strings_1.el sample_files/strings_2.el
 4d39b32b53a056e1e770b8e5ab04790c  -
@@ -272,7 +269,7 @@ sample_files/swift_1.swift sample_files/swift_2.swift
 3a90686a3e172ae19a5fd7cef2f1b944  -
 
 sample_files/syntax_error_1.js sample_files/syntax_error_2.js
-ce571e3438427e83f11a4f4264e1ae30  -
+32c72c64f399bbd26fdffbfed1066789  -
 
 sample_files/tab_1.c sample_files/tab_2.c
 fd896b8e53b183f0d1d5cfeb6a1dfab4  -
@@ -290,7 +287,10 @@ sample_files/todomvc_1.gleam sample_files/todomvc_2.gleam
 725bb793f219e13cee199f18ffaed872  -
 
 sample_files/toml_1.toml sample_files/toml_2.toml
-e1002ceba14d973fcc8abc23619e65b0  -
+061ffdc7a60051a1185b742672b1050a  -
+
+sample_files/trailing_commas_1.js sample_files/trailing_commas_2.js
+9ca72e199466c75f85d00f4d521e85ff  -
 
 sample_files/trailling_newline_1.yaml sample_files/trailling_newline_2.yaml
 763e6f9720a1f4e448d547c361f22c68  -
@@ -308,7 +308,7 @@ sample_files/verilog_1.sv sample_files/verilog_2.sv
 0fbb9bd8ff99b8ee852741860d2c25d0  -
 
 sample_files/vhdl_1.vhd sample_files/vhdl_2.vhd
-c20f2f2b351f0de01b784f32e242b802  -
+267dcc013be29dd84728870fadfe9504  -
 
 sample_files/whitespace_1.tsx sample_files/whitespace_2.tsx
 789689b170b80ef280a322b3a6c7363b  -

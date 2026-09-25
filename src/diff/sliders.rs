@@ -139,7 +139,7 @@ fn fix_nested_slider_prefer_outer<'a>(node: &'a Syntax<'a>, change_map: &mut Cha
                     }
                 }
             }
-            ReplacedComment(_, _) | ReplacedString(_, _) | Novel => {}
+            ReplacedComment(_, _) | ReplacedString(_, _) | Novel | IgnoredPunctuation => {}
         }
 
         for child in children {
@@ -159,6 +159,7 @@ fn fix_nested_slider_prefer_inner<'a>(node: &'a Syntax<'a>, change_map: &mut Cha
         {
             Unchanged(_) => {}
             ReplacedComment(_, _) | ReplacedString(_, _) => {}
+            IgnoredPunctuation => {}
             Novel => {
                 let mut found_unchanged = vec![];
                 unchanged_descendants(children, &mut found_unchanged, change_map);
@@ -197,6 +198,7 @@ fn unchanged_descendants<'a>(
                     unchanged_descendants(children, found, change_map);
                 }
             }
+            IgnoredPunctuation => {}
         }
     }
 }
@@ -391,6 +393,7 @@ fn novel_regions_after_unchanged<'a>(
 
                 region = None;
             }
+            IgnoredPunctuation => {}
         }
     }
 
@@ -434,6 +437,7 @@ fn novel_regions_before_unchanged<'a>(
             ReplacedComment(_, _) | ReplacedString(_, _) => {
                 region = None;
             }
+            IgnoredPunctuation => {}
         }
     }
 
@@ -796,8 +800,8 @@ mod tests {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
-        let lhs = parse(&arena, "A B", &config, false);
-        let rhs = parse(&arena, "A B X\n A B", &config, false);
+        let lhs = parse(&arena, "A B", config, false);
+        let rhs = parse(&arena, "A B X\n A B", config, false);
         init_all_info(&lhs, &rhs);
 
         let mut change_map = ChangeMap::default();
@@ -821,8 +825,8 @@ mod tests {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
-        let lhs = parse(&arena, "(A B) X \n (A B)", &config, false);
-        let rhs = parse(&arena, "((novel) A B)", &config, false);
+        let lhs = parse(&arena, "(A B) X \n (A B)", config, false);
+        let rhs = parse(&arena, "((novel) A B)", config, false);
         init_all_info(&lhs, &rhs);
 
         let lhs_first_list_children = match lhs[0] {

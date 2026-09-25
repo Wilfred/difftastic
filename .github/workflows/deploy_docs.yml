@@ -13,7 +13,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v5
+        uses: fkirc/skip-duplicate-actions@f75f66ce1886f00957d99748a42c724f4330bdcf # v5
         with:
           concurrent_skipping: always
 
@@ -32,9 +32,9 @@ jobs:
       - run: cargo doc
 
       - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v2
+        uses: peaceiris/actions-mdbook@ee69d230fe19748b7abf22df32acaa93833fad08 # v2
         with:
-          mdbook-version: '0.4.40'
+          mdbook-version: '0.5.2'
 
       - name: Build manual
         run: mdbook build
@@ -54,7 +54,7 @@ jobs:
         run: cp -r homepage/* manual/book/
 
       - name: Deploy to GitHub pages
-        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        uses: JamesIves/github-pages-deploy-action@920cbb300dcd3f0568dbc42700c61e2fd9e6139c # v4.6.4
         with:
           branch: gh-pages
           folder: manual/book

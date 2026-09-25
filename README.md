@@ -12,7 +12,7 @@ their syntax.
 
 **For installation instructions, see
 [Installation](https://difftastic.wilfred.me.uk/installation.html) in
-[the manual](http://difftastic.wilfred.me.uk/).**
+[the manual](https://difftastic.wilfred.me.uk/).**
 
 ## Examples
 
@@ -35,7 +35,7 @@ actually changed.
 ![Screenshot of difftastic and git](img/git.png)
 
 ^ Difftastic is compatible with git (see [the configuration
-instructions](http://difftastic.wilfred.me.uk/git.html)), as well as
+instructions](https://difftastic.wilfred.me.uk/git.html)), as well as
 many other version control systems.
 
 ## Languages Supported
@@ -114,7 +114,7 @@ $ difft foo1.c foo2.c
 
 ### Can difftastic help me with merge conflicts?
 
-Yes! As of version 0.50, difftastic understands merge conflict markers
+Yes! As of version 0.50 (released 2023-08-16), difftastic understands merge conflict markers
 (i.e. `<<<<<<<`, `=======` and `>>>>>>>`).
 
 Pass your file with conflicts as a single argument to

@@ -1,1 +1,0 @@
-using ($new = new Object()) {};

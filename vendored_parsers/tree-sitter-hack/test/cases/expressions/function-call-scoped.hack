@@ -1,3 +1,0 @@
-arg::$arg();
-
-arg::arg();

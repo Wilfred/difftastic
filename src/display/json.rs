@@ -60,7 +60,7 @@ impl<'f> From<&'f DiffResult> for File<'f> {
     fn from(summary: &'f DiffResult) -> Self {
         match (&summary.lhs_src, &summary.rhs_src) {
             (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
-                // TODO: move into function as it is effectively duplicates lines 365-375 of main::print_diff_result
+                // TODO: move into function as it effectively duplicates the hunk computation in main::diff_file_content.
                 let opposite_to_lhs = opposite_positions(&summary.lhs_positions);
                 let opposite_to_rhs = opposite_positions(&summary.rhs_positions);
 
@@ -286,6 +286,7 @@ impl Highlight {
                 AtomKind::Comment => Self::Comment,
                 AtomKind::Type => Self::Type,
                 AtomKind::Normal => Self::Normal,
+                AtomKind::CanIgnore => Self::Normal,
                 AtomKind::TreeSitterError => Self::TreeSitterError,
             },
         }

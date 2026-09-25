@@ -15,7 +15,7 @@ records which features and bug fixes are in each version.
 
 ## Syntactic Diffing
 
-Difftastic [detects the language](./usage.html#language-detection), parses the code, and then
+Difftastic [detects the language](./language_detection.html), parses the code, and then
 compares the syntax trees. Let's look at an example.
 
 ```

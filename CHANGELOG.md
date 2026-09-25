@@ -1,8 +1,104 @@
-## 0.69 (unreleased)
+## 0.72 (unreleased)
+
+### Display
+
+Fixed an issue with inline display where unchanged lines between two
+nearby changes were not shown.
+
+## 0.71 (released 18th September 2026)
+
+### Diffing
+
+Improved performance, particularly for line-based diffs or
+pathological cases (e.g. an extremely long line).
+
+Linear diffs (used in line-based diffs and word highlighting) have
+changed from the Wu-Manber algorithm to the Histogram algorithm. This
+is a modest runtime improvement and a large improvement for memory
+usage in worst case scenarios.
+
+Some diff results have slightly changed, although the diff quality
+should be similar. (Please file bugs if not.)
 
 ### Parsing
 
-Improved string interpolation handling in Scala.
+Improved C++, Dockerfile, Haskell, JavaScript, Makefile, Perl, Ruby, Rust, Scala and
+TypeScript.
+
+Improved heuristics and the default globs used for language detection.
+
+Removed Hare support (upstream parser is no longer maintained).
+
+### Command Line Interface
+
+`--context` can now be set with the short flag `-c`.
+
+### Release
+
+Prebuilt binaries attached to releases now include the version in the
+filename.
+
+## 0.70 (released 7th August 2026)
+
+### Diffing
+
+Improved diffing performance, particularly when diffing directories.
+
+### Parsing
+
+Files with parse errors now report the position of the first error, to
+help investigate issues.
+
+Added support for Dockerfiles and Fish shell.
+
+Improved support for Dart, Emacs Lisp, Erlang, Java, OCaml, PHP,
+Protocol Buffers and TOML.
+
+Removed support for Elvish and SCSS (upstream parsers are no longer
+maintained).
+
+### Display
+
+Fixed an issue where files with tabs were not always aligned correctly
+in some build configurations.
+
+Fix an alignment issue with line numbers in side-by-side mode.
+
+### Release
+
+Fixed an issue where prebuilt binaries on GitHub did not respect
+Cargo.lock, so they used newer library versions than tested on
+CI. This caused rendering bugs in source code with tabs.
+
+## 0.69 (released 30th April 2026)
+
+## Diffing
+
+Difftastic now understands when trailing punctuation isn't
+significant, so `foo(1,)` and `foo(1)` are treated as "no syntactic
+changes". This is supported for Go, Java, JavaScript, Python, Rust,
+Swift and TypeScript.
+
+### Parsing
+
+Added support for Assembly.
+
+Substantially improved parsing for Perl.
+
+Improved parsing for Clojure, Common Lisp, CSS, Dart, Erlang, F#, OCaml, Python,
+Rust, Scala, TypeScript and VHDL.
+
+Removed support for Hack, as the upstream parser is no longer
+maintained. `.php` files starting with `<?hh` are now treated as text.
+
+### File Detection
+
+Difftastic now considers `.gitattributes` when deciding if a file is
+binary, recognising both the `-text` and `binary` attributes.
+
+### Build
+
+Difftastic now requires Rust 1.85 or later to build.
 
 ## 0.68 (released 16th March 2026)
 
@@ -20,7 +116,7 @@ Fixed an issue with parsing raw string literals in Rust.
 
 ### Build
 
-Difftastic now requires Rust 1.77 or later to build.
+Difftastic now requires Rust 1.85 or later to build.
 
 Difftastic no longer uses jemalloc on any Windows builds. Previously
 jemalloc was only disabled for MSVC.

@@ -47,6 +47,7 @@ mod diff;
 mod display;
 mod exit_codes;
 mod files;
+mod gitattributes;
 mod hash;
 mod line_parser;
 mod lines;
@@ -64,9 +65,10 @@ use log::info;
 use options::{FilePermissions, USAGE};
 
 use crate::conflicts::{apply_conflict_markers, START_LHS_MARKER};
+use crate::constants::Side;
 use crate::diff::changes::ChangeMap;
-use crate::diff::dijkstra::ExceededGraphLimit;
-use crate::diff::{dijkstra, unchanged};
+use crate::diff::shortest_path::ExceededGraphLimit;
+use crate::diff::{shortest_path, unchanged};
 use crate::display::context::opposite_positions;
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
 use crate::display::style::print_error;
@@ -75,6 +77,7 @@ use crate::files::{
     guess_content, read_file_or_die, read_files_or_die, read_or_die, relative_paths_in_either,
     ProbableFileKind,
 };
+use crate::gitattributes::{check_diff_attr, DiffAttribute};
 use crate::parse::guess_language::{
     guess, language_globs, language_name, Language, LanguageOverride,
 };
@@ -113,11 +116,11 @@ use strum::IntoEnumIterator;
 use typed_arena::Arena;
 
 use crate::diff::sliders::fix_all_sliders;
-use crate::dijkstra::mark_syntax;
 use crate::lines::MaxLine;
 use crate::options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
 use crate::parse::syntax::init_all_info;
 use crate::parse::tree_sitter_parser as tsp;
+use crate::shortest_path::mark_syntax;
 use crate::summary::{DiffResult, FileContent, FileFormat};
 use crate::syntax::init_next_prev;
 
@@ -155,7 +158,7 @@ fn main() {
             match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
-                    let tree = tsp::to_tree(&src, &ts_lang);
+                    let tree = tsp::to_tree(&src, ts_lang);
                     tsp::print_tree(&src, &tree);
                 }
                 None => {
@@ -177,7 +180,7 @@ fn main() {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
                     let arena = Arena::new();
-                    let ast = tsp::parse(&arena, &src, &ts_lang, ignore_comments);
+                    let ast = tsp::parse(&arena, &src, ts_lang, ignore_comments);
                     init_all_info(&ast, &[]);
                     println!("{:#?}", ast);
                 }
@@ -200,7 +203,7 @@ fn main() {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
                     let arena = Arena::new();
-                    let ast = tsp::parse(&arena, &src, &ts_lang, ignore_comments);
+                    let ast = tsp::parse(&arena, &src, ts_lang, ignore_comments);
                     init_all_info(&ast, &[]);
                     syntax::print_as_dot(&ast);
                 }
@@ -337,6 +340,9 @@ fn main() {
                         thread::scope(|s| {
                             let (send, recv) = std::sync::mpsc::sync_channel(1);
 
+                            // I don't see a nice way of fixing this, and difftastic is regularly benchmarked
+                            // for performance issues and this hasn't been a problem.
+                            #[allow(clippy::result_large_err)]
                             s.spawn(move || {
                                 diff_iter
                                     .try_for_each_with(send, |s, diff_result| s.send(diff_result))
@@ -414,8 +420,11 @@ fn diff_file(
     let (mut lhs_src, mut rhs_src) = match (
         guess_content(&lhs_bytes, lhs_path, binary_overrides),
         guess_content(&rhs_bytes, rhs_path, binary_overrides),
+        check_diff_attr(Path::new(display_path)),
     ) {
-        (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
+        (ProbableFileKind::Binary, _, _)
+        | (_, ProbableFileKind::Binary, _)
+        | (_, _, Some(DiffAttribute::AssumeBinary)) => {
             let has_byte_changes = if lhs_bytes == rhs_bytes {
                 None
             } else {
@@ -434,7 +443,7 @@ fn diff_file(
                 has_syntactic_changes: false,
             };
         }
-        (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
+        (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src), _) => (lhs_src, rhs_src),
     };
 
     if diff_options.strip_cr {
@@ -641,13 +650,12 @@ fn diff_file_content(
                 return check_only_text(&file_format, display_path, extra_info, lhs_src, rhs_src);
             }
 
-            let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-            let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+            let (lhs_positions, rhs_positions) = line_parser::change_positions(lhs_src, rhs_src);
             (file_format, lhs_positions, rhs_positions)
         }
         Some((language, lang_config)) => {
             let arena = Arena::new();
-            match tsp::to_tree_with_limit(diff_options, &lang_config, lhs_src, rhs_src) {
+            match tsp::to_tree_with_limit(diff_options, lang_config, lhs_src, rhs_src) {
                 Ok((lhs_tree, rhs_tree)) => {
                     match tsp::to_syntax_with_limit(
                         lhs_src,
@@ -655,7 +663,7 @@ fn diff_file_content(
                         &lhs_tree,
                         &rhs_tree,
                         &arena,
-                        &lang_config,
+                        lang_config,
                         diff_options,
                     ) {
                         Ok((lhs, rhs)) => {
@@ -710,8 +718,8 @@ fn diff_file_content(
                             }
 
                             if exceeded_graph_limit {
-                                let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-                                let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+                                let (lhs_positions, rhs_positions) =
+                                    line_parser::change_positions(lhs_src, rhs_src);
                                 (
                                     FileFormat::TextFallback {
                                         reason: "exceeded DFT_GRAPH_LIMIT".into(),
@@ -728,11 +736,11 @@ fn diff_file_content(
 
                                 if diff_options.ignore_comments {
                                     let lhs_comments =
-                                        tsp::comment_positions(&lhs_tree, lhs_src, &lang_config);
+                                        tsp::comment_positions(&lhs_tree, lhs_src, lang_config);
                                     lhs_positions.extend(lhs_comments);
 
                                     let rhs_comments =
-                                        tsp::comment_positions(&rhs_tree, rhs_src, &lang_config);
+                                        tsp::comment_positions(&rhs_tree, rhs_src, lang_config);
                                     rhs_positions.extend(rhs_comments);
                                 }
 
@@ -743,13 +751,32 @@ fn diff_file_content(
                                 )
                             }
                         }
-                        Err(tsp::ExceededParseErrorLimit(error_count)) => {
+                        Err(tsp::ExceededParseErrorLimit {
+                            error_count,
+                            first_error_pos,
+                        }) => {
+                            let location = match first_error_pos {
+                                Some((line, column, side)) => {
+                                    let in_initial = match side {
+                                        Side::Left => " in initial file",
+                                        Side::Right => "",
+                                    };
+                                    format!(
+                                        ", first at {}:{}{}",
+                                        line.display(),
+                                        column,
+                                        in_initial
+                                    )
+                                }
+                                None => "".to_owned(),
+                            };
                             let file_format = FileFormat::TextFallback {
                                 reason: format!(
-                                    "{} {} parse error{}, exceeded DFT_PARSE_ERROR_LIMIT",
+                                    "{} {} parse error{}, exceeded DFT_PARSE_ERROR_LIMIT{}",
                                     error_count,
                                     language_name(language),
-                                    if error_count == 1 { "" } else { "s" }
+                                    if error_count == 1 { "" } else { "s" },
+                                    location
                                 ),
                             };
 
@@ -763,8 +790,8 @@ fn diff_file_content(
                                 );
                             }
 
-                            let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-                            let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+                            let (lhs_positions, rhs_positions) =
+                                line_parser::change_positions(lhs_src, rhs_src);
                             (file_format, lhs_positions, rhs_positions)
                         }
                     }
@@ -774,7 +801,7 @@ fn diff_file_content(
                     let file_format = FileFormat::TextFallback {
                         reason: format!(
                             "{} exceeded DFT_BYTE_LIMIT",
-                            &format_size(num_bytes, format_options)
+                            format_size(num_bytes, format_options)
                         ),
                     };
 
@@ -788,8 +815,8 @@ fn diff_file_content(
                         );
                     }
 
-                    let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
-                    let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
+                    let (lhs_positions, rhs_positions) =
+                        line_parser::change_positions(lhs_src, rhs_src);
                     (file_format, lhs_positions, rhs_positions)
                 }
             }
@@ -991,18 +1018,18 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                             // TODO: Fix this pedantic case.
                             println!(
                                 "Binary file added ({}).\n",
-                                &format_size(rhs_len, format_options),
+                                format_size(rhs_len, format_options),
                             )
                         } else if rhs_len == 0 {
                             println!(
                                 "Binary file removed ({}).\n",
-                                &format_size(lhs_len, format_options),
+                                format_size(lhs_len, format_options),
                             )
                         } else {
                             println!(
                                 "Binary file modified (old: {}, new: {}).\n",
-                                &format_size(lhs_len, format_options),
-                                &format_size(rhs_len, format_options),
+                                format_size(lhs_len, format_options),
+                                format_size(rhs_len, format_options),
                             )
                         }
                     }

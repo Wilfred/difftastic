@@ -9,7 +9,7 @@ If you're interested in a summary of the academic literature, [this
 blog
 post](http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html)
 (and its [accompanying
-paper](http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html)
+paper](https://github.com/Wilfred/difftastic/files/7826933/14482474-XML-diff-survey.pdf)
 -- mirrored under a CC BY-NC license) are great resources.
 
 ## json-diff (2012)

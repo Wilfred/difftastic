@@ -13,21 +13,13 @@ use crate::display::style::{
     split_and_apply, width_respecting_tabs, BackgroundColor,
 };
 use crate::hash::{DftHashMap, DftHashSet};
-use crate::lines::{format_line_num, split_on_newlines};
+use crate::lines::{format_line_num, format_line_num_padded, split_on_newlines};
 use crate::options::{DisplayMode, DisplayOptions};
 use crate::parse::syntax::{zip_pad_shorter, MatchedPos};
 use crate::summary::FileFormat;
 
 /// The space shown between LHS and RHS columns.
 const SPACER: &str = "  ";
-
-fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
-    format!(
-        "{:width$} ",
-        line_num.as_usize() + 1,
-        width = column_width - 1
-    )
-}
 
 fn format_missing_line_num(
     prev_num: LineNumber,
@@ -291,7 +283,6 @@ fn highlight_positions(
         file_format,
         lhs_mps,
     );
-    // Preallocate the hashmap assuming the average line will have 2 items on it.
     let mut lhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         DftHashMap::default();
     for (span, style) in lhs_positions {
@@ -358,6 +349,8 @@ fn visible_content_max_display_width(
         let mut min_rhs_line: Option<LineNumber> = None;
         let mut max_rhs_line: Option<LineNumber> = None;
 
+        // Collect the earliest and latest line numbers in this hunk,
+        // on both sides.
         for (lhs_line, rhs_line) in &hunk.lines {
             if let Some(lhs_line) = lhs_line {
                 if let Some(current_min) = min_lhs_line {
@@ -386,23 +379,24 @@ fn visible_content_max_display_width(
                     max_rhs_line = Some(*rhs_line);
                 }
             }
+        }
 
-            if let (Some(min_lhs_line), Some(max_lhs_line)) = (min_lhs_line, max_lhs_line) {
-                let min_lhs_plus_padding =
-                    max(0, min_lhs_line.0 as isize - num_context_lines as isize) as usize;
-                let max_lhs_plus_padding = max_lhs_line.0 as usize + num_context_lines as usize;
-                for lhs_line_num in min_lhs_plus_padding..=max_lhs_plus_padding {
-                    lhs_displayed_lines.insert(lhs_line_num);
-                }
+        // We will display all the lines in this hunk, plus the lines within the context.
+        if let (Some(min_lhs_line), Some(max_lhs_line)) = (min_lhs_line, max_lhs_line) {
+            let min_lhs_plus_padding =
+                max(0, min_lhs_line.0 as isize - num_context_lines as isize) as usize;
+            let max_lhs_plus_padding = max_lhs_line.0 as usize + num_context_lines as usize;
+            for lhs_line_num in min_lhs_plus_padding..=max_lhs_plus_padding {
+                lhs_displayed_lines.insert(lhs_line_num);
             }
+        }
 
-            if let (Some(min_rhs_line), Some(max_rhs_line)) = (min_rhs_line, max_rhs_line) {
-                let min_rhs_plus_padding =
-                    max(0, min_rhs_line.0 as isize - num_context_lines as isize) as usize;
-                let max_rhs_plus_padding = max_rhs_line.0 as usize + num_context_lines as usize;
-                for rhs_line_num in min_rhs_plus_padding..=max_rhs_plus_padding {
-                    rhs_displayed_lines.insert(rhs_line_num);
-                }
+        if let (Some(min_rhs_line), Some(max_rhs_line)) = (min_rhs_line, max_rhs_line) {
+            let min_rhs_plus_padding =
+                max(0, min_rhs_line.0 as isize - num_context_lines as isize) as usize;
+            let max_rhs_plus_padding = max_rhs_line.0 as usize + num_context_lines as usize;
+            for rhs_line_num in min_rhs_plus_padding..=max_rhs_plus_padding {
+                rhs_displayed_lines.insert(rhs_line_num);
             }
         }
     }

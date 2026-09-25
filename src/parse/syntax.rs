@@ -40,6 +40,7 @@ impl fmt::Debug for ChangeKind<'_> {
                 )
             }
             Novel => "Novel".to_owned(),
+            IgnoredPunctuation => "Ignorable".to_owned(),
         };
         f.write_str(&desc)
     }
@@ -50,6 +51,20 @@ pub(crate) type SyntaxId = NonZeroU32;
 pub(crate) type ContentId = u32;
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
+///
+/// This struct uses interior mutability (`Cell`) extensively. In some
+/// cases values do actually change: if we're only considering a
+/// subset of the AST, then, we might change e.g. `next_sibling`to
+/// `None` when we shrink.
+///
+/// In other cases (e.g. `unique_id`) this field never changes after
+/// AST initialisation, so this is effectively `OnceCell`. We instead
+/// use a placeholder value of the same type until we're done with
+/// initialisation. `OnceCell` forces us to use an `Option`, which is
+/// more runtime work.
+///
+/// (This is deliberately exchanging correctness-by-construction for
+/// performance.)
 pub(crate) struct SyntaxInfo<'a> {
     /// The previous node with the same parent as this one.
     previous_sibling: Cell<Option<&'a Syntax<'a>>>,
@@ -60,10 +75,11 @@ pub(crate) struct SyntaxInfo<'a> {
     prev: Cell<Option<&'a Syntax<'a>>>,
     /// The parent syntax node, if present.
     parent: Cell<Option<&'a Syntax<'a>>>,
-    /// The number of nodes that are ancestors of this one.
+    /// The number of nodes that are ancestors (i.e. parents,
+    /// grandparents, ...) of this one.
     num_ancestors: Cell<u32>,
-    pub(crate) num_after: Cell<usize>,
-    /// A number that uniquely identifies this syntax node.
+    /// A number that uniquely identifies this syntax node. No other
+    /// node, on LHS or RHS, will have this ID.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
     /// node. This may be the same as nodes on the other side of the
@@ -73,7 +89,7 @@ pub(crate) struct SyntaxInfo<'a> {
     content_id: Cell<ContentId>,
     /// Is this the only node with this content? Ignores nodes on the
     /// other side.
-    content_is_unique: Cell<bool>,
+    content_is_unique_to_side: Cell<bool>,
 }
 
 impl<'a> SyntaxInfo<'a> {
@@ -84,10 +100,9 @@ impl<'a> SyntaxInfo<'a> {
             prev: Cell::new(None),
             parent: Cell::new(None),
             num_ancestors: Cell::new(0),
-            num_after: Cell::new(0),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
-            content_is_unique: Cell::new(false),
+            content_is_unique_to_side: Cell::new(false),
         }
     }
 }
@@ -101,11 +116,17 @@ impl Default for SyntaxInfo<'_> {
 pub(crate) enum Syntax<'a> {
     List {
         info: SyntaxInfo<'a>,
+        /// The position of the opening token, such as a `(` or `[`.
         open_position: Vec<SingleLineSpan>,
+        /// The content of the opening token, such as a `"("` or `"["`.
         open_content: String,
         children: Vec<&'a Syntax<'a>>,
+        /// The position of the closing token, such as a `)` or `]`.
         close_position: Vec<SingleLineSpan>,
+        /// The content of the closing token, such as a `")"` or `"]"`.
         close_content: String,
+        /// The total number of descendants: child nodes, grandchild
+        /// nodes and so on.
         num_descendants: u32,
     },
     Atom {
@@ -292,6 +313,9 @@ impl<'a> Syntax<'a> {
 
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
+    ///
+    /// This is a global uniqueness property, so LHS nodes and RHS
+    /// nodes will always have different values.
     pub(crate) fn id(&self) -> SyntaxId {
         self.info().unique_id.get()
     }
@@ -304,7 +328,7 @@ impl<'a> Syntax<'a> {
     }
 
     pub(crate) fn content_is_unique(&self) -> bool {
-        self.info().content_is_unique.get()
+        self.info().content_is_unique_to_side.get()
     }
 
     pub(crate) fn num_ancestors(&self) -> u32 {
@@ -434,8 +458,14 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>)
                 // Recurse first, so children all have their content_id set.
                 set_content_id(children, existing);
 
-                let children_content_ids: Vec<_> =
-                    children.iter().map(|c| c.info().content_id.get()).collect();
+                let children_content_ids: Vec<_> = children
+                    .iter()
+                    .filter(|c| match c {
+                        List { .. } => true,
+                        Atom { kind, .. } => *kind != AtomKind::CanIgnore,
+                    })
+                    .map(|c| c.info().content_id.get())
+                    .collect();
 
                 (
                     Some(open_content.clone()),
@@ -471,16 +501,6 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>)
     }
 }
 
-fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
-    for (i, node) in nodes.iter().enumerate() {
-        let num_after = parent_num_after + nodes.len() - 1 - i;
-        node.info().num_after.set(num_after);
-
-        if let List { children, .. } = node {
-            set_num_after(children, num_after);
-        }
-    }
-}
 pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_sibling(roots);
     set_next_sibling(roots);
@@ -492,7 +512,6 @@ pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
 fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
-    set_num_after(roots, 0);
     set_unique_id(roots, next_id);
 }
 
@@ -522,7 +541,7 @@ fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &DftHashMap<Cont
         let count = counts
             .get(&node.content_id())
             .expect("Count should be present");
-        node.info().content_is_unique.set(*count == 1);
+        node.info().content_is_unique_to_side.set(*count == 1);
 
         if let List { children, .. } = node {
             set_content_is_unique_from_counts(children, counts);
@@ -592,6 +611,8 @@ fn set_num_ancestors(nodes: &[&Syntax], num_ancestors: u32) {
     }
 }
 
+/// Compare syntax nodes based on content ID only, ignoring positions
+/// and identity.
 impl PartialEq for Syntax<'_> {
     fn eq(&self, other: &Self) -> bool {
         debug_assert!(self.content_id() > 0);
@@ -620,10 +641,26 @@ pub(crate) enum AtomKind {
     // TODO: We should either have a AtomWithWords(HighlightKind) or a
     // separate String, Text and Comment kind.
     String(StringKind),
+    /// Diffed the same as `Normal` but highlighted differently during
+    /// display.
     Type,
-    Comment,
+    /// Diffed the same as `Normal` but highlighted differently during
+    /// display.
     Keyword,
+    Comment,
     TreeSitterError,
+    /// Trailing punctuation atoms, especially commas, can be ignored
+    /// when there are no other changes.
+    ///
+    /// For example, in JS, we want to consider `[1]` and `[1,]` to be
+    /// same. Syntax node equality treats lists that only differ by
+    /// CanIgnore as equal.
+    ///
+    /// Note that diffing still sees these trailing atoms. If we're
+    /// diffing `[]` and `[1,]` we want to ensure that `,` is
+    /// highlighted as novel, and discarding trailing commas entirely
+    /// would prevent that.
+    CanIgnore,
 }
 
 /// Unlike atoms, tokens can be delimiters like `{`.
@@ -710,7 +747,7 @@ fn split_atom_words(
     let content_parts = split_words_and_numbers(content);
     let other_parts = split_words_and_numbers(opposite_content);
 
-    let word_diffs = lcs_diff::slice_by_hash(&content_parts, &other_parts);
+    let word_diffs = lcs_diff::slice(&content_parts, &other_parts);
 
     if !has_common_words(&word_diffs) {
         return pos
@@ -928,6 +965,7 @@ impl MatchedPos {
 
                 mps
             }
+            IgnoredPunctuation => vec![],
         }
     }
 }

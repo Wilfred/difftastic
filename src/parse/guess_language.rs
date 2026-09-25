@@ -17,10 +17,11 @@ use strum::{EnumIter, IntoEnumIterator};
 
 /// Languages supported by difftastic. Each language here has a
 /// corresponding tree-sitter parser.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EnumIter)]
 pub(crate) enum Language {
     Ada,
     Apex,
+    Asm,
     Bash,
     C,
     Clojure,
@@ -31,17 +32,16 @@ pub(crate) enum Language {
     Css,
     Dart,
     DeviceTree,
+    Dockerfile,
     Elixir,
     Elm,
-    Elvish,
     EmacsLisp,
     Erlang,
+    Fish,
     FSharp,
     Fortran,
     Gleam,
     Go,
-    Hack,
-    Hare,
     Haskell,
     Hcl,
     Html,
@@ -72,7 +72,6 @@ pub(crate) enum Language {
     Rust,
     Scala,
     Scheme,
-    Scss,
     Smali,
     Solidity,
     Sql,
@@ -123,6 +122,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
     match language {
         Ada => "Ada",
         Apex => "Apex",
+        Asm => "Assembly",
         Bash => "Bash",
         C => "C",
         Clojure => "Clojure",
@@ -133,17 +133,16 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Css => "CSS",
         Dart => "Dart",
         DeviceTree => "Device Tree",
+        Dockerfile => "Dockerfile",
         Elixir => "Elixir",
         Elm => "Elm",
-        Elvish => "Elvish",
         EmacsLisp => "Emacs Lisp",
         Erlang => "Erlang",
+        Fish => "Fish",
         FSharp => "F#",
         Fortran => "Fortran",
         Gleam => "Gleam",
         Go => "Go",
-        Hack => "Hack",
-        Hare => "Hare",
         Haskell => "Haskell",
         Hcl => "HCL",
         Html => "HTML",
@@ -175,7 +174,6 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Scala => "Scala",
         Scheme => "Scheme",
         Smali => "Smali",
-        Scss => "SCSS",
         Solidity => "Solidity",
         Sql => "SQL",
         Swift => "Swift",
@@ -198,6 +196,7 @@ use crate::lines::split_on_newlines;
 pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
     let glob_strs: &'static [&'static str] = match language {
         Ada => &["*.ada", "*.adb", "*.ads"],
+        Asm => &["*.asm", "*.s", "*.S"],
         Bash => &[
             "*.bash",
             "*.bats",
@@ -246,7 +245,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "zshenv",
             "zshrc",
         ],
-        Apex => &["*.cls", "*.apexc", "*.trigger"],
+        Apex => &["*.apexc", "*.trigger"],
         C => &["*.c"],
         Clojure => &[
             "*.bb", "*.boot", "*.clj", "*.cljc", "*.clje", "*.cljs", "*.cljx", "*.edn", "*.joke",
@@ -259,16 +258,23 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         // https://madnight.github.io/githut/
         // Also, treating CUDA as C++
         CPlusPlus => &[
-            "*.cc", "*.cpp", "*.h", "*.hh", "*.hpp", "*.ino", "*.cxx", "*.cu",
+            "*.cc", "*.cpp", "*.c++", "*.cxx", "*.cu", "*.h", "*.hh", "*.hpp", "*.hxx", "*.inl",
+            "*.ino", "*.ipp", "*.ixx", "*.tcc",
         ],
         CSharp => &["*.cs"],
         Css => &["*.css"],
         Dart => &["*.dart"],
         DeviceTree => &["*.dts", "*.dtsi", "*.dtso", "*.its"],
+        Dockerfile => &[
+            "Dockerfile",
+            "Containerfile",
+            "Dockerfile.*",
+            "*.dockerfile",
+            "*.containerfile",
+        ],
         Elm => &["*.elm"],
         EmacsLisp => &["*.el", ".emacs", "_emacs", "Cask"],
         Elixir => &["*.ex", "*.exs"],
-        Elvish => &["*.elv"],
         Erlang => &[
             "*.erl",
             "*.app.src",
@@ -282,12 +288,11 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "rebar.config.lock",
             "rebar.lock",
         ],
+        Fish => &["*.fish"],
         FSharp => &["*.fs", "*.fsx", "*.fsi"],
         Fortran => &["*.f", "*.for", "*.f90", "*.F", "*.FOR", "*.F90"],
         Gleam => &["*.gleam"],
         Go => &["*.go"],
-        Hack => &["*.hack", "*.hck", "*.hhi"],
-        Hare => &["*.ha"],
         Haskell => &["*.hs"],
         Hcl => &["*.hcl", "*.nomad", "*.tf", "*.tfvars", "*.workflow"],
         Html => &["*.html", "*.htm", "*.xhtml"],
@@ -377,7 +382,6 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         Scala => &["*.scala", "*.sbt", "*.sc"],
         Scheme => &["*.scm", "*.sch", "*.ss"],
         Smali => &["*.smali"],
-        Scss => &["*.scss"],
         Solidity => &["*.sol"],
         Sql => &["*.sql", "*.pgsql"],
         Swift => &["*.swift"],
@@ -390,7 +394,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "poetry.lock",
             "uv.lock",
         ],
-        TypeScript => &["*.ts"],
+        TypeScript => &["*.ts", "*.cts", "*.mts"],
         TypeScriptTsx => &["*.tsx"],
         Verilog => &["*.v", "*.sv", "*.vh"],
         Vhdl => &["*.vhdl", "*.vhd"],
@@ -494,7 +498,7 @@ pub(crate) fn guess(
     // specifically *.php as potentially Hack or *.h as potentially
     // Objective-C.
     if looks_like_hacklang(path, src) {
-        return Some(Language::Hack);
+        return None;
     }
     if looks_like_objc(path, src) {
         return Some(Language::ObjC);
@@ -518,7 +522,7 @@ pub(crate) fn guess(
 /// <https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html>
 fn from_emacs_mode_header(src: &str) -> Option<Language> {
     lazy_static! {
-        static ref MODE_RE: Regex = Regex::new(r"-\*-.*mode:([^;]+?);.*-\*-").unwrap();
+        static ref MODE_RE: Regex = Regex::new(r"-\*- *mode: *([a-zA-Z0-9_+-]+).*-\*-").unwrap();
         static ref SHORTHAND_RE: Regex = Regex::new(r"-\*-(.+)-\*-").unwrap();
     }
 
@@ -539,8 +543,8 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "c++" => CPlusPlus,
             "elixir" => Elixir,
             "elm" => Elm,
-            "elvish" => Elvish,
             "emacs-lisp" => EmacsLisp,
+            "fish" => Fish,
             "fsharp" => FSharp,
             "fortran" => Fortran,
             "gleam" => Gleam,
@@ -561,7 +565,6 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "ruby" => Ruby,
             "rust" => Rust,
             "scala" => Scala,
-            "scss" => Scss,
             "sh" => Bash,
             "solidity" => Solidity,
             "sql" => Sql,
@@ -583,7 +586,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
 /// Try to guess the language based on a shebang present in the source.
 fn from_shebang(src: &str) -> Option<Language> {
     lazy_static! {
-        static ref RE: Regex = Regex::new(r"#! *(?:/usr/bin/env )?([^ ]+)").unwrap();
+        static ref RE: Regex = Regex::new(r"^#! *(?:/usr/bin/env )?([^ ]+)").unwrap();
     }
     if let Some(first_line) = split_on_newlines(src).next() {
         if let Some(cap) = RE.captures(first_line) {
@@ -594,11 +597,10 @@ fn from_shebang(src: &str) -> Option<Language> {
                         return Some(Bash)
                     }
                     "tcc" => return Some(C),
-                    "lisp" | "sbc" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
+                    "lisp" | "sbcl" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
                     "elixir" => return Some(Elixir),
-                    "elvish" => return Some(Elvish),
                     "escript" => return Some(Erlang),
-                    "hhvm" => return Some(Hack),
+                    "fish" => return Some(Fish),
                     "runghc" | "runhaskell" | "runhugs" => return Some(Haskell),
                     "chakra" | "d8" | "gjs" | "js" | "node" | "nodejs" | "qjs" | "rhino" | "v8"
                     | "v8-shell" => return Some(JavaScript),
@@ -612,11 +614,6 @@ fn from_shebang(src: &str) -> Option<Language> {
                     _ => {}
                 }
             }
-        }
-
-        // Hack can use <?hh in files with a .php extension.
-        if first_line.starts_with("<?hh") {
-            return Some(Hack);
         }
     }
 
@@ -654,6 +651,14 @@ mod tests {
     }
 
     #[test]
+    fn test_guess_cplusplus_cplusplus_extension() {
+        // Regression: the `.c++` extension glob was missing its leading `*`
+        // (introduced in 286cad721), so foo.c++ fell through to plain text.
+        let path = Path::new("foo.c++");
+        assert_eq!(guess(path, "", &[]), Some(CPlusPlus));
+    }
+
+    #[test]
     fn test_guess_by_whole_name() {
         let path = Path::new("foo/.bashrc");
         assert_eq!(guess(path, "", &[]), Some(Bash));
@@ -675,6 +680,18 @@ mod tests {
     fn test_guess_by_shebang_with_space() {
         let path = Path::new("foo");
         assert_eq!(guess(path, "#! /bin/sh", &[]), Some(Bash));
+    }
+
+    #[test]
+    fn test_guess_comment_not_shebang() {
+        let path = Path::new("foo.py");
+        assert_eq!(guess(path, "bar = 1 #!/bin/bash", &[]), Some(Python));
+    }
+
+    #[test]
+    fn test_guess_by_emacs_mode_simple() {
+        let path = Path::new("foo");
+        assert_eq!(guess(path, "; -*- mode: Lisp -*-", &[]), Some(CommonLisp));
     }
 
     #[test]

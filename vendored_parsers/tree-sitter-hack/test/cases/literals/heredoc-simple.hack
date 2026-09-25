@@ -1,3 +1,0 @@
-<<<EOF
-Heredoc
-EOF;

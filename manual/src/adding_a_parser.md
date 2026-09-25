@@ -54,8 +54,8 @@ for things like string literals or interpolated strings, where the
 node might have children for the opening and closing quote.
 
 If you don't set `atom_nodes`, you may notice added/removed content
-shown in white. This is usually a sign that child node should have its
-parent treated as an atom.
+shown in white. This is usually a sign that a child node should have
+its parent treated as an atom.
 
 `delimiter_tokens` are delimiters that difftastic stores on
 the enclosing list node. This allows difftastic to distinguish
@@ -69,8 +69,6 @@ You can use `difft --dump-ts foo.json` to see the results of the
 tree-sitter parser, and `difft --dump-syntax foo.json` to confirm that
 you've set atoms and delimiters correctly.
 
-`sub-languages` is empty for most languages: see the code documentation for details.
-
 ## Configure language detection
 
 Update `language_name` in `guess_language.rs` to detect your new
@@ -80,21 +78,11 @@ language. Insert a match arm like:
 Json => "json",
 ```
 
-There may also file names or shebangs associated with your language; configure those
+There may also be file names or shebangs associated with your language; configure those
 by adapting the `language_globs`, `from_emacs_mode_header` and `from_shebang` functions
 in that file.
 [GitHub's linguist definitions](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
 are a useful source of common file extensions.
-
-## Syntax highlighting (Optional)
-
-To add syntax highlighting for your language, you'll also need a symlink
-to the `queries/highlights.scm` file, if available.
-
-```
-$ cd vendored_parsers/highlights
-$ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
-```
 
 ## Test It
 
