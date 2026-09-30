@@ -1,6 +1,7 @@
 //! Side-by-side (two column) display of diffs.
 
 use std::cmp::{max, min};
+use std::io::{self, Write};
 
 use line_numbers::{LineNumber, SingleLineSpan};
 use owo_colors::{OwoColorize, Style};
@@ -434,7 +435,8 @@ pub(crate) fn print(
     rhs_src: &str,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
-) {
+    out: &mut impl Write,
+) -> io::Result<()> {
     let (lhs_content_max_width, rhs_content_max_width) = visible_content_max_display_width(
         lhs_src,
         rhs_src,
@@ -498,10 +500,10 @@ pub(crate) fn print(
             Side::Right,
             display_options,
         ) {
-            print!("{}", line);
+            write!(out, "{}", line)?;
         }
-        println!();
-        return;
+        writeln!(out)?;
+        return Ok(());
     }
     if rhs_src.is_empty()
         && !matches!(
@@ -517,10 +519,10 @@ pub(crate) fn print(
             Side::Left,
             display_options,
         ) {
-            print!("{}", line);
+            write!(out, "{}", line)?;
         }
-        println!();
-        return;
+        writeln!(out)?;
+        return Ok(());
     }
 
     // TODO: this is largely duplicating the `apply_colors` logic.
@@ -602,7 +604,8 @@ pub(crate) fn print(
     );
 
     for (i, hunk) in hunks.iter().enumerate() {
-        println!(
+        writeln!(
+            out,
             "{}",
             style::header(
                 display_path,
@@ -612,7 +615,7 @@ pub(crate) fn print(
                 file_format,
                 display_options
             )
-        );
+        )?;
 
         let (start_i, end_i) = matched_lines_indexes_for_hunk(
             matched_lines_to_print,
@@ -665,19 +668,20 @@ pub(crate) fn print(
                     Some(rhs_line_num) => {
                         let rhs_line = &rhs_colored_lines[rhs_line_num.as_usize()];
                         if same_lines {
-                            print!("{}{}", display_rhs_line_num, rhs_line);
+                            write!(out, "{}{}", display_rhs_line_num, rhs_line)?;
                         } else {
-                            print!(
+                            write!(
+                                out,
                                 "{}{}{}",
                                 display_lhs_line_num, display_rhs_line_num, rhs_line
-                            );
+                            )?;
                         }
                     }
                     None => {
                         // We didn't have any changed RHS lines in the
                         // hunk, but we had some contextual lines that
                         // only occurred on the LHS (e.g. extra newlines).
-                        println!("{}{}", display_lhs_line_num, display_rhs_line_num);
+                        writeln!(out, "{}{}", display_lhs_line_num, display_rhs_line_num)?;
                     }
                 }
             } else if no_rhs_changes && !show_both {
@@ -685,16 +689,17 @@ pub(crate) fn print(
                     Some(lhs_line_num) => {
                         let lhs_line = &lhs_colored_lines[lhs_line_num.as_usize()];
                         if same_lines {
-                            print!("{}{}", display_lhs_line_num, lhs_line);
+                            write!(out, "{}{}", display_lhs_line_num, lhs_line)?;
                         } else {
-                            print!(
+                            write!(
+                                out,
                                 "{}{}{}",
                                 display_lhs_line_num, display_rhs_line_num, lhs_line
-                            );
+                            )?;
                         }
                     }
                     None => {
-                        println!("{}{}", display_lhs_line_num, display_rhs_line_num);
+                        writeln!(out, "{}{}", display_lhs_line_num, display_rhs_line_num)?;
                     }
                 }
             } else {
@@ -769,7 +774,11 @@ pub(crate) fn print(
                         s
                     };
 
-                    println!("{}{}{}{}{}", lhs_num, lhs_line, SPACER, rhs_num, rhs_line);
+                    writeln!(
+                        out,
+                        "{}{}{}{}{}",
+                        lhs_num, lhs_line, SPACER, rhs_num, rhs_line
+                    )?;
                 }
             }
 
@@ -780,8 +789,9 @@ pub(crate) fn print(
                 prev_rhs_line_num = *rhs_line_num;
             }
         }
-        println!();
+        writeln!(out)?;
     }
+    Ok(())
 }
 
 #[cfg(test)]
@@ -914,6 +924,8 @@ mod tests {
             "bar",
             &lhs_mps,
             &rhs_mps,
-        );
+            &mut Vec::new(),
+        )
+        .unwrap();
     }
 }

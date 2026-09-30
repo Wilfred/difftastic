@@ -1,5 +1,7 @@
 //! Inline, or "unified" diff display.
 
+use std::io::{self, Write};
+
 use crate::constants::Side;
 use crate::display::context::{
     calculate_after_context, calculate_before_context, opposite_positions,
@@ -21,7 +23,8 @@ pub(crate) fn print(
     display_path: &str,
     extra_info: &Option<String>,
     file_format: &FileFormat,
-) {
+    out: &mut impl Write,
+) -> io::Result<()> {
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
             apply_colors(
@@ -71,7 +74,8 @@ pub(crate) fn print(
     let rhs_line_nums_width = format_line_num(rhs_max_line).len();
 
     for (i, hunk) in hunks.iter().enumerate() {
-        println!(
+        writeln!(
+            out,
             "{}",
             style::header(
                 display_path,
@@ -81,7 +85,7 @@ pub(crate) fn print(
                 file_format,
                 display_options
             )
-        );
+        )?;
 
         let hunk_lines = extract_lines(hunk);
 
@@ -102,7 +106,8 @@ pub(crate) fn print(
 
         for (lhs_line, _) in before_lines {
             if let Some(lhs_line) = lhs_line {
-                print!(
+                write!(
+                    out,
                     "{}   {}",
                     apply_line_number_color(
                         &format_line_num_padded(lhs_line, lhs_line_nums_width),
@@ -111,14 +116,15 @@ pub(crate) fn print(
                         display_options,
                     ),
                     lhs_colored_lines[lhs_line.as_usize()]
-                );
+                )?;
             }
         }
 
         for (lhs_line, _) in &hunk_lines {
             if let Some(lhs_line) = lhs_line {
                 let is_novel = hunk.novel_lhs.contains(lhs_line);
-                print!(
+                write!(
+                    out,
                     "{}   {}",
                     apply_line_number_color(
                         &format_line_num_padded(*lhs_line, lhs_line_nums_width),
@@ -127,13 +133,14 @@ pub(crate) fn print(
                         display_options,
                     ),
                     lhs_colored_lines[lhs_line.as_usize()]
-                );
+                )?;
             }
         }
         for (_, rhs_line) in &hunk_lines {
             if let Some(rhs_line) = rhs_line {
                 let is_novel = hunk.novel_rhs.contains(rhs_line);
-                print!(
+                write!(
+                    out,
                     "   {}{}",
                     apply_line_number_color(
                         &format_line_num_padded(*rhs_line, rhs_line_nums_width),
@@ -142,13 +149,14 @@ pub(crate) fn print(
                         display_options,
                     ),
                     rhs_colored_lines[rhs_line.as_usize()]
-                );
+                )?;
             }
         }
 
         for (_, rhs_line) in &after_lines {
             if let Some(rhs_line) = rhs_line {
-                print!(
+                write!(
+                    out,
                     "   {}{}",
                     apply_line_number_color(
                         &format_line_num_padded(*rhs_line, rhs_line_nums_width),
@@ -157,9 +165,10 @@ pub(crate) fn print(
                         display_options,
                     ),
                     rhs_colored_lines[rhs_line.as_usize()]
-                );
+                )?;
             }
         }
-        println!();
+        writeln!(out)?;
     }
+    Ok(())
 }

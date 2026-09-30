@@ -106,6 +106,7 @@ use tikv_jemallocator::Jemalloc;
 #[global_allocator]
 static GLOBAL: Jemalloc = Jemalloc;
 
+use std::io::{self, Write};
 use std::path::Path;
 use std::{env, thread};
 
@@ -145,7 +146,27 @@ fn main() {
         .expect("The logger has not been previously initialized");
     reset_sigpipe();
 
-    match options::parse_args() {
+    let mode = options::parse_args();
+    let stdout = io::stdout();
+    let mut out = stdout.lock();
+
+    match run(mode, &mut out) {
+        Ok(()) => {}
+        Err(e) if e.kind() == io::ErrorKind::BrokenPipe => {
+            // The process reading our stdout has gone away (e.g.
+            // `difft | head`), so there's nothing more we can do. Exit
+            // quietly: on Unix, SIGPIPE terminates us in this
+            // situation, and on other platforms writes return an
+            // error instead.
+            std::process::exit(EXIT_SUCCESS);
+        }
+        // Same panic message as println! on failure.
+        Err(e) => panic!("failed printing to stdout: {e}"),
+    }
+}
+
+fn run(mode: Mode, out: &mut impl Write) -> io::Result<()> {
+    match mode {
         Mode::DumpTreeSitter {
             path,
             language_overrides,
@@ -159,7 +180,7 @@ fn main() {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
                     let tree = tsp::to_tree(&src, ts_lang);
-                    tsp::print_tree(&src, &tree);
+                    tsp::print_tree(&src, &tree, out)?;
                 }
                 None => {
                     eprintln!("No tree-sitter parser for file: {:?}", path);
@@ -182,7 +203,7 @@ fn main() {
                     let arena = Arena::new();
                     let ast = tsp::parse(&arena, &src, ts_lang, ignore_comments);
                     init_all_info(&ast, &[]);
-                    println!("{:#?}", ast);
+                    writeln!(out, "{:#?}", ast)?;
                 }
                 None => {
                     eprintln!("No tree-sitter parser for file: {:?}", path);
@@ -205,7 +226,7 @@ fn main() {
                     let arena = Arena::new();
                     let ast = tsp::parse(&arena, &src, ts_lang, ignore_comments);
                     init_all_info(&ast, &[]);
-                    syntax::print_as_dot(&ast);
+                    syntax::print_as_dot(&ast, out)?;
                 }
                 None => {
                     eprintln!("No tree-sitter parser for file: {:?}", path);
@@ -225,11 +246,11 @@ fn main() {
                 if use_color {
                     name = name.bold().to_string();
                 }
-                println!("{} (from override)", name);
+                writeln!(out, "{} (from override)", name)?;
                 for glob in globs {
-                    print!(" {}", glob.as_str());
+                    write!(out, " {}", glob.as_str())?;
                 }
-                println!();
+                writeln!(out)?;
             }
 
             for language in Language::iter() {
@@ -237,12 +258,12 @@ fn main() {
                 if use_color {
                     name = name.bold().to_string();
                 }
-                println!("{}", name);
+                writeln!(out, "{}", name)?;
 
                 for glob in language_globs(language) {
-                    print!(" {}", glob.as_str());
+                    write!(out, " {}", glob.as_str())?;
                 }
-                println!();
+                writeln!(out)?;
             }
         }
         Mode::DiffFromConflicts {
@@ -263,13 +284,14 @@ fn main() {
                 &binary_overrides,
             );
 
-            print_diff_result(&display_options, &diff_result);
+            print_diff_result(&display_options, &diff_result, out)?;
 
             let exit_code = if set_exit_code && diff_result.has_reportable_change() {
                 EXIT_FOUND_CHANGES
             } else {
                 EXIT_SUCCESS
             };
+            out.flush()?;
             std::process::exit(exit_code);
         }
         Mode::Diff {
@@ -321,12 +343,16 @@ fn main() {
                         encountered_changes = results
                             .iter()
                             .any(|diff_result| diff_result.has_reportable_change());
-                        display::json::print_directory(results, display_options.print_unchanged);
+                        display::json::print_directory(
+                            results,
+                            display_options.print_unchanged,
+                            out,
+                        )?;
                     } else if display_options.sort_paths {
                         let mut result: Vec<DiffResult> = diff_iter.collect();
                         result.sort_unstable_by(|a, b| a.display_path.cmp(&b.display_path));
                         for diff_result in result {
-                            print_diff_result(&display_options, &diff_result);
+                            print_diff_result(&display_options, &diff_result, out)?;
 
                             if diff_result.has_reportable_change() {
                                 encountered_changes = true;
@@ -337,26 +363,29 @@ fn main() {
                         // parallel, but print the results serially
                         // (to prevent display interleaving).
                         // https://github.com/rayon-rs/rayon/issues/210#issuecomment-551319338
-                        thread::scope(|s| {
+                        thread::scope(|s| -> io::Result<()> {
                             let (send, recv) = std::sync::mpsc::sync_channel(1);
 
                             // I don't see a nice way of fixing this, and difftastic is regularly benchmarked
                             // for performance issues and this hasn't been a problem.
                             #[allow(clippy::result_large_err)]
                             s.spawn(move || {
-                                diff_iter
-                                    .try_for_each_with(send, |s, diff_result| s.send(diff_result))
-                                    .expect("Receiver should be connected")
+                                // The receiver is dropped when we stop
+                                // printing results (e.g. after a write
+                                // error), so ignore send errors.
+                                let _ = diff_iter
+                                    .try_for_each_with(send, |s, diff_result| s.send(diff_result));
                             });
 
                             for diff_result in recv.into_iter() {
-                                print_diff_result(&display_options, &diff_result);
+                                print_diff_result(&display_options, &diff_result, out)?;
 
                                 if diff_result.has_reportable_change() {
                                     encountered_changes = true;
                                 }
                             }
-                        });
+                            Ok(())
+                        })?;
                     }
                 }
                 _ => {
@@ -381,9 +410,9 @@ fn main() {
                         DisplayMode::Inline
                         | DisplayMode::SideBySide
                         | DisplayMode::SideBySideShowBoth => {
-                            print_diff_result(&display_options, &diff_result);
+                            print_diff_result(&display_options, &diff_result, out)?;
                         }
-                        DisplayMode::Json => display::json::print(&diff_result),
+                        DisplayMode::Json => display::json::print(&diff_result, out)?,
                     }
                 }
             }
@@ -393,12 +422,15 @@ fn main() {
             } else {
                 EXIT_SUCCESS
             };
+            out.flush()?;
             std::process::exit(exit_code);
         }
         Mode::GitHasUnmergedFile { display_path } => {
-            println!("Unmerged path: {display_path}");
+            writeln!(out, "Unmerged path: {display_path}")?;
         }
     };
+
+    out.flush()
 }
 
 /// Print a diff between two files.
@@ -903,14 +935,19 @@ fn diff_directories<'a>(
     })
 }
 
-fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
+fn print_diff_result(
+    display_options: &DisplayOptions,
+    summary: &DiffResult,
+    out: &mut impl Write,
+) -> io::Result<()> {
     match (&summary.lhs_src, &summary.rhs_src) {
         (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
             let hunks = &summary.hunks;
 
             if !summary.has_syntactic_changes {
                 if display_options.print_unchanged {
-                    println!(
+                    writeln!(
+                        out,
                         "{}",
                         display::style::header(
                             &summary.display_path,
@@ -920,24 +957,25 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                             &summary.file_format,
                             display_options
                         )
-                    );
+                    )?;
                     match summary.file_format {
                         _ if summary.lhs_src == summary.rhs_src => {
-                            println!("No changes.\n");
+                            writeln!(out, "No changes.\n")?;
                         }
                         FileFormat::SupportedLanguage(_) => {
-                            println!("No syntactic changes.\n");
+                            writeln!(out, "No syntactic changes.\n")?;
                         }
                         _ => {
-                            println!("No changes.\n");
+                            writeln!(out, "No changes.\n")?;
                         }
                     }
                 }
-                return;
+                return Ok(());
             }
 
             if summary.has_syntactic_changes && hunks.is_empty() {
-                println!(
+                writeln!(
+                    out,
                     "{}",
                     display::style::header(
                         &summary.display_path,
@@ -947,17 +985,17 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.file_format,
                         display_options
                     )
-                );
+                )?;
                 match summary.file_format {
                     FileFormat::SupportedLanguage(_) => {
-                        println!("Has syntactic changes.\n");
+                        writeln!(out, "Has syntactic changes.\n")?;
                     }
                     _ => {
-                        println!("Has changes.\n");
+                        writeln!(out, "Has changes.\n")?;
                     }
                 }
 
-                return;
+                return Ok(());
             }
 
             match display_options.display_mode {
@@ -972,7 +1010,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.display_path,
                         &summary.extra_info,
                         &summary.file_format,
-                    );
+                        out,
+                    )?;
                 }
                 DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
                     display::side_by_side::print(
@@ -985,14 +1024,16 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         rhs_src,
                         &summary.lhs_positions,
                         &summary.rhs_positions,
-                    );
+                        out,
+                    )?;
                 }
                 DisplayMode::Json => unreachable!(),
             }
         }
         (FileContent::Binary, FileContent::Binary) => {
             if display_options.print_unchanged || summary.has_byte_changes.is_some() {
-                println!(
+                writeln!(
+                    out,
                     "{}",
                     display::style::header(
                         &summary.display_path,
@@ -1002,7 +1043,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &FileFormat::Binary,
                         display_options
                     )
-                );
+                )?;
 
                 match summary.has_byte_changes {
                     Some((lhs_len, rhs_len)) => {
@@ -1016,31 +1057,35 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                             // creation.
                             //
                             // TODO: Fix this pedantic case.
-                            println!(
+                            writeln!(
+                                out,
                                 "Binary file added ({}).\n",
                                 format_size(rhs_len, format_options),
-                            )
+                            )?
                         } else if rhs_len == 0 {
-                            println!(
+                            writeln!(
+                                out,
                                 "Binary file removed ({}).\n",
                                 format_size(lhs_len, format_options),
-                            )
+                            )?
                         } else {
-                            println!(
+                            writeln!(
+                                out,
                                 "Binary file modified (old: {}, new: {}).\n",
                                 format_size(lhs_len, format_options),
                                 format_size(rhs_len, format_options),
-                            )
+                            )?
                         }
                     }
-                    None => println!("No changes.\n"),
+                    None => writeln!(out, "No changes.\n")?,
                 }
             }
         }
         (FileContent::Text(_), FileContent::Binary)
         | (FileContent::Binary, FileContent::Text(_)) => {
             // We're diffing a binary file against a text file.
-            println!(
+            writeln!(
+                out,
                 "{}",
                 display::style::header(
                     &summary.display_path,
@@ -1050,10 +1095,11 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     &FileFormat::Binary,
                     display_options
                 )
-            );
-            println!("Binary contents changed.\n");
+            )?;
+            writeln!(out, "Binary contents changed.\n")?;
         }
     }
+    Ok(())
 }
 
 #[cfg(test)]

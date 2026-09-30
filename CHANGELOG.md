@@ -5,6 +5,10 @@
 Fixed an issue with inline display where unchanged lines between two
 nearby changes were not shown.
 
+Fixed difft panicking when the process reading its output exits early
+(e.g. `difft | head`, or quitting `less`), on platforms without
+SIGPIPE such as Windows.
+
 ## 0.71 (released 18th September 2026)
 
 ### Diffing

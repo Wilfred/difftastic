@@ -1,4 +1,5 @@
 use std::collections::BTreeMap;
+use std::io::{self, Write};
 
 use line_numbers::LineNumber;
 use serde::ser::SerializeStruct;
@@ -293,21 +294,27 @@ impl Highlight {
     }
 }
 
-pub(crate) fn print_directory(diffs: Vec<DiffResult>, print_unchanged: bool) {
+pub(crate) fn print_directory(
+    diffs: Vec<DiffResult>,
+    print_unchanged: bool,
+    out: &mut impl Write,
+) -> io::Result<()> {
     let files = diffs
         .iter()
         .map(File::from)
         .filter(|f| print_unchanged || f.status != Status::Unchanged)
         .collect::<Vec<File>>();
-    println!(
+    writeln!(
+        out,
         "{}",
         serde_json::to_string(&files).expect("failed to serialize files")
-    );
+    )
 }
 
-pub(crate) fn print(diff: &DiffResult) {
+pub(crate) fn print(diff: &DiffResult, out: &mut impl Write) -> io::Result<()> {
     let file = File::from(diff);
-    println!(
+    writeln!(
+        out,
         "{}",
         serde_json::to_string(&file).expect("failed to serialize file")
     )

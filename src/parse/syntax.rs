@@ -4,6 +4,7 @@
 
 use std::cell::Cell;
 use std::hash::Hash;
+use std::io::{self, Write};
 use std::num::NonZeroU32;
 use std::{env, fmt};
 
@@ -394,13 +395,13 @@ pub(crate) fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a S
     init_next_prev(rhs_roots);
 }
 
-pub(crate) fn print_as_dot<'a>(roots: &[&'a Syntax<'a>]) {
-    println!("digraph {{");
-    print_as_dot_(roots);
-    println!("}}");
+pub(crate) fn print_as_dot<'a>(roots: &[&'a Syntax<'a>], out: &mut impl Write) -> io::Result<()> {
+    writeln!(out, "digraph {{")?;
+    print_as_dot_(roots, out)?;
+    writeln!(out, "}}")
 }
 
-fn print_as_dot_<'a>(nodes: &[&'a Syntax<'a>]) {
+fn print_as_dot_<'a>(nodes: &[&'a Syntax<'a>], out: &mut impl Write) -> io::Result<()> {
     for node in nodes {
         let label = match node {
             List {
@@ -420,15 +421,16 @@ fn print_as_dot_<'a>(nodes: &[&'a Syntax<'a>]) {
             }
         };
 
-        println!("  id{} {};", node.id().get(), label);
+        writeln!(out, "  id{} {};", node.id().get(), label)?;
 
         if let List { children, .. } = node {
             for child in children {
-                println!("  id{} -> id{};", node.id().get(), child.id().get());
+                writeln!(out, "  id{} -> id{};", node.id().get(), child.id().get())?;
             }
-            print_as_dot_(children);
+            print_as_dot_(children, out)?;
         }
     }
+    Ok(())
 }
 
 fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
