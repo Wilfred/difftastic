@@ -6,3 +6,7 @@ bar _ = 'c'
 -- | Hello world
 isOne 1 = True
 isOne _ = False
+
+{- |
+    Incomplete comment that previously segfaulted
+    the Haskell parser

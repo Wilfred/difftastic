@@ -1,5 +1,9 @@
 ## 0.72 (unreleased)
 
+### Parsing
+
+Improved Haskell, which was prone to crashing previously.
+
 ### Display
 
 Fixed an issue with inline display where unchanged lines between two
