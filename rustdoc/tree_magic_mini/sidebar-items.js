@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["from_file","from_filepath","from_u8","match_file","match_filepath","match_u8"]};

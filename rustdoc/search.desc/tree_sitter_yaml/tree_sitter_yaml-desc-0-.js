@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_yaml", 0, "This crate provides YAML language support for the …\nThe highlight queries for this grammar.\nThe tree-sitter <code>LanguageFn</code> for this grammar.\nThe content of the <code>node-types.json</code> file for this grammar.")

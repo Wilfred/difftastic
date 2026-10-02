@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_toml_ng", 0, "This crate provides TOML language support for the …\nThe syntax highlighting queries for this grammar.\nThe tree-sitter <code>LanguageFn</code> for this grammar.\nThe content of the <code>node-types.json</code> file for this grammar.")

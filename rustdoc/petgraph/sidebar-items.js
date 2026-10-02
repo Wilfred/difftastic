@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Directed","Direction","Undirected"],"mod":["acyclic","adj","algo","csr","data","dot","graph","graph6","operator","prelude","unionfind","visit"],"trait":["EdgeType","IntoWeightedEdge"]};

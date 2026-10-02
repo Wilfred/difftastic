@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Extensions to the `ParseStream` API to support speculative parsing."><title>Speculative in syn::parse::discouraged - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="syn" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc trait"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../syn/index.html">syn</a><span class="version">2.0.106</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Speculative</a></h2><h3><a href="#required-methods">Required Methods</a></h3><ul class="block"><li><a href="#tymethod.advance_to" title="advance_to">advance_to</a></li></ul><h3><a href="#dyn-compatibility">Dyn Compatibility</a></h3><h3><a href="#implementors">Implementors</a></h3></section><div id="rustdoc-modnav"><h2><a href="index.html">In syn::<wbr>parse::<wbr>discouraged</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="../../index.html">syn</a>::<wbr><a href="../index.html">parse</a>::<wbr><a href="index.html">discouraged</a></span><h1>Trait <span class="trait">Speculative</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/syn/discouraged.rs.html#13-165">Source</a> </span></div><pre class="rust item-decl"><code>pub trait Speculative {
+    // Required method
+    fn <a href="#tymethod.advance_to" class="fn">advance_to</a>(&amp;self, fork: &amp;Self);
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Extensions to the <code>ParseStream</code> API to support speculative parsing.</p>
+</div></details><h2 id="required-methods" class="section-header">Required Methods<a href="#required-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="tymethod.advance_to" class="method"><a class="src rightside" href="../../../src/syn/discouraged.rs.html#164">Source</a><h4 class="code-header">fn <a href="#tymethod.advance_to" class="fn">advance_to</a>(&amp;self, fork: &amp;Self)</h4></section></summary><div class="docblock"><p>Advance this parse stream to the position of a forked parse stream.</p>
+<p>This is the opposite operation to <a href="../struct.ParseBuffer.html#method.fork" title="method syn::parse::ParseBuffer::fork"><code>ParseStream::fork</code></a>. You can fork a
+parse stream, perform some speculative parsing, then join the original
+stream to the fork to “commit” the parsing from the fork to the main
+stream.</p>
+<p>If you can avoid doing this, you should, as it limits the ability to
+generate useful errors. That said, it is often the only way to parse
+syntax of the form <code>A* B*</code> for arbitrary syntax <code>A</code> and <code>B</code>. The problem
+is that when the fork fails to parse an <code>A</code>, it’s impossible to tell
+whether that was because of a syntax error and the user meant to provide
+an <code>A</code>, or that the <code>A</code>s are finished and it’s time to start parsing
+<code>B</code>s. Use with care.</p>
+<p>Also note that if <code>A</code> is a subset of <code>B</code>, <code>A* B*</code> can be parsed by
+parsing <code>B*</code> and removing the leading members of <code>A</code> from the
+repetition, bypassing the need to involve the downsides associated with
+speculative parsing.</p>
+<h5 id="example"><a class="doc-anchor" href="#example">§</a>Example</h5>
+<p>There has been chatter about the possibility of making the colons in the
+turbofish syntax like <code>path::to::&lt;T&gt;</code> no longer required by accepting
+<code>path::to&lt;T&gt;</code> in expression position. Specifically, according to <a href="https://github.com/rust-lang/rfcs/pull/2544">RFC
+2544</a>, <a href="../../struct.PathSegment.html" title="struct syn::PathSegment"><code>PathSegment</code></a> parsing should always try to consume a following
+<code>&lt;</code> token as the start of generic arguments, and reset to the <code>&lt;</code> if
+that fails (e.g. the token is acting as a less-than operator).</p>
+<p>This is the exact kind of parsing behavior which requires the “fork,
+try, commit” behavior that <a href="../struct.ParseBuffer.html#method.fork" title="method syn::parse::ParseBuffer::fork"><code>ParseStream::fork</code></a> discourages. With
+<code>advance_to</code>, we can avoid having to parse the speculatively parsed
+content a second time.</p>
+<p>This change in behavior can be implemented in syn by replacing just the
+<code>Parse</code> implementation for <code>PathSegment</code>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>syn::parse::discouraged::Speculative;
+
+<span class="kw">pub struct </span>PathSegment {
+    <span class="kw">pub </span>ident: Ident,
+    <span class="kw">pub </span>arguments: PathArguments,
+}
+
+<span class="kw">impl </span>Parse <span class="kw">for </span>PathSegment {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">if </span>input.peek(<span class="macro">Token!</span>[<span class="kw">super</span>])
+            || input.peek(<span class="macro">Token!</span>[<span class="self">self</span>])
+            || input.peek(<span class="macro">Token!</span>[<span class="self">Self</span>])
+            || input.peek(<span class="macro">Token!</span>[<span class="kw">crate</span>])
+        {
+            <span class="kw">let </span>ident = input.call(Ident::parse_any)<span class="question-mark">?</span>;
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(PathSegment::from(ident));
+        }
+
+        <span class="kw">let </span>ident = input.parse()<span class="question-mark">?</span>;
+        <span class="kw">if </span>input.peek(<span class="macro">Token!</span>[::]) &amp;&amp; input.peek3(<span class="macro">Token!</span>[&lt;]) {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(PathSegment {
+                ident,
+                arguments: PathArguments::AngleBracketed(input.parse()<span class="question-mark">?</span>),
+            });
+        }
+        <span class="kw">if </span>input.peek(<span class="macro">Token!</span>[&lt;]) &amp;&amp; !input.peek(<span class="macro">Token!</span>[&lt;=]) {
+            <span class="kw">let </span>fork = input.fork();
+            <span class="kw">if let </span><span class="prelude-val">Ok</span>(arguments) = fork.parse() {
+                input.advance_to(<span class="kw-2">&amp;</span>fork);
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(PathSegment {
+                    ident,
+                    arguments: PathArguments::AngleBracketed(arguments),
+                });
+            }
+        }
+        <span class="prelude-val">Ok</span>(PathSegment::from(ident))
+    }
+}
+</code></pre></div>
+<h5 id="drawbacks"><a class="doc-anchor" href="#drawbacks">§</a>Drawbacks</h5>
+<p>The main drawback of this style of speculative parsing is in error
+presentation. Even if the lookahead is the “correct” parse, the error
+that is shown is that of the “fallback” parse. To use the same example
+as the turbofish above, take the following unfinished “turbofish”:</p>
+<div class="example-wrap"><pre class="language-text"><code>let _ = f&lt;&amp;&#39;a fn(), for&lt;&#39;a&gt; serde::&gt;();</code></pre></div>
+<p>If this is parsed as generic arguments, we can provide the error message</p>
+<div class="example-wrap"><pre class="language-text"><code>error: expected identifier
+ --&gt; src.rs:L:C
+  |
+L | let _ = f&lt;&amp;&#39;a fn(), for&lt;&#39;a&gt; serde::&gt;();
+  |                                    ^</code></pre></div>
+<p>but if parsed using the above speculative parsing, it falls back to
+assuming that the <code>&lt;</code> is a less-than when it fails to parse the generic
+arguments, and tries to interpret the <code>&amp;'a</code> as the start of a labelled
+loop, resulting in the much less helpful error</p>
+<div class="example-wrap"><pre class="language-text"><code>error: expected `:`
+ --&gt; src.rs:L:C
+  |
+L | let _ = f&lt;&amp;&#39;a fn(), for&lt;&#39;a&gt; serde::&gt;();
+  |               ^^</code></pre></div>
+<p>This can be mitigated with various heuristics (two examples: show both
+forks’ parse errors, or show the one that consumed more tokens), but
+when you can control the grammar, sticking to something that can be
+parsed LL(3) and without the LL(*) speculative parsing this makes
+possible, displaying reasonable errors becomes much more simple.</p>
+<h5 id="performance"><a class="doc-anchor" href="#performance">§</a>Performance</h5>
+<p>This method performs a cheap fixed amount of work that does not depend
+on how far apart the two streams are positioned.</p>
+<h5 id="panics"><a class="doc-anchor" href="#panics">§</a>Panics</h5>
+<p>The forked stream in the argument of <code>advance_to</code> must have been
+obtained by forking <code>self</code>. Attempting to advance to any other stream
+will cause a panic.</p>
+</div></details></div><h2 id="dyn-compatibility" class="section-header">Dyn Compatibility<a href="#dyn-compatibility" class="anchor">§</a></h2><div class="dyn-compatibility-info"><p>This trait is <b>not</b> <a href="https://doc.rust-lang.org/1.85.0/reference/items/traits.html#object-safety">dyn compatible</a>.</p><p><i>In older versions of Rust, dyn compatibility was called "object safety", so this trait is not object safe.</i></p></div><h2 id="implementors" class="section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"><section id="impl-Speculative-for-ParseBuffer%3C'a%3E" class="impl"><a class="src rightside" href="../../../src/syn/discouraged.rs.html#167-201">Source</a><a href="#impl-Speculative-for-ParseBuffer%3C'a%3E" class="anchor">§</a><h3 class="code-header">impl&lt;'a&gt; <a class="trait" href="trait.Speculative.html" title="trait syn::parse::discouraged::Speculative">Speculative</a> for <a class="struct" href="../struct.ParseBuffer.html" title="struct syn::parse::ParseBuffer">ParseBuffer</a>&lt;'a&gt;</h3></section></div><script src="../../../trait.impl/syn/parse/discouraged/trait.Speculative.js" async></script></section></div></main></body></html>
