@@ -9,6 +9,10 @@ Improved Haskell, which was prone to crashing previously.
 Fixed an issue with inline display where unchanged lines between two
 nearby changes were not shown.
 
+Fixed an issue (introduced in 0.71) where the terminal width wasn't
+detected when stdin, stdout and stderr were all redirected. This was
+most noticeable when using difft with jj.
+
 ## 0.71 (released 18th September 2026)
 
 ### Diffing

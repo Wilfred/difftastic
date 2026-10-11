@@ -1046,6 +1046,20 @@ fn detect_terminal_width() -> usize {
         }
     }
 
+    // Check /dev/tty so we find the terminal width when all of stdin,
+    // stdout and stderr are redirected. This is common when using
+    // difft with jj.
+    //
+    // See also https://github.com/eminence/terminal-size/issues/84.
+    #[cfg(unix)]
+    if let Ok(dev_tty_fd) = std::fs::File::open("/dev/tty") {
+        if let Some((columns, _)) = terminal_size::terminal_size_of(dev_tty_fd) {
+            if columns.0 > 0 {
+                return columns.0.into();
+            }
+        }
+    }
+
     // If we couldn't detect the terminal width, use the
     // shell variable COLUMNS if it's set. This helps with terminals like eshell.
     //
