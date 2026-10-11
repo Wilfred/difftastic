@@ -1,5 +1,10 @@
 ## 0.72 (unreleased)
 
+### Diffing
+
+Improved preprocessing heuristics, so difftastic should be faster and
+fall back to text diffing less often.
+
 ### Parsing
 
 Improved Haskell, which was prone to crashing previously.

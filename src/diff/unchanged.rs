@@ -248,10 +248,30 @@ fn split_mostly_unchanged_toplevel<'a>(
     res
 }
 
+/// Given a vec of equal node pairs, does the total descendant count reach at least
+/// `size_threshold`?
+fn is_big_enough(nodes: &[(&Syntax<'_>, &Syntax<'_>)], size_threshold: u32) -> bool {
+    let mut region_size = 0;
+    for (lhs_node, _) in nodes {
+        match lhs_node {
+            Syntax::List {
+                num_descendants, ..
+            } => {
+                region_size += num_descendants + 1;
+            }
+            Syntax::Atom { .. } => {
+                region_size += 1;
+            }
+        }
+    }
+
+    region_size >= size_threshold
+}
+
 /// Walk `lhs_nodes` and `rhs_nodes` and run a traditional linear diff
 /// using their toplevel content IDs.
 ///
-/// For sufficiently large nodes that are equal by ID, mark them as
+/// For sufficiently large sequences of nodes that are equal by ID, mark them as
 /// unchanged. Return the nodes in-between for full tree diffing.
 fn split_unchanged_toplevel<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
@@ -268,52 +288,72 @@ fn split_unchanged_toplevel<'a>(
         .collect::<Vec<_>>();
 
     let mut res: Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
+
+    let mut current_unchanged_section: Vec<(&Syntax<'_>, &Syntax<'_>)> = vec![];
     let mut lhs_nodes_with_changes = vec![];
     let mut rhs_nodes_with_changes = vec![];
 
     for diff_res in lcs_diff::slice(&lhs_node_ids, &rhs_node_ids) {
         match diff_res {
-            lcs_diff::DiffResult::Both(lhs, rhs) => {
-                let lhs_node = lhs.1;
-                let rhs_node = rhs.1;
+            lcs_diff::DiffResult::Both(_, _) => {}
+            lcs_diff::DiffResult::Left(_) | lcs_diff::DiffResult::Right(_) => {
+                if !current_unchanged_section.is_empty() {
+                    if is_big_enough(&current_unchanged_section, size_threshold) {
+                        // Push the prior changed region.
+                        if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty()
+                        {
+                            res.extend(split_changed_singleton_list(
+                                &lhs_nodes_with_changes,
+                                &rhs_nodes_with_changes,
+                                size_threshold,
+                            ));
+                            lhs_nodes_with_changes.clear();
+                            rhs_nodes_with_changes.clear();
+                        }
 
-                // If we've matched a node but it's very small, don't
-                // mark it as unchanged. We're interested in marking
-                // large nodes as unchanged for performance, but small
-                // nodes are fine.
-                //
-                // If we don't do this, difftastic can find e.g. a
-                // single unchanged comma in a huge expression, which
-                // produces worse diffs.
-                let tiny_node = match lhs_node {
-                    Syntax::List {
-                        num_descendants, ..
-                    } => *num_descendants < size_threshold,
-                    Syntax::Atom { .. } => true,
-                };
+                        // Push the unchanged region
+                        let (lhs_unchanged, rhs_unchanged) =
+                            current_unchanged_section.drain(..).unzip();
 
-                if tiny_node {
-                    lhs_nodes_with_changes.push(lhs_node);
-                    rhs_nodes_with_changes.push(rhs_node);
-                } else {
-                    if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty() {
-                        res.extend(split_changed_singleton_list(
-                            &lhs_nodes_with_changes,
-                            &rhs_nodes_with_changes,
-                            size_threshold,
-                        ));
-                        lhs_nodes_with_changes = vec![];
-                        rhs_nodes_with_changes = vec![];
+                        res.push((ChangeState::UnchangedNode, lhs_unchanged, rhs_unchanged));
+                    } else {
+                        // Add the unchanged region to the current changed region, so it
+                        // participates in a larger region to diff.
+                        for (lhs_node, rhs_node) in current_unchanged_section.drain(..) {
+                            lhs_nodes_with_changes.push(lhs_node);
+                            rhs_nodes_with_changes.push(rhs_node);
+                        }
                     }
-
-                    res.push((ChangeState::UnchangedNode, vec![lhs_node], vec![rhs_node]));
                 }
+            }
+        }
+
+        match diff_res {
+            lcs_diff::DiffResult::Both(lhs, rhs) => {
+                // Unchanged.
+                current_unchanged_section.push((lhs.1, rhs.1));
             }
             lcs_diff::DiffResult::Left(lhs) => {
                 lhs_nodes_with_changes.push(lhs.1);
             }
             lcs_diff::DiffResult::Right(rhs) => {
                 rhs_nodes_with_changes.push(rhs.1);
+            }
+        }
+    }
+
+    if !current_unchanged_section.is_empty() {
+        if is_big_enough(&current_unchanged_section, size_threshold) {
+            // Push the unchanged region
+            let (lhs_unchanged, rhs_unchanged) = current_unchanged_section.into_iter().unzip();
+
+            res.push((ChangeState::UnchangedNode, lhs_unchanged, rhs_unchanged));
+        } else {
+            // Add the unchanged region to the current changed region, so it
+            // participates in a larger region to diff.
+            for (lhs_node, rhs_node) in current_unchanged_section {
+                lhs_nodes_with_changes.push(lhs_node);
+                rhs_nodes_with_changes.push(rhs_node);
             }
         }
     }
