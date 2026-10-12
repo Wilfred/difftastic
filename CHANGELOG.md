@@ -9,7 +9,7 @@ fall back to text diffing less often.
 
 Improved Haskell, which was prone to crashing previously.
 
-Improved Elixir.
+Improved Elixir and OCaml.
 
 ### Display
 
