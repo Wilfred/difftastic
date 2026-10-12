@@ -389,9 +389,15 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec!["string", "sigil"].into_iter().collect(),
-                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("do", "end")]
-                    .into_iter()
-                    .collect(),
+                delimiter_tokens: vec![
+                    ("(", ")"),
+                    ("{", "}"),
+                    ("[", "]"),
+                    ("<<", ">>"),
+                    ("do", "end"),
+                ]
+                .into_iter()
+                .collect(),
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_elixir::HIGHLIGHTS_QUERY)
                     .unwrap(),
@@ -435,7 +441,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: [].into_iter().collect(),
-                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
+                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<<", ">>")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_erlang::HIGHLIGHTS_QUERY)
                     .unwrap(),
@@ -492,7 +498,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: ["string"].into_iter().collect(),
-                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
+                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}"), ("<<", ">>")],
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_gleam::HIGHLIGHT_QUERY)
                     .unwrap(),
