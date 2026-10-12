@@ -9,7 +9,7 @@ fall back to text diffing less often.
 
 Improved Haskell, which was prone to crashing previously.
 
-Improved Elixir and OCaml delimiter handling.
+Improved Elixir, Haskell and OCaml delimiter handling.
 
 Improved traliing punctuation handling in C, C++ and YAML.
 
