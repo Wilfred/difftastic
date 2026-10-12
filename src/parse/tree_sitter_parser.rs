@@ -811,7 +811,9 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 atom_nodes: ["string_expression", "indented_string_expression"]
                     .into_iter()
                     .collect(),
-                delimiter_tokens: vec![("{", "}"), ("[", "]")].into_iter().collect(),
+                delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")]
+                    .into_iter()
+                    .collect(),
                 ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(&language, tree_sitter_nix::HIGHLIGHTS_QUERY)
                     .unwrap(),
