@@ -223,7 +223,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                     .into_iter()
                     .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")],
-                ignore_trailing_tokens: vec![],
+                ignore_trailing_tokens: vec![("enumerator_list", ","), ("initializer_list", ",")],
                 highlight_query: ts::Query::new(&language, &highlight_query).unwrap(),
                 sub_languages: vec![],
             }
@@ -238,7 +238,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")]
                     .into_iter()
                     .collect(),
-                ignore_trailing_tokens: vec![],
+                ignore_trailing_tokens: vec![("enumerator_list", ","), ("initializer_list", ",")],
                 highlight_query: ts::Query::new(
                     &language,
                     tree_sitter_clojure_orchard::HIGHLIGHTS_QUERY,
@@ -1236,7 +1236,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 ]
                 .into_iter()
                 .collect(),
-                ignore_trailing_tokens: vec![],
+                ignore_trailing_tokens: vec![("flow_sequence", ","), ("flow_mapping", ",")],
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(&language, tree_sitter_yaml::HIGHLIGHTS_QUERY)
                     .unwrap(),
