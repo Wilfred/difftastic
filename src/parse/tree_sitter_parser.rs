@@ -389,7 +389,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 language: language.clone(),
                 atom_nodes: vec!["string", "sigil"].into_iter().collect(),
-                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("do", "end")]
+                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("do", "end")]
                     .into_iter()
                     .collect(),
                 ignore_trailing_tokens: vec![],

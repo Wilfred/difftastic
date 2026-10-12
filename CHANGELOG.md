@@ -9,6 +9,8 @@ fall back to text diffing less often.
 
 Improved Haskell, which was prone to crashing previously.
 
+Improved Elixir.
+
 ### Display
 
 Fixed an issue with inline display where unchanged lines between two
