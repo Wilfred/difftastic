@@ -284,6 +284,7 @@ dependencies = [
  "tree-sitter-sfapex",
  "tree-sitter-solidity",
  "tree-sitter-swift",
+ "tree-sitter-sysml",
  "tree-sitter-toml-ng",
  "tree-sitter-typescript",
  "tree-sitter-verilog",
@@ -1406,6 +1407,16 @@ name = "tree-sitter-swift"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4ef216011c3e3df4fa864736f347cb8d509b1066cf0c8549fb1fd81ac9832e59"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
+]
+
+[[package]]
+name = "tree-sitter-sysml"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "72ea5ec06e683683af8b53d3cff9bc42c1d997b75b43e46968bd2504be002f15"
 dependencies = [
  "cc",
  "tree-sitter-language",

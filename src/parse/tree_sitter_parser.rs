@@ -1163,6 +1163,20 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Sysml => {
+            let language_fn = tree_sitter_sysml::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
+            TreeSitterConfig {
+                language: language.clone(),
+                atom_nodes: ["string_literal"].into_iter().collect(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
+                ignore_trailing_tokens: vec![],
+                highlight_query: ts::Query::new(&language, tree_sitter_sysml::HIGHLIGHTS_QUERY)
+                    .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Toml => {
             let language_fn = tree_sitter_toml_ng::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);

@@ -274,6 +274,9 @@ sample_files/swift_1.swift sample_files/swift_2.swift
 sample_files/syntax_error_1.js sample_files/syntax_error_2.js
 32c72c64f399bbd26fdffbfed1066789  -
 
+sample_files/sysml_1.sysml sample_files/sysml_2.sysml
+45a4b1f8085b66dcf1a15615d5f531a8  -
+
 sample_files/tab_1.c sample_files/tab_2.c
 fd896b8e53b183f0d1d5cfeb6a1dfab4  -
 
