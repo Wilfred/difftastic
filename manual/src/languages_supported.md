@@ -35,7 +35,7 @@ with `difft --list-languages`.
 | Java            | [tree-sitter/tree-sitter-java](https://github.com/tree-sitter/tree-sitter-java)                                 |
 | JavaScript, JSX | [tree-sitter/tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript)                     |
 | Julia           | [tree-sitter/tree-sitter-julia](https://github.com/tree-sitter/tree-sitter-julia)                               |
-| Kotlin          | [fwcd/tree-sitter-kotlin](https://github.com/fwcd/tree-sitter-kotlin)                                           |
+| Kotlin          | [ast-grep/tree-sitter-kotlin](https://github.com/ast-grep/tree-sitter-kotlin)                                   |
 | Lua             | [tree-sitter-grammars/tree-sitter-lua](https://github.com/tree-sitter-grammars/tree-sitter-lua)                 |
 | Make            | [tree-sitter-grammars/tree-sitter-make](https://github.com/tree-sitter-grammars/tree-sitter-make)               |
 | Nix             | [nix-community/tree-sitter-nix](https://github.com/nix-community/tree-sitter-nix)                               |

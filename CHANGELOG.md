@@ -7,7 +7,8 @@ fall back to text diffing less often.
 
 ### Parsing
 
-Improved Haskell, which was prone to crashing previously.
+Updated Haskell (the previous version was prone to crashing) and
+Kotlin parsers.
 
 Improved Elixir, Erlang, Gleam, Java, JavaScript, Kotlin, Haskell,
 Nix, OCaml, Python and TypeScript delimiter handling.

@@ -87,7 +87,6 @@ type TreeSitterNodeName = &'static str;
 
 extern "C" {
     fn tree_sitter_janet_simple() -> ts::Language;
-    fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
 }
 
@@ -725,7 +724,9 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Kotlin => {
-            let language = unsafe { tree_sitter_kotlin() };
+            let language_fn = tree_sitter_kotlin_sg::LANGUAGE;
+            let language = tree_sitter::Language::new(language_fn);
+
             TreeSitterConfig {
                 language: language.clone(),
                 // Flattening nullable type means we can't diff the
@@ -744,11 +745,8 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                     ("primary_constructor", ","),
                     ("enum_class_body", ","),
                 ],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/kotlin.scm"),
-                )
-                .unwrap(),
+                highlight_query: ts::Query::new(&language, tree_sitter_kotlin_sg::HIGHLIGHTS_QUERY)
+                    .unwrap(),
                 sub_languages: vec![],
             }
         }
