@@ -2,6 +2,13 @@ on: [push, pull_request]
 
 name: Test
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+
 jobs:
   build:
     name: Test ${{ matrix.job.target }}
@@ -15,11 +22,12 @@ jobs:
           - { target: x86_64-pc-windows-msvc, os: windows-latest }
           - { target: aarch64-pc-windows-msvc, os: windows-11-arm }
 
-          - { target: aarch64-unknown-linux-gnu, os: ubuntu-22.04, use-cross: true }
+          - { target: aarch64-unknown-linux-gnu, os: ubuntu-22.04-arm }
 
           # mac-14 is an M1 ARM device.
           - { target: aarch64-apple-darwin, os: macos-14 }
-          - { target: x86_64-apple-darwin, os: macos-14, use-cross: true }
+          # Runs under Rosetta.
+          - { target: x86_64-apple-darwin, os: macos-14 }
 
           - { target: x86_64-unknown-linux-musl, os: ubuntu-22.04, use-cross: true }
     env:
@@ -34,6 +42,11 @@ jobs:
       uses: dtolnay/rust-toolchain@1.85.0
       with:
         targets: ${{ matrix.job.target }}
+
+    - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      with:
+        key: ${{ matrix.job.target }}
+        save-if: ${{ github.ref == 'refs/heads/master' }}
 
     - name: Install cross
       if: matrix.job.use-cross
@@ -57,6 +70,9 @@ jobs:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@1.85.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/master' }}
       # This runs tests that rely on the MIME database being present.
       - run: cargo test -- --ignored
 
@@ -67,6 +83,9 @@ jobs:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/master' }}
       - run: cargo +stable test
 
   regression_test:
@@ -76,6 +95,9 @@ jobs:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@1.85.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/master' }}
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
@@ -88,6 +110,9 @@ jobs:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@1.85.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/master' }}
       - run: cargo package --allow-dirty
 
   fmt:
@@ -96,6 +121,10 @@ jobs:
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: |
+            src
+            tests
       - uses: dtolnay/rust-toolchain@1.85.0
       - run: cargo fmt --all -- --check
 
@@ -105,6 +134,8 @@ jobs:
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: .github
       - uses: raven-actions/actionlint@205b530c5d9fa8f44ae9ed59f341a0db994aa6f8 # v2
         with:
           shellcheck: false
@@ -119,6 +150,13 @@ jobs:
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          # Skip directories excluded in .typos.toml.
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/vendored_parsers/
+            !/sample_files/
       - name: Download typos
         run: curl -LsSf https://github.com/crate-ci/typos/releases/download/$TYPOS_VERSION/typos-$TYPOS_VERSION-x86_64-unknown-linux-musl.tar.gz | tar zxf - -C ${CARGO_HOME:-~/.cargo}/bin
       - name: Check for typos

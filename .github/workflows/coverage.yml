@@ -2,6 +2,13 @@ name: Coverage
 
 on: [pull_request, push]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+
 jobs:
   coverage:
     runs-on: ubuntu-22.04
@@ -11,6 +18,9 @@ jobs:
 
       - name: Install Rust
         run: rustup toolchain install stable --component llvm-tools-preview
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/master' }}
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@ff869c26e4a7acc3087d9d6c1163a80d3957bca7 # cargo-llvm-cov
 
