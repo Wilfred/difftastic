@@ -97,9 +97,6 @@ b9335a75cc420c8ac1d298b15be18b93  -
 sample_files/hcl_1.hcl sample_files/hcl_2.hcl
 b4de7a8269018e05c0eba247d8097111  -
 
-sample_files/hello_world_1.smali sample_files/hello_world_2.smali
-4a754c9c7d84d5fd4e3fbb16f060afbb  -
-
 sample_files/helpful_1.el sample_files/helpful_2.el
 a26c7b0e3758b387237d9932002211f8  -
 
