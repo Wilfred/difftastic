@@ -52,7 +52,6 @@ with `difft --list-languages`.
 | Rust            | [grammar-orchard/tree-sitter-rust-orchard](https://codeberg.org/grammar-orchard/tree-sitter-rust-orchard)       |
 | Scala           | [tree-sitter/tree-sitter-scala](https://github.com/tree-sitter/tree-sitter-scala)                               |
 | Scheme          | [6cdh/tree-sitter-scheme](https://github.com/6cdh/tree-sitter-scheme)                                           |
-| Smali           | [amaanq/tree-sitter-smali](https://github.com/amaanq/tree-sitter-smali)                                         |
 | Solidity        | [JoranHonig/tree-sitter-solidity](https://github.com/JoranHonig/tree-sitter-solidity)                           |
 | SQL             | [derekstride/tree-sitter-sql](https://github.com/derekstride/tree-sitter-sql)                                   |
 | Swift           | [alex-pinkus/tree-sitter-swift](https://github.com/alex-pinkus/tree-sitter-swift)                               |
