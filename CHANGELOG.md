@@ -9,7 +9,8 @@ fall back to text diffing less often.
 
 Improved Haskell, which was prone to crashing previously.
 
-Improved Elixir, Erlang, Gleam, Java, Haskell, Nix and OCaml delimiter handling.
+Improved Elixir, Erlang, Gleam, Java, JavaScript, Haskell, Nix, OCaml
+and TypeScript delimiter handling.
 
 Improved trailing punctuation handling in C, C++, C# and YAML.
 
