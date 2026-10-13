@@ -238,7 +238,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")]
                     .into_iter()
                     .collect(),
-                ignore_trailing_tokens: vec![("enumerator_list", ","), ("initializer_list", ",")],
+                ignore_trailing_tokens: vec![],
                 highlight_query: ts::Query::new(
                     &language,
                     tree_sitter_clojure_orchard::HIGHLIGHTS_QUERY,
