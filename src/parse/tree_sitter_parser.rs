@@ -739,7 +739,12 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")]
                     .into_iter()
                     .collect(),
-                ignore_trailing_tokens: vec![],
+                ignore_trailing_tokens: vec![
+                    ("value_arguments", ","),
+                    ("function_value_parameters", ","),
+                    ("primary_constructor", ","),
+                    ("enum_class_body", ","),
+                ],
                 highlight_query: ts::Query::new(
                     &language,
                     include_str!("../../vendored_parsers/highlights/kotlin.scm"),
