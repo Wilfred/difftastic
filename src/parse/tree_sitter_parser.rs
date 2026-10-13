@@ -89,7 +89,6 @@ extern "C" {
     fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
-    fn tree_sitter_smali() -> ts::Language;
 }
 
 // TODO: begin/end and object/end.
@@ -1112,21 +1111,6 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(&language, tree_sitter_scheme::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],
-            }
-        }
-        Smali => {
-            let language = unsafe { tree_sitter_smali() };
-            TreeSitterConfig {
-                language: language.clone(),
-                atom_nodes: ["string"].into_iter().collect(),
-                delimiter_tokens: Vec::new(),
-                ignore_trailing_tokens: vec![],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/smali.scm"),
-                )
-                .unwrap(),
-                sub_languages: Vec::new(),
             }
         }
         Solidity => {

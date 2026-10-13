@@ -14,6 +14,8 @@ Nix, OCaml, Python and TypeScript delimiter handling.
 
 Improved trailing punctuation handling in C, C++, C# and YAML.
 
+Removed Smali support (upstream parser is no longer maintained).
+
 ### Display
 
 Fixed an issue with inline display where unchanged lines between two
