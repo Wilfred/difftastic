@@ -467,21 +467,6 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
-        FSharp => {
-            let language_fn = tree_sitter_fsharp::LANGUAGE_FSHARP;
-            let language = tree_sitter::Language::new(language_fn);
-
-            TreeSitterConfig {
-                language: language.clone(),
-                atom_nodes: ["string", "triple_quoted_string"].into_iter().collect(),
-                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
-                ignore_trailing_tokens: vec![],
-                highlight_query: ts::Query::new(&language, tree_sitter_fsharp::HIGHLIGHTS_QUERY)
-                    .unwrap(),
-
-                sub_languages: vec![],
-            }
-        }
         Fortran => {
             let language_fn = tree_sitter_fortran::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
@@ -1248,22 +1233,6 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(&language, tree_sitter_yaml::HIGHLIGHTS_QUERY)
                     .unwrap(),
-                sub_languages: vec![],
-            }
-        }
-        Verilog => {
-            let language_fn = tree_sitter_verilog::LANGUAGE;
-            let language = tree_sitter::Language::new(language_fn);
-            TreeSitterConfig {
-                ignore_trailing_tokens: vec![],
-                language: language.clone(),
-                atom_nodes: ["integral_number"].into_iter().collect(),
-                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("begin", "end")],
-                highlight_query: ts::Query::new(
-                    &language,
-                    include_str!("../../vendored_parsers/highlights/verilog.scm"),
-                )
-                .unwrap(),
                 sub_languages: vec![],
             }
         }

@@ -17,6 +17,10 @@ Improved trailing punctuation handling in C, C++, C# and YAML.
 
 Removed Smali support (upstream parser is no longer maintained).
 
+Removed support for Verilog and F# due to the very large parser size
+making the binary big. Adding support for dynamically loading parsers
+in a future release should allow users to parse these languages again.
+
 ### Display
 
 Fixed an issue with inline display where unchanged lines between two

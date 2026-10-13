@@ -26,7 +26,6 @@ with `difft --list-languages`.
 | Erlang          | [WhatsApp/tree-sitter-erlang](https://github.com/WhatsApp/tree-sitter-erlang)                                   |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                                       |
 | Fish            | [ram02z/tree-sitter-fish](https://github.com/ram02z/tree-sitter-fish)                                           |
-| F#              | [ionide/tree-sitter-fsharp](https://github.com/ionide/tree-sitter-fsharp)                                       |
 | Fortran         | [stadelmanma/tree-sitter-fortran](https://github.com/stadelmanma/tree-sitter-fortran)                           |
 | Gleam           | [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)                                 |
 | Go              | [tree-sitter/tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)                                     |
@@ -56,7 +55,6 @@ with `difft --list-languages`.
 | SQL             | [derekstride/tree-sitter-sql](https://github.com/derekstride/tree-sitter-sql)                                   |
 | Swift           | [alex-pinkus/tree-sitter-swift](https://github.com/alex-pinkus/tree-sitter-swift)                               |
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)                     |
-| Verilog         | [tree-sitter/tree-sitter-verilog](https://github.com/tree-sitter/tree-sitter-verilog)                           |
 | VHDL            | [JLeemaster/tree-sitter-vhdl](https://github.com/JLeemaster/tree-sitter-vhdl)                                   |
 | Zig             | [tree-sitter-grammars/tree-sitter-zig](https://github.com/tree-sitter-grammars/tree-sitter-zig)                 |
 
@@ -65,7 +63,7 @@ with `difft --list-languages`.
 | Language | Parser Used                                                                                       |
 |----------|---------------------------------------------------------------------------------------------------|
 | CSS      | [tree-sitter/tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)                     |
-| HCL      | [tree-sitter-grammars/tree-sitter-hcl](https://github.com/tree-sitter-grammars/tree-sitter-hcl)   |
+n| HCL      | [tree-sitter-grammars/tree-sitter-hcl](https://github.com/tree-sitter-grammars/tree-sitter-hcl)   |
 | HTML     | [tree-sitter/tree-sitter-html](https://github.com/tree-sitter/tree-sitter-html)                   |
 | JSON     | [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)                   |
 | LaTeX    | [latex-lsp/tree-sitter-latex](https://github.com/latex-lsp/tree-sitter-latex)                     |
