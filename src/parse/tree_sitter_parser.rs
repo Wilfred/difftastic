@@ -969,6 +969,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                     // treating (1) and (1,) as equivalent.
                     ("argument_list", ","),
                     ("parameters", ","),
+                    ("import_from_statement", ","),
                 ],
                 highlight_query: ts::Query::new(&language, tree_sitter_python::HIGHLIGHTS_QUERY)
                     .unwrap(),
