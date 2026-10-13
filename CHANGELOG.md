@@ -11,7 +11,7 @@ Improved Haskell, which was prone to crashing previously.
 
 Improved Elixir, Erlang, Gleam, Java, Haskell, Nix and OCaml delimiter handling.
 
-Improved trailing punctuation handling in C, C++ and YAML.
+Improved trailing punctuation handling in C, C++, C# and YAML.
 
 ### Display
 

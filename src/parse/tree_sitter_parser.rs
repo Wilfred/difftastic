@@ -290,7 +290,12 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 .into_iter()
                 .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")")],
-                ignore_trailing_tokens: vec![],
+                ignore_trailing_tokens: vec![
+                    ("enum_member_declaration_list", ","),
+                    ("initializer_expression", ","),
+                    ("anonymous_object_creation_expression", ","),
+                    ("switch_expression", ","),
+                ],
                 highlight_query: ts::Query::new(
                     &language,
                     include_str!("../../vendored_parsers/highlights/c-sharp.scm"),
