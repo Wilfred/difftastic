@@ -214,6 +214,30 @@ text files, or byte changes in binary files.
 Invalid arguments given to difftastic, such as usage errors (e.g.\ an
 invalid number of arguments) or invalid paths (e.g.\ files we don\(cqt
 have permission to read).
+.SH ENVIRONMENT
+Most options can also be set with an environment variable named after
+the option.
+For example, \f[B]\-\-syntax\-highlight\f[R] can be set with
+\f[B]DFT_SYNTAX_HIGHLIGHT\f[R], and \f[B]\-\-byte\-limit\f[R] can be set
+with \f[B]DFT_BYTE_LIMIT\f[R].
+Command line arguments take precedence over environment variables.
+.PP
+For flag options such as \f[B]\-\-exit\-code\f[R] or
+\f[B]\-\-check\-only\f[R], set the corresponding environment variable
+(e.g.\ \f[B]DFT_EXIT_CODE\f[R], \f[B]DFT_CHECK_ONLY\f[R]) to
+\f[I]true\f[R] or \f[I]false\f[R].
+.PP
+Additional environment variables:
+.TP
+\f[B]DFT_UNSTABLE\f[R]
+Set to \f[I]yes\f[R] to enable unstable features, such as
+\f[B]\-\-display json\f[R].
+.TP
+\f[B]DFT_OVERRIDE_1\f[R] up to \f[B]DFT_OVERRIDE_9\f[R]
+Additional language overrides, see \f[B]\-\-override\f[R].
+.TP
+\f[B]DFT_OVERRIDE_BINARY_1\f[R] up to \f[B]DFT_OVERRIDE_BINARY_9\f[R]
+Additional binary file overrides, see \f[B]\-\-override\-binary\f[R].
 .SH MANUAL
 A full HTML manual is available at \c
 .UR https://difftastic.wilfred.me.uk/introduction

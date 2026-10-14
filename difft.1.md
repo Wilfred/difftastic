@@ -219,6 +219,31 @@ EXIT STATUS
 : Invalid arguments given to difftastic, such as usage errors (e.g. an invalid number of
   arguments) or invalid paths (e.g. files we don't have permission to read).
 
+ENVIRONMENT
+===========
+
+Most options can also be set with an environment variable named after the option. For
+example, **\-\-syntax-highlight** can be set with **DFT_SYNTAX_HIGHLIGHT**, and
+**\-\-byte-limit** can be set with **DFT_BYTE_LIMIT**. Command line arguments take
+precedence over environment variables.
+
+For flag options such as **\-\-exit-code** or **\-\-check-only**, set the corresponding
+environment variable (e.g. **DFT_EXIT_CODE**, **DFT_CHECK_ONLY**) to _true_ or _false_.
+
+Additional environment variables:
+
+**DFT_UNSTABLE**
+
+: Set to _yes_ to enable unstable features, such as **\-\-display json**.
+
+**DFT_OVERRIDE_1** up to **DFT_OVERRIDE_9**
+
+: Additional language overrides, see **\-\-override**.
+
+**DFT_OVERRIDE_BINARY_1** up to **DFT_OVERRIDE_BINARY_9**
+
+: Additional binary file overrides, see **\-\-override-binary**.
+
 MANUAL
 ======
 
