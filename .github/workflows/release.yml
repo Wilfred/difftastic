@@ -26,6 +26,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   upload-assets:
+    needs: create-release
     strategy:
       fail-fast: false
       matrix:
