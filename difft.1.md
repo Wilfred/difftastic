@@ -182,6 +182,11 @@ DEBUG OPTIONS
 
 : Parse a single file with tree-sitter and display the difftastic syntax tree.
 
+**\-\-dump-syntax-dot** _PATH_
+
+: Parse a single file with tree-sitter and display the difftastic syntax tree, as a DOT
+  graph.
+
 **\-\-dump-ts** _PATH_
 
 : Parse a single file with tree-sitter and display the tree-sitter parse
