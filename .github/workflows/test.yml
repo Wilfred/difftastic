@@ -103,6 +103,25 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.85.0
       - run: cargo fmt --all -- --check
 
+  man_page:
+    name: Man page is up to date
+    runs-on: ubuntu-22.04
+    env:
+      # When bumping this version, regenerate difft.1 locally with:
+      # pandoc -s -t man difft.1.md -o difft.1
+      PANDOC_VERSION: "3.11"
+    steps:
+      # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install pandoc
+        run: |
+          mkdir -p ~/.local
+          curl -LsSf https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-linux-amd64.tar.gz | tar zxf - --strip-components=1 -C ~/.local
+      - name: Regenerate man page
+        run: ~/.local/bin/pandoc -s -t man difft.1.md -o difft.1
+      - name: Verify man page is unchanged
+        run: git diff --exit-code difft.1
+
   actionlint:
     name: Actionlint
     runs-on: ubuntu-22.04
