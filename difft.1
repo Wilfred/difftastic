@@ -56,6 +56,9 @@ display.
 .PP
 \f[I]json\f[R]: Output the results as a machine\-readable JSON array
 with an element per file.
+This is an unstable feature.
+To enable JSON output, set the environment variable
+\f[B]DFT_UNSTABLE=yes\f[R].
 .RE
 .TP
 \f[B]\-\-exit\-code\f[R]
@@ -65,8 +68,8 @@ language or binary files), sets the exit code if there are any byte
 changes.
 .TP
 \f[B]\-\-graph\-limit\f[R] \f[I]LIMIT\f[R]
-Use a line\-oriented diff if the structural graph exceed this number of
-nodes in memory.
+Use a line\-oriented diff if the internal graph exceeds this number of
+vertices.
 .TP
 \f[B]\-h, \-\-help\f[R]
 Print help information.
@@ -75,7 +78,7 @@ Print help information.
 Don\(cqt consider comments when diffing.
 .TP
 \f[B]\-\-list\-languages\f[R]
-Print the all the languages supported by difftastic, along with their
+Print all the languages supported by difftastic, along with their
 extensions.
 .TP
 \f[B]\-\-override\f[R] \f[I]GLOB:NAME\f[R]
@@ -123,15 +126,16 @@ Don\(cqt display anything if a file is unchanged.
 When diffing a directory, output the results sorted by path.
 This is slower.
 .TP
-\f[B]\-\-strip\-cr\f[R]
+\f[B]\-\-strip\-cr\f[R] \f[I]on/off\f[R]
 Remove any carriage return characters before diffing.
 This can be helpful when dealing with files on Windows that contain
 CRLF, i.e.\ \f[CR]\(rsr\(rsn\f[R].
+This is enabled by default.
 .TP
 \f[B]\-\-syntax\-highlight\f[R] \f[I]on/off\f[R]
 Enable or disable syntax highlighting.
 .TP
-\f[B]\-\-tab\-width\f[R] \f[I]NUMSPACES\f[R]
+\f[B]\-\-tab\-width\f[R] \f[I]NUM_SPACES\f[R]
 Treat a tab as this many spaces.
 .TP
 \f[B]\-V, \-\-version\f[R]

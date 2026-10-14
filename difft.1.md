@@ -62,6 +62,8 @@ OPTIONS
     _inline_: A single column display, closer to traditional diff display.
 
     _json_: Output the results as a machine-readable JSON array with an element per file.
+    This is an unstable feature. To enable JSON output, set the environment variable
+    **DFT_UNSTABLE=yes**.
 
 **\-\-exit-code**
 
@@ -71,7 +73,7 @@ OPTIONS
 
 **\-\-graph-limit** _LIMIT_
 
-: Use a line-oriented diff if the structural graph exceed this number of nodes in memory.
+: Use a line-oriented diff if the internal graph exceeds this number of vertices.
 
 **-h, \-\-help**
 
@@ -83,7 +85,7 @@ OPTIONS
 
 **\-\-list-languages**
 
-: Print the all the languages supported by difftastic, along with their extensions.
+: Print all the languages supported by difftastic, along with their extensions.
 
 **\-\-override** _GLOB:NAME_
 
@@ -127,16 +129,16 @@ OPTIONS
 
 : When diffing a directory, output the results sorted by path. This is slower.
 
-**\-\-strip-cr**
+**\-\-strip-cr** _on/off_
 
 : Remove any carriage return characters before diffing. This can be helpful when dealing
-  with files on Windows that contain CRLF, i.e. `\r\n`.
+  with files on Windows that contain CRLF, i.e. `\r\n`. This is enabled by default.
 
 **\-\-syntax-highlight** _on/off_
 
 : Enable or disable syntax highlighting.
 
-**\-\-tab-width** _NUMSPACES_
+**\-\-tab-width** _NUM_SPACES_
 
 : Treat a tab as this many spaces.
 
