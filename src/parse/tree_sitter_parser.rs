@@ -505,7 +505,11 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")]
                     .into_iter()
                     .collect(),
-                ignore_trailing_tokens: vec![("parameter_list", ","), ("argument_list", ",")],
+                ignore_trailing_tokens: vec![
+                    ("parameter_list", ","),
+                    ("argument_list", ","),
+                    ("literal_value", ","),
+                ],
                 highlight_query: ts::Query::new(&language, tree_sitter_go::HIGHLIGHTS_QUERY)
                     .unwrap(),
                 sub_languages: vec![],

@@ -13,7 +13,7 @@ Kotlin parsers.
 Improved Elixir, Erlang, Gleam, Java, JavaScript, Kotlin, Haskell,
 Nix, OCaml, Python and TypeScript delimiter handling.
 
-Improved trailing punctuation handling in C, C++, C# and YAML.
+Improved trailing punctuation handling in C, C++, C#, Go and YAML.
 
 Removed Smali support (upstream parser is no longer maintained).
 
