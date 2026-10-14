@@ -97,6 +97,10 @@ jobs:
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: |
+            src
+            tests
       - uses: dtolnay/rust-toolchain@1.85.0
       - run: cargo fmt --all -- --check
 
@@ -106,6 +110,8 @@ jobs:
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          sparse-checkout: .github
       - uses: raven-actions/actionlint@205b530c5d9fa8f44ae9ed59f341a0db994aa6f8 # v2
         with:
           shellcheck: false
@@ -120,6 +126,13 @@ jobs:
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          # Skip directories excluded in .typos.toml.
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/vendored_parsers/
+            !/sample_files/
       - name: Download typos
         run: curl -LsSf https://github.com/crate-ci/typos/releases/download/$TYPOS_VERSION/typos-$TYPOS_VERSION-x86_64-unknown-linux-musl.tar.gz | tar zxf - -C ${CARGO_HOME:-~/.cargo}/bin
       - name: Check for typos
