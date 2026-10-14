@@ -5,9 +5,14 @@ on:
     tags:
       - "[0-9]+.*"
 
+permissions:
+  contents: read
+
 jobs:
   create-release:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -44,6 +49,8 @@ jobs:
           - target: x86_64-apple-darwin
             os: macos-latest
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683

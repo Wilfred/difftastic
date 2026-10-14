@@ -2,6 +2,9 @@ name: Coverage
 
 on: [pull_request, push]
 
+permissions:
+  contents: read
+
 jobs:
   coverage:
     runs-on: ubuntu-22.04

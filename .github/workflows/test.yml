@@ -2,6 +2,9 @@ on: [push, pull_request]
 
 name: Test
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Test ${{ matrix.job.target }}
