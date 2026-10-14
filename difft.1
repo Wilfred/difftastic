@@ -115,6 +115,34 @@ $ export DFT_OVERRIDE_2=\(aq*.js:javascript jsx\(aq
 When multiple overrides are specified, the first matching override wins.
 .RE
 .TP
+\f[B]\-\-override\-binary\f[R] \f[I]GLOB\f[R]
+Always treat file names matching this glob as binary files, ignoring the
+default heuristics for binary detection.
+For example:
+.RS
+.IP
+.EX
+$ difft \-\-override\-binary=\(aq*.gz\(aq old.gz new.gz
+.EE
+.PP
+This argument may be given more than once.
+For example:
+.IP
+.EX
+$ difft \-\-override\-binary=\(aq*.gz\(aq \-\-override\-binary=\(aqfoo.pickle\(aq old.gz new.gz
+.EE
+.PP
+To configure multiple overrides using environment variables, difftastic
+also accepts \f[B]DFT_OVERRIDE_BINARY_1\f[R] up to
+\f[B]DFT_OVERRIDE_BINARY_9\f[R].
+.IP
+.EX
+$ export DFT_OVERRIDE_BINARY=\(aq*.gz\(aq
+$ export DFT_OVERRIDE_BINARY_1=\(aq*.bz2\(aq
+$ export DFT_OVERRIDE_BINARY_2=\(aqfoo.pickle\(aq
+.EE
+.RE
+.TP
 \f[B]\-\-parse\-error\-limit\f[R] \f[I]LIMIT\f[R]
 Use a line\-oriented diff if the number of parse errors exceeds this
 value.

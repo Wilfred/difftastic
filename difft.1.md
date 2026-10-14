@@ -117,6 +117,30 @@ OPTIONS
 
     When multiple overrides are specified, the first matching override wins.
 
+**\-\-override-binary** _GLOB_
+
+: Always treat file names matching this glob as binary files, ignoring the default
+  heuristics for binary detection. For example:
+
+    ```
+    $ difft --override-binary='*.gz' old.gz new.gz
+    ```
+
+    This argument may be given more than once. For example:
+
+    ```
+    $ difft --override-binary='*.gz' --override-binary='foo.pickle' old.gz new.gz
+    ```
+
+    To configure multiple overrides using environment variables, difftastic also accepts
+    **DFT_OVERRIDE_BINARY_1** up to **DFT_OVERRIDE_BINARY_9**.
+
+    ```
+    $ export DFT_OVERRIDE_BINARY='*.gz'
+    $ export DFT_OVERRIDE_BINARY_1='*.bz2'
+    $ export DFT_OVERRIDE_BINARY_2='foo.pickle'
+    ```
+
 **\-\-parse-error-limit** _LIMIT_
 
 : Use a line-oriented diff if the number of parse errors exceeds this value.
