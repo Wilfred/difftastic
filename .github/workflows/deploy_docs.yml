@@ -5,21 +5,12 @@ on:
     branches:
       - master
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
-  pre_deploy:
-    runs-on: ubuntu-22.04
-
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@f75f66ce1886f00957d99748a42c724f4330bdcf # v5
-        with:
-          concurrent_skipping: always
-
   deploy:
-    needs: pre_deploy
-    if: needs.pre_deploy.outputs.should_skip != 'true'
     runs-on: ubuntu-22.04
     steps:
       # v4.2.2
