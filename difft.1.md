@@ -202,6 +202,23 @@ DEBUG OPTIONS
 : Parse a single file with tree-sitter and display the tree-sitter parse
   tree.
 
+EXIT STATUS
+===========
+
+**0**
+
+: Successfully ran a diff. If **\-\-exit-code** was specified, no changes were found.
+
+**1**
+
+: Only used with **\-\-exit-code**: syntactic changes were found in text files, or byte
+  changes in binary files.
+
+**2**
+
+: Invalid arguments given to difftastic, such as usage errors (e.g. an invalid number of
+  arguments) or invalid paths (e.g. files we don't have permission to read).
+
 MANUAL
 ======
 

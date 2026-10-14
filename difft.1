@@ -200,6 +200,20 @@ tree, as a DOT graph.
 \f[B]\-\-dump\-ts\f[R] \f[I]PATH\f[R]
 Parse a single file with tree\-sitter and display the tree\-sitter parse
 tree.
+.SH EXIT STATUS
+.TP
+\f[B]0\f[R]
+Successfully ran a diff.
+If \f[B]\-\-exit\-code\f[R] was specified, no changes were found.
+.TP
+\f[B]1\f[R]
+Only used with \f[B]\-\-exit\-code\f[R]: syntactic changes were found in
+text files, or byte changes in binary files.
+.TP
+\f[B]2\f[R]
+Invalid arguments given to difftastic, such as usage errors (e.g.\ an
+invalid number of arguments) or invalid paths (e.g.\ files we don\(cqt
+have permission to read).
 .SH MANUAL
 A full HTML manual is available at \c
 .UR https://difftastic.wilfred.me.uk/introduction
