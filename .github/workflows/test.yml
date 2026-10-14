@@ -36,6 +36,11 @@ jobs:
       with:
         targets: ${{ matrix.job.target }}
 
+    - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      with:
+        key: ${{ matrix.job.target }}
+        save-if: ${{ github.ref == 'refs/heads/master' }}
+
     - name: Install cross
       if: matrix.job.use-cross
       uses: taiki-e/install-action@1329c298aa20c3257846c9b2e0e55967df3e3c37 # v2
@@ -58,6 +63,9 @@ jobs:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@1.85.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/master' }}
       # This runs tests that rely on the MIME database being present.
       - run: cargo test -- --ignored
 
@@ -68,6 +76,9 @@ jobs:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/master' }}
       - run: cargo +stable test
 
   regression_test:
@@ -77,6 +88,9 @@ jobs:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@1.85.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/master' }}
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
@@ -89,6 +103,9 @@ jobs:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: dtolnay/rust-toolchain@1.85.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/master' }}
       - run: cargo package --allow-dirty
 
   fmt:
