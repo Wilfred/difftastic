@@ -115,7 +115,7 @@ jobs:
     timeout-minutes: 10
     env:
       FORCE_COLOR: 1
-      TYPOS_VERSION: v1.38.1
+      TYPOS_VERSION: v1.51.1
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
