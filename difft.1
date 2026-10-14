@@ -12,6 +12,15 @@
 .PP
 \f[B]difft\f[R] [\f[I]OPTIONS\f[R]] \f[I]FILE\-WITH\-CONFLICTS\f[R]
 .PP
+\f[B]difft\f[R] \f[I]DISPLAY\-PATH\f[R] \f[I]OLD\-FILE\f[R]
+\f[I]OLD\-HEX\f[R] \f[I]OLD\-MODE\f[R] \f[I]NEW\-FILE\f[R]
+\f[I]NEW\-HEX\f[R] \f[I]NEW\-MODE\f[R]
+.PP
+\f[B]difft\f[R] \f[I]OLD\-NAME\f[R] \f[I]OLD\-FILE\f[R]
+\f[I]OLD\-HEX\f[R] \f[I]OLD\-MODE\f[R] \f[I]NEW\-FILE\f[R]
+\f[I]NEW\-HEX\f[R] \f[I]NEW\-MODE\f[R] \f[I]NEW\-NAME\f[R]
+\f[I]METADATA\f[R]
+.PP
 \f[B]difft\f[R] \f[B]\-\-list\-languages\f[R]
 .PP
 \f[B]difft\f[R] \f[B]\-\-help\f[R]
@@ -19,6 +28,12 @@
 difftastic (difft) is a CLI diff tool that compares files based on their
 syntax, not line\-by\-line.
 Difftastic produces accurate diffs that are easier for humans to read.
+.PP
+When given a file with conflict markers as a single argument, difftastic
+diffs the two conflicting file states.
+.PP
+Difftastic can also be invoked with 7 or 9 arguments in the format that
+\f[B]GIT_EXTERNAL_DIFF\f[R] expects.
 .SS OPTIONS
 .TP
 \f[B]\-\-background\f[R] \f[I]BACKGROUND\f[R]
@@ -56,6 +71,9 @@ display.
 .PP
 \f[I]json\f[R]: Output the results as a machine\-readable JSON array
 with an element per file.
+This is an unstable feature.
+To enable JSON output, set the environment variable
+\f[B]DFT_UNSTABLE=yes\f[R].
 .RE
 .TP
 \f[B]\-\-exit\-code\f[R]
@@ -65,8 +83,8 @@ language or binary files), sets the exit code if there are any byte
 changes.
 .TP
 \f[B]\-\-graph\-limit\f[R] \f[I]LIMIT\f[R]
-Use a line\-oriented diff if the structural graph exceed this number of
-nodes in memory.
+Use a line\-oriented diff if the internal graph exceeds this number of
+vertices.
 .TP
 \f[B]\-h, \-\-help\f[R]
 Print help information.
@@ -75,7 +93,7 @@ Print help information.
 Don\(cqt consider comments when diffing.
 .TP
 \f[B]\-\-list\-languages\f[R]
-Print the all the languages supported by difftastic, along with their
+Print all the languages supported by difftastic, along with their
 extensions.
 .TP
 \f[B]\-\-override\f[R] \f[I]GLOB:NAME\f[R]
@@ -112,6 +130,34 @@ $ export DFT_OVERRIDE_2=\(aq*.js:javascript jsx\(aq
 When multiple overrides are specified, the first matching override wins.
 .RE
 .TP
+\f[B]\-\-override\-binary\f[R] \f[I]GLOB\f[R]
+Always treat file names matching this glob as binary files, ignoring the
+default heuristics for binary detection.
+For example:
+.RS
+.IP
+.EX
+$ difft \-\-override\-binary=\(aq*.gz\(aq old.gz new.gz
+.EE
+.PP
+This argument may be given more than once.
+For example:
+.IP
+.EX
+$ difft \-\-override\-binary=\(aq*.gz\(aq \-\-override\-binary=\(aqfoo.pickle\(aq old.gz new.gz
+.EE
+.PP
+To configure multiple overrides using environment variables, difftastic
+also accepts \f[B]DFT_OVERRIDE_BINARY_1\f[R] up to
+\f[B]DFT_OVERRIDE_BINARY_9\f[R].
+.IP
+.EX
+$ export DFT_OVERRIDE_BINARY=\(aq*.gz\(aq
+$ export DFT_OVERRIDE_BINARY_1=\(aq*.bz2\(aq
+$ export DFT_OVERRIDE_BINARY_2=\(aqfoo.pickle\(aq
+.EE
+.RE
+.TP
 \f[B]\-\-parse\-error\-limit\f[R] \f[I]LIMIT\f[R]
 Use a line\-oriented diff if the number of parse errors exceeds this
 value.
@@ -123,15 +169,16 @@ Don\(cqt display anything if a file is unchanged.
 When diffing a directory, output the results sorted by path.
 This is slower.
 .TP
-\f[B]\-\-strip\-cr\f[R]
+\f[B]\-\-strip\-cr\f[R] \f[I]on/off\f[R]
 Remove any carriage return characters before diffing.
 This can be helpful when dealing with files on Windows that contain
 CRLF, i.e.\ \f[CR]\(rsr\(rsn\f[R].
+This is enabled by default.
 .TP
 \f[B]\-\-syntax\-highlight\f[R] \f[I]on/off\f[R]
 Enable or disable syntax highlighting.
 .TP
-\f[B]\-\-tab\-width\f[R] \f[I]NUMSPACES\f[R]
+\f[B]\-\-tab\-width\f[R] \f[I]NUM_SPACES\f[R]
 Treat a tab as this many spaces.
 .TP
 \f[B]\-V, \-\-version\f[R]
@@ -146,9 +193,51 @@ If not specified, difftastic will detect the terminal width.
 Parse a single file with tree\-sitter and display the difftastic syntax
 tree.
 .TP
+\f[B]\-\-dump\-syntax\-dot\f[R] \f[I]PATH\f[R]
+Parse a single file with tree\-sitter and display the difftastic syntax
+tree, as a DOT graph.
+.TP
 \f[B]\-\-dump\-ts\f[R] \f[I]PATH\f[R]
 Parse a single file with tree\-sitter and display the tree\-sitter parse
 tree.
+.SH EXIT STATUS
+.TP
+\f[B]0\f[R]
+Successfully ran a diff.
+If \f[B]\-\-exit\-code\f[R] was specified, no changes were found.
+.TP
+\f[B]1\f[R]
+Only used with \f[B]\-\-exit\-code\f[R]: syntactic changes were found in
+text files, or byte changes in binary files.
+.TP
+\f[B]2\f[R]
+Invalid arguments given to difftastic, such as usage errors (e.g.\ an
+invalid number of arguments) or invalid paths (e.g.\ files we don\(cqt
+have permission to read).
+.SH ENVIRONMENT
+Most options can also be set with an environment variable named after
+the option.
+For example, \f[B]\-\-syntax\-highlight\f[R] can be set with
+\f[B]DFT_SYNTAX_HIGHLIGHT\f[R], and \f[B]\-\-byte\-limit\f[R] can be set
+with \f[B]DFT_BYTE_LIMIT\f[R].
+Command line arguments take precedence over environment variables.
+.PP
+For flag options such as \f[B]\-\-exit\-code\f[R] or
+\f[B]\-\-check\-only\f[R], set the corresponding environment variable
+(e.g.\ \f[B]DFT_EXIT_CODE\f[R], \f[B]DFT_CHECK_ONLY\f[R]) to
+\f[I]true\f[R] or \f[I]false\f[R].
+.PP
+Additional environment variables:
+.TP
+\f[B]DFT_UNSTABLE\f[R]
+Set to \f[I]yes\f[R] to enable unstable features, such as
+\f[B]\-\-display json\f[R].
+.TP
+\f[B]DFT_OVERRIDE_1\f[R] up to \f[B]DFT_OVERRIDE_9\f[R]
+Additional language overrides, see \f[B]\-\-override\f[R].
+.TP
+\f[B]DFT_OVERRIDE_BINARY_1\f[R] up to \f[B]DFT_OVERRIDE_BINARY_9\f[R]
+Additional binary file overrides, see \f[B]\-\-override\-binary\f[R].
 .SH MANUAL
 A full HTML manual is available at \c
 .UR https://difftastic.wilfred.me.uk/introduction

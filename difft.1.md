@@ -14,6 +14,10 @@ SYNOPSIS
 
 **difft** \[_OPTIONS_] _FILE-WITH-CONFLICTS_
 
+**difft** _DISPLAY-PATH_ _OLD-FILE_ _OLD-HEX_ _OLD-MODE_ _NEW-FILE_ _NEW-HEX_ _NEW-MODE_
+
+**difft** _OLD-NAME_ _OLD-FILE_ _OLD-HEX_ _OLD-MODE_ _NEW-FILE_ _NEW-HEX_ _NEW-MODE_ _NEW-NAME_ _METADATA_
+
 **difft** **\-\-list-languages**
 
 **difft** **\-\-help**
@@ -24,6 +28,12 @@ DESCRIPTION
 difftastic (difft) is a CLI diff tool that compares files based on
 their syntax, not line-by-line. Difftastic produces accurate diffs
 that are easier for humans to read.
+
+When given a file with conflict markers as a single argument, difftastic
+diffs the two conflicting file states.
+
+Difftastic can also be invoked with 7 or 9 arguments in the format that
+**GIT_EXTERNAL_DIFF** expects.
 
 OPTIONS
 -------
@@ -62,6 +72,8 @@ OPTIONS
     _inline_: A single column display, closer to traditional diff display.
 
     _json_: Output the results as a machine-readable JSON array with an element per file.
+    This is an unstable feature. To enable JSON output, set the environment variable
+    **DFT_UNSTABLE=yes**.
 
 **\-\-exit-code**
 
@@ -71,7 +83,7 @@ OPTIONS
 
 **\-\-graph-limit** _LIMIT_
 
-: Use a line-oriented diff if the structural graph exceed this number of nodes in memory.
+: Use a line-oriented diff if the internal graph exceeds this number of vertices.
 
 **-h, \-\-help**
 
@@ -83,7 +95,7 @@ OPTIONS
 
 **\-\-list-languages**
 
-: Print the all the languages supported by difftastic, along with their extensions.
+: Print all the languages supported by difftastic, along with their extensions.
 
 **\-\-override** _GLOB:NAME_
 
@@ -115,6 +127,30 @@ OPTIONS
 
     When multiple overrides are specified, the first matching override wins.
 
+**\-\-override-binary** _GLOB_
+
+: Always treat file names matching this glob as binary files, ignoring the default
+  heuristics for binary detection. For example:
+
+    ```
+    $ difft --override-binary='*.gz' old.gz new.gz
+    ```
+
+    This argument may be given more than once. For example:
+
+    ```
+    $ difft --override-binary='*.gz' --override-binary='foo.pickle' old.gz new.gz
+    ```
+
+    To configure multiple overrides using environment variables, difftastic also accepts
+    **DFT_OVERRIDE_BINARY_1** up to **DFT_OVERRIDE_BINARY_9**.
+
+    ```
+    $ export DFT_OVERRIDE_BINARY='*.gz'
+    $ export DFT_OVERRIDE_BINARY_1='*.bz2'
+    $ export DFT_OVERRIDE_BINARY_2='foo.pickle'
+    ```
+
 **\-\-parse-error-limit** _LIMIT_
 
 : Use a line-oriented diff if the number of parse errors exceeds this value.
@@ -127,16 +163,16 @@ OPTIONS
 
 : When diffing a directory, output the results sorted by path. This is slower.
 
-**\-\-strip-cr**
+**\-\-strip-cr** _on/off_
 
 : Remove any carriage return characters before diffing. This can be helpful when dealing
-  with files on Windows that contain CRLF, i.e. `\r\n`.
+  with files on Windows that contain CRLF, i.e. `\r\n`. This is enabled by default.
 
 **\-\-syntax-highlight** _on/off_
 
 : Enable or disable syntax highlighting.
 
-**\-\-tab-width** _NUMSPACES_
+**\-\-tab-width** _NUM_SPACES_
 
 : Treat a tab as this many spaces.
 
@@ -156,10 +192,57 @@ DEBUG OPTIONS
 
 : Parse a single file with tree-sitter and display the difftastic syntax tree.
 
+**\-\-dump-syntax-dot** _PATH_
+
+: Parse a single file with tree-sitter and display the difftastic syntax tree, as a DOT
+  graph.
+
 **\-\-dump-ts** _PATH_
 
 : Parse a single file with tree-sitter and display the tree-sitter parse
   tree.
+
+EXIT STATUS
+===========
+
+**0**
+
+: Successfully ran a diff. If **\-\-exit-code** was specified, no changes were found.
+
+**1**
+
+: Only used with **\-\-exit-code**: syntactic changes were found in text files, or byte
+  changes in binary files.
+
+**2**
+
+: Invalid arguments given to difftastic, such as usage errors (e.g. an invalid number of
+  arguments) or invalid paths (e.g. files we don't have permission to read).
+
+ENVIRONMENT
+===========
+
+Most options can also be set with an environment variable named after the option. For
+example, **\-\-syntax-highlight** can be set with **DFT_SYNTAX_HIGHLIGHT**, and
+**\-\-byte-limit** can be set with **DFT_BYTE_LIMIT**. Command line arguments take
+precedence over environment variables.
+
+For flag options such as **\-\-exit-code** or **\-\-check-only**, set the corresponding
+environment variable (e.g. **DFT_EXIT_CODE**, **DFT_CHECK_ONLY**) to _true_ or _false_.
+
+Additional environment variables:
+
+**DFT_UNSTABLE**
+
+: Set to _yes_ to enable unstable features, such as **\-\-display json**.
+
+**DFT_OVERRIDE_1** up to **DFT_OVERRIDE_9**
+
+: Additional language overrides, see **\-\-override**.
+
+**DFT_OVERRIDE_BINARY_1** up to **DFT_OVERRIDE_BINARY_9**
+
+: Additional binary file overrides, see **\-\-override-binary**.
 
 MANUAL
 ======
