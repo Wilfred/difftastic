@@ -634,7 +634,11 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                 .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")],
                 // There aren't many places where Java allows trailing commas.
-                ignore_trailing_tokens: vec![("enum_body", ","), ("array_initializer", ",")],
+                ignore_trailing_tokens: vec![
+                    ("enum_body", ","),
+                    ("array_initializer", ","),
+                    ("element_value_array_initializer", ","),
+                ],
                 highlight_query: ts::Query::new(
                     &language,
                     tree_sitter_java_orchard::HIGHLIGHTS_QUERY,
