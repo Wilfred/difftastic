@@ -14,6 +14,10 @@ SYNOPSIS
 
 **difft** \[_OPTIONS_] _FILE-WITH-CONFLICTS_
 
+**difft** _DISPLAY-PATH_ _OLD-FILE_ _OLD-HEX_ _OLD-MODE_ _NEW-FILE_ _NEW-HEX_ _NEW-MODE_
+
+**difft** _OLD-NAME_ _OLD-FILE_ _OLD-HEX_ _OLD-MODE_ _NEW-FILE_ _NEW-HEX_ _NEW-MODE_ _NEW-NAME_ _METADATA_
+
 **difft** **\-\-list-languages**
 
 **difft** **\-\-help**
@@ -24,6 +28,12 @@ DESCRIPTION
 difftastic (difft) is a CLI diff tool that compares files based on
 their syntax, not line-by-line. Difftastic produces accurate diffs
 that are easier for humans to read.
+
+When given a file with conflict markers as a single argument, difftastic
+diffs the two conflicting file states.
+
+Difftastic can also be invoked with 7 or 9 arguments in the format that
+**GIT_EXTERNAL_DIFF** expects.
 
 OPTIONS
 -------

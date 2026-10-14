@@ -12,6 +12,15 @@
 .PP
 \f[B]difft\f[R] [\f[I]OPTIONS\f[R]] \f[I]FILE\-WITH\-CONFLICTS\f[R]
 .PP
+\f[B]difft\f[R] \f[I]DISPLAY\-PATH\f[R] \f[I]OLD\-FILE\f[R]
+\f[I]OLD\-HEX\f[R] \f[I]OLD\-MODE\f[R] \f[I]NEW\-FILE\f[R]
+\f[I]NEW\-HEX\f[R] \f[I]NEW\-MODE\f[R]
+.PP
+\f[B]difft\f[R] \f[I]OLD\-NAME\f[R] \f[I]OLD\-FILE\f[R]
+\f[I]OLD\-HEX\f[R] \f[I]OLD\-MODE\f[R] \f[I]NEW\-FILE\f[R]
+\f[I]NEW\-HEX\f[R] \f[I]NEW\-MODE\f[R] \f[I]NEW\-NAME\f[R]
+\f[I]METADATA\f[R]
+.PP
 \f[B]difft\f[R] \f[B]\-\-list\-languages\f[R]
 .PP
 \f[B]difft\f[R] \f[B]\-\-help\f[R]
@@ -19,6 +28,12 @@
 difftastic (difft) is a CLI diff tool that compares files based on their
 syntax, not line\-by\-line.
 Difftastic produces accurate diffs that are easier for humans to read.
+.PP
+When given a file with conflict markers as a single argument, difftastic
+diffs the two conflicting file states.
+.PP
+Difftastic can also be invoked with 7 or 9 arguments in the format that
+\f[B]GIT_EXTERNAL_DIFF\f[R] expects.
 .SS OPTIONS
 .TP
 \f[B]\-\-background\f[R] \f[I]BACKGROUND\f[R]
