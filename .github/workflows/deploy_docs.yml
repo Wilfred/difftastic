@@ -25,9 +25,6 @@ jobs:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Install jq
-        run: sudo apt-get install -y jq
-
       - uses: dtolnay/rust-toolchain@1.85.0
       - run: cargo doc
 
