@@ -26,7 +26,7 @@ their syntax, not line-by-line. Difftastic produces accurate diffs
 that are easier for humans to read.
 
 OPTIONS
--------
+=======
 
 **\-\-background** _BACKGROUND_
 
@@ -150,7 +150,7 @@ OPTIONS
   detect the terminal width.
 
 DEBUG OPTIONS
--------------
+=============
 
 **\-\-dump-syntax** _PATH_
 
