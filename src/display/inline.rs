@@ -85,20 +85,27 @@ pub(crate) fn print(
 
         let hunk_lines = extract_lines(hunk);
 
-        let before_lines = calculate_before_context(
+        let num_context_lines = display_options.num_context_lines as usize;
+
+        // The context calculation includes one extra line on each
+        // side (so adjacent hunks merge), so drop it here.
+        let mut before_lines = calculate_before_context(
             &hunk_lines,
             &opposite_to_lhs,
             &opposite_to_rhs,
-            display_options.num_context_lines as usize,
+            num_context_lines,
         );
-        let after_lines = calculate_after_context(
+        before_lines.drain(..before_lines.len().saturating_sub(num_context_lines));
+
+        let mut after_lines = calculate_after_context(
             &[&before_lines[..], &hunk_lines[..]].concat(),
             &opposite_to_lhs,
             &opposite_to_rhs,
             lhs_max_line,
             rhs_max_line,
-            display_options.num_context_lines as usize,
+            num_context_lines,
         );
+        after_lines.truncate(num_context_lines);
 
         for (lhs_line, _) in before_lines {
             if let Some(lhs_line) = lhs_line {

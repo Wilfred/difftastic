@@ -67,6 +67,25 @@ fn inline_unchanged_lines_between_changes() {
 }
 
 #[test]
+fn inline_respects_context() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=inline")
+        .arg("--context=1")
+        .arg("sample_files/cli_tests/context_1.txt")
+        .arg("sample_files/cli_tests/context_2.txt");
+
+    let shown_lines = predicate::str::is_match(r"(?m)^\s*3\s+Line 3$")
+        .unwrap()
+        .and(predicate::str::is_match(r"(?m)^\s*5\s+Line 5$").unwrap());
+    let hidden_lines = predicate::str::contains("Line 2")
+        .or(predicate::str::contains("Line 6"))
+        .not();
+
+    cmd.assert().stdout(shown_lines.and(hidden_lines));
+}
+
+#[test]
 fn binary_changed() {
     let mut cmd = get_base_command();
 
