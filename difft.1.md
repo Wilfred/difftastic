@@ -45,7 +45,7 @@ OPTIONS
 
 : When to use color output.
 
-**\-\-context** _LINES_
+**-c, \-\-context** _LINES_
 
 : The number of contextual lines to show around changed lines.
 
