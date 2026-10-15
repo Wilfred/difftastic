@@ -920,7 +920,16 @@ impl MatchedPos {
                     Atom { position, .. } => position.clone(),
                 };
 
-                let opposite_pos_len = opposite_pos.len();
+                // Ensure we have the same number of unchanged
+                // MatchedPos on the LHS and RHS. This allows us to
+                // consider unchanged MatchedPos values pairwise.
+                //
+                // The opposite side will also filter its empty ends
+                // when it creates its MatchedPos values, so do the
+                // same here. The two sides can span a different number
+                // of lines when atom content has been normalised,
+                // such as JSX text.
+                let opposite_pos_len = filter_empty_ends(&opposite_pos).len();
                 let kind = MatchKind::UnchangedToken {
                     highlight,
                     self_pos: pos.to_vec(),
@@ -928,22 +937,13 @@ impl MatchedPos {
                 };
 
                 // Create a MatchedPos for every line that `pos` covers.
-                let mut mps = vec![];
-                for line_pos in &pos {
-                    mps.push(Self {
+                pos.iter()
+                    .take(opposite_pos_len)
+                    .map(|line_pos| Self {
                         kind: kind.clone(),
                         pos: *line_pos,
-                    });
-
-                    // Ensure we have the same number of unchanged
-                    // MatchedPos on the LHS and RHS. This allows us
-                    // to consider unchanged MatchedPos values
-                    // pairwise.
-                    if mps.len() == opposite_pos_len {
-                        break;
-                    }
-                }
-                mps
+                    })
+                    .collect()
             }
             Novel => {
                 let kind = MatchKind::Novel { highlight };

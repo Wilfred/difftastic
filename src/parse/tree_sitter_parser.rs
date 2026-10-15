@@ -1912,17 +1912,27 @@ fn list_from_cursor<'a>(
             inner_open_content = &src[node.start_byte()..node.end_byte()];
             inner_open_position = nl_pos.from_region(node.start_byte(), node.end_byte());
         } else if node_i < j {
-            between_delim.extend(syntax_from_cursor(
-                arena,
-                src,
-                nl_pos,
-                cursor,
-                errors,
-                config,
-                highlights,
-                subtrees,
-                ignore_comments,
-            ));
+            if list_root_node.kind() == "jsx_element" && jsx_text_value(&node, src).is_some() {
+                between_delim.extend(jsx_text_from_cursor(
+                    arena,
+                    src,
+                    nl_pos,
+                    cursor,
+                    &mut node_i,
+                ));
+            } else {
+                between_delim.extend(syntax_from_cursor(
+                    arena,
+                    src,
+                    nl_pos,
+                    cursor,
+                    errors,
+                    config,
+                    highlights,
+                    subtrees,
+                    ignore_comments,
+                ));
+            }
         } else if node_i == j {
             inner_close_content = &src[node.start_byte()..node.end_byte()];
             inner_close_position = nl_pos.from_region(node.start_byte(), node.end_byte());
@@ -1991,6 +2001,126 @@ fn list_from_cursor<'a>(
             outer_close_position,
         )
     }
+}
+
+/// Return the string that JSX text renders as.
+///
+/// Whitespace at the start and end of each line is removed, lines
+/// that only contain whitespace are dropped, and the remaining lines
+/// are joined with a single space. This matches Babel's
+/// `cleanJSXElementLiteralChild`.
+///
+/// https://github.com/babel/babel/blob/main/packages/babel-types/src/utils/react/cleanJSXElementLiteralChild.ts
+fn clean_jsx_text(text: &str) -> String {
+    let lines: Vec<&str> = text
+        .split("\r\n")
+        .flat_map(|l| l.split(['\n', '\r']))
+        .collect();
+    let last_non_empty_line = lines
+        .iter()
+        .rposition(|line| line.chars().any(|c| c != ' ' && c != '\t'))
+        .unwrap_or(0);
+
+    let mut result = String::new();
+    for (i, line) in lines.iter().enumerate() {
+        let mut line = line.replace('\t', " ");
+        if i != 0 {
+            line = line.trim_start_matches(' ').to_owned();
+        }
+        if i != lines.len() - 1 {
+            line = line.trim_end_matches(' ').to_owned();
+        }
+
+        if !line.is_empty() {
+            result.push_str(&line);
+            if i != last_non_empty_line {
+                result.push(' ');
+            }
+        }
+    }
+
+    result
+}
+
+/// If `node` is a child of a JSX element that renders as text, return
+/// that text.
+///
+/// This is JSX text, or a JSX expression containing only a whitespace
+/// string literal, such as `{' '}`.
+fn jsx_text_value(node: &ts::Node, src: &str) -> Option<String> {
+    if node.kind() == "jsx_text" {
+        return Some(clean_jsx_text(&src[node.start_byte()..node.end_byte()]));
+    }
+
+    if node.kind() != "jsx_expression" || node.child_count() != 3 {
+        return None;
+    }
+
+    let string_node = node.child(1)?;
+    if string_node.kind() != "string" {
+        return None;
+    }
+
+    let literal = &src[string_node.start_byte()..string_node.end_byte()];
+    let value = literal.get(1..literal.len().checked_sub(1)?)?;
+    if !value.is_empty() && value.chars().all(|c| c == ' ' || c == '\t') {
+        Some(value.to_owned())
+    } else {
+        None
+    }
+}
+
+/// Convert the JSX text at `cursor`, and any immediately following
+/// siblings that also render as text, to a single difftastic atom.
+///
+/// This ensures that `foo{' '}` and `foo ` are treated as equal.
+/// Moves `cursor` to the last sibling consumed, incrementing `node_i`
+/// for each additional sibling.
+fn jsx_text_from_cursor<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    src: &str,
+    nl_pos: &LinePositions,
+    cursor: &mut ts::TreeCursor,
+    node_i: &mut isize,
+) -> Option<&'a Syntax<'a>> {
+    let mut start_byte = cursor.node().start_byte();
+    let mut end_byte;
+    let mut content = String::new();
+
+    loop {
+        let node = cursor.node();
+        if let Some(value) = jsx_text_value(&node, src) {
+            content.push_str(&value);
+        }
+        end_byte = node.end_byte();
+
+        match node.next_sibling() {
+            Some(next) if jsx_text_value(&next, src).is_some() => {
+                cursor.goto_next_sibling();
+                *node_i += 1;
+            }
+            _ => break,
+        }
+    }
+
+    if content.is_empty() {
+        return None;
+    }
+
+    // Don't include leading or trailing whitespace in the position,
+    // so we don't highlight indentation.
+    let text = &src[start_byte..end_byte];
+    if !text.trim().is_empty() {
+        start_byte += text.len() - text.trim_start().len();
+        end_byte -= text.len() - text.trim_end().len();
+    }
+
+    Some(Syntax::new_atom(
+        arena,
+        nl_pos.from_region(start_byte, end_byte),
+        content,
+        AtomKind::Normal,
+    ))
 }
 
 /// Convert the tree-sitter node at `cursor` to a difftastic atom.
@@ -2118,6 +2248,63 @@ mod tests {
                 panic!("Top level isn't a list");
             }
         };
+    }
+
+    #[test]
+    fn test_clean_jsx_text() {
+        assert_eq!(clean_jsx_text(" "), " ");
+        assert_eq!(clean_jsx_text(" foo "), " foo ");
+        assert_eq!(clean_jsx_text("\n  "), "");
+        assert_eq!(clean_jsx_text("\n  foo\n  bar\n"), "foo bar");
+        assert_eq!(clean_jsx_text("foo  \n\n  bar"), "foo bar");
+        assert_eq!(clean_jsx_text(" foo\n"), " foo");
+        assert_eq!(clean_jsx_text("\tfoo"), " foo");
+    }
+
+    /// Parse `src` as JSX and return the content of the atoms inside
+    /// the JSX element.
+    fn jsx_children(src: &str) -> Vec<String> {
+        let arena = Arena::new();
+        let config = from_language(guess::Language::JavascriptJsx);
+        let res = parse(&arena, src, config, false);
+
+        let mut contents = vec![];
+        let mut nodes = res;
+        while let Some(node) = nodes.pop() {
+            match node {
+                Syntax::List { children, .. } => nodes.extend(children.iter().rev()),
+                Syntax::Atom { content, .. } => contents.push(content.clone()),
+            }
+        }
+        contents
+    }
+
+    #[test]
+    fn test_jsx_whitespace_expression() {
+        assert_eq!(
+            jsx_children("<p>{a} {b}</p>"),
+            jsx_children("<p>\n  {a}{' '}\n  {b}\n</p>"),
+        );
+    }
+
+    #[test]
+    fn test_jsx_text_with_whitespace_expressions() {
+        assert_eq!(
+            jsx_children("<p><i /> foo{\" \"}</p>"),
+            jsx_children("<p>\n  <i />\n  {\" \"}\n  foo\n  {\" \"}\n</p>"),
+        );
+    }
+
+    #[test]
+    fn test_jsx_text_whitespace_differs() {
+        assert_ne!(
+            jsx_children("<p>{a} {b}</p>"),
+            jsx_children("<p>{a}{b}</p>"),
+        );
+        assert_ne!(
+            jsx_children("<p><i /> foo</p>"),
+            jsx_children("<p>\n  <i />\n  foo\n</p>"),
+        );
     }
 
     /// Ensure that we don't crash when loading any of the
