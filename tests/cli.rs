@@ -154,6 +154,19 @@ fn text_changes_at_end_doesnt_crash() {
     cmd.assert().success();
 }
 
+/// Regression test for https://github.com/Wilfred/difftastic/issues/995.
+#[test]
+fn out_of_order_hunk_doesnt_crash() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--color=never")
+        .arg("sample_files/cli_tests/out_of_order_hunk_1.py")
+        .arg("sample_files/cli_tests/out_of_order_hunk_2.py");
+
+    let predicate_fn = predicate::str::contains("preset_services={");
+    cmd.assert().success().stdout(predicate_fn);
+}
+
 #[test]
 fn makefile_text_as_atom() {
     let mut cmd = get_base_command();
