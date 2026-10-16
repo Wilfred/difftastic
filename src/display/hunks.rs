@@ -539,17 +539,14 @@ fn next_opposite(
     opposites: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
     prev_opposite: Option<LineNumber>,
 ) -> Option<LineNumber> {
-    opposites.get(&line).and_then(|lines_set| {
-        let mut lines: Vec<LineNumber> = lines_set.iter().copied().collect();
-        lines.sort_unstable();
+    let lines_set = opposites.get(&line)?;
 
-        lines.into_iter().find(|ln| {
-            if let Some(prev_opposite) = prev_opposite {
-                *ln > prev_opposite
-            } else {
-                true
-            }
-        })
+    let mut lines: Vec<LineNumber> = lines_set.iter().copied().collect();
+    lines.sort_unstable();
+
+    lines.into_iter().find(|ln| match prev_opposite {
+        Some(prev_opposite) => *ln > prev_opposite,
+        None => true,
     })
 }
 
