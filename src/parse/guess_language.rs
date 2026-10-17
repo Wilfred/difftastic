@@ -32,17 +32,16 @@ pub(crate) enum Language {
     Css,
     Dart,
     DeviceTree,
+    Dockerfile,
     Elixir,
     Elm,
-    Elvish,
     EmacsLisp,
     Erlang,
-    FSharp,
+    Fish,
     Fortran,
     Gleam,
     Glsl,
     Go,
-    Hare,
     Haskell,
     Hcl,
     Html,
@@ -73,14 +72,12 @@ pub(crate) enum Language {
     Rust,
     Scala,
     Scheme,
-    Smali,
     Solidity,
     Sql,
     Swift,
     Toml,
     TypeScript,
     TypeScriptTsx,
-    Verilog,
     Vhdl,
     Xml,
     Yaml,
@@ -134,17 +131,16 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Css => "CSS",
         Dart => "Dart",
         DeviceTree => "Device Tree",
+        Dockerfile => "Dockerfile",
         Elixir => "Elixir",
         Elm => "Elm",
-        Elvish => "Elvish",
         EmacsLisp => "Emacs Lisp",
         Erlang => "Erlang",
-        FSharp => "F#",
+        Fish => "Fish",
         Fortran => "Fortran",
         Gleam => "Gleam",
         Glsl => "Glsl",
         Go => "Go",
-        Hare => "Hare",
         Haskell => "Haskell",
         Hcl => "HCL",
         Html => "HTML",
@@ -175,14 +171,12 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Rust => "Rust",
         Scala => "Scala",
         Scheme => "Scheme",
-        Smali => "Smali",
         Solidity => "Solidity",
         Sql => "SQL",
         Swift => "Swift",
         Toml => "TOML",
         TypeScript => "TypeScript",
         TypeScriptTsx => "TypeScript TSX",
-        Verilog => "Verilog",
         Vhdl => "VHDL",
         Xml => "XML",
         Yaml => "YAML",
@@ -247,7 +241,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "zshenv",
             "zshrc",
         ],
-        Apex => &["*.cls", "*.apexc", "*.trigger"],
+        Apex => &["*.apexc", "*.trigger"],
         C => &["*.c"],
         Clojure => &[
             "*.bb", "*.boot", "*.clj", "*.cljc", "*.clje", "*.cljs", "*.cljx", "*.edn", "*.joke",
@@ -260,16 +254,23 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         // https://madnight.github.io/githut/
         // Also, treating CUDA as C++
         CPlusPlus => &[
-            "*.cc", "*.cpp", "*.h", "*.hh", "*.hpp", "*.ino", "*.cxx", "*.cu",
+            "*.cc", "*.cpp", "*.c++", "*.cxx", "*.cu", "*.h", "*.hh", "*.hpp", "*.hxx", "*.inl",
+            "*.ino", "*.ipp", "*.ixx", "*.tcc",
         ],
         CSharp => &["*.cs"],
         Css => &["*.css"],
         Dart => &["*.dart"],
         DeviceTree => &["*.dts", "*.dtsi", "*.dtso", "*.its"],
+        Dockerfile => &[
+            "Dockerfile",
+            "Containerfile",
+            "Dockerfile.*",
+            "*.dockerfile",
+            "*.containerfile",
+        ],
         Elm => &["*.elm"],
         EmacsLisp => &["*.el", ".emacs", "_emacs", "Cask"],
         Elixir => &["*.ex", "*.exs"],
-        Elvish => &["*.elv"],
         Erlang => &[
             "*.erl",
             "*.app.src",
@@ -283,7 +284,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "rebar.config.lock",
             "rebar.lock",
         ],
-        FSharp => &["*.fs", "*.fsx", "*.fsi"],
+        Fish => &["*.fish"],
         Fortran => &["*.f", "*.for", "*.f90", "*.F", "*.FOR", "*.F90"],
         Gleam => &["*.gleam"],
         Glsl => &[
@@ -312,7 +313,6 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "*.vshader",
         ],
         Go => &["*.go"],
-        Hare => &["*.ha"],
         Haskell => &["*.hs"],
         Hcl => &["*.hcl", "*.nomad", "*.tf", "*.tfvars", "*.workflow"],
         Html => &["*.html", "*.htm", "*.xhtml"],
@@ -401,7 +401,6 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         Rust => &["*.rs"],
         Scala => &["*.scala", "*.sbt", "*.sc"],
         Scheme => &["*.scm", "*.sch", "*.ss"],
-        Smali => &["*.smali"],
         Solidity => &["*.sol"],
         Sql => &["*.sql", "*.pgsql"],
         Swift => &["*.swift"],
@@ -414,9 +413,8 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "poetry.lock",
             "uv.lock",
         ],
-        TypeScript => &["*.ts"],
+        TypeScript => &["*.ts", "*.cts", "*.mts"],
         TypeScriptTsx => &["*.tsx"],
-        Verilog => &["*.v", "*.sv", "*.vh"],
         Vhdl => &["*.vhdl", "*.vhd"],
         Xml => &[
             "*.ant",
@@ -542,7 +540,7 @@ pub(crate) fn guess(
 /// <https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html>
 fn from_emacs_mode_header(src: &str) -> Option<Language> {
     lazy_static! {
-        static ref MODE_RE: Regex = Regex::new(r"-\*-.*mode:([^;]+?);.*-\*-").unwrap();
+        static ref MODE_RE: Regex = Regex::new(r"-\*- *mode: *([a-zA-Z0-9_+-]+).*-\*-").unwrap();
         static ref SHORTHAND_RE: Regex = Regex::new(r"-\*-(.+)-\*-").unwrap();
     }
 
@@ -563,9 +561,8 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "c++" => CPlusPlus,
             "elixir" => Elixir,
             "elm" => Elm,
-            "elvish" => Elvish,
             "emacs-lisp" => EmacsLisp,
-            "fsharp" => FSharp,
+            "fish" => Fish,
             "fortran" => Fortran,
             "gleam" => Gleam,
             "go" => Go,
@@ -592,7 +589,6 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "toml" => Toml,
             "tuareg" => OCaml,
             "typescript" => TypeScript,
-            "verilog" => Verilog,
             "vhdl" => Vhdl,
             "yaml" => Yaml,
             "zig" => Zig,
@@ -606,7 +602,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
 /// Try to guess the language based on a shebang present in the source.
 fn from_shebang(src: &str) -> Option<Language> {
     lazy_static! {
-        static ref RE: Regex = Regex::new(r"#! *(?:/usr/bin/env )?([^ ]+)").unwrap();
+        static ref RE: Regex = Regex::new(r"^#! *(?:/usr/bin/env )?([^ ]+)").unwrap();
     }
     if let Some(first_line) = split_on_newlines(src).next() {
         if let Some(cap) = RE.captures(first_line) {
@@ -617,10 +613,10 @@ fn from_shebang(src: &str) -> Option<Language> {
                         return Some(Bash)
                     }
                     "tcc" => return Some(C),
-                    "lisp" | "sbc" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
+                    "lisp" | "sbcl" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
                     "elixir" => return Some(Elixir),
-                    "elvish" => return Some(Elvish),
                     "escript" => return Some(Erlang),
+                    "fish" => return Some(Fish),
                     "runghc" | "runhaskell" | "runhugs" => return Some(Haskell),
                     "chakra" | "d8" | "gjs" | "js" | "node" | "nodejs" | "qjs" | "rhino" | "v8"
                     | "v8-shell" => return Some(JavaScript),
@@ -671,6 +667,14 @@ mod tests {
     }
 
     #[test]
+    fn test_guess_cplusplus_cplusplus_extension() {
+        // Regression: the `.c++` extension glob was missing its leading `*`
+        // (introduced in 286cad721), so foo.c++ fell through to plain text.
+        let path = Path::new("foo.c++");
+        assert_eq!(guess(path, "", &[]), Some(CPlusPlus));
+    }
+
+    #[test]
     fn test_guess_by_whole_name() {
         let path = Path::new("foo/.bashrc");
         assert_eq!(guess(path, "", &[]), Some(Bash));
@@ -692,6 +696,18 @@ mod tests {
     fn test_guess_by_shebang_with_space() {
         let path = Path::new("foo");
         assert_eq!(guess(path, "#! /bin/sh", &[]), Some(Bash));
+    }
+
+    #[test]
+    fn test_guess_comment_not_shebang() {
+        let path = Path::new("foo.py");
+        assert_eq!(guess(path, "bar = 1 #!/bin/bash", &[]), Some(Python));
+    }
+
+    #[test]
+    fn test_guess_by_emacs_mode_simple() {
+        let path = Path::new("foo");
+        assert_eq!(guess(path, "; -*- mode: Lisp -*-", &[]), Some(CommonLisp));
     }
 
     #[test]

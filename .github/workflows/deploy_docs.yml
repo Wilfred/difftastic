@@ -5,30 +5,22 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
-  pre_deploy:
-    runs-on: ubuntu-22.04
-
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@f75f66ce1886f00957d99748a42c724f4330bdcf # v5
-        with:
-          concurrent_skipping: always
-
   deploy:
-    needs: pre_deploy
-    if: needs.pre_deploy.outputs.should_skip != 'true'
     runs-on: ubuntu-22.04
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Install jq
-        run: sudo apt-get install -y jq
-
-      - uses: dtolnay/rust-toolchain@1.76.0
+      - uses: dtolnay/rust-toolchain@1.85.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - run: cargo doc
 
       - name: Setup mdBook

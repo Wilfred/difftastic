@@ -143,7 +143,7 @@ pub(crate) enum ProbableFileKind {
 ///
 /// git-diff itself has a smaller set of heuristics, looking at
 /// whether the bytes are ASCII or a superset of ASCII (UTF-8,
-/// ISO-8851-1) unless working-tree-encoding is configured with
+/// ISO-8859-1) unless working-tree-encoding is configured with
 /// .gitattributes.
 ///
 /// <https://git-scm.com/docs/gitattributes#_working_tree_encoding>

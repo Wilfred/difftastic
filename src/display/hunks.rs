@@ -93,7 +93,9 @@ fn fill_between(
     zip_pad_shorter(&lhs_lines, &rhs_lines)
 }
 
-fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+/// Return `hunk.lines` with any unchanged lines that fall
+/// between changed lines on the same side.
+pub(crate) fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut min_lhs = None;
     let mut min_rhs = None;
     let mut max_lhs = None;
@@ -537,17 +539,14 @@ fn next_opposite(
     opposites: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
     prev_opposite: Option<LineNumber>,
 ) -> Option<LineNumber> {
-    opposites.get(&line).and_then(|lines_set| {
-        let mut lines: Vec<LineNumber> = lines_set.iter().copied().collect();
-        lines.sort_unstable();
+    let lines_set = opposites.get(&line)?;
 
-        lines.into_iter().find(|ln| {
-            if let Some(prev_opposite) = prev_opposite {
-                *ln > prev_opposite
-            } else {
-                true
-            }
-        })
+    let mut lines: Vec<LineNumber> = lines_set.iter().copied().collect();
+    lines.sort_unstable();
+
+    lines.into_iter().find(|ln| match prev_opposite {
+        Some(prev_opposite) => *ln > prev_opposite,
+        None => true,
     })
 }
 
@@ -588,7 +587,7 @@ fn matched_novel_lines(
                 };
                 if should_append {
                     lines.push((
-                        next_opposite(self_line, &opposite_to_rhs, highest_rhs),
+                        next_opposite(self_line, &opposite_to_rhs, highest_lhs),
                         Some(self_line),
                     ));
                     highest_rhs = Some(self_line);
