@@ -437,7 +437,7 @@ fn novel_section_in_order(
 /// displaying.
 ///
 /// Since novel positions don't have a corresponding opposite
-/// position, use the last opposite matched position to decide
+/// position, use the previous opposite matched position to decide
 /// ordering.
 fn sorted_novel_positions(
     lhs_mps: &[MatchedPos],
