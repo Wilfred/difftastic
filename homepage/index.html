@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <div class="container-sm px-0">
+    <div class="container-sm px-2 px-sm-0">
       <p class="my-5 px-4">
         Difftastic is a CLI diff tool that compares files based on their syntax,
         not line-by-line. Difftastic produces accurate diffs that are easier for
@@ -94,9 +94,12 @@
               What Actually Changed
             </h2>
 
-            <div class="img-wrapper mb-4">
-              <img src="home_img/add_wrap.png" alt="screenshot" />
-            </div>
+            <a class="img-wrapper mb-4" href="home_img/add_wrap.png">
+              <img
+                src="home_img/add_wrap.png"
+                alt="Diff showing a new wrapper around an unchanged expression"
+              />
+            </a>
             <p>
               Difftastic parses your code with
               <a href="https://tree-sitter.github.io/tree-sitter/"
@@ -111,9 +114,12 @@
           <div class="card-body">
             <h2><span class="green">Ignore</span> Formatting Changes</h2>
 
-            <div class="img-wrapper mb-4">
-              <img src="home_img/reformat.png" alt="screenshot" />
-            </div>
+            <a class="img-wrapper mb-4" href="home_img/reformat.png">
+              <img
+                src="home_img/reformat.png"
+                alt="Diff showing code changes separately from formatting changes"
+              />
+            </a>
             <p>
               Has your code formatter decided to split something over multiple
               lines? Difftastic can show what has actually changed.
@@ -125,20 +131,23 @@
           <div class="card-body">
             <h2><span class="green">Visualise</span> Wrapping Changes</h2>
 
-            <div class="img-wrapper mb-4">
-              <img src="home_img/wrap_struct.png" alt="screenshot" />
-            </div>
+            <a class="img-wrapper mb-4" href="home_img/wrap_struct.png">
+              <img
+                src="home_img/wrap_struct.png"
+                alt="Diff matching the delimiters of a new wrapper"
+              />
+            </a>
             <p>
               Have you added a wrapper? Difftastic can match the delimiters
               exactly.
             </p>
 
-            <div class="img-wrapper mb-4">
+            <a class="img-wrapper mb-4" href="home_img/change_wrap.png">
               <img
                 src="home_img/change_wrap.png"
-                alt="screenshot"
+                alt="Diff showing a new wrapper alongside changes to its contents"
               />
-            </div>
+            </a>
             <p>
               Even if you change the inner content, difftastic can still show
               you the additional wrapper.
@@ -153,12 +162,12 @@
               Line Numbers
             </h2>
 
-            <div class="img-wrapper mb-4">
+            <a class="img-wrapper mb-4" href="home_img/line_numbers.png">
               <img
                 src="home_img/line_numbers.png"
-                alt="screenshot"
+                alt="Diff showing original and updated file line numbers"
               />
-            </div>
+            </a>
             <p>
               Do you know how to read
               <code>@@ -5,6 +5,7 @@</code> syntax? Difftastic shows the actual
@@ -183,7 +192,7 @@
             <h2>Programming Languages</h2>
 
             <div
-              class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
+              class="language-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
             >
               <div class="col d-flex align-items-start">
                 <object
@@ -480,7 +489,7 @@
             <h2>File Formats</h2>
 
             <div
-              class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
+              class="language-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
             >
               <div class="col d-flex align-items-start">
                 <!-- https://www.svgrepo.com/svg/371192/curly-brackets -->
@@ -556,9 +565,12 @@
       <div class="card px-2 pt-2 mt-5">
         <div class="card-body">
           <h2>Works With <span class="green">Git</span></h2>
-          <div class="img-wrapper mb-4">
-            <img src="home_img/git_difftool.png" alt="screenshot" />
-          </div>
+          <a class="img-wrapper mb-4" href="home_img/git_difftool.png">
+            <img
+              src="home_img/git_difftool.png"
+              alt="Difftastic output from git difftool"
+            />
+          </a>
           <p>
             See the
             <a href="https://difftastic.wilfred.me.uk/git.html"
@@ -581,7 +593,7 @@
         </div>
       </div>
 
-      <p class="px-4 mt-5">
+      <p class="px-4 mt-5 pb-4">
         <em
           >Made with Emacs and coffee by
           <a href="https://github.com/wilfred/">Wilfred Hughes</a>.</em

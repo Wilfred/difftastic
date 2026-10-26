@@ -1,16 +1,4 @@
 body {
-  animation: 2s ease-out 0s 1 FadeIn;
-}
-@keyframes FadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-body {
   --bs-body-font-size: 18px;
   --bs-border-radius: 0.5rem;
 }
@@ -42,8 +30,7 @@ body {
 }
 
 /* Colours from Tango theme */
-.red,
-code {
+.red {
   color: #ef2929;
 }
 .green,
@@ -51,14 +38,25 @@ a {
   color: #8ae234;
 }
 
+/* Use a lighter red for readable inline code on dark cards. */
+code {
+  color: #ff8080;
+}
+
 .img-wrapper {
   overflow: hidden;
+  display: block;
   border: var(--bs-card-border-width) solid var(--bs-card-border-color);
   border-radius: var(--bs-border-radius);
   background-color: #2e3436;
 }
 .img-wrapper img {
   max-width: 100%;
+}
+
+.img-wrapper:focus-visible {
+  outline: 3px solid #8ae234;
+  outline-offset: 4px;
 }
 
 .card-body object {
@@ -85,4 +83,25 @@ a {
   border-bottom-right-radius: var(--bs-card-border-radius);
   border-bottom-left-radius: var(--bs-card-border-radius);
   border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+
+/* Keep icons and long language names comfortable on phone screens. */
+@media (max-width: 575.98px) {
+  .language-grid h3 {
+    font-size: 1rem !important;
+    line-height: 36px;
+  }
+
+  .language-grid object {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    margin-right: 0.5rem !important;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 575.98px) {
+  .language-grid > .col {
+    width: 50%;
+  }
 }
