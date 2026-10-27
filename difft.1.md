@@ -45,6 +45,11 @@ OPTIONS
 
 : When to use color output.
 
+**\-\-completions** _SHELL_
+
+: Print a shell completion script for _SHELL_ to stdout. Supported shells are _bash_,
+  _elvish_, _fish_, _powershell_ and _zsh_.
+
 **-c, \-\-context** _LINES_
 
 : The number of contextual lines to show around changed lines.
