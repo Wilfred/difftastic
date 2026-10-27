@@ -74,6 +74,7 @@ pub(crate) enum Language {
     Solidity,
     Sql,
     Swift,
+    Sysml,
     Toml,
     TypeScript,
     TypeScriptTsx,
@@ -172,6 +173,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Solidity => "Solidity",
         Sql => "SQL",
         Swift => "Swift",
+        Sysml => "SysML v2",
         Toml => "TOML",
         TypeScript => "TypeScript",
         TypeScriptTsx => "TypeScript TSX",
@@ -377,6 +379,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         Solidity => &["*.sol"],
         Sql => &["*.sql", "*.pgsql"],
         Swift => &["*.swift"],
+        Sysml => &["*.sysml", "*.kerml"],
         Toml => &[
             "*.toml",
             "Cargo.lock",
@@ -637,6 +640,16 @@ mod tests {
     fn test_guess_by_extension() {
         let path = Path::new("foo.el");
         assert_eq!(guess(path, "", &[]), Some(EmacsLisp));
+    }
+
+    #[test]
+    fn test_guess_sysml_by_extension() {
+        assert_eq!(guess(Path::new("vehicle.sysml"), "", &[]), Some(Sysml));
+        assert_eq!(guess(Path::new("library.kerml"), "", &[]), Some(Sysml));
+        assert_eq!(
+            language_override_from_name("SysML v2"),
+            Some(LanguageOverride::Language(Sysml))
+        );
     }
 
     #[test]
