@@ -28,6 +28,7 @@ with `difft --list-languages`.
 | Fish            | [ram02z/tree-sitter-fish](https://github.com/ram02z/tree-sitter-fish)                                           |
 | Fortran         | [stadelmanma/tree-sitter-fortran](https://github.com/stadelmanma/tree-sitter-fortran)                           |
 | Gleam           | [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)                                 |
+| Glsl            | [tree-sitter-grammars/tree-sitter-glsl](https://github.com/tree-sitter-grammars/tree-sitter-glsl)               |
 | Go              | [tree-sitter/tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)                                     |
 | Haskell         | [tree-sitter/tree-sitter-haskell](https://github.com/tree-sitter/tree-sitter-haskell)                           |
 | Janet           | [sogaiu/tree-sitter-janet-simple](https://github.com/sogaiu/tree-sitter-janet-simple)                           |
