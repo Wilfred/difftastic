@@ -113,6 +113,13 @@ To define a difftool named `difftastic`, add the following to your
     cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
 ```
 
+Difftastic expects the same seven arguments that git passes to an
+external diff: the path to display, then the file, object hash and
+file mode for each side. A difftool has no object hashes, and
+difftastic ignores them, so `abcdef1` and `abcdef2` are placeholders
+and can be any text. The file mode is used to show permission changes;
+`100644` is a regular file.
+
 You can now use difftastic as a difftool:
 
 ```
