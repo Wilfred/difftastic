@@ -534,6 +534,11 @@ fn sorted_novel_positions(
     res
 }
 
+/// Find the line opposite to `line`, but after `prev_opposite`.
+///
+/// Note that there may be multiple lines opposite to `line`,
+/// especially when reformatting causes a single line of code to be
+/// split over multiple lines.
 fn next_opposite(
     line: LineNumber,
     opposites: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
@@ -550,6 +555,12 @@ fn next_opposite(
     })
 }
 
+/// Find all the lines containing novel items, so these lines need to
+/// be displayed in the diff.
+///
+/// If they have a corresponding opposite line (e.g. the line contains
+/// both novel and unchanged tokens), include the opposite line in the
+/// tuple.
 fn matched_novel_lines(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
