@@ -10,16 +10,16 @@ fall back to text diffing less often.
 Updated Haskell (the previous version was prone to crashing) and
 Kotlin parsers.
 
-Improved Elixir, Erlang, Gleam, Java, JavaScript, Kotlin, Haskell,
-Nix, OCaml, Python and TypeScript delimiter handling.
-
-Improved trailing punctuation handling in C, C++, C#, Go and YAML.
+Improved delimiter and trailing punctuation handling in: C, C++, C#,
+Elixir, Erlang, Gleam, Go, Java, JavaScript, Kotlin, Haskell, Nix,
+OCaml, Python, TypeScript and YAML.
 
 Removed Smali support (upstream parser is no longer maintained).
 
 Removed support for Verilog and F# due to the very large parser size
-making the binary big. Adding support for dynamically loading parsers
-in a future release should allow users to parse these languages again.
+making the difft binary big. Adding support for dynamically loading
+parsers in a future release should allow users to parse these
+languages again.
 
 ### Display
 
