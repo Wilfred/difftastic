@@ -1,5 +1,9 @@
 ## 0.73 (unreleased)
 
+### Parsing
+
+Updated Python parser.
+
 ## 0.72 (released 29th October 2026)
 
 ### Diffing

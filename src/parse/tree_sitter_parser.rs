@@ -948,7 +948,7 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Python => {
-            let language_fn = tree_sitter_python::LANGUAGE;
+            let language_fn = tree_sitter_python_orchard::LANGUAGE;
             let language = tree_sitter::Language::new(language_fn);
             TreeSitterConfig {
                 language: language.clone(),
@@ -964,8 +964,11 @@ fn build_config(language: guess::Language) -> TreeSitterConfig {
                     ("parameters", ","),
                     ("import_from_statement", ","),
                 ],
-                highlight_query: ts::Query::new(&language, tree_sitter_python::HIGHLIGHTS_QUERY)
-                    .unwrap(),
+                highlight_query: ts::Query::new(
+                    &language,
+                    tree_sitter_python_orchard::HIGHLIGHTS_QUERY,
+                )
+                .unwrap(),
                 sub_languages: vec![],
             }
         }
