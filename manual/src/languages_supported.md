@@ -43,7 +43,7 @@ with `difft --list-languages`.
 | Pascal          | [Isopod/tree-sitter-pascal](https://github.com/Isopod/tree-sitter-pascal)                                       |
 | Perl            | [tree-sitter-perl/tree-sitter-perl](https://github.com/tree-sitter-perl/tree-sitter-perl)                       |
 | PHP             | [tree-sitter/tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php)                                   |
-| Python          | [tree-sitter/tree-sitter-python](https://github.com/tree-sitter/tree-sitter-python)                             |
+| Python          | [grammar-orchard/tree-sitter-python](https://codeberg.org/grammar-orchard/tree-sitter-python-orchard)           |
 | QML             | [yuja/tree-sitter-qmljs](https://github.com/yuja/tree-sitter-qmljs)                                             |
 | R               | [r-lib/tree-sitter-r](https://github.com/r-lib/tree-sitter-r)                                                   |
 | Racket          | [6cdh/tree-sitter-racket](https://github.com/6cdh/tree-sitter-racket)                                           |
