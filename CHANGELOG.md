@@ -23,6 +23,9 @@ languages again.
 
 ### Display
 
+Fixed an issue where `--skip-unchanged` hid files whose permissions had
+changed (#1028).
+
 Fixed an issue with inline display where unchanged lines between two
 nearby changes were not shown.
 

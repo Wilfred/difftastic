@@ -75,11 +75,12 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                 );
 
                 if hunks.is_empty() {
-                    return File::with_status(
-                        &summary.file_format,
-                        &summary.display_path,
-                        Status::Unchanged,
-                    );
+                    let status = if summary.extra_info.is_some() {
+                        Status::Changed
+                    } else {
+                        Status::Unchanged
+                    };
+                    return File::with_status(&summary.file_format, &summary.display_path, status);
                 }
 
                 if lhs_src.is_empty() {
@@ -169,7 +170,7 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                 )
             }
             (FileContent::Binary, FileContent::Binary) => {
-                let status = if summary.has_byte_changes.is_some() {
+                let status = if summary.has_byte_changes.is_some() || summary.extra_info.is_some() {
                     Status::Changed
                 } else {
                     Status::Unchanged

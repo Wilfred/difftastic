@@ -417,6 +417,23 @@ fn diff_file(
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
 
+    let mut extra_info = renamed;
+    if let (Some(lhs_perms), Some(rhs_perms)) = (lhs_permissions, rhs_permissions) {
+        if lhs_perms != rhs_perms {
+            let msg = format!(
+                "File permissions changed from {} to {}.",
+                lhs_perms, rhs_perms
+            );
+
+            if let Some(extra_info) = &mut extra_info {
+                extra_info.push('\n');
+                extra_info.push_str(&msg);
+            } else {
+                extra_info = Some(msg);
+            }
+        }
+    }
+
     let (mut lhs_src, mut rhs_src) = match (
         guess_content(&lhs_bytes, lhs_path, binary_overrides),
         guess_content(&rhs_bytes, rhs_path, binary_overrides),
@@ -431,7 +448,7 @@ fn diff_file(
                 Some((lhs_bytes.len(), rhs_bytes.len()))
             };
             return DiffResult {
-                extra_info: renamed,
+                extra_info,
                 display_path: display_path.to_owned(),
                 file_format: FileFormat::Binary,
                 lhs_src: FileContent::Binary,
@@ -466,23 +483,6 @@ fn diff_file(
     }
     if !rhs_src.is_empty() && !rhs_src.ends_with('\n') {
         rhs_src.push('\n');
-    }
-
-    let mut extra_info = renamed;
-    if let (Some(lhs_perms), Some(rhs_perms)) = (lhs_permissions, rhs_permissions) {
-        if lhs_perms != rhs_perms {
-            let msg = format!(
-                "File permissions changed from {} to {}.",
-                lhs_perms, rhs_perms
-            );
-
-            if let Some(extra_info) = &mut extra_info {
-                extra_info.push('\n');
-                extra_info.push_str(&msg);
-            } else {
-                extra_info = Some(msg);
-            }
-        }
     }
 
     diff_file_content(
@@ -909,7 +909,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             let hunks = &summary.hunks;
 
             if !summary.has_syntactic_changes {
-                if display_options.print_unchanged {
+                if display_options.print_unchanged || summary.extra_info.is_some() {
                     println!(
                         "{}",
                         display::style::header(
@@ -991,7 +991,10 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             }
         }
         (FileContent::Binary, FileContent::Binary) => {
-            if display_options.print_unchanged || summary.has_byte_changes.is_some() {
+            if display_options.print_unchanged
+                || summary.has_byte_changes.is_some()
+                || summary.extra_info.is_some()
+            {
                 println!(
                     "{}",
                     display::style::header(

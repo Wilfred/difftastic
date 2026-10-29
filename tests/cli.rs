@@ -321,3 +321,53 @@ fn git_unmerged_files() {
     let predicate_fn = predicate::str::contains("Unmerged path");
     cmd.assert().stdout(predicate_fn);
 }
+
+/// Regression test for https://github.com/Wilfred/difftastic/issues/1028.
+#[test]
+fn skip_unchanged_shows_permission_changes() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--skip-unchanged")
+        .arg("simple.txt")
+        .arg("sample_files/simple_1.txt")
+        .arg("abcdef1234")
+        .arg("100755")
+        .arg("sample_files/simple_1.txt")
+        .arg("abcdef1234")
+        .arg("100644");
+
+    let predicate_fn = predicate::str::contains("File permissions changed from 100755 to 100644");
+    cmd.assert().success().stdout(predicate_fn);
+}
+
+#[test]
+fn skip_unchanged_hides_completely_unchanged() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--skip-unchanged")
+        .arg("simple.txt")
+        .arg("sample_files/simple_1.txt")
+        .arg("abcdef1234")
+        .arg("100644")
+        .arg("sample_files/simple_1.txt")
+        .arg("abcdef1234")
+        .arg("100644");
+
+    cmd.assert().success().stdout(predicate::str::is_empty());
+}
+
+#[test]
+fn permission_change_exit_code() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--exit-code")
+        .arg("simple.txt")
+        .arg("sample_files/simple_1.txt")
+        .arg("abcdef1234")
+        .arg("100755")
+        .arg("sample_files/simple_1.txt")
+        .arg("abcdef1234")
+        .arg("100644");
+
+    cmd.assert().failure().code(1);
+}
