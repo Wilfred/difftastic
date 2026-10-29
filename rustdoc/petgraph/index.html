@@ -1,0 +1,420 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="`petgraph` is a graph data structure library."><title>petgraph - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="petgraph" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../static.files/storage-59e33391.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../petgraph/index.html">petgraph</a><span class="version">0.8.3</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#overview" title="Overview">Overview</a></li><li><a href="#usage" title="Usage">Usage</a></li><li><a href="#graph-types" title="Graph types">Graph types</a><ul><li><a href="#generic-parameters" title="Generic parameters">Generic parameters</a></li><li><a href="#shorthand-types" title="Shorthand types">Shorthand types</a></li></ul></li><li><a href="#examples" title="Examples">Examples</a><ul><li><a href="#creating-an-undirected-graph-and-manipulating-nodes-and-edges" title="Creating an undirected graph and manipulating nodes and edges">Creating an undirected graph and manipulating nodes and edges</a></li><li><a href="#differences-of-stable-and-non-stable-graphs-in-index-management" title="Differences of stable and non-stable graphs in index management">Differences of stable and non-stable graphs in index management</a></li><li><a href="#using-algorithms-on-graphs" title="Using algorithms on graphs">Using algorithms on graphs</a></li><li><a href="#associating-data-with-nodes-and-edges-and-transmuting-the-type-of-the-data" title="Associating data with nodes and edges and transmuting the type of the data">Associating data with nodes and edges and transmuting the type of the data</a></li><li><a href="#exporting-graphs-to-dot-format" title="Exporting graphs to DOT format">Exporting graphs to DOT format</a></li></ul></li><li><a href="#crate-features" title="Crate features">Crate features</a></li></ul><h3><a href="#reexports">Crate Items</a></h3><ul class="block"><li><a href="#reexports" title="Re-exports">Re-exports</a></li><li><a href="#modules" title="Modules">Modules</a></li><li><a href="#enums" title="Enums">Enums</a></li><li><a href="#traits" title="Traits">Traits</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>petgraph</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/petgraph/lib.rs.html#1-670">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p><code>petgraph</code> is a graph data structure library.</p>
+<p>Graphs are collections of nodes, and edges between nodes. <code>petgraph</code>
+provides several <a href="index.html#graph-types">graph types</a> (each differing in the
+tradeoffs taken in their internal representation),
+<a href="./algo/index.html">algorithms</a> on those graphs, and functionality to
+<a href="./dot/struct.Dot.html">output graphs</a> in
+<a href="https://www.graphviz.org/"><code>Graphviz</code></a> format. Both nodes and edges
+can have arbitrary associated data, and edges may be either directed or undirected.</p>
+<h2 id="overview"><a class="doc-anchor" href="#overview">§</a>Overview</h2>
+<p>Here is a simple example showing off some features of <code>petgraph</code>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>petgraph::graph::UnGraph;
+<span class="kw">use </span>petgraph::algo::{dijkstra, min_spanning_tree};
+<span class="kw">use </span>petgraph::data::FromElements;
+<span class="kw">use </span>petgraph::dot::{Dot, Config};
+<span class="kw">use </span>petgraph::visit::NodeIndexable;
+
+<span class="comment">// Create an undirected graph with associated data
+// of type `i32` for the nodes and `()` for the edges.
+</span><span class="kw">let </span>g = UnGraph::&lt;i32, ()&gt;::from_edges(<span class="kw-2">&amp;</span>[
+    (<span class="number">0</span>, <span class="number">1</span>), (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">3</span>), (<span class="number">0</span>, <span class="number">3</span>)
+]);
+
+<span class="comment">// The graph looks like this:
+// 0 -- 1
+// |    |
+// 3 -- 2
+
+// Find the shortest path from `0` to `2` using `1` as the cost for every edge.
+</span><span class="kw">let </span>node_map = dijkstra(<span class="kw-2">&amp;</span>g, <span class="number">0</span>.into(), <span class="prelude-val">Some</span>(<span class="number">2</span>.into()), |<span class="kw">_</span>| <span class="number">1</span>);
+<span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="number">2i32</span>, node_map.get(<span class="kw-2">&amp;</span>g.from_index(<span class="number">2</span>)).unwrap());
+
+<span class="comment">// Get the minimum spanning tree of the graph as a new graph, and check that
+// one edge was trimmed.
+</span><span class="kw">let </span>mst = UnGraph::&lt;<span class="kw">_</span>, <span class="kw">_</span>&gt;::from_elements(min_spanning_tree(<span class="kw-2">&amp;</span>g));
+<span class="macro">assert_eq!</span>(g.raw_edges().len() - <span class="number">1</span>, mst.raw_edges().len());
+
+<span class="comment">// Output the tree to `graphviz` `DOT` format
+</span><span class="macro">println!</span>(<span class="string">"{:?}"</span>, Dot::with_config(<span class="kw-2">&amp;</span>mst, <span class="kw-2">&amp;</span>[Config::EdgeNoLabel]));
+<span class="comment">// graph {
+//     0 [ label = "0" ]
+//     1 [ label = "0" ]
+//     2 [ label = "0" ]
+//     3 [ label = "0" ]
+//     0 -- 1 [ ]
+//     2 -- 3 [ ]
+//     1 -- 2 [ ]
+// }</span></code></pre></div>
+<p><code>petgraph</code> provides several concrete graph types — <a href="./graph/struct.Graph.html"><code>Graph</code></a>,
+<a href="./stable_graph/struct.StableGraph.html"><code>StableGraph</code></a>, <a href="./graphmap/struct.GraphMap.html"><code>GraphMap</code></a>,
+<a href="./matrix_graph/struct.MatrixGraph.html"><code>MatrixGraph</code></a>, and <a href="./csr/struct.Csr.html"><code>Csr</code></a>
+— each optimized for different trade-offs in memory layout, index stability, and lookup speed.
+Some types (e.g., <a href="./graph/struct.Graph.html"><code>Graph</code></a>) expose the fullest set of methods
+and algorithm support, while others (like <a href="./stable_graph/struct.StableGraph.html"><code>StableGraph</code></a>
+or <a href="./csr/struct.Csr.html"><code>Csr</code></a>) are more recent and may not yet implement the full feature set,
+see <a href="#graph-types">Graph Types</a> for more details.</p>
+<p>With these types as building blocks, you can insert or remove nodes and edges, attach arbitrary data to them,
+explore neighbors, and apply standard graph algorithms. The <a href="algo/index.html" title="mod petgraph::algo"><code>algo</code></a> module implements routines such as
+shortest‐path searches and minimum spanning trees for any compatible graph, and the <a href="dot/index.html" title="mod petgraph::dot"><code>dot</code></a> module exports
+functionality to convert graphs to DOT format so you can visualize or analyze them with
+<a href="https://www.graphviz.org/"><code>Graphviz</code></a>.</p>
+<p>The remainder of this documentation is organized as follows:</p>
+<ul>
+<li>
+<p><a href="#usage">Usage</a> shows how to add <code>petgraph</code> to your project.</p>
+</li>
+<li>
+<p><a href="#graph-types">Graph types</a> explains each implementation’s internal structure and feature set.</p>
+<ul>
+<li>
+<p><a href="#generic-parameters">Generic parameters</a> clarifies what N, E, Ty, and Ix signify and any trait bounds they impose.</p>
+</li>
+<li>
+<p><a href="#shorthand-types">Shorthand types</a> lists commonly used aliases (for example, <a href="./graph/type.DiGraph.html"><code>DiGraph&lt;_, _&gt;</code></a> for <a href="./graph/struct.Graph.html"><code>Graph&lt;_, _, Directed&gt;</code></a>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#examples">Examples</a> walks through common tasks such as basic graph construction, index behavior, running algorithms, weight transformations, and DOT export.</p>
+</li>
+<li>
+<p><a href="#crate-features">Crate features</a> covers (optional) Cargo flags (e.g. serde or rayon support).</p>
+</li>
+<li>
+<p>Finally, each submodule page (e.g., <a href="algo/index.html" title="mod petgraph::algo"><code>algo</code></a>, <a href="graph/index.html" title="mod petgraph::graph"><code>graph</code></a>, [<code>graphmap</code>], etc.) provides detailed API documentation and design notes.</p>
+</li>
+</ul>
+<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h2>
+<p><code>petgraph</code> is available on <a href="https://crates.io/crates/petgraph">crates.io</a> and can be added to your
+project by adding <code>petgraph</code> to your <code>Cargo.toml</code>. Or more simply, by running <code>cargo add petgraph</code>.</p>
+<p>Here is an example that creates a new Rust project, adds a dependency on <code>petgraph</code>, and runs
+a simple program that creates an undirected graph.</p>
+<p>First, create a new Rust project in a new directory:</p>
+<div class="example-wrap"><pre class="language-bash"><code>cargo new petgraph_example
+cd petgraph_example</code></pre></div>
+<p>Second, add a dependency on <code>petgraph</code>:</p>
+<div class="example-wrap"><pre class="language-bash"><code>cargo add petgraph</code></pre></div>
+<p>Third, replace the contents of your main function in <code>src/main.rs</code> with the following code:</p>
+<div class="example-wrap"><pre class="language-text"><code>use petgraph::graph::UnGraph;
+
+fn main() {
+    let g = UnGraph::&lt;(), ()&gt;::from_edges(&amp;[(0, 1), (1, 2), (2, 3), (0, 3)]);
+
+    println!(&quot;Graph: {:?}&quot;, g);
+}</code></pre></div>
+<p>Finally, run the program with <code>cargo run</code>:</p>
+<div class="example-wrap"><pre class="language-bash"><code>Graph { Ty: &quot;Undirected&quot;, node_count: 4, edge_count: 4, edges: (0, 1), (1, 2), (2, 3), (0, 3) }</code></pre></div><h2 id="graph-types"><a class="doc-anchor" href="#graph-types">§</a>Graph types</h2>
+<ul>
+<li><a href="./graph/struct.Graph.html"><code>Graph</code></a> -
+An adjacency list graph with arbitrary associated data.</li>
+<li><a href="./stable_graph/struct.StableGraph.html"><code>StableGraph</code></a> -
+Similar to <code>Graph</code>, but it keeps indices stable across removals.</li>
+<li><a href="./graphmap/struct.GraphMap.html"><code>GraphMap</code></a> -
+An adjacency list graph backed by a hash table. The node identifiers are the keys
+into the table.</li>
+<li><a href="./matrix_graph/struct.MatrixGraph.html"><code>MatrixGraph</code></a> -
+An adjacency matrix graph.</li>
+<li><a href="./csr/struct.Csr.html"><code>CSR</code></a> -
+A sparse adjacency matrix graph with arbitrary associated data.</li>
+</ul>
+<h4 id="generic-parameters"><a class="doc-anchor" href="#generic-parameters">§</a>Generic parameters</h4>
+<p>Each graph type is generic over a handful of parameters. All graphs share 3 common
+parameters, <code>N</code>, <code>E</code>, and <code>Ty</code>. This is a broad overview of what those are. Each
+graph type’s documentation will have finer detail on these parameters.</p>
+<p><code>N</code> &amp; <code>E</code> are called <em>weights</em> in this implementation, and are associated with
+nodes and edges respectively. They can generally be of arbitrary type, and don’t have to
+be what you might conventionally consider weight-like. For example, using <code>&amp;str</code> for <code>N</code>
+will work. Many algorithms that require costs let you provide a cost function that
+translates your <code>N</code> and <code>E</code> weights into costs appropriate to the algorithm. Some graph
+types and choices do impose bounds on <code>N</code> or <code>E</code>.
+<a href="./algo/fn.min_spanning_tree.html"><code>min_spanning_tree</code></a> for example requires edge weights that
+implement <a href="https://doc.rust-lang.org/stable/core/cmp/trait.PartialOrd.html"><code>PartialOrd</code></a>.
+<a href="./graphmap/struct.GraphMap.html"><code>GraphMap</code></a> requires node weights that can serve as hash
+map keys, since that graph type does not create standalone node indices.</p>
+<p><code>Ty</code> controls whether edges are <a href="./enum.Directed.html"><code>Directed</code></a> or
+<a href="./enum.Undirected.html"><code>Undirected</code></a>.</p>
+<p><code>Ix</code> appears on graph types that use indices. It is exposed so you can control
+the size of node and edge indices, and therefore the memory footprint of your graphs.
+Allowed values are <code>u8</code>, <code>u16</code>, <code>u32</code>, and <code>usize</code>, with <code>u32</code> being the default.</p>
+<h4 id="shorthand-types"><a class="doc-anchor" href="#shorthand-types">§</a>Shorthand types</h4>
+<p>Each graph type vends a few shorthand type definitions that name some specific
+generic choices. For example, <a href="./graph/type.DiGraph.html"><code>DiGraph&lt;_, _&gt;</code></a> is shorthand
+for <a href="graph/struct.Graph.html"><code>Graph&lt;_, _, Directed&gt;</code></a>.
+<a href="./matrix_graph/type.UnMatrix.html"><code>UnMatrix&lt;_, _&gt;</code></a> is shorthand for
+<a href="./matrix_graph/struct.MatrixGraph.html"><code>MatrixGraph&lt;_, _, Undirected&gt;</code></a>. Each graph type’s
+module documentation lists the available shorthand types.</p>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2>
+<ul>
+<li><a href="#creating-an-undirected-graph-and-manipulating-nodes-and-edges">Creating an undirected graph and manipulating nodes and edges</a></li>
+<li><a href="#differences-of-stable-and-non-stable-graphs-in-index-management">Differences of stable and non-stable graphs in index management</a></li>
+<li><a href="#using-algorithms-on-graphs">Using algorithms on graphs</a></li>
+<li><a href="#associating-data-with-nodes-and-edges-and-transmuting-the-type-of-the-data">Associating data with nodes and edges and transmuting the type of the data</a></li>
+<li><a href="#exporting-graphs-to-dot-format">Exporting graphs to DOT format</a></li>
+</ul>
+<h4 id="creating-an-undirected-graph-and-manipulating-nodes-and-edges"><a class="doc-anchor" href="#creating-an-undirected-graph-and-manipulating-nodes-and-edges">§</a>Creating an undirected graph and manipulating nodes and edges</h4>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>petgraph::graph::UnGraph;
+<span class="kw">use </span>petgraph::visit::NodeIndexable;
+
+<span class="comment">// Create an undirected graph with associated data of type `i32` for nodes and `()` for edges.
+</span><span class="kw">let </span><span class="kw-2">mut </span>g = UnGraph::&lt;i32, ()&gt;::from_edges(<span class="kw-2">&amp;</span>[(<span class="number">0</span>, <span class="number">1</span>), (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">3</span>), (<span class="number">0</span>, <span class="number">3</span>)]);
+
+<span class="comment">// The graph looks like this:
+// 0 -- 1
+// |    |
+// 3 -- 2
+
+// Add two more edges between nodes 0 and 2, and 1 and 3
+</span>g.extend_with_edges(<span class="kw-2">&amp;</span>[(<span class="number">0</span>, <span class="number">2</span>), (<span class="number">1</span>, <span class="number">3</span>)]);
+
+<span class="comment">// Add another node with a weight of 5
+</span><span class="kw">let </span>node = g.add_node(<span class="number">5</span>);
+
+<span class="comment">// Connect the new node to node 2.
+// We can access the recently added node via the returned `NodeIndex`.
+</span>g.add_edge(node, <span class="number">2</span>.into(), ());
+
+<span class="comment">// The graph now looks like this:
+// 0 -- 1
+// | \/ |
+// | /\ |
+// 3 -- 2
+//        \
+//         4
+
+// We can also access existing nodes by creating a `NodeIndex` using the from_index
+// method on g. Indexes are zero-based, so the first node is at index 0.
+</span><span class="kw">let </span>node_0 = g.from_index(<span class="number">0</span>);
+
+<span class="comment">// And then change the weight of node 0 to 10.
+</span><span class="kw">let </span>node_0_weight = g.node_weight_mut(node_0).unwrap();
+<span class="kw-2">*</span>node_0_weight = <span class="number">10</span>;
+<span class="macro">assert_eq!</span>(g.node_weight(node_0), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">10</span>));</code></pre></div>
+<p>Note that when creating the graph, we only specified the edges, and the nodes were created
+automatically. Since we did not specify the node weights, they default to <code>i32::default()</code>, which
+is <code>0</code>.</p>
+<h4 id="differences-of-stable-and-non-stable-graphs-in-index-management"><a class="doc-anchor" href="#differences-of-stable-and-non-stable-graphs-in-index-management">§</a>Differences of stable and non-stable graphs in index management</h4>
+<p>This example shows how to remove a node from a graph and how this might change node indices.
+Removing a node also automatically takes care of removing all edges connected to the removed node.</p>
+<p>When removing a node from a non-stable graph, the node indices might change depending on two cases.
+If the node had the highest index, the other nodes’ indices don’t change. If the removed
+node did not have the highest index, the node with the highest index will take the index of the
+removed node and all other indices stay the same.</p>
+<p><a href="./stable_graph/struct.StableGraph.html">Stable graphs</a> address this by keeping the indices of nodes
+and edges stable, even after removals. Currently, this comes at the cost of possible additional memory
+usage and lack of some features that other graph types provide. For all the graph types, and their
+internal structure and feature set, please refer to <a href="#graph-types">Graph Types</a>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[cfg(feature = <span class="string">"stable_graph"</span>)]
+</span>{
+<span class="kw">use </span>petgraph::graph::UnGraph;
+<span class="kw">use </span>petgraph::stable_graph::StableUnGraph;
+<span class="kw">use </span>petgraph::visit::IntoNodeIdentifiers;
+
+<span class="comment">// Create an stable and non-stable undirected graph.
+</span><span class="kw">let </span><span class="kw-2">mut </span>g_non_stable = UnGraph::&lt;i32, ()&gt;::from_edges(<span class="kw-2">&amp;</span>[(<span class="number">0</span>, <span class="number">1</span>), (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">3</span>), (<span class="number">0</span>, <span class="number">3</span>)]);
+<span class="kw">let </span><span class="kw-2">mut </span>g_stable = StableUnGraph::&lt;i32, ()&gt;::from_edges(<span class="kw-2">&amp;</span>[(<span class="number">0</span>, <span class="number">1</span>), (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">3</span>), (<span class="number">0</span>, <span class="number">3</span>)]);
+
+<span class="comment">// The graphs look like this:
+// 0 -- 1
+// |    |
+// 3 -- 2
+
+// Remove node 1 and see how the node indexes change.
+</span>g_non_stable.remove_node(<span class="number">1</span>.into());
+g_stable.remove_node(<span class="number">1</span>.into());
+
+<span class="macro">println!</span>(<span class="string">"Node Indices (Non-Stable): {:?}"</span>, g_non_stable.node_identifiers().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;());
+<span class="comment">// Output: Node Indices (Non-Stable): [NodeIndex(0), NodeIndex(1), NodeIndex(2)]
+</span><span class="macro">println!</span>(<span class="string">"Node Indices (Stable): {:?}"</span>, g_stable.node_identifiers().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;());
+<span class="comment">// Output: Node Indices (Stable):     [NodeIndex(0), NodeIndex(1), NodeIndex(3)]
+
+// The non-stable graph now looks like this:
+// 0
+// |
+// 1 -- 2
+// The node which previously had index 1 has been removed, and the node which previously had
+// index 2 has now taken index 1. The other nodes' indices remain unchanged.
+
+// The stable graph now looks like this:
+// 0
+// |
+// 2 -- 3
+// The node indices have remained stable and the node with index 1 has been removed.
+</span>}</code></pre></div>
+<h4 id="using-algorithms-on-graphs"><a class="doc-anchor" href="#using-algorithms-on-graphs">§</a>Using algorithms on graphs</h4>
+<p>Petgraph provides not only data structures for modeling graphs, but also a wide range of algorithms
+that can be applied to them. For example, given a graph, one can compute shortest paths,
+minimum spanning trees, or even compute the maximal cliques of a graph.</p>
+<p>Generally, algorithms are found in the <a href="algo/index.html" title="mod petgraph::algo"><code>algo</code></a> module, except for algorithms like
+depth-/breadth-first-search, which can be found in the <a href="visit/index.html" title="mod petgraph::visit"><code>visit</code></a> module. All of them should include
+an example of how to use them. For example, to compute the minimum spanning tree of a graph, one can use the
+<a href="algo/min_spanning_tree/fn.min_spanning_tree.html"><code>min_spanning_tree</code></a> function.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>petgraph::algo::min_spanning_tree;
+<span class="kw">use </span>petgraph::data::FromElements;
+<span class="kw">use </span>petgraph::graph::UnGraph;
+
+<span class="comment">// Create a graph to compute the minimum spanning tree of.
+</span><span class="kw">let </span>g = UnGraph::&lt;i32, ()&gt;::from_edges(<span class="kw-2">&amp;</span>[(<span class="number">0</span>, <span class="number">1</span>), (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">3</span>), (<span class="number">0</span>, <span class="number">3</span>)]);
+
+<span class="comment">// The graphs look like this:
+// 0 -- 1
+// |    |
+// 3 -- 2
+
+// Compute a minimum spanning tree of the graph and collect it into a new graph.
+</span><span class="kw">let </span>mst = UnGraph::&lt;<span class="kw">_</span>, <span class="kw">_</span>&gt;::from_elements(min_spanning_tree(<span class="kw-2">&amp;</span>g));
+
+<span class="comment">// Check that the minimum spanning tree has one edge less than the original graph.
+</span><span class="macro">assert_eq!</span>(g.raw_edges().len() - <span class="number">1</span>, mst.raw_edges().len());</code></pre></div>
+<h4 id="associating-data-with-nodes-and-edges-and-transmuting-the-type-of-the-data"><a class="doc-anchor" href="#associating-data-with-nodes-and-edges-and-transmuting-the-type-of-the-data">§</a>Associating data with nodes and edges and transmuting the type of the data</h4>
+<p>In many cases, it is useful to associate data with nodes and/or edges in a graph.
+For example, associating an integer with each edge to represent its usage cost in a network.</p>
+<p>Petgraph allows you to associate arbitrary data with both nodes and edges in a graph.
+Not only that, but it also exposes functionality to easily work with your associated
+data and transform it into a different type using the <code>map</code> methods.</p>
+<p>Associated data might also be referred to as <em>weights</em> in the documentation.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>petgraph::graph::UnGraph;
+
+<span class="comment">// Create an undirected graph with city names as node data and their distances as edge data.
+</span><span class="kw">let </span><span class="kw-2">mut </span>g = UnGraph::&lt;String, u32&gt;::new_undirected();
+
+<span class="kw">let </span>ber = g.add_node(<span class="string">"Berlin"</span>.to_owned());
+<span class="kw">let </span>del = g.add_node(<span class="string">"New Delhi"</span>.to_owned());
+<span class="kw">let </span>mex = g.add_node(<span class="string">"Mexico City"</span>.to_owned());
+<span class="kw">let </span>syd = g.add_node(<span class="string">"Sydney"</span>.to_owned());
+
+<span class="comment">// Add distances in kilometers as edge data.
+</span>g.extend_with_edges(<span class="kw-2">&amp;</span>[
+    (ber, del, <span class="number">6_000</span>),
+    (ber, mex, <span class="number">10_000</span>),
+    (ber, syd, <span class="number">16_000</span>),
+    (del, mex, <span class="number">14_000</span>),
+    (del, syd, <span class="number">12_000</span>),
+    (mex, syd, <span class="number">15_000</span>),
+]);
+
+<span class="comment">// We might now want to change up the distances to be in miles instead and to be strings.
+// We can do this using the `map` method, which takes two closures for the node and edge data,
+// respectively, and returns a new graph with the transformed data.
+</span><span class="kw">let </span>g_miles: UnGraph&lt;String, String&gt; = g.map(
+    |<span class="kw">_</span>, city| city.to_owned(),
+    |<span class="kw">_</span>, distance| <span class="macro">format!</span>(<span class="string">"{} miles"</span>, (<span class="kw-2">*</span>distance <span class="kw">as </span>f64 * <span class="number">0.621371</span>).round() <span class="kw">as </span>i32),
+);</code></pre></div>
+<h4 id="exporting-graphs-to-dot-format"><a class="doc-anchor" href="#exporting-graphs-to-dot-format">§</a>Exporting graphs to DOT format</h4>
+<p>Petgraph provides functionality to export graphs to the <a href="https://www.graphviz.org/doc/info/lang.html">DOT</a>
+format, which can be used with the <a href="https://www.graphviz.org/">Graphviz</a> suite of tools for
+visualization and analysis of graphs. The <a href="dot/index.html" title="mod petgraph::dot"><code>dot</code></a> module provides the necessary functionality to
+convert graphs into DOT format.</p>
+<p>Let’s try exporting the graph we created in the previous example to DOT format.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>petgraph::dot::{Config, Dot};
+<span class="kw">use </span>petgraph::graph::UnGraph;
+<span class="kw">use </span>petgraph::visit::EdgeRef;
+
+<span class="comment">// Create an undirected graph with city names as node data and their distances as edge data.
+</span><span class="kw">let </span><span class="kw-2">mut </span>g = UnGraph::&lt;String, u32&gt;::new_undirected();
+
+<span class="kw">let </span>ber = g.add_node(<span class="string">"Berlin"</span>.to_owned());
+<span class="kw">let </span>del = g.add_node(<span class="string">"New Delhi"</span>.to_owned());
+<span class="kw">let </span>mex = g.add_node(<span class="string">"Mexico City"</span>.to_owned());
+<span class="kw">let </span>syd = g.add_node(<span class="string">"Sydney"</span>.to_owned());
+
+<span class="comment">// Add distances in kilometers as edge data.
+</span>g.extend_with_edges(<span class="kw-2">&amp;</span>[
+    (ber, del, <span class="number">6_000</span>),
+    (ber, mex, <span class="number">10_000</span>),
+    (ber, syd, <span class="number">16_000</span>),
+    (del, mex, <span class="number">14_000</span>),
+    (del, syd, <span class="number">12_000</span>),
+    (mex, syd, <span class="number">15_000</span>),
+]);
+
+<span class="comment">// Basic DOT export with automatic labels
+</span><span class="kw">let </span>basic_dot = Dot::new(<span class="kw-2">&amp;</span>g);
+<span class="macro">println!</span>(<span class="string">"Basic DOT format:\n{:?}\n"</span>, basic_dot);
+<span class="comment">// Output:
+// Basic DOT format:
+// graph {
+//     0 [ label = "\"Berlin\"" ]
+//     1 [ label = "\"New Delhi\"" ]
+//     2 [ label = "\"Mexico City\"" ]
+//     3 [ label = "\"Sydney\"" ]
+//     0 -- 1 [ label = "6000" ]
+//     0 -- 2 [ label = "10000" ]
+//     0 -- 3 [ label = "16000" ]
+//     1 -- 2 [ label = "14000" ]
+//     1 -- 3 [ label = "12000" ]
+//     2 -- 3 [ label = "15000" ]
+// }
+
+// Enhanced DOT export with custom attributes
+</span><span class="kw">let </span>fancy_dot = Dot::with_attr_getters(
+    <span class="kw-2">&amp;</span>g,
+    <span class="comment">// Global graph attributes
+    </span><span class="kw-2">&amp;</span>[],
+    <span class="comment">// Edge attribute getter
+    </span><span class="kw-2">&amp;</span>|graph_reference, edge_reference| {
+        <span class="comment">// Style edges depending on distance
+        </span><span class="kw">if </span>graph_reference.edge_weight(edge_reference.id()).unwrap() &gt; <span class="kw-2">&amp;</span><span class="number">12_500 </span>{
+            <span class="string">"style=dashed, penwidth=3"</span>.to_owned()
+        } <span class="kw">else </span>{
+            <span class="string">"style=solid"</span>.to_owned()
+        }
+    },
+    <span class="comment">// Node attribute getter; We don't change any node attributes
+    </span><span class="kw-2">&amp;</span>|<span class="kw">_</span>, (<span class="kw">_</span>, <span class="kw">_</span>)| String::new(),
+);
+
+<span class="macro">println!</span>(<span class="string">"Enhanced DOT format:\n{:?}"</span>, fancy_dot);
+<span class="comment">// Output:
+// Enhanced DOT format:
+// graph {
+//     0 [ label = "\"Berlin\"" ]
+//     1 [ label = "\"New Delhi\"" ]
+//     2 [ label = "\"Mexico City\"" ]
+//     3 [ label = "\"Sydney\"" ]
+//     0 -- 1 [ label = "6000" style=solid]
+//     0 -- 2 [ label = "10000" style=solid]
+//     0 -- 3 [ label = "16000" style=dashed, penwidth=3]
+//     1 -- 2 [ label = "14000" style=dashed, penwidth=3]
+//     1 -- 3 [ label = "12000" style=solid]
+//     2 -- 3 [ label = "15000" style=dashed, penwidth=3]
+// }
+
+// This would typically be written to a file:
+// std::fs::write("flight_network.dot", format!("{:?}", fancy_dot)).unwrap();</span></code></pre></div>
+<h2 id="crate-features"><a class="doc-anchor" href="#crate-features">§</a>Crate features</h2>
+<p><code>petgraph</code> is built with these features enabled by default:</p>
+<ul>
+<li><strong>graphmap</strong> -
+Enables <a href="./graphmap/struct.GraphMap.html"><code>GraphMap</code></a>.</li>
+<li><strong>stable_graph</strong> -
+Enables <a href="./stable_graph/struct.StableGraph.html"><code>StableGraph</code></a>.</li>
+<li><strong>matrix_graph</strong> -
+Enables <a href="./matrix_graph/struct.MatrixGraph.html"><code>MatrixGraph</code></a>.</li>
+<li><strong>std</strong> -
+Enables the Rust Standard Library. Disabling the <code>std</code> feature makes it possible to use <code>petgraph</code> in <code>no_std</code> contexts.</li>
+</ul>
+<p>Optionally, the following features can be enabled:</p>
+<ul>
+<li><strong>serde-1</strong> -
+Enables serialization for <code>Graph, StableGraph, GraphMap</code> using
+<a href="https://crates.io/crates/serde"><code>serde 1.0</code></a>. May require a more recent version
+of Rust than petgraph alone.</li>
+<li><strong>rayon</strong> -
+Enables parallel versions of iterators and algorithms using
+<a href="https://docs.rs/rayon/latest/rayon/"><code>rayon</code></a> crate. Requires the <code>std</code> feature.</li>
+<li><strong>dot_parser</strong> -
+Enables building <a href="./graph/struct.Graph.html"><code>Graph</code></a> and <a href="./stable_graph/struct.StableGraph.html"><code>StableGraph</code></a> from <a href="https://www.graphviz.org/doc/info/lang.html">DOT/Graphviz</a> descriptions. Imports can be made statically or dynamically (i.e. at compile time or at runtime).</li>
+<li><strong>unstable</strong> -
+Enables unstable crate features (currently only <code>generate</code>).</li>
+<li><strong>generate</strong> -
+Enables graph generators. The API of functionality behind this flag is subject to change at any time.</li>
+</ul>
+</div></details><h2 id="reexports" class="section-header">Re-exports<a href="#reexports" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name" id="reexport.Graph"><code>pub use crate::graph::<a class="struct" href="graph/struct.Graph.html" title="struct petgraph::graph::Graph">Graph</a>;</code></div></li><li><div class="item-name" id="reexport.Incoming"><code>pub use crate::Direction::<a class="enum" href="enum.Direction.html" title="enum petgraph::Direction">Incoming</a>;</code></div></li><li><div class="item-name" id="reexport.Outgoing"><code>pub use crate::Direction::<a class="enum" href="enum.Direction.html" title="enum petgraph::Direction">Outgoing</a>;</code></div></li></ul><h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="acyclic/index.html" title="mod petgraph::acyclic">acyclic</a></div><div class="desc docblock-short">A wrapper around graph types that enforces an acyclicity invariant.</div></li><li><div class="item-name"><a class="mod" href="adj/index.html" title="mod petgraph::adj">adj</a></div><div class="desc docblock-short">Simple adjacency list.</div></li><li><div class="item-name"><a class="mod" href="algo/index.html" title="mod petgraph::algo">algo</a></div><div class="desc docblock-short">This module contains most of <code>petgraph</code>’s algorithms to operate on graphs. Some, very simple search
+algorithms like depth-first search or breadth-first search are implemented in the
+<a href="visit/index.html" title="mod petgraph::visit"><code>visit</code></a> module.</div></li><li><div class="item-name"><a class="mod" href="csr/index.html" title="mod petgraph::csr">csr</a></div><div class="desc docblock-short">Compressed Sparse Row (CSR) is a sparse adjacency matrix graph.</div></li><li><div class="item-name"><a class="mod" href="data/index.html" title="mod petgraph::data">data</a></div><div class="desc docblock-short">Graph traits for associated data and graph construction.</div></li><li><div class="item-name"><a class="mod" href="dot/index.html" title="mod petgraph::dot">dot</a></div><div class="desc docblock-short">Simple graphviz dot file format output.</div></li><li><div class="item-name"><a class="mod" href="graph/index.html" title="mod petgraph::graph">graph</a></div><div class="desc docblock-short"><code>Graph&lt;N, E, Ty, Ix&gt;</code> is a graph datastructure using an adjacency list representation.</div></li><li><div class="item-name"><a class="mod" href="graph6/index.html" title="mod petgraph::graph6">graph6</a></div><div class="desc docblock-short">Traits related to <a href="https://users.cecs.anu.edu.au/~bdm/data/formats.txt">graph6 format</a> for undirected graphs.</div></li><li><div class="item-name"><a class="mod" href="operator/index.html" title="mod petgraph::operator">operator</a></div><div class="desc docblock-short">Operators for creating new graphs from existing ones.</div></li><li><div class="item-name"><a class="mod" href="prelude/index.html" title="mod petgraph::prelude">prelude</a></div><div class="desc docblock-short">Commonly used items.</div></li><li><div class="item-name"><a class="mod" href="unionfind/index.html" title="mod petgraph::unionfind">unionfind</a></div><div class="desc docblock-short"><code>UnionFind&lt;K&gt;</code> is a disjoint-set data structure.</div></li><li><div class="item-name"><a class="mod" href="visit/index.html" title="mod petgraph::visit">visit</a></div><div class="desc docblock-short">Graph traits and graph traversals.</div></li></ul><h2 id="enums" class="section-header">Enums<a href="#enums" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="enum" href="enum.Directed.html" title="enum petgraph::Directed">Directed</a></div><div class="desc docblock-short">Marker type for a directed graph.</div></li><li><div class="item-name"><a class="enum" href="enum.Direction.html" title="enum petgraph::Direction">Direction</a></div><div class="desc docblock-short">Edge direction.</div></li><li><div class="item-name"><a class="enum" href="enum.Undirected.html" title="enum petgraph::Undirected">Undirected</a></div><div class="desc docblock-short">Marker type for an undirected graph.</div></li></ul><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.EdgeType.html" title="trait petgraph::EdgeType">Edge<wbr>Type</a></div><div class="desc docblock-short">A graph’s edge type determines whether it has directed edges or not.</div></li><li><div class="item-name"><a class="trait" href="trait.IntoWeightedEdge.html" title="trait petgraph::IntoWeightedEdge">Into<wbr>Weighted<wbr>Edge</a></div><div class="desc docblock-short">Convert an element like <code>(i, j)</code> or <code>(i, j, w)</code> into
+a triple of source, target, edge weight.</div></li></ul><script type="text/json" id="notable-traits-data">{"EdgeIndices<'_, E, Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"adj/struct.EdgeIndices.html\" title=\"struct petgraph::adj::EdgeIndices\">EdgeIndices</a>&lt;'_, E, Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;E, Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"adj/struct.EdgeIndices.html\" title=\"struct petgraph::adj::EdgeIndices\">EdgeIndices</a>&lt;'_, E, Ix&gt;</div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"struct\" href=\"adj/struct.EdgeIndex.html\" title=\"struct petgraph::adj::EdgeIndex\">EdgeIndex</a>&lt;Ix&gt;;</div>","EdgeIndices<Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"graph/struct.EdgeIndices.html\" title=\"struct petgraph::graph::EdgeIndices\">EdgeIndices</a>&lt;Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"graph/struct.EdgeIndices.html\" title=\"struct petgraph::graph::EdgeIndices\">EdgeIndices</a>&lt;Ix&gt;</div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"struct\" href=\"graph/struct.EdgeIndex.html\" title=\"struct petgraph::graph::EdgeIndex\">EdgeIndex</a>&lt;Ix&gt;;</div>","EdgeReferences<'_, E, Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"graph/struct.EdgeReferences.html\" title=\"struct petgraph::graph::EdgeReferences\">EdgeReferences</a>&lt;'a, E, Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;'a, E, Ix&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"graph/struct.EdgeReferences.html\" title=\"struct petgraph::graph::EdgeReferences\">EdgeReferences</a>&lt;'a, E, Ix&gt;<div class=\"where\">where\n    Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>,</div></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"struct\" href=\"graph/struct.EdgeReference.html\" title=\"struct petgraph::graph::EdgeReference\">EdgeReference</a>&lt;'a, E, Ix&gt;;</div>","EdgeWeightsMut<'_, E, Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"graph/struct.EdgeWeightsMut.html\" title=\"struct petgraph::graph::EdgeWeightsMut\">EdgeWeightsMut</a>&lt;'a, E, Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;'a, E, Ix&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"graph/struct.EdgeWeightsMut.html\" title=\"struct petgraph::graph::EdgeWeightsMut\">EdgeWeightsMut</a>&lt;'a, E, Ix&gt;<div class=\"where\">where\n    Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>,</div></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"primitive\" href=\"https://doc.rust-lang.org/1.85.0/core/primitive.reference.html\">&amp;'a mut E</a>;</div>","Edges<'_, E, Ty, Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"graph/struct.Edges.html\" title=\"struct petgraph::graph::Edges\">Edges</a>&lt;'a, E, Ty, Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;'a, E, Ty, Ix&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"graph/struct.Edges.html\" title=\"struct petgraph::graph::Edges\">Edges</a>&lt;'a, E, Ty, Ix&gt;<div class=\"where\">where\n    Ty: <a class=\"trait\" href=\"trait.EdgeType.html\" title=\"trait petgraph::EdgeType\">EdgeType</a>,\n    Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>,</div></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"struct\" href=\"graph/struct.EdgeReference.html\" title=\"struct petgraph::graph::EdgeReference\">EdgeReference</a>&lt;'a, E, Ix&gt;;</div>","EdgesConnecting<'_, E, Ty, Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"graph/struct.EdgesConnecting.html\" title=\"struct petgraph::graph::EdgesConnecting\">EdgesConnecting</a>&lt;'a, E, Ty, Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;'a, E, Ty, Ix&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"graph/struct.EdgesConnecting.html\" title=\"struct petgraph::graph::EdgesConnecting\">EdgesConnecting</a>&lt;'a, E, Ty, Ix&gt;<div class=\"where\">where\n    Ty: <a class=\"trait\" href=\"trait.EdgeType.html\" title=\"trait petgraph::EdgeType\">EdgeType</a>,\n    Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>,</div></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"struct\" href=\"graph/struct.EdgeReference.html\" title=\"struct petgraph::graph::EdgeReference\">EdgeReference</a>&lt;'a, E, Ix&gt;;</div>","Externals<'_, N, Ty, Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"graph/struct.Externals.html\" title=\"struct petgraph::graph::Externals\">Externals</a>&lt;'a, N, Ty, Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;'a, N: 'a, Ty, Ix&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"graph/struct.Externals.html\" title=\"struct petgraph::graph::Externals\">Externals</a>&lt;'a, N, Ty, Ix&gt;<div class=\"where\">where\n    Ty: <a class=\"trait\" href=\"trait.EdgeType.html\" title=\"trait petgraph::EdgeType\">EdgeType</a>,\n    Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>,</div></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"struct\" href=\"graph/struct.NodeIndex.html\" title=\"struct petgraph::graph::NodeIndex\">NodeIndex</a>&lt;Ix&gt;;</div>","Neighbors<'_, E, Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"graph/struct.Neighbors.html\" title=\"struct petgraph::graph::Neighbors\">Neighbors</a>&lt;'_, E, Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;E, Ix&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"graph/struct.Neighbors.html\" title=\"struct petgraph::graph::Neighbors\">Neighbors</a>&lt;'_, E, Ix&gt;<div class=\"where\">where\n    Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>,</div></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"struct\" href=\"graph/struct.NodeIndex.html\" title=\"struct petgraph::graph::NodeIndex\">NodeIndex</a>&lt;Ix&gt;;</div>","NodeIndices<Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"adj/struct.NodeIndices.html\" title=\"struct petgraph::adj::NodeIndices\">NodeIndices</a>&lt;Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;Ix&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"adj/struct.NodeIndices.html\" title=\"struct petgraph::adj::NodeIndices\">NodeIndices</a>&lt;Ix&gt;</div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = Ix;</div>","NodeIndices<Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"graph/struct.NodeIndices.html\" title=\"struct petgraph::graph::NodeIndices\">NodeIndices</a>&lt;Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"graph/struct.NodeIndices.html\" title=\"struct petgraph::graph::NodeIndices\">NodeIndices</a>&lt;Ix&gt;</div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"struct\" href=\"graph/struct.NodeIndex.html\" title=\"struct petgraph::graph::NodeIndex\">NodeIndex</a>&lt;Ix&gt;;</div>","NodeWeightsMut<'_, N, Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"graph/struct.NodeWeightsMut.html\" title=\"struct petgraph::graph::NodeWeightsMut\">NodeWeightsMut</a>&lt;'a, N, Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;'a, N, Ix&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"graph/struct.NodeWeightsMut.html\" title=\"struct petgraph::graph::NodeWeightsMut\">NodeWeightsMut</a>&lt;'a, N, Ix&gt;<div class=\"where\">where\n    Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>,</div></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"primitive\" href=\"https://doc.rust-lang.org/1.85.0/core/primitive.reference.html\">&amp;'a mut N</a>;</div>","OutgoingEdgeIndices<Ix>":"<h3>Notable traits for <code><a class=\"struct\" href=\"adj/struct.OutgoingEdgeIndices.html\" title=\"struct petgraph::adj::OutgoingEdgeIndices\">OutgoingEdgeIndices</a>&lt;Ix&gt;</code></h3><pre><code><div class=\"where\">impl&lt;Ix&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"adj/struct.OutgoingEdgeIndices.html\" title=\"struct petgraph::adj::OutgoingEdgeIndices\">OutgoingEdgeIndices</a>&lt;Ix&gt;<div class=\"where\">where\n    Ix: <a class=\"trait\" href=\"graph/trait.IndexType.html\" title=\"trait petgraph::graph::IndexType\">IndexType</a>,</div></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"struct\" href=\"adj/struct.EdgeIndex.html\" title=\"struct petgraph::adj::EdgeIndex\">EdgeIndex</a>&lt;Ix&gt;;</div>"}</script></section></div></main></body></html>
