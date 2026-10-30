@@ -9,7 +9,7 @@ fall back to text diffing less often.
 
 ### Parsing
 
-Updated Haskell (the previous version was prone to crashing) and
+Updated Haskell (the previous version was prone to crashing), Python and
 Kotlin parsers.
 
 Improved delimiter and trailing punctuation handling in: C, C++, C#,
