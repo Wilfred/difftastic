@@ -337,5 +337,8 @@ fn matches_for_line(matches: &[MatchedPos], line_num: LineNumber) -> Vec<&Matche
         .iter()
         .filter(|m| m.pos.line == line_num)
         .filter(|m| m.kind.is_novel())
+        // Words that are the same on both sides of a changed comment, string
+        // or text line are not changes, just as unchanged code tokens are not.
+        .filter(|m| !matches!(m.kind, syntax::MatchKind::UnchangedPartOfNovelItem { .. }))
         .collect()
 }
