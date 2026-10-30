@@ -21,23 +21,36 @@ pub(crate) fn read_file_or_die(path: &FileArgument) -> Vec<u8> {
     }
 }
 
+/// Which of the two compared files, if any, was missing and therefore
+/// treated as empty content (see `read_files_or_die`).
+#[derive(Debug, PartialEq, Eq)]
+pub(crate) enum MissingFile {
+    Neither,
+    Lhs,
+    Rhs,
+}
+
 pub(crate) fn read_files_or_die(
     lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     missing_as_empty: bool,
-) -> (Vec<u8>, Vec<u8>) {
+) -> (Vec<u8>, Vec<u8>, MissingFile) {
     let lhs_res = read_file_arg(lhs_path);
     let rhs_res = read_file_arg(rhs_path);
 
     match (lhs_res, rhs_res) {
         // Both files exist, the happy case.
-        (Ok(lhs_src), Ok(rhs_src)) => (lhs_src, rhs_src),
+        (Ok(lhs_src), Ok(rhs_src)) => (lhs_src, rhs_src, MissingFile::Neither),
 
         // Proceed if we've been given two paths and only one
         // exists. This is important for mercurial diffs when a file
         // has been removed.
-        (Ok(lhs_src), Err(e)) if missing_as_empty && e.kind() == NotFound => (lhs_src, vec![]),
-        (Err(e), Ok(rhs_src)) if missing_as_empty && e.kind() == NotFound => (vec![], rhs_src),
+        (Ok(lhs_src), Err(e)) if missing_as_empty && e.kind() == NotFound => {
+            (lhs_src, vec![], MissingFile::Rhs)
+        }
+        (Err(e), Ok(rhs_src)) if missing_as_empty && e.kind() == NotFound => {
+            (vec![], rhs_src, MissingFile::Lhs)
+        }
 
         (lhs_res, rhs_res) => {
             // Something else went wrong. Print both errors
