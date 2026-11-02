@@ -20,7 +20,7 @@ jobs:
 
           - { target: aarch64-unknown-linux-gnu, os: ubuntu-22.04-arm }
 
-          # mac-14 is an M1 ARM device.
+          # macos-15 is an ARM64 runner.
           - { target: aarch64-apple-darwin, os: macos-15 }
           # Tests run under Rosetta on this ARM runner.
           - { target: x86_64-apple-darwin, os: macos-15 }
