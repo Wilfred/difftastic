@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Common recipes to build nom parsers"><title>nom::recipes - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="nom" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../nom/index.html">nom</a><span class="version">8.0.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module recipes</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#common-recipes-to-build-nom-parsers" title="Common recipes to build nom parsers">Common recipes to build nom parsers</a><ul><li><a href="#whitespace" title="Whitespace">Whitespace</a></li><li><a href="#comments" title="Comments">Comments</a></li><li><a href="#identifiers" title="Identifiers">Identifiers</a></li><li><a href="#literal-values" title="Literal Values">Literal Values</a></li></ul></li><li><a href="#implementing-fromstr" title="implementing FromStr">implementing FromStr</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">In crate nom</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="../index.html">nom</a></span><h1>Module <span>recipes</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/nom/lib.rs.html#460">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="common-recipes-to-build-nom-parsers"><a class="doc-anchor" href="#common-recipes-to-build-nom-parsers">§</a>Common recipes to build nom parsers</h2>
+<p>These are short recipes for accomplishing common tasks with nom.</p>
+<ul>
+<li><a href="#whitespace">Whitespace</a>
+<ul>
+<li><a href="#wrapper-combinators-that-eat-whitespace-before-and-after-a-parser">Wrapper combinators that eat whitespace before and after a parser</a></li>
+</ul>
+</li>
+<li><a href="#comments">Comments</a>
+<ul>
+<li><a href="#-ceol-style-comments"><code>// C++/EOL-style comments</code></a></li>
+<li><a href="#-c-style-comments-"><code>/* C-style comments */</code></a></li>
+</ul>
+</li>
+<li><a href="#identifiers">Identifiers</a>
+<ul>
+<li><a href="#rust-style-identifiers"><code>Rust-Style Identifiers</code></a></li>
+</ul>
+</li>
+<li><a href="#literal-values">Literal Values</a>
+<ul>
+<li><a href="#escaped-strings">Escaped Strings</a></li>
+<li><a href="#integers">Integers</a>
+<ul>
+<li><a href="#hexadecimal">Hexadecimal</a></li>
+<li><a href="#octal">Octal</a></li>
+<li><a href="#binary">Binary</a></li>
+<li><a href="#decimal">Decimal</a></li>
+</ul>
+</li>
+<li><a href="#floating-point-numbers">Floating Point Numbers</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="whitespace"><a class="doc-anchor" href="#whitespace">§</a>Whitespace</h3><h4 id="wrapper-combinators-that-eat-whitespace-before-and-after-a-parser"><a class="doc-anchor" href="#wrapper-combinators-that-eat-whitespace-before-and-after-a-parser">§</a>Wrapper combinators that eat whitespace before and after a parser</h4>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  Parser,
+  error::ParseError,
+  sequence::delimited,
+  character::complete::multispace0,
+};
+
+<span class="doccomment">/// A combinator that takes a parser `inner` and produces a parser that also consumes both leading and 
+/// trailing whitespace, returning the output of `inner`.
+</span><span class="kw">pub fn </span>ws&lt;<span class="lifetime">'a</span>, O, E: ParseError&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;, F&gt;(
+    inner: F,
+) -&gt; <span class="kw">impl </span>Parser&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, Output = O, Error = E&gt;
+<span class="kw">where
+    </span>F: Parser&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, Output = O, Error = E&gt;,
+{
+    delimited(multispace0, inner, multispace0)
+}</code></pre></div>
+<p>To eat only trailing whitespace, replace <code>delimited(...)</code> with <code>terminated(&amp;inner, multispace0)</code>.
+Likewise, the eat only leading whitespace, replace <code>delimited(...)</code> with <code>preceded(multispace0, &amp;inner)</code>. You can use your own parser instead of <code>multispace0</code> if you want to skip a different set
+of lexemes.</p>
+<h3 id="comments"><a class="doc-anchor" href="#comments">§</a>Comments</h3><h4 id="-ceol-style-comments"><a class="doc-anchor" href="#-ceol-style-comments">§</a><code>// C++/EOL-style comments</code></h4>
+<p>This version uses <code>%</code> to start a comment, does not consume the newline character, and returns an
+output of <code>()</code>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  Parser,
+  error::ParseError,
+  combinator::value,
+  sequence::pair,
+  bytes::complete::is_not,
+  character::complete::char,
+};
+
+<span class="kw">pub fn </span>peol_comment&lt;<span class="lifetime">'a</span>, E: ParseError&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;&gt;(i: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, (), E&gt;
+{
+  value(
+    (), <span class="comment">// Output is thrown away.
+    </span>pair(char(<span class="string">'%'</span>), is_not(<span class="string">"\n\r"</span>))
+  ).parse(i)
+}</code></pre></div>
+<h4 id="-c-style-comments-"><a class="doc-anchor" href="#-c-style-comments-">§</a><code>/* C-style comments */</code></h4>
+<p>Inline comments surrounded with sentinel tags <code>(*</code> and <code>*)</code>. This version returns an output of <code>()</code>
+and does not handle nested comments.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  Parser,
+  error::ParseError,
+  combinator::value,
+  bytes::complete::{tag, take_until},
+};
+
+<span class="kw">pub fn </span>pinline_comment&lt;<span class="lifetime">'a</span>, E: ParseError&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;&gt;(i: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, (), E&gt; {
+  value(
+    (), <span class="comment">// Output is thrown away.
+    </span>(
+      tag(<span class="string">"(*"</span>),
+      take_until(<span class="string">"*)"</span>),
+      tag(<span class="string">"*)"</span>)
+    )
+  ).parse(i)
+}</code></pre></div>
+<h3 id="identifiers"><a class="doc-anchor" href="#identifiers">§</a>Identifiers</h3><h4 id="rust-style-identifiers"><a class="doc-anchor" href="#rust-style-identifiers">§</a><code>Rust-Style Identifiers</code></h4>
+<p>Parsing identifiers that may start with a letter (or underscore) and may contain underscores,
+letters and numbers may be parsed like this:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  Parser,
+  branch::alt,
+  multi::many0_count,
+  combinator::recognize,
+  sequence::pair,
+  character::complete::{alpha1, alphanumeric1},
+  bytes::complete::tag,
+};
+
+<span class="kw">pub fn </span>identifier(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  recognize(
+    pair(
+      alt((alpha1, tag(<span class="string">"_"</span>))),
+      many0_count(alt((alphanumeric1, tag(<span class="string">"_"</span>))))
+    )
+  ).parse(input)
+}</code></pre></div>
+<p>Let’s say we apply this to the identifier <code>hello_world123abc</code>. The first <code>alt</code> parser would
+recognize <code>h</code>. The <code>pair</code> combinator ensures that <code>ello_world123abc</code> will be piped to the next
+<code>alphanumeric0</code> parser, which recognizes every remaining character. However, the <code>pair</code> combinator
+returns a tuple of the results of its sub-parsers. The <code>recognize</code> parser produces a <code>&amp;str</code> of the
+input text that was parsed, which in this case is the entire <code>&amp;str</code> <code>hello_world123abc</code>.</p>
+<h3 id="literal-values"><a class="doc-anchor" href="#literal-values">§</a>Literal Values</h3><h4 id="escaped-strings"><a class="doc-anchor" href="#escaped-strings">§</a>Escaped Strings</h4>
+<p>This is <a href="https://github.com/rust-bakery/nom/blob/main/examples/string.rs">one of the examples</a> in
+the examples directory.</p>
+<h4 id="integers"><a class="doc-anchor" href="#integers">§</a>Integers</h4>
+<p>The following recipes all return string slices rather than integer values. How to obtain an
+integer value instead is demonstrated for hexadecimal integers. The others are similar.</p>
+<p>The parsers allow the grouping character <code>_</code>, which allows one to group the digits by byte, for
+example: <code>0xA4_3F_11_28</code>. If you prefer to exclude the <code>_</code> character, the lambda to convert from a
+string slice to an integer value is slightly simpler. You can also strip the <code>_</code> from the string
+slice that is returned, which is demonstrated in the second hexadecimal number parser.</p>
+<p>If you wish to limit the number of digits in a valid integer literal, replace <code>many1</code> with
+<code>many_m_n</code> in the recipes.</p>
+<h5 id="hexadecimal"><a class="doc-anchor" href="#hexadecimal">§</a>Hexadecimal</h5>
+<p>The parser outputs the string slice of the digits without the leading <code>0x</code>/<code>0X</code>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  Parser,
+  branch::alt,
+  multi::{many0, many1},
+  combinator::recognize,
+  sequence::{preceded, terminated},
+  character::complete::{char, one_of},
+  bytes::complete::tag,
+};
+
+<span class="kw">fn </span>hexadecimal(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; { <span class="comment">// &lt;'a, E: ParseError&lt;&amp;'a str&gt;&gt;
+  </span>preceded(
+    alt((tag(<span class="string">"0x"</span>), tag(<span class="string">"0X"</span>))),
+    recognize(
+      many1(
+        terminated(one_of(<span class="string">"0123456789abcdefABCDEF"</span>), many0(char(<span class="string">'_'</span>)))
+      )
+    )
+  ).parse(input)
+}</code></pre></div>
+<p>If you want it to return the integer value instead, use map:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  Parser,
+  branch::alt,
+  multi::{many0, many1},
+  combinator::{map_res, recognize},
+  sequence::{preceded, terminated},
+  character::complete::{char, one_of},
+  bytes::complete::tag,
+};
+
+<span class="kw">fn </span>hexadecimal_value(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, i64&gt; {
+  map_res(
+    preceded(
+      alt((tag(<span class="string">"0x"</span>), tag(<span class="string">"0X"</span>))),
+      recognize(
+        many1(
+          terminated(one_of(<span class="string">"0123456789abcdefABCDEF"</span>), many0(char(<span class="string">'_'</span>)))
+        )
+      )
+    ),
+    |out: <span class="kw-2">&amp;</span>str| i64::from_str_radix(<span class="kw-2">&amp;</span>str::replace(<span class="kw-2">&amp;</span>out, <span class="string">"_"</span>, <span class="string">""</span>), <span class="number">16</span>)
+  ).parse(input)
+}</code></pre></div>
+<h5 id="octal"><a class="doc-anchor" href="#octal">§</a>Octal</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  Parser,
+  branch::alt,
+  multi::{many0, many1},
+  combinator::recognize,
+  sequence::{preceded, terminated},
+  character::complete::{char, one_of},
+  bytes::complete::tag,
+};
+
+<span class="kw">fn </span>octal(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  preceded(
+    alt((tag(<span class="string">"0o"</span>), tag(<span class="string">"0O"</span>))),
+    recognize(
+      many1(
+        terminated(one_of(<span class="string">"01234567"</span>), many0(char(<span class="string">'_'</span>)))
+      )
+    )
+  ).parse(input)
+}</code></pre></div>
+<h5 id="binary"><a class="doc-anchor" href="#binary">§</a>Binary</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  Parser,
+  branch::alt,
+  multi::{many0, many1},
+  combinator::recognize,
+  sequence::{preceded, terminated},
+  character::complete::{char, one_of},
+  bytes::complete::tag,
+};
+
+<span class="kw">fn </span>binary(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  preceded(
+    alt((tag(<span class="string">"0b"</span>), tag(<span class="string">"0B"</span>))),
+    recognize(
+      many1(
+        terminated(one_of(<span class="string">"01"</span>), many0(char(<span class="string">'_'</span>)))
+      )
+    )
+  ).parse(input)
+}</code></pre></div>
+<h5 id="decimal"><a class="doc-anchor" href="#decimal">§</a>Decimal</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  Parser,
+  multi::{many0, many1},
+  combinator::recognize,
+  sequence::terminated,
+  character::complete::{char, one_of},
+};
+
+<span class="kw">fn </span>decimal(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  recognize(
+    many1(
+      terminated(one_of(<span class="string">"0123456789"</span>), many0(char(<span class="string">'_'</span>)))
+    )
+  ).parse(input)
+}</code></pre></div>
+<h4 id="floating-point-numbers"><a class="doc-anchor" href="#floating-point-numbers">§</a>Floating Point Numbers</h4>
+<p>The following is adapted from <a href="https://github.com/ProgVal/rust-python-parser/blob/master/src/numbers.rs">the Python parser by Valentin Lorentz (ProgVal)</a>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  Parser,
+  branch::alt,
+  multi::{many0, many1},
+  combinator::{opt, recognize},
+  sequence::{preceded, terminated},
+  character::complete::{char, one_of},
+};
+
+<span class="kw">fn </span>float(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  alt((
+    <span class="comment">// Case one: .42
+    </span>recognize(
+      (
+        char(<span class="string">'.'</span>),
+        decimal,
+        opt((
+          one_of(<span class="string">"eE"</span>),
+          opt(one_of(<span class="string">"+-"</span>)),
+          decimal
+        ))
+      )
+    )
+    , <span class="comment">// Case two: 42e42 and 42.42e42
+    </span>recognize(
+      (
+        decimal,
+        opt(preceded(
+          char(<span class="string">'.'</span>),
+          decimal,
+        )),
+        one_of(<span class="string">"eE"</span>),
+        opt(one_of(<span class="string">"+-"</span>)),
+        decimal
+      )
+    )
+    , <span class="comment">// Case three: 42. and 42.42
+    </span>recognize(
+      (
+        decimal,
+        char(<span class="string">'.'</span>),
+        opt(decimal)
+      )
+    )
+  )).parse(input)
+}
+
+<span class="kw">fn </span>decimal(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  recognize(
+    many1(
+      terminated(one_of(<span class="string">"0123456789"</span>), many0(char(<span class="string">'_'</span>)))
+    )
+  ).parse(input)
+}</code></pre></div>
+<h2 id="implementing-fromstr"><a class="doc-anchor" href="#implementing-fromstr">§</a>implementing FromStr</h2>
+<p>The <a href="https://doc.rust-lang.org/std/str/trait.FromStr.html">FromStr trait</a> provides
+a common interface to parse from a string.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult, Parser, Finish, error::Error,
+  bytes::complete::{tag, take_while},
+};
+<span class="kw">use </span>std::str::FromStr;
+
+<span class="comment">// will recognize the name in "Hello, name!"
+</span><span class="kw">fn </span>parse_name(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  <span class="kw">let </span>(i, <span class="kw">_</span>) = tag(<span class="string">"Hello, "</span>).parse(input)<span class="question-mark">?</span>;
+  <span class="kw">let </span>(i, name) = take_while(|c:char| c.is_alphabetic())(i)<span class="question-mark">?</span>;
+  <span class="kw">let </span>(i, <span class="kw">_</span>) = tag(<span class="string">"!"</span>)(i)<span class="question-mark">?</span>;
+
+  <span class="prelude-val">Ok</span>((i, name))
+}
+
+<span class="comment">// with FromStr, the result cannot be a reference to the input, it must be owned
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>Name(<span class="kw">pub </span>String);
+
+<span class="kw">impl </span>FromStr <span class="kw">for </span>Name {
+  <span class="comment">// the error must be owned as well
+  </span><span class="kw">type </span><span class="prelude-val">Err </span>= Error&lt;String&gt;;
+
+  <span class="kw">fn </span>from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Err&gt; {
+      <span class="kw">match </span>parse_name(s).finish() {
+          <span class="prelude-val">Ok</span>((_remaining, name)) =&gt; <span class="prelude-val">Ok</span>(Name(name.to_string())),
+          <span class="prelude-val">Err</span>(Error { input, code }) =&gt; <span class="prelude-val">Err</span>(Error {
+              input: input.to_string(),
+              code,
+          })
+      }
+  }
+}
+
+<span class="kw">fn </span>main() {
+  <span class="comment">// parsed: Ok(Name("nom"))
+  </span><span class="macro">println!</span>(<span class="string">"parsed: {:?}"</span>, <span class="string">"Hello, nom!"</span>.parse::&lt;Name&gt;());
+
+  <span class="comment">// parsed: Err(Error { input: "123!", code: Tag })
+  </span><span class="macro">println!</span>(<span class="string">"parsed: {:?}"</span>, <span class="string">"Hello, 123!"</span>.parse::&lt;Name&gt;());
+}</code></pre></div>
+</div></details></section></div></main></body></html>

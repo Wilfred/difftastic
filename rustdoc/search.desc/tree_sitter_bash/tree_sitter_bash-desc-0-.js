@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_bash", 0, "This crate provides Bash language support for the …\nThe syntax highlighting query for this grammar.\nThe tree-sitter <code>LanguageFn</code> for this grammar.\nThe content of the <code>node-types.json</code> file for this grammar.")

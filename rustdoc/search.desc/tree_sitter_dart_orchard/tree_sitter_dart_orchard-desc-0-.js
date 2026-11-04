@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_dart_orchard", 0, "This crate provides DartOrchard language support for the …\nThe tree-sitter <code>LanguageFn</code> for this grammar.\nThe content of the <code>node-types.json</code> file for this grammar.")

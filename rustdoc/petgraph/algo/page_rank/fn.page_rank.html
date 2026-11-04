@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Page Rank algorithm."><title>page_rank in petgraph::algo::page_rank - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="petgraph" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../petgraph/index.html">petgraph</a><span class="version">0.8.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">page_<wbr>rank</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#arguments" title="Arguments">Arguments</a></li><li><a href="#returns" title="Returns">Returns</a></li><li><a href="#panics" title="Panics">Panics</a></li><li><a href="#complexity" title="Complexity">Complexity</a></li><li><a href="#example" title="Example">Example</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In petgraph::<wbr>algo::<wbr>page_<wbr>rank</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="../../index.html">petgraph</a>::<wbr><a href="../index.html">algo</a>::<wbr><a href="index.html">page_rank</a></span><h1>Function <span class="fn">page_rank</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/petgraph/algo/page_rank.rs.html#63-107">Source</a> </span></div><pre class="rust item-decl"><code>pub fn page_rank&lt;G, D&gt;(graph: G, damping_factor: D, nb_iter: <a class="primitive" href="https://doc.rust-lang.org/1.85.0/core/primitive.usize.html">usize</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.85.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;D&gt;<div class="where">where
+    G: <a class="trait" href="../../visit/trait.NodeCount.html" title="trait petgraph::visit::NodeCount">NodeCount</a> + <a class="trait" href="../../visit/trait.IntoEdges.html" title="trait petgraph::visit::IntoEdges">IntoEdges</a> + <a class="trait" href="../../visit/trait.NodeIndexable.html" title="trait petgraph::visit::NodeIndexable">NodeIndexable</a>,
+    D: <a class="trait" href="../trait.UnitMeasure.html" title="trait petgraph::algo::UnitMeasure">UnitMeasure</a> + <a class="trait" href="https://doc.rust-lang.org/1.85.0/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a>,</div></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Page Rank algorithm.</p>
+<p>Computes the ranks of every node in a graph using the <a href="https://en.wikipedia.org/wiki/PageRank">Page Rank algorithm</a>.</p>
+<h2 id="arguments"><a class="doc-anchor" href="#arguments">§</a>Arguments</h2>
+<ul>
+<li><code>graph</code>: a directed graph.</li>
+<li><code>damping_factor</code>: a value in range <code>0.0 &lt;= damping_factor &lt;= 1.0</code>.</li>
+<li><code>nb_iter</code>: number of iterations of the main loop.</li>
+</ul>
+<h2 id="returns"><a class="doc-anchor" href="#returns">§</a>Returns</h2>
+<ul>
+<li>A <code>Vec</code> mapping each node index to its rank.</li>
+</ul>
+<h2 id="panics"><a class="doc-anchor" href="#panics">§</a>Panics</h2>
+<p>The damping factor should be a measure (like <code>f32</code> or <code>f64</code>) between 0 and 1 (0 and 1 included). Otherwise, it panics.</p>
+<h2 id="complexity"><a class="doc-anchor" href="#complexity">§</a>Complexity</h2>
+<ul>
+<li>Time complexity: <strong>O(n|V|²|E|)</strong>.</li>
+<li>Auxiliary space: <strong>O(|V| + |E|)</strong>.</li>
+</ul>
+<p>where <strong>n</strong> is the number of iterations, <strong>|V|</strong> the number of vertices (i.e nodes) and <strong>|E|</strong> the number of edges.</p>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>petgraph::Graph;
+<span class="kw">use </span>petgraph::algo::page_rank;
+<span class="kw">let </span><span class="kw-2">mut </span>g: Graph&lt;(), usize&gt; = Graph::new();
+<span class="macro">assert_eq!</span>(page_rank(<span class="kw-2">&amp;</span>g, <span class="number">0.5_f64</span>, <span class="number">1</span>), <span class="macro">vec!</span>[]); <span class="comment">// empty graphs have no node ranks.
+</span><span class="kw">let </span>a = g.add_node(());
+<span class="kw">let </span>b = g.add_node(());
+<span class="kw">let </span>c = g.add_node(());
+<span class="kw">let </span>d = g.add_node(());
+<span class="kw">let </span>e = g.add_node(());
+g.extend_with_edges(<span class="kw-2">&amp;</span>[(<span class="number">0</span>, <span class="number">1</span>), (<span class="number">0</span>, <span class="number">3</span>), (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">1</span>, <span class="number">3</span>)]);
+<span class="comment">// With the following dot representation.
+//digraph {
+//    0 [ label = "()" ]
+//    1 [ label = "()" ]
+//    2 [ label = "()" ]
+//    3 [ label = "()" ]
+//    4 [ label = "()" ]
+//    0 -&gt; 1 [ label = "0.0" ]
+//    0 -&gt; 3 [ label = "0.0" ]
+//    1 -&gt; 2 [ label = "0.0" ]
+//    1 -&gt; 3 [ label = "0.0" ]
+//}
+</span><span class="kw">let </span>damping_factor = <span class="number">0.7_f32</span>;
+<span class="kw">let </span>number_iterations = <span class="number">10</span>;
+<span class="kw">let </span>output_ranks = page_rank(<span class="kw-2">&amp;</span>g, damping_factor, number_iterations);
+<span class="kw">let </span>expected_ranks = <span class="macro">vec!</span>[<span class="number">0.14685437</span>, <span class="number">0.20267677</span>, <span class="number">0.22389607</span>, <span class="number">0.27971846</span>, <span class="number">0.14685437</span>];
+<span class="macro">assert_eq!</span>(expected_ranks, output_ranks);</code></pre></div>
+</div></details></section></div></main></body></html>

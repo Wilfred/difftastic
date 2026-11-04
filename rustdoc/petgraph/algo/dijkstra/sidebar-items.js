@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["bidirectional_dijkstra","dijkstra","with_dynamic_goal"],"struct":["AlgoResult"]};

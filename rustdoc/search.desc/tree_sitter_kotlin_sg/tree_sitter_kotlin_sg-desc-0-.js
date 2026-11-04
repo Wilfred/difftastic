@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_kotlin_sg", 0, "This crate provides Kotlin language support for the …\nThe syntax highlighting query for this language.\nThe tree-sitter <code>LanguageFn</code> for this grammar.\nThe content of the <code>node-types.json</code> file for this grammar.")

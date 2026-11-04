@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Compute a minimum spanning tree of a graph using Prim’s algorithm."><title>min_spanning_tree_prim in petgraph::algo::min_spanning_tree - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="petgraph" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../petgraph/index.html">petgraph</a><span class="version">0.8.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">min_<wbr>spanning_<wbr>tree_<wbr>prim</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#arguments" title="Arguments">Arguments</a></li><li><a href="#returns" title="Returns">Returns</a></li><li><a href="#complexity" title="Complexity">Complexity</a></li><li><a href="#example" title="Example">Example</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In petgraph::<wbr>algo::<wbr>min_<wbr>spanning_<wbr>tree</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="../../index.html">petgraph</a>::<wbr><a href="../index.html">algo</a>::<wbr><a href="index.html">min_spanning_tree</a></span><h1>Function <span class="fn">min_spanning_tree_prim</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/petgraph/algo/min_spanning_tree.rs.html#262-280">Source</a> </span></div><pre class="rust item-decl"><code>pub fn min_spanning_tree_prim&lt;G&gt;(g: G) -&gt; <a class="struct" href="struct.MinSpanningTreePrim.html" title="struct petgraph::algo::min_spanning_tree::MinSpanningTreePrim">MinSpanningTreePrim</a>&lt;G&gt; <a href="#" class="tooltip" data-notable-ty="MinSpanningTreePrim&lt;G&gt;">ⓘ</a><div class="where">where
+    G::<a class="associatedtype" href="../../visit/trait.Data.html#associatedtype.EdgeWeight" title="type petgraph::visit::Data::EdgeWeight">EdgeWeight</a>: <a class="trait" href="https://doc.rust-lang.org/1.85.0/core/cmp/trait.PartialOrd.html" title="trait core::cmp::PartialOrd">PartialOrd</a>,
+    G: <a class="trait" href="../../visit/trait.IntoNodeReferences.html" title="trait petgraph::visit::IntoNodeReferences">IntoNodeReferences</a> + <a class="trait" href="../../visit/trait.IntoEdgeReferences.html" title="trait petgraph::visit::IntoEdgeReferences">IntoEdgeReferences</a>,</div></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Compute a <em>minimum spanning tree</em> of a graph using Prim’s algorithm.</p>
+<p>Graph is treated as if undirected. The computed minimum spanning tree can be wrong
+if this is not true.</p>
+<p>Graph is treated as if connected (has only 1 component). Otherwise, the resulting
+graph will only contain edges for an arbitrary minimum spanning tree for a single component.</p>
+<p>The resulting graph has all the vertices of the input graph (with identical node indices),
+and <strong>|V| - 1</strong> edges if input graph is connected, and |W| edges if disconnected, where |W| &lt; |V| - 1.</p>
+<p>See also: <a href="fn.min_spanning_tree.html"><code>min_spanning_tree</code></a> for an implementation using Kruskal’s algorithm and support for minimum spanning forest.</p>
+<h2 id="arguments"><a class="doc-anchor" href="#arguments">§</a>Arguments</h2>
+<ul>
+<li><code>g</code>: an undirected graph.</li>
+</ul>
+<h2 id="returns"><a class="doc-anchor" href="#returns">§</a>Returns</h2>
+<ul>
+<li><a href="struct.MinSpanningTreePrim.html" title="struct petgraph::algo::min_spanning_tree::MinSpanningTreePrim"><code>MinSpanningTreePrim</code></a>: an iterator producing a minimum spanning tree of a graph.
+Use <code>from_elements</code> to create a graph from the resulting iterator.</li>
+</ul>
+<h2 id="complexity"><a class="doc-anchor" href="#complexity">§</a>Complexity</h2>
+<ul>
+<li>Time complexity: <strong>O(|E| log |V|)</strong>.</li>
+<li>Auxiliary space: <strong>O(|V| + |E|)</strong>.</li>
+</ul>
+<p>where <strong>|V|</strong> is the number of nodes and <strong>|E|</strong> is the number of edges.</p>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>petgraph::Graph;
+<span class="kw">use </span>petgraph::algo::min_spanning_tree_prim;
+<span class="kw">use </span>petgraph::data::FromElements;
+<span class="kw">use </span>petgraph::graph::UnGraph;
+
+<span class="kw">let </span><span class="kw-2">mut </span>g = Graph::new_undirected();
+<span class="kw">let </span>a = g.add_node(());
+<span class="kw">let </span>b = g.add_node(());
+<span class="kw">let </span>c = g.add_node(());
+<span class="kw">let </span>d = g.add_node(());
+<span class="kw">let </span>e = g.add_node(());
+<span class="kw">let </span>f = g.add_node(());
+g.extend_with_edges(<span class="kw-2">&amp;</span>[
+    (<span class="number">0</span>, <span class="number">1</span>, <span class="number">2.0</span>),
+    (<span class="number">0</span>, <span class="number">3</span>, <span class="number">4.0</span>),
+    (<span class="number">1</span>, <span class="number">2</span>, <span class="number">1.0</span>),
+    (<span class="number">1</span>, <span class="number">5</span>, <span class="number">7.0</span>),
+    (<span class="number">2</span>, <span class="number">4</span>, <span class="number">5.0</span>),
+    (<span class="number">4</span>, <span class="number">5</span>, <span class="number">1.0</span>),
+    (<span class="number">3</span>, <span class="number">4</span>, <span class="number">1.0</span>),
+]);
+
+<span class="comment">// The graph looks like this:
+//     2       1
+// a ----- b ----- c
+// | 4     | 7     |
+// d       f       | 5
+// | 1     | 1     |
+// \------ e ------/
+
+</span><span class="kw">let </span>mst = UnGraph::&lt;<span class="kw">_</span>, <span class="kw">_</span>&gt;::from_elements(min_spanning_tree_prim(<span class="kw-2">&amp;</span>g));
+<span class="macro">assert_eq!</span>(g.node_count(), mst.node_count());
+<span class="macro">assert_eq!</span>(mst.node_count() - <span class="number">1</span>, mst.edge_count());
+
+<span class="comment">// The resulting minimum spanning tree looks like this:
+//     2       1
+// a ----- b ----- c
+// | 4
+// d       f
+// | 1     | 1
+// \------ e
+
+</span><span class="kw">let </span><span class="kw-2">mut </span>edge_weight_vec = mst.edge_weights().cloned().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+edge_weight_vec.sort_by(|a, b| a.partial_cmp(b).unwrap());
+<span class="macro">assert_eq!</span>(edge_weight_vec , <span class="macro">vec!</span>[<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">4.0</span>]);</code></pre></div>
+</div></details><script type="text/json" id="notable-traits-data">{"MinSpanningTreePrim<G>":"<h3>Notable traits for <code><a class=\"struct\" href=\"struct.MinSpanningTreePrim.html\" title=\"struct petgraph::algo::min_spanning_tree::MinSpanningTreePrim\">MinSpanningTreePrim</a>&lt;G&gt;</code></h3><pre><code><div class=\"where\">impl&lt;G&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"struct.MinSpanningTreePrim.html\" title=\"struct petgraph::algo::min_spanning_tree::MinSpanningTreePrim\">MinSpanningTreePrim</a>&lt;G&gt;<div class=\"where\">where\n    G: <a class=\"trait\" href=\"../../visit/trait.IntoNodeReferences.html\" title=\"trait petgraph::visit::IntoNodeReferences\">IntoNodeReferences</a> + <a class=\"trait\" href=\"../../visit/trait.IntoEdges.html\" title=\"trait petgraph::visit::IntoEdges\">IntoEdges</a> + <a class=\"trait\" href=\"../../visit/trait.NodeIndexable.html\" title=\"trait petgraph::visit::NodeIndexable\">NodeIndexable</a>,\n    G::<a class=\"associatedtype\" href=\"../../visit/trait.Data.html#associatedtype.NodeWeight\" title=\"type petgraph::visit::Data::NodeWeight\">NodeWeight</a>: <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/clone/trait.Clone.html\" title=\"trait core::clone::Clone\">Clone</a>,\n    G::<a class=\"associatedtype\" href=\"../../visit/trait.Data.html#associatedtype.EdgeWeight\" title=\"type petgraph::visit::Data::EdgeWeight\">EdgeWeight</a>: <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/clone/trait.Clone.html\" title=\"trait core::clone::Clone\">Clone</a> + <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/cmp/trait.PartialOrd.html\" title=\"trait core::cmp::PartialOrd\">PartialOrd</a>,</div></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.85.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item\" class=\"associatedtype\">Item</a> = <a class=\"enum\" href=\"../../data/enum.Element.html\" title=\"enum petgraph::data::Element\">Element</a>&lt;G::<a class=\"associatedtype\" href=\"../../visit/trait.Data.html#associatedtype.NodeWeight\" title=\"type petgraph::visit::Data::NodeWeight\">NodeWeight</a>, G::<a class=\"associatedtype\" href=\"../../visit/trait.Data.html#associatedtype.EdgeWeight\" title=\"type petgraph::visit::Data::EdgeWeight\">EdgeWeight</a>&gt;;</div>"}</script></section></div></main></body></html>

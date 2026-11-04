@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_language", 0, "<code>LanguageFn</code> wraps a C function that returns a pointer to a …\nReturns the argument unchanged.\nCreates a <code>LanguageFn</code>.\nCalls <code>U::from(self)</code>.\nGets the function wrapped by this <code>LanguageFn</code>.")

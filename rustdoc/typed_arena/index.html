@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="The arena, a fast but limited type of allocator."><title>typed_arena - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="typed_arena" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../static.files/storage-59e33391.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../typed_arena/index.html">typed_<wbr>arena</a><span class="version">2.0.2</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#example" title="Example">Example</a></li><li><a href="#safe-cycles" title="Safe Cycles">Safe Cycles</a></li></ul><h3><a href="#structs">Crate Items</a></h3><ul class="block"><li><a href="#structs" title="Structs">Structs</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>typed_arena</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/typed_arena/lib.rs.html#1-635">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>The arena, a fast but limited type of allocator.</p>
+<p><strong>A fast (but limited) allocation arena for values of a single type.</strong></p>
+<p>Allocated objects are destroyed all at once, when the arena itself is
+destroyed. There is no deallocation of individual objects while the arena
+itself is still alive. The flipside is that allocation is fast: typically
+just a vector push.</p>
+<p>There is also a method <code>into_vec()</code> to recover ownership of allocated
+objects when the arena is no longer required, instead of destroying
+everything.</p>
+<h3 id="example"><a class="doc-anchor" href="#example">§</a>Example</h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>typed_arena::Arena;
+
+<span class="kw">struct </span>Monster {
+    level: u32,
+}
+
+<span class="kw">let </span>monsters = Arena::new();
+
+<span class="kw">let </span>goku = monsters.alloc(Monster { level: <span class="number">9001 </span>});
+<span class="macro">assert!</span>(goku.level &gt; <span class="number">9000</span>);</code></pre></div>
+<h3 id="safe-cycles"><a class="doc-anchor" href="#safe-cycles">§</a>Safe Cycles</h3>
+<p>All allocated objects get the same lifetime, so you can safely create cycles
+between them. This can be useful for certain data structures, such as graphs
+and trees with parent pointers.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::cell::Cell;
+<span class="kw">use </span>typed_arena::Arena;
+
+<span class="kw">struct </span>CycleParticipant&lt;<span class="lifetime">'a</span>&gt; {
+    other: Cell&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>CycleParticipant&lt;<span class="lifetime">'a</span>&gt;&gt;&gt;,
+}
+
+<span class="kw">let </span>arena = Arena::new();
+
+<span class="kw">let </span>a = arena.alloc(CycleParticipant { other: Cell::new(<span class="prelude-val">None</span>) });
+<span class="kw">let </span>b = arena.alloc(CycleParticipant { other: Cell::new(<span class="prelude-val">None</span>) });
+
+a.other.set(<span class="prelude-val">Some</span>(b));
+b.other.set(<span class="prelude-val">Some</span>(a));</code></pre></div>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.Arena.html" title="struct typed_arena::Arena">Arena</a></div><div class="desc docblock-short">An arena of objects of type <code>T</code>.</div></li><li><div class="item-name"><a class="struct" href="struct.IterMut.html" title="struct typed_arena::IterMut">IterMut</a></div><div class="desc docblock-short">Mutable arena iterator.</div></li></ul></section></div></main></body></html>

@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_rust_orchard", 0, "This crate provides Rust language support for the …\nThe syntax highlighting query for this language.\nThe injections query for this language.\nThe tree-sitter <code>LanguageFn</code> for this grammar.\nThe content of the <code>node-types.json</code> file for this grammar.\nThe symbol tagging query for this language.")

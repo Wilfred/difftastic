@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DiffAttribute"],"fn":["check_diff_attr","parse_output"]};
