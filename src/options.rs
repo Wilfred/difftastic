@@ -333,6 +333,12 @@ $ export DFT_OVERRIDE_BINARY_2='foo.pickle'"))
                 .help("Print all the languages supported by difftastic, along with their recognised extensions.")
         )
         .arg(
+            Arg::new("completions").long("completions")
+                .value_name("SHELL")
+                .value_parser(value_parser!(clap_complete::Shell))
+                .help("Print a shell completion script for SHELL to stdout.")
+        )
+        .arg(
             Arg::new("byte-limit").long("byte-limit")
                 .value_name("LIMIT")
                 .action(ArgAction::Set)
@@ -551,6 +557,9 @@ pub(crate) enum Mode {
     GitHasUnmergedFile {
         display_path: String,
     },
+    Completions {
+        shell: clap_complete::Shell,
+    },
     ListLanguages {
         use_color: bool,
         language_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)>,
@@ -721,9 +730,17 @@ fn parse_binary_overrides_or_die(glob_strs: &[String]) -> Vec<glob::Pattern> {
     overrides
 }
 
+pub(crate) fn print_completions(shell: clap_complete::Shell) {
+    clap_complete::generate(shell, &mut app(), "difft", &mut std::io::stdout());
+}
+
 /// Parse CLI arguments passed to the binary.
 pub(crate) fn parse_args() -> Mode {
     let matches = app().get_matches();
+
+    if let Some(shell) = matches.get_one::<clap_complete::Shell>("completions") {
+        return Mode::Completions { shell: *shell };
+    }
 
     let color_output = match matches
         .get_one::<String>("color")
