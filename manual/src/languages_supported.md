@@ -54,6 +54,7 @@ with `difft --list-languages`.
 | Solidity        | [JoranHonig/tree-sitter-solidity](https://github.com/JoranHonig/tree-sitter-solidity)                           |
 | SQL             | [derekstride/tree-sitter-sql](https://github.com/derekstride/tree-sitter-sql)                                   |
 | Swift           | [alex-pinkus/tree-sitter-swift](https://github.com/alex-pinkus/tree-sitter-swift)                               |
+| SysML v2        | [nomograph-ai/tree-sitter-sysml](https://github.com/nomograph-ai/tree-sitter-sysml)                               |
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)                     |
 | VHDL            | [JLeemaster/tree-sitter-vhdl](https://github.com/JLeemaster/tree-sitter-vhdl)                                   |
 | Zig             | [tree-sitter-grammars/tree-sitter-zig](https://github.com/tree-sitter-grammars/tree-sitter-zig)                 |
