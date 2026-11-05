@@ -289,84 +289,104 @@ fn split_unchanged_toplevel<'a>(
 
     let mut res: Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
 
-    let mut current_unchanged_section: Vec<(&Syntax<'_>, &Syntax<'_>)> = vec![];
+    let mut current_unchanged_section: Vec<(&'a Syntax<'a>, &'a Syntax<'a>)> = vec![];
     let mut lhs_nodes_with_changes = vec![];
     let mut rhs_nodes_with_changes = vec![];
 
     for diff_res in lcs_diff::slice(&lhs_node_ids, &rhs_node_ids) {
         match diff_res {
-            lcs_diff::DiffResult::Both(_, _) => {}
-            lcs_diff::DiffResult::Left(_) | lcs_diff::DiffResult::Right(_) => {
-                if !current_unchanged_section.is_empty() {
-                    if is_big_enough(&current_unchanged_section, size_threshold) {
-                        // Push the prior changed region.
-                        if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty()
-                        {
-                            res.extend(split_changed_singleton_list(
-                                &lhs_nodes_with_changes,
-                                &rhs_nodes_with_changes,
-                                size_threshold,
-                            ));
-                            lhs_nodes_with_changes.clear();
-                            rhs_nodes_with_changes.clear();
-                        }
-
-                        // Push the unchanged region
-                        let (lhs_unchanged, rhs_unchanged) =
-                            current_unchanged_section.drain(..).unzip();
-
-                        res.push((ChangeState::UnchangedNode, lhs_unchanged, rhs_unchanged));
-                    } else {
-                        // Add the unchanged region to the current changed region, so it
-                        // participates in a larger region to diff.
-                        for (lhs_node, rhs_node) in current_unchanged_section.drain(..) {
-                            lhs_nodes_with_changes.push(lhs_node);
-                            rhs_nodes_with_changes.push(rhs_node);
-                        }
-                    }
-                }
-            }
-        }
-
-        match diff_res {
             lcs_diff::DiffResult::Both(lhs, rhs) => {
-                // Unchanged.
                 current_unchanged_section.push((lhs.1, rhs.1));
             }
             lcs_diff::DiffResult::Left(lhs) => {
+                flush_unchanged_section(
+                    &mut current_unchanged_section,
+                    &mut lhs_nodes_with_changes,
+                    &mut rhs_nodes_with_changes,
+                    size_threshold,
+                    &mut res,
+                );
                 lhs_nodes_with_changes.push(lhs.1);
             }
             lcs_diff::DiffResult::Right(rhs) => {
+                flush_unchanged_section(
+                    &mut current_unchanged_section,
+                    &mut lhs_nodes_with_changes,
+                    &mut rhs_nodes_with_changes,
+                    size_threshold,
+                    &mut res,
+                );
                 rhs_nodes_with_changes.push(rhs.1);
             }
         }
     }
 
-    if !current_unchanged_section.is_empty() {
-        if is_big_enough(&current_unchanged_section, size_threshold) {
-            // Push the unchanged region
-            let (lhs_unchanged, rhs_unchanged) = current_unchanged_section.into_iter().unzip();
-
-            res.push((ChangeState::UnchangedNode, lhs_unchanged, rhs_unchanged));
-        } else {
-            // Add the unchanged region to the current changed region, so it
-            // participates in a larger region to diff.
-            for (lhs_node, rhs_node) in current_unchanged_section {
-                lhs_nodes_with_changes.push(lhs_node);
-                rhs_nodes_with_changes.push(rhs_node);
-            }
-        }
-    }
-
-    if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty() {
-        res.extend(split_changed_singleton_list(
-            &lhs_nodes_with_changes,
-            &rhs_nodes_with_changes,
-            size_threshold,
-        ));
-    }
+    flush_unchanged_section(
+        &mut current_unchanged_section,
+        &mut lhs_nodes_with_changes,
+        &mut rhs_nodes_with_changes,
+        size_threshold,
+        &mut res,
+    );
+    flush_changed_section(
+        &mut lhs_nodes_with_changes,
+        &mut rhs_nodes_with_changes,
+        size_threshold,
+        &mut res,
+    );
 
     res
+}
+
+/// If `unchanged_section` is big enough, push the preceding changed
+/// nodes and then the unchanged section onto `res`. Otherwise, add the
+/// unchanged section to the changed nodes, so it participates in a
+/// larger region to diff.
+fn flush_unchanged_section<'a>(
+    unchanged_section: &mut Vec<(&'a Syntax<'a>, &'a Syntax<'a>)>,
+    lhs_nodes_with_changes: &mut Vec<&'a Syntax<'a>>,
+    rhs_nodes_with_changes: &mut Vec<&'a Syntax<'a>>,
+    size_threshold: u32,
+    res: &mut Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)>,
+) {
+    if unchanged_section.is_empty() {
+        return;
+    }
+
+    if is_big_enough(unchanged_section, size_threshold) {
+        flush_changed_section(
+            lhs_nodes_with_changes,
+            rhs_nodes_with_changes,
+            size_threshold,
+            res,
+        );
+
+        let (lhs_unchanged, rhs_unchanged) = unchanged_section.drain(..).unzip();
+        res.push((ChangeState::UnchangedNode, lhs_unchanged, rhs_unchanged));
+    } else {
+        for (lhs_node, rhs_node) in unchanged_section.drain(..) {
+            lhs_nodes_with_changes.push(lhs_node);
+            rhs_nodes_with_changes.push(rhs_node);
+        }
+    }
+}
+
+/// Push the changed nodes onto `res`, if there are any.
+fn flush_changed_section<'a>(
+    lhs_nodes_with_changes: &mut Vec<&'a Syntax<'a>>,
+    rhs_nodes_with_changes: &mut Vec<&'a Syntax<'a>>,
+    size_threshold: u32,
+    res: &mut Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)>,
+) {
+    if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty() {
+        res.extend(split_changed_singleton_list(
+            lhs_nodes_with_changes,
+            rhs_nodes_with_changes,
+            size_threshold,
+        ));
+        lhs_nodes_with_changes.clear();
+        rhs_nodes_with_changes.clear();
+    }
 }
 
 /// A 2-tuple that only considers the first item in equality, sorting
