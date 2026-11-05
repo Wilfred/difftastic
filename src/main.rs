@@ -75,7 +75,7 @@ use crate::display::style::print_error;
 use crate::exit_codes::{EXIT_BAD_ARGUMENTS, EXIT_FOUND_CHANGES, EXIT_SUCCESS};
 use crate::files::{
     guess_content, read_file_or_die, read_files_or_die, read_or_die, relative_paths_in_either,
-    ProbableFileKind,
+    MissingFile, ProbableFileKind,
 };
 use crate::gitattributes::{check_diff_attr, DiffAttribute};
 use crate::parse::guess_language::{
@@ -415,7 +415,8 @@ fn diff_file(
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
     binary_overrides: &[glob::Pattern],
 ) -> DiffResult {
-    let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
+    let (lhs_bytes, rhs_bytes, missing_file) =
+        read_files_or_die(lhs_path, rhs_path, missing_as_empty);
 
     let (mut lhs_src, mut rhs_src) = match (
         guess_content(&lhs_bytes, lhs_path, binary_overrides),
@@ -425,7 +426,8 @@ fn diff_file(
         (ProbableFileKind::Binary, _, _)
         | (_, ProbableFileKind::Binary, _)
         | (_, _, Some(DiffAttribute::AssumeBinary)) => {
-            let has_byte_changes = if lhs_bytes == rhs_bytes {
+            let has_byte_changes = if lhs_bytes == rhs_bytes && missing_file == MissingFile::Neither
+            {
                 None
             } else {
                 Some((lhs_bytes.len(), rhs_bytes.len()))
@@ -485,7 +487,7 @@ fn diff_file(
         }
     }
 
-    diff_file_content(
+    let mut diff_result = diff_file_content(
         display_path,
         extra_info,
         lhs_path,
@@ -495,7 +497,20 @@ fn diff_file(
         display_options,
         diff_options,
         overrides,
-    )
+    );
+
+    // A file that exists on one side only is a change, even when its
+    // content produces no detectable differences: an empty file (or
+    // content that normalizes to empty, e.g. carriage returns removed
+    // by strip_cr, or content whose syntax tree matches the empty
+    // side's) is not the same as a missing file.
+    //
+    // https://github.com/Wilfred/difftastic/issues/1027
+    if missing_file != MissingFile::Neither {
+        diff_result.has_syntactic_changes = true;
+    }
+
+    diff_result
 }
 
 fn diff_conflicts_file(
