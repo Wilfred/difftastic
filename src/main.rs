@@ -533,7 +533,8 @@ fn diff_conflicts_file(
     if conflict_files.num_conflicts == 0 {
         print_error(
             &format!(
-                "Difftastic requires two paths, or a single file with conflict markers {}.\n",
+                "{} does not contain any conflict markers {}. Difftastic requires two paths, or a single file with conflict markers.\n",
+                display_path,
                 if display_options.use_color {
                     START_LHS_MARKER.bold().to_string()
                 } else {
