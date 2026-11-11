@@ -23,13 +23,15 @@ pub(crate) fn mark_unchanged<'a>(
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     let (_, lhs_nodes, rhs_nodes) = shrink_unchanged_at_ends(lhs_nodes, rhs_nodes, change_map);
 
-    let mut nodes_to_diff = vec![];
-    for (lhs_nodes, rhs_nodes) in split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes) {
-        let (_, lhs_nodes, rhs_nodes) =
-            shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, change_map);
-        nodes_to_diff.extend(split_unchanged(&lhs_nodes, &rhs_nodes, change_map));
+    let parts = split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes);
+    if parts.len() <= 1 {
+        return split_unchanged(&lhs_nodes, &rhs_nodes, change_map);
     }
 
+    let mut nodes_to_diff = vec![];
+    for (lhs_nodes, rhs_nodes) in parts {
+        nodes_to_diff.extend(mark_unchanged(&lhs_nodes, &rhs_nodes, change_map));
+    }
     nodes_to_diff
 }
 
