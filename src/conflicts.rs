@@ -107,7 +107,8 @@ pub(crate) fn apply_conflict_markers(s: &str) -> Result<ConflictFiles, String> {
         let message = match conflict_start_line {
             Some(line_i) => format!(
                 "Could not parse conflict markers, line {} has no matching {}.",
-                line_i, END_RHS_MARKER
+                line_i + 1,
+                END_RHS_MARKER
             ),
             None => "Could not parse conflict markers.".to_owned(),
         };
@@ -145,5 +146,16 @@ mod tests {
 
         assert_eq!(conflict_files.lhs_name.unwrap(), "Temporary merge branch 1");
         assert_eq!(conflict_files.rhs_name.unwrap(), "Temporary merge branch 2");
+    }
+
+    #[test]
+    fn test_unterminated_conflict_line_number() {
+        let s = "before\n<<<<<<< HEAD\nnew in left\n";
+
+        let err = apply_conflict_markers(s).err().unwrap();
+        assert_eq!(
+            err,
+            "Could not parse conflict markers, line 2 has no matching >>>>>>>."
+        );
     }
 }
