@@ -9,8 +9,6 @@ crash](https://github.com/git/git/commit/85a9a63c9268b18b24f25f6a14d6ae9966c3566
 >
 > If you can't upgrade git, use the `difftool` configuration described below.
 
-</div>
-
 ## One-Off Usage
 
 You can set the `diff.external` configuration option when running `git
