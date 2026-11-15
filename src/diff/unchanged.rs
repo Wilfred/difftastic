@@ -92,44 +92,90 @@ fn split_unchanged<'a>(
     res
 }
 
-/// If both sides are a single list node, and they have the same
-/// delimiter, see if they have common children that we can trivially
-/// mark as unchanged.
-fn split_changed_singleton_list<'a>(
+/// If both sides have the same number of nodes, and each pair of nodes
+/// is either identical or two lists with the same delimiters, see if
+/// those lists have common children that we can trivially mark as
+/// unchanged.
+///
+/// Pairs that don't split further stay together as a single region,
+/// so the tree diff still sees them together.
+fn split_changed_lists<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
     size_threshold: u32,
 ) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    let unsplit = || {
+        vec![(
+            ChangeState::PossiblyChanged,
+            lhs_nodes.to_vec(),
+            rhs_nodes.to_vec(),
+        )]
+    };
+
+    if lhs_nodes.len() != rhs_nodes.len() {
+        return unsplit();
+    }
+
+    let mut split_pairs = vec![];
+    for (lhs_node, rhs_node) in lhs_nodes.iter().zip(rhs_nodes.iter()) {
+        if lhs_node.content_id() == rhs_node.content_id() {
+            split_pairs.push(None);
+            continue;
+        }
+
+        match as_singleton_list_children(&[lhs_node], &[rhs_node]) {
+            Some((lhs_children, rhs_children)) => {
+                let split_children =
+                    split_unchanged_toplevel(&lhs_children, &rhs_children, size_threshold);
+                if split_children.len() > 1 {
+                    split_pairs.push(Some(split_children));
+                } else {
+                    split_pairs.push(None);
+                }
+            }
+            None => return unsplit(),
+        }
+    }
+
+    if split_pairs.iter().all(Option::is_none) {
+        // Did not split further. Keep the outer lists, so we can use
+        // their delimiters when doing the tree diff.
+        return unsplit();
+    }
+
     let mut res: Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
-    match as_singleton_list_children(lhs_nodes, rhs_nodes) {
-        Some((lhs_children, rhs_children)) => {
-            let mut split_children =
-                split_unchanged_toplevel(&lhs_children, &rhs_children, size_threshold);
-            if split_children.len() > 1 {
+    let mut lhs_unsplit = vec![];
+    let mut rhs_unsplit = vec![];
+    for ((lhs_node, rhs_node), split_children) in
+        lhs_nodes.iter().zip(rhs_nodes.iter()).zip(split_pairs)
+    {
+        match split_children {
+            Some(mut split_children) => {
+                if !lhs_unsplit.is_empty() {
+                    res.push((
+                        ChangeState::PossiblyChanged,
+                        std::mem::take(&mut lhs_unsplit),
+                        std::mem::take(&mut rhs_unsplit),
+                    ));
+                }
+
+                // Managed to further split.
                 res.push((
                     ChangeState::UnchangedDelimiter,
-                    lhs_nodes.to_vec(),
-                    rhs_nodes.to_vec(),
+                    vec![*lhs_node],
+                    vec![*rhs_node],
                 ));
-                // Managed to further split.
                 res.append(&mut split_children);
-            } else {
-                // Did not split further. Keep the outer list, so we can use
-                // its delimiter when doing the tree diff.
-                res.push((
-                    ChangeState::PossiblyChanged,
-                    lhs_nodes.to_vec(),
-                    rhs_nodes.to_vec(),
-                ));
+            }
+            None => {
+                lhs_unsplit.push(*lhs_node);
+                rhs_unsplit.push(*rhs_node);
             }
         }
-        None => {
-            res.push((
-                ChangeState::PossiblyChanged,
-                lhs_nodes.to_vec(),
-                rhs_nodes.to_vec(),
-            ));
-        }
+    }
+
+    if !lhs_unsplit.is_empty() {
+        res.push((ChangeState::PossiblyChanged, lhs_unsplit, rhs_unsplit));
     }
 
     res
@@ -302,7 +348,7 @@ fn split_unchanged_toplevel<'a>(
                         // Push the prior changed region.
                         if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty()
                         {
-                            res.extend(split_changed_singleton_list(
+                            res.extend(split_changed_lists(
                                 &lhs_nodes_with_changes,
                                 &rhs_nodes_with_changes,
                                 size_threshold,
@@ -359,7 +405,7 @@ fn split_unchanged_toplevel<'a>(
     }
 
     if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty() {
-        res.extend(split_changed_singleton_list(
+        res.extend(split_changed_lists(
             &lhs_nodes_with_changes,
             &rhs_nodes_with_changes,
             size_threshold,
@@ -815,6 +861,39 @@ mod tests {
         assert_eq!(
             change_map.get(lhs_nodes[0]),
             Some(ChangeKind::Unchanged(rhs_nodes[0]))
+        );
+    }
+
+    #[test]
+    fn test_split_unchanged_aligned_lists() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs_nodes = parse(
+            &arena,
+            "(novel-lhs) = (1 2 3 4 5 6 7 8 9 10 novel-lhs-2)",
+            config,
+            false,
+        );
+        let rhs_nodes = parse(
+            &arena,
+            "(novel-rhs) = (1 2 3 4 5 6 7 8 9 10 novel-rhs-2)",
+            config,
+            false,
+        );
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let mut change_map = ChangeMap::default();
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
+
+        // The first two nodes don't split further, so they stay
+        // together.
+        assert_eq!(res.len(), 2);
+        assert_eq!(res[0], (lhs_nodes[..2].to_vec(), rhs_nodes[..2].to_vec()));
+
+        assert_eq!(
+            change_map.get(lhs_nodes[2]),
+            Some(ChangeKind::Unchanged(rhs_nodes[2]))
         );
     }
 
