@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Parse a set of curly braces and expose their content to subsequent parsers."><title>braced in syn - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="syn" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../static.files/storage-59e33391.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../syn/index.html">syn</a><span class="version">2.0.106</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">braced</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#example" title="Example">Example</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate syn</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="index.html">syn</a></span><h1>Macro <span class="macro">braced</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/syn/group.rs.html#224-236">Source</a> </span></div><pre class="rust item-decl"><code>macro_rules! braced {
+    ($content:ident in $cursor:expr) =&gt; { ... };
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Parse a set of curly braces and expose their content to subsequent parsers.</p>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>syn::{braced, token, Ident, <span class="prelude-ty">Result</span>, Token, Type};
+<span class="kw">use </span>syn::parse::{Parse, ParseStream};
+<span class="kw">use </span>syn::punctuated::Punctuated;
+
+<span class="comment">// Parse a simplified struct syntax like:
+//
+//     struct S {
+//         a: A,
+//         b: B,
+//     }
+</span><span class="kw">struct </span>Struct {
+    struct_token: <span class="macro">Token!</span>[<span class="kw">struct</span>],
+    ident: Ident,
+    brace_token: token::Brace,
+    fields: Punctuated&lt;Field, <span class="macro">Token!</span>[,]&gt;,
+}
+
+<span class="kw">struct </span>Field {
+    name: Ident,
+    colon_token: <span class="macro">Token!</span>[:],
+    ty: Type,
+}
+
+<span class="kw">impl </span>Parse <span class="kw">for </span>Struct {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>content;
+        <span class="prelude-val">Ok</span>(Struct {
+            struct_token: input.parse()<span class="question-mark">?</span>,
+            ident: input.parse()<span class="question-mark">?</span>,
+            brace_token: <span class="macro">braced!</span>(content <span class="kw">in </span>input),
+            fields: content.parse_terminated(Field::parse, <span class="macro">Token!</span>[,])<span class="question-mark">?</span>,
+        })
+    }
+}
+
+<span class="kw">impl </span>Parse <span class="kw">for </span>Field {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="prelude-val">Ok</span>(Field {
+            name: input.parse()<span class="question-mark">?</span>,
+            colon_token: input.parse()<span class="question-mark">?</span>,
+            ty: input.parse()<span class="question-mark">?</span>,
+        })
+    }
+}</code></pre></div>
+</div></details></section></div></main></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Language","LanguageOverride"],"fn":["from_emacs_mode_header","from_glob","from_shebang","guess","language_globs","language_name","language_override_from_name","looks_like_hacklang","looks_like_objc","looks_like_xml"],"struct":["LanguageIter"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["CsrError"],"struct":["Csr","EdgeReference","EdgeReferences","Edges","EdgesNotSorted","Neighbors","NodeIdentifiers","NodeReferences"],"type":["EdgeIndex","NodeIndex"]};

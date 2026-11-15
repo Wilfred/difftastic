@@ -1,0 +1,1 @@
+searchState.loadedDescShard("tree_sitter_fish", 0, "This crate provides fish language support for the …\nThe content of the <code>node-types.json</code> file for this grammar.\nGet the tree-sitter Language for this grammar.")
