@@ -212,6 +212,7 @@ fn main() {
                 }
             }
         }
+        Mode::Completions { shell } => options::print_completions(shell),
         Mode::ListLanguages {
             use_color,
             language_overrides,
