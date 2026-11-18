@@ -12,6 +12,7 @@ ba = "ba"
 edn = "edn"
 mak = "mak"
 ND = "ND"
+tese = "tese"
 
 diffstatic = "difftastic"
 
