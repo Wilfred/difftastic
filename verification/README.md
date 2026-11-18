@@ -38,3 +38,14 @@ The universal theorems cover the independent Lean specifications. Agreement
 with production Rust is bounded by the corpora above. The JSON cases exercise
 the plain-text path. The conflict grammar operates on marker classes and uses
 unambiguous payloads; handling marker-looking payload lines is still open.
+
+## Structural pipeline
+
+The test-only exporter in `structural_probe.rs` captures occurrence IDs before
+preprocessing completes, the forests delegated to each search, each chosen
+edge, shallow matches before and after both slider passes, and hunk membership.
+`Structural.lean` checks both map directions and compares sorted occurrence
+multisets to detect both dropped and duplicated work. Its search oracle walks
+balanced token streams and keeps the exact closing-token positions for every
+paired delimiter. This allows edge replay and minimum-cost search without
+using Rust's vertex equality or predecessor links.

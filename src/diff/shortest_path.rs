@@ -248,6 +248,9 @@ pub(crate) fn mark_syntax<'a>(
 
     let route = shortest_path(start, &vertex_arena, size_hint, graph_limit)?;
 
+    #[cfg(test)]
+    super::structural_probe::record_route(&route);
+
     let print_length = if env::var("DFT_VERBOSE").is_ok() {
         50
     } else {
