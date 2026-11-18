@@ -268,6 +268,27 @@ fn is_big_enough(nodes: &[(&Syntax<'_>, &Syntax<'_>)], size_threshold: u32) -> b
     region_size >= size_threshold
 }
 
+/// Look for a substantial unchanged child which occurs only once on each side.
+fn shares_unique_child(lhs: &Syntax, rhs: &Syntax, size_threshold: u32) -> bool {
+    let (Syntax::List { children: lhs, .. }, Syntax::List { children: rhs, .. }) = (lhs, rhs)
+    else {
+        return false;
+    };
+    let anchors: DftHashSet<_> = lhs
+        .iter()
+        .filter_map(|child| match child {
+            Syntax::List {
+                num_descendants, ..
+            } if child.content_is_unique() && num_descendants + 1 >= size_threshold => {
+                Some(child.content_id())
+            }
+            _ => None,
+        })
+        .collect();
+    rhs.iter()
+        .any(|child| child.content_is_unique() && anchors.contains(&child.content_id()))
+}
+
 /// Walk `lhs_nodes` and `rhs_nodes` and run a traditional linear diff
 /// using their toplevel content IDs.
 ///
@@ -278,6 +299,21 @@ fn split_unchanged_toplevel<'a>(
     rhs_nodes: &[&'a Syntax<'a>],
     size_threshold: u32,
 ) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    // In a binding like OCaml's `sig ... end = struct ... end`, both
+    // lists can change. Trust the intervening atom only when each pair
+    // of lists has its own substantial, unambiguous match.
+    let anchor_threshold = match (lhs_nodes, rhs_nodes) {
+        ([lhs_before, lhs_sep, lhs_after], [rhs_before, rhs_sep, rhs_after])
+            if matches!(lhs_sep, Syntax::Atom { .. })
+                && lhs_sep.content_id() == rhs_sep.content_id()
+                && shares_unique_child(lhs_before, rhs_before, size_threshold)
+                && shares_unique_child(lhs_after, rhs_after, size_threshold) =>
+        {
+            1
+        }
+        _ => size_threshold,
+    };
+
     let lhs_node_ids = lhs_nodes
         .iter()
         .map(|n| EqOnFirstItem(n.content_id(), *n))
@@ -298,7 +334,7 @@ fn split_unchanged_toplevel<'a>(
             lcs_diff::DiffResult::Both(_, _) => {}
             lcs_diff::DiffResult::Left(_) | lcs_diff::DiffResult::Right(_) => {
                 if !current_unchanged_section.is_empty() {
-                    if is_big_enough(&current_unchanged_section, size_threshold) {
+                    if is_big_enough(&current_unchanged_section, anchor_threshold) {
                         // Push the prior changed region.
                         if !lhs_nodes_with_changes.is_empty() || !rhs_nodes_with_changes.is_empty()
                         {
@@ -343,7 +379,7 @@ fn split_unchanged_toplevel<'a>(
     }
 
     if !current_unchanged_section.is_empty() {
-        if is_big_enough(&current_unchanged_section, size_threshold) {
+        if is_big_enough(&current_unchanged_section, anchor_threshold) {
             // Push the unchanged region
             let (lhs_unchanged, rhs_unchanged) = current_unchanged_section.into_iter().unzip();
 
@@ -759,6 +795,29 @@ mod tests {
             change_map.get(rhs_nodes[1]),
             Some(ChangeKind::Unchanged(lhs_nodes[1]))
         );
+    }
+
+    #[test]
+    fn test_small_separator_with_unchanged_children() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+        let lhs = parse(&arena, "(a (1 2 3)) = (b (4 5 6))", config, false);
+        for (source, should_split) in [
+            ("(x (1 2 3)) = (y (4 5 6))", true),
+            ("(x (1 2 3)) = (y (7 8 9))", false),
+            ("(x (4 5 6)) = (y (1 2 3))", false),
+        ] {
+            let rhs = parse(&arena, source, config, false);
+            init_all_info(&lhs, &rhs);
+            let sections = split_unchanged_toplevel(&lhs, &rhs, 4);
+            assert_eq!(
+                sections.iter().any(|(state, nodes, _)| {
+                    matches!(state, ChangeState::UnchangedNode) && nodes == &lhs[1..2]
+                }),
+                should_split,
+                "{source}"
+            );
+        }
     }
 
     #[test]
