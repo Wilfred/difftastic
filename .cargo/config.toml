@@ -1,0 +1,9 @@
+[env]
+# Use 64-KiB pages with jemalloc. This solves "<jemalloc>: Unsupported
+# system page size" errors on systems with larger pages (e.g. aarch64
+# Linux with 16-KiB or 64-KiB pages), and performs the same as
+# jemalloc's default settings.
+#
+# This needs to be set here rather than in build.rs, as build.rs
+# cannot set environment variables for dependencies' build scripts.
+JEMALLOC_SYS_WITH_LG_PAGE = "16"
