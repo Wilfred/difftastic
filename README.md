@@ -85,6 +85,8 @@ post](https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html)
 showing one way to use difftastic with magit, as well as
 [difftastic.el](https://github.com/pkryger/difftastic.el).
 
+GitComet v0.3.1+ integrates difftastic as optional diff engine see [Video tutorial](https://www.youtube.com/watch?v=nwX_Ln4ZwaI) for the setup.
+
 ### Does difftastic integrate with my favourite tool?
 
 Probably not. Difftastic is young. Consider writing a plugin for your
