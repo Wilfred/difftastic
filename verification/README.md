@@ -24,3 +24,17 @@ Rust compactions to this same expected output. The word checker covers all
 limit from zero through input length plus one. It compares both Rust functions
 to Lean's maximal-run specification, including reconstruction of the input.
 These are bounded differential checks.
+
+## Results
+
+| Area | Evidence | What we learned |
+| --- | --- | --- |
+| Gap compaction | Lean proves `expectedRows_projections` for arbitrary input length and pending columns. The Rust helper agrees with the complete expected arrangement, including paired anchors, on all 364 layouts. Applying the Rust helper twice also agrees. | Splitting at paired anchors makes the specification simple. Projecting the zipped runs recovers each source column even when their lengths differ. The no-empty-row claim assumes valid inputs. The Rust catch-all arm passes an input empty row through. |
+| Word splitting | Lean proves `tokens_reconstruct` and `tokens_nonempty` for both modes on arbitrary character lists. The bounded Rust comparison checks reconstruction, nonemptiness, digit refinement and the exact success threshold. | A non-ASCII decimal digit can belong to a word while an adjacent ASCII digit starts a new fine token. The model's character-class table covers the generated alphabet. Extending correspondence to all Unicode would require matching Rust's classification. |
+| Conflict parsing | Rust recovered both projections and count on all 144 two-conflict documents, including empty sides, optional empty or populated bases, shared CRLF text and an unterminated final line. On all 781 streams of up to four marker/text events, every strict-grammar document was accepted. Rust also accepted 188 streams outside the grammar. | Acceptance alone does not establish a well-formed merge conflict. The missing-separator example also passes the caller's positive-count check. The 188 count describes the helper and includes inputs the caller rejects for zero conflicts. |
+| JSON highlights | Lean invoked the freshly built CLI for six plain-text diffs with ASCII, accented, CJK, tab, combining-sequence and emoji prefixes. On each side it checked the line number, every emitted range and its decoded bytes, and the independently predicted range of the edited word. | In this corpus the offsets follow UTF-8 bytes. Moving the edit past a tab shifts it by one byte. The check allows other highlights on the same line. |
+
+The universal theorems cover the independent Lean specifications. Agreement
+with production Rust is bounded by the corpora above. The JSON cases exercise
+the plain-text path. The conflict grammar operates on marker classes and uses
+unambiguous payloads; handling marker-looking payload lines is still open.
