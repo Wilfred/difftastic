@@ -1,6 +1,6 @@
-# Supporting invariants in difftastic
+# Lean invariant checks for difftastic
 
-This investigation covers four components independently of syntax-graph search.
+The structural checks found stale partner IDs after nested slider adjustment and a difference between JSON chunk order and line alignment. The following four experiments exercise supporting logic independently of graph search.
 
 | Component | Claim under investigation |
 | --- | --- |
@@ -41,8 +41,8 @@ unambiguous payloads; handling marker-looking payload lines is still open.
 
 ## Structural pipeline
 
-The test-only exporter in `structural_probe.rs` captures occurrence IDs before
-preprocessing completes, the forests delegated to each search, each chosen
+The test-only exporter in `structural_probe.rs` captures occurrence IDs at the end of
+preprocessing, the forests delegated to each search, each chosen
 edge, shallow matches before and after both slider passes, and hunk membership.
 `Structural.lean` checks both map directions and compares sorted occurrence
 multisets to detect both dropped and duplicated work. Its search oracle walks
@@ -69,3 +69,44 @@ cost. The minimum-cost comparison is an executable full-history search over
 the observed section, using the same parsed forests and content IDs as Rust.
 The corpus uses atoms, subtree matches and delimiters. Replacement edges for
 strings and comments require an additional model rule.
+
+### Structural results
+
+The exporter ran 658 input/mode combinations. It diffed all ordered pairs of
+18 small Emacs Lisp forests and targeted multi-hunk and trailing-comma cases,
+each with preprocessing enabled and bypassed. Counts below include both modes.
+
+| Invariant | Observation |
+| --- | --- |
+| Preprocessing partitions occurrences | On both sides of every input, the multiset of delegated occurrence IDs exactly equalled the unclassified IDs. An outer list and its children are counted individually. |
+| Completed change maps classify every occurrence | All 658 inputs had full coverage both before and after slider adjustment. The Python array cases exercised ignored trailing punctuation. |
+| Unchanged partners are reciprocal and compatible | All pre-slider maps passed. After sliding, 104 maps failed reciprocity, 52 in each mode. All partners retained compatible atom content IDs or matching opening and closing delimiters. |
+| Deep unchanged edges match descendants | All 699 equal-node edges passed the preorder partner comparison, omitting explicitly ignored punctuation. The 225 shallow delimiter matches permit changed children. |
+| The chosen route is realizable in one full delimiter history | All 639 section traces replayed to exhaustion with the observed cursor IDs, edge kinds and costs. |
+| Coarse vertex reuse preserves the minimum cost on these inputs | All 639 costs equalled the independently searched minimum. In 220 sections the two-history cap was reached. In 62, an incoming stack compared equal to the first stored stack and unequal to the second by Rust's own comparison, yet the allocator returned the second. The observed final routes still passed. |
+| Hunk rows are ordered, in bounds, and cover their designated novel lines | Both extracted rows and the aligned window used by the JSON path passed for all 622 hunks, including two multi-hunk runs. |
+
+### JSON chunk order
+
+Compare a left file containing `(a a)` with the following right file, ending
+both files with a newline.
+
+```elisp
+(
+ (a)
+)
+```
+
+With `--display json`, projecting the right column of `aligned_lines` yields
+`[0, 1, 2, 3]`. Projecting the right column of the single serialized chunk
+yields **`[1, 2, 0]`**. The indices are zero-based. The JSON writer collects
+rows in a BTreeMap keyed by the pair of optional line numbers. Right-only
+rows sort ahead of rows with a left line number. A consumer iterating the
+chunk thus sees line 0 last. The harness checks this separately from internal
+alignment; whether the JSON format should guarantee source order is a format
+decision.
+
+Run `python verification/run.py` for the supporting checks, structural export,
+Lean replay and JSON witness. The structural checker reports known
+post-slider reciprocity failures and fails the run on other structural
+invariant violations. The CLI probe reports the observed chunk order.

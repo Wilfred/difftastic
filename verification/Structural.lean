@@ -169,8 +169,40 @@ def replayFrom (l r : Forest) (before : Sides) (raw : Cursor) :
     let tail ← replayFrom l r before m.val.dest rows
     return ⟨m.val.cost + tail.val, .step m.property tail.property⟩
 
+structure JsonSide where
+  line_number : Nat
+deriving FromJson
+
+structure JsonRow where
+  lhs : Option JsonSide
+  rhs : Option JsonSide
+deriving FromJson
+
+def serializedOrder (binary dir : String) : IO Unit := do
+  let a := dir ++ "/order-left.el"
+  let b := dir ++ "/order-right.el"
+  IO.FS.writeFile a "(a a)\n"
+  IO.FS.writeFile b "(\n (a)\n)\n"
+  let proc ← IO.Process.output {
+    cmd := binary
+    args := #["--display","json",a,b]
+    env := #[("DFT_UNSTABLE",some "yes")]}
+  unless proc.exitCode == 0 do throw <| IO.userError proc.stderr
+  let obj ← IO.ofExcept (Json.parse proc.stdout)
+  let chunks : List (List JsonRow) ← IO.ofExcept (obj.getObjValAs? _ "chunks")
+  let [chunk] := chunks | throw <| IO.userError "expected one chunk for line-order witness"
+  let rows : List (Option Nat × Option Nat) ← IO.ofExcept (obj.getObjValAs? _ "aligned_lines")
+  let right := chunk.filterMap (fun r => r.rhs.map (·.line_number))
+  let aligned := rows.filterMap Prod.snd
+  unless aligned.Pairwise (· < ·) && right.mergeSort == [0,1,2] do
+    throw <| IO.userError s!"unexpected aligned or serialized lines: {aligned}, {right}"
+  unless right.Pairwise (· < ·) do
+    IO.println s!"JSON chunk right lines {right}; aligned right lines {aligned}"
+
 def main (args : List String) : IO Unit := do
-  let doc ← IO.ofExcept (Json.parse (← IO.FS.readFile args[0]!))
+  let [trace,binary,dir] := args | throw <| IO.userError "expected trace, difft binary and temporary directory"
+  serializedOrder binary dir
+  let doc ← IO.ofExcept (Json.parse (← IO.FS.readFile trace))
   let samples : List Sample ← IO.ofExcept (fromJson? doc)
   let mut failures : Std.HashMap String Nat := {}
   let mut total := 0

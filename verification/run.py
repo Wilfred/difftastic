@@ -31,4 +31,4 @@ with tempfile.TemporaryDirectory() as tmp:
                     "export_structural_cases", "--", "--ignored"], cwd=repo,
                    env=dict(os.environ, DFT_STRUCTURAL_TRACE=str(trace)), check=True)
     subprocess.run(["lean", "+leanprover/lean4:v4.35.0", "--run",
-                    here / "Structural.lean", trace], check=True)
+                    here / "Structural.lean", trace, binary, work], check=True)
