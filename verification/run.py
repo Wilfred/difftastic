@@ -26,3 +26,9 @@ with tempfile.TemporaryDirectory() as tmp:
     binary = Path(json.loads(metadata)["target_directory"]) / "release/difft"
     subprocess.run(["lean", "+leanprover/lean4:v4.35.0", "--run", here / "Check.lean",
                     probe, binary, work], env=dict(os.environ, DFT_UNSTABLE="yes"), check=True)
+    trace = work / "structural.json"
+    subprocess.run(["cargo", "test", "--release", "--locked", "-j2", "--bin", "difft",
+                    "export_structural_cases", "--", "--ignored"], cwd=repo,
+                   env=dict(os.environ, DFT_STRUCTURAL_TRACE=str(trace)), check=True)
+    subprocess.run(["lean", "+leanprover/lean4:v4.35.0", "--run",
+                    here / "Structural.lean", trace], check=True)

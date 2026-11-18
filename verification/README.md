@@ -49,3 +49,23 @@ multisets to detect both dropped and duplicated work. Its search oracle walks
 balanced token streams and keeps the exact closing-token positions for every
 paired delimiter. This allows edge replay and minimum-cost search without
 using Rust's vertex equality or predecessor links.
+
+### A slider counterexample
+
+Compare Emacs Lisp `(a a)` with `((a))`. Before slider adjustment, the left
+list (occurrence 1) and the right outer list (4) point to one another.
+Afterwards, 1 still points to 4, 4 is novel, and the right inner list (5)
+points to 1. The same result occurs with preprocessing enabled and bypassed.
+The nested slider helper moves the classification from the outer list to the
+inner list while retaining the old target in the opposite-side map. The
+position-generation code subsequently reads this target when constructing
+opposite delimiter positions. This example establishes inconsistent partner
+metadata; its two right delimiters lie on the same line.
+
+Lean proves that reciprocity implies injectivity of the directed partner
+lookup. Each successful route replay also produces a Lean witness of a
+legal model execution from the initial cursor to exhaustion with the reported
+cost. The minimum-cost comparison is an executable full-history search over
+the observed section, using the same parsed forests and content IDs as Rust.
+The corpus uses atoms, subtree matches and delimiters. Replacement edges for
+strings and comments require an additional model rule.

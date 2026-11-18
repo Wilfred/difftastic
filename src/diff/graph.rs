@@ -401,7 +401,9 @@ fn allocate_if_new<'s, 'v>(
             if let Some(allocated) = existing.last() {
                 if existing.len() >= 2 {
                     #[cfg(test)]
-                    super::structural_probe::cap_hit();
+                    super::structural_probe::cap_hit(
+                        existing[0].parents == v.parents && existing[1].parents != v.parents,
+                    );
                     return allocated;
                 }
             }
