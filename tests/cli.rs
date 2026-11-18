@@ -67,6 +67,40 @@ fn inline_unchanged_lines_between_changes() {
 }
 
 #[test]
+fn inline_unified() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=inline-unified")
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
+    cmd.assert().success();
+}
+
+#[test]
+fn inline_unified_shows_unchanged_lines_once() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=inline-unified")
+        .arg("sample_files/cli_tests/gitconfig_1.gitconfig")
+        .arg("sample_files/cli_tests/gitconfig_2.gitconfig");
+
+    let url_rx = r#"(?m)^\s*7\s+7\s+\[url "ssh://git@github\.com"\]$"#;
+    let url_line = predicate::str::is_match(url_rx).unwrap().count(1);
+
+    let blank_rx = r"(?m)^\s*6\s+6\s*$";
+    let blank_line = predicate::str::is_match(blank_rx).unwrap().count(1);
+
+    let removed_rx = r"(?m)^\s*5\s+editor = vim$";
+    let removed_line = predicate::str::is_match(removed_rx).unwrap().count(1);
+
+    let added_rx = r"(?m)^\s+5\s+editor = emacs$";
+    let added_line = predicate::str::is_match(added_rx).unwrap().count(1);
+
+    cmd.assert()
+        .stdout(url_line.and(blank_line).and(removed_line).and(added_line));
+}
+
+#[test]
 fn binary_changed() {
     let mut cmd = get_base_command();
 
