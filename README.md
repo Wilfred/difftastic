@@ -85,6 +85,11 @@ post](https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html)
 showing one way to use difftastic with magit, as well as
 [difftastic.el](https://github.com/pkryger/difftastic.el).
 
+If you're a Neovim user,
+[difftsigns.nvim](https://github.com/janbuchar/difftsigns.nvim) uses
+difftastic to dim formatting-only changes in the
+[gitsigns](https://github.com/lewis6991/gitsigns.nvim) gutter.
+
 ### Does difftastic integrate with my favourite tool?
 
 Probably not. Difftastic is young. Consider writing a plugin for your
