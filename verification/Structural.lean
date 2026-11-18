@@ -194,7 +194,7 @@ def serializedOrder (binary dir : String) : IO Unit := do
   let rows : List (Option Nat × Option Nat) ← IO.ofExcept (obj.getObjValAs? _ "aligned_lines")
   let right := chunk.filterMap (fun r => r.rhs.map (·.line_number))
   let aligned := rows.filterMap Prod.snd
-  unless aligned.Pairwise (· < ·) && right.mergeSort == [0,1,2] do
+  unless aligned.Pairwise (· < ·) && [[0,2], [0,1,2]].contains right.mergeSort do
     throw <| IO.userError s!"unexpected aligned or serialized lines: {aligned}, {right}"
   unless right.Pairwise (· < ·) do
     IO.println s!"JSON chunk right lines {right}; aligned right lines {aligned}"

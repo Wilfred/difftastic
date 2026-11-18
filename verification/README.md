@@ -2,9 +2,12 @@
 
 ## Issues that look worth fixing
 
-1. **Nested slider adjustment leaves stale partners.** A list can point at a novel delimiter while its new partner points back from elsewhere. Update both directions when moving a match. [Minimal example](#a-slider-counterexample)
-2. **JSON chunks reorder aligned rows.** A right-only row can precede an earlier paired row when serialized. Preserve alignment order when collecting chunk rows. [CLI reproduction](#json-chunk-order)
-3. **Conflict parsing accepts a missing separator.** A closed conflict with no separator passes the CLI's positive-count check. Decide whether malformed input should be rejected before presenting an empty right side. [Parser evidence](#results)
+1. **Conflict parsing loses shared source text in genuine Git output.** An underline of seven equals signs before the conflict disappears on both sides, and common prose disappears on the left. Restrict separator transitions to an active conflict. [Git-generated witness](#git-generated-conflict-projections)
+2. **Check-only JSON hides actual changes.** A changed file is labeled unchanged even when the same process exits 1 for changes. Directory output with `--skip-unchanged` can omit the changed file entirely. Derive check-only status from the computed change summary. [Status matrix](#check-only-status)
+3. **Nested slider adjustment leaves stale partners.** A list can point at a novel delimiter while its new partner points back from elsewhere. Update both directions when moving a match. [Minimal example](#a-slider-counterexample)
+4. **A missing side can admit an unchanged row to a JSON chunk.** The filter substitutes line zero for an absent side. Check membership only for sides present in the row. [Prefix experiment](#missing-sides-and-line-zero)
+5. **JSON chunks reorder aligned rows.** A right-only row can precede an earlier paired row when serialized. Preserve alignment order when collecting chunk rows. [CLI reproduction](#json-chunk-order)
+6. **Conflict parsing accepts a missing separator.** A closed conflict with no separator passes the CLI's positive-count check. Decide whether malformed input should be rejected before presenting an empty right side. [Parser evidence](#results)
 
 ## Supporting checks
 
@@ -116,3 +119,63 @@ Run `python verification/run.py` for the supporting checks, structural export,
 Lean replay and JSON witness. The structural checker reports known
 post-slider reciprocity failures and fails the run on other structural
 invariant violations. The CLI probe reports the observed chunk order.
+
+## Additional CLI and Git experiments
+
+Run `python verification/run.py --published-only` to reproduce these checks
+with Lean, the release CLI, Git, and the Rust conflict parser. The full runner
+includes them too. Known counterexamples are printed. Unexpected control
+results fail the run.
+
+### Git-generated conflict projections
+
+The base, left and right files have this common prefix, followed by one line
+containing respectively `BASE`, `LEFT`, or `RIGHT`.
+
+    Title
+    =======
+    common paragraph
+
+A blank line follows the paragraph.
+
+Git's `merge-file -p` reports one conflict and preserves the heading and
+paragraph above the opening marker. Because each branch edits the same single
+line, projecting Git's output must recover each original file exactly.
+Instead the Rust parser returns `"Title\nLEFT\n"` on the left and
+`"Title\ncommon paragraph\n\nRIGHT\n"` on the right. It recognizes a separator
+by prefix before checking its current state, so the shared underline switches
+it into the right-side state. This failure precedes the actual conflict.
+
+Lean compared both projections and the count for eight Git outputs. Six
+failed across merge and diff3 styles with `=======`, `========`, and
+`======= heading`. Both six-equals controls passed. The original synthetic
+round-trip corpus explicitly excluded marker-looking payloads.
+
+### Check-only status
+
+With `--display json --exit-code`, compare full and check-only output for nine
+file pairs. Six changes spanning Lisp and plain text gave exit code 1 in both
+modes. Full output reported the expected changed, created or deleted status;
+check-only labeled all six unchanged. The three controls (identical Lisp,
+formatting-only Lisp, identical text) gave unchanged and exit 0 in both modes.
+
+For a directory containing just `edit.el` changed from `a` to `b`, adding
+`--check-only` to `--display json --skip-unchanged --exit-code` changes the
+result from a one-file array to `[]` while retaining exit code 1. The check-only
+path records the syntactic-change decision and skips position generation.
+The JSON converter infers unchanged from the resulting empty hunk list.
+
+### Missing sides and line zero
+
+In the [multiline JSON example](#json-chunk-order), the right-only row for
+line 1 has no highlights on either side. Prepending `same\n` to both files
+removes that row after adjusting for the line-number shift. The rows carrying
+highlights remain identical after adjustment. Lean checked both input
+directions with zero, one and two common prefix lines. Only the original
+direction without a prefix emitted a completely empty change row.
+
+The JSON row filter tests whether either side has a novel line, substituting
+line 0 for a missing side. An unrelated edit on line 0 therefore admits
+this row. Lean also proves that a membership test on an optional line is
+invariant under a common offset when the novelty predicate shifts with it.
+This finding concerns row membership independently of serialization order.
