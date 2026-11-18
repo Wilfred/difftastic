@@ -1,6 +1,12 @@
 # Lean invariant checks for difftastic
 
-The structural checks found stale partner IDs after nested slider adjustment and a difference between JSON chunk order and line alignment. The following four experiments exercise supporting logic independently of graph search.
+## Issues that look worth fixing
+
+1. **Nested slider adjustment leaves stale partners.** A list can point at a novel delimiter while its new partner points back from elsewhere. Update both directions when moving a match. [Minimal example](#a-slider-counterexample)
+2. **JSON chunks reorder aligned rows.** A right-only row can precede an earlier paired row when serialized. Preserve alignment order when collecting chunk rows. [CLI reproduction](#json-chunk-order)
+3. **Conflict parsing accepts a missing separator.** A closed conflict with no separator passes the CLI's positive-count check. Decide whether malformed input should be rejected before presenting an empty right side. [Parser evidence](#results)
+
+## Supporting checks
 
 | Component | Claim under investigation |
 | --- | --- |
