@@ -3,11 +3,13 @@
 ## Issues that look worth fixing
 
 1. **Conflict parsing loses shared source text in genuine Git output.** An underline of seven equals signs before the conflict disappears on both sides, and common prose disappears on the left. Restrict separator transitions to an active conflict. [Git-generated witness](#git-generated-conflict-projections)
-2. **Check-only JSON hides actual changes.** A changed file is labeled unchanged even when the same process exits 1 for changes. Directory output with `--skip-unchanged` can omit the changed file entirely. Derive check-only status from the computed change summary. [Status matrix](#check-only-status)
-3. **Nested slider adjustment leaves stale partners.** A list can point at a novel delimiter while its new partner points back from elsewhere. Update both directions when moving a match. [Minimal example](#a-slider-counterexample)
-4. **A missing side can admit an unchanged row to a JSON chunk.** The filter substitutes line zero for an absent side. Check membership only for sides present in the row. [Prefix experiment](#missing-sides-and-line-zero)
-5. **JSON chunks reorder aligned rows.** A right-only row can precede an earlier paired row when serialized. Preserve alignment order when collecting chunk rows. [CLI reproduction](#json-chunk-order)
-6. **Conflict parsing accepts a missing separator.** A closed conflict with no separator passes the CLI's positive-count check. Decide whether malformed input should be rejected before presenting an empty right side. [Parser evidence](#results)
+2. **JSON fails on Dockerfile heredoc edits that inline mode detects.** The JSON writer receives an end offset past the end of the terminator line in four related comparisons. [Dockerfile results](#results-from-issue-derived-cases)
+3. **Directory status conflates missing and empty files.** Creating an empty file can produce exit 0. Filling an existing empty file can report a creation. Preserve path existence independently of contents. [Directory results](#results-from-issue-derived-cases)
+4. **Check-only JSON hides actual changes.** A changed file is labeled unchanged even when the same process exits 1 for changes. Directory output with `--skip-unchanged` can omit the changed file entirely. Derive check-only status from the computed change summary. [Status matrix](#check-only-status)
+5. **Nested slider adjustment leaves stale partners.** A list can point at a novel delimiter while its new partner points back from elsewhere. Update both directions when moving a match. [Minimal example](#a-slider-counterexample)
+6. **A missing side can admit an unchanged row to a JSON chunk.** The filter substitutes line zero for an absent side. Check membership only for sides present in the row. [Prefix experiment](#missing-sides-and-line-zero)
+7. **JSON chunks reorder aligned rows.** A right-only row can precede an earlier paired row when serialized. Preserve alignment order when collecting chunk rows. [CLI reproduction](#json-chunk-order)
+8. **Conflict parsing accepts a missing separator.** A closed conflict with no separator passes the CLI's positive-count check. Decide whether malformed input should be rejected before presenting an empty right side. [Parser evidence](#results)
 
 ## Supporting checks
 
@@ -188,3 +190,20 @@ The following cases give independent expected results for a CLI comparison.
 - A file's presence in either directory determines whether it was created or deleted, including zero-byte files. Filtering unchanged files should preserve every changed path. [Open issue 1027](https://github.com/Wilfred/difftastic/issues/1027)
 - Static words around Kotlin interpolation and commands inside a Dockerfile heredoc should remain observable in both edit directions. A JavaScript or TypeScript template deletion also gives a stricter test of which lines carry highlights. [Closed issue 860](https://github.com/Wilfred/difftastic/issues/860), [closed issue 1060](https://github.com/Wilfred/difftastic/issues/1060), [open issue 911](https://github.com/Wilfred/difftastic/issues/911)
 - Optional trailing commas should preserve equality in TOML arrays. A comma that changes a Python scalar into a tuple provides the opposite control. [Closed issue 1002](https://github.com/Wilfred/difftastic/issues/1002), [closed issue 958](https://github.com/Wilfred/difftastic/issues/958)
+
+### Results from issue-derived cases
+
+Run `python verification/run.py --issues-only`. Lean invokes the release CLI,
+reads its status or highlights, and checks them against the input edit.
+The checks run on this branch's pinned dependencies.
+
+| Issue | Invariant and observation |
+| --- | --- |
+| [1027, open](https://github.com/Wilfred/difftastic/issues/1027) | Compared all nine pairs of absent, present-empty and present-nonempty states for a directory entry, with and without `--skip-unchanged`. Eight of 18 comparisons contradicted the path-existence oracle. An empty file present on just one side yields exit 0 and status unchanged, or disappears under filtering. An existing file that gains its first bytes or loses its last bytes yields exit 1 but is labeled created or deleted. Lean proves the reference classifier returns created exactly when the old path is absent and the new one exists. |
+| [1060, closed](https://github.com/Wilfred/difftastic/issues/1060) | The reported combined Dockerfile edit (replace a word and remove a command) was detected in both directions in both inline and JSON modes. Splitting that edit revealed a separate issue. Inline detected all six directed variants, but JSON failed on the four single-edit variants. The failure was an end-byte offset of 4 on the three-byte `EOF` line in `src/display/json.rs`. The observed failure location does not establish where the invalid span originated. |
+| [860, closed](https://github.com/Wilfred/difftastic/issues/860) | Changed the static text before, between and after two Kotlin interpolations. All six directed edits produced a change in inline and JSON modes, and JSON identified the language as Kotlin. |
+| [911, open](https://github.com/Wilfred/difftastic/issues/911) | The removed padding expression was highlighted in all four JavaScript/TypeScript and newline combinations. JSON also tagged nonblank content on both untouched CSS lines in every case. Moving the closing interpolation brace onto the preceding line did not restore locality in this experiment. The original report used terminal output. |
+| [1002, closed](https://github.com/Wilfred/difftastic/issues/1002) and [958, closed as a duplicate](https://github.com/Wilfred/difftastic/issues/958) | Adding or removing a TOML array's trailing comma alone preserved equality in both output modes. Changing the last element at the same time remained visible. Adding or removing the tuple-forming comma in Python also remained visible. All six directed comparisons matched the expected decisions. |
+
+These are bounded CLI observations. The directory theorem concerns the
+reference classifier. The template locality check is a readability criterion.

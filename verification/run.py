@@ -7,7 +7,9 @@ import subprocess
 import tempfile
 
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument("--published-only", action="store_true",
+modes = parser.add_mutually_exclusive_group()
+modes.add_argument("--issues-only", action="store_true", help="run the GitHub issue experiments only")
+modes.add_argument("--published-only", action="store_true",
                     help="run the public-output and Git conflict experiments only")
 args = parser.parse_args()
 
@@ -30,6 +32,13 @@ with tempfile.TemporaryDirectory() as tmp:
     subprocess.run(["cargo", "build", "--release", "--locked", "-j2"], cwd=repo, check=True)
     metadata = subprocess.check_output(["cargo", "metadata", "--no-deps", "--format-version=1"], cwd=repo)
     binary = Path(json.loads(metadata)["target_directory"]) / "release/difft"
+    if not args.published_only:
+        issue_dir = work / "issues"
+        issue_dir.mkdir()
+        subprocess.run(["lean", "+leanprover/lean4:v4.35.0", "--run",
+                        here / "Issues.lean", binary, issue_dir], check=True)
+    if args.issues_only:
+        raise SystemExit(0)
     if not args.published_only:
         subprocess.run(["lean", "+leanprover/lean4:v4.35.0", "--run", here / "Check.lean",
                         probe, binary, work], env=dict(os.environ, DFT_UNSTABLE="yes"), check=True)
