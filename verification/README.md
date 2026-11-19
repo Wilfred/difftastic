@@ -2,13 +2,13 @@
 
 ## Issues that look worth fixing
 
-1. **Conflict parsing loses shared source text in genuine Git output.** An underline of seven equals signs before the conflict disappears on both sides, and common prose disappears on the left. Restrict separator transitions to an active conflict. [Git-generated witness](#git-generated-conflict-projections)
-2. **JSON fails on Dockerfile heredoc edits that inline mode detects.** The JSON writer receives an end offset past the end of the terminator line in four related comparisons. [Dockerfile results](#results-from-issue-derived-cases)
-3. **Directory status conflates missing and empty files.** Creating an empty file can produce exit 0. Filling an existing empty file can report a creation. Preserve path existence independently of contents. [Directory results](#results-from-issue-derived-cases)
-4. **Check-only JSON hides actual changes.** A changed file is labeled unchanged even when the same process exits 1 for changes. Directory output with `--skip-unchanged` can omit the changed file entirely. Derive check-only status from the computed change summary. [Status matrix](#check-only-status)
-5. **Nested slider adjustment leaves stale partners.** A list can point at a novel delimiter while its new partner points back from elsewhere. Update both directions when moving a match. [Minimal example](#a-slider-counterexample)
+1. **Check-only JSON hides actual changes.** A changed file is labeled unchanged even when the same process exits 1 for changes. Directory output with `--skip-unchanged` can omit the changed file entirely. Derive check-only status from the computed change summary. [Status matrix](#check-only-status)
+2. **Directory status conflates missing and empty files.** Creating an empty file can produce exit 0. Filling an existing empty file can report a creation. Preserve path existence independently of contents. [Directory results](#results-from-issue-derived-cases)
+3. **Conflict parsing loses shared source text in genuine Git output.** An underline of seven equals signs before the conflict disappears on both sides, and common prose disappears on the left. Restrict separator transitions to an active conflict. [Git-generated witness](#git-generated-conflict-projections)
+4. **JSON fails on Dockerfile heredoc edits that inline mode detects.** The JSON writer receives an end offset past the end of the terminator line in four related comparisons. [Dockerfile results](#results-from-issue-derived-cases)
+5. **JSON chunks reorder aligned rows.** A right-only row can precede an earlier paired row when serialized. Preserve alignment order when collecting chunk rows. [CLI reproduction](#json-chunk-order)
 6. **A missing side can admit an unchanged row to a JSON chunk.** The filter substitutes line zero for an absent side. Check membership only for sides present in the row. [Prefix experiment](#missing-sides-and-line-zero)
-7. **JSON chunks reorder aligned rows.** A right-only row can precede an earlier paired row when serialized. Preserve alignment order when collecting chunk rows. [CLI reproduction](#json-chunk-order)
+7. **Nested slider adjustment leaves stale partners.** A list can point at a novel delimiter while its new partner points back from elsewhere. Update both directions when moving a match. [Minimal example](#a-slider-counterexample)
 8. **Conflict parsing accepts a missing separator.** A closed conflict with no separator passes the CLI's positive-count check. Decide whether malformed input should be rejected before presenting an empty right side. [Parser evidence](#results)
 
 ## Supporting checks
