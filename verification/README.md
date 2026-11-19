@@ -179,3 +179,12 @@ line 0 for a missing side. An unrelated edit on line 0 therefore admits
 this row. Lean also proves that a membership test on an optional line is
 invariant under a common offset when the novelty predicate shifts with it.
 This finding concerns row membership independently of serialization order.
+
+## GitHub issue experiments
+
+I screened 160 recent open and closed issues and read six reports in detail.
+The following cases give independent expected results for a CLI comparison.
+
+- A file's presence in either directory determines whether it was created or deleted, including zero-byte files. Filtering unchanged files should preserve every changed path. [Open issue 1027](https://github.com/Wilfred/difftastic/issues/1027)
+- Static words around Kotlin interpolation and commands inside a Dockerfile heredoc should remain observable in both edit directions. A JavaScript or TypeScript template deletion also gives a stricter test of which lines carry highlights. [Closed issue 860](https://github.com/Wilfred/difftastic/issues/860), [closed issue 1060](https://github.com/Wilfred/difftastic/issues/1060), [open issue 911](https://github.com/Wilfred/difftastic/issues/911)
+- Optional trailing commas should preserve equality in TOML arrays. A comma that changes a Python scalar into a tuple provides the opposite control. [Closed issue 1002](https://github.com/Wilfred/difftastic/issues/1002), [closed issue 958](https://github.com/Wilfred/difftastic/issues/958)
