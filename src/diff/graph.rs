@@ -8,7 +8,6 @@ use std::hash::{Hash, Hasher};
 use bumpalo::Bump;
 use hashbrown::hash_map::RawEntryMut;
 use smallvec::{smallvec, SmallVec};
-use strsim::normalized_levenshtein;
 
 use self::Edge::*;
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
@@ -513,6 +512,28 @@ fn pop_all_parents<'s, 'v>(
     (lhs_node, rhs_node, lhs_parent_id, rhs_parent_id, parents)
 }
 
+fn matching_bytes(lhs: impl Iterator<Item = char>, rhs: impl Iterator<Item = char>) -> usize {
+    lhs.zip(rhs)
+        .take_while(|(l, r)| l == r)
+        .map(|(c, _)| c.len_utf8())
+        .sum()
+}
+
+fn normalized_levenshtein(lhs: &str, rhs: &str) -> f64 {
+    let full_len = lhs.chars().count().max(rhs.chars().count());
+    if full_len == 0 {
+        return 1.0;
+    }
+
+    // Equal ends cannot change edit distance. Normalize against the original
+    // lengths so a small edit in a long comment still scores as a close match.
+    let prefix = matching_bytes(lhs.chars(), rhs.chars());
+    let (lhs, rhs) = (&lhs[prefix..], &rhs[prefix..]);
+    let suffix = matching_bytes(lhs.chars().rev(), rhs.chars().rev());
+    let (lhs, rhs) = (&lhs[..lhs.len() - suffix], &rhs[..rhs.len() - suffix]);
+    1.0 - strsim::levenshtein(lhs, rhs) as f64 / full_len as f64
+}
+
 /// Compute the neighbours of `v`.
 ///
 /// This function is extremely hot and directly affects difftastic
@@ -862,6 +883,36 @@ pub(crate) fn populate_change_map<'s, 'v>(
             NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
                 let rhs = v.rhs_syntax.unwrap();
                 change_map.insert(rhs, ChangeKind::Novel);
+            }
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn trimming_matching_ends_preserves_unicode_similarity() {
+        let samples = [
+            "",
+            "a",
+            "aba",
+            "baa",
+            "é",
+            "ê",
+            "a\u{301}",
+            "🦀古🙂",
+            "🦀é古🙂",
+            "🦀終古🙂",
+        ];
+        for lhs in samples {
+            for rhs in samples {
+                assert_eq!(
+                    normalized_levenshtein(lhs, rhs),
+                    strsim::normalized_levenshtein(lhs, rhs),
+                    "{lhs:?} -> {rhs:?}"
+                );
             }
         }
     }
