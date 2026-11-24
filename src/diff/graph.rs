@@ -3,7 +3,7 @@
 use std::cell::{Cell, OnceCell};
 use std::cmp::min;
 use std::fmt;
-use std::hash::{Hash, Hasher};
+use std::hash::{BuildHasher, Hash, Hasher};
 
 use bumpalo::Bump;
 use hashbrown::hash_map::RawEntryMut;
@@ -391,7 +391,8 @@ fn allocate_if_new<'s, 'v>(
 ) -> &'v Vertex<'s, 'v> {
     // We use the entry API so that we only need to do a single lookup
     // for access and insert.
-    match seen.raw_entry_mut().from_key(&v) {
+    let hash = seen.hasher().hash_one(&v);
+    match seen.raw_entry_mut().from_key_hashed_nocheck(hash, &v) {
         RawEntryMut::Occupied(mut occupied) => {
             // The key holds the first nesting. Once a second is admitted,
             // subsequent visits use that second vertex.
@@ -408,7 +409,7 @@ fn allocate_if_new<'s, 'v>(
         }
         RawEntryMut::Vacant(vacant) => {
             let allocated = alloc.alloc(v);
-            vacant.insert(allocated, None);
+            vacant.insert_hashed_nocheck(hash, allocated, None);
             allocated
         }
     }
