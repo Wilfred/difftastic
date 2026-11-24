@@ -1062,6 +1062,24 @@ fn detect_terminal_width() -> usize {
         }
     }
 
+    // On Windows, the console's screen buffer is available as CONOUT$
+    // even when all of stdin, stdout and stderr are redirected, such as
+    // when git runs difft as an external diff tool.
+    //
+    // See https://github.com/Wilfred/difftastic/issues/1108.
+    #[cfg(windows)]
+    if let Ok(conout) = std::fs::OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open("CONOUT$")
+    {
+        if let Some((columns, _)) = terminal_size::terminal_size_of(&conout) {
+            if columns.0 > 0 {
+                return columns.0.into();
+            }
+        }
+    }
+
     // If we couldn't detect the terminal width, use the
     // shell variable COLUMNS if it's set. This helps with terminals like eshell.
     //
