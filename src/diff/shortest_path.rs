@@ -79,6 +79,14 @@ fn shortest_vertex_path<'s, 'v>(
                     break current;
                 }
 
+                if current
+                    .predecessor
+                    .get()
+                    .is_some_and(|(best, _)| best < distance)
+                {
+                    continue;
+                }
+
                 let neighbours = *current
                     .neighbours
                     .get_or_init(|| compute_neighbours(current, vertex_arena, &mut seen));
