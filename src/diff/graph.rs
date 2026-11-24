@@ -85,24 +85,34 @@ impl PartialEq for Vertex<'_, '_> {
         // Handling this properly would require considering many
         // more vertices to be distinct, exponentially increasing
         // the graph size relative to tree depth.
-        let b0 = match (self.lhs_syntax, other.lhs_syntax) {
-            (Some(s0), Some(s1)) => s0.id() == s1.id(),
-            (None, None) => self.lhs_parent_id == other.lhs_parent_id,
-            _ => false,
-        };
-        let b1 = match (self.rhs_syntax, other.rhs_syntax) {
-            (Some(s0), Some(s1)) => s0.id() == s1.id(),
-            (None, None) => self.rhs_parent_id == other.rhs_parent_id,
-            _ => false,
-        };
+        fn same_position<'s>(
+            left: Option<&Syntax<'s>>,
+            right: Option<&Syntax<'s>>,
+            left_parent: Option<SyntaxId>,
+            right_parent: Option<SyntaxId>,
+        ) -> bool {
+            match (left, right) {
+                (Some(l), Some(r)) => std::ptr::eq(l, r) || l.id() == r.id(),
+                (None, None) => left_parent == right_parent,
+                _ => false,
+            }
+        }
         // We do want to distinguish whether we can pop each side
         // independently though. Without this, if we find a case
         // where we can pop sides together, we don't consider the
         // case where we get a better diff by popping each side
         // separately.
-        let b2 = can_pop_either_parent(&self.parents) == can_pop_either_parent(&other.parents);
-
-        b0 && b1 && b2
+        same_position(
+            self.lhs_syntax,
+            other.lhs_syntax,
+            self.lhs_parent_id,
+            other.lhs_parent_id,
+        ) && same_position(
+            self.rhs_syntax,
+            other.rhs_syntax,
+            self.rhs_parent_id,
+            other.rhs_parent_id,
+        ) && can_pop_either_parent(&self.parents) == can_pop_either_parent(&other.parents)
     }
 }
 impl Eq for Vertex<'_, '_> {}
