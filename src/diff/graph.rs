@@ -7,7 +7,6 @@ use std::hash::{BuildHasher, Hash, Hasher};
 
 use bumpalo::Bump;
 use hashbrown::hash_map::RawEntryMut;
-use smallvec::SmallVec;
 
 use self::Edge::*;
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
@@ -48,9 +47,6 @@ use crate::parse::syntax::{AtomKind, Syntax, SyntaxId};
 /// to syntax nodes (the 's lifetime).
 #[derive(Debug, Clone)]
 pub(crate) struct Vertex<'s, 'v> {
-    /// The neighbours of this vertex. This is computed lazily, on
-    /// first access.
-    pub(crate) neighbours: OnceCell<&'v [(Edge, &'v Vertex<'s, 'v>)]>,
     /// The predecessor of this vertex in the shortest route found so
     /// far.
     ///
@@ -58,6 +54,7 @@ pub(crate) struct Vertex<'s, 'v> {
     /// node in the to-visit set, we may not have reached it by the
     /// shortest route.
     pub(crate) predecessor: Cell<Option<(u32, &'v Vertex<'s, 'v>)>>,
+    replacement_similarity: OnceCell<u8>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
     pub(crate) lhs_syntax: Option<&'s Syntax<'s>>,
@@ -67,8 +64,8 @@ pub(crate) struct Vertex<'s, 'v> {
     rhs_parent_id: Option<SyntaxId>,
 }
 
-impl PartialEq for Vertex<'_, '_> {
-    fn eq(&self, other: &Self) -> bool {
+impl<'s> PartialEq<Vertex<'s, '_>> for Vertex<'s, '_> {
+    fn eq(&self, other: &Vertex<'s, '_>) -> bool {
         // Strictly speaking, we should compare the whole
         // EnteredDelimiter stack, not just the immediate
         // parents. By taking the immediate parent, we have
@@ -285,7 +282,7 @@ impl<'s, 'v> Vertex<'s, 'v> {
     ) -> Self {
         let parents = Stack::new();
         Vertex {
-            neighbours: OnceCell::new(),
+            replacement_similarity: OnceCell::new(),
             predecessor: Cell::new(None),
             lhs_syntax,
             rhs_syntax,
@@ -302,7 +299,7 @@ impl<'s, 'v> Vertex<'s, 'v> {
 /// at least a NovelFoo edge. Depending on the syntax nodes of the
 /// current [`Vertex`], other edges may also be available.
 ///
-/// See [`compute_neighbours`] for all the edges available for a given `Vertex`.
+/// See [`visit_neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub(crate) enum Edge {
     UnchangedNode {
@@ -394,7 +391,7 @@ impl Edge {
     }
 }
 
-fn allocate_if_new<'s, 'v>(
+pub(crate) fn allocate_if_new<'s, 'v>(
     v: Vertex<'s, 'v>,
     alloc: &'v Bump,
     seen: &mut DftHashMap<&'v Vertex<'s, 'v>, Option<&'v Vertex<'s, 'v>>>,
@@ -437,7 +434,7 @@ fn looks_like_punctuation(node: &Syntax) -> bool {
 }
 
 /// Pop as many parents of `lhs_node` and `rhs_node` as
-/// possible. Return the new syntax nodes and parents.
+/// possible and return the resulting graph vertex.
 fn pop_all_parents<'s, 'v>(
     lhs_node: Option<&'s Syntax<'s>>,
     rhs_node: Option<&'s Syntax<'s>>,
@@ -445,13 +442,7 @@ fn pop_all_parents<'s, 'v>(
     rhs_parent_id: Option<SyntaxId>,
     parents: &Stack<'v, EnteredDelimiter<'s, 'v>>,
     alloc: &'v Bump,
-) -> (
-    Option<&'s Syntax<'s>>,
-    Option<&'s Syntax<'s>>,
-    Option<SyntaxId>,
-    Option<SyntaxId>,
-    Stack<'v, EnteredDelimiter<'s, 'v>>,
-) {
+) -> Vertex<'s, 'v> {
     let mut lhs_node = lhs_node;
     let mut rhs_node = rhs_node;
     let mut lhs_parent_id = lhs_parent_id;
@@ -501,7 +492,15 @@ fn pop_all_parents<'s, 'v>(
         break;
     }
 
-    (lhs_node, rhs_node, lhs_parent_id, rhs_parent_id, parents)
+    Vertex {
+        lhs_syntax: lhs_node,
+        rhs_syntax: rhs_node,
+        lhs_parent_id,
+        rhs_parent_id,
+        parents,
+        predecessor: Cell::new(None),
+        replacement_similarity: OnceCell::new(),
+    }
 }
 
 fn matching_bytes(lhs: impl Iterator<Item = char>, rhs: impl Iterator<Item = char>) -> usize {
@@ -526,18 +525,15 @@ fn normalized_levenshtein(lhs: &str, rhs: &str) -> f64 {
     1.0 - strsim::levenshtein(lhs, rhs) as f64 / full_len as f64
 }
 
-/// Compute the neighbours of `v`.
+/// Visit each outgoing edge and its destination, in tie-breaking order.
 ///
 /// This function is extremely hot and directly affects difftastic
 /// performance.
-pub(crate) fn compute_neighbours<'s, 'v>(
-    v: &Vertex<'s, 'v>,
+pub(crate) fn visit_neighbours<'s, 'from: 'v, 'v>(
+    v: &Vertex<'s, 'from>,
     alloc: &'v Bump,
-    seen: &mut DftHashMap<&'v Vertex<'s, 'v>, Option<&'v Vertex<'s, 'v>>>,
-) -> &'v [(Edge, &'v Vertex<'s, 'v>)] {
-    // There are only seven pushes in this function, so that's sufficient.
-    let mut neighbours: SmallVec<[(Edge, &Vertex); 7]> = SmallVec::new();
-
+    mut visit: impl FnMut(Edge, Vertex<'s, 'v>),
+) {
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i32
@@ -547,7 +543,7 @@ pub(crate) fn compute_neighbours<'s, 'v>(
             let probably_punctuation = looks_like_punctuation(lhs_syntax);
 
             // Both nodes are equal, the happy case.
-            let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) = pop_all_parents(
+            let next = pop_all_parents(
                 lhs_syntax.next_sibling(),
                 rhs_syntax.next_sibling(),
                 v.lhs_parent_id,
@@ -556,25 +552,13 @@ pub(crate) fn compute_neighbours<'s, 'v>(
                 alloc,
             );
 
-            neighbours.push((
+            visit(
                 UnchangedNode {
                     depth_difference,
                     probably_punctuation,
                 },
-                allocate_if_new(
-                    Vertex {
-                        neighbours: OnceCell::new(),
-                        predecessor: Cell::new(None),
-                        lhs_syntax,
-                        rhs_syntax,
-                        parents,
-                        lhs_parent_id,
-                        rhs_parent_id,
-                    },
-                    alloc,
-                    seen,
-                ),
-            ));
+                next,
+            );
         }
 
         if let (
@@ -605,32 +589,16 @@ pub(crate) fn compute_neighbours<'s, 'v>(
 
                 // When we enter a list, we may need to immediately
                 // pop several levels if the list has no children.
-                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
-                    pop_all_parents(
-                        lhs_next,
-                        rhs_next,
-                        Some(lhs_syntax.id()),
-                        Some(rhs_syntax.id()),
-                        &parents_next,
-                        alloc,
-                    );
+                let next = pop_all_parents(
+                    lhs_next,
+                    rhs_next,
+                    Some(lhs_syntax.id()),
+                    Some(rhs_syntax.id()),
+                    &parents_next,
+                    alloc,
+                );
 
-                neighbours.push((
-                    EnterUnchangedDelimiter { depth_difference },
-                    allocate_if_new(
-                        Vertex {
-                            neighbours: OnceCell::new(),
-                            predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
-                            parents,
-                            lhs_parent_id,
-                            rhs_parent_id,
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                visit(EnterUnchangedDelimiter { depth_difference }, next);
             }
         }
 
@@ -650,39 +618,24 @@ pub(crate) fn compute_neighbours<'s, 'v>(
             // Both sides are comments/both sides are strings and
             // their content is reasonably similar.
             if lhs_kind == rhs_kind && lhs_content != rhs_content {
-                let levenshtein_pct =
-                    (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
+                let levenshtein_pct = *v.replacement_similarity.get_or_init(|| {
+                    (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8
+                });
                 let edge = if lhs_kind == &AtomKind::Comment {
                     ReplacedComment { levenshtein_pct }
                 } else {
                     ReplacedString { levenshtein_pct }
                 };
 
-                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
-                    pop_all_parents(
-                        lhs_syntax.next_sibling(),
-                        rhs_syntax.next_sibling(),
-                        v.lhs_parent_id,
-                        v.rhs_parent_id,
-                        &v.parents,
-                        alloc,
-                    );
-                neighbours.push((
-                    edge,
-                    allocate_if_new(
-                        Vertex {
-                            neighbours: OnceCell::new(),
-                            predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
-                            parents,
-                            lhs_parent_id,
-                            rhs_parent_id,
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                let next = pop_all_parents(
+                    lhs_syntax.next_sibling(),
+                    rhs_syntax.next_sibling(),
+                    v.lhs_parent_id,
+                    v.rhs_parent_id,
+                    &v.parents,
+                    alloc,
+                );
+                visit(edge, next);
             }
         }
     }
@@ -691,32 +644,16 @@ pub(crate) fn compute_neighbours<'s, 'v>(
         match lhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
-                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
-                    pop_all_parents(
-                        lhs_syntax.next_sibling(),
-                        v.rhs_syntax,
-                        v.lhs_parent_id,
-                        v.rhs_parent_id,
-                        &v.parents,
-                        alloc,
-                    );
+                let next = pop_all_parents(
+                    lhs_syntax.next_sibling(),
+                    v.rhs_syntax,
+                    v.lhs_parent_id,
+                    v.rhs_parent_id,
+                    &v.parents,
+                    alloc,
+                );
 
-                neighbours.push((
-                    NovelAtomLHS {},
-                    allocate_if_new(
-                        Vertex {
-                            neighbours: OnceCell::new(),
-                            predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
-                            parents,
-                            lhs_parent_id,
-                            rhs_parent_id,
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                visit(NovelAtomLHS {}, next);
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
@@ -724,32 +661,16 @@ pub(crate) fn compute_neighbours<'s, 'v>(
 
                 let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax, alloc);
 
-                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
-                    pop_all_parents(
-                        lhs_next,
-                        v.rhs_syntax,
-                        Some(lhs_syntax.id()),
-                        v.rhs_parent_id,
-                        &parents_next,
-                        alloc,
-                    );
+                let next = pop_all_parents(
+                    lhs_next,
+                    v.rhs_syntax,
+                    Some(lhs_syntax.id()),
+                    v.rhs_parent_id,
+                    &parents_next,
+                    alloc,
+                );
 
-                neighbours.push((
-                    EnterNovelDelimiterLHS {},
-                    allocate_if_new(
-                        Vertex {
-                            neighbours: OnceCell::new(),
-                            predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
-                            parents,
-                            lhs_parent_id,
-                            rhs_parent_id,
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                visit(EnterNovelDelimiterLHS {}, next);
             }
         }
     }
@@ -758,73 +679,35 @@ pub(crate) fn compute_neighbours<'s, 'v>(
         match rhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
-                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
-                    pop_all_parents(
-                        v.lhs_syntax,
-                        rhs_syntax.next_sibling(),
-                        v.lhs_parent_id,
-                        v.rhs_parent_id,
-                        &v.parents,
-                        alloc,
-                    );
+                let next = pop_all_parents(
+                    v.lhs_syntax,
+                    rhs_syntax.next_sibling(),
+                    v.lhs_parent_id,
+                    v.rhs_parent_id,
+                    &v.parents,
+                    alloc,
+                );
 
-                neighbours.push((
-                    NovelAtomRHS {},
-                    allocate_if_new(
-                        Vertex {
-                            neighbours: OnceCell::new(),
-                            predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
-                            parents,
-                            lhs_parent_id,
-                            rhs_parent_id,
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                visit(NovelAtomRHS {}, next);
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
                 let rhs_next = children.first().copied();
                 let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax, alloc);
 
-                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
-                    pop_all_parents(
-                        v.lhs_syntax,
-                        rhs_next,
-                        v.lhs_parent_id,
-                        Some(rhs_syntax.id()),
-                        &parents_next,
-                        alloc,
-                    );
+                let next = pop_all_parents(
+                    v.lhs_syntax,
+                    rhs_next,
+                    v.lhs_parent_id,
+                    Some(rhs_syntax.id()),
+                    &parents_next,
+                    alloc,
+                );
 
-                neighbours.push((
-                    EnterNovelDelimiterRHS {},
-                    allocate_if_new(
-                        Vertex {
-                            neighbours: OnceCell::new(),
-                            predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
-                            parents,
-                            lhs_parent_id,
-                            rhs_parent_id,
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                visit(EnterNovelDelimiterRHS {}, next);
             }
         }
     }
-    assert!(
-        !neighbours.is_empty(),
-        "Must always find some next steps if node is not the end"
-    );
-
-    alloc.alloc_slice_copy(neighbours.as_slice())
 }
 
 pub(crate) fn populate_change_map<'s, 'v>(
