@@ -437,7 +437,7 @@ fn novel_section_in_order(
 /// displaying.
 ///
 /// Since novel positions don't have a corresponding opposite
-/// position, use the last opposite matched position to decide
+/// position, use the previous opposite matched position to decide
 /// ordering.
 fn sorted_novel_positions(
     lhs_mps: &[MatchedPos],
@@ -534,6 +534,11 @@ fn sorted_novel_positions(
     res
 }
 
+/// Find the line opposite to `line`, but after `prev_opposite`.
+///
+/// Note that there may be multiple lines opposite to `line`,
+/// especially when reformatting causes a single line of code to be
+/// split over multiple lines.
 fn next_opposite(
     line: LineNumber,
     opposites: &DftHashMap<LineNumber, DftHashSet<LineNumber>>,
@@ -550,6 +555,12 @@ fn next_opposite(
     })
 }
 
+/// Find all the lines containing novel items, so these lines need to
+/// be displayed in the diff.
+///
+/// If they have a corresponding opposite line (e.g. the line contains
+/// both novel and unchanged tokens), include the opposite line in the
+/// tuple.
 fn matched_novel_lines(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
@@ -572,11 +583,14 @@ fn matched_novel_lines(
                     true
                 };
                 if should_append {
-                    lines.push((
-                        Some(self_line),
-                        next_opposite(self_line, &opposite_to_lhs, highest_rhs),
-                    ));
+                    let opposite_line = next_opposite(self_line, &opposite_to_lhs, highest_rhs);
+                    lines.push((Some(self_line), opposite_line));
                     highest_lhs = Some(self_line);
+
+                    // Ensure we don't repeat the opposite line.
+                    if opposite_line.is_some() {
+                        highest_rhs = opposite_line;
+                    }
                 }
             }
             Side::Right => {
@@ -586,11 +600,14 @@ fn matched_novel_lines(
                     true
                 };
                 if should_append {
-                    lines.push((
-                        next_opposite(self_line, &opposite_to_rhs, highest_lhs),
-                        Some(self_line),
-                    ));
+                    let opposite_line = next_opposite(self_line, &opposite_to_rhs, highest_lhs);
+                    lines.push((opposite_line, Some(self_line)));
                     highest_rhs = Some(self_line);
+
+                    // Ensure we don't repeat the opposite line.
+                    if opposite_line.is_some() {
+                        highest_lhs = opposite_line;
+                    }
                 }
             }
         }
@@ -788,6 +805,133 @@ mod tests {
         let hunks = matched_pos_to_hunks(&lhs_mps, &rhs_mps);
         assert_eq!(hunks.len(), 1);
         assert_eq!(hunks[0].lines, vec![(Some(0.into()), Some(0.into()))]);
+    }
+
+    #[test]
+    fn test_matched_novel_lines_opposite_already_paired() {
+        // RHS line 0 has unchanged tokens on LHS lines 0 and 2. Once
+        // it's paired with LHS line 0, it shouldn't be paired again
+        // with LHS line 2, as that would skip the novel LHS line 1.
+        let lhs_mps = [
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Delimiter,
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::UnchangedToken {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 2,
+                        end_col: 3,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 2,
+                        end_col: 3,
+                    }],
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 2,
+                    end_col: 3,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Delimiter,
+                },
+                pos: SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::UnchangedToken {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: vec![SingleLineSpan {
+                        line: 2.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 4,
+                        end_col: 5,
+                    }],
+                },
+                pos: SingleLineSpan {
+                    line: 2.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+        ];
+
+        let rhs_mps = [
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Delimiter,
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::UnchangedToken {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 2,
+                        end_col: 3,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 2,
+                        end_col: 3,
+                    }],
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 2,
+                    end_col: 3,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::UnchangedToken {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 4,
+                        end_col: 5,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 2.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 4,
+                    end_col: 5,
+                },
+            },
+        ];
+
+        assert_eq!(
+            matched_novel_lines(&lhs_mps, &rhs_mps),
+            vec![(Some(0.into()), Some(0.into())), (Some(1.into()), None)]
+        );
     }
 
     fn matched_lines_for_hunk<'a>(

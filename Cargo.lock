@@ -200,7 +200,7 @@ checksum = "6184e33543162437515c2e2b48714794e37845ec9851711914eec9d308f6ebe8"
 
 [[package]]
 name = "difftastic"
-version = "0.72.0"
+version = "0.73.0"
 dependencies = [
  "assert_cmd",
  "bumpalo",
@@ -272,7 +272,7 @@ dependencies = [
  "tree-sitter-pascal",
  "tree-sitter-php",
  "tree-sitter-proto",
- "tree-sitter-python",
+ "tree-sitter-python-orchard",
  "tree-sitter-qmljs",
  "tree-sitter-r",
  "tree-sitter-racket",
@@ -1291,10 +1291,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "tree-sitter-python"
-version = "0.25.0"
+name = "tree-sitter-python-orchard"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6bf85fd39652e740bf60f46f4cda9492c3a9ad75880575bf14960f775cb74a1c"
+checksum = "71bb020b95776c71a7af7dfd62d7bab61b86dbf6c67f988b3f73a58e54e0aee9"
 dependencies = [
  "cc",
  "tree-sitter-language",

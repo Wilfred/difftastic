@@ -52,7 +52,7 @@ a {
 }
 
 .img-wrapper {
-  width: atuo;
+  overflow: hidden;
   border: var(--bs-card-border-width) solid var(--bs-card-border-color);
   border-radius: var(--bs-border-radius);
   background-color: #2e3436;
