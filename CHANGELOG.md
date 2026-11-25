@@ -4,6 +4,12 @@
 
 Updated Python parser.
 
+### Display
+
+Fixed terminal width detection on Windows when stdin, stdout and
+stderr are all redirected, such as when difftastic is used as an
+external diff tool from git. This was a regression in 0.72.
+
 ## 0.72 (released 29th October 2026)
 
 ### Diffing
